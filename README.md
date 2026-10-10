@@ -1,4 +1,18 @@
-# Trend-agent (oefenen met nepgeld)
+# Trend-agent en investeerder (oefenen met nepgeld)
+
+Er draaien twee bots naast elkaar, elk met hun eigen €10.000 nepgeld:
+
+- **Investeerder** (`python -m trendagent invest`): 60% wereldwijde ETF, 30% de 5 sterkste aandelen/ETF's
+  van het afgelopen jaar, 10% Bitcoin/Ethereum alleen in een stijgende trend. Eén keer per maand herverdelen.
+  Rapport: `rapporten/investeerder.xlsx`.
+- **Trend-agent** (`python -m trendagent run`): handelt korter op trends met een zeer klein risico per trade.
+  Rapport: `rapporten/trend-agent.xlsx`.
+
+Backtest over 5 jaar (okt 2021 tot okt 2026, €10.000, na kosten): investeerder €27.400, investeerder met alleen
+ETF's €20.800, gewoon de wereld-ETF vasthouden €18.000, trend-agent €10.600. Zie `backtest/`. Het verleden is
+geen garantie, en de aandelenlijst is achteraf gekozen.
+
+## Trend-agent
 
 Een agent die **zelfstandig** handelt in wat op dit moment trending is in Europa en Amerika,
 maar alleen in een **nep-portefeuille** van €10.000. Er gaat nooit echt geld om: er bestaat

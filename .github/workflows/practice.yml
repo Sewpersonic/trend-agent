@@ -48,8 +48,10 @@ jobs:
           elif [ "$ACTION" = "resume" ]; then
             python -m trendagent resume
           else
-            python -m trendagent run || echo "Agent gestopt of zonder handel (zie rapport)"
+            python -m trendagent run || echo "Trend-agent gestopt of zonder handel (zie rapport)"
+            python -m trendagent invest || echo "Investeerder zonder handel (zie rapport)"
           fi
+          if [ -f state/investeerder.md ]; then cat state/investeerder.md >> "$GITHUB_STEP_SUMMARY"; fi
           if [ -f state/report.md ]; then cat state/report.md >> "$GITHUB_STEP_SUMMARY"; fi
 
       - name: Resultaat opslaan in de repository
