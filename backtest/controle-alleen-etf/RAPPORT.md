@@ -6,7 +6,7 @@ Periode **2021-10-11 t/m 2026-10-09** (ongeveer 5 jaar), startkapitaal €10.000
 
 ## In het kort
 
-- Over de hele periode deed de investeerder (alleen etf's) het beter dan gewoon de wereld-ETF vasthouden (+107,9% tegen +79,8%).
+- Over de hele periode deed de investeerder (alleen etf's) het beter dan gewoon de wereld-ETF vasthouden (+108,8% tegen +80,7%).
 - Zijn grootste daling was -19,0%, tegen -21,6% voor de ETF.
 - In 64% van alle periodes van 4 weken stond de investeerder (alleen etf's) aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -10,7%, het beste +11,2%.
 
@@ -14,8 +14,8 @@ Periode **2021-10-11 t/m 2026-10-09** (ongeveer 5 jaar), startkapitaal €10.000
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Investeerder (alleen ETF's) | +107,9% | +15,8% | -19,0% | 1,13 | €20.770 |
-| MSCI World-ETF (IWDA) | +79,8% | +12,5% | -21,6% | 0,88 | €17.979 |
+| Investeerder (alleen ETF's) | +108,8% | +15,9% | -19,0% | 1,14 | €20.852 |
+| MSCI World-ETF (IWDA) | +80,7% | +12,6% | -21,6% | 0,89 | €18.074 |
 | S&P 500-ETF (SPY, in euro) | +97,7% | +14,6% | -23,0% | 0,81 | €19.766 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
@@ -29,7 +29,7 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 | 2023 | +18,4% | +19,9% | +21,5% |
 | 2024 | +35,4% | +27,2% | +32,8% |
 | 2025 | +8,3% | +7,1% | +4,3% |
-| 2026 | +20,3% | +17,4% | +20,6% |
+| 2026 | +20,7% | +18,1% | +20,6% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 
@@ -43,9 +43,9 @@ Dit beantwoordt de vraag "wat kan er in een paar weken gebeuren?": elk mogelijk 
 
 ## Trades
 
-- Aankopen: 55, afgesloten: 62, waarvan winst: 69%
-- Gemiddelde winst: €131, gemiddeld verlies: €-55, profit factor: 5,4
-- Gemiddeld vastgehouden: 92 dagen; totale kosten: €122
+- Aankopen: 56, afgesloten: 62, waarvan winst: 69%
+- Gemiddelde winst: €131, gemiddeld verlies: €-55, profit factor: 5,41
+- Gemiddeld vastgehouden: 91 dagen; totale kosten: €123
 - Kill switch aangegaan: 0 keer
 
 ## Belangrijke kanttekeningen

@@ -6,7 +6,7 @@ Periode **2021-10-10 t/m 2026-10-10** (ongeveer 5 jaar), startkapitaal €10.000
 
 ## In het kort
 
-- Over de hele periode deed de trend-agent het slechter dan gewoon de wereld-ETF vasthouden (+6,3% tegen +80,2%).
+- Over de hele periode deed de trend-agent het slechter dan gewoon de wereld-ETF vasthouden (+6,3% tegen +81,1%).
 - Zijn grootste daling was -5,0%, tegen -21,6% voor de ETF.
 - In 53% van alle periodes van 4 weken stond de trend-agent aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -2,7%, het beste +2,4%.
 
@@ -15,7 +15,7 @@ Periode **2021-10-10 t/m 2026-10-10** (ongeveer 5 jaar), startkapitaal €10.000
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
 | Trend-agent | +6,3% | +1,2% | -5,0% | 0,32 | €10.628 |
-| MSCI World-ETF (IWDA) | +80,2% | +12,5% | -21,6% | 0,75 | €18.018 |
+| MSCI World-ETF (IWDA) | +81,1% | +12,6% | -21,6% | 0,76 | €18.113 |
 | S&P 500-ETF (SPY, in euro) | +96,1% | +14,4% | -23,0% | 0,68 | €19.612 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
@@ -29,7 +29,7 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 | 2023 | +2,1% | +19,9% | +21,5% |
 | 2024 | +3,6% | +27,2% | +32,8% |
 | 2025 | +2,0% | +7,1% | +4,3% |
-| 2026 | +0,9% | +17,4% | +20,6% |
+| 2026 | +0,9% | +18,1% | +20,6% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 

@@ -6,16 +6,16 @@ Periode **2021-10-11 t/m 2026-10-09** (ongeveer 5 jaar), startkapitaal €10.000
 
 ## In het kort
 
-- Over de hele periode deed de investeerder het beter dan gewoon de wereld-ETF vasthouden (+174,5% tegen +79,8%).
-- Zijn grootste daling was -21,4%, tegen -21,6% voor de ETF.
+- Over de hele periode deed de investeerder het beter dan gewoon de wereld-ETF vasthouden (+175,0% tegen +80,7%).
+- Zijn grootste daling was -21,5%, tegen -21,6% voor de ETF.
 - In 62% van alle periodes van 4 weken stond de investeerder aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -13,3%, het beste +17,0%.
 
 ## Totaal
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Investeerder | +174,5% | +22,4% | -21,4% | 1,26 | €27.407 |
-| MSCI World-ETF (IWDA) | +79,8% | +12,5% | -21,6% | 0,88 | €17.979 |
+| Investeerder | +175,0% | +22,5% | -21,5% | 1,27 | €27.459 |
+| MSCI World-ETF (IWDA) | +80,7% | +12,6% | -21,6% | 0,89 | €18.074 |
 | S&P 500-ETF (SPY, in euro) | +97,7% | +14,6% | -23,0% | 0,81 | €19.766 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
@@ -26,10 +26,10 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 | --- | --- | --- | --- |
 | 2021 | +2,9% | +8,4% | +12,0% |
 | 2022 | -11,6% | -13,5% | -13,1% |
-| 2023 | +31,1% | +19,9% | +21,5% |
+| 2023 | +30,9% | +19,9% | +21,5% |
 | 2024 | +49,5% | +27,2% | +32,8% |
 | 2025 | +12,9% | +7,1% | +4,3% |
-| 2026 | +36,3% | +17,4% | +20,6% |
+| 2026 | +36,8% | +18,1% | +20,6% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 
@@ -44,8 +44,8 @@ Dit beantwoordt de vraag "wat kan er in een paar weken gebeuren?": elk mogelijk 
 ## Trades
 
 - Aankopen: 139, afgesloten: 146, waarvan winst: 70%
-- Gemiddelde winst: €139, gemiddeld verlies: €-118, profit factor: 2,73
-- Gemiddeld vastgehouden: 64 dagen; totale kosten: €287
+- Gemiddelde winst: €139, gemiddeld verlies: €-119, profit factor: 2,72
+- Gemiddeld vastgehouden: 63 dagen; totale kosten: €287
 - Kill switch aangegaan: 0 keer
 
 ## Belangrijke kanttekeningen
