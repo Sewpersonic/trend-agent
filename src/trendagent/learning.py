@@ -91,6 +91,11 @@ DIMENSIONS = {
     "Strategieversie": lambda t: t.version or "onbekend",
 }
 
+# Deze dimensies zijn UITKOMSTEN (pas bekend na de trade), geen voorspellers bij instap.
+# Ze staan in de tabellen ter informatie, maar leveren nooit een "sterkte" of "zwakte" op:
+# dat winnaars langer worden vastgehouden is een gevolg van de regels, geen les.
+OUTCOME_DIMENSIONS = {"Uitstapreden", "Houdduur", "Strategieversie"}
+
 # Welke instelling past bij welke dimensie (voor de suggestie wat te testen).
 KNOBS = {
     "Markttrend bij instap": "regime_filter",
@@ -128,7 +133,7 @@ def analyse(trades) -> tuple[Stats | None, dict[str, list[tuple[str, Stats]]], l
         rows = [(g, stats(ts)) for g, ts in groups.items()]
         rows.sort(key=lambda r: -r[1].n)
         tables[dim] = rows
-        if dim == "Strategieversie" or len(groups) < 2:
+        if dim in OUTCOME_DIMENSIONS or len(groups) < 2:
             continue
         for g, ts in groups.items():
             if g == "onbekend" or len(ts) < MIN_SAMPLE:
@@ -199,7 +204,8 @@ def render(title: str, trades, reference=None, equity_history=None) -> str:
         lines.append(f"- Geen overtuigende verschillen (minimaal {MIN_SAMPLE} trades per groep, "
                      f"verschil ≥ {MIN_EFFECT_R} R en t ≥ {T_THRESHOLD}).")
     for dim, rows in tables.items():
-        lines += ["", f"### {dim}", "", "| Groep | Trades | Winst | Gem. R | Totaal € |", "| --- | --- | --- | --- | --- |"]
+        note = " (uitkomst, ter informatie)" if dim in OUTCOME_DIMENSIONS else ""
+        lines += ["", f"### {dim}{note}", "", "| Groep | Trades | Winst | Gem. R | Totaal € |", "| --- | --- | --- | --- | --- |"]
         for g, st in rows:
             flag = "" if st.n >= MIN_SAMPLE else " (te weinig)"
             lines.append(f"| {g}{flag} | {st.n} | {st.win_rate:.0%} | {st.avg_r:+.2f} | {st.pnl:,.0f} |")

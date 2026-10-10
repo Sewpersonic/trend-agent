@@ -134,6 +134,13 @@ class LearningTests(unittest.TestCase):
         _, _, findings = learning.analyse(trades)
         self.assertTrue(any(f.dimension == "RSI bij instap" and f.kind == "zwakte" for f in findings))
 
+    def test_outcomes_are_not_findings(self):
+        trades = [replace(fake_trade(1.5, 55), hold_days=60) for _ in range(30)]
+        trades += [replace(fake_trade(-1.0, 55), hold_days=3) for _ in range(30)]
+        _, tables, findings = learning.analyse(trades)
+        self.assertIn("Houdduur", tables)
+        self.assertFalse(any(f.dimension in learning.OUTCOME_DIMENSIONS for f in findings))
+
     def test_ignores_small_groups(self):
         trades = [fake_trade(1.0, 55) for _ in range(5)] + [fake_trade(-1.0, 85) for _ in range(5)]
         _, _, findings = learning.analyse(trades)
