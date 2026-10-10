@@ -35,7 +35,8 @@ def main(argv: list[str] | None = None) -> int:
     bt.add_argument("--years", type=int, default=5, help="aantal jaren (standaard 5)")
     bt.add_argument("--simulated", action="store_true", help="verzonnen koersen, voor een proef")
     bt.add_argument("--out", default=None, help="map voor de resultaten")
-    bt.add_argument("--strategie", choices=["trend", "investeerder", "beide"], default="beide")
+    bt.add_argument("--strategie", choices=["trend", "investeerder", "beide", "controles"], default="beide",
+                    help="controles = investeerder met alleen ETF's en zonder crypto")
     inv = sub.add_parser("invest", help="één ronde van de investeerder (maandelijks herverdelen)")
     inv.add_argument("--simulated", action="store_true", help="gebruik verzonnen koersen")
     args = parser.parse_args(argv)
@@ -105,9 +106,20 @@ def _backtest(s, args) -> int:
             return 2
     provider = HistoricalProvider(bars, fx)
     start = today - timedelta(days=round(args.years * 365.25))
+    from functools import partial
+
+    from .investor import Mix
+
     runs = {"trend": ("Trend-agent", run_backtest, "backtest/resultaten"),
-            "investeerder": ("Investeerder", run_investor_backtest, "backtest/investeerder")}
-    chosen = list(runs) if args.strategie == "beide" else [args.strategie]
+            "investeerder": ("Investeerder", run_investor_backtest, "backtest/investeerder"),
+            "alleen-etf": ("Investeerder (alleen ETF's)",
+                           partial(run_investor_backtest, mix=Mix(satellite_kinds=("ETF",), satellite_count=3)),
+                           "backtest/controle-alleen-etf"),
+            "zonder-crypto": ("Investeerder (zonder crypto)",
+                              partial(run_investor_backtest, mix=Mix(crypto_weight=0.0, core_weight=0.70)),
+                              "backtest/controle-zonder-crypto")}
+    groups = {"beide": ["trend", "investeerder"], "controles": ["alleen-etf", "zonder-crypto"]}
+    chosen = groups.get(args.strategie, [args.strategie])
     for key in chosen:
         label, fn, default_out = runs[key]
         print(f"Backtest {label} van {start} t/m {today}...")

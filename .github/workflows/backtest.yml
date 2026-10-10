@@ -34,6 +34,7 @@ jobs:
       - name: Backtest
         run: |
           python -m trendagent backtest --years "${{ github.event.inputs.years || '5' }}"
+          python -m trendagent backtest --years "${{ github.event.inputs.years || '5' }}" --strategie controles
           cat backtest/*/RAPPORT.md >> "$GITHUB_STEP_SUMMARY"
       - name: Resultaten opslaan
         run: |

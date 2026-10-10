@@ -51,6 +51,7 @@ class Mix:
     crypto_weight: float = 0.10
     min_trade_share: float = 0.01     # verschillen kleiner dan 1% van het vermogen niet bijhandelen
     min_traded_value: float = 20_000_000
+    satellite_kinds: tuple[str, ...] = ("STOCK", "ETF")   # ("ETF",) = alleen ETF's
 
 
 @dataclass
@@ -104,7 +105,7 @@ def target_weights(bars: dict[str, list[Bar]], mix: Mix) -> tuple[dict[str, floa
     for inst in UNIVERSE:
         t = inst.ticker
         b = bars.get(t)
-        if t == core or not b or len(b) < 253:
+        if t == core or inst.kind not in mix.satellite_kinds or not b or len(b) < 253:
             continue
         closes = [x.close for x in b]
         traded = sum(x.close * x.volume for x in b[-20:]) / 20
@@ -126,7 +127,7 @@ def target_weights(bars: dict[str, list[Bar]], mix: Mix) -> tuple[dict[str, floa
     w[core] = core_w
 
     # Crypto: alleen boven het 200-daags gemiddelde, anders kas.
-    for inst in CRYPTO:
+    for inst in CRYPTO if mix.crypto_weight > 0 else ():
         b = bars.get(inst.ticker)
         half = mix.crypto_weight / len(CRYPTO)
         if b and len(b) >= 200 and b[-1].close > sma([x.close for x in b], 200):
