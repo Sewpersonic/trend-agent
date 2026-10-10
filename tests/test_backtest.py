@@ -108,3 +108,47 @@ class KillSwitchExitTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class InvestorTests(unittest.TestCase):
+    def _bars(self):
+        from trendagent.universe import CRYPTO, UNIVERSE
+        sim = SimulatedProvider(END, drifts={"NVDA": 0.003, "SAP.DE": 0.002, "BTC-USD": 0.002, "ETH-USD": -0.002})
+        return {i.ticker: sim.history(i, 300) for i in UNIVERSE + CRYPTO}
+
+    def test_weights_add_up_and_respect_limits(self):
+        from trendagent.investor import Mix, target_weights
+        w, _ = target_weights(self._bars(), Mix())
+        self.assertLessEqual(sum(w.values()), 1.0 + 1e-9)
+        self.assertGreaterEqual(w["IWDA.AS"], 0.60 - 1e-9)
+        self.assertLessEqual(sum(v for t, v in w.items() if t.endswith("-USD")), 0.10 + 1e-9)
+        self.assertNotIn("ETH-USD", w)          # dalende trend: niet kopen
+        self.assertLessEqual(len([t for t in w if t not in ("IWDA.AS", "BTC-USD", "ETH-USD")]), 5)
+
+    def test_rebalances_once_per_month(self):
+        from trendagent.investor import Book, Investor
+        s = settings()
+        sim = SimulatedProvider(END, drifts={"NVDA": 0.003})
+        inv = Investor(s, sim)
+        inv.run(END)
+        n = len(Book.load(inv.path, 1).trades)
+        self.assertGreater(n, 0)
+        inv.run(END)                             # zelfde maand: niets doen
+        self.assertEqual(len(Book.load(inv.path, 1).trades), n)
+
+    def test_kill_switch_blocks_buys(self):
+        from trendagent.investor import Book, Investor
+        s = settings()
+        KillSwitch(s.state_dir / "kill_switch.json").activate("test", by="human")
+        Investor(s, SimulatedProvider(END)).run(END)
+        self.assertEqual([t for t in Book.load(s.state_dir / "investeerder.json", 1).trades if t.side == "BUY"], [])
+
+    def test_investor_backtest_runs(self):
+        from trendagent.backtest import run_investor_backtest
+        from trendagent.universe import CRYPTO, UNIVERSE
+        sim = SimulatedProvider(END)
+        bars = {i.ticker: sim.history(i, 600) for i in UNIVERSE + CRYPTO}
+        p = HistoricalProvider(bars, {b.day: 0.92 for b in bars["SPY"]})
+        r = run_investor_backtest(settings(), p, END - timedelta(days=200), END)
+        self.assertGreater(len(r.equity), 100)
+        self.assertTrue(all(d.weekday() < 5 for d, _ in r.equity))

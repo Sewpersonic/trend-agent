@@ -31,7 +31,7 @@ from .core.config import Settings
 from .core.kill_switch import HUMAN, KillSwitch
 from .data import Bar, DataError, validate_bars
 from .portfolio import Portfolio
-from .universe import BY_TICKER, Instrument, UNIVERSE
+from .universe import BY_TICKER, CRYPTO, Instrument, UNIVERSE
 
 WINDOW_DAYS = 20          # "een paar weken" = 20 handelsdagen, ongeveer 4 weken
 RESUME_AFTER_DAYS = 5     # gesimuleerde mens zet de agent na 5 handelsdagen weer aan
@@ -75,7 +75,7 @@ class HistoricalProvider:
         return days
 
 
-def download_history(years: int, instruments=UNIVERSE) -> tuple[dict[str, list[Bar]], dict[date, float]]:
+def download_history(years: int, instruments=UNIVERSE + CRYPTO) -> tuple[dict[str, list[Bar]], dict[date, float]]:
     """Haalt dagkoersen op via yfinance (alleen gebruikt op GitHub of je eigen computer)."""
     import yfinance as yf
 
@@ -154,6 +154,31 @@ def run_backtest(base: Settings, provider: HistoricalProvider, start: date, end:
     pf = Portfolio.load(agent.portfolio_path, s.starting_cash_eur)
     result = BacktestResult(days[0], days[-1], equity, pf.trades, halts,
                             tickers_used=len(provider._bars))
+    for b in BENCHMARKS:
+        series = buy_and_hold(provider, b, days, s.starting_cash_eur)
+        if series:
+            result.benchmarks[b] = series
+    return result
+
+
+def run_investor_backtest(base: Settings, provider: HistoricalProvider, start: date, end: date,
+                          mix=None) -> BacktestResult:
+    """Zelfde idee als run_backtest, maar dan voor de investeerder (maandelijks herverdelen)."""
+    from .investor import Book, Investor, Mix
+
+    state = Path(tempfile.mkdtemp(prefix="investor-"))
+    s = replace(base, state_dir=state, write_reports=False)
+    inv = Investor(s, provider, mix or Mix())
+    # Alleen werkdagen: crypto handelt ook in het weekend, maar we kijken net als live op werkdagen.
+    days = [d for d in provider.trading_days(start, end) if d.weekday() < 5]
+    equity = []
+    for d in days:
+        provider.set_day(d)
+        out = inv.run(d)
+        if out.get("equity_eur"):
+            equity.append((d, out["equity_eur"]))
+    book = Book.load(inv.path, s.starting_cash_eur)
+    result = BacktestResult(days[0], days[-1], equity, book.trades, [], tickers_used=len(provider._bars))
     for b in BENCHMARKS:
         series = buy_and_hold(provider, b, days, s.starting_cash_eur)
         if series:

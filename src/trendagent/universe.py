@@ -59,7 +59,14 @@ UNIVERSE: tuple[Instrument, ...] = (
     _eu("IWDA.AS", "iShares MSCI World", "ETF"),
 )
 
-BY_TICKER = {i.ticker: i for i in UNIVERSE}
+# Crypto: alleen de twee grootste munten. Geen kleine of onbekende tokens.
+# Wordt alleen gebruikt door de investeerder, niet door de trend-agent.
+CRYPTO: tuple[Instrument, ...] = (
+    Instrument("BTC-USD", "Bitcoin", "CRYPTO", "USD", "CRYPTO"),
+    Instrument("ETH-USD", "Ethereum", "CRYPTO", "USD", "CRYPTO"),
+)
+
+BY_TICKER = {i.ticker: i for i in UNIVERSE + CRYPTO}
 
 
 def select(tickers: tuple[str, ...] = ()) -> tuple[Instrument, ...]:

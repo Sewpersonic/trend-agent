@@ -16,7 +16,7 @@ from openpyxl.utils import get_column_letter
 from .backtest import (WINDOW_DAYS, BacktestResult, per_year, summary, trade_stats,
                        window_stats, windows)
 
-NAMES = {"AGENT": "Trend-agent", "IWDA.AS": "MSCI World-ETF (IWDA)", "SPY": "S&P 500-ETF (SPY, in euro)"}
+NAMES = {"AGENT": "Agent", "IWDA.AS": "MSCI World-ETF (IWDA)", "SPY": "S&P 500-ETF (SPY, in euro)"}
 
 
 def _pct(x: float) -> str:
@@ -25,6 +25,9 @@ def _pct(x: float) -> str:
 
 def _eur(x: float) -> str:
     return f"€{x:,.0f}".replace(",", ".")
+
+
+LABEL = {"name": "Trend-agent"}
 
 
 def _all_series(r: BacktestResult) -> dict[str, list]:
@@ -40,14 +43,14 @@ def verdict(r: BacktestResult) -> list[str]:
     if bench:
         b = summary(bench)
         if a["total"] > b["total"]:
-            lines.append(f"Over de hele periode deed de agent het beter dan gewoon de wereld-ETF vasthouden "
+            lines.append(f"Over de hele periode deed de {NAMES['AGENT'].lower()} het beter dan gewoon de wereld-ETF vasthouden "
                          f"({_pct(a['total'])} tegen {_pct(b['total'])}).")
         else:
-            lines.append(f"Over de hele periode deed de agent het slechter dan gewoon de wereld-ETF vasthouden "
+            lines.append(f"Over de hele periode deed de {NAMES['AGENT'].lower()} het slechter dan gewoon de wereld-ETF vasthouden "
                          f"({_pct(a['total'])} tegen {_pct(b['total'])}).")
         lines.append(f"Zijn grootste daling was {_pct(a['max_dd'])}, tegen {_pct(b['max_dd'])} voor de ETF.")
     if w:
-        lines.append(f"In {w['positive_share']:.0%} van alle periodes van 4 weken stond de agent aan het eind hoger dan "
+        lines.append(f"In {w['positive_share']:.0%} van alle periodes van 4 weken stond de {NAMES['AGENT'].lower()} aan het eind hoger dan "
                      f"aan het begin. Het slechtste blok van 4 weken was {_pct(w['worst'])}, het beste {_pct(w['best'])}.")
     return lines
 
@@ -59,7 +62,7 @@ def write_markdown(r: BacktestResult, path: Path, years: int) -> None:
         s = summary(series)
         if s:
             rows.append(f"| {NAMES.get(key, key)} | {_pct(s['total'])} | {_pct(s['cagr'])} | "
-                        f"{_pct(s['max_dd'])} | {s["sharpe"]:.2f} | {_eur(series[-1][1])} |")
+                        f"{_pct(s['max_dd'])} | {str(round(s['sharpe'], 2)).replace('.', ',')} | {_eur(series[-1][1])} |")
     yr = {k: per_year(v) for k, v in _all_series(r).items()}
     years_list = sorted(yr["AGENT"])
     yr_rows = [f"| {y} | " + " | ".join(_pct(yr[k].get(y, 0.0)) if y in yr[k] else "–" for k in yr) + " |"
@@ -67,7 +70,7 @@ def write_markdown(r: BacktestResult, path: Path, years: int) -> None:
     win = {k: window_stats(windows(v)) for k, v in _all_series(r).items()}
 
     lines = [
-        "# Backtest trend-agent",
+        f"# Backtest {NAMES['AGENT'].lower()}",
         "",
         f"Periode **{r.start} t/m {r.end}** (ongeveer {years} jaar), startkapitaal €10.000 nepgeld, "
         f"{r.tickers_used} instrumenten met koersdata. Zelfde regels, kosten en slippage als bij het dagelijks oefenen.",
@@ -203,7 +206,7 @@ def write_chart(r: BacktestResult, path: Path) -> bool:
     for d, _ in r.halts:
         ax.axvline(d, color="#B03A2E", alpha=0.25, linewidth=1)
     ax.axhline(10_000, color="#000000", alpha=0.3, linewidth=0.8, linestyle="--")
-    ax.set_title("Waarde van €10.000: trend-agent tegenover gewoon een ETF vasthouden")
+    ax.set_title(f"Waarde van €10.000: {NAMES['AGENT'].lower()} tegenover gewoon een ETF vasthouden")
     ax.set_ylabel("Waarde in euro")
     ax.grid(alpha=0.25)
     ax.legend(loc="upper left", frameon=False)
@@ -216,7 +219,8 @@ def write_chart(r: BacktestResult, path: Path) -> bool:
     return True
 
 
-def write_all(r: BacktestResult, folder: Path, years: int) -> None:
+def write_all(r: BacktestResult, folder: Path, years: int, label: str = "Trend-agent") -> None:
+    NAMES["AGENT"] = label
     folder.mkdir(parents=True, exist_ok=True)
     write_chart(r, folder / "waardeverloop.png")
     write_excel(r, folder / "backtest.xlsx")

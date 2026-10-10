@@ -34,12 +34,12 @@ jobs:
       - name: Backtest
         run: |
           python -m trendagent backtest --years "${{ github.event.inputs.years || '5' }}"
-          cat backtest/resultaten/RAPPORT.md >> "$GITHUB_STEP_SUMMARY"
+          cat backtest/*/RAPPORT.md >> "$GITHUB_STEP_SUMMARY"
       - name: Resultaten opslaan
         run: |
           git config user.name "trend-agent[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add backtest/resultaten/
+          git add backtest/
           git diff --cached --quiet && exit 0
           git commit -m "Backtest $(date -u +%F)"
           git pull --rebase origin main

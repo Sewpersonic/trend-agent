@@ -118,3 +118,50 @@ def write_daily_note(day: str, markdown: str, folder: Path) -> Path:
     path = folder / f"{day}.md"
     path.write_text(markdown, encoding="utf-8")
     return path
+
+
+def write_investor_excel(book, out: dict, path: Path) -> None:
+    """Excel-rapport van de investeerder: waarde per dag, verdeling en trades."""
+    wb = Workbook()
+    wb.remove(wb.active)
+    ws = _sheet(wb, "Overzicht", ["Datum", "Waarde", "Dagresultaat", "Dag %", "Totaal %"], [14, 16, 16, 10, 10])
+    for i, e in enumerate(book.equity_history, start=2):
+        ws.cell(row=i, column=1, value=e["day"])
+        ws.cell(row=i, column=2, value=e["equity"]).number_format = EUR
+        if i > 2:
+            ws.cell(row=i, column=3, value=f"=B{i}-B{i - 1}").number_format = EUR
+            ws.cell(row=i, column=4, value=f"=B{i}/B{i - 1}-1").number_format = PCT
+        ws.cell(row=i, column=5, value=f"=B{i}/$B$2-1").number_format = PCT
+
+    ws = _sheet(wb, "Verdeling", ["Ticker", "Naam", "Soort", "Aandeel"], [11, 24, 9, 10])
+    for t, w in sorted(out.get("weights", {}).items(), key=lambda kv: -kv[1]):
+        inst = BY_TICKER.get(t)
+        ws.append([t, inst.name if inst else "", inst.kind if inst else "", w])
+        ws.cell(row=ws.max_row, column=4).number_format = PCT
+    if out.get("equity_eur"):
+        ws.append(["KAS", "", "", out.get("cash_eur", 0) / out["equity_eur"]])
+        ws.cell(row=ws.max_row, column=4).number_format = PCT
+
+    ws = _sheet(wb, "Trades", ["Datum", "Actie", "Ticker", "Aantal", "Prijs (€)", "Bedrag (€)",
+                               "Kosten (€)", "Resultaat (€)", "Reden"], [12, 8, 10, 11, 11, 12, 10, 13, 40])
+    for t in book.trades:
+        ws.append([t.day, "KOOP" if t.side == "BUY" else "VERKOOP", t.ticker, t.qty, t.price,
+                   t.value_eur, t.costs_eur, t.pnl_eur, t.reason])
+        for col in (6, 7, 8):
+            ws.cell(row=ws.max_row, column=col).number_format = EUR
+
+    ws = _sheet(wb, "Uitleg", ["Begrip", "Betekenis"], [20, 100])
+    for row in [
+        ("Nepgeld", "Oefenportefeuille, geen echt geld. Geen beleggingsadvies."),
+        ("Kern (60%)", "Wereldwijde ETF (MSCI World). Volgt de hele markt."),
+        ("Satelliet (30%)", "De 5 sterkste aandelen/ETF's over 12 maanden die in een stijgende trend zitten."),
+        ("Crypto (10%)", "Bitcoin en Ethereum, alleen boven hun 200-daags gemiddelde. Anders kas."),
+        ("Herverdelen", "Eén keer per maand, op de eerste handelsdag."),
+        ("Aantal", "Gebroken aantallen zijn toegestaan; niet elke echte broker ondersteunt dat."),
+    ]:
+        ws.append(list(row))
+        ws.cell(row=ws.max_row, column=2).alignment = Alignment(wrap_text=True)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(".tmp.xlsx")
+    wb.save(tmp)
+    tmp.replace(path)
