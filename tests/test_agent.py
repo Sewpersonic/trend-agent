@@ -23,7 +23,8 @@ FEW = ("ASML.AS", "NVDA", "SAP.DE", "SPY", "TTE.PA")
 
 
 def settings(**kw) -> Settings:
-    base = Settings(state_dir=Path(tempfile.mkdtemp()), tickers_override=FEW)
+    tmp = Path(tempfile.mkdtemp())
+    base = Settings(state_dir=tmp / "state", reports_dir=tmp / "rapporten", tickers_override=FEW)
     return replace(base, **kw)
 
 
@@ -176,6 +177,15 @@ class AgentTests(unittest.TestCase):
         self.assertTrue(agent.audit.verify())
         events = [json.loads(l)["event"] for l in (s.state_dir / "audit.jsonl").read_text().splitlines()]
         self.assertIn("paper_trade", events)
+
+    def test_reports_written(self):
+        from openpyxl import load_workbook
+        s = settings()
+        TrendAgent(s, SimulatedProvider(TODAY, drifts=UP)).run(TODAY)
+        self.assertTrue((s.reports_dir / f"{TODAY.isoformat()}.md").exists())
+        wb = load_workbook(s.reports_dir / "trend-agent.xlsx")
+        self.assertEqual(wb.sheetnames, ["Overzicht", "Posities", "Trades", "Trends", "Uitleg"])
+        self.assertGreater(wb["Trades"].max_row, 1)
 
 
 if __name__ == "__main__":

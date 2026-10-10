@@ -26,6 +26,7 @@ from .core.config import Settings
 from .core.kill_switch import KillSwitch
 from .data import Bar, DataError, DataProvider
 from .portfolio import Portfolio
+from .reports import write_daily_note, write_excel
 from .signals import Analysis, analyse, trend_broken
 from .universe import BY_TICKER, select
 
@@ -222,7 +223,14 @@ class TrendAgent:
             pf.record_equity(rep.day, rep.equity_eur)
         rep.cash_eur = round(pf.cash_eur, 2)
         pf.save(self.portfolio_path)
-        (self.s.state_dir / "report.md").write_text(render_report(rep, pf), encoding="utf-8")
+        markdown = render_report(rep, pf)
+        (self.s.state_dir / "report.md").write_text(markdown, encoding="utf-8")
+        # Rapporten voor de mens. Een fout hierin mag de handel nooit beïnvloeden.
+        try:
+            write_daily_note(rep.day, markdown, self.s.reports_dir)
+            write_excel(pf, rep.ranking, self.s.reports_dir / "trend-agent.xlsx")
+        except Exception as exc:  # noqa: BLE001
+            self.audit.append("report_failed", ACTOR, {"error": f"{type(exc).__name__}: {exc}"})
         self.audit.append("run_finished", ACTOR, {"status": rep.status, "equity_eur": rep.equity_eur,
                                                    "actions": len(rep.actions)})
         return rep

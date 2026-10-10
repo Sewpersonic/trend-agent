@@ -37,6 +37,7 @@ class Settings:
     # --- algemeen
     paper_trading: bool = True
     state_dir: Path = Path("state")
+    reports_dir: Path = Path("rapporten")   # dagnotities en Excel-bestand
     starting_cash_eur: float = 10_000.0
 
     # --- risico (percentages als fractie: 0.0025 = 0,25%)
@@ -72,6 +73,7 @@ def load_settings() -> Settings:
     tickers = os.environ.get("TICKERS", "")
     return Settings(
         state_dir=Path(os.environ.get("STATE_DIR", "state")),
+        reports_dir=Path(os.environ.get("REPORTS_DIR", "rapporten")),
         starting_cash_eur=_num("STARTING_CASH_EUR", 10_000.0, 1_000, 10_000_000),
         risk_per_trade=_num("RISK_PER_TRADE", 0.0025, 0.0005, 0.01),
         max_open_risk=_num("MAX_OPEN_RISK", 0.01, 0.001, 0.03),

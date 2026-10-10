@@ -49,6 +49,13 @@ Amerikaanse beurs. Je resultaten staan daarna in de map `state/`:
 - `state/portfolio.json`: de nep-portefeuille;
 - `state/audit.jsonl`: elke beslissing, beveiligd tegen achteraf wijzigen.
 
+Daarnaast komt er elke ronde iets bij in de map **`rapporten/`**:
+
+- `rapporten/2026-10-12.md` (één notitie per dag, blijft bewaard);
+- `rapporten/trend-agent.xlsx`: één Excel-bestand dat elke dag wordt bijgewerkt, met de tabbladen
+  Overzicht (waarde per dag), Posities, Trades, Trends en Uitleg.
+  Downloaden: open het bestand op GitHub en klik op het download-icoon.
+
 Zelf een ronde starten of de agent stoppen: tab **Actions**, kies **practice**, klik **Run workflow**
 en kies `run`, `kill` of `resume`.
 
