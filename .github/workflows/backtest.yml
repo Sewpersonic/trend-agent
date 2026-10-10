@@ -16,7 +16,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: schrijft-naar-main   # nooit tegelijk met de oefenronde naar de repository schrijven
+  group: backtest   # eigen wachtrij: workflows kunnen elkaar nooit wegdrukken
   cancel-in-progress: false
 
 jobs:
@@ -43,5 +43,9 @@ jobs:
           git add backtest/
           git diff --cached --quiet && exit 0
           git commit -m "Backtest $(date -u +%F)"
-          git pull --rebase origin main
-          git push
+          for i in 1 2 3 4 5; do
+            git pull --rebase origin main && git push && break
+            echo "Opslaan mislukt (poging $i), opnieuw over 15 seconden..."; sleep 15
+          done
+          git fetch -q origin main
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then echo "Opslaan definitief mislukt"; exit 1; fi

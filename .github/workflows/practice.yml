@@ -24,7 +24,7 @@ permissions:
   contents: write   # nodig om de map state/ terug te zetten
 
 concurrency:
-  group: schrijft-naar-main   # nooit twee rondes tegelijk, en niet tegelijk met de backtest
+  group: oefenronde   # eigen wachtrij: workflows kunnen elkaar nooit wegdrukken
   cancel-in-progress: false
 
 jobs:
@@ -77,8 +77,12 @@ jobs:
             echo "Niets gewijzigd."
           else
             git commit -m "Oefenronde $(date -u +%F)"
-            git pull --rebase origin main
-            git push
+            for i in 1 2 3 4 5; do
+              git pull --rebase origin main && git push && break
+              echo "Opslaan mislukt (poging $i), opnieuw over 15 seconden..."; sleep 15
+            done
+            git fetch -q origin main
+            if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then echo "Opslaan definitief mislukt"; exit 1; fi
           fi
 
       # Laatste stap: maakt de run ROOD als een bot faalde of de koersdata onbetrouwbaar was.
