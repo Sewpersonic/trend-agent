@@ -40,21 +40,35 @@ jobs:
           python-version: "3.12"
       - run: pip install -e .
 
-      - name: Agent
+      - name: Kill switch bedienen
+        if: github.event.inputs.action == 'kill' || github.event.inputs.action == 'resume'
         run: |
-          ACTION="${{ github.event.inputs.action || 'run' }}"
-          if [ "$ACTION" = "kill" ]; then
+          if [ "${{ github.event.inputs.action }}" = "kill" ]; then
             python -m trendagent kill "handmatig gestopt via GitHub"
-          elif [ "$ACTION" = "resume" ]; then
-            python -m trendagent resume
           else
-            python -m trendagent run || echo "Trend-agent gestopt of zonder handel (zie rapport)"
-            python -m trendagent invest || echo "Investeerder zonder handel (zie rapport)"
+            python -m trendagent resume
           fi
+
+      # De twee bots draaien los van elkaar: een fout in de ene stopt de andere niet.
+      - name: Trend-agent
+        if: github.event.inputs.action != 'kill' && github.event.inputs.action != 'resume'
+        continue-on-error: true
+        run: python -m trendagent run
+
+      - name: Investeerder
+        if: github.event.inputs.action != 'kill' && github.event.inputs.action != 'resume'
+        continue-on-error: true
+        run: python -m trendagent invest
+
+      - name: Samenvatting
+        if: always()
+        run: |
+          python -m trendagent health >> "$GITHUB_STEP_SUMMARY" || true
           if [ -f state/investeerder.md ]; then cat state/investeerder.md >> "$GITHUB_STEP_SUMMARY"; fi
           if [ -f state/report.md ]; then cat state/report.md >> "$GITHUB_STEP_SUMMARY"; fi
 
       - name: Resultaat opslaan in de repository
+        if: always()
         run: |
           git config user.name "trend-agent[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -66,3 +80,9 @@ jobs:
             git pull --rebase origin main
             git push
           fi
+
+      # Laatste stap: maakt de run ROOD als een bot faalde of de koersdata onbetrouwbaar was.
+      # GitHub stuurt je dan standaard een e-mail.
+      - name: Gezondheidscontrole
+        if: github.event.inputs.action != 'kill' && github.event.inputs.action != 'resume'
+        run: python -m trendagent health --check

@@ -27,6 +27,10 @@ class Position:
     entry_fx: float         # lokale valuta -> EUR bij aankoop
     risk_eur: float         # verlies in EUR als de beginstop wordt geraakt
     last_checked: str = ""  # laatste handelsdag die tegen de stop is gecontroleerd
+    # Journaal: waarom gekocht en onder welke omstandigheden (voor het leren achteraf).
+    entry_reason: str = ""
+    entry_context: dict = field(default_factory=dict)
+    version: str = ""
 
 
 @dataclass
@@ -41,6 +45,13 @@ class Trade:
     costs_eur: float
     reason: str
     pnl_eur: float | None = None
+    # Journaal (leeg bij trades van vóór deze versie)
+    strategy: str = ""
+    version: str = ""
+    regime: str = ""
+    context: dict = field(default_factory=dict)   # instap- en (bij verkoop) uitstapomstandigheden
+    r_multiple: float | None = None               # resultaat gedeeld door het risico bij instap
+    hold_days: int | None = None
 
 
 @dataclass
@@ -109,16 +120,22 @@ class Portfolio:
         self.consecutive_losses = 0
         self.peak_from_index = max(len(self.equity_history) - 1, 0)
 
-    def record_equity(self, day: str, equity: float) -> None:
+    def record_equity(self, day: str, equity: float, bench: float | None = None) -> None:
+        """Waarde van de dag vastleggen, met (optioneel) de koers van de vergelijkings-ETF in euro."""
+        entry = {"day": day, "equity": round(equity, 2)}
+        if bench is not None:
+            entry["bench"] = round(bench, 4)
         if self.equity_history and self.equity_history[-1]["day"] == day:
-            self.equity_history[-1]["equity"] = round(equity, 2)
+            self.equity_history[-1].update(entry)
         else:
-            self.equity_history.append({"day": day, "equity": round(equity, 2)})
+            self.equity_history.append(entry)
 
     # ------------------------------------------------------------- handelen
 
     def buy(self, day: str, ticker: str, currency: str, qty: float, price: float,
-            stop: float, fx: float, costs_eur: float, reason: str) -> Trade:
+            stop: float, fx: float, costs_eur: float, reason: str,
+            context: dict | None = None, version: str = "", regime: str = "",
+            strategy: str = "trend") -> Trade:
         value = qty * price * fx
         if value + costs_eur > self.cash_eur + 1e-6:
             raise ValueError("onvoldoende (nep)geld")
@@ -127,12 +144,15 @@ class Portfolio:
         self.cash_eur -= value + costs_eur
         self.positions[ticker] = Position(
             ticker, currency, qty, price, stop, price, day, fx,
-            risk_eur=round((price - stop) * qty * fx + costs_eur, 2), last_checked=day)
-        t = Trade(day, ticker, "BUY", qty, round(price, 4), fx, round(value, 2), round(costs_eur, 2), reason)
+            risk_eur=round((price - stop) * qty * fx + costs_eur, 2), last_checked=day,
+            entry_reason=reason, entry_context=dict(context or {}, regime=regime), version=version)
+        t = Trade(day, ticker, "BUY", qty, round(price, 4), fx, round(value, 2), round(costs_eur, 2), reason,
+                  strategy=strategy, version=version, regime=regime, context=dict(context or {}))
         self.trades.append(t)
         return t
 
-    def sell(self, day: str, ticker: str, price: float, fx: float, costs_eur: float, reason: str) -> Trade:
+    def sell(self, day: str, ticker: str, price: float, fx: float, costs_eur: float, reason: str,
+             exit_context: dict | None = None, regime: str = "", strategy: str = "trend") -> Trade:
         p = self.positions.pop(ticker)
         value = p.qty * price * fx
         cost_basis = p.qty * p.entry_price * p.entry_fx
@@ -141,7 +161,13 @@ class Portfolio:
         pnl = value - cost_basis - costs_eur - buy_costs
         self.cash_eur += value - costs_eur
         self.consecutive_losses = self.consecutive_losses + 1 if pnl < 0 else 0
+        from datetime import date as _date
+        hold = (_date.fromisoformat(day) - _date.fromisoformat(p.opened)).days
+        context = {"instap": p.entry_context, "instap_reden": p.entry_reason, "uitstap": dict(exit_context or {}),
+                   "risico_bij_instap_eur": p.risk_eur}
         t = Trade(day, ticker, "SELL", p.qty, round(price, 4), fx, round(value, 2),
-                  round(costs_eur, 2), reason, pnl_eur=round(pnl, 2))
+                  round(costs_eur, 2), reason, pnl_eur=round(pnl, 2), strategy=strategy, version=p.version,
+                  regime=regime, context=context,
+                  r_multiple=round(pnl / p.risk_eur, 3) if p.risk_eur > 0 else None, hold_days=hold)
         self.trades.append(t)
         return t

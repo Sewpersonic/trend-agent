@@ -56,6 +56,9 @@ class Settings:
     min_avg_traded_value: float = 20_000_000  # min gem. dagomzet (in lokale valuta)
     max_daily_jump: float = 0.25          # dagsprong > 25% in 20 dagen = verdacht, overslaan
     max_bar_age_days: int = 4             # laatste koers ouder dan 4 dagen = data te oud
+    # Filters die alleen aangaan als het onderzoek bewijst dat ze helpen (standaard uit):
+    regime_filter: bool = False           # geen nieuwe aankopen bij dalende markt of hoge beweeglijkheid
+    max_rsi_entry: float = 100.0          # niet kopen boven deze RSI (100 = filter uit)
 
     # --- simulatie van kosten
     slippage: float = 0.0005              # 0,05% slechter dan de slotkoers

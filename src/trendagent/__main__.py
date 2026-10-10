@@ -7,6 +7,9 @@
   python -m trendagent resume            zet de kill switch uit (alleen jij, de mens)
   python -m trendagent backtest          test de regels op de afgelopen jaren (echte koersen)
   python -m trendagent backtest --simulated   idem op verzonnen koersen (zonder internet)
+  python -m trendagent invest            één ronde van de investeerder
+  python -m trendagent onderzoek         varianten testen + leerrapport (schrijft alleen naar onderzoek/)
+  python -m trendagent health --check    controle na de dagelijkse ronde; foutcode als er iets mis is
 """
 
 from __future__ import annotations
@@ -39,6 +42,12 @@ def main(argv: list[str] | None = None) -> int:
                     help="controles = investeerder met alleen ETF's en zonder crypto")
     inv = sub.add_parser("invest", help="één ronde van de investeerder (maandelijks herverdelen)")
     inv.add_argument("--simulated", action="store_true", help="gebruik verzonnen koersen")
+    rs = sub.add_parser("onderzoek", help="varianten testen en leren van resultaten (past niets aan)")
+    rs.add_argument("--years", type=int, default=5)
+    rs.add_argument("--simulated", action="store_true")
+    rs.add_argument("--out", default="onderzoek")
+    hc = sub.add_parser("health", help="gezondheid van de laatste rondes tonen")
+    hc.add_argument("--check", action="store_true", help="foutcode 1 als er iets mis is")
     args = parser.parse_args(argv)
 
     s = load_settings()
@@ -51,9 +60,16 @@ def main(argv: list[str] | None = None) -> int:
         except DataError as exc:
             print(f"Fout: {exc}", file=sys.stderr)
             return 2
-        rep = TrendAgent(s, provider).run(today)
+        try:
+            rep = TrendAgent(s, provider).run(today)
+        except Exception as exc:  # noqa: BLE001  (onverwachte fout: vastleggen en melden)
+            _write_health(s, "trend", {"day": today.isoformat(), "status": "FOUT",
+                                       "fout": f"{type(exc).__name__}: {exc}"})
+            raise
+        _write_health(s, "trend", {"day": rep.day, "status": rep.status, "versie": rep.version,
+                                   "waarschuwingen": rep.warnings[:20], **rep.health})
         print((s.state_dir / "report.md").read_text(encoding="utf-8"))
-        return 0 if rep.status != "GESTOPT" else 1
+        return 0
 
     if args.cmd == "status":
         path = s.state_dir / "report.md"
@@ -71,6 +87,12 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd == "invest":
         return _invest(s, args)
+
+    if args.cmd == "onderzoek":
+        return _research(s, args)
+
+    if args.cmd == "health":
+        return _health(s, args.check)
 
     if args.cmd == "resume":
         ks.deactivate(by=HUMAN)
@@ -141,7 +163,14 @@ def _invest(s, args) -> int:
         print(f"Fout: {exc}", file=sys.stderr)
         return 2
     inv = Investor(s, provider)
-    out = inv.run(today)
+    try:
+        out = inv.run(today)
+    except Exception as exc:  # noqa: BLE001
+        _write_health(s, "investeerder", {"day": today.isoformat(), "status": "FOUT",
+                                          "fout": f"{type(exc).__name__}: {exc}"})
+        raise
+    _write_health(s, "investeerder", {"day": out["day"], "status": out["status"], "versie": out["version"],
+                                      "waarschuwingen": out["warnings"][:20], **out.get("health", {})})
     book = Book.load(inv.path, s.starting_cash_eur)
     md = render(out, book)
     (s.state_dir / "investeerder.md").write_text(md, encoding="utf-8")
@@ -150,6 +179,147 @@ def _invest(s, args) -> int:
     write_investor_excel(book, out, s.reports_dir / "investeerder.xlsx")
     print(md)
     return 0
+
+
+# ------------------------------------------------------------------ health
+
+MAX_FAILED_SHARE = 0.30
+
+
+def _write_health(s, bot: str, info: dict) -> None:
+    import json
+    path = s.state_dir / "health.json"
+    data = {}
+    if path.exists():
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except ValueError:
+            data = {}
+    info["vastgelegd_utc"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    data[bot] = info
+    s.state_dir.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, indent=1, ensure_ascii=False), encoding="utf-8")
+
+
+def health_problems(data: dict) -> list[str]:
+    problems = []
+    for bot in ("trend", "investeerder"):
+        h = data.get(bot)
+        if not h:
+            problems.append(f"{bot}: geen gezondheidsgegevens (ronde niet gedraaid?)")
+            continue
+        if h.get("status") in ("FOUT", "GEEN HANDEL"):
+            problems.append(f"{bot}: status {h['status']} {h.get('fout', '')}".strip())
+        asked, failed = h.get("gevraagd", 0), h.get("mislukt", 0)
+        if asked and failed / asked > MAX_FAILED_SHARE:
+            problems.append(f"{bot}: {failed} van {asked} koersreeksen mislukt")
+    return problems
+
+
+def _health(s, check: bool) -> int:
+    import json
+    path = s.state_dir / "health.json"
+    data = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    for bot, h in data.items():
+        print(f"{bot}: {h.get('status')} op {h.get('day')}, {h.get('ok', '?')}/{h.get('gevraagd', '?')} reeksen ok, "
+              f"regime {h.get('regime', '?')}, versie {h.get('versie', '?')}")
+        for w in h.get("waarschuwingen", [])[:5]:
+            print(f"  - {w}")
+    problems = health_problems(data)
+    for p in problems:
+        print(f"PROBLEEM: {p}")
+    return 1 if (check and problems) else 0
+
+
+# --------------------------------------------------------------- onderzoek
+
+def _research(s, args) -> int:
+    import csv
+    import json
+    from datetime import timedelta
+    from pathlib import Path
+
+    from . import evaluation, learning
+    from .backtest import HistoricalProvider, download_history
+    from .investor import Book, Mix
+    from .portfolio import Portfolio
+    from .strategies import investor_version, trend_version
+    from .universe import CRYPTO, UNIVERSE
+
+    today = datetime.now(timezone.utc).date()
+    if args.simulated:
+        sim = SimulatedProvider(end=today)
+        n = (args.years + 1) * 260
+        bars = {i.ticker: sim.history(i, n) for i in UNIVERSE + CRYPTO}
+        fx = {b.day: 0.92 for b in bars["SPY"]}
+    else:
+        try:
+            bars, fx = download_history(args.years)
+        except Exception as exc:  # noqa: BLE001
+            print(f"Downloaden mislukt: {exc}", file=sys.stderr)
+            return 2
+    provider = HistoricalProvider(bars, fx)
+    start = today - timedelta(days=round(args.years * 365.25))
+    base = replace_settings(s)
+
+    sections, rows = [], []
+    for kind in ("trend", "investeerder"):
+        print(f"Onderzoek {kind}...")
+        results = evaluation.run_variants(kind, base, provider, start, today)
+        text, verdicts = evaluation.render(kind, results, provider)
+        sections.append(text)
+        days = [d for d, _ in results[0].equity]
+        prod_version = trend_version(base) if kind == "trend" else investor_version(Mix())
+        accepted = {v.variant: v.accepted for v in verdicts}
+        for r in results:
+            m = evaluation.metrics_row(r, days)
+            rows.append([today.isoformat(), kind, r.name, prod_version if r.name == "productie" else "",
+                         f"{m['totaal']:.4f}", f"{m['sharpe']:.3f}", f"{m['sharpe_holdout']:.3f}",
+                         f"{m['max_daling']:.4f}", m["trades"],
+                         "productie" if r.name == "productie" else ("AANBEVOLEN" if accepted.get(r.name) else "niet")])
+        if kind == "trend":
+            prod = next(r for r in results if r.name == "productie")
+            sections.append(learning.render("Trend-agent: lessen uit 5 jaar backtest (productie)", prod.trades))
+            live_path = s.state_dir / "portfolio.json"
+            if live_path.exists():
+                pf = Portfolio.load(live_path, s.starting_cash_eur)
+                sections.append(learning.render("Trend-agent: lessen uit het oefenen (nepgeld, live)",
+                                                pf.trades, reference=prod.trades, equity_history=pf.equity_history))
+    inv_path = s.state_dir / "investeerder.json"
+    if inv_path.exists():
+        book = Book.load(inv_path, s.starting_cash_eur)
+        vb = learning.vs_benchmark(book.equity_history)
+        if vb:
+            sections.append(f"## Investeerder live (nepgeld)\n\nVan {vb['van']} t/m {vb['tot']}: investeerder "
+                            f"{vb['bot']:+.2%}, wereld-ETF {vb['etf']:+.2%}, verschil {vb['verschil']:+.2%}.\n")
+
+    header = [f"# Onderzoeksrapport {today}", "",
+              "Dit rapport test varianten van beide strategieën op echte koersen en kijkt wat de bots leren van hun "
+              "eigen trades. **Er wordt niets automatisch aangepast.** Een aanbevolen variant gaat pas in productie "
+              "als jij (of iemand die je vertrouwt) de instelling in de code aanpast; daarna draait de backtest opnieuw "
+              "en loopt de nieuwe versie eerst weken mee op papier.", "",
+              "> Resultaten uit het verleden zijn geen garantie. De aandelenlijst is in 2026 gekozen (survivorship bias).", ""]
+    report = "\n".join(header) + "\n" + "\n".join(sections)
+    out = Path(args.out)
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "LAATSTE.md").write_text(report, encoding="utf-8")
+    (out / f"{today.isoformat()}.md").write_text(report, encoding="utf-8")
+    hist = out / "historie.csv"
+    new = not hist.exists()
+    with hist.open("a", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        if new:
+            w.writerow(["datum", "strategie", "variant", "productieversie", "totaal", "sharpe", "sharpe_holdout",
+                        "max_daling", "trades", "oordeel"])
+        w.writerows(rows)
+    print(report)
+    return 0
+
+
+def replace_settings(s):
+    """Onderzoek schrijft nooit in state/: alles draait in tijdelijke mappen."""
+    from dataclasses import replace
+    return replace(s, write_reports=False)
 
 
 if __name__ == "__main__":

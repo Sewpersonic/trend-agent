@@ -25,7 +25,9 @@ from .core.audit_log import AuditLog
 from .core.config import Settings
 from .core.kill_switch import KillSwitch
 from .data import Bar, DataError, DataProvider
+from .features import UNKNOWN, data_issues, market_regime, snapshot
 from .portfolio import Portfolio
+from .strategies import trend_version
 from .reports import write_daily_note, write_excel
 from .signals import Analysis, analyse, trend_broken
 from .universe import BY_TICKER, select
@@ -45,6 +47,9 @@ class RunReport:
     warnings: list[str] = field(default_factory=list)
     ranking: list[Analysis] = field(default_factory=list)
     buys_allowed: bool = True
+    regime: str = "onbekend"
+    version: str = ""
+    health: dict = field(default_factory=dict)
 
 
 class TrendAgent:
@@ -57,11 +62,15 @@ class TrendAgent:
         self.portfolio_path = d / "portfolio.json"
         self.audit = AuditLog(d / "audit.jsonl")
         self.kill_switch = KillSwitch(d / "kill_switch.json")
+        self.version = trend_version(settings)
+        self.regime = UNKNOWN
+        self._bench_eur: float | None = None
 
     # ------------------------------------------------------------------ ronde
 
     def run(self, today: date) -> RunReport:
-        rep = RunReport(day=today.isoformat())
+        rep = RunReport(day=today.isoformat(), version=self.version)
+        self.regime, self._bench_eur = UNKNOWN, None
         pf = Portfolio.load(self.portfolio_path, self.s.starting_cash_eur)
         if not pf.equity_history:   # eerste ronde: startkapitaal vastleggen als nulpunt
             pf.record_equity("start", self.s.starting_cash_eur)
@@ -105,8 +114,22 @@ class TrendAgent:
         if failures / max(len(wanted), 1) > MAX_DATA_FAILURE_SHARE:
             rep.buys_allowed = False
             rep.warnings.append(f"{failures} van {len(wanted)} koersreeksen mislukt: vandaag geen aankopen")
+        # Verdachte reeksen (bevroren koers, sprong, geen volume): niet kopen, wel beheren.
+        suspicious = {t: data_issues(b) for t, b in bars.items()}
+        suspicious = {t: i for t, i in suspicious.items() if i}
+        for t, issues in suspicious.items():
+            rep.warnings.append(f"{t}: verdachte data ({'; '.join(issues)}), niet gekocht")
         analyses = {t: analyse(t, b, today, self.s) for t, b in bars.items()}
         prices = {t: b[-1].close for t, b in bars.items()}
+        self.regime = market_regime(bars)
+        rep.regime = self.regime.label
+        self._snapshots = {t: snapshot(b) for t, b in bars.items()}
+        bench = next((t for t in ("IWDA.AS", "SPY") if t in bars), None)
+        if bench:
+            self._bench_eur = prices[bench] * fx[BY_TICKER[bench].currency]
+        rep.health = {"gevraagd": len(wanted), "ok": len(bars), "mislukt": failures,
+                      "verdacht": {t: i for t, i in suspicious.items()}, "wisselkoers": "ok",
+                      "regime": rep.regime}
 
         # 4. open posities
         for ticker in list(pf.positions):
@@ -121,8 +144,13 @@ class TrendAgent:
             self._risk_brakes(pf, equity, rep)
 
         # 6. nieuwe aankopen
-        ranked = sorted((a for a in analyses.values() if a.is_candidate), key=lambda a: -a.score)
+        ranked = sorted((a for a in analyses.values() if a.is_candidate and a.ticker not in suspicious),
+                        key=lambda a: -a.score)
         rep.ranking = ranked[:10]
+        if self.s.regime_filter and self.regime.onzeker and rep.buys_allowed:
+            rep.buys_allowed = False
+            rep.warnings.append(f"Markt te onzeker ({rep.regime}): geen nieuwe aankopen (regimefilter)")
+            self.audit.append("buys_blocked", ACTOR, {"reason": "regimefilter", "regime": rep.regime})
         if rep.buys_allowed and not self.kill_switch.is_active():
             self._buy_candidates(pf, ranked, fx, equity, rep)
         return self._finish(rep, pf, prices, fx)
@@ -139,7 +167,8 @@ class TrendAgent:
             if b.low <= pos.stop:
                 fill = min(b.open, pos.stop) * (1 - self.s.slippage)   # bij een gat: openingskoers
                 t = pf.sell(b.day.isoformat(), ticker, fill, rate,
-                            self._costs(pos.qty * fill * rate), "stop-loss geraakt")
+                            self._costs(pos.qty * fill * rate), "stop-loss geraakt",
+                            exit_context=self._ctx(ticker, a), regime=self.regime.label)
                 self._log_trade(t, rep)
                 return
             pos.highest_close = max(pos.highest_close, b.close)
@@ -149,7 +178,8 @@ class TrendAgent:
         if trend_broken(a):
             fill = a.close * (1 - self.s.slippage)
             t = pf.sell(rep.day, ticker, fill, rate, self._costs(pos.qty * fill * rate),
-                        "trend gebroken (slot onder 50-daags gemiddelde)")
+                        "trend gebroken (slot onder 50-daags gemiddelde)",
+                        exit_context=self._ctx(ticker, a), regime=self.regime.label)
             self._log_trade(t, rep)
             return
         trail = pos.highest_close - self.s.trail_atr_multiple * a.atr14
@@ -186,6 +216,10 @@ class TrendAgent:
                 break
             if a.ticker in pf.positions:
                 continue
+            rsi_now = self._snapshots.get(a.ticker, {}).get("rsi14")
+            if rsi_now is not None and rsi_now > self.s.max_rsi_entry:
+                rep.actions.append(f"{a.ticker}: overgeslagen (RSI {rsi_now:.0f} boven {self.s.max_rsi_entry:.0f})")
+                continue
             inst = BY_TICKER[a.ticker]
             rate = fx[inst.currency]
             entry = a.close * (1 + self.s.slippage)
@@ -205,11 +239,20 @@ class TrendAgent:
                 self.audit.append("buy_skipped", ACTOR, {"ticker": a.ticker, "reason": "budget"})
                 continue
             t = pf.buy(rep.day, a.ticker, inst.currency, qty, entry, stop, rate,
-                       self._costs(qty * entry * rate), " · ".join(a.reasons))
+                       self._costs(qty * entry * rate), " · ".join(a.reasons),
+                       context=self._ctx(a.ticker, a), version=self.version, regime=self.regime.label)
             self._log_trade(t, rep, extra={"stop": round(stop, 4), "score": a.score})
             slots -= 1
 
     # ------------------------------------------------------------------ hulp
+
+    def _ctx(self, ticker: str, a: Analysis) -> dict:
+        """Marktomstandigheden van één instrument, voor het journaal en de uitleg."""
+        ctx = dict(getattr(self, "_snapshots", {}).get(ticker, {}))
+        ctx.update({"score": a.score, "rend_1m": round(a.ret21, 4), "rend_3m": round(a.ret63, 4),
+                    "volume_rel": round(a.rel_volume, 2), "atr14": round(a.atr14, 4),
+                    "beweeglijkheid_regime": self.regime.beweeglijkheid, "trend_regime": self.regime.trend})
+        return ctx
 
     def _costs(self, value_eur: float) -> float:
         return max(self.s.commission_min_eur, value_eur * self.s.commission_pct)
@@ -225,7 +268,7 @@ class TrendAgent:
     def _finish(self, rep: RunReport, pf: Portfolio, prices: dict, fx: dict) -> RunReport:
         if fx.get("USD") is not None:
             rep.equity_eur = round(pf.equity(prices, fx), 2)
-            pf.record_equity(rep.day, rep.equity_eur)
+            pf.record_equity(rep.day, rep.equity_eur, bench=self._bench_eur)
         rep.cash_eur = round(pf.cash_eur, 2)
         pf.save(self.portfolio_path)
         markdown = render_report(rep, pf)
@@ -248,11 +291,25 @@ def render_report(rep: RunReport, pf: Portfolio) -> str:
     lines = [f"# Trend-agent rapport {rep.day}", "",
              "_Oefenportefeuille met nepgeld. Geen beleggingsadvies; resultaten uit het verleden zeggen niets over de toekomst._",
              "", f"**Status:** {rep.status}  ", f"**Waarde:** €{rep.equity_eur:,.2f}  ",
-             f"**Kas:** €{rep.cash_eur:,.2f}  "]
+             f"**Kas:** €{rep.cash_eur:,.2f}  ", f"**Marktregime:** {rep.regime}  ",
+             f"**Strategieversie:** {rep.version}  "]
     if start:
         lines.append(f"**Sinds start:** {rep.equity_eur / start - 1:+.2%}  ")
     lines += ["", "## Vandaag gedaan", ""]
     lines += [f"- {a}" for a in rep.actions] or ["- Niets"]
+    todays = [t for t in pf.trades if t.day == rep.day]
+    if todays:
+        lines += ["", "## Waarom", ""]
+        for t in todays:
+            c = t.context if t.side == "BUY" else t.context.get("uitstap", {})
+            bits = [f"RSI {c['rsi14']:.0f}" if "rsi14" in c else "",
+                    f"MACD-histogram {c['macd_hist_pct']:+.2f}%" if "macd_hist_pct" in c else "",
+                    f"ATR {c['atr_pct']:.1f}% per dag" if "atr_pct" in c else "",
+                    f"{c['afstand_sma200_pct']:+.1f}% boven SMA200" if "afstand_sma200_pct" in c else "",
+                    f"markt {t.regime}" if t.regime else ""]
+            extra = f", R = {t.r_multiple:+.2f} na {t.hold_days} dagen" if t.r_multiple is not None else ""
+            lines.append(f"- **{t.side} {t.ticker}**: {t.reason}. Omstandigheden: "
+                         + ", ".join(b for b in bits if b) + extra)
     if rep.warnings:
         lines += ["", "## Waarschuwingen", ""] + [f"- {w}" for w in rep.warnings]
     lines += ["", "## Open posities", "", "| Ticker | Aantal | Instap | Stop | Sinds |", "| --- | --- | --- | --- | --- |"]

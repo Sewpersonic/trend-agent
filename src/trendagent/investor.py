@@ -35,7 +35,9 @@ from .core.config import Settings
 from .core.kill_switch import KillSwitch
 from .data import Bar, DataError, DataProvider
 from .portfolio import Trade
+from .features import UNKNOWN, Regime, data_issues, market_regime
 from .signals import sma
+from .strategies import investor_version
 from .universe import BY_TICKER, CRYPTO, UNIVERSE
 
 ACTOR = "investeerder"
@@ -52,6 +54,8 @@ class Mix:
     min_trade_share: float = 0.01     # verschillen kleiner dan 1% van het vermogen niet bijhandelen
     min_traded_value: float = 20_000_000
     satellite_kinds: tuple[str, ...] = ("STOCK", "ETF")   # ("ETF",) = alleen ETF's
+    # Alleen aanzetten als het onderzoek bewijst dat het helpt (standaard uit):
+    regime_filter: bool = False   # dalende markt: satelliet en crypto naar kas, kern blijft
 
 
 @dataclass
@@ -91,9 +95,14 @@ def _momentum(bars: list[Bar]) -> float | None:
     return bars[-22].close / bars[-253].close - 1
 
 
-def target_weights(bars: dict[str, list[Bar]], mix: Mix) -> tuple[dict[str, float], list[str]]:
-    """Bepaalt de gewenste verdeling. Geeft (gewichten, uitleg) terug. Rest = kas."""
+def target_weights(bars: dict[str, list[Bar]], mix: Mix, regime: Regime = UNKNOWN,
+                   exclude: frozenset[str] = frozenset()) -> tuple[dict[str, float], list[str]]:
+    """Bepaalt de gewenste verdeling. Geeft (gewichten, uitleg) terug. Rest = kas.
+
+    exclude: instrumenten met verdachte data; die worden niet nieuw gekozen.
+    """
     notes: list[str] = []
+    defensive = mix.regime_filter and regime.trend == "dalend"
     w: dict[str, float] = {}
     core = mix.core_ticker if mix.core_ticker in bars and len(bars[mix.core_ticker]) >= 200 else "SPY"
     if core not in bars:
@@ -105,7 +114,7 @@ def target_weights(bars: dict[str, list[Bar]], mix: Mix) -> tuple[dict[str, floa
     for inst in UNIVERSE:
         t = inst.ticker
         b = bars.get(t)
-        if t == core or inst.kind not in mix.satellite_kinds or not b or len(b) < 253:
+        if t == core or t in exclude or inst.kind not in mix.satellite_kinds or not b or len(b) < 253:
             continue
         closes = [x.close for x in b]
         traded = sum(x.close * x.volume for x in b[-20:]) / 20
@@ -115,7 +124,10 @@ def target_weights(bars: dict[str, list[Bar]], mix: Mix) -> tuple[dict[str, floa
         scored.append((mom, t))
     scored.sort(reverse=True)
     picks = [t for _, t in scored[:mix.satellite_count]]
-    if picks:
+    if defensive:
+        # Kapitaal beschermen: de kern blijft, satelliet en crypto gaan naar kas.
+        notes.append(f"Regimefilter: markt {regime.label}, satelliet en crypto blijven in kas")
+    elif picks:
         each = mix.satellite_weight / mix.satellite_count
         for t in picks:
             w[t] = each
@@ -125,6 +137,8 @@ def target_weights(bars: dict[str, list[Bar]], mix: Mix) -> tuple[dict[str, floa
         core_w += mix.satellite_weight
         notes.append("Satelliet: geen aandelen in een stijgende trend; dat deel gaat naar de kern")
     w[core] = core_w
+    if defensive:
+        return w, notes
 
     # Crypto: alleen boven het 200-daags gemiddelde, anders kas.
     for inst in CRYPTO if mix.crypto_weight > 0 else ():
@@ -146,6 +160,9 @@ class Investor:
         self.path = settings.state_dir / "investeerder.json"
         self.audit = AuditLog(settings.state_dir / "investeerder_audit.jsonl")
         self.kill_switch = KillSwitch(settings.state_dir / "kill_switch.json")
+        self.version = investor_version(mix)
+        self.regime = UNKNOWN
+        self._momentum: dict[str, float] = {}
 
     def _costs(self, value: float) -> float:
         return max(self.s.commission_min_eur, abs(value) * self.s.commission_pct)
@@ -154,7 +171,8 @@ class Investor:
         book = Book.load(self.path, self.s.starting_cash_eur)
         if not book.equity_history:
             book.equity_history.append({"day": "start", "equity": round(self.s.starting_cash_eur, 2)})
-        out = {"day": today.isoformat(), "status": "OK", "actions": [], "notes": [], "warnings": []}
+        out = {"day": today.isoformat(), "status": "OK", "actions": [], "notes": [], "warnings": [],
+               "version": self.version, "regime": "onbekend", "health": {}}
 
         try:
             fx = {"EUR": 1.0, "USD": self.provider.usd_to_eur()}
@@ -174,6 +192,16 @@ class Investor:
                     out["warnings"].append(str(exc))
         missing_held = [t for t in book.qty if t not in bars]
         prices = {t: b[-1].close * fx[BY_TICKER[t].currency] for t, b in bars.items()}
+        suspicious = {t: i for t, i in ((t, data_issues(b)) for t, b in bars.items()
+                                         if BY_TICKER[t].kind != "CRYPTO") if i}
+        for t, issues in suspicious.items():
+            out["warnings"].append(f"{t}: verdachte data ({'; '.join(issues)}), niet nieuw gekozen")
+        self.regime = market_regime(bars)
+        out["regime"] = self.regime.label
+        self._momentum = {t: round(b[-22].close / b[-253].close - 1, 4) for t, b in bars.items() if len(b) >= 253}
+        bench_eur = prices.get("IWDA.AS") or prices.get("SPY")
+        out["health"] = {"gevraagd": len(wanted), "ok": len(bars), "mislukt": len(wanted) - len(bars),
+                         "verdacht": suspicious, "wisselkoers": "ok", "regime": out["regime"]}
         if missing_held:
             # Zonder actuele prijs kunnen we niet eerlijk waarderen of herverdelen.
             out["status"] = "GEEN HANDEL"
@@ -186,7 +214,7 @@ class Investor:
         due = force_rebalance or not book.qty or book.last_rebalance[:7] != month
         if due:
             try:
-                weights, notes = target_weights(bars, self.mix)
+                weights, notes = target_weights(bars, self.mix, self.regime, frozenset(suspicious))
                 out["notes"] += notes
                 self._rebalance(book, weights, prices, equity, today, out)
                 book.last_rebalance = today.isoformat()
@@ -194,10 +222,13 @@ class Investor:
                 out["warnings"].append(f"niet herverdeeld: {exc}")
 
         equity = book.value(prices)
+        entry = {"day": today.isoformat(), "equity": round(equity, 2)}
+        if bench_eur:
+            entry["bench"] = round(bench_eur, 4)
         if book.equity_history[-1]["day"] == today.isoformat():
-            book.equity_history[-1]["equity"] = round(equity, 2)
+            book.equity_history[-1].update(entry)
         else:
-            book.equity_history.append({"day": today.isoformat(), "equity": round(equity, 2)})
+            book.equity_history.append(entry)
         out["equity_eur"] = round(equity, 2)
         out["cash_eur"] = round(book.cash_eur, 2)
         out["weights"] = {t: round(book.qty[t] * prices[t] / equity, 4) for t in book.qty} if equity else {}
@@ -256,8 +287,10 @@ class Investor:
                          f"doelgewicht {weights.get(t, 0):.0%}", None, out)
 
     def _record(self, book, today, t, side, q, fill_eur, value, costs, reason, pnl, out):
+        ctx = {"momentum_12m": self._momentum.get(t), "soort": BY_TICKER[t].kind if t in BY_TICKER else ""}
         trade = Trade(today.isoformat(), t, side, round(q, 6), round(fill_eur, 4), 1.0,
-                      round(value, 2), round(costs, 2), reason, None if pnl is None else round(pnl, 2))
+                      round(value, 2), round(costs, 2), reason, None if pnl is None else round(pnl, 2),
+                      strategy="investeerder", version=self.version, regime=self.regime.label, context=ctx)
         book.trades.append(trade)
         self.audit.append("paper_trade", ACTOR, asdict(trade))
         out["actions"].append(f"{side} {q:.4g} x {t} (€{value:,.0f}, {reason})")
@@ -268,7 +301,9 @@ def render(out: dict, book: Book) -> str:
     eq = out.get("equity_eur", 0)
     lines = [f"# Investeerder {out['day']}", "",
              "_Oefenportefeuille met nepgeld. Geen beleggingsadvies._", "",
-             f"**Status:** {out['status']}  ", f"**Waarde:** €{eq:,.2f}  "]
+             f"**Status:** {out['status']}  ", f"**Waarde:** €{eq:,.2f}  ",
+             f"**Marktregime:** {out.get('regime', 'onbekend')}  ",
+             f"**Strategieversie:** {out.get('version', '')}  "]
     if start and eq:
         lines.append(f"**Sinds start:** {eq / start - 1:+.2%}  ")
     lines += ["", "## Verdeling", "", "| Instrument | Aandeel |", "| --- | --- |"]

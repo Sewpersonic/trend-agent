@@ -12,6 +12,19 @@ Backtest over 5 jaar (okt 2021 tot okt 2026, €10.000, na kosten): investeerder
 ETF's €20.800, gewoon de wereld-ETF vasthouden €18.000, trend-agent €10.600. Zie `backtest/`. Het verleden is
 geen garantie, en de aandelenlijst is achteraf gekozen.
 
+## Hoe de bots leren en verbeteren
+
+- **Elke werkdag** (Action `practice`): beide bots handelen met nepgeld en leggen elke trade vast met reden,
+  marktregime, indicatoren (RSI, MACD, EMA, ATR) en strategieversie. Het dagrapport legt per trade uit waarom.
+  Gaat er iets mis met de data of de bot, dan wordt de run rood en mailt GitHub je.
+- **Elke zaterdag** (Action `onderzoek`): varianten worden getest tegen productie op 5 jaar echte koersen, met
+  een ongezien deel, 5 periodes, dubbele kosten en een uitsplitsing per marktregime. Daarna volgt een analyse van
+  welke omstandigheden samengaan met winst of verlies, en of de bot live nog presteert zoals in de test.
+  Rapport: `onderzoek/LAATSTE.md`; verloop: `onderzoek/historie.csv`.
+- **Een mens beslist.** Het onderzoek doet alleen aanbevelingen en mag alleen in `onderzoek/` schrijven.
+
+Zie `docs/verbeterplan.md` voor de inventaris en `docs/ml-beoordeling.md` voor waarom er (nog) geen machine learning is.
+
 ## Trend-agent
 
 Een agent die **zelfstandig** handelt in wat op dit moment trending is in Europa en Amerika,
@@ -96,6 +109,9 @@ python -m trendagent status
 python -m trendagent kill "even stoppen"
 python -m trendagent resume
 python -m trendagent backtest --simulated   # backtest-proef zonder internet
+python -m trendagent invest --simulated     # investeerder-proef
+python -m trendagent onderzoek --simulated  # onderzoek-proef (duurt een paar minuten)
+python -m trendagent health                 # gezondheid van de laatste rondes
 pytest -v
 ```
 

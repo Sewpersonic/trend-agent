@@ -1,0 +1,51 @@
+# Wekelijks onderzoek: test varianten van beide strategieën op 5 jaar echte koersen,
+# analyseert wat de bots leren van hun eigen trades, en schrijft een rapport naar onderzoek/.
+#
+# Deze Action PAST NOOIT CODE OF INSTELLINGEN AAN. Hij mag alleen bestanden in onderzoek/
+# opslaan; de controle hieronder breekt af als er iets anders gewijzigd zou worden.
+name: onderzoek
+
+on:
+  push:   # ook draaien als de onderzoekscode zelf verandert
+    paths: [".github/workflows/research.yml", "src/trendagent/evaluation.py", "src/trendagent/learning.py"]
+  schedule:
+    - cron: "17 5 * * 6"   # zaterdag 05:17 UTC (07:17 Nederlandse zomertijd)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: schrijft-naar-main
+  cancel-in-progress: false
+
+jobs:
+  onderzoek:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      PAPER_TRADING: "true"
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install -e .
+      - name: Onderzoek
+        run: |
+          python -m trendagent onderzoek --years 5
+          cat onderzoek/LAATSTE.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Alleen onderzoek/ opslaan
+        run: |
+          git config user.name "trend-agent[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add onderzoek/
+          if git status --porcelain | grep -v "^?? " | grep -v " onderzoek/" | grep -q .; then
+            echo "Onderzoek probeerde iets buiten onderzoek/ te wijzigen; afgebroken."
+            git status --porcelain
+            exit 1
+          fi
+          git diff --cached --quiet && exit 0
+          git commit -m "Onderzoek $(date -u +%F)"
+          git pull --rebase origin main
+          git push
