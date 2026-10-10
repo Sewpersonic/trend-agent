@@ -1,0 +1,46 @@
+# Backtest: test de regels van de agent op de afgelopen 5 jaar echte koersen.
+# Draait automatisch als de code van de agent verandert, of handmatig via
+# Actions -> backtest -> Run workflow. Resultaten komen in backtest/resultaten/.
+name: backtest
+
+on:
+  push:
+    paths: ["src/**", ".github/workflows/backtest.yml"]
+  workflow_dispatch:
+    inputs:
+      years:
+        description: "Aantal jaren terug"
+        default: "5"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: schrijft-naar-main   # nooit tegelijk met de oefenronde naar de repository schrijven
+  cancel-in-progress: false
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PAPER_TRADING: "true"
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[backtest]"
+      - name: Backtest
+        run: |
+          python -m trendagent backtest --years "${{ github.event.inputs.years || '5' }}"
+          cat backtest/resultaten/RAPPORT.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Resultaten opslaan
+        run: |
+          git config user.name "trend-agent[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add backtest/resultaten/
+          git diff --cached --quiet && exit 0
+          git commit -m "Backtest $(date -u +%F)"
+          git pull --rebase origin main
+          git push

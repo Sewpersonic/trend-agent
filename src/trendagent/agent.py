@@ -67,14 +67,17 @@ class TrendAgent:
             pf.record_equity("start", self.s.starting_cash_eur)
         self.audit.append("run_started", ACTOR, {"day": rep.day, "provider": self.provider.name})
 
-        # 1. kill switch
+        # 1. kill switch: geen nieuwe aankopen, maar bestaande posities blijven beschermd
+        #    (stop-loss en trendbreuk mogen nog verkopen; verkopen verkleint alleen risico).
         if self.kill_switch.is_active():
             ks = self.kill_switch.status()
             rep.status = "GESTOPT"
             rep.buys_allowed = False
-            rep.warnings.append(f"Kill switch staat aan ({ks.get('reason')}). Geen handel.")
-            self.audit.append("run_skipped", ACTOR, {"reason": "kill switch actief"})
-            return self._finish(rep, pf, {}, {"EUR": 1.0, "USD": None})
+            rep.warnings.append(f"Kill switch staat aan ({ks.get('reason')}). Geen aankopen; "
+                                "stop-losses blijven actief.")
+            self.audit.append("buys_blocked", ACTOR, {"reason": "kill switch actief"})
+            if not pf.positions:
+                return self._finish(rep, pf, {}, {"EUR": 1.0, "USD": None})
 
         # 2. wisselkoers
         try:
@@ -112,9 +115,10 @@ class TrendAgent:
                 continue
             self._manage_position(pf, ticker, bars[ticker], analyses[ticker], fx, rep)
 
-        # 5. risicoremmen
+        # 5. risicoremmen (alleen als de kill switch nog niet aan staat)
         equity = pf.equity(prices, fx)
-        self._risk_brakes(pf, equity, rep)
+        if rep.buys_allowed or rep.status != "GESTOPT":
+            self._risk_brakes(pf, equity, rep)
 
         # 6. nieuwe aankopen
         ranked = sorted((a for a in analyses.values() if a.is_candidate), key=lambda a: -a.score)
@@ -160,8 +164,9 @@ class TrendAgent:
         prev = pf.equity_history[-1]["equity"] if pf.equity_history else None
         if prev and pf.equity_history[-1]["day"] != rep.day and equity < prev * (1 - self.s.daily_loss_limit):
             reason = f"dagverlies groter dan {self.s.daily_loss_limit:.0%}"
-        peak = pf.peak_equity() or self.s.starting_cash_eur
-        peak = max(peak, self.s.starting_cash_eur)
+        peak = pf.peak_equity() or equity
+        if pf.peak_from_index == 0:      # vóór een eerste herstart telt het startkapitaal als top
+            peak = max(peak, self.s.starting_cash_eur)
         if equity < peak * (1 - self.s.max_drawdown):
             reason = f"totale daling groter dan {self.s.max_drawdown:.0%} vanaf de top"
         if pf.consecutive_losses >= self.s.max_consecutive_losses:
@@ -226,11 +231,12 @@ class TrendAgent:
         markdown = render_report(rep, pf)
         (self.s.state_dir / "report.md").write_text(markdown, encoding="utf-8")
         # Rapporten voor de mens. Een fout hierin mag de handel nooit beïnvloeden.
-        try:
-            write_daily_note(rep.day, markdown, self.s.reports_dir)
-            write_excel(pf, rep.ranking, self.s.reports_dir / "trend-agent.xlsx")
-        except Exception as exc:  # noqa: BLE001
-            self.audit.append("report_failed", ACTOR, {"error": f"{type(exc).__name__}: {exc}"})
+        if self.s.write_reports:
+            try:
+                write_daily_note(rep.day, markdown, self.s.reports_dir)
+                write_excel(pf, rep.ranking, self.s.reports_dir / "trend-agent.xlsx")
+            except Exception as exc:  # noqa: BLE001
+                self.audit.append("report_failed", ACTOR, {"error": f"{type(exc).__name__}: {exc}"})
         self.audit.append("run_finished", ACTOR, {"status": rep.status, "equity_eur": rep.equity_eur,
                                                    "actions": len(rep.actions)})
         return rep

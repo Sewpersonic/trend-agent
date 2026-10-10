@@ -50,6 +50,9 @@ class Portfolio:
     trades: list[Trade] = field(default_factory=list)
     equity_history: list[dict] = field(default_factory=list)   # [{"day":..., "equity":...}]
     consecutive_losses: int = 0
+    # Vanaf deze positie in equity_history telt de top voor de drawdown-rem.
+    # 'resume' zet hem op de laatste dag, zodat een oude top de rem niet direct weer aanzet.
+    peak_from_index: int = 0
 
     # ---------------------------------------------------------------- opslag
 
@@ -64,6 +67,7 @@ class Portfolio:
             trades=[Trade(**t) for t in raw["trades"]],
             equity_history=raw["equity_history"],
             consecutive_losses=raw.get("consecutive_losses", 0),
+            peak_from_index=raw.get("peak_from_index", 0),
         )
 
     def save(self, path: Path) -> None:
@@ -74,6 +78,7 @@ class Portfolio:
             "trades": [asdict(t) for t in self.trades],
             "equity_history": self.equity_history,
             "consecutive_losses": self.consecutive_losses,
+            "peak_from_index": self.peak_from_index,
         }
         tmp = path.with_suffix(".tmp")
         tmp.write_text(json.dumps(data, indent=2), encoding="utf-8")
@@ -97,7 +102,12 @@ class Portfolio:
         return risk
 
     def peak_equity(self) -> float | None:
-        return max((e["equity"] for e in self.equity_history), default=None)
+        return max((e["equity"] for e in self.equity_history[self.peak_from_index:]), default=None)
+
+    def reset_risk_baseline(self) -> None:
+        """Na een bewuste herstart door de mens: verliesteller op 0 en de huidige waarde als nieuwe top."""
+        self.consecutive_losses = 0
+        self.peak_from_index = max(len(self.equity_history) - 1, 0)
 
     def record_equity(self, day: str, equity: float) -> None:
         if self.equity_history and self.equity_history[-1]["day"] == day:

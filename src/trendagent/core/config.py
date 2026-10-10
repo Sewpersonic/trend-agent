@@ -38,6 +38,7 @@ class Settings:
     paper_trading: bool = True
     state_dir: Path = Path("state")
     reports_dir: Path = Path("rapporten")   # dagnotities en Excel-bestand
+    write_reports: bool = True              # uit in de backtest (scheelt tijd)
     starting_cash_eur: float = 10_000.0
 
     # --- risico (percentages als fractie: 0.0025 = 0,25%)

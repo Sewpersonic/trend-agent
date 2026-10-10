@@ -59,6 +59,16 @@ Daarnaast komt er elke ronde iets bij in de map **`rapporten/`**:
 Zelf een ronde starten of de agent stoppen: tab **Actions**, kies **practice**, klik **Run workflow**
 en kies `run`, `kill` of `resume`.
 
+## Backtest: hoe had het de afgelopen jaren gewerkt?
+
+`.github/workflows/backtest.yml` laat de agent de afgelopen 5 jaar opnieuw doorlopen op echte koersen,
+dag voor dag, met dezelfde regels en kosten. Hij vergelijkt het resultaat met gewoon een MSCI World-ETF of
+de S&P 500 vasthouden. De uitkomst staat in `backtest/resultaten/`: `RAPPORT.md`, `backtest.xlsx` en een grafiek.
+Hij draait vanzelf als de code verandert, of handmatig via **Actions** → **backtest** → **Run workflow**.
+
+Let op: de lijst instrumenten is vandaag gekozen, dus bedrijven die groot zijn geworden zitten erin
+(survivorship bias). De echte uitkomst zou waarschijnlijk minder goed zijn geweest.
+
 ## Lokaal draaien
 
 ```bash
@@ -71,6 +81,7 @@ python -m trendagent run               # ronde met echte (gratis) koersen van Ya
 python -m trendagent status
 python -m trendagent kill "even stoppen"
 python -m trendagent resume
+python -m trendagent backtest --simulated   # backtest-proef zonder internet
 pytest -v
 ```
 

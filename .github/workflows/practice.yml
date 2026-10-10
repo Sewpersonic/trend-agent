@@ -24,7 +24,7 @@ permissions:
   contents: write   # nodig om de map state/ terug te zetten
 
 concurrency:
-  group: practice   # nooit twee rondes tegelijk
+  group: schrijft-naar-main   # nooit twee rondes tegelijk, en niet tegelijk met de backtest
   cancel-in-progress: false
 
 jobs:
@@ -61,5 +61,6 @@ jobs:
             echo "Niets gewijzigd."
           else
             git commit -m "Oefenronde $(date -u +%F)"
+            git pull --rebase origin main
             git push
           fi

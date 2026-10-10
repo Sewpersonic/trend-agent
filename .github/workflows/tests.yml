@@ -3,7 +3,7 @@ name: tests
 
 on:
   push:
-    paths-ignore: ["state/**", "rapporten/**"]   # de dagelijkse oefenronde hoeft geen tests te starten
+    paths-ignore: ["state/**", "rapporten/**", "backtest/**"]   # de dagelijkse oefenronde hoeft geen tests te starten
   pull_request:
 
 permissions:

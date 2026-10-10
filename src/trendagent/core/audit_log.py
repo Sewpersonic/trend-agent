@@ -44,8 +44,11 @@ class AuditLog:
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self._lock = threading.Lock()
+        self._cached_last: str | None = None
 
     def _last_hash(self) -> str:
+        if self._cached_last is not None:
+            return self._cached_last
         if not self.path.exists():
             return GENESIS_HASH
         last = GENESIS_HASH
@@ -68,6 +71,7 @@ class AuditLog:
             entry["hash"] = _hash(entry)
             with self.path.open("a", encoding="utf-8") as f:
                 f.write(json.dumps(entry, default=str) + "\n")
+            self._cached_last = entry["hash"]
             return entry
 
     def entries(self) -> list[dict]:
