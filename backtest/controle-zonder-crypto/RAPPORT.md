@@ -6,7 +6,7 @@ Periode **2021-10-11 t/m 2026-10-09** (ongeveer 5 jaar), startkapitaal €10.000
 
 ## In het kort
 
-- Over de hele periode deed de investeerder (zonder crypto) het beter dan gewoon de wereld-ETF vasthouden (+178,2% tegen +80,7%).
+- Over de hele periode deed de investeerder (zonder crypto) het beter dan gewoon de wereld-ETF vasthouden (+178,3% tegen +80,7%).
 - Zijn grootste daling was -21,4%, tegen -21,6% voor de ETF.
 - In 63% van alle periodes van 4 weken stond de investeerder (zonder crypto) aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -13,1%, het beste +18,0%.
 
@@ -14,7 +14,7 @@ Periode **2021-10-11 t/m 2026-10-09** (ongeveer 5 jaar), startkapitaal €10.000
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Investeerder (zonder crypto) | +178,2% | +22,7% | -21,4% | 1,27 | €27.779 |
+| Investeerder (zonder crypto) | +178,3% | +22,7% | -21,4% | 1,27 | €27.791 |
 | MSCI World-ETF (IWDA) | +80,7% | +12,6% | -21,6% | 0,89 | €18.074 |
 | S&P 500-ETF (SPY, in euro) | +97,7% | +14,6% | -23,0% | 0,81 | €19.766 |
 
@@ -26,10 +26,10 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 | --- | --- | --- | --- |
 | 2021 | +4,1% | +8,4% | +12,0% |
 | 2022 | -12,1% | -13,5% | -13,1% |
-| 2023 | +30,6% | +19,9% | +21,5% |
+| 2023 | +30,7% | +19,9% | +21,5% |
 | 2024 | +45,3% | +27,2% | +32,8% |
 | 2025 | +15,7% | +7,1% | +4,3% |
-| 2026 | +38,5% | +18,1% | +20,6% |
+| 2026 | +38,6% | +18,1% | +20,6% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 
@@ -43,9 +43,9 @@ Dit beantwoordt de vraag "wat kan er in een paar weken gebeuren?": elk mogelijk 
 
 ## Trades
 
-- Aankopen: 129, afgesloten: 133, waarvan winst: 71%
+- Aankopen: 127, afgesloten: 133, waarvan winst: 71%
 - Gemiddelde winst: €140, gemiddeld verlies: €-119, profit factor: 2,85
-- Gemiddeld vastgehouden: 57 dagen; totale kosten: €264
+- Gemiddeld vastgehouden: 58 dagen; totale kosten: €262
 - Kill switch aangegaan: 0 keer
 
 ## Belangrijke kanttekeningen
