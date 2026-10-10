@@ -1,0 +1,65 @@
+# De oefenronde: elke werkdag na het sluiten van de Amerikaanse beurs.
+#
+# De agent haalt de slotkoersen op, beslist wat hij met nepgeld koopt of
+# verkoopt, en slaat de nep-portefeuille, het rapport en de auditlog op in
+# de map state/. Die wijzigingen worden teruggezet in deze repository, zodat
+# je elke dag in state/report.md ziet wat hij heeft gedaan.
+#
+# Handmatig starten of stoppen: tab "Actions" -> "practice" -> "Run workflow",
+# en kies bij "action": run, kill of resume.
+name: practice
+
+on:
+  schedule:
+    - cron: "30 21 * * 1-5"   # 21:30 UTC, ma-vr (23:30 Nederlandse zomertijd)
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "run = één ronde · kill = agent stoppen · resume = agent weer aanzetten"
+        type: choice
+        options: [run, kill, resume]
+        default: run
+
+permissions:
+  contents: write   # nodig om de map state/ terug te zetten
+
+concurrency:
+  group: practice   # nooit twee rondes tegelijk
+  cancel-in-progress: false
+
+jobs:
+  practice:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PAPER_TRADING: "true"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e .
+
+      - name: Agent
+        run: |
+          ACTION="${{ github.event.inputs.action || 'run' }}"
+          if [ "$ACTION" = "kill" ]; then
+            python -m trendagent kill "handmatig gestopt via GitHub"
+          elif [ "$ACTION" = "resume" ]; then
+            python -m trendagent resume
+          else
+            python -m trendagent run || echo "Agent gestopt of zonder handel (zie rapport)"
+          fi
+          if [ -f state/report.md ]; then cat state/report.md >> "$GITHUB_STEP_SUMMARY"; fi
+
+      - name: Resultaat opslaan in de repository
+        run: |
+          git config user.name "trend-agent[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add state/
+          if git diff --cached --quiet; then
+            echo "Niets gewijzigd."
+          else
+            git commit -m "Oefenronde $(date -u +%F)"
+            git push
+          fi
