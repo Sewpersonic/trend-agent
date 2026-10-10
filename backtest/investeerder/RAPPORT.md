@@ -6,7 +6,7 @@ Periode **2021-10-11 t/m 2026-10-09** (ongeveer 5 jaar), startkapitaal €10.000
 
 ## In het kort
 
-- Over de hele periode deed de investeerder het beter dan gewoon de wereld-ETF vasthouden (+174,6% tegen +79,8%).
+- Over de hele periode deed de investeerder het beter dan gewoon de wereld-ETF vasthouden (+174,5% tegen +79,8%).
 - Zijn grootste daling was -21,4%, tegen -21,6% voor de ETF.
 - In 62% van alle periodes van 4 weken stond de investeerder aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -13,3%, het beste +17,0%.
 
@@ -14,7 +14,7 @@ Periode **2021-10-11 t/m 2026-10-09** (ongeveer 5 jaar), startkapitaal €10.000
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Investeerder | +174,6% | +22,4% | -21,4% | 1,27 | €27.423 |
+| Investeerder | +174,5% | +22,4% | -21,4% | 1,26 | €27.407 |
 | MSCI World-ETF (IWDA) | +79,8% | +12,5% | -21,6% | 0,88 | €17.979 |
 | S&P 500-ETF (SPY, in euro) | +97,7% | +14,6% | -23,0% | 0,81 | €19.766 |
 
