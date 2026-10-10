@@ -1,0 +1,90 @@
+{
+  "cash_eur": 8550.41,
+  "positions": {
+    "SHELL.AS": {
+      "ticker": "SHELL.AS",
+      "currency": "EUR",
+      "qty": 13,
+      "entry_price": 45.05751734733581,
+      "stop": 43.23680321420942,
+      "highest_close": 45.05751734733581,
+      "opened": "2026-10-10",
+      "entry_fx": 1.0,
+      "risk_eur": 24.67,
+      "last_checked": "2026-10-10"
+    },
+    "SAP.DE": {
+      "ticker": "SAP.DE",
+      "currency": "EUR",
+      "qty": 2,
+      "entry_price": 191.5557367172241,
+      "stop": 180.83001781027656,
+      "highest_close": 191.5557367172241,
+      "opened": "2026-10-10",
+      "entry_fx": 1.0,
+      "risk_eur": 22.45,
+      "last_checked": "2026-10-10"
+    },
+    "MSFT": {
+      "ticker": "MSFT",
+      "currency": "USD",
+      "qty": 1,
+      "entry_price": 535.3375423278808,
+      "stop": 509.89896985299237,
+      "highest_close": 535.3375423278808,
+      "opened": "2026-10-10",
+      "entry_fx": 0.8923999798299032,
+      "risk_eur": 23.7,
+      "last_checked": "2026-10-10"
+    }
+  },
+  "trades": [
+    {
+      "day": "2026-10-10",
+      "ticker": "SHELL.AS",
+      "side": "BUY",
+      "qty": 13,
+      "price": 45.0575,
+      "fx": 1.0,
+      "value_eur": 585.75,
+      "costs_eur": 1.0,
+      "reason": "trend OK: 3m +23.4%, 1m +9.2%, volume x1.07",
+      "pnl_eur": null
+    },
+    {
+      "day": "2026-10-10",
+      "ticker": "SAP.DE",
+      "side": "BUY",
+      "qty": 2,
+      "price": 191.5557,
+      "fx": 1.0,
+      "value_eur": 383.11,
+      "costs_eur": 1.0,
+      "reason": "trend OK: 3m +40.0%, 1m +7.7%, volume x0.83",
+      "pnl_eur": null
+    },
+    {
+      "day": "2026-10-10",
+      "ticker": "MSFT",
+      "side": "BUY",
+      "qty": 1,
+      "price": 535.3375,
+      "fx": 0.8923999798299032,
+      "value_eur": 477.74,
+      "costs_eur": 1.0,
+      "reason": "trend OK: 3m +37.1%, 1m +8.7%, volume x0.82",
+      "pnl_eur": null
+    }
+  ],
+  "equity_history": [
+    {
+      "day": "start",
+      "equity": 10000.0
+    },
+    {
+      "day": "2026-10-10",
+      "equity": 9996.28
+    }
+  ],
+  "consecutive_losses": 0
+}
