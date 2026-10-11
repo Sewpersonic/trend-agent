@@ -1,8 +1,10 @@
 # Wekelijks onderzoek: test varianten van beide strategieën op 5 jaar echte koersen,
 # analyseert wat de bots leren van hun eigen trades, en schrijft een rapport naar onderzoek/.
 #
-# Deze Action PAST NOOIT CODE OF INSTELLINGEN AAN. Hij mag alleen bestanden in onderzoek/
+# Deze Action PAST NOOIT ZELF DE PRODUCTIE AAN. Op main mag hij alleen bestanden in onderzoek/
 # opslaan; de controle hieronder breekt af als er iets anders gewijzigd zou worden.
+# Vindt het onderzoek een bewezen verbetering, dan zet hij een VOORSTEL (pull request) klaar
+# dat alleen config/productie.json wijzigt. Jij beslist: Merge = overnemen, Close = niet.
 name: onderzoek
 
 on:
@@ -14,6 +16,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   group: onderzoek   # eigen wachtrij: workflows kunnen elkaar nooit wegdrukken
@@ -53,3 +56,31 @@ jobs:
           done
           git fetch -q origin main
           if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then echo "Opslaan definitief mislukt"; exit 1; fi
+
+      - name: Voorstel klaarzetten (alleen bij een bewezen verbetering)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "$(python -c "import json;print(len(json.load(open('onderzoek/aanbeveling.json'))))")" = "0" ]; then
+            echo "Geen aanbeveling deze week."; exit 0
+          fi
+          BRANCH="voorstel/$(date -u +%F)"
+          if gh pr list --state open --json headRefName --jq '.[].headRefName' | grep -q '^voorstel/'; then
+            echo "Er staat al een open voorstel; eerst dat afhandelen."; exit 0
+          fi
+          git checkout -b "$BRANCH"
+          set +e
+          python -m trendagent voorstel --body /tmp/voorstel.md
+          code=$?
+          set -e
+          if [ "$code" = "3" ]; then echo "Aanbeveling staat al in productie."; exit 0; fi
+          if [ "$code" != "0" ]; then exit "$code"; fi
+          git add config/productie.json
+          if git status --porcelain | grep -v "^?? " | grep -v " config/productie.json" | grep -q .; then
+            echo "Voorstel probeerde meer te wijzigen dan config/productie.json; afgebroken."; exit 1
+          fi
+          git commit -m "Voorstel uit onderzoek $(date -u +%F)"
+          git push origin "$BRANCH"
+          gh pr create --base main --head "$BRANCH" \
+            --title "Voorstel: verbetering gevonden in onderzoek $(date -u +%F)" \
+            --body-file /tmp/voorstel.md

@@ -46,6 +46,9 @@ def main(argv: list[str] | None = None) -> int:
     rs.add_argument("--years", type=int, default=5)
     rs.add_argument("--simulated", action="store_true")
     rs.add_argument("--out", default="onderzoek")
+    vs = sub.add_parser("voorstel", help="aanbeveling van het onderzoek in config/productie.json zetten (voor een pull request)")
+    vs.add_argument("--aanbeveling", default="onderzoek/aanbeveling.json")
+    vs.add_argument("--body", default="voorstel.md", help="bestand voor de tekst van het voorstel")
     hc = sub.add_parser("health", help="gezondheid van de laatste rondes tonen")
     hc.add_argument("--check", action="store_true", help="foutcode 1 als er iets mis is")
     args = parser.parse_args(argv)
@@ -94,6 +97,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "health":
         return _health(s, args.check)
 
+    if args.cmd == "voorstel":
+        return _proposal(args.aanbeveling, args.body)
+
     if args.cmd == "resume":
         ks.deactivate(by=HUMAN)
         path = s.state_dir / "portfolio.json"
@@ -130,15 +136,19 @@ def _backtest(s, args) -> int:
     start = today - timedelta(days=round(args.years * 365.25))
     from functools import partial
 
-    from .investor import Mix
+    from dataclasses import replace as _replace
+
+    from .strategies import production_mix
+    prod = production_mix()
 
     runs = {"trend": ("Trend-agent", run_backtest, "backtest/resultaten"),
             "investeerder": ("Investeerder", run_investor_backtest, "backtest/investeerder"),
             "alleen-etf": ("Investeerder (alleen ETF's)",
-                           partial(run_investor_backtest, mix=Mix(satellite_kinds=("ETF",), satellite_count=3)),
+                           partial(run_investor_backtest, mix=_replace(prod, satellite_kinds=("ETF",), satellite_count=3)),
                            "backtest/controle-alleen-etf"),
             "zonder-crypto": ("Investeerder (zonder crypto)",
-                              partial(run_investor_backtest, mix=Mix(crypto_weight=0.0, core_weight=0.70)),
+                              partial(run_investor_backtest, mix=_replace(prod, crypto_weight=0.0,
+                                                                         core_weight=prod.core_weight + prod.crypto_weight)),
                               "backtest/controle-zonder-crypto")}
     groups = {"beide": ["trend", "investeerder"], "controles": ["alleen-etf", "zonder-crypto"]}
     chosen = groups.get(args.strategie, [args.strategie])
@@ -162,7 +172,8 @@ def _invest(s, args) -> int:
     except DataError as exc:
         print(f"Fout: {exc}", file=sys.stderr)
         return 2
-    inv = Investor(s, provider)
+    from .strategies import production_mix
+    inv = Investor(s, provider, production_mix())
     try:
         out = inv.run(today)
     except Exception as exc:  # noqa: BLE001
@@ -241,9 +252,9 @@ def _research(s, args) -> int:
 
     from . import evaluation, learning
     from .backtest import HistoricalProvider, download_history
-    from .investor import Book, Mix
+    from .investor import Book
     from .portfolio import Portfolio
-    from .strategies import investor_version, trend_version
+    from .strategies import investor_version, production_mix, trend_version
     from .universe import CRYPTO, UNIVERSE
 
     today = datetime.now(timezone.utc).date()
@@ -262,15 +273,26 @@ def _research(s, args) -> int:
     start = today - timedelta(days=round(args.years * 365.25))
     base = replace_settings(s)
 
-    sections, rows = [], []
+    sections, rows, recommendations = [], [], []
     for kind in ("trend", "investeerder"):
         print(f"Onderzoek {kind}...")
         results = evaluation.run_variants(kind, base, provider, start, today)
         text, verdicts = evaluation.render(kind, results, provider)
         sections.append(text)
         days = [d for d, _ in results[0].equity]
-        prod_version = trend_version(base) if kind == "trend" else investor_version(Mix())
+        prod_version = trend_version(base) if kind == "trend" else investor_version(production_mix())
         accepted = {v.variant: v.accepted for v in verdicts}
+        winners = [r for r in results if accepted.get(r.name)]
+        if winners:
+            best = max(winners, key=lambda r: evaluation.metrics_row(r, days)["sharpe_holdout"])
+            m = evaluation.metrics_row(best, days)
+            prod_m = evaluation.metrics_row(results[0], days)
+            recommendations.append({"strategie": kind, "variant": best.name, "wijziging": best.params,
+                                    "productieversie": prod_version,
+                                    "sharpe_holdout": round(m["sharpe_holdout"], 3),
+                                    "sharpe_holdout_productie": round(prod_m["sharpe_holdout"], 3),
+                                    "max_daling": round(m["max_daling"], 4),
+                                    "max_daling_productie": round(prod_m["max_daling"], 4)})
         for r in results:
             m = evaluation.metrics_row(r, days)
             rows.append([today.isoformat(), kind, r.name, prod_version if r.name == "productie" else "",
@@ -304,6 +326,8 @@ def _research(s, args) -> int:
     out.mkdir(parents=True, exist_ok=True)
     (out / "LAATSTE.md").write_text(report, encoding="utf-8")
     (out / f"{today.isoformat()}.md").write_text(report, encoding="utf-8")
+    (out / "aanbeveling.json").write_text(json.dumps(recommendations, indent=2, ensure_ascii=False) + "\n",
+                                          encoding="utf-8")
     hist = out / "historie.csv"
     new = not hist.exists()
     with hist.open("a", newline="", encoding="utf-8") as f:
@@ -313,6 +337,48 @@ def _research(s, args) -> int:
                         "max_daling", "trades", "oordeel"])
         w.writerows(rows)
     print(report)
+    return 0
+
+
+def _proposal(rec_path: str, body_path: str) -> int:
+    """Zet aanbevolen wijzigingen in config/productie.json. Geeft 0 als er iets veranderde, 3 als er niets te doen is.
+
+    Wordt alleen gebruikt op een aparte voorstel-branch; samenvoegen in main doet een mens.
+    """
+    import json
+    from pathlib import Path
+
+    from .core.production import load_production, save_production
+
+    path = Path(rec_path)
+    recs = json.loads(path.read_text(encoding="utf-8")) if path.exists() else []
+    if not recs:
+        print("Geen aanbeveling: niets te doen.")
+        return 3
+    prod = load_production()
+    lines = ["Het wekelijkse onderzoek vond een variant die **alle** toetsen haalde (ongeziene periode, "
+             "alle deelperiodes, dubbele kosten, grootste daling). Dit voorstel past alleen "
+             "`config/productie.json` aan.", "",
+             "**Samenvoegen (Merge)** = de bot gebruikt dit vanaf de volgende ronde. **Sluiten (Close)** = niets verandert.", ""]
+    changed = False
+    for r in recs:
+        section = prod[r["strategie"]]
+        before = dict(section)
+        section.update(r["wijziging"])
+        changed |= section != before
+        lines += [f"### {r['strategie']}: {r['variant']}", "",
+                  f"- Wijziging: `{json.dumps(r['wijziging'])}`",
+                  f"- Sharpe op ongeziene periode: {r['sharpe_holdout']} (nu {r['sharpe_holdout_productie']})",
+                  f"- Grootste daling: {r['max_daling']:.1%} (nu {r['max_daling_productie']:.1%})",
+                  f"- Huidige versie: {r['productieversie']}", ""]
+    if not changed:
+        print("Aanbeveling staat al in productie: niets te doen.")
+        return 3
+    save_production(prod)
+    lines += ["> Resultaten uit het verleden zijn geen garantie. Tip: laat de nieuwe versie een paar weken op papier "
+              "meedraaien voordat je conclusies trekt. Volledig rapport: `onderzoek/LAATSTE.md`."]
+    Path(body_path).write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print("\n".join(lines))
     return 0
 
 

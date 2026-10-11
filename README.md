@@ -21,7 +21,10 @@ geen garantie, en de aandelenlijst is achteraf gekozen.
   een ongezien deel, 5 periodes, dubbele kosten en een uitsplitsing per marktregime. Daarna volgt een analyse van
   welke omstandigheden samengaan met winst of verlies, en of de bot live nog presteert zoals in de test.
   Rapport: `onderzoek/LAATSTE.md`; verloop: `onderzoek/historie.csv`.
-- **Een mens beslist.** Het onderzoek doet alleen aanbevelingen en mag alleen in `onderzoek/` schrijven.
+- **Een mens beslist.** Haalt een variant alle toetsen, dan zet het onderzoek een **voorstel** (pull request)
+  klaar dat alleen `config/productie.json` wijzigt. Je krijgt een e-mail van GitHub. **Merge** = overnemen,
+  **Close** = laten zoals het is. Na een merge draait de backtest opnieuw met de nieuwe instellingen.
+  Eenmalig nodig: Settings → Actions → General → "Allow GitHub Actions to create and approve pull requests" aanvinken.
 
 Zie `docs/verbeterplan.md` voor de inventaris en `docs/ml-beoordeling.md` voor waarom er (nog) geen machine learning is.
 

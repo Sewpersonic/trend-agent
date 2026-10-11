@@ -22,9 +22,10 @@ Stand: oktober 2026. Beide bots handelen alleen met nepgeld.
    - analyseert de trades uit de backtest én uit het oefenen: welke omstandigheden gaan samen met winst of verlies?
    - vergelijkt live met de backtest (drift: werkt de strategie nog zoals getest?);
    - schrijft `onderzoek/LAATSTE.md` en een regel per variant in `onderzoek/historie.csv`.
-3. **Een mens beslist.** Staat een variant op AANBEVOLEN, dan kun je die instelling in de code aanpassen. Daardoor
-   verandert de strategieversie vanzelf, en draait de backtest opnieuw. De Action `onderzoek` mag technisch alleen
-   bestanden in `onderzoek/` opslaan.
+3. **Een mens beslist.** Staat een variant op AANBEVOLEN, dan zet de Action een voorstel (pull request) klaar dat
+   alleen `config/productie.json` wijzigt. Samenvoegen (Merge) neemt het over; de strategieversie verandert dan
+   vanzelf en de backtest draait opnieuw. Op main mag de Action technisch alleen in `onderzoek/` schrijven, en
+   `config/productie.json` accepteert alleen bekende instellingen binnen vaste grenzen.
 
 ## Waarom de bot zichzelf niet automatisch aanpast
 

@@ -50,3 +50,15 @@ def investor_params(mix) -> dict:
 
 def investor_version(mix) -> str:
     return f"{INVESTOR_LABEL}-{_fingerprint(investor_params(mix))}"
+
+
+def production_mix():
+    """De investeerder-instellingen zoals goedgekeurd in config/productie.json."""
+    from .core.production import load_production
+    from .investor import Mix
+
+    mix = Mix(**load_production()["investeerder"])
+    if mix.core_weight + mix.satellite_weight + mix.crypto_weight > 1.0 + 1e-9:
+        from .core.production import ProductionConfigError
+        raise ProductionConfigError("kern + satelliet + crypto mag samen niet boven 100% uitkomen")
+    return mix

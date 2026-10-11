@@ -5,7 +5,7 @@ name: backtest
 
 on:
   push:
-    paths: ["src/**", ".github/workflows/backtest.yml"]
+    paths: ["src/**", "config/**", ".github/workflows/backtest.yml"]
   workflow_dispatch:
     inputs:
       years:

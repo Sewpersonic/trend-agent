@@ -75,7 +75,7 @@ def load_settings() -> Settings:
             "PAPER_TRADING moet 'true' zijn. Deze agent kan alleen oefenen met nepgeld."
         )
     tickers = os.environ.get("TICKERS", "")
-    return Settings(
+    settings = Settings(
         state_dir=Path(os.environ.get("STATE_DIR", "state")),
         reports_dir=Path(os.environ.get("REPORTS_DIR", "rapporten")),
         starting_cash_eur=_num("STARTING_CASH_EUR", 10_000.0, 1_000, 10_000_000),
@@ -84,3 +84,8 @@ def load_settings() -> Settings:
         max_positions=int(_num("MAX_POSITIONS", 3, 1, 10)),
         tickers_override=tuple(t.strip() for t in tickers.split(",") if t.strip()),
     )
+    # Productie-instellingen (config/productie.json) gaan voor: dat is wat een mens heeft goedgekeurd.
+    from dataclasses import replace
+
+    from .production import load_production
+    return replace(settings, **load_production()["trend"])

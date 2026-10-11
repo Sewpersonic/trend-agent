@@ -39,7 +39,6 @@ from datetime import date
 from .backtest import HistoricalProvider, max_drawdown, run_backtest, run_investor_backtest, trade_stats
 from .core.config import Settings
 from .features import market_regime
-from .investor import Mix
 from .universe import BY_TICKER
 
 FOLDS = 5
@@ -56,10 +55,11 @@ TREND_VARIANTS: dict[str, dict] = {
     "niet-kopen-boven-rsi-75": {"max_rsi_entry": 75.0},
 }
 
-INVESTOR_VARIANTS: dict[str, Mix] = {
-    "productie": Mix(),
-    "regimefilter": Mix(regime_filter=True),
-    "satelliet-3-aandelen": Mix(satellite_count=3),
+# Wijzigingen ten opzichte van de huidige productie-instellingen.
+INVESTOR_VARIANTS: dict[str, dict] = {
+    "productie": {},
+    "regimefilter": {"regime_filter": True},
+    "satelliet-3-aandelen": {"satellite_count": 3},
 }
 
 
@@ -112,16 +112,22 @@ def run_variants(kind: str, base: Settings, provider: HistoricalProvider, start:
     out = []
     if kind == "trend":
         for name, overrides in TREND_VARIANTS.items():
+            if name != "productie" and all(getattr(base, k) == v for k, v in overrides.items()):
+                continue    # zit al in productie: niets te vergelijken
             s = replace(base, **overrides)
             r = run_backtest(s, provider, start, end)
             st = run_backtest(replace(stressed_settings, **overrides), provider, start, end)
             out.append(VariantResult(name, overrides, r.equity, r.trades, st.equity))
     else:
-        for name, mix in INVESTOR_VARIANTS.items():
+        from .strategies import production_mix
+        prod_mix = production_mix()
+        for name, overrides in INVESTOR_VARIANTS.items():
+            if name != "productie" and all(getattr(prod_mix, k) == v for k, v in overrides.items()):
+                continue
+            mix = replace(prod_mix, **overrides)
             r = run_investor_backtest(base, provider, start, end, mix=mix)
             st = run_investor_backtest(stressed_settings, provider, start, end, mix=mix)
-            diff = {k: v for k, v in mix.__dict__.items() if getattr(Mix(), k) != v}
-            out.append(VariantResult(name, diff, r.equity, r.trades, st.equity))
+            out.append(VariantResult(name, overrides, r.equity, r.trades, st.equity))
     return out
 
 

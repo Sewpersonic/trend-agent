@@ -164,11 +164,12 @@ def run_backtest(base: Settings, provider: HistoricalProvider, start: date, end:
 def run_investor_backtest(base: Settings, provider: HistoricalProvider, start: date, end: date,
                           mix=None) -> BacktestResult:
     """Zelfde idee als run_backtest, maar dan voor de investeerder (maandelijks herverdelen)."""
-    from .investor import Book, Investor, Mix
+    from .investor import Book, Investor
+    from .strategies import production_mix
 
     state = Path(tempfile.mkdtemp(prefix="investor-"))
     s = replace(base, state_dir=state, write_reports=False)
-    inv = Investor(s, provider, mix or Mix())
+    inv = Investor(s, provider, mix or production_mix())
     # Alleen werkdagen: crypto handelt ook in het weekend, maar we kijken net als live op werkdagen.
     days = [d for d in provider.trading_days(start, end) if d.weekday() < 5]
     equity = []
