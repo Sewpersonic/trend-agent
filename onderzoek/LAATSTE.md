@@ -171,13 +171,13 @@ Periode 2021-10-11 t/m 2026-10-09. Ontwikkeldeel 2021-10-11 t/m 2025-04-09, hold
     - ✓ Ontwikkeldeel (eerste 70%): Sharpe 0.85 vs 0.83
     - ✗ Consistent over periodes: beter in 1 van 5 periodes (nodig: 60%)
     - ✓ Grootste daling: -20.1% vs -21.4%
-    - ✓ Dubbele kosten en slippage: Sharpe 1.24 vs 1.24
+    - ✓ Dubbele kosten en slippage: Sharpe 1.24 vs 1.23
 - **satelliet-3-aandelen: NIET AANBEVOLEN**
     - ✗ Holdout (ongeziene laatste 30%): Sharpe 2.16 vs productie 2.19 (nodig: +0.10)
     - ✗ Ontwikkeldeel (eerste 70%): Sharpe 0.65 vs 0.83
     - ✗ Consistent over periodes: beter in 2 van 5 periodes (nodig: 60%)
-    - ✗ Grootste daling: -24.2% vs -21.4%
-    - ✗ Dubbele kosten en slippage: Sharpe 1.12 vs 1.24
+    - ✗ Grootste daling: -24.0% vs -21.4%
+    - ✗ Dubbele kosten en slippage: Sharpe 1.13 vs 1.23
 
 Geen enkele variant is aantoonbaar beter. Productie blijft zoals hij is.
 
@@ -185,9 +185,9 @@ Geen enkele variant is aantoonbaar beter. Productie blijft zoals hij is.
 
 | Variant | Totaal | Per jaar | Grootste daling | Sharpe | Sharpe holdout | Sharpe 2x kosten | Trades | Winst % | Winst/verlies |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| productie | +175.5% | +22.5% | -21.4% | 1.27 | 2.19 | 1.24 | 146 | 70% | 1.18 |
+| productie | +175.5% | +22.5% | -21.4% | 1.27 | 2.19 | 1.23 | 146 | 70% | 1.18 |
 | regimefilter | +164.2% | +21.5% | -20.1% | 1.27 | 2.12 | 1.24 | 157 | 68% | 1.24 |
-| satelliet-3-aandelen | +164.2% | +21.5% | -24.2% | 1.15 | 2.16 | 1.12 | 118 | 69% | 1.20 |
+| satelliet-3-aandelen | +164.6% | +21.5% | -24.0% | 1.15 | 2.16 | 1.13 | 118 | 69% | 1.20 |
 
 ### Per periode (rendement)
 
@@ -195,7 +195,7 @@ Geen enkele variant is aantoonbaar beter. Productie blijft zoals hij is.
 | --- | --- | --- | --- | --- | --- |
 | productie | -9.3% | +20.8% | +44.3% | +32.4% | +36.0% |
 | regimefilter | -8.6% | +18.9% | +44.3% | +28.1% | +35.9% |
-| satelliet-3-aandelen | -13.0% | +16.4% | +40.6% | +36.7% | +41.0% |
+| satelliet-3-aandelen | -12.8% | +16.4% | +40.6% | +36.7% | +41.0% |
 
 ### Zelf bijsturen op basis van het verleden?
 
@@ -207,4 +207,4 @@ Als de bot elke periode de variant had gekozen die tot dan toe het best was (pro
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | productie | +66% (66 d) | +14% (51 d) | +30% (74 d) | -59% (2 d) | +42% (172 d) | +30% (269 d) | +4% (447 d) | +36% (56 d) | -19% (67 d) | +22% (100 d) |
 | regimefilter | +57% (66 d) | +14% (51 d) | +29% (74 d) | -59% (2 d) | +42% (172 d) | +32% (269 d) | +4% (447 d) | +30% (56 d) | -19% (67 d) | +15% (100 d) |
-| satelliet-3-aandelen | +56% (66 d) | +16% (51 d) | +33% (74 d) | -24% (2 d) | +39% (172 d) | +28% (269 d) | +6% (447 d) | +47% (56 d) | -27% (67 d) | +17% (100 d) |
+| satelliet-3-aandelen | +56% (66 d) | +16% (51 d) | +33% (74 d) | -24% (2 d) | +40% (172 d) | +28% (269 d) | +6% (447 d) | +46% (56 d) | -27% (67 d) | +17% (100 d) |

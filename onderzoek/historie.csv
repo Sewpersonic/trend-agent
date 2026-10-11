@@ -20,3 +20,10 @@ datum,strategie,variant,productieversie,totaal,sharpe,sharpe_holdout,max_daling,
 2026-10-11,investeerder,productie,investeerder-1.0-c2474a,1.7550,1.269,2.192,-0.2140,146,productie
 2026-10-11,investeerder,regimefilter,,1.6418,1.274,2.119,-0.2007,157,niet
 2026-10-11,investeerder,satelliet-3-aandelen,,1.6415,1.145,2.163,-0.2417,118,niet
+2026-10-11,trend,productie,trend-1.1-d373c7,0.0625,0.319,0.551,-0.0503,196,productie
+2026-10-11,trend,rem-pas-na-5-verliezen,,0.0467,0.240,0.286,-0.0516,200,niet
+2026-10-11,trend,regimefilter,,0.0331,0.185,0.759,-0.0610,167,niet
+2026-10-11,trend,niet-kopen-boven-rsi-75,,0.0292,0.162,0.521,-0.0597,195,niet
+2026-10-11,investeerder,productie,investeerder-1.0-c2474a,1.7550,1.269,2.192,-0.2140,146,productie
+2026-10-11,investeerder,regimefilter,,1.6418,1.274,2.119,-0.2007,157,niet
+2026-10-11,investeerder,satelliet-3-aandelen,,1.6465,1.149,2.163,-0.2403,118,niet
