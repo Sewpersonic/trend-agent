@@ -12,6 +12,15 @@ Backtest over 5 jaar (okt 2021 tot okt 2026, €10.000, na kosten): investeerder
 ETF's €20.800, gewoon de wereld-ETF vasthouden €18.000, trend-agent €10.600. Zie `backtest/`. Het verleden is
 geen garantie, en de aandelenlijst is achteraf gekozen.
 
+## Koersen uit meerdere bronnen
+
+Elke dag haalt de bot de koersen bij **Yahoo Finance** (hoofdbron) en controleert hij ze bij **Stooq**. De
+wisselkoers euro/dollar controleert hij bij de **Europese Centrale Bank**. Wijken de bronnen meer dan 2% af,
+dan koopt de bot dat aandeel die dag niet. Wijkt de wisselkoers meer dan 1% af, dan handelt hij die dag
+helemaal niet. Valt Yahoo uit, dan gebruikt hij Stooq of de ECB. In het dagrapport en de gezondheidscontrole
+staat hoeveel koersen door twee bronnen zijn bevestigd. Google Finance heeft geen API en mag niet automatisch
+worden uitgelezen, dus die zit er niet bij. De backtest gebruikt alleen Yahoo.
+
 ## Hoe de bots leren en verbeteren
 
 - **Elke werkdag** (Action `practice`): beide bots handelen met nepgeld en leggen elke trade vast met reden,

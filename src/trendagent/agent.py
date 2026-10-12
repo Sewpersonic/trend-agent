@@ -115,7 +115,8 @@ class TrendAgent:
             rep.buys_allowed = False
             rep.warnings.append(f"{failures} van {len(wanted)} koersreeksen mislukt: vandaag geen aankopen")
         # Verdachte reeksen (bevroren koers, sprong, geen volume): niet kopen, wel beheren.
-        suspicious = {t: data_issues(b) for t, b in bars.items()}
+        src_issues = getattr(self.provider, "source_issues", lambda t: [])
+        suspicious = {t: data_issues(b) + src_issues(t) for t, b in bars.items()}
         suspicious = {t: i for t, i in suspicious.items() if i}
         for t, issues in suspicious.items():
             rep.warnings.append(f"{t}: verdachte data ({'; '.join(issues)}), niet gekocht")
@@ -130,6 +131,8 @@ class TrendAgent:
         rep.health = {"gevraagd": len(wanted), "ok": len(bars), "mislukt": failures,
                       "verdacht": {t: i for t, i in suspicious.items()}, "wisselkoers": "ok",
                       "regime": rep.regime}
+        if hasattr(self.provider, "summary"):
+            rep.health["bronnen"] = self.provider.summary()
 
         # 4. open posities
         for ticker in list(pf.positions):
@@ -293,6 +296,12 @@ def render_report(rep: RunReport, pf: Portfolio) -> str:
              "", f"**Status:** {rep.status}  ", f"**Waarde:** €{rep.equity_eur:,.2f}  ",
              f"**Kas:** €{rep.cash_eur:,.2f}  ", f"**Marktregime:** {rep.regime}  ",
              f"**Strategieversie:** {rep.version}  "]
+    src = rep.health.get("bronnen")
+    if src:
+        k = src["koersen"]
+        lines.append(f"**Koersbronnen:** {k.get('bevestigd', 0)} bevestigd door 2 bronnen, "
+                     f"{k.get('1 bron', 0)} uit 1 bron, {k.get('afwijking', 0)} afwijkend; "
+                     f"wisselkoers {src['wisselkoers']}  ")
     if start:
         lines.append(f"**Sinds start:** {rep.equity_eur / start - 1:+.2%}  ")
     lines += ["", "## Vandaag gedaan", ""]

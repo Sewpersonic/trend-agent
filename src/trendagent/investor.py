@@ -192,8 +192,9 @@ class Investor:
                     out["warnings"].append(str(exc))
         missing_held = [t for t in book.qty if t not in bars]
         prices = {t: b[-1].close * fx[BY_TICKER[t].currency] for t, b in bars.items()}
-        suspicious = {t: i for t, i in ((t, data_issues(b)) for t, b in bars.items()
-                                         if BY_TICKER[t].kind != "CRYPTO") if i}
+        src_issues = getattr(self.provider, "source_issues", lambda t: [])
+        suspicious = {t: i for t, i in ((t, (data_issues(b) if BY_TICKER[t].kind != "CRYPTO" else [])
+                                         + src_issues(t)) for t, b in bars.items()) if i}
         for t, issues in suspicious.items():
             out["warnings"].append(f"{t}: verdachte data ({'; '.join(issues)}), niet nieuw gekozen")
         self.regime = market_regime(bars)
@@ -202,6 +203,8 @@ class Investor:
         bench_eur = prices.get("IWDA.AS") or prices.get("SPY")
         out["health"] = {"gevraagd": len(wanted), "ok": len(bars), "mislukt": len(wanted) - len(bars),
                          "verdacht": suspicious, "wisselkoers": "ok", "regime": out["regime"]}
+        if hasattr(self.provider, "summary"):
+            out["health"]["bronnen"] = self.provider.summary()
         if missing_held:
             # Zonder actuele prijs kunnen we niet eerlijk waarderen of herverdelen.
             out["status"] = "GEEN HANDEL"
@@ -304,6 +307,12 @@ def render(out: dict, book: Book) -> str:
              f"**Status:** {out['status']}  ", f"**Waarde:** €{eq:,.2f}  ",
              f"**Marktregime:** {out.get('regime', 'onbekend')}  ",
              f"**Strategieversie:** {out.get('version', '')}  "]
+    src = out.get("health", {}).get("bronnen")
+    if src:
+        k = src["koersen"]
+        lines.append(f"**Koersbronnen:** {k.get('bevestigd', 0)} bevestigd door 2 bronnen, "
+                     f"{k.get('1 bron', 0)} uit 1 bron, {k.get('afwijking', 0)} afwijkend; "
+                     f"wisselkoers {src['wisselkoers']}  ")
     if start and eq:
         lines.append(f"**Sinds start:** {eq / start - 1:+.2%}  ")
     lines += ["", "## Verdeling", "", "| Instrument | Aandeel |", "| --- | --- |"]

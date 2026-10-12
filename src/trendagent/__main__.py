@@ -30,6 +30,7 @@ def main(argv: list[str] | None = None) -> int:
     sub = parser.add_subparsers(dest="cmd", required=True)
     run = sub.add_parser("run", help="één handelsronde")
     run.add_argument("--simulated", action="store_true", help="gebruik verzonnen koersen")
+    run.add_argument("--een-bron", action="store_true", help="alleen Yahoo, zonder controle door Stooq/ECB")
     sub.add_parser("status", help="toon het laatste rapport")
     kill = sub.add_parser("kill", help="zet de kill switch aan")
     kill.add_argument("reason", nargs="?", default="handmatig gestopt")
@@ -42,6 +43,7 @@ def main(argv: list[str] | None = None) -> int:
                     help="controles = investeerder met alleen ETF's en zonder crypto")
     inv = sub.add_parser("invest", help="één ronde van de investeerder (maandelijks herverdelen)")
     inv.add_argument("--simulated", action="store_true", help="gebruik verzonnen koersen")
+    inv.add_argument("--een-bron", action="store_true", help="alleen Yahoo, zonder controle door Stooq/ECB")
     rs = sub.add_parser("onderzoek", help="varianten testen en leren van resultaten (past niets aan)")
     rs.add_argument("--years", type=int, default=5)
     rs.add_argument("--simulated", action="store_true")
@@ -59,7 +61,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "run":
         today = datetime.now(timezone.utc).date()
         try:
-            provider = SimulatedProvider(end=today) if args.simulated else YahooProvider()
+            provider = _live_provider(args, today)
         except DataError as exc:
             print(f"Fout: {exc}", file=sys.stderr)
             return 2
@@ -168,7 +170,7 @@ def _invest(s, args) -> int:
 
     today = datetime.now(timezone.utc).date()
     try:
-        provider = SimulatedProvider(end=today) if args.simulated else YahooProvider()
+        provider = _live_provider(args, today)
     except DataError as exc:
         print(f"Fout: {exc}", file=sys.stderr)
         return 2
@@ -190,6 +192,16 @@ def _invest(s, args) -> int:
     write_investor_excel(book, out, s.reports_dir / "investeerder.xlsx")
     print(md)
     return 0
+
+
+def _live_provider(args, today):
+    """Standaard: Yahoo als hoofdbron, gecontroleerd door Stooq en de ECB."""
+    if args.simulated:
+        return SimulatedProvider(end=today)
+    if args.een_bron:
+        return YahooProvider()
+    from .sources import MultiSourceProvider
+    return MultiSourceProvider()
 
 
 # ------------------------------------------------------------------ health
@@ -234,6 +246,10 @@ def _health(s, check: bool) -> int:
     for bot, h in data.items():
         print(f"{bot}: {h.get('status')} op {h.get('day')}, {h.get('ok', '?')}/{h.get('gevraagd', '?')} reeksen ok, "
               f"regime {h.get('regime', '?')}, versie {h.get('versie', '?')}")
+        src = h.get("bronnen")
+        if src:
+            print(f"  koersbronnen: {src['koersen']}, wisselkoers {src['wisselkoers']}"
+                  + (f", afwijkend: {', '.join(src['afwijkend'])}" if src.get("afwijkend") else ""))
         for w in h.get("waarschuwingen", [])[:5]:
             print(f"  - {w}")
     problems = health_problems(data)
