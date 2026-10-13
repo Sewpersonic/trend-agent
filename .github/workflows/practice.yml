@@ -16,9 +16,9 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: "run = één ronde · kill = agent stoppen · resume = agent weer aanzetten"
+        description: "run = één ronde · kill = agent stoppen · resume = agent weer aanzetten · voorbeeld = rapport op een kopie (verandert niets)"
         type: choice
-        options: [run, kill, resume]
+        options: [run, kill, resume, voorbeeld]
         default: run
 
 permissions:
@@ -50,24 +50,42 @@ jobs:
             python -m trendagent resume
           fi
 
+      # Voorbeeld: beide bots draaien op een KOPIE van state/. De echte nep-portefeuille blijft onaangeroerd;
+      # alleen rapporten/voorbeeld/ wordt opgeslagen. Handig om nieuwe rapportonderdelen meteen te zien.
+      - name: Voorbeeldrapport (op een kopie)
+        if: github.event.inputs.action == 'voorbeeld'
+        run: |
+          rm -rf /tmp/kopie rapporten/voorbeeld && cp -r state /tmp/kopie
+          export STATE_DIR=/tmp/kopie REPORTS_DIR=rapporten/voorbeeld
+          python -m trendagent run || true
+          python -m trendagent invest || true
+          python -m trendagent overzicht || true
+          cp /tmp/kopie/report.md rapporten/voorbeeld/trend-agent-rapport.md 2>/dev/null || true
+          cat rapporten/voorbeeld/OVERZICHT.md >> "$GITHUB_STEP_SUMMARY" || true
+          git config user.name "trend-agent[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add rapporten/voorbeeld
+          git commit -m "Voorbeeldrapport $(date -u +%F)" || exit 0
+          for i in 1 2 3 4 5; do git pull --rebase origin main && git push && break; sleep 15; done
+
       # De twee bots draaien los van elkaar: een fout in de ene stopt de andere niet.
       - name: Trend-agent
-        if: github.event.inputs.action != 'kill' && github.event.inputs.action != 'resume'
+        if: github.event.inputs.action != 'kill' && github.event.inputs.action != 'resume' && github.event.inputs.action != 'voorbeeld'
         continue-on-error: true
         run: python -m trendagent run
 
       - name: Investeerder
-        if: github.event.inputs.action != 'kill' && github.event.inputs.action != 'resume'
+        if: github.event.inputs.action != 'kill' && github.event.inputs.action != 'resume' && github.event.inputs.action != 'voorbeeld'
         continue-on-error: true
         run: python -m trendagent invest
 
       - name: Dagoverzicht
-        if: github.event.inputs.action != 'kill' && github.event.inputs.action != 'resume'
+        if: github.event.inputs.action != 'kill' && github.event.inputs.action != 'resume' && github.event.inputs.action != 'voorbeeld'
         continue-on-error: true
         run: python -m trendagent overzicht
 
       - name: Samenvatting
-        if: always()
+        if: always() && github.event.inputs.action != 'voorbeeld'
         run: |
           if [ -f rapporten/OVERZICHT.md ]; then cat rapporten/OVERZICHT.md >> "$GITHUB_STEP_SUMMARY"; fi
           python -m trendagent health >> "$GITHUB_STEP_SUMMARY" || true
@@ -75,7 +93,7 @@ jobs:
           if [ -f state/report.md ]; then cat state/report.md >> "$GITHUB_STEP_SUMMARY"; fi
 
       - name: Resultaat opslaan in de repository
-        if: always()
+        if: always() && github.event.inputs.action != 'voorbeeld'
         run: |
           git config user.name "trend-agent[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -95,5 +113,5 @@ jobs:
       # Laatste stap: maakt de run ROOD als een bot faalde of de koersdata onbetrouwbaar was.
       # GitHub stuurt je dan standaard een e-mail.
       - name: Gezondheidscontrole
-        if: github.event.inputs.action != 'kill' && github.event.inputs.action != 'resume'
+        if: github.event.inputs.action != 'kill' && github.event.inputs.action != 'resume' && github.event.inputs.action != 'voorbeeld'
         run: python -m trendagent health --check
