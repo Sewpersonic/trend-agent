@@ -14,9 +14,9 @@ Periode **2021-10-13 t/m 2026-10-13** (ongeveer 5 jaar), startkapitaal €10.000
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Investeerder | +166,3% | +21,6% | -21,4% | 1,24 | €26.590 |
+| Investeerder | +166,3% | +21,6% | -21,4% | 1,24 | €26.585 |
 | MSCI World-ETF (IWDA) | +82,4% | +12,8% | -21,6% | 0,9 | €18.242 |
-| S&P 500-ETF (SPY, in euro) | +97,3% | +14,6% | -23,0% | 0,81 | €19.725 |
+| S&P 500-ETF (SPY, in euro) | +97,3% | +14,6% | -23,0% | 0,81 | €19.730 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
 
@@ -26,7 +26,7 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 | --- | --- | --- | --- |
 | 2021 | +3,5% | +9,4% | +11,5% |
 | 2022 | -11,6% | -13,5% | -13,1% |
-| 2023 | +31,1% | +19,9% | +21,5% |
+| 2023 | +31,0% | +19,9% | +21,5% |
 | 2024 | +50,8% | +27,2% | +32,8% |
 | 2025 | +10,4% | +7,1% | +4,3% |
 | 2026 | +33,2% | +18,1% | +20,9% |
@@ -44,7 +44,7 @@ Dit beantwoordt de vraag "wat kan er in een paar weken gebeuren?": elk mogelijk 
 ## Trades
 
 - Aankopen: 147, afgesloten: 152, waarvan winst: 66%
-- Gemiddelde winst: €138, gemiddeld verlies: €-108, profit factor: 2,53
+- Gemiddelde winst: €138, gemiddeld verlies: €-108, profit factor: 2,52
 - Gemiddeld vastgehouden: 65 dagen; totale kosten: €301
 - Kill switch aangegaan: 0 keer
 
