@@ -6,7 +6,7 @@ Periode **2021-10-13 t/m 2026-10-13** (ongeveer 5 jaar), startkapitaal €10.000
 
 ## In het kort
 
-- Over de hele periode deed de investeerder (alleen etf's) het beter dan gewoon de wereld-ETF vasthouden (+107,7% tegen +83,2%).
+- Over de hele periode deed de investeerder (alleen etf's) het beter dan gewoon de wereld-ETF vasthouden (+107,0% tegen +82,5%).
 - Zijn grootste daling was -19,5%, tegen -21,6% voor de ETF.
 - In 64% van alle periodes van 4 weken stond de investeerder (alleen etf's) aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -10,7%, het beste +11,2%.
 
@@ -14,9 +14,9 @@ Periode **2021-10-13 t/m 2026-10-13** (ongeveer 5 jaar), startkapitaal €10.000
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Investeerder (alleen ETF's) | +107,7% | +15,7% | -19,5% | 1,13 | €20.744 |
-| MSCI World-ETF (IWDA) | +83,2% | +12,9% | -21,6% | 0,91 | €18.324 |
-| S&P 500-ETF (SPY, in euro) | +97,1% | +14,5% | -23,0% | 0,8 | €19.712 |
+| Investeerder (alleen ETF's) | +107,0% | +15,7% | -19,5% | 1,13 | €20.675 |
+| MSCI World-ETF (IWDA) | +82,5% | +12,8% | -21,6% | 0,91 | €18.250 |
+| S&P 500-ETF (SPY, in euro) | +96,5% | +14,5% | -23,0% | 0,8 | €19.651 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
 
@@ -26,10 +26,10 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 | --- | --- | --- | --- |
 | 2021 | +8,4% | +9,4% | +11,5% |
 | 2022 | -7,6% | -13,5% | -13,1% |
-| 2023 | +19,7% | +19,9% | +21,5% |
-| 2024 | +35,9% | +27,2% | +32,8% |
+| 2023 | +20,0% | +19,9% | +21,5% |
+| 2024 | +35,7% | +27,2% | +32,8% |
 | 2025 | +5,4% | +7,1% | +4,3% |
-| 2026 | +20,9% | +18,6% | +20,8% |
+| 2026 | +20,5% | +18,1% | +20,4% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 
