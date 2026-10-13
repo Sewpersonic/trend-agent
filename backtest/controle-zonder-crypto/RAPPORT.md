@@ -1,22 +1,22 @@
 # Backtest investeerder (zonder crypto)
 
-Periode **2021-10-12 t/m 2026-10-12** (ongeveer 5 jaar), startkapitaal €10.000 nepgeld, 52 instrumenten met koersdata. Zelfde regels, kosten en slippage als bij het dagelijks oefenen.
+Periode **2021-10-13 t/m 2026-10-13** (ongeveer 5 jaar), startkapitaal €10.000 nepgeld, 52 instrumenten met koersdata. Zelfde regels, kosten en slippage als bij het dagelijks oefenen.
 
 > Dit is geen voorspelling. Het laat zien hoe deze regels het in het verleden hadden gedaan.
 
 ## In het kort
 
-- Over de hele periode deed de investeerder (zonder crypto) het beter dan gewoon de wereld-ETF vasthouden (+180,2% tegen +82,7%).
+- Over de hele periode deed de investeerder (zonder crypto) het beter dan gewoon de wereld-ETF vasthouden (+168,7% tegen +82,4%).
 - Zijn grootste daling was -21,4%, tegen -21,6% voor de ETF.
-- In 63% van alle periodes van 4 weken stond de investeerder (zonder crypto) aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -13,1%, het beste +17,5%.
+- In 63% van alle periodes van 4 weken stond de investeerder (zonder crypto) aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -13,2%, het beste +16,9%.
 
 ## Totaal
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Investeerder (zonder crypto) | +180,2% | +22,9% | -21,4% | 1,28 | €27.982 |
-| MSCI World-ETF (IWDA) | +82,7% | +12,8% | -21,6% | 0,91 | €18.266 |
-| S&P 500-ETF (SPY, in euro) | +98,4% | +14,7% | -23,0% | 0,81 | €19.842 |
+| Investeerder (zonder crypto) | +168,7% | +21,9% | -21,4% | 1,23 | €26.834 |
+| MSCI World-ETF (IWDA) | +82,4% | +12,8% | -21,6% | 0,9 | €18.242 |
+| S&P 500-ETF (SPY, in euro) | +97,3% | +14,6% | -23,0% | 0,81 | €19.725 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
 
@@ -24,12 +24,12 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 
 | Jaar | Investeerder (zonder crypto) | MSCI World-ETF (IWDA) | S&P 500-ETF (SPY, in euro) |
 | --- | --- | --- | --- |
-| 2021 | +5,1% | +9,1% | +12,1% |
+| 2021 | +4,8% | +9,4% | +11,5% |
 | 2022 | -12,1% | -13,5% | -13,1% |
-| 2023 | +30,7% | +19,9% | +21,5% |
-| 2024 | +45,3% | +27,2% | +32,8% |
-| 2025 | +15,7% | +7,1% | +4,3% |
-| 2026 | +38,2% | +18,5% | +20,9% |
+| 2023 | +31,2% | +19,9% | +21,5% |
+| 2024 | +46,1% | +27,2% | +32,8% |
+| 2025 | +13,4% | +7,1% | +4,3% |
+| 2026 | +34,1% | +18,1% | +20,9% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 
@@ -37,15 +37,15 @@ Dit beantwoordt de vraag "wat kan er in een paar weken gebeuren?": elk mogelijk 
 
 | | Hoger geëindigd | Normaal (mediaan) | Slecht (1 op 20) | Slechtste | Beste |
 | --- | --- | --- | --- | --- | --- |
-| Investeerder (zonder crypto) | 63% | +1,6% | -6,3% | -13,1% | +17,5% |
+| Investeerder (zonder crypto) | 63% | +1,6% | -6,3% | -13,2% | +16,9% |
 | MSCI World-ETF (IWDA) | 66% | +1,3% | -6,0% | -12,4% | +13,6% |
 | S&P 500-ETF (SPY, in euro) | 65% | +1,3% | -6,6% | -14,9% | +17,9% |
 
 ## Trades
 
-- Aankopen: 126, afgesloten: 132, waarvan winst: 71%
-- Gemiddelde winst: €141, gemiddeld verlies: €-122, profit factor: 2,85
-- Gemiddeld vastgehouden: 59 dagen; totale kosten: €260
+- Aankopen: 138, afgesloten: 141, waarvan winst: 67%
+- Gemiddelde winst: €135, gemiddeld verlies: €-106, profit factor: 2,62
+- Gemiddeld vastgehouden: 59 dagen; totale kosten: €282
 - Kill switch aangegaan: 0 keer
 
 ## Belangrijke kanttekeningen

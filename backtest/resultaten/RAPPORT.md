@@ -1,22 +1,22 @@
 # Backtest trend-agent
 
-Periode **2021-10-12 t/m 2026-10-12** (ongeveer 5 jaar), startkapitaal €10.000 nepgeld, 52 instrumenten met koersdata. Zelfde regels, kosten en slippage als bij het dagelijks oefenen.
+Periode **2021-10-13 t/m 2026-10-13** (ongeveer 5 jaar), startkapitaal €10.000 nepgeld, 52 instrumenten met koersdata. Zelfde regels, kosten en slippage als bij het dagelijks oefenen.
 
 > Dit is geen voorspelling. Het laat zien hoe deze regels het in het verleden hadden gedaan.
 
 ## In het kort
 
-- Over de hele periode deed de trend-agent het slechter dan gewoon de wereld-ETF vasthouden (+6,4% tegen +82,7%).
-- Zijn grootste daling was -5,0%, tegen -21,6% voor de ETF.
-- In 53% van alle periodes van 4 weken stond de trend-agent aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -2,7%, het beste +2,4%.
+- Over de hele periode deed de trend-agent het slechter dan gewoon de wereld-ETF vasthouden (+6,6% tegen +82,4%).
+- Zijn grootste daling was -4,5%, tegen -21,6% voor de ETF.
+- In 53% van alle periodes van 4 weken stond de trend-agent aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -2,7%, het beste +2,5%.
 
 ## Totaal
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Trend-agent | +6,4% | +1,2% | -5,0% | 0,33 | €10.636 |
-| MSCI World-ETF (IWDA) | +82,7% | +12,8% | -21,6% | 0,77 | €18.266 |
-| S&P 500-ETF (SPY, in euro) | +98,4% | +14,7% | -23,0% | 0,69 | €19.842 |
+| Trend-agent | +6,6% | +1,3% | -4,5% | 0,34 | €10.657 |
+| MSCI World-ETF (IWDA) | +82,4% | +12,8% | -21,6% | 0,76 | €18.242 |
+| S&P 500-ETF (SPY, in euro) | +97,3% | +14,6% | -23,0% | 0,68 | €19.725 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
 
@@ -24,12 +24,12 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 
 | Jaar | Trend-agent | MSCI World-ETF (IWDA) | S&P 500-ETF (SPY, in euro) |
 | --- | --- | --- | --- |
-| 2021 | -0,3% | +9,1% | +12,1% |
-| 2022 | -2,2% | -13,5% | -13,1% |
-| 2023 | +2,2% | +19,9% | +21,5% |
-| 2024 | +3,6% | +27,2% | +32,8% |
-| 2025 | +2,0% | +7,1% | +4,3% |
-| 2026 | +1,0% | +18,5% | +20,9% |
+| 2021 | +0,1% | +9,4% | +11,5% |
+| 2022 | -2,5% | -13,5% | -13,1% |
+| 2023 | +2,1% | +19,9% | +21,5% |
+| 2024 | +4,1% | +27,2% | +32,8% |
+| 2025 | +1,9% | +7,1% | +4,3% |
+| 2026 | +0,9% | +18,1% | +20,9% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 
@@ -37,16 +37,16 @@ Dit beantwoordt de vraag "wat kan er in een paar weken gebeuren?": elk mogelijk 
 
 | | Hoger geëindigd | Normaal (mediaan) | Slecht (1 op 20) | Slechtste | Beste |
 | --- | --- | --- | --- | --- | --- |
-| Trend-agent | 53% | +0,1% | -1,1% | -2,7% | +2,4% |
+| Trend-agent | 53% | +0,0% | -1,1% | -2,7% | +2,5% |
 | MSCI World-ETF (IWDA) | 63% | +1,1% | -5,2% | -14,0% | +12,3% |
 | S&P 500-ETF (SPY, in euro) | 65% | +1,0% | -5,4% | -13,0% | +13,4% |
 
 ## Trades
 
-- Aankopen: 199, afgesloten: 196, waarvan winst: 35%
-- Gemiddelde winst: €42, gemiddeld verlies: €-18, profit factor: 1,24
-- Gemiddeld vastgehouden: 26 dagen; totale kosten: €395
-- Kill switch aangegaan: 27 keer (2021-11-09: 3 verliestrades op rij; 2021-12-06: 4 verliestrades op rij; 2022-01-10: 3 verliestrades op rij; 2022-01-24: 4 verliestrades op rij; 2022-06-17: 3 verliestrades op rij; 2022-08-01: 3 verliestrades op rij …)
+- Aankopen: 198, afgesloten: 195, waarvan winst: 35%
+- Gemiddelde winst: €42, gemiddeld verlies: €-18, profit factor: 1,26
+- Gemiddeld vastgehouden: 26 dagen; totale kosten: €393
+- Kill switch aangegaan: 26 keer (2021-11-09: 3 verliestrades op rij; 2021-12-06: 3 verliestrades op rij; 2022-01-20: 5 verliestrades op rij; 2022-06-17: 3 verliestrades op rij; 2022-08-01: 3 verliestrades op rij; 2022-09-06: 3 verliestrades op rij …)
 
 ## Belangrijke kanttekeningen
 
