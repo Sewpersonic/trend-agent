@@ -1,0 +1,44 @@
+{
+ "trend": {
+  "day": "2026-10-13",
+  "status": "OK",
+  "versie": "trend-1.1-d373c7",
+  "waarschuwingen": [],
+  "gevraagd": 50,
+  "ok": 50,
+  "mislukt": 0,
+  "verdacht": {},
+  "wisselkoers": "ok",
+  "regime": "stijgend-laag",
+  "bronnen": {
+   "koersen": {
+    "1 bron": 50
+   },
+   "wisselkoers": "bevestigd",
+   "tweede_bron": "overgeslagen na herhaalde fouten",
+   "afwijkend": []
+  },
+  "vastgelegd_utc": "2026-10-13T02:39:07+00:00"
+ },
+ "investeerder": {
+  "day": "2026-10-13",
+  "status": "OK",
+  "versie": "investeerder-1.0-c2474a",
+  "waarschuwingen": [],
+  "gevraagd": 52,
+  "ok": 52,
+  "mislukt": 0,
+  "verdacht": {},
+  "wisselkoers": "ok",
+  "regime": "stijgend-laag",
+  "bronnen": {
+   "koersen": {
+    "1 bron": 52
+   },
+   "wisselkoers": "bevestigd",
+   "tweede_bron": "overgeslagen na herhaalde fouten",
+   "afwijkend": []
+  },
+  "vastgelegd_utc": "2026-10-13T02:39:18+00:00"
+ }
+}

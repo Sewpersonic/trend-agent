@@ -11,7 +11,10 @@
       "opened": "2026-10-10",
       "entry_fx": 1.0,
       "risk_eur": 24.67,
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "entry_reason": "",
+      "entry_context": {},
+      "version": ""
     },
     "SAP.DE": {
       "ticker": "SAP.DE",
@@ -23,7 +26,10 @@
       "opened": "2026-10-10",
       "entry_fx": 1.0,
       "risk_eur": 22.45,
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-10",
+      "entry_reason": "",
+      "entry_context": {},
+      "version": ""
     },
     "MSFT": {
       "ticker": "MSFT",
@@ -31,11 +37,14 @@
       "qty": 1,
       "entry_price": 535.3375423278808,
       "stop": 509.89896985299237,
-      "highest_close": 535.3375423278808,
+      "highest_close": 541.1500244140625,
       "opened": "2026-10-10",
       "entry_fx": 0.8923999798299032,
       "risk_eur": 23.7,
-      "last_checked": "2026-10-10"
+      "last_checked": "2026-10-12",
+      "entry_reason": "",
+      "entry_context": {},
+      "version": ""
     }
   },
   "trades": [
@@ -49,7 +58,13 @@
       "value_eur": 585.75,
       "costs_eur": 1.0,
       "reason": "trend OK: 3m +23.4%, 1m +9.2%, volume x1.07",
-      "pnl_eur": null
+      "pnl_eur": null,
+      "strategy": "",
+      "version": "",
+      "regime": "",
+      "context": {},
+      "r_multiple": null,
+      "hold_days": null
     },
     {
       "day": "2026-10-10",
@@ -61,7 +76,13 @@
       "value_eur": 383.11,
       "costs_eur": 1.0,
       "reason": "trend OK: 3m +40.0%, 1m +7.7%, volume x0.83",
-      "pnl_eur": null
+      "pnl_eur": null,
+      "strategy": "",
+      "version": "",
+      "regime": "",
+      "context": {},
+      "r_multiple": null,
+      "hold_days": null
     },
     {
       "day": "2026-10-10",
@@ -73,7 +94,13 @@
       "value_eur": 477.74,
       "costs_eur": 1.0,
       "reason": "trend OK: 3m +37.1%, 1m +8.7%, volume x0.82",
-      "pnl_eur": null
+      "pnl_eur": null,
+      "strategy": "",
+      "version": "",
+      "regime": "",
+      "context": {},
+      "r_multiple": null,
+      "hold_days": null
     }
   ],
   "equity_history": [
@@ -84,7 +111,13 @@
     {
       "day": "2026-10-10",
       "equity": 9996.28
+    },
+    {
+      "day": "2026-10-13",
+      "equity": 10002.9,
+      "bench": 131.67
     }
   ],
-  "consecutive_losses": 0
+  "consecutive_losses": 0,
+  "peak_from_index": 0
 }

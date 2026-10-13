@@ -1,0 +1,205 @@
+{
+ "cash_eur": 0.0,
+ "qty": {
+  "IWDA.AS": 45.5229215603836,
+  "MU": 0.6766545098768852,
+  "SMH": 1.1324021940123399,
+  "ASML.AS": 0.3738140976532737,
+  "IFX.DE": 10.171604544120076,
+  "AMD": 1.1262088930042935,
+  "ETH-USD": 0.2246946782715325,
+  "BTC-USD": 0.0067399020005290975
+ },
+ "cost_eur": {
+  "IWDA.AS": 6000.0,
+  "MU": 600.0,
+  "SMH": 600.0,
+  "ASML.AS": 600.0,
+  "IFX.DE": 600.0,
+  "AMD": 600.0,
+  "ETH-USD": 500.0,
+  "BTC-USD": 500.0
+ },
+ "trades": [
+  {
+   "day": "2026-10-13",
+   "ticker": "IWDA.AS",
+   "side": "BUY",
+   "qty": 45.522922,
+   "price": 131.7358,
+   "fx": 1.0,
+   "value_eur": 5997.0,
+   "costs_eur": 3.0,
+   "reason": "doelgewicht 60%",
+   "pnl_eur": null,
+   "strategy": "investeerder",
+   "version": "investeerder-1.0-c2474a",
+   "regime": "stijgend-laag",
+   "context": {
+    "momentum_12m": 0.1534,
+    "soort": "ETF"
+   },
+   "r_multiple": null,
+   "hold_days": null
+  },
+  {
+   "day": "2026-10-13",
+   "ticker": "MU",
+   "side": "BUY",
+   "qty": 0.676655,
+   "price": 885.2376,
+   "fx": 1.0,
+   "value_eur": 599.0,
+   "costs_eur": 1.0,
+   "reason": "doelgewicht 6%",
+   "pnl_eur": null,
+   "strategy": "investeerder",
+   "version": "investeerder-1.0-c2474a",
+   "regime": "stijgend-laag",
+   "context": {
+    "momentum_12m": 4.0757,
+    "soort": "STOCK"
+   },
+   "r_multiple": null,
+   "hold_days": null
+  },
+  {
+   "day": "2026-10-13",
+   "ticker": "SMH",
+   "side": "BUY",
+   "qty": 1.132402,
+   "price": 528.964,
+   "fx": 1.0,
+   "value_eur": 599.0,
+   "costs_eur": 1.0,
+   "reason": "doelgewicht 6%",
+   "pnl_eur": null,
+   "strategy": "investeerder",
+   "version": "investeerder-1.0-c2474a",
+   "regime": "stijgend-laag",
+   "context": {
+    "momentum_12m": 0.652,
+    "soort": "ETF"
+   },
+   "r_multiple": null,
+   "hold_days": null
+  },
+  {
+   "day": "2026-10-13",
+   "ticker": "ASML.AS",
+   "side": "BUY",
+   "qty": 0.373814,
+   "price": 1602.4008,
+   "fx": 1.0,
+   "value_eur": 599.0,
+   "costs_eur": 1.0,
+   "reason": "doelgewicht 6%",
+   "pnl_eur": null,
+   "strategy": "investeerder",
+   "version": "investeerder-1.0-c2474a",
+   "regime": "stijgend-laag",
+   "context": {
+    "momentum_12m": 0.7527,
+    "soort": "STOCK"
+   },
+   "r_multiple": null,
+   "hold_days": null
+  },
+  {
+   "day": "2026-10-13",
+   "ticker": "IFX.DE",
+   "side": "BUY",
+   "qty": 10.171605,
+   "price": 58.8894,
+   "fx": 1.0,
+   "value_eur": 599.0,
+   "costs_eur": 1.0,
+   "reason": "doelgewicht 6%",
+   "pnl_eur": null,
+   "strategy": "investeerder",
+   "version": "investeerder-1.0-c2474a",
+   "regime": "stijgend-laag",
+   "context": {
+    "momentum_12m": 0.7561,
+    "soort": "STOCK"
+   },
+   "r_multiple": null,
+   "hold_days": null
+  },
+  {
+   "day": "2026-10-13",
+   "ticker": "AMD",
+   "side": "BUY",
+   "qty": 1.126209,
+   "price": 531.8729,
+   "fx": 1.0,
+   "value_eur": 599.0,
+   "costs_eur": 1.0,
+   "reason": "doelgewicht 6%",
+   "pnl_eur": null,
+   "strategy": "investeerder",
+   "version": "investeerder-1.0-c2474a",
+   "regime": "stijgend-laag",
+   "context": {
+    "momentum_12m": 1.2162,
+    "soort": "STOCK"
+   },
+   "r_multiple": null,
+   "hold_days": null
+  },
+  {
+   "day": "2026-10-13",
+   "ticker": "ETH-USD",
+   "side": "BUY",
+   "qty": 0.224695,
+   "price": 2220.7914,
+   "fx": 1.0,
+   "value_eur": 499.0,
+   "costs_eur": 1.0,
+   "reason": "doelgewicht 5%",
+   "pnl_eur": null,
+   "strategy": "investeerder",
+   "version": "investeerder-1.0-c2474a",
+   "regime": "stijgend-laag",
+   "context": {
+    "momentum_12m": 0.1843,
+    "soort": "CRYPTO"
+   },
+   "r_multiple": null,
+   "hold_days": null
+  },
+  {
+   "day": "2026-10-13",
+   "ticker": "BTC-USD",
+   "side": "BUY",
+   "qty": 0.00674,
+   "price": 74036.6848,
+   "fx": 1.0,
+   "value_eur": 499.0,
+   "costs_eur": 1.0,
+   "reason": "doelgewicht 5%",
+   "pnl_eur": null,
+   "strategy": "investeerder",
+   "version": "investeerder-1.0-c2474a",
+   "regime": "stijgend-laag",
+   "context": {
+    "momentum_12m": 0.1006,
+    "soort": "CRYPTO"
+   },
+   "r_multiple": null,
+   "hold_days": null
+  }
+ ],
+ "equity_history": [
+  {
+   "day": "start",
+   "equity": 10000.0
+  },
+  {
+   "day": "2026-10-13",
+   "equity": 9985.01,
+   "bench": 131.67
+  }
+ ],
+ "last_rebalance": "2026-10-13"
+}

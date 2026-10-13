@@ -1,17 +1,18 @@
-# Trend-agent rapport 2026-10-10
+# Trend-agent rapport 2026-10-13
 
 _Oefenportefeuille met nepgeld. Geen beleggingsadvies; resultaten uit het verleden zeggen niets over de toekomst._
 
 **Status:** OK  
-**Waarde:** €9,996.28  
+**Waarde:** €10,002.90  
 **Kas:** €8,550.41  
-**Sinds start:** -0.04%  
+**Marktregime:** stijgend-laag  
+**Strategieversie:** trend-1.1-d373c7  
+**Koersbronnen:** 0 bevestigd door 2 bronnen, 50 uit 1 bron, 0 afwijkend; wisselkoers bevestigd  
+**Sinds start:** +0.03%  
 
 ## Vandaag gedaan
 
-- BUY 13 x SHELL.AS @ 45.06 (trend OK: 3m +23.4%, 1m +9.2%, volume x1.07)
-- BUY 2 x SAP.DE @ 191.56 (trend OK: 3m +40.0%, 1m +7.7%, volume x0.83)
-- BUY 1 x MSFT @ 535.34 (trend OK: 3m +37.1%, 1m +8.7%, volume x0.82)
+- Niets
 
 ## Open posities
 
@@ -26,12 +27,12 @@ _Oefenportefeuille met nepgeld. Geen beleggingsadvies; resultaten uit het verled
 | # | Ticker | Score | 3 mnd | 1 mnd |
 | --- | --- | --- | --- | --- |
 | 1 | SHELL.AS | 0.158 | +23.4% | +9.2% |
-| 2 | SAP.DE | 0.107 | +40.0% | +7.7% |
-| 3 | MSFT | 0.103 | +37.1% | +8.7% |
+| 2 | MSFT | 0.114 | +40.8% | +9.2% |
+| 3 | SAP.DE | 0.107 | +40.0% | +7.7% |
 | 4 | WKL.AS | 0.101 | +24.2% | +13.3% |
-| 5 | CRWD | 0.100 | +46.4% | +31.7% |
-| 6 | PLTR | 0.099 | +60.8% | +26.0% |
-| 7 | XLE | 0.091 | +15.4% | +0.8% |
-| 8 | XOM | 0.078 | +17.7% | +2.2% |
-| 9 | PANW | 0.070 | +26.8% | +23.7% |
-| 10 | TTE.PA | 0.067 | +11.6% | +1.4% |
+| 5 | XLE | 0.096 | +16.6% | +1.9% |
+| 6 | PLTR | 0.092 | +56.3% | +25.0% |
+| 7 | XOM | 0.089 | +19.4% | +3.7% |
+| 8 | TTE.PA | 0.067 | +11.6% | +1.4% |
+| 9 | V | 0.065 | +9.5% | +5.1% |
+| 10 | META | 0.064 | +12.5% | +14.7% |
