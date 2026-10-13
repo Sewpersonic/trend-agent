@@ -223,6 +223,12 @@ class HealthTests(unittest.TestCase):
             self.assertEqual(main(["health", "--check"]), 0)
         data = json.loads((tmp / "s" / "health.json").read_text())
         self.assertEqual(set(data), {"trend", "investeerder"})
+        with mock.patch.dict(os.environ, env):
+            self.assertEqual(main(["overzicht", "--simulated"]), 0)
+        text = (tmp / "r" / "OVERZICHT.md").read_text()
+        self.assertIn("## Stand", text)
+        self.assertIn("Investeerder", text)
+        self.assertIn("Controles", text)
 
 
 if __name__ == "__main__":

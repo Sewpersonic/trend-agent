@@ -61,9 +61,15 @@ jobs:
         continue-on-error: true
         run: python -m trendagent invest
 
+      - name: Dagoverzicht
+        if: github.event.inputs.action != 'kill' && github.event.inputs.action != 'resume'
+        continue-on-error: true
+        run: python -m trendagent overzicht
+
       - name: Samenvatting
         if: always()
         run: |
+          if [ -f rapporten/OVERZICHT.md ]; then cat rapporten/OVERZICHT.md >> "$GITHUB_STEP_SUMMARY"; fi
           python -m trendagent health >> "$GITHUB_STEP_SUMMARY" || true
           if [ -f state/investeerder.md ]; then cat state/investeerder.md >> "$GITHUB_STEP_SUMMARY"; fi
           if [ -f state/report.md ]; then cat state/report.md >> "$GITHUB_STEP_SUMMARY"; fi

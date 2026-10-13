@@ -51,6 +51,8 @@ def main(argv: list[str] | None = None) -> int:
     vs = sub.add_parser("voorstel", help="aanbeveling van het onderzoek in config/productie.json zetten (voor een pull request)")
     vs.add_argument("--aanbeveling", default="onderzoek/aanbeveling.json")
     vs.add_argument("--body", default="voorstel.md", help="bestand voor de tekst van het voorstel")
+    ov = sub.add_parser("overzicht", help="dagoverzicht van beide bots schrijven (rapporten/OVERZICHT.md)")
+    ov.add_argument("--simulated", action="store_true")
     hc = sub.add_parser("health", help="gezondheid van de laatste rondes tonen")
     hc.add_argument("--check", action="store_true", help="foutcode 1 als er iets mis is")
     args = parser.parse_args(argv)
@@ -103,6 +105,21 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd == "voorstel":
         return _proposal(args.aanbeveling, args.body)
+
+    if args.cmd == "overzicht":
+        import json
+        from . import summary
+        health = s.state_dir / "health.json"
+        days = []
+        if health.exists():
+            try:
+                days = [h.get("day") for h in json.loads(health.read_text(encoding="utf-8")).values() if h.get("day")]
+            except ValueError:
+                days = []
+        day = max(days) if days else _market_day(args).isoformat()
+        path = summary.write(s.state_dir, s.reports_dir, day)
+        print(path.read_text(encoding="utf-8"))
+        return 0
 
     if args.cmd == "resume":
         ks.deactivate(by=HUMAN)
