@@ -6,8 +6,8 @@ _Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies._
 
 | Bot | Waarde | Vandaag | Sinds start | Tegenover wereld-ETF |
 | --- | --- | --- | --- | --- |
-| Investeerder | €9.879,74 | €-105,27 (-1,05%) | -1,20% | -1,10% (ETF +0,05% sinds 2026-10-13) |
-| Trend-agent | €10.029,84 | €26,94 (+0,27%) | +0,30% | +0,22% (ETF +0,05% sinds 2026-10-13) |
+| Investeerder | €9.891,38 | €-93,63 (-0,94%) | -1,09% | -0,98% (ETF +0,05% sinds 2026-10-13) |
+| Trend-agent | €10.029,01 | €26,11 (+0,26%) | +0,29% | +0,22% (ETF +0,05% sinds 2026-10-13) |
 
 ## Vandaag gedaan
 
@@ -25,16 +25,15 @@ _Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies._
 - De markt stijgt breed: goede omstandigheden voor trendvolgen.
 - De markt is rustig: stops liggen dichterbij, posities kunnen iets groter.
 - Amerika staat er duidelijk beter voor dan Europa (78% tegen 52% in een stijgende trend).
-- 21 van de 50 instrumenten zijn een koopbare trend: veel keus, de bot neemt alleen de rustigste, sterkste.
 - Alle plekken zijn bezet, dus de bot koopt niets bij, hoe sterk een trend ook is.
 
 ## Verlies en risico
 
 - Trend-agent SHELL.AS: €11,60 (+2,0%), +6,3% boven de stop; raakt hij de stop, dan €24,67 verlies.
-- Trend-agent SAP.DE: €11,93 (+3,1%), +9,0% boven de stop; raakt hij de stop, dan €21,57 verlies.
-- Trend-agent MSFT: €9,31 (+1,8%), +6,9% boven de stop; raakt hij de stop, dan €23,19 verlies.
+- Trend-agent SAP.DE: €11,45 (+3,0%), +9,0% boven de stop; raakt hij de stop, dan €22,05 verlies.
+- Trend-agent MSFT: €8,95 (+1,8%), +6,9% boven de stop; raakt hij de stop, dan €23,40 verlies.
 - Trend-agent remmen: +0,0% vanaf de top (grens -5%), 0 van 3 verliestrades op rij.
-- Investeerder: -€120,25 op de beleggingen; grootste verlies ASML.AS -€35,69 (-5,9%).
+- Investeerder: -€108,62 op de beleggingen; grootste verlies ASML.AS -€35,69 (-5,9%).
 
 ## Beste kansen volgens de trend-agent
 
@@ -43,10 +42,10 @@ _Wat de oefenbot met nepgeld zou doen; geen advies. Uitleg per ticker in het tre
 | Ticker | Instapmoment | Plan van de bot | Max verlies | Status |
 | --- | --- | --- | --- | --- |
 | Shell (SHELL.AS) | opgelopen | 13 x rond 45.97 EUR, stop 44.15 | €25,64 | al in bezit |
-| SAP (SAP.DE) | neutraal | 2 x rond 197.62 EUR, stop 186.78 | €23,67 | al in bezit |
-| Energie-ETF (XLE) | neutraal | 11 x rond 66.95 USD, stop 64.48 | €26,30 | niet gekocht: alle 3 plekken zijn bezet |
+| SAP (SAP.DE) | neutraal | 2 x rond 197.38 EUR, stop 186.54 | €23,67 | al in bezit |
+| Energie-ETF (XLE) | neutraal | 11 x rond 66.89 USD, stop 64.42 | €26,29 | niet gekocht: alle 3 plekken zijn bezet |
 | Wolters Kluwer (WKL.AS) | opgelopen | 5 x rond 78.88 EUR, stop 74.24 | €25,19 | niet gekocht: alle 3 plekken zijn bezet |
-| Microsoft (MSFT) | neutraal | 1 x rond 545.43 USD, stop 521.52 | €23,36 | al in bezit |
+| Microsoft (MSFT) | neutraal | 1 x rond 545.27 USD, stop 521.37 | €23,35 | al in bezit |
 
 ## Klaar voor echt geld?
 
@@ -57,8 +56,8 @@ _Eerst bewijzen, dan pas een oefenaccount bij een echte broker, dan een klein be
 | Eis | Stand | Nu |
 | --- | --- | --- |
 | Oefentijd | ⏳ | 2 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -1,10% |
-| Daling niet veel dieper dan de ETF | ✅ | bot -1,20%, ETF +0,00% |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -0,98% |
+| Daling niet veel dieper dan de ETF | ✅ | bot -1,09%, ETF +0,00% |
 
 **Trend-agent:** Nog niet klaar: de bot is nog bezig met bewijzen. Blijven oefenen.
 
