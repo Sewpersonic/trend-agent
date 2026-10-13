@@ -21,12 +21,17 @@ import json
 from pathlib import Path
 
 from openpyxl import Workbook
-from openpyxl.styles import Alignment, Font
+from openpyxl.styles import Alignment, Font, PatternFill
 
 from . import insights
 from .reports import EUR, PCT, _sheet
 from .universe import BY_TICKER
 
+# Winst groen, verlies rood (Excel-kleur 10 = groen).
+RES_EUR = '[Color10]+€ #,##0.00;[Red]-€ #,##0.00;€ 0.00'
+RES_PCT = '[Color10]+0.00%;[Red]-0.00%;0.00%'
+GREEN = PatternFill("solid", fgColor="D9F2D9")
+RED = PatternFill("solid", fgColor="F8D7D7")
 WRAP = Alignment(wrap_text=True, vertical="top")
 BOLD = Font(bold=True)
 STATE = {"ok": "✅ gehaald", "bezig": "⏳ nog bezig", "nee": "❌ niet gehaald"}
@@ -60,16 +65,30 @@ def build(state_dir: Path, reports_dir: Path, day: str) -> Workbook:
     wb.remove(wb.active)
 
     # --- Overzicht
-    ws = _sheet(wb, "Overzicht", ["Bot", "Waarde", "Vandaag", "Vandaag %", "Sinds start %", "Tegenover wereld-ETF",
-                                  "Klaar voor echt geld?"], [16, 14, 13, 11, 13, 20, 60])
+    ws = _sheet(wb, "Overzicht", ["Bot", "Waarde", "Winst of verlies", "Sinds start €", "Sinds start %",
+                                  "Vandaag €", "Vandaag %", "Afgesloten trades €", "Tegenover wereld-ETF",
+                                  "Klaar voor echt geld?"], [16, 14, 16, 14, 13, 12, 11, 18, 20, 60])
     for name, key, _ in BOTS:
-        st = _history_stats(books[key].get("equity_history", []))
+        hist = books[key].get("equity_history", [])
+        st = _history_stats(hist)
         ready = info.get(key, {}).get("klaar", {}).get("oordeel", "")
-        ws.append([name, st.get("waarde"), st.get("vandaag"), st.get("vandaag_pct"), st.get("sinds_start"),
-                   st.get("vs_etf"), ready])
+        start = hist[0]["equity"] if hist else None
+        since = round(st["waarde"] - start, 2) if st and start else None
+        label = "–" if since is None else ("WINST" if since > 0.005 else "VERLIES" if since < -0.005 else "gelijk")
+        realised = round(sum(t.get("pnl_eur") or 0 for t in books[key].get("trades", []) if t.get("side") == "SELL"), 2)
+        ws.append([name, st.get("waarde"), label, since, st.get("sinds_start"), st.get("vandaag"),
+                   st.get("vandaag_pct"), realised, st.get("vs_etf"), ready])
         r = ws.max_row
-        for col, fmt in ((2, EUR), (3, EUR), (4, PCT), (5, PCT), (6, PCT)):
+        ws.cell(row=r, column=2).number_format = EUR
+        for col, fmt in ((4, RES_EUR), (5, RES_PCT), (6, RES_EUR), (7, RES_PCT), (8, RES_EUR), (9, RES_PCT)):
             ws.cell(row=r, column=col).number_format = fmt
+        cell = ws.cell(row=r, column=3)
+        cell.font = BOLD
+        if label in ("WINST", "VERLIES"):
+            cell.fill = GREEN if label == "WINST" else RED
+    ws.append([])
+    ws.append(["Winst of verlies = waarde nu tegenover de €10.000 bij de start, inclusief posities die nog openstaan. "
+               "Afgesloten trades = winst of verlies dat al echt is vastgezet door te verkopen."])
     ws.append([])
     ws.append([f"Handelsdag {day}. Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies."])
     ws.append([])
@@ -114,7 +133,7 @@ def build(state_dir: Path, reports_dir: Path, day: str) -> Workbook:
         ws.append(["Trend-agent", r["ticker"], r["instap"], r["koers"], r["stop"], r["resultaat_eur"],
                    r["resultaat_pct"], r["afstand_stop_pct"], r["bij_stop_eur"]])
         row = ws.max_row
-        for col, fmt in ((6, EUR), (7, PCT), (8, PCT), (9, EUR)):
+        for col, fmt in ((6, RES_EUR), (7, RES_PCT), (8, PCT), (9, RES_EUR)):
             ws.cell(row=row, column=col).number_format = fmt
     b = tr.get("remmen")
     if b:
@@ -136,7 +155,7 @@ def build(state_dir: Path, reports_dir: Path, day: str) -> Workbook:
         for r in inv["posities"]:
             ws.append(["", r["ticker"], r["waarde_eur"], r["kosten_eur"], r["resultaat_eur"], r["resultaat_pct"]])
             row = ws.max_row
-            for col, fmt in ((3, EUR), (4, EUR), (5, EUR), (6, PCT)):
+            for col, fmt in ((3, EUR), (4, EUR), (5, RES_EUR), (6, RES_PCT)):
                 ws.cell(row=row, column=col).number_format = fmt
 
     # --- Kansen
@@ -173,19 +192,26 @@ def build(state_dir: Path, reports_dir: Path, day: str) -> Workbook:
     _wrap_rows(ws)
 
     # --- Waarde per dag
-    ws = _sheet(wb, "Waarde per dag", ["Datum", "Investeerder", "Trend-agent", "Wereld-ETF (koers in €)"], [14, 15, 15, 22])
+    ws = _sheet(wb, "Waarde per dag", ["Datum", "Investeerder", "Investeerder t.o.v. start", "Trend-agent",
+                                       "Trend-agent t.o.v. start", "Wereld-ETF (koers in €)"], [14, 15, 22, 15, 22, 22])
     days: dict[str, list] = {}
+    starts = []
     for col, (_, key, _) in enumerate(BOTS):
-        for e in books[key].get("equity_history", []):
+        hist = books[key].get("equity_history", [])
+        starts.append(hist[0]["equity"] if hist else None)
+        for e in hist:
             row = days.setdefault(e["day"], [None, None, None])
             row[col] = e["equity"]
             if "bench" in e:
                 row[2] = e["bench"]
     order = sorted(days, key=lambda d: (d != "start", d))
     for d in order:
-        ws.append([d, *days[d]])
-        ws.cell(row=ws.max_row, column=2).number_format = EUR
-        ws.cell(row=ws.max_row, column=3).number_format = EUR
+        inv_v, tr_v, bench = days[d]
+        diff = [round(v - s0, 2) if v is not None and s0 else None for v, s0 in ((inv_v, starts[0]), (tr_v, starts[1]))]
+        ws.append([d, inv_v, diff[0], tr_v, diff[1], bench])
+        r = ws.max_row
+        for col, fmt in ((2, EUR), (3, RES_EUR), (4, EUR), (5, RES_EUR)):
+            ws.cell(row=r, column=col).number_format = fmt
 
     # --- Trades
     ws = _sheet(wb, "Trades", ["Datum", "Bot", "Ticker", "Koop/verkoop", "Aantal", "Prijs", "Waarde €", "Kosten €",
@@ -194,8 +220,9 @@ def build(state_dir: Path, reports_dir: Path, day: str) -> Workbook:
     for d, name, t in sorted(rows, key=lambda x: x[0]):
         ws.append([d, name, t["ticker"], "koop" if t["side"] == "BUY" else "verkoop", t["qty"], t["price"],
                    t["value_eur"], t["costs_eur"], t.get("pnl_eur"), t["reason"]])
-        for col in (7, 8, 9):
+        for col in (7, 8):
             ws.cell(row=ws.max_row, column=col).number_format = EUR
+        ws.cell(row=ws.max_row, column=9).number_format = RES_EUR
 
     # --- Controles
     ws = _sheet(wb, "Controles", ["Bot", "Controle"], [16, 120])
