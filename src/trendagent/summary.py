@@ -14,6 +14,8 @@ import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+from . import insights
+
 PLANNED_UTC = (22, 17)       # geplande start van de dagelijkse ronde (zie practice.yml)
 
 
@@ -81,6 +83,40 @@ def _plain_checks(name: str, h: dict) -> list[str]:
     return lines
 
 
+def _risk_and_chances(data: dict, day: str) -> list[str]:
+    lines = ["", "## Verlies en risico", ""]
+    trend, inv = data.get("trend", {}), data.get("investeerder", {})
+    for r in trend.get("posities", []) if trend.get("dag") == day else []:
+        st = r["bij_stop_eur"]
+        lines.append(f"- Trend-agent {r['ticker']}: {insights._eur(r['resultaat_eur'])} ({insights._pct(r['resultaat_pct'])}), "
+                     f"{insights._pct(r['afstand_stop_pct'])} boven de stop; raakt hij de stop, dan "
+                     + (f"{insights._eur(-st)} verlies." if st < 0 else f"{insights._eur(st)} winst vastgezet."))
+    b = trend.get("remmen") if trend.get("dag") == day else None
+    if b:
+        lines.append(f"- Trend-agent remmen: {insights._pct(b['daling_vanaf_top'])} vanaf de top (grens -{b['grens_daling']:.0%}), "
+                     f"{b['verlies_op_rij']} van {b['grens_op_rij']} verliestrades op rij.")
+    if inv.get("dag") == day and inv.get("posities"):
+        rows = inv["posities"]
+        total = sum(r["resultaat_eur"] for r in rows)
+        worst = rows[0]
+        lines.append(f"- Investeerder: {insights._eur(total)} op de beleggingen; grootste verlies {worst['ticker']} "
+                     f"{insights._eur(worst['resultaat_eur'])} ({insights._pct(worst['resultaat_pct'])}).")
+    if len(lines) == 3:
+        lines.append("- Geen open posities met risico.")
+    kansen = trend.get("kansen", []) if trend.get("dag") == day else []
+    if kansen:
+        lines += ["", "## Beste kansen volgens de trend-agent", "",
+                  "_Wat de oefenbot met nepgeld zou doen; geen advies. Uitleg per ticker in het trend-rapport._", "",
+                  "| Ticker | Instapmoment | Plan van de bot | Max verlies | Status |", "| --- | --- | --- | --- | --- |"]
+        for k in kansen:
+            p = k["plan"]
+            plan = (f"{p['aantal']:g} x rond {p['instap']:.2f} {p['valuta']}, stop {p['stop']:.2f}"
+                    if p["aantal"] >= 1 else f"past niet (stop {p['stop']:.2f} {p['valuta']})")
+            lines.append(f"| {k['naam']} ({k['ticker']}) | {k['moment']} | {plan} | "
+                         f"{insights._eur(p['max_verlies_eur']) if p['aantal'] >= 1 else '–'} | {k['status']} |")
+    return lines
+
+
 def build(state_dir: Path, reports_dir: Path, day: str, now_utc: datetime | None = None) -> str:
     now_utc = now_utc or datetime.now(timezone.utc)
     trend = _load(state_dir / "portfolio.json")
@@ -112,6 +148,7 @@ def build(state_dir: Path, reports_dir: Path, day: str, now_utc: datetime | None
              "| --- | --- | --- | --- | --- |", *rows, "",
              "## Vandaag gedaan", ""]
     lines += [f"- {d}" for d in done] or ["- Niets gekocht of verkocht."]
+    lines += _risk_and_chances(insights.load(state_dir), day)
     lines += ["", "## Controles", ""]
     for bot, label in (("investeerder", "Investeerder"), ("trend", "Trend-agent")):
         lines += [f"- {c}" for c in _plain_checks(label, health.get(bot, {}))]

@@ -21,6 +21,7 @@ import math
 from dataclasses import dataclass, field
 from datetime import date
 
+from . import insights
 from .core.audit_log import AuditLog
 from .core.config import Settings
 from .core.kill_switch import KillSwitch
@@ -50,6 +51,9 @@ class RunReport:
     regime: str = "onbekend"
     version: str = ""
     health: dict = field(default_factory=dict)
+    risk_rows: list[dict] = field(default_factory=list)
+    brakes: dict = field(default_factory=dict)
+    kansen: list[dict] = field(default_factory=list)
 
 
 class TrendAgent:
@@ -159,6 +163,17 @@ class TrendAgent:
             self.audit.append("buys_blocked", ACTOR, {"reason": "regimefilter", "regime": rep.regime})
         if rep.buys_allowed and not self.kill_switch.is_active():
             self._buy_candidates(pf, ranked, fx, equity, rep)
+        # Uitleg voor de mens: verandert niets meer aan de portefeuille.
+        try:
+            blocked = None
+            if self.kill_switch.is_active():
+                blocked = "de kill switch staat aan"
+            elif not rep.buys_allowed:
+                blocked = "vandaag geen aankopen (zie waarschuwingen)"
+            rep.kansen = insights.opportunities(rep, pf, self._snapshots, self.s, pf.equity(prices, fx), fx,
+                                                BY_TICKER, self._costs, blocked)
+        except Exception as exc:  # noqa: BLE001
+            self.audit.append("report_failed", ACTOR, {"error": f"kansen: {type(exc).__name__}: {exc}"})
         return self._finish(rep, pf, prices, fx)
 
     # ------------------------------------------------------------ posities
@@ -274,9 +289,16 @@ class TrendAgent:
     def _finish(self, rep: RunReport, pf: Portfolio, prices: dict, fx: dict) -> RunReport:
         if fx.get("USD") is not None:
             rep.equity_eur = round(pf.equity(prices, fx), 2)
+            try:
+                rep.risk_rows = insights.trend_positions(pf, prices, fx, self._costs)
+                rep.brakes = insights.trend_brakes(pf, rep.equity_eur, rep.day, self.s)
+            except Exception as exc:  # noqa: BLE001
+                self.audit.append("report_failed", ACTOR, {"error": f"risico: {type(exc).__name__}: {exc}"})
             pf.record_equity(rep.day, rep.equity_eur, bench=self._bench_eur)
         rep.cash_eur = round(pf.cash_eur, 2)
         pf.save(self.portfolio_path)
+        insights.save(self.s.state_dir, "trend", {"dag": rep.day, "posities": rep.risk_rows,
+                                                  "remmen": rep.brakes, "kansen": rep.kansen})
         markdown = render_report(rep, pf)
         (self.s.state_dir / "report.md").write_text(markdown, encoding="utf-8")
         # Rapporten voor de mens. Een fout hierin mag de handel nooit beïnvloeden.
@@ -324,6 +346,10 @@ def render_report(rep: RunReport, pf: Portfolio) -> str:
                          + ", ".join(b for b in bits if b) + extra)
     if rep.warnings:
         lines += ["", "## Waarschuwingen", ""] + [f"- {w}" for w in rep.warnings]
+    if rep.risk_rows or rep.brakes:
+        lines += [""] + insights.render_trend_risk(rep.risk_rows, rep.brakes)
+    if rep.kansen:
+        lines += [""] + insights.render_opportunities(rep.kansen)
     lines += ["", "## Open posities", "", "| Ticker | Aantal | Instap | Stop | Sinds |", "| --- | --- | --- | --- | --- |"]
     lines += [f"| {p.ticker} | {p.qty:g} | {p.entry_price:.2f} {p.currency} | {p.stop:.2f} | {p.opened} |"
               for p in pf.positions.values()] or ["| geen | | | | |"]

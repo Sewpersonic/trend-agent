@@ -19,6 +19,19 @@ gemiddelde, de instapprijs, de stop-loss en het volume. Je ziet ze onderaan de d
 en in het tabblad **Grafieken** van `trend-agent.xlsx` en `investeerder.xlsx`. De afbeeldingen staan in
 `rapporten/grafieken/` en worden 20 handelsdagen bewaard.
 
+## Verlies, risico en kansen in het rapport
+
+Elk dagrapport (en `rapporten/OVERZICHT.md`) laat zien:
+
+- **Verlies en risico:** per open positie het resultaat nu, hoe ver de koers boven de stop-loss staat en wat je
+  verliest (of al vastzet) als de stop wordt geraakt; plus hoe dicht de bot bij zijn remmen zit (daling vanaf de
+  top, dagverlies, verliestrades op rij). Bij de investeerder: winst of verlies per belegging.
+- **Kansen:** de 5 sterkste trends met uitleg waarom, een inschatting van het instapmoment (gunstig, neutraal of
+  opgelopen) en het precieze plan van de bot: instapprijs, stop-loss, aantal, inzet in euro en maximaal verlies.
+
+Dit is wat de oefenbot met nepgeld zou doen, geen advies voor echt geld. Het instapmoment is een ongeteste
+vuistregel; de bot gebruikt hem niet bij het kopen.
+
 ## Koersen uit meerdere bronnen
 
 Elke dag haalt de bot de koersen bij **Yahoo Finance** (hoofdbron) en controleert hij ze bij **Stooq**. De
