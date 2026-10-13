@@ -19,6 +19,22 @@ gemiddelde, de instapprijs, de stop-loss en het volume. Je ziet ze onderaan de d
 en in het tabblad **Grafieken** van `trend-agent.xlsx` en `investeerder.xlsx`. De afbeeldingen staan in
 `rapporten/grafieken/` en worden 20 handelsdagen bewaard.
 
+## Analyse van vandaag en "Klaar voor echt geld?"
+
+Elk dagrapport begint met **Analyse van vandaag**:
+
+- **Wat de bot zag:** de markt (trend en beweeglijkheid van de wereld-ETF), de breedte (hoeveel aandelen in
+  Europa en Amerika boven hun 200-daags gemiddelde staan), en bij de trend-agent hoeveel instrumenten op welke
+  regel afvielen. Bij de investeerder: wie nu het sterkste momentum heeft en of Bitcoin/Ethereum in een trend zitten.
+- **Wat de bot eruit haalt:** de conclusies in gewone zinnen, bijvoorbeeld "de markt daalt: meer kans dat nieuwe
+  posities op de stop uitkomen" of "Europa staat er beter voor dan Amerika".
+
+Verder: **Wat de bot tot nu toe geleerd heeft** (afgesloten trades, winstpercentage, gemiddeld resultaat) en
+**Klaar voor echt geld?**: een lijst eisen (3 maanden oefenen, minstens zo goed als de wereld-ETF, beperkte
+daling, genoeg trades met gemiddeld winst) met per eis de stand. Pas als alles groen is, is de volgende stap
+zinvol: een oefenaccount bij een echte broker. Die beslissing neem jij, niet de bot. Onderaan elk rapport kun
+je openklappen hoe de bot zijn analyse precies doet.
+
 ## Verlies, risico en kansen in het rapport
 
 Elk dagrapport (en `rapporten/OVERZICHT.md`) laat zien:

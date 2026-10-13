@@ -21,7 +21,7 @@ import math
 from dataclasses import dataclass, field
 from datetime import date
 
-from . import insights
+from . import insights, uitleg
 from .core.audit_log import AuditLog
 from .core.config import Settings
 from .core.kill_switch import KillSwitch
@@ -54,6 +54,7 @@ class RunReport:
     risk_rows: list[dict] = field(default_factory=list)
     brakes: dict = field(default_factory=dict)
     kansen: list[dict] = field(default_factory=list)
+    analyse: dict = field(default_factory=dict)
 
 
 class TrendAgent:
@@ -172,6 +173,13 @@ class TrendAgent:
                 blocked = "vandaag geen aankopen (zie waarschuwingen)"
             rep.kansen = insights.opportunities(rep, pf, self._snapshots, self.s, pf.equity(prices, fx), fx,
                                                 BY_TICKER, self._costs, blocked)
+            region_of = {t: BY_TICKER[t].region for t in bars}
+            market = uitleg.market_view(bars, self.regime, region_of)
+            zeef = uitleg.funnel(analyses, suspicious)
+            bought = [t.ticker for t in pf.trades if t.day == rep.day and t.side == "BUY"]
+            rep.analyse = {"markt": market, "zeef": zeef,
+                           "conclusies": uitleg.market_conclusions(market) + uitleg.trend_conclusions(
+                               zeef, rep.kansen, self.s.max_positions - len(pf.positions), bought, region_of)}
         except Exception as exc:  # noqa: BLE001
             self.audit.append("report_failed", ACTOR, {"error": f"kansen: {type(exc).__name__}: {exc}"})
         return self._finish(rep, pf, prices, fx)
@@ -297,8 +305,11 @@ class TrendAgent:
             pf.record_equity(rep.day, rep.equity_eur, bench=self._bench_eur)
         rep.cash_eur = round(pf.cash_eur, 2)
         pf.save(self.portfolio_path)
+        r_values = [t.r_multiple for t in pf.trades if t.side == "SELL" and t.r_multiple is not None]
         insights.save(self.s.state_dir, "trend", {"dag": rep.day, "posities": rep.risk_rows,
-                                                  "remmen": rep.brakes, "kansen": rep.kansen})
+                                                  "remmen": rep.brakes, "kansen": rep.kansen,
+                                                  "conclusies": rep.analyse.get("conclusies", []),
+                                                  "klaar": uitleg.readiness("trend", pf.equity_history, r_values)})
         markdown = render_report(rep, pf)
         (self.s.state_dir / "report.md").write_text(markdown, encoding="utf-8")
         # Rapporten voor de mens. Een fout hierin mag de handel nooit beïnvloeden.
@@ -329,6 +340,10 @@ def render_report(rep: RunReport, pf: Portfolio) -> str:
                      f"wisselkoers {src['wisselkoers']}  ")
     if start:
         lines.append(f"**Sinds start:** {rep.equity_eur / start - 1:+.2%}  ")
+    if rep.analyse:
+        lines += ["", "## Analyse van vandaag", "", "**Wat de bot zag**", ""]
+        lines += uitleg.market_lines(rep.analyse["markt"]) + uitleg.funnel_lines(rep.analyse["zeef"])
+        lines += ["", "**Wat de bot eruit haalt**", ""] + [f"- {c}" for c in rep.analyse["conclusies"]]
     lines += ["", "## Vandaag gedaan", ""]
     lines += [f"- {a}" for a in rep.actions] or ["- Niets"]
     todays = [t for t in pf.trades if t.day == rep.day]
@@ -350,6 +365,12 @@ def render_report(rep: RunReport, pf: Portfolio) -> str:
         lines += [""] + insights.render_trend_risk(rep.risk_rows, rep.brakes)
     if rep.kansen:
         lines += [""] + insights.render_opportunities(rep.kansen)
+    closed_r = [t.r_multiple for t in pf.trades if t.side == "SELL" and t.r_multiple is not None]
+    lines += ["", "## Wat de bot tot nu toe geleerd heeft", ""]
+    lines += uitleg.learning_lines(closed_r, sum(t.pnl_eur or 0 for t in pf.trades if t.side == "SELL"))
+    lines += ["", "## Klaar voor echt geld?", ""]
+    lines += uitleg.readiness_lines("Trend-agent", uitleg.readiness("trend", pf.equity_history, closed_r))
+    lines += ["", uitleg.TREND_METHOD]
     lines += ["", "## Open posities", "", "| Ticker | Aantal | Instap | Stop | Sinds |", "| --- | --- | --- | --- | --- |"]
     lines += [f"| {p.ticker} | {p.qty:g} | {p.entry_price:.2f} {p.currency} | {p.stop:.2f} | {p.opened} |"
               for p in pf.positions.values()] or ["| geen | | | | |"]

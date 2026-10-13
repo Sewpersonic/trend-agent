@@ -14,7 +14,7 @@ import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from . import insights
+from . import insights, uitleg
 
 PLANNED_UTC = (22, 17)       # geplande start van de dagelijkse ronde (zie practice.yml)
 
@@ -148,7 +148,23 @@ def build(state_dir: Path, reports_dir: Path, day: str, now_utc: datetime | None
              "| --- | --- | --- | --- | --- |", *rows, "",
              "## Vandaag gedaan", ""]
     lines += [f"- {d}" for d in done] or ["- Niets gekocht of verkocht."]
-    lines += _risk_and_chances(insights.load(state_dir), day)
+    data = insights.load(state_dir)
+    concl = [(n, data.get(k, {})) for n, k in (("Investeerder", "investeerder"), ("Trend-agent", "trend"))]
+    concl = [(n, d.get("conclusies", [])) for n, d in concl if d.get("dag") == day and d.get("conclusies")]
+    if concl:
+        lines += ["", "## Wat de bots uit de analyse halen", ""]
+        for n, cs in concl:
+            lines += [f"**{n}**", ""] + [f"- {c}" for c in cs] + [""]
+        lines.pop()
+    lines += _risk_and_chances(data, day)
+    ready = [(n, data.get(k, {}).get("klaar")) for n, k in (("Investeerder", "investeerder"), ("Trend-agent", "trend"))]
+    ready = [(n, r) for n, r in ready if r]
+    if ready:
+        lines += ["", "## Klaar voor echt geld?", "",
+                  "_Eerst bewijzen, dan pas een oefenaccount bij een echte broker, dan een klein bedrag met jouw goedkeuring per order._", ""]
+        for n, r in ready:
+            lines += uitleg.readiness_lines(n, r) + [""]
+        lines.pop()
     lines += ["", "## Controles", ""]
     for bot, label in (("investeerder", "Investeerder"), ("trend", "Trend-agent")):
         lines += [f"- {c}" for c in _plain_checks(label, health.get(bot, {}))]

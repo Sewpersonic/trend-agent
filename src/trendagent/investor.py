@@ -30,7 +30,7 @@ from dataclasses import asdict, dataclass, field
 from datetime import date
 from pathlib import Path
 
-from . import insights
+from . import insights, uitleg
 from .core.audit_log import AuditLog
 from .core.config import Settings
 from .core.kill_switch import KillSwitch
@@ -244,11 +244,25 @@ class Investor:
         out["equity_eur"] = round(equity, 2)
         out["cash_eur"] = round(book.cash_eur, 2)
         out["weights"] = {t: round(book.qty[t] * prices[t] / equity, 4) for t in book.qty} if equity else {}
+        try:
+            weights, _ = target_weights(bars, self.mix, self.regime, frozenset(suspicious))
+            crypto = [c.ticker for c in CRYPTO]
+            picks = [t for t in weights if t not in crypto and t != self.mix.core_ticker]
+            view = uitleg.investor_view(bars, self._momentum, set(book.qty), picks, crypto)
+            market = uitleg.market_view(bars, self.regime, {t: BY_TICKER[t].region for t in bars})
+            nxt = date(today.year + today.month // 12, today.month % 12 + 1, 1).strftime("%Y-%m")
+            out["analyse"] = {"markt": market, "beeld": view,
+                              "conclusies": uitleg.market_conclusions(market, "investeerder")
+                              + uitleg.investor_conclusions(view, f"eerste handelsdag van {nxt}")}
+        except Exception as exc:  # noqa: BLE001  (uitleg mag de ronde nooit laten mislukken)
+            out["warnings"].append(f"analyse-uitleg mislukt: {type(exc).__name__}: {exc}")
         out["verlies"] = insights.investor_holdings(book, prices)
         out["daling"] = insights.drawdown(book.equity_history)
         book.save(self.path)
-        insights.save(self.s.state_dir, "investeerder", {"dag": out["day"], "posities": out["verlies"],
-                                                         "daling": out["daling"]})
+        insights.save(self.s.state_dir, "investeerder", {
+            "dag": out["day"], "posities": out["verlies"], "daling": out["daling"],
+            "conclusies": out.get("analyse", {}).get("conclusies", []),
+            "klaar": uitleg.readiness("investeerder", book.equity_history, [])})
         self.audit.append("run_finished", ACTOR, {"day": out["day"], "equity_eur": out["equity_eur"],
                                                    "rebalanced": due, "actions": len(out["actions"])})
         return out
@@ -334,11 +348,20 @@ def render(out: dict, book: Book) -> str:
         lines.append(f"| {name} ({t}) | {w:.1%} |")
     if eq:
         lines.append(f"| Kas | {out.get('cash_eur', 0) / eq:.1%} |")
+    a = out.get("analyse")
+    if a:
+        names = {t: i.name for t, i in BY_TICKER.items()}
+        lines += ["", "## Analyse van vandaag", "", "**Wat de bot zag**", ""]
+        lines += uitleg.market_lines(a["markt"]) + uitleg.investor_lines(a["beeld"], names)
+        lines += ["", "**Wat de bot eruit haalt**", ""] + ([f"- {c}" for c in a["conclusies"]] or ["- Niets bijzonders."])
     if out.get("verlies"):
         lines += [""] + insights.render_investor_risk(out["verlies"], out.get("daling", {}))
     lines += ["", "## Vandaag gedaan", ""] + ([f"- {a}" for a in out["actions"]] or ["- Niets (herverdelen gebeurt één keer per maand)"])
     if out["notes"]:
         lines += ["", "## Keuzes", ""] + [f"- {n}" for n in out["notes"]]
+    lines += ["", "## Klaar voor echt geld?", ""]
+    lines += uitleg.readiness_lines("Investeerder", uitleg.readiness("investeerder", book.equity_history, []))
     if out["warnings"]:
         lines += ["", "## Waarschuwingen", ""] + [f"- {w}" for w in out["warnings"]]
+    lines += ["", uitleg.INVESTOR_METHOD]
     return "\n".join(lines) + "\n"
