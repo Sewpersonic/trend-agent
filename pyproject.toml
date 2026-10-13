@@ -11,6 +11,7 @@ requires-python = ">=3.11"
 dependencies = [
     "yfinance>=0.2.40",   # gratis dagkoersen; alleen gebruikt door 'run' zonder --simulated
     "openpyxl>=3.1",      # Excel-rapport in rapporten/
+    "matplotlib>=3.8",    # candle-grafieken in de rapporten
 ]
 
 [project.optional-dependencies]

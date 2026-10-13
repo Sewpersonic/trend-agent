@@ -11,7 +11,8 @@ name: practice
 
 on:
   schedule:
-    - cron: "30 21 * * 1-5"   # 21:30 UTC, ma-vr (23:30 Nederlandse zomertijd)
+    - cron: "17 22 * * 1-5"   # 22:17 UTC ma-vr, na sluiting VS (00:17 zomertijd, 23:17 wintertijd).
+                              # Geen heel/half uur: dan is GitHub het drukst en starten runs vaak uren later.
   workflow_dispatch:
     inputs:
       action:

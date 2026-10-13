@@ -59,20 +59,22 @@ def main(argv: list[str] | None = None) -> int:
     ks = KillSwitch(s.state_dir / "kill_switch.json")
 
     if args.cmd == "run":
-        today = datetime.now(timezone.utc).date()
+        today = _market_day(args)
         try:
             provider = _live_provider(args, today)
         except DataError as exc:
             print(f"Fout: {exc}", file=sys.stderr)
             return 2
         try:
-            rep = TrendAgent(s, provider).run(today)
+            agent = TrendAgent(s, provider)
+            rep = agent.run(today)
         except Exception as exc:  # noqa: BLE001  (onverwachte fout: vastleggen en melden)
             _write_health(s, "trend", {"day": today.isoformat(), "status": "FOUT",
                                        "fout": f"{type(exc).__name__}: {exc}"})
             raise
         _write_health(s, "trend", {"day": rep.day, "status": rep.status, "versie": rep.version,
                                    "waarschuwingen": rep.warnings[:20], **rep.health})
+        _trend_charts(s, agent, rep.day)
         print((s.state_dir / "report.md").read_text(encoding="utf-8"))
         return 0
 
@@ -168,7 +170,7 @@ def _invest(s, args) -> int:
     from .investor import Book, Investor, render
     from .reports import write_investor_excel
 
-    today = datetime.now(timezone.utc).date()
+    today = _market_day(args)
     try:
         provider = _live_provider(args, today)
     except DataError as exc:
@@ -190,8 +192,65 @@ def _invest(s, args) -> int:
     s.reports_dir.mkdir(parents=True, exist_ok=True)
     (s.reports_dir / f"{today.isoformat()}-investeerder.md").write_text(md, encoding="utf-8")
     write_investor_excel(book, out, s.reports_dir / "investeerder.xlsx")
+    _investor_charts(s, inv, book, out["day"])
     print(md)
     return 0
+
+
+def _market_day(args):
+    """Simulatie: vandaag. Echt: de handelsdag waarvan de slotkoersen nu binnen horen te zijn."""
+    now = datetime.now(timezone.utc)
+    if getattr(args, "simulated", False):
+        return now.date()
+    from .features import expected_market_day
+    return expected_market_day(now)
+
+
+def _charts_for(s, day: str, bot: str, items: list, xlsx_name: str, note_name: str) -> None:
+    """items: (ticker, bars, titel, instap, stop, valuta). Fouten in grafieken stoppen nooit de bot."""
+    try:
+        from . import charts
+        folder = charts.chart_dir(s.reports_dir, day)
+        paths = []
+        for ticker, bars, title, entry, stop, cur in items:
+            if bars and len(bars) >= 20:
+                paths.append(charts.candle_chart(bars, title, folder / f"{bot}-{ticker}.png", entry, stop, cur))
+        note = s.reports_dir / note_name
+        if paths and note.exists():
+            with note.open("a", encoding="utf-8") as f:
+                f.write(charts.markdown_section(paths, s.reports_dir))
+        charts.add_to_excel(s.reports_dir / xlsx_name, paths)
+        charts.prune(s.reports_dir)
+    except Exception as exc:  # noqa: BLE001
+        print(f"Grafieken overgeslagen: {type(exc).__name__}: {exc}", file=sys.stderr)
+
+
+def _trend_charts(s, agent, day: str) -> None:
+    if not s.write_reports:
+        return
+    from .universe import BY_TICKER
+    bars = getattr(agent, "last_bars", {}) or {}
+    pf = Portfolio.load(agent.portfolio_path, s.starting_cash_eur)
+    items = []
+    for t, pos in pf.positions.items():
+        inst = BY_TICKER.get(t)
+        items.append((t, bars.get(t), f"{inst.name if inst else t} ({t})", pos.entry_price, pos.stop, pos.currency))
+    for tr in pf.trades:
+        if tr.day == day and tr.side == "SELL" and tr.ticker not in pf.positions:
+            inst = BY_TICKER.get(tr.ticker)
+            items.append((tr.ticker, bars.get(tr.ticker), f"{inst.name if inst else tr.ticker} ({tr.ticker}) - verkocht",
+                          None, None, inst.currency if inst else ""))
+    _charts_for(s, day, "trend", items, "trend-agent.xlsx", f"{day}.md")
+
+
+def _investor_charts(s, inv, book, day: str) -> None:
+    from .universe import BY_TICKER
+    bars = getattr(inv, "last_bars", {}) or {}
+    items = []
+    for t in sorted(book.qty, key=lambda t: -book.cost_eur.get(t, 0)):
+        inst = BY_TICKER.get(t)
+        items.append((t, bars.get(t), f"{inst.name if inst else t} ({t})", None, None, inst.currency if inst else ""))
+    _charts_for(s, day, "investeerder", items, "investeerder.xlsx", f"{day}-investeerder.md")
 
 
 def _live_provider(args, today):
@@ -207,6 +266,7 @@ def _live_provider(args, today):
 # ------------------------------------------------------------------ health
 
 MAX_FAILED_SHARE = 0.30
+MAX_STALE_SHARE = 0.40
 
 
 def _write_health(s, bot: str, info: dict) -> None:
@@ -236,6 +296,9 @@ def health_problems(data: dict) -> list[str]:
         asked, failed = h.get("gevraagd", 0), h.get("mislukt", 0)
         if asked and failed / asked > MAX_FAILED_SHARE:
             problems.append(f"{bot}: {failed} van {asked} koersreeksen mislukt")
+        stale = h.get("verouderd", 0)
+        if asked and stale / asked >= MAX_STALE_SHARE:
+            problems.append(f"{bot}: {stale} van {asked} koersen niet bijgewerkt (storing bij de bron of beursvakantie)")
     return problems
 
 
@@ -250,6 +313,8 @@ def _health(s, check: bool) -> int:
         if src:
             print(f"  koersbronnen: {src['koersen']}, wisselkoers {src['wisselkoers']}"
                   + (f", afwijkend: {', '.join(src['afwijkend'])}" if src.get("afwijkend") else ""))
+            if src.get("fout_tweede_bron"):
+                print(f"  tweede bron: {src.get('tweede_bron')} ({src['fout_tweede_bron']})")
         for w in h.get("waarschuwingen", [])[:5]:
             print(f"  - {w}")
     problems = health_problems(data)

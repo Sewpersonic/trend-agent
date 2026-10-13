@@ -141,6 +141,7 @@ class MultiSourceProvider:
         # Zekering: na zoveel mislukte pogingen op rij wordt de controlebron deze ronde overgeslagen.
         self.secondary_failures = 0
         self.secondary_off = False
+        self.secondary_error = ""
 
     def history(self, instrument: Instrument, days: int) -> list[Bar]:
         t = instrument.ticker
@@ -153,7 +154,8 @@ class MultiSourceProvider:
             try:
                 second = self.secondary.history(instrument, days)
                 self.secondary_failures = 0
-            except DataError:
+            except DataError as exc:
+                self.secondary_error = str(exc)[:160]
                 self.secondary_failures += 1
                 if self.secondary_failures >= MAX_SECONDARY_FAILURES:
                     self.secondary_off = True
@@ -204,4 +206,5 @@ class MultiSourceProvider:
             counts[key] = counts.get(key, 0) + 1
         return {"koersen": counts, "wisselkoers": self.fx_status,
                 "tweede_bron": "overgeslagen na herhaalde fouten" if self.secondary_off else "actief",
+                "fout_tweede_bron": self.secondary_error,
                 "afwijkend": sorted(t for t, c in self.checks.items() if c["status"] == "afwijking")}

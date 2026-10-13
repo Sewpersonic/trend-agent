@@ -35,7 +35,7 @@ from .core.config import Settings
 from .core.kill_switch import KillSwitch
 from .data import Bar, DataError, DataProvider
 from .portfolio import Trade
-from .features import UNKNOWN, Regime, data_issues, market_regime
+from .features import UNKNOWN, Regime, data_issues, market_regime, stale_issues
 from .signals import sma
 from .strategies import investor_version
 from .universe import BY_TICKER, CRYPTO, UNIVERSE
@@ -193,8 +193,10 @@ class Investor:
         missing_held = [t for t in book.qty if t not in bars]
         prices = {t: b[-1].close * fx[BY_TICKER[t].currency] for t, b in bars.items()}
         src_issues = getattr(self.provider, "source_issues", lambda t: [])
+        stale, stale_warn = stale_issues(bars, today, {t: BY_TICKER[t].region for t in bars})
+        out["warnings"] += stale_warn
         suspicious = {t: i for t, i in ((t, (data_issues(b) if BY_TICKER[t].kind != "CRYPTO" else [])
-                                         + src_issues(t)) for t, b in bars.items()) if i}
+                                         + src_issues(t) + stale.get(t, [])) for t, b in bars.items()) if i}
         for t, issues in suspicious.items():
             out["warnings"].append(f"{t}: verdachte data ({'; '.join(issues)}), niet nieuw gekozen")
         self.regime = market_regime(bars)
@@ -202,7 +204,9 @@ class Investor:
         self._momentum = {t: round(b[-22].close / b[-253].close - 1, 4) for t, b in bars.items() if len(b) >= 253}
         bench_eur = prices.get("IWDA.AS") or prices.get("SPY")
         out["health"] = {"gevraagd": len(wanted), "ok": len(bars), "mislukt": len(wanted) - len(bars),
-                         "verdacht": suspicious, "wisselkoers": "ok", "regime": out["regime"]}
+                         "verdacht": suspicious, "wisselkoers": "ok", "regime": out["regime"],
+                         "verouderd": len(stale)}
+        self.last_bars = bars
         if hasattr(self.provider, "summary"):
             out["health"]["bronnen"] = self.provider.summary()
         if missing_held:
@@ -215,6 +219,10 @@ class Investor:
         equity = book.value(prices)
         month = today.strftime("%Y-%m")
         due = force_rebalance or not book.qty or book.last_rebalance[:7] != month
+        if due and self.mix.core_ticker in stale:
+            # Herverdelen op verouderde koersen van de kern is niet verstandig: een dag later opnieuw proberen.
+            out["warnings"].append(f"Niet herverdeeld: koers van {self.mix.core_ticker} is niet bijgewerkt")
+            due = False
         if due:
             try:
                 weights, notes = target_weights(bars, self.mix, self.regime, frozenset(suspicious))

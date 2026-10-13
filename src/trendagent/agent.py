@@ -25,7 +25,7 @@ from .core.audit_log import AuditLog
 from .core.config import Settings
 from .core.kill_switch import KillSwitch
 from .data import Bar, DataError, DataProvider
-from .features import UNKNOWN, data_issues, market_regime, snapshot
+from .features import UNKNOWN, data_issues, market_regime, snapshot, stale_issues
 from .portfolio import Portfolio
 from .strategies import trend_version
 from .reports import write_daily_note, write_excel
@@ -116,7 +116,9 @@ class TrendAgent:
             rep.warnings.append(f"{failures} van {len(wanted)} koersreeksen mislukt: vandaag geen aankopen")
         # Verdachte reeksen (bevroren koers, sprong, geen volume): niet kopen, wel beheren.
         src_issues = getattr(self.provider, "source_issues", lambda t: [])
-        suspicious = {t: data_issues(b) + src_issues(t) for t, b in bars.items()}
+        stale, stale_warn = stale_issues(bars, today, {t: BY_TICKER[t].region for t in bars})
+        rep.warnings += stale_warn
+        suspicious = {t: data_issues(b) + src_issues(t) + stale.get(t, []) for t, b in bars.items()}
         suspicious = {t: i for t, i in suspicious.items() if i}
         for t, issues in suspicious.items():
             rep.warnings.append(f"{t}: verdachte data ({'; '.join(issues)}), niet gekocht")
@@ -130,7 +132,8 @@ class TrendAgent:
             self._bench_eur = prices[bench] * fx[BY_TICKER[bench].currency]
         rep.health = {"gevraagd": len(wanted), "ok": len(bars), "mislukt": failures,
                       "verdacht": {t: i for t, i in suspicious.items()}, "wisselkoers": "ok",
-                      "regime": rep.regime}
+                      "regime": rep.regime, "verouderd": len(stale)}
+        self.last_bars = bars
         if hasattr(self.provider, "summary"):
             rep.health["bronnen"] = self.provider.summary()
 

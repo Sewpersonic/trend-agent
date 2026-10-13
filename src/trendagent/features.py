@@ -173,3 +173,42 @@ def data_issues(bars: list[Bar], max_jump: float = 0.40) -> list[str]:
             issues.append(f"sprong van {c.close / p.close - 1:+.0%} op {c.day}")
             break
     return issues
+
+
+# ------------------------------------------------------- achterlopende koersen
+
+def expected_market_day(now_utc) -> "date":
+    """De handelsdag waarvan de slotkoersen er nu zouden moeten zijn.
+
+    Na 21:00 UTC zijn zowel Europa als Amerika gesloten: dan is het vandaag.
+    Daarvoor (bijv. een run die door GitHub pas na middernacht start): de vorige werkdag.
+    """
+    from datetime import timedelta
+    d = now_utc.date() if now_utc.hour >= 21 else now_utc.date() - timedelta(days=1)
+    while d.weekday() >= 5:
+        d -= timedelta(days=1)
+    return d
+
+
+def stale_issues(bars_by_ticker: dict, expected_day, regions: dict) -> tuple[dict, list[str]]:
+    """Welke koersreeksen lopen achter op de verwachte handelsdag?
+
+    Geeft (problemen per ticker, waarschuwingen per regio). Crypto wordt overgeslagen.
+    regions: ticker -> regio ("US", "EU", "CRYPTO").
+    """
+    issues: dict[str, list[str]] = {}
+    per_region: dict[str, list] = {}
+    for t, bars in bars_by_ticker.items():
+        region = regions.get(t, "?")
+        if region == "CRYPTO" or not bars:
+            continue
+        last = bars[-1].day
+        per_region.setdefault(region, []).append(last)
+        if last < expected_day:
+            issues[t] = [f"koers niet bijgewerkt (laatste {last:%d-%m}, verwacht {expected_day:%d-%m})"]
+    warnings = []
+    for region, lasts in per_region.items():
+        if lasts and max(lasts) < expected_day:
+            warnings.append(f"Alle koersen uit {region} lopen achter (nieuwste {max(lasts):%d-%m}): mogelijk een "
+                            f"beursvakantie of een storing bij de bron. Daar vandaag niets gekocht.")
+    return issues, warnings
