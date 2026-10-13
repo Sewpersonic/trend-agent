@@ -309,6 +309,8 @@ class TrendAgent:
         insights.save(self.s.state_dir, "trend", {"dag": rep.day, "posities": rep.risk_rows,
                                                   "remmen": rep.brakes, "kansen": rep.kansen,
                                                   "conclusies": rep.analyse.get("conclusies", []),
+                                                  "zag": (uitleg.market_lines(rep.analyse["markt"])
+                                                          + uitleg.funnel_lines(rep.analyse["zeef"])) if rep.analyse else [],
                                                   "klaar": uitleg.readiness("trend", pf.equity_history, r_values)})
         markdown = render_report(rep, pf)
         (self.s.state_dir / "report.md").write_text(markdown, encoding="utf-8")

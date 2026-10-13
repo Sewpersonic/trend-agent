@@ -118,6 +118,11 @@ def main(argv: list[str] | None = None) -> int:
                 days = []
         day = max(days) if days else _market_day(args).isoformat()
         path = summary.write(s.state_dir, s.reports_dir, day)
+        try:
+            from . import dagrapport
+            dagrapport.write(s.state_dir, s.reports_dir, day)
+        except Exception as exc:  # noqa: BLE001  (Excel mag het overzicht nooit laten mislukken)
+            print(f"dagrapport.xlsx mislukt: {type(exc).__name__}: {exc}")
         print(path.read_text(encoding="utf-8"))
         return 0
 

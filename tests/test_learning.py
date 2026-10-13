@@ -229,6 +229,13 @@ class HealthTests(unittest.TestCase):
         self.assertIn("## Stand", text)
         self.assertIn("Investeerder", text)
         self.assertIn("Controles", text)
+        from openpyxl import load_workbook
+        wb = load_workbook(tmp / "r" / "dagrapport.xlsx")
+        for sheet in ("Overzicht", "Analyse", "Verlies en risico", "Kansen", "Klaar voor echt geld",
+                      "Waarde per dag", "Trades", "Controles", "Uitleg"):
+            self.assertIn(sheet, wb.sheetnames)
+        self.assertGreater(wb["Analyse"].max_row, 3)
+        self.assertGreater(wb["Kansen"].max_row, 1)
 
 
 if __name__ == "__main__":

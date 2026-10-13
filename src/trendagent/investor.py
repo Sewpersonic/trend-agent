@@ -262,6 +262,9 @@ class Investor:
         insights.save(self.s.state_dir, "investeerder", {
             "dag": out["day"], "posities": out["verlies"], "daling": out["daling"],
             "conclusies": out.get("analyse", {}).get("conclusies", []),
+            "zag": (uitleg.market_lines(out["analyse"]["markt"])
+                    + uitleg.investor_lines(out["analyse"]["beeld"], {t: i.name for t, i in BY_TICKER.items()}))
+            if out.get("analyse") else [],
             "klaar": uitleg.readiness("investeerder", book.equity_history, [])})
         self.audit.append("run_finished", ACTOR, {"day": out["day"], "equity_eur": out["equity_eur"],
                                                    "rebalanced": due, "actions": len(out["actions"])})
