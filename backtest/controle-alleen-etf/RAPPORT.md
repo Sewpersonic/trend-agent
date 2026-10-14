@@ -6,7 +6,7 @@ Periode **2021-10-14 t/m 2026-10-14** (ongeveer 5 jaar), startkapitaal €10.000
 
 ## In het kort
 
-- Over de hele periode deed de investeerder (alleen etf's) het beter dan gewoon de wereld-ETF vasthouden (+101,0% tegen +79,7%).
+- Over de hele periode deed de investeerder (alleen etf's) het beter dan gewoon de wereld-ETF vasthouden (+101,9% tegen +79,7%).
 - Zijn grootste daling was -19,5%, tegen -21,6% voor de ETF.
 - In 64% van alle periodes van 4 weken stond de investeerder (alleen etf's) aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -10,7%, het beste +11,2%.
 
@@ -14,9 +14,9 @@ Periode **2021-10-14 t/m 2026-10-14** (ongeveer 5 jaar), startkapitaal €10.000
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Investeerder (alleen ETF's) | +101,0% | +15,0% | -19,5% | 1,08 | €20.080 |
+| Investeerder (alleen ETF's) | +101,9% | +15,1% | -19,5% | 1,09 | €20.164 |
 | MSCI World-ETF (IWDA) | +79,7% | +12,4% | -21,6% | 0,88 | €17.966 |
-| S&P 500-ETF (SPY, in euro) | +93,3% | +14,1% | -23,0% | 0,78 | €19.333 |
+| S&P 500-ETF (SPY, in euro) | +93,3% | +14,1% | -23,0% | 0,78 | €19.335 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
 
@@ -24,12 +24,12 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 
 | Jaar | Investeerder (alleen ETF's) | MSCI World-ETF (IWDA) | S&P 500-ETF (SPY, in euro) |
 | --- | --- | --- | --- |
-| 2021 | +6,2% | +7,7% | +10,3% |
-| 2022 | -7,6% | -13,5% | -13,1% |
-| 2023 | +19,6% | +19,9% | +21,5% |
-| 2024 | +35,7% | +27,2% | +32,8% |
+| 2021 | +6,3% | +7,7% | +10,3% |
+| 2022 | -7,7% | -13,5% | -13,1% |
+| 2023 | +19,7% | +19,9% | +21,5% |
+| 2024 | +35,9% | +27,2% | +32,8% |
 | 2025 | +5,4% | +7,1% | +4,3% |
-| 2026 | +19,9% | +18,2% | +19,8% |
+| 2026 | +20,0% | +18,2% | +19,8% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 
@@ -43,9 +43,9 @@ Dit beantwoordt de vraag "wat kan er in een paar weken gebeuren?": elk mogelijk 
 
 ## Trades
 
-- Aankopen: 64, afgesloten: 69, waarvan winst: 68%
-- Gemiddelde winst: €137, gemiddeld verlies: €-55, profit factor: 5,33
-- Gemiddeld vastgehouden: 81 dagen; totale kosten: €143
+- Aankopen: 64, afgesloten: 70, waarvan winst: 69%
+- Gemiddelde winst: €136, gemiddeld verlies: €-55, profit factor: 5,4
+- Gemiddeld vastgehouden: 77 dagen; totale kosten: €144
 - Kill switch aangegaan: 0 keer
 
 ## Belangrijke kanttekeningen
