@@ -3,11 +3,11 @@
 _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 
 **Status:** OK  
-**Waarde:** €9,926.04  
+**Waarde:** €9,918.81  
 **Marktregime:** stijgend-laag  
 **Strategieversie:** investeerder-1.0-c2474a  
 **Koersbronnen:** 0 bevestigd door 2 bronnen, 52 uit 1 bron, 0 afwijkend; wisselkoers bevestigd  
-**Sinds start:** -0.74%  
+**Sinds start:** -0.81%  
 
 ## Verdeling
 
@@ -16,7 +16,7 @@ _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 | iShares MSCI World (IWDA.AS) | 60.7% |
 | AMD (AMD) | 6.0% |
 | Halfgeleider-ETF (SMH) | 5.9% |
-| ASML (ASML.AS) | 5.9% |
+| ASML (ASML.AS) | 5.8% |
 | Micron (MU) | 5.8% |
 | Infineon (IFX.DE) | 5.7% |
 | Bitcoin (BTC-USD) | 5.0% |
@@ -27,12 +27,12 @@ _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 
 **Wat de bot zag**
 
-- **Markt (IWDA.AS):** koers 132,29, 10,0% boven het 200-daags gemiddelde (120,29); de afgelopen maand +4,6%. Trend: **stijgend**.
+- **Markt (IWDA.AS):** koers 132,30, 10,0% boven het 200-daags gemiddelde (120,29); de afgelopen maand +4,6%. Trend: **stijgend**.
 - **Beweeglijkheid:** 8% op jaarbasis, tegen normaal 10% het afgelopen jaar: **laag**.
 - **Breedte:** 35 van de 50 instrumenten staan boven hun 200-daags gemiddelde (70%; EU 13 van 23, US 22 van 27).
 - **Sterkste momentum nu (12 maanden, zonder laatste maand):** Micron +382%, AMD +133%, CrowdStrike +91%, Palo Alto Networks +76%, ING +63%.
-- **BTC-USD:** 14,4% boven het 200-daags gemiddelde (mag in de mix).
-- **ETH-USD:** 15,1% boven het 200-daags gemiddelde (mag in de mix).
+- **BTC-USD:** 14,2% boven het 200-daags gemiddelde (mag in de mix).
+- **ETH-USD:** 14,9% boven het 200-daags gemiddelde (mag in de mix).
 
 **Wat de bot eruit haalt**
 
@@ -43,17 +43,17 @@ _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 
 | Instrument | Waarde | Ingelegd | Resultaat |
 | --- | --- | --- | --- |
-| IFX.DE | €569,71 | €600,00 | -€30,29 (-5,1%) |
-| MU | €573,68 | €600,00 | -€26,32 (-4,4%) |
-| ASML.AS | €581,13 | €600,00 | -€18,87 (-3,1%) |
-| SMH | €586,51 | €600,00 | -€13,49 (-2,2%) |
-| AMD | €594,00 | €600,00 | -€6,00 (-1,0%) |
-| ETH-USD | €498,01 | €500,00 | -€1,99 (-0,4%) |
-| BTC-USD | €500,77 | €500,00 | €0,77 (+0,1%) |
-| IWDA.AS | €6.022,23 | €6.000,00 | €22,23 (+0,4%) |
+| IFX.DE | €569,81 | €600,00 | -€30,19 (-5,0%) |
+| MU | €572,28 | €600,00 | -€27,72 (-4,6%) |
+| ASML.AS | €579,26 | €600,00 | -€20,74 (-3,5%) |
+| SMH | €585,09 | €600,00 | -€14,91 (-2,5%) |
+| AMD | €592,76 | €600,00 | -€7,24 (-1,2%) |
+| ETH-USD | €497,02 | €500,00 | -€2,98 (-0,6%) |
+| BTC-USD | €499,91 | €500,00 | -€0,09 (-0,0%) |
+| IWDA.AS | €6.022,68 | €6.000,00 | €22,68 (+0,4%) |
 
-Totaal op de beleggingen: -€73,96 (inclusief aankoopkosten).
-Daling vanaf de hoogste waarde ooit: -0,74% (top €10.000,00). De investeerder heeft geen stop-loss: hij houdt een spreiding vast en herverdeelt maandelijks.
+Totaal op de beleggingen: -€81,19 (inclusief aankoopkosten).
+Daling vanaf de hoogste waarde ooit: -0,81% (top €10.000,00). De investeerder heeft geen stop-loss: hij houdt een spreiding vast en herverdeelt maandelijks.
 
 ## Vandaag gedaan
 
@@ -67,7 +67,7 @@ Daling vanaf de hoogste waarde ooit: -0,74% (top €10.000,00). De investeerder 
 | --- | --- | --- |
 | Oefentijd | ⏳ | 1 van 63 handelsdagen (ongeveer 3 maanden) |
 | Minstens zo goed als de wereld-ETF | ⏳ | nog te weinig dagen |
-| Daling niet veel dieper dan de ETF | ✅ | bot -0,74%, ETF +0,00% |
+| Daling niet veel dieper dan de ETF | ✅ | bot -0,81%, ETF +0,00% |
 
 <details><summary>Zo analyseert de investeerder (klik om te openen)</summary>
 
