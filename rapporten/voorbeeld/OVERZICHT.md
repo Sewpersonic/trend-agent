@@ -6,7 +6,7 @@ _Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies._
 
 | Bot | Waarde | Vandaag | Sinds start | Tegenover wereld-ETF |
 | --- | --- | --- | --- | --- |
-| Investeerder | €9.817,97 | €-167,65 (-1,68%) | -1,82% | -1,34% (ETF -0,34% sinds 2026-10-13) |
+| Investeerder | €9.820,86 | €-164,76 (-1,65%) | -1,79% | -1,31% (ETF -0,34% sinds 2026-10-13) |
 | Trend-agent | €10.026,55 | €12,13 (+0,12%) | +0,27% | +0,46% (ETF -0,34% sinds 2026-10-13) |
 
 ## Vandaag gedaan
@@ -34,7 +34,7 @@ _Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies._
 - Trend-agent SAP.DE: €10,77 (+2,8%), +8,8% boven de stop; raakt hij de stop, dan €22,04 verlies.
 - Trend-agent MSFT: €0,61 (-0,3%), +4,7% boven de stop; raakt hij de stop, dan €21,71 verlies.
 - Trend-agent remmen: +0,0% vanaf de top (grens -5%), 0 van 3 verliestrades op rij.
-- Investeerder: -€182,02 op de beleggingen; grootste verlies MU -€45,72 (-7,6%).
+- Investeerder: -€179,12 op de beleggingen; grootste verlies MU -€45,59 (-7,6%).
 
 ## Beste kansen volgens de trend-agent
 
@@ -57,8 +57,8 @@ _Eerst bewijzen, dan pas een oefenaccount bij een echte broker, dan een klein be
 | Eis | Stand | Nu |
 | --- | --- | --- |
 | Oefentijd | ⏳ | 2 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -1,34% |
-| Daling niet veel dieper dan de ETF | ✅ | bot -1,82%, ETF -0,34% |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -1,31% |
+| Daling niet veel dieper dan de ETF | ✅ | bot -1,79%, ETF -0,34% |
 
 **Trend-agent:** Nog niet klaar: de bot is nog bezig met bewijzen. Blijven oefenen.
 
@@ -72,9 +72,9 @@ _Eerst bewijzen, dan pas een oefenaccount bij een echte broker, dan een klein be
 ## Controles
 
 - Investeerder: status **OK**, 52 van 52 koersen opgehaald, marktregime stijgend-laag.
-- Koersbronnen: 0 bevestigd door twee bronnen, 52 uit één bron, 0 afwijkend. Wisselkoers: bevestigd. Tweede bron overgeslagen na herhaalde fouten (GOOGL: Stooq gaf geen koersen ('<!DOCTYPE html><html><head><meta charset')).
+- Koersbronnen: 0 bevestigd door twee bronnen, 52 uit één bron, 0 afwijkend. Wisselkoers: bevestigd. Tweede bron overgeslagen na herhaalde fouten (ophalen mislukt: URLError).
 - Trend-agent: status **OK**, 50 van 50 koersen opgehaald, marktregime stijgend-laag.
-- Koersbronnen: 0 bevestigd door twee bronnen, 50 uit één bron, 0 afwijkend. Wisselkoers: bevestigd. Tweede bron overgeslagen na herhaalde fouten (GOOGL: Stooq gaf geen koersen ('<!DOCTYPE html><html><head><meta charset')).
+- Koersbronnen: 0 bevestigd door twee bronnen, 50 uit één bron, 0 afwijkend. Wisselkoers: bevestigd. Tweede bron overgeslagen na herhaalde fouten (ophalen mislukt: URLError).
 
 ## Details
 
