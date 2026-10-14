@@ -16,7 +16,7 @@ Periode **2021-10-14 t/m 2026-10-14** (ongeveer 5 jaar), startkapitaal €10.000
 | --- | --- | --- | --- | --- | --- |
 | Trend-agent | +6,8% | +1,3% | -4,5% | 0,34 | €10.673 |
 | MSCI World-ETF (IWDA) | +79,7% | +12,4% | -21,6% | 0,75 | €17.966 |
-| S&P 500-ETF (SPY, in euro) | +93,3% | +14,1% | -23,0% | 0,66 | €19.329 |
+| S&P 500-ETF (SPY, in euro) | +93,3% | +14,1% | -23,0% | 0,66 | €19.333 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
 
@@ -29,7 +29,7 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 | 2023 | +2,2% | +19,9% | +21,5% |
 | 2024 | +4,1% | +27,2% | +32,8% |
 | 2025 | +1,9% | +7,1% | +4,3% |
-| 2026 | +1,1% | +18,2% | +19,7% |
+| 2026 | +1,1% | +18,2% | +19,8% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 
