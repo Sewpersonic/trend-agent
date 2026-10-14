@@ -3,12 +3,12 @@
 _Oefenportefeuille met nepgeld. Geen beleggingsadvies; resultaten uit het verleden zeggen niets over de toekomst._
 
 **Status:** OK  
-**Waarde:** €10,026.44  
+**Waarde:** €10,026.55  
 **Kas:** €8,550.41  
 **Marktregime:** stijgend-laag  
 **Strategieversie:** trend-1.1-d373c7  
 **Koersbronnen:** 0 bevestigd door 2 bronnen, 50 uit 1 bron, 0 afwijkend; wisselkoers bevestigd  
-**Sinds start:** +0.26%  
+**Sinds start:** +0.27%  
 
 ## Analyse van vandaag
 
@@ -40,13 +40,13 @@ _Oefenportefeuille met nepgeld. Geen beleggingsadvies; resultaten uit het verled
 | --- | --- | --- | --- | --- | --- | --- |
 | SHELL.AS | 45.06 EUR | 46.45 | €18,17 (+3,1%) | 43.73 | +6,2% | -€18,23 verlies |
 | SAP.DE | 191.56 EUR | 196.94 | €10,77 (+2,8%) | 181.04 | +8,8% | -€22,04 verlies |
-| MSFT | 535.34 USD | 533.69 | €0,50 (-0,3%) | 509.90 | +4,7% | -€21,81 verlies |
+| MSFT | 535.34 USD | 533.69 | €0,61 (-0,3%) | 509.90 | +4,7% | -€21,71 verlies |
 
-Raken alle stops tegelijk, dan is het verlies hooguit ongeveer €62,08 (bij een koersgat 's ochtends kan het meer zijn).
+Raken alle stops tegelijk, dan is het verlies hooguit ongeveer €61,98 (bij een koersgat 's ochtends kan het meer zijn).
 
 **Remmen** (bij overschrijden gaat de kill switch aan en koopt de bot niets meer):
 
-- Daling vanaf de top: +0,00% (grens -5%; top was €10.026,44)
+- Daling vanaf de top: +0,00% (grens -5%; top was €10.026,55)
 - Vandaag: +0,12% (grens -1%)
 - Verliestrades op rij: 0 van 3
 
@@ -80,14 +80,14 @@ _Dit is wat de oefenbot met zijn nepgeld volgens zijn eigen regels zou doen. Gee
 - **Waarom sterk:** Energie-ETF steeg +19,3% in 3 maanden en +3,2% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,1x het normale volume; beweegt gemiddeld 1,8% per dag.
 - **Instapmoment:** de koers staat +5,2% van het 20-daags gemiddelde, RSI 72.
 - **Status:** niet gekocht: alle 3 plekken zijn bezet.
-- **Plan van de bot:** koop 11 stuks rond 67.66 USD (inzet €666,97), stop-loss 65.22 USD (-3,6%). Maximaal verlies als de stop wordt geraakt: ongeveer €26,10. Ter oriëntatie: 2x het risico winst ligt bij 72.55 USD; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+- **Plan van de bot:** koop 11 stuks rond 67.66 USD (inzet €667,12), stop-loss 65.22 USD (-3,6%). Maximaal verlies als de stop wordt geraakt: ongeveer €26,10. Ter oriëntatie: 2x het risico winst ligt bij 72.55 USD; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
 
 ### 5. ExxonMobil (XOM): instapmoment **opgelopen**
 
 - **Waarom sterk:** ExxonMobil steeg +22,1% in 3 maanden en +4,5% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 0,9x het normale volume; beweegt gemiddeld 1,8% per dag.
 - **Instapmoment:** de koers staat +6,2% van het 20-daags gemiddelde (3,4x de normale dagbeweging) en RSI is 75; na zo'n sprint volgt vaak eerst een terugval.
 - **Status:** niet gekocht: alle 3 plekken zijn bezet.
-- **Plan van de bot:** koop 4 stuks rond 177.10 USD (inzet €634,79), stop-loss 170.67 USD (-3,6%). Maximaal verlies als de stop wordt geraakt: ongeveer €25,03. Ter oriëntatie: 2x het risico winst ligt bij 189.95 USD; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+- **Plan van de bot:** koop 4 stuks rond 177.10 USD (inzet €634,93), stop-loss 170.67 USD (-3,6%). Maximaal verlies als de stop wordt geraakt: ongeveer €25,04. Ter oriëntatie: 2x het risico winst ligt bij 189.95 USD; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
 
 
 ## Wat de bot tot nu toe geleerd heeft
