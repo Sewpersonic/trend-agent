@@ -1,0 +1,210 @@
+"""Echte Excel-grafieken (geen plaatjes): Excel tekent ze zelf, dus ze blijven scherp bij elke zoom
+en je kunt met de muis over een lijn gaan om de waarde te zien.
+
+Tabblad 'Grafieken': alle grafieken onder elkaar. Boven elke grafiek een kop en uitleg in gewone taal.
+Tabblad 'Grafiekdata': de cijfers waar de grafieken op gebaseerd zijn (verborgen; zichtbaar te maken
+via rechtsklik op een tabblad -> Zichtbaar maken).
+"""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+from openpyxl import load_workbook
+from openpyxl.chart import LineChart, Reference
+from openpyxl.chart.layout import Layout, ManualLayout
+from openpyxl.chart.shapes import GraphicalProperties
+from openpyxl.drawing.line import LineProperties
+from openpyxl.styles import Alignment, Font
+
+INK = "0B0B0B"
+INK_2 = "52514E"
+BLUE = "2A78D6"
+ORANGE = "EB6834"
+RED = "E34948"
+GREY = "8A8984"
+ROWS_PER_CHART = 24            # zoveel rijen van standaardhoogte neemt één grafiek in
+CHART_W_CM, CHART_H_CM = 26, 11.5
+
+
+def _line(series, color: str, width_pt: float, dash: str | None = None) -> None:
+    series.graphicalProperties = GraphicalProperties(ln=LineProperties(solidFill=color, w=int(width_pt * 12700),
+                                                                       prstDash=dash))
+    series.smooth = False
+    series.marker.symbol = "none"
+
+
+def _nice(lo: float, hi: float) -> tuple[float, float, float]:
+    """Ronde asgrenzen en stapgrootte (bijv. 280-390 in stappen van 20) zodat de getallen makkelijk lezen."""
+    import math
+    raw = (hi - lo) / 6 or 1
+    mag = 10 ** math.floor(math.log10(raw))
+    step = next(m * mag for m in (1, 2, 2.5, 5, 10) if m * mag >= raw)
+    return math.floor(lo / step) * step, math.ceil(hi / step) * step, step
+
+
+def _base_chart(y_title: str, lo: float, hi: float, n: int) -> LineChart:
+    lo, hi, step = _nice(lo, hi)
+    ch = LineChart()
+    ch.y_axis.majorUnit = step
+    ch.width, ch.height = CHART_W_CM, CHART_H_CM
+    ch.legend.position = "b"
+    ch.y_axis.title = y_title
+    ch.y_axis.scaling.min = lo
+    ch.y_axis.scaling.max = hi
+    ch.y_axis.majorGridlines.spPr = GraphicalProperties(ln=LineProperties(solidFill="E6E5E1"))
+    ch.y_axis.number_format = "#,##0.00" if hi < 100 else "#,##0"
+    ch.x_axis.number_format = "@"
+    ch.x_axis.tickLblSkip = max(n // 7, 1)
+    ch.x_axis.tickMarkSkip = max(n // 7, 1)
+    # openpyxl 3.1 verbergt de assen standaard in nieuwe Excel-versies; expliciet tonen.
+    ch.x_axis.delete = False
+    ch.y_axis.delete = False
+    ch.layout = Layout(manualLayout=ManualLayout(x=0.02, y=0.03, w=0.96, h=0.8))
+    return ch
+
+
+def _range(values: list[float | None], pad_share: float = 0.06) -> tuple[float, float]:
+    vals = [v for v in values if v is not None]
+    lo, hi = min(vals), max(vals)
+    pad = (hi - lo) * pad_share or max(abs(hi) * 0.01, 1)
+    return lo - pad, hi + pad
+
+
+def _price_chart(data_ws, item: dict, col: int) -> tuple[LineChart, int]:
+    """Schrijft de cijfers van één instrument in Grafiekdata vanaf kolom col en maakt de lijngrafiek."""
+    n = len(item["datums"])
+    cols = [("Datum", item["datums"]), ("Koers", item["koers"]), ("50-daags gemiddelde", item["sma50"]),
+            ("200-daags gemiddelde", item["sma200"])]
+    if item.get("instap"):
+        cols.append(("Instap", [item["instap"]] * n))
+    if item.get("stop"):
+        cols.append(("Stop-loss (hier verkoopt de bot)", [item["stop"]] * n))
+    for j, (name, values) in enumerate(cols):
+        data_ws.cell(row=1, column=col + j, value=f"{item['titel']}: {name}" if j == 0 else name)
+        for i, v in enumerate(values, start=2):
+            data_ws.cell(row=i, column=col + j, value=v)
+    # Schaal: koers, instap en stop altijd in beeld; gemiddelden alleen als ze niet ver weg liggen.
+    core = item["koers"] + [v for v in (item.get("instap"), item.get("stop")) if v]
+    lo, hi = _range(core, 0.0)
+    reach = (hi - lo) * 0.5
+    extra = [v for v in item["sma50"] + item["sma200"] if v is not None and lo - reach <= v <= hi + reach]
+    lo, hi = _range(core + extra)
+    ch = _base_chart(f"koers {item.get('valuta', '')}".strip(), lo, hi, n)
+    data = Reference(data_ws, min_col=col + 1, max_col=col + len(cols) - 1, min_row=1, max_row=n + 1)
+    ch.add_data(data, titles_from_data=True)
+    ch.set_categories(Reference(data_ws, min_col=col, min_row=2, max_row=n + 1))
+    styles = [(INK, 2.75, None), (BLUE, 2, None), (ORANGE, 2, None)]
+    if item.get("instap"):
+        styles.append((INK_2, 1.5, "dash"))
+    if item.get("stop"):
+        styles.append((RED, 1.75, "dash"))
+    for s, (color, w, dash) in zip(ch.series, styles):
+        _line(s, color, w, dash)
+    return ch, col + len(cols) + 1
+
+
+def value_chart(data_ws, series: dict[str, list[tuple[str, float]]], bench: list[tuple[str, float]],
+                col: int, labels: dict[str, str], start: float = 10000.0) -> tuple[LineChart | None, int]:
+    days = sorted({d for pts in series.values() for d, _ in pts})
+    if len(days) < 2:
+        return None, col
+    by = {name: dict(pts) for name, pts in series.items()}
+    bpts = dict(bench)
+    bdays = [d for d in days if d in bpts]
+    etf = {}
+    if len(bdays) >= 2:
+        base = bpts[bdays[0]]
+        first = next((by[n][bdays[0]] for n in by if bdays[0] in by[n]), start)
+        etf = {d: round(first * bpts[d] / base, 2) for d in bdays}
+    names = list(series) + (["Wereld-ETF (zelfde startbedrag)"] if etf else []) + ["Start €10.000"]
+    data_ws.cell(row=1, column=col, value="Waarde: Datum")
+    for j, name in enumerate(names, start=1):
+        data_ws.cell(row=1, column=col + j, value=name)
+    for i, d in enumerate(days, start=2):
+        data_ws.cell(row=i, column=col, value=labels.get(d, d))
+        for j, name in enumerate(names, start=1):
+            if name in by:
+                v = by[name].get(d)
+            elif name.startswith("Wereld"):
+                v = etf.get(d)
+            else:
+                v = start
+            data_ws.cell(row=i, column=col + j, value=v)
+    vals = [v for pts in series.values() for _, v in pts] + list(etf.values()) + [start]
+    lo, hi = _range(vals, 0.15)
+    ch = _base_chart("waarde in euro", lo, hi, len(days))
+    ch.add_data(Reference(data_ws, min_col=col + 1, max_col=col + len(names), min_row=1, max_row=len(days) + 1),
+                titles_from_data=True)
+    ch.set_categories(Reference(data_ws, min_col=col, min_row=2, max_row=len(days) + 1))
+    styles = {"Investeerder": (BLUE, 2.75, None), "Trend-agent": (ORANGE, 2.75, None)}
+    for s, name in zip(ch.series, names):
+        color, w, dash = styles.get(name, (GREY, 2, "dash") if name.startswith("Wereld") else (INK_2, 1, None))
+        _line(s, color, w, dash)
+        if name in styles:
+            s.marker.symbol = "circle"
+            s.marker.size = 6
+            s.marker.graphicalProperties = GraphicalProperties(solidFill=color, ln=LineProperties(solidFill=color))
+    return ch, col + len(names) + 2
+
+
+def _header(ws, row: int, title: str, lines: list[str]) -> int:
+    ws.cell(row=row, column=2, value=title).font = Font(size=14, bold=True, color=INK)
+    ws.row_dimensions[row].height = 24
+    row += 1
+    for line in lines:
+        ws.cell(row=row, column=2, value=line).font = Font(size=11, color=INK_2)
+        row += 1
+    return row
+
+
+def add(xlsx: Path, items: list[dict], value: dict | None = None, position: int | None = 1) -> None:
+    """Zet echte Excel-grafieken onder elkaar in het tabblad 'Grafieken'.
+
+    value (optioneel): {"series": {naam: [(dag, waarde)]}, "bench": [(dag, koers)], "labels": {dag: label}}
+    voor de waardegrafiek van de bots bovenaan.
+    """
+    if not xlsx.exists() or (not items and not value):
+        return
+    wb = load_workbook(xlsx)
+    for name in ("Grafieken", "Grafiekdata"):
+        if name in wb.sheetnames:
+            del wb[name]
+    ws = wb.create_sheet("Grafieken", position) if position is not None else wb.create_sheet("Grafieken")
+    data_ws = wb.create_sheet("Grafiekdata")
+    data_ws.sheet_state = "hidden"
+    ws.sheet_view.showGridLines = False
+    ws.column_dimensions["A"].width = 3
+    ws.column_dimensions["B"].width = 135    # even breed als de grafieken: tekst loopt niet door
+    ws["B1"] = "Grafieken van vandaag"
+    ws["B1"].font = Font(size=18, bold=True)
+    ws.row_dimensions[1].height = 28
+    ws["B2"] = ("Scroll naar beneden: alle grafieken staan onder elkaar. Ga met de muis over een lijn om de waarde "
+                "te zien. Zwarte lijn = koers, blauw = gemiddelde van 50 dagen, oranje = van 200 dagen, "
+                "rode stippellijn = stop-loss (daar verkoopt de bot).")
+    ws["B2"].font = Font(size=11, italic=True, color=INK_2)
+    ws["B2"].alignment = Alignment(wrap_text=True, vertical="top")
+    ws.row_dimensions[2].height = 32
+    row, col, n = 4, 1, 0
+    vchart = None
+    if value:
+        vchart, _ = value_chart(data_ws, value["series"], value.get("bench", []), 300, value.get("labels", {}))
+    if vchart:
+        n += 1
+        row = _header(ws, row, f"{n}. Hoeveel zijn de bots waard?",
+                      ["Boven €10.000 = winst, eronder = verlies. De grijze stippellijn is wat je had gehad met "
+                       "gewoon de wereld-ETF kopen en vasthouden."])
+        ws.add_chart(vchart, f"B{row}")
+        row += ROWS_PER_CHART + 2
+    for item in items:
+        n += 1
+        ch, col = _price_chart(data_ws, item, col)
+        row = _header(ws, row, f"{n}. {item['kop']}", item["uitleg"])
+        ws.add_chart(ch, f"B{row}")
+        row += ROWS_PER_CHART + 2
+    ws.sheet_properties.pageSetUpPr.fitToPage = True
+    ws.page_setup.fitToWidth = 1
+    ws.page_setup.fitToHeight = 0
+    tmp = xlsx.with_suffix(".tmp.xlsx")
+    wb.save(tmp)
+    tmp.replace(xlsx)

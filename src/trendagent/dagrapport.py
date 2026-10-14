@@ -67,6 +67,15 @@ def _nl_date(day: str) -> str:
     return f"{DAGEN[d.weekday()]} {d.day} {MAANDEN[d.month - 1]} {d.year}"
 
 
+def _short_date(day: str) -> str:
+    from datetime import date
+    try:
+        d = date.fromisoformat(day)
+    except ValueError:
+        return day
+    return f"{d.day} {MAANDEN[d.month - 1][:3]}"
+
+
 def _height(text, width_chars: float, size: int = 11) -> float:
     """Rijhoogte zodat afgebroken tekst helemaal zichtbaar is (Excel doet dat niet altijd zelf)."""
     import math
@@ -370,35 +379,29 @@ def write(state_dir: Path, reports_dir: Path, day: str) -> Path:
     wb = build(state_dir, reports_dir, day)
     for ws in wb.worksheets:   # afdrukken/PDF: altijd één pagina breed
         _print_fit(ws)
-    value_png = None
-    try:   # waardegrafiek van beide bots tegenover de wereld-ETF
-        from . import charts
+    wb.save(tmp)
+    tmp.replace(path)
+    try:   # echte Excel-grafieken: eerst de waarde van de bots, dan elke positie (trend-agent eerst)
+        import json
+        from . import charts, excel_charts
         books = {key: _load(state_dir / fname) for _, key, fname in BOTS}
         series = {name: [(e["day"], e["equity"]) for e in books[key].get("equity_history", []) if e["day"] != "start"]
                   for name, key, _ in BOTS}
         benches = [[(e["day"], e["bench"]) for e in books[key].get("equity_history", []) if "bench" in e]
                    for _, key, _ in BOTS]
-        bench = max(benches, key=len)   # de langste reeks met ETF-koersen
-        value_png = charts.value_chart(series, bench, charts.chart_dir(reports_dir, day) / "waarde.png")
-        if value_png:
-            ws = wb["Overzicht"]
-            r = getattr(ws, "_chart_row", 30)
-            ws.cell(row=r, column=2, value="Hoeveel zijn de bots waard?").font = Font(size=14, bold=True)
-            charts.place_image(ws, value_png, r + 1, width=820)
-    except Exception:  # noqa: BLE001
-        value_png = None
-    wb.save(tmp)
-    tmp.replace(path)
-    try:   # candle-grafieken van vandaag, elk met een kopje; trend-agent eerst
-        from . import charts
+        days = {d for pts in series.values() for d, _ in pts}
+        labels = {d: _short_date(d) for d in days}
         folder = charts.chart_dir(reports_dir, day)
-        pngs = sorted((p for p in folder.glob("*.png") if p.name != "waarde.png"),
-                      key=lambda p: (not p.name.startswith("trend"), p.name)) if folder.exists() else []
-        if value_png:
-            pngs = [value_png] + pngs
-        titles = ["Waarde van de bots tegenover de wereld-ETF" if p.name == "waarde.png" else _chart_title(p)
-                  for p in pngs]
-        charts.add_to_excel(path, pngs, titles, position=1)
-    except Exception:  # noqa: BLE001
-        pass
+        files = sorted(folder.glob("*.json"), key=lambda p: (not p.name.startswith("trend"), p.name)) \
+            if folder.exists() else []
+        items = []
+        for f in files:
+            try:
+                items.append(json.loads(f.read_text(encoding="utf-8")))
+            except ValueError:
+                continue
+        excel_charts.add(path, items, {"series": series, "bench": max(benches, key=len), "labels": labels},
+                         position=1)
+    except Exception as exc:  # noqa: BLE001
+        print(f"Excel-grafieken overgeslagen: {type(exc).__name__}: {exc}")
     return path

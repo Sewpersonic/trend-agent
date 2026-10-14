@@ -74,6 +74,43 @@ def _verdict(close: float, s50: float | None, s200: float | None) -> str:
     return "Geen duidelijke richting: de gemiddelden kruisen elkaar."
 
 
+def describe(title: str, view: list[Bar], s50: float | None, s200: float | None, entry: float | None,
+             stop: float | None, currency: str) -> tuple[str, list[str]]:
+    """Kop en uitleg in gewone taal (dezelfde tekst in de afbeelding en in Excel)."""
+    last = view[-1]
+    cur = f" {currency}" if currency else ""
+    change = last.close / view[0].close - 1
+    head = f"{title}  ·  {_nl(last.close)}{cur}"
+    lines = [f"{'Gestegen' if change >= 0 else 'Gedaald'}: {_nl(change * 100, 1)}% in de laatste 3 maanden. "
+             + _verdict(last.close, s50, s200)]
+    if entry:
+        res = last.close / entry - 1
+        if abs(res) < 0.0005:
+            lines.append("Sinds de bot kocht: nog vrijwel gelijk.")
+        else:
+            lines.append(f"Sinds de bot kocht: {'+' if res >= 0 else ''}{_nl(res * 100, 1)}% "
+                         f"({'winst' if res >= 0 else 'verlies'}).")
+    if stop:
+        lines[-1] += f" De bot verkoopt als de koers onder {_nl(stop)} zakt ({_nl((stop / last.close - 1) * 100, 1)}%)."
+    return head, lines
+
+
+def chart_data(bars: list[Bar], title: str, entry: float | None = None, stop: float | None = None,
+               currency: str = "", opened: str | None = None, sold: tuple[str, float] | None = None) -> dict:
+    """De cijfers achter een grafiek, zodat Excel er zelf een echte grafiek van kan maken."""
+    closes = [b.close for b in bars]
+    s50, s200 = _sma_series(closes, 50), _sma_series(closes, 200)
+    view = bars[-WINDOW:]
+    off = len(bars) - len(view)
+    head, lines = describe(title, view, s50[-1], s200[-1], entry, stop, currency)
+    r = lambda v: None if v is None else round(v, 4)  # noqa: E731
+    return {"titel": title, "kop": head, "uitleg": lines, "valuta": currency,
+            "datums": [_day(b.day) for b in view], "iso": [b.day.isoformat() for b in view],
+            "koers": [r(b.close) for b in view], "sma50": [r(v) for v in s50[off:]],
+            "sma200": [r(v) for v in s200[off:]], "instap": entry, "stop": stop, "gekocht": opened,
+            "verkocht": sold[0] if sold else None}
+
+
 def candle_chart(bars: list[Bar], title: str, path: Path, entry: float | None = None,
                  stop: float | None = None, currency: str = "", opened: str | None = None,
                  sold: tuple[str, float] | None = None) -> Path:
@@ -102,19 +139,7 @@ def candle_chart(bars: list[Bar], title: str, path: Path, entry: float | None = 
     _style(ax)
 
     # Koptekst in gewone taal
-    change = last.close / view[0].close - 1
-    head = f"{title}  ·  {_nl(last.close)}{cur}"
-    lines = [f"{'Gestegen' if change >= 0 else 'Gedaald'}: {_nl(change * 100, 1)}% in de laatste 3 maanden. "
-             + _verdict(last.close, sma50_all[-1], sma200_all[-1])]
-    if entry:
-        res = last.close / entry - 1
-        if abs(res) < 0.0005:
-            lines.append("Sinds de bot kocht: nog vrijwel gelijk.")
-        else:
-            lines.append(f"Sinds de bot kocht: {'+' if res >= 0 else ''}{_nl(res * 100, 1)}% "
-                         f"({'winst' if res >= 0 else 'verlies'}).")
-    if stop:
-        lines[-1] += f" De bot verkoopt als de koers onder {_nl(stop)} zakt ({_nl((stop / last.close - 1) * 100, 1)}%)."
+    head, lines = describe(title, view, sma50_all[-1], sma200_all[-1], entry, stop, currency)
     fig.text(0.07, 0.95, head, fontsize=17, fontweight="bold", color=INK, va="top")
     fig.text(0.07, 0.905, "\n".join(lines), fontsize=11.5, color=INK_2, va="top", linespacing=1.5)
 

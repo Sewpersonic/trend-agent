@@ -233,18 +233,23 @@ def _charts_for(s, day: str, bot: str, items: list, xlsx_name: str, note_name: s
     try:
         from . import charts
         folder = charts.chart_dir(s.reports_dir, day)
-        paths, titles = [], []
+        import json
+        from . import excel_charts
+        paths, datas = [], []
         for ticker, bars, title, entry, stop, cur, *extra in items:
             if bars and len(bars) >= 20:
-                titles.append(title)
                 opened, sold = (extra + [None, None])[:2]
                 paths.append(charts.candle_chart(bars, title, folder / f"{bot}-{ticker}.png", entry, stop, cur,
                                                  opened=opened, sold=sold))
+                data = charts.chart_data(bars, title, entry, stop, cur, opened=opened, sold=sold)
+                (folder / f"{bot}-{ticker}.json").write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+                datas.append(data)
         note = s.reports_dir / note_name
         if paths and note.exists():
             with note.open("a", encoding="utf-8") as f:
                 f.write(charts.markdown_section(paths, s.reports_dir))
-        charts.add_to_excel(s.reports_dir / xlsx_name, paths, titles)
+        # In Excel: echte Excel-grafieken (scherp, met waarden bij de muis); de plaatjes blijven in de notities.
+        excel_charts.add(s.reports_dir / xlsx_name, datas)
         charts.prune(s.reports_dir)
     except Exception as exc:  # noqa: BLE001
         print(f"Grafieken overgeslagen: {type(exc).__name__}: {exc}", file=sys.stderr)

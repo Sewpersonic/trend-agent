@@ -236,6 +236,8 @@ class HealthTests(unittest.TestCase):
             self.assertIn(sheet, wb.sheetnames)
         self.assertGreater(wb["Analyse"].max_row, 3)
         self.assertGreater(wb["Kansen"].max_row, 1)
+        self.assertGreaterEqual(len(wb["Grafieken"]._charts), 1)       # echte Excel-grafieken, geen plaatjes
+        self.assertEqual(wb["Grafiekdata"].sheet_state, "hidden")
 
 
 if __name__ == "__main__":
