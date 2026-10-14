@@ -29,8 +29,13 @@ ORANGE = "EB6834"
 RED = "E34948"
 GREEN = "008300"
 GREY = "8A8984"
-ROWS_PER_CHART = 24            # zoveel rijen van standaardhoogte neemt één grafiek in
-CHART_W_CM, CHART_H_CM = 26, 11.5
+CHART_W_CM, CHART_H_CM = 15.5, 9      # één grafiek in het raster (twee naast elkaar)
+WIDE_W_CM, WIDE_H_CM = 31.5, 10       # de waardegrafiek over de volle breedte
+ROW_PX = 20                            # standaard rijhoogte (15 punten) in pixels
+
+
+def _rows_for(height_cm: float) -> int:
+    return int(height_cm / 2.54 * 96 / ROW_PX) + 1
 
 
 def _line(series, color: str, width_pt: float, dash: str | None = None) -> None:
@@ -77,7 +82,7 @@ def _range(values: list[float | None], pad_share: float = 0.06) -> tuple[float, 
     return lo - pad, hi + pad
 
 
-def _price_chart(data_ws, item: dict, col: int):
+def _price_chart(data_ws, item: dict, col: int, size: tuple[float, float] = (CHART_W_CM, CHART_H_CM)):
     """Kaarsgrafiek (candles) met de gemiddelden, de instap en de stop-loss als lijnen erover.
 
     Groene kaars = die dag gestegen, rode kaars = die dag gedaald. De dunne streep door een kaars is
@@ -110,7 +115,7 @@ def _price_chart(data_ws, item: dict, col: int):
 
     cats = Reference(data_ws, min_col=col, min_row=2, max_row=n + 1)
     stock = StockChart()
-    stock.width, stock.height = CHART_W_CM, CHART_H_CM
+    stock.width, stock.height = size
     stock.add_data(Reference(data_ws, min_col=col + 1, max_col=col + 4, min_row=1, max_row=n + 1),
                    titles_from_data=True)
     stock.set_categories(cats)
@@ -131,8 +136,8 @@ def _price_chart(data_ws, item: dict, col: int):
     stock.y_axis.number_format = "#,##0.00" if hi < 100 else "#,##0"
     stock.y_axis.majorGridlines.spPr = GraphicalProperties(ln=LineProperties(solidFill="E6E5E1"))
     stock.x_axis.number_format = "@"
-    stock.x_axis.tickLblSkip = max(n // 7, 1)
-    stock.x_axis.tickMarkSkip = max(n // 7, 1)
+    stock.x_axis.tickLblSkip = max(n // 5, 1)
+    stock.x_axis.tickMarkSkip = max(n // 5, 1)
     stock.x_axis.delete = False
     stock.y_axis.delete = False
 
@@ -196,39 +201,40 @@ def value_chart(data_ws, series: dict[str, list[tuple[str, float]]], bench: list
     return ch, col + len(names) + 2
 
 
-def _key(item: dict) -> CellRichText:
-    """Gekleurde legenda-regel: elk woord in de kleur van zijn lijn of kaars."""
-    parts = [("▮ groen", GREEN, " = dag gestegen   "), ("▮ rood", RED, " = dag gedaald   "),
-             ("━ blauw", BLUE, " = gemiddelde 50 dagen   "), ("━ oranje", ORANGE, " = gemiddelde 200 dagen   ")]
-    if item.get("instap"):
-        parts.append(("╌ grijs", INK_2, " = instap   "))
-    if item.get("stop"):
-        parts.append(("╌ rood", RED, " = stop-loss, hier verkoopt de bot"))
+def _key() -> CellRichText:
+    """Gekleurde legenda-regel: elk woord in de kleur van zijn lijn of kaars. Geldt voor alle grafieken."""
+    parts = [("▮ groen", GREEN, " = dag gestegen    "), ("▮ rood", RED, " = dag gedaald    "),
+             ("━ blauw", BLUE, " = gemiddelde 50 dagen    "), ("━ oranje", ORANGE, " = gemiddelde 200 dagen    "),
+             ("╌ grijs", INK_2, " = instap    "), ("╌ rood", RED, " = stop-loss, hier verkoopt de bot")]
     out = []
     for word, color, rest in parts:
-        out.append(TextBlock(InlineFont(b=True, color=color, sz=11), word))
-        out.append(TextBlock(InlineFont(color=INK_2, sz=11), rest))
+        out.append(TextBlock(InlineFont(b=True, color=color, sz=12), word))
+        out.append(TextBlock(InlineFont(color=INK_2, sz=12), rest))
     return CellRichText(*out)
 
 
-def _header(ws, row: int, title: str, lines: list[str], key: CellRichText | None = None) -> int:
-    ws.cell(row=row, column=2, value=title).font = Font(size=14, bold=True, color=INK)
-    ws.row_dimensions[row].height = 24
-    row += 1
-    for line in lines:
-        ws.cell(row=row, column=2, value=line).font = Font(size=11, color=INK_2)
-        row += 1
-    if key is not None:
-        ws.cell(row=row, column=2).value = key
-        row += 1
-    return row
+def _section(ws, row: int, title: str) -> int:
+    c = ws.cell(row=row, column=2, value=title)
+    c.font = Font(size=15, bold=True, color=INK)
+    ws.row_dimensions[row].height = 26
+    return row + 1
+
+
+def _title_cells(ws, row: int, column: int, title: str, lines: list[str], wrap: bool = True) -> None:
+    t = ws.cell(row=row, column=column, value=title)
+    t.font = Font(size=13, bold=True, color=INK)
+    t.alignment = Alignment(vertical="bottom")
+    u = ws.cell(row=row + 1, column=column, value=" ".join(lines))
+    u.font = Font(size=10.5, color=INK_2)
+    u.alignment = Alignment(wrap_text=wrap, vertical="top")
 
 
 def add(xlsx: Path, items: list[dict], value: dict | None = None, position: int | None = 1) -> None:
-    """Zet echte Excel-grafieken onder elkaar in het tabblad 'Grafieken'.
+    """Tabblad 'Grafieken' als dashboard: bovenaan de waarde van de bots over de volle breedte,
+    daaronder per bot de kaarsgrafieken, twee naast elkaar.
 
     value (optioneel): {"series": {naam: [(dag, waarde)]}, "bench": [(dag, koers)], "labels": {dag: label}}
-    voor de waardegrafiek van de bots bovenaan.
+    items: grafiekgegevens per instrument; item["bot"] ("trend"/"investeerder") bepaalt het blok.
     """
     if not xlsx.exists() or (not items and not value):
         return
@@ -240,38 +246,53 @@ def add(xlsx: Path, items: list[dict], value: dict | None = None, position: int 
     data_ws = wb.create_sheet("Grafiekdata")
     data_ws.sheet_state = "hidden"
     ws.sheet_view.showGridLines = False
-    ws.column_dimensions["A"].width = 3
-    ws.column_dimensions["B"].width = 135    # even breed als de grafieken: tekst loopt niet door
+    ws.sheet_view.zoomScale = 90
+    ws.column_dimensions["A"].width = 2
+    ws.column_dimensions["B"].width = 84
+    ws.column_dimensions["C"].width = 3
+    ws.column_dimensions["D"].width = 84
     ws["B1"] = "Grafieken van vandaag"
-    ws["B1"].font = Font(size=18, bold=True)
-    ws.row_dimensions[1].height = 28
-    ws["B2"] = ("Scroll naar beneden: alle grafieken staan onder elkaar. Elke kaars is één handelsdag: "
-                "groen = die dag gestegen, rood = die dag gedaald; de dunne streep is de hoogste en laagste koers. "
-                "Blauwe lijn = gemiddelde van 50 dagen, oranje = van 200 dagen, grijze stippellijn = instap, "
-                "rode stippellijn = stop-loss (daar verkoopt de bot). Ga met de muis over een kaars of lijn voor de waarde.")
-    ws["B2"].font = Font(size=11, italic=True, color=INK_2)
-    ws["B2"].alignment = Alignment(wrap_text=True, vertical="top")
-    ws.row_dimensions[2].height = 50
-    row, col, n = 4, 1, 0
-    vchart = None
+    ws["B1"].font = Font(size=20, bold=True)
+    ws.row_dimensions[1].height = 30
+    ws["B2"] = _key()
+    ws.row_dimensions[2].height = 20
+    ws["B3"] = ("Elke kaars is één handelsdag; het dunne streepje loopt van de laagste naar de hoogste koers van die dag. "
+                "Ga met de muis over een kaars of lijn om de waarde te zien.")
+    ws["B3"].font = Font(size=10.5, italic=True, color=INK_2)
+    row, col = 5, 1
     if value:
         vchart, _ = value_chart(data_ws, value["series"], value.get("bench", []), 300, value.get("labels", {}))
-    if vchart:
-        n += 1
-        row = _header(ws, row, f"{n}. Hoeveel zijn de bots waard?",
-                      ["Boven €10.000 = winst, eronder = verlies. De grijze stippellijn is wat je had gehad met "
-                       "gewoon de wereld-ETF kopen en vasthouden."])
-        ws.add_chart(vchart, f"B{row}")
-        row += ROWS_PER_CHART + 2
+        if vchart:
+            vchart.width, vchart.height = WIDE_W_CM, WIDE_H_CM
+            _title_cells(ws, row, 2, "Hoeveel zijn de bots waard?",
+                         ["Boven €10.000 = winst, eronder = verlies. De grijze stippellijn is wat je had gehad met "
+                          "gewoon de wereld-ETF kopen en vasthouden."], wrap=False)
+            ws.row_dimensions[row].height = 22
+            ws.row_dimensions[row + 1].height = 20
+            ws.add_chart(vchart, f"B{row + 2}")
+            row += 2 + _rows_for(WIDE_H_CM) + 2
+
+    groups: dict[str, list[dict]] = {}
     for item in items:
-        n += 1
-        ch, col = _price_chart(data_ws, item, col)
-        row = _header(ws, row, f"{n}. {item['kop']}", item["uitleg"], _key(item))
-        ws.add_chart(ch, f"B{row}")
-        row += ROWS_PER_CHART + 2
+        groups.setdefault(item.get("bot", ""), []).append(item)
+    names = {"trend": "Trend-agent: open posities", "investeerder": "Investeerder: beleggingen"}
+    for bot, group in groups.items():
+        if names.get(bot):
+            row = _section(ws, row, names[bot])
+        for i in range(0, len(group), 2):
+            pair = group[i:i + 2]
+            ws.row_dimensions[row].height = 22
+            ws.row_dimensions[row + 1].height = 30
+            for item, column, letter in zip(pair, (2, 4), ("B", "D")):
+                ch, col = _price_chart(data_ws, item, col)
+                _title_cells(ws, row, column, item["kop"], item["uitleg"])
+                ws.add_chart(ch, f"{letter}{row + 2}")
+            row += 2 + _rows_for(CHART_H_CM) + 1
+        row += 1
     ws.sheet_properties.pageSetUpPr.fitToPage = True
     ws.page_setup.fitToWidth = 1
     ws.page_setup.fitToHeight = 0
+    ws.page_setup.orientation = "landscape"
     tmp = xlsx.with_suffix(".tmp.xlsx")
     wb.save(tmp)
     tmp.replace(xlsx)

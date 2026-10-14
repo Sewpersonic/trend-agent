@@ -397,7 +397,7 @@ def write(state_dir: Path, reports_dir: Path, day: str) -> Path:
         items = []
         for f in files:
             try:
-                items.append(json.loads(f.read_text(encoding="utf-8")))
+                items.append(dict(json.loads(f.read_text(encoding="utf-8")), bot=f.stem.split("-", 1)[0]))
             except ValueError:
                 continue
         excel_charts.add(path, items, {"series": series, "bench": max(benches, key=len), "labels": labels},

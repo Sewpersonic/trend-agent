@@ -243,7 +243,7 @@ def _charts_for(s, day: str, bot: str, items: list, xlsx_name: str, note_name: s
                                                  opened=opened, sold=sold))
                 data = charts.chart_data(bars, title, entry, stop, cur, opened=opened, sold=sold)
                 (folder / f"{bot}-{ticker}.json").write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
-                datas.append(data)
+                datas.append(dict(data, bot=bot))
         note = s.reports_dir / note_name
         if paths and note.exists():
             with note.open("a", encoding="utf-8") as f:
