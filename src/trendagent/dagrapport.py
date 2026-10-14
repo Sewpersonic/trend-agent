@@ -381,12 +381,10 @@ def write(state_dir: Path, reports_dir: Path, day: str) -> Path:
         bench = max(benches, key=len)   # de langste reeks met ETF-koersen
         value_png = charts.value_chart(series, bench, charts.chart_dir(reports_dir, day) / "waarde.png")
         if value_png:
-            from openpyxl.drawing.image import Image
             ws = wb["Overzicht"]
-            img = Image(str(value_png))
-            scale = 820 / img.width
-            img.width, img.height = img.width * scale, img.height * scale
-            ws.add_image(img, f"B{getattr(ws, '_chart_row', 30)}")
+            r = getattr(ws, "_chart_row", 30)
+            ws.cell(row=r, column=2, value="Hoeveel zijn de bots waard?").font = Font(size=14, bold=True)
+            charts.place_image(ws, value_png, r + 1, width=820)
     except Exception:  # noqa: BLE001
         value_png = None
     wb.save(tmp)

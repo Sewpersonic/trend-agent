@@ -96,7 +96,7 @@ def candle_chart(bars: list[Bar], title: str, path: Path, entry: float | None = 
     last = view[-1]
     cur = f" {currency}" if currency else ""
 
-    fig = plt.figure(figsize=(12, 7.2), dpi=110)
+    fig = plt.figure(figsize=(12, 7.2), dpi=150)
     fig.patch.set_facecolor(SURFACE)
     ax = fig.add_axes([0.07, 0.19, 0.74, 0.63])
     _style(ax)
@@ -225,7 +225,7 @@ def value_chart(series: dict[str, list[tuple[str, float]]], bench: list[tuple[st
     days = sorted({d for pts in series.values() for d, _ in pts})
     if len(days) < 2:
         return None
-    fig = plt.figure(figsize=(12, 6), dpi=110)
+    fig = plt.figure(figsize=(12, 6), dpi=150)
     fig.patch.set_facecolor(SURFACE)
     ax = fig.add_axes([0.08, 0.17, 0.72, 0.62])
     _style(ax)
@@ -307,12 +307,31 @@ def markdown_section(paths: list[Path], reports_dir: Path) -> str:
     return "\n".join(lines) + "\n"
 
 
+EXCEL_IMAGE_WIDTH = 880        # pixels: ongeveer schermbreed in Excel
+MAX_ROW_POINTS = 400           # Excel staat maximaal 409 punten rijhoogte toe
+
+
+def place_image(ws, png: Path, row: int, column: str = "B", width: int = EXCEL_IMAGE_WIDTH) -> int:
+    """Zet één grafiek in een eigen rij die precies zo hoog is als de grafiek. Zo kunnen grafieken
+    nooit over elkaar of over tekst heen vallen. Geeft de eerstvolgende vrije rij terug."""
+    from openpyxl.drawing.image import Image
+    img = Image(str(png))
+    scale = width / img.width
+    w, h = img.width * scale, img.height * scale
+    if h * 0.75 > MAX_ROW_POINTS:                 # te hoog voor één rij: kleiner maken
+        f = MAX_ROW_POINTS / (h * 0.75)
+        w, h = w * f, h * f
+    img.width, img.height = w, h
+    ws.row_dimensions[row].height = h * 0.75 + 6   # pixels -> punten, plus een beetje lucht
+    ws.add_image(img, f"{column}{row}")
+    return row + 1
+
+
 def add_to_excel(xlsx: Path, paths: list[Path], titles: list[str] | None = None, position: int | None = 1) -> None:
-    """Zet de grafieken in een tabblad 'Grafieken', elk met een kopje erboven, groot genoeg om te lezen."""
+    """Tabblad 'Grafieken': alle grafieken onder elkaar, elk met een kopje en een eigen rij."""
     if not paths or not xlsx.exists():
         return
     from openpyxl import load_workbook
-    from openpyxl.drawing.image import Image
     from openpyxl.styles import Font
 
     wb = load_workbook(xlsx)
@@ -320,25 +339,26 @@ def add_to_excel(xlsx: Path, paths: list[Path], titles: list[str] | None = None,
         del wb["Grafieken"]
     ws = wb.create_sheet("Grafieken", position) if position is not None else wb.create_sheet("Grafieken")
     ws.sheet_view.showGridLines = False
+    ws.sheet_view.zoomScale = 100
     ws.column_dimensions["A"].width = 3
-    ws.column_dimensions["B"].width = 130     # zo breed als de grafiek, zodat afdrukken/PDF niets afsnijdt
+    ws.column_dimensions["B"].width = 128     # zo breed als de grafiek, zodat afdrukken/PDF niets afsnijdt
     ws.sheet_properties.pageSetUpPr.fitToPage = True
     ws.page_setup.fitToWidth = 1
     ws.page_setup.fitToHeight = 0
     ws["B1"] = "Grafieken van vandaag"
-    ws["B1"].font = Font(size=16, bold=True)
-    ws["B2"] = "Elke grafiek legt bovenaan in gewone taal uit hoe het ervoor staat, en onderaan hoe je hem leest."
+    ws["B1"].font = Font(size=18, bold=True)
+    ws.row_dimensions[1].height = 28
+    ws["B2"] = ("Scroll naar beneden: alle grafieken staan onder elkaar. Elke grafiek legt bovenaan in gewone taal uit "
+                "hoe het ervoor staat, en onderaan hoe je hem leest.")
+    ws["B2"].font = Font(size=11, italic=True, color="52514E")
     row = 4
-    for n, p in enumerate(paths):
-        if titles and n < len(titles):
-            ws.cell(row=row, column=2, value=titles[n]).font = Font(size=13, bold=True)
-            ws.row_dimensions[row].height = 24
-            row += 1
-        img = Image(str(p))
-        scale = 900 / img.width          # ongeveer schermbreed, scherp genoeg om te lezen
-        img.width, img.height = img.width * scale, img.height * scale
-        ws.add_image(img, f"B{row}")
-        row += int(img.height / 20) + 3
+    for n, p in enumerate(paths, 1):
+        title = titles[n - 1] if titles and n <= len(titles) else p.stem
+        ws.cell(row=row, column=2, value=f"{n}. {title}").font = Font(size=14, bold=True)
+        ws.row_dimensions[row].height = 26
+        row = place_image(ws, p, row + 1)
+        ws.row_dimensions[row].height = 30        # witregel tussen twee grafieken
+        row += 1
     tmp = xlsx.with_suffix(".tmp.xlsx")
     wb.save(tmp)
     tmp.replace(xlsx)
