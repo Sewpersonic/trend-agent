@@ -11,10 +11,15 @@ from __future__ import annotations
 from pathlib import Path
 
 from openpyxl import load_workbook
-from openpyxl.chart import LineChart, Reference
+from openpyxl.chart import LineChart, Reference, StockChart
+from openpyxl.chart.axis import ChartLines
+from openpyxl.chart.data_source import NumData, NumVal
+from openpyxl.chart.updown_bars import UpDownBars
 from openpyxl.chart.layout import Layout, ManualLayout
 from openpyxl.chart.shapes import GraphicalProperties
 from openpyxl.drawing.line import LineProperties
+from openpyxl.cell.rich_text import CellRichText, TextBlock
+from openpyxl.cell.text import InlineFont
 from openpyxl.styles import Alignment, Font
 
 INK = "0B0B0B"
@@ -22,6 +27,7 @@ INK_2 = "52514E"
 BLUE = "2A78D6"
 ORANGE = "EB6834"
 RED = "E34948"
+GREEN = "008300"
 GREY = "8A8984"
 ROWS_PER_CHART = 24            # zoveel rijen van standaardhoogte neemt één grafiek in
 CHART_W_CM, CHART_H_CM = 26, 11.5
@@ -71,37 +77,79 @@ def _range(values: list[float | None], pad_share: float = 0.06) -> tuple[float, 
     return lo - pad, hi + pad
 
 
-def _price_chart(data_ws, item: dict, col: int) -> tuple[LineChart, int]:
-    """Schrijft de cijfers van één instrument in Grafiekdata vanaf kolom col en maakt de lijngrafiek."""
+def _price_chart(data_ws, item: dict, col: int):
+    """Kaarsgrafiek (candles) met de gemiddelden, de instap en de stop-loss als lijnen erover.
+
+    Groene kaars = die dag gestegen, rode kaars = die dag gedaald. De dunne streep door een kaars is
+    de hoogste en laagste koers van die dag. Geeft (grafiek, volgende vrije kolom) terug.
+    """
     n = len(item["datums"])
-    cols = [("Datum", item["datums"]), ("Koers", item["koers"]), ("50-daags gemiddelde", item["sma50"]),
-            ("200-daags gemiddelde", item["sma200"])]
+    has_ohlc = all(item.get(k) for k in ("open", "hoog", "laag"))
+    if not has_ohlc:                                   # oude gegevens zonder open/hoog/laag: alleen lijnen
+        item = dict(item, open=item["koers"], hoog=item["koers"], laag=item["koers"])
+    lines = [("50-daags gemiddelde", item["sma50"], BLUE, 2, None),
+             ("200-daags gemiddelde", item["sma200"], ORANGE, 2, None)]
     if item.get("instap"):
-        cols.append(("Instap", [item["instap"]] * n))
+        lines.append(("Instap", [item["instap"]] * n, INK_2, 1.5, "dash"))
     if item.get("stop"):
-        cols.append(("Stop-loss (hier verkoopt de bot)", [item["stop"]] * n))
+        lines.append(("Stop-loss (hier verkoopt de bot)", [item["stop"]] * n, RED, 1.75, "dash"))
+    cols = [("Datum", item["datums"]), ("Opening", item["open"]), ("Hoogste", item["hoog"]),
+            ("Laagste", item["laag"]), ("Slot", item["koers"])] + [(name, vals) for name, vals, *_ in lines]
     for j, (name, values) in enumerate(cols):
         data_ws.cell(row=1, column=col + j, value=f"{item['titel']}: {name}" if j == 0 else name)
         for i, v in enumerate(values, start=2):
             data_ws.cell(row=i, column=col + j, value=v)
-    # Schaal: koers, instap en stop altijd in beeld; gemiddelden alleen als ze niet ver weg liggen.
-    core = item["koers"] + [v for v in (item.get("instap"), item.get("stop")) if v]
+
+    # Schaal: kaarsen, instap en stop altijd in beeld; gemiddelden alleen als ze niet ver weg liggen,
+    # anders worden de kaarsen platgedrukt.
+    core = item["laag"] + item["hoog"] + [v for v in (item.get("instap"), item.get("stop")) if v]
     lo, hi = _range(core, 0.0)
     reach = (hi - lo) * 0.5
     extra = [v for v in item["sma50"] + item["sma200"] if v is not None and lo - reach <= v <= hi + reach]
-    lo, hi = _range(core + extra)
-    ch = _base_chart(f"koers {item.get('valuta', '')}".strip(), lo, hi, n)
-    data = Reference(data_ws, min_col=col + 1, max_col=col + len(cols) - 1, min_row=1, max_row=n + 1)
-    ch.add_data(data, titles_from_data=True)
-    ch.set_categories(Reference(data_ws, min_col=col, min_row=2, max_row=n + 1))
-    styles = [(INK, 2.75, None), (BLUE, 2, None), (ORANGE, 2, None)]
-    if item.get("instap"):
-        styles.append((INK_2, 1.5, "dash"))
-    if item.get("stop"):
-        styles.append((RED, 1.75, "dash"))
-    for s, (color, w, dash) in zip(ch.series, styles):
+    lo, hi, step = _nice(*_range(core + extra))
+
+    cats = Reference(data_ws, min_col=col, min_row=2, max_row=n + 1)
+    stock = StockChart()
+    stock.width, stock.height = CHART_W_CM, CHART_H_CM
+    stock.add_data(Reference(data_ws, min_col=col + 1, max_col=col + 4, min_row=1, max_row=n + 1),
+                   titles_from_data=True)
+    stock.set_categories(cats)
+    for s in stock.series:
+        s.graphicalProperties = GraphicalProperties(ln=LineProperties(noFill=True))
+        s.marker.symbol = "none"
+    stock.hiLowLines = ChartLines(spPr=GraphicalProperties(ln=LineProperties(solidFill=INK_2, w=12700)))
+    up = UpDownBars(gapWidth=60)
+    up.upBars = ChartLines(spPr=GraphicalProperties(solidFill=GREEN, ln=LineProperties(solidFill=GREEN)))
+    up.downBars = ChartLines(spPr=GraphicalProperties(solidFill=RED, ln=LineProperties(solidFill=RED)))
+    stock.upDownBars = up
+    # Excel toont de kaarsen pas als er een (lege) cache is.
+    stock.series[-1].val.numRef.numCache = NumData(pt=[NumVal(idx=i) for i in range(n)])
+
+    stock.y_axis.title = f"koers {item.get('valuta', '')}".strip()
+    stock.y_axis.scaling.min, stock.y_axis.scaling.max = lo, hi
+    stock.y_axis.majorUnit = step
+    stock.y_axis.number_format = "#,##0.00" if hi < 100 else "#,##0"
+    stock.y_axis.majorGridlines.spPr = GraphicalProperties(ln=LineProperties(solidFill="E6E5E1"))
+    stock.x_axis.number_format = "@"
+    stock.x_axis.tickLblSkip = max(n // 7, 1)
+    stock.x_axis.tickMarkSkip = max(n // 7, 1)
+    stock.x_axis.delete = False
+    stock.y_axis.delete = False
+
+    over = LineChart()
+    over.add_data(Reference(data_ws, min_col=col + 5, max_col=col + 4 + len(lines), min_row=1, max_row=n + 1),
+                  titles_from_data=True)
+    over.set_categories(cats)
+    for s, (_, _, color, w, dash) in zip(over.series, lines):
         _line(s, color, w, dash)
-    return ch, col + len(cols) + 1
+    over.x_axis = stock.x_axis
+    over.y_axis = stock.y_axis
+    stock += over
+    # Geen legenda in de grafiek (die toont ook opening/hoog/laag/slot en verschilt per Excel-versie);
+    # de uitleg in kleur staat in een vaste regel direct boven de grafiek.
+    stock.legend = None
+    stock.layout = Layout(manualLayout=ManualLayout(x=0.02, y=0.03, w=0.96, h=0.8))
+    return stock, col + len(cols) + 1
 
 
 def value_chart(data_ws, series: dict[str, list[tuple[str, float]]], bench: list[tuple[str, float]],
@@ -148,12 +196,30 @@ def value_chart(data_ws, series: dict[str, list[tuple[str, float]]], bench: list
     return ch, col + len(names) + 2
 
 
-def _header(ws, row: int, title: str, lines: list[str]) -> int:
+def _key(item: dict) -> CellRichText:
+    """Gekleurde legenda-regel: elk woord in de kleur van zijn lijn of kaars."""
+    parts = [("▮ groen", GREEN, " = dag gestegen   "), ("▮ rood", RED, " = dag gedaald   "),
+             ("━ blauw", BLUE, " = gemiddelde 50 dagen   "), ("━ oranje", ORANGE, " = gemiddelde 200 dagen   ")]
+    if item.get("instap"):
+        parts.append(("╌ grijs", INK_2, " = instap   "))
+    if item.get("stop"):
+        parts.append(("╌ rood", RED, " = stop-loss, hier verkoopt de bot"))
+    out = []
+    for word, color, rest in parts:
+        out.append(TextBlock(InlineFont(b=True, color=color, sz=11), word))
+        out.append(TextBlock(InlineFont(color=INK_2, sz=11), rest))
+    return CellRichText(*out)
+
+
+def _header(ws, row: int, title: str, lines: list[str], key: CellRichText | None = None) -> int:
     ws.cell(row=row, column=2, value=title).font = Font(size=14, bold=True, color=INK)
     ws.row_dimensions[row].height = 24
     row += 1
     for line in lines:
         ws.cell(row=row, column=2, value=line).font = Font(size=11, color=INK_2)
+        row += 1
+    if key is not None:
+        ws.cell(row=row, column=2).value = key
         row += 1
     return row
 
@@ -179,12 +245,13 @@ def add(xlsx: Path, items: list[dict], value: dict | None = None, position: int 
     ws["B1"] = "Grafieken van vandaag"
     ws["B1"].font = Font(size=18, bold=True)
     ws.row_dimensions[1].height = 28
-    ws["B2"] = ("Scroll naar beneden: alle grafieken staan onder elkaar. Ga met de muis over een lijn om de waarde "
-                "te zien. Zwarte lijn = koers, blauw = gemiddelde van 50 dagen, oranje = van 200 dagen, "
-                "rode stippellijn = stop-loss (daar verkoopt de bot).")
+    ws["B2"] = ("Scroll naar beneden: alle grafieken staan onder elkaar. Elke kaars is één handelsdag: "
+                "groen = die dag gestegen, rood = die dag gedaald; de dunne streep is de hoogste en laagste koers. "
+                "Blauwe lijn = gemiddelde van 50 dagen, oranje = van 200 dagen, grijze stippellijn = instap, "
+                "rode stippellijn = stop-loss (daar verkoopt de bot). Ga met de muis over een kaars of lijn voor de waarde.")
     ws["B2"].font = Font(size=11, italic=True, color=INK_2)
     ws["B2"].alignment = Alignment(wrap_text=True, vertical="top")
-    ws.row_dimensions[2].height = 32
+    ws.row_dimensions[2].height = 50
     row, col, n = 4, 1, 0
     vchart = None
     if value:
@@ -199,7 +266,7 @@ def add(xlsx: Path, items: list[dict], value: dict | None = None, position: int 
     for item in items:
         n += 1
         ch, col = _price_chart(data_ws, item, col)
-        row = _header(ws, row, f"{n}. {item['kop']}", item["uitleg"])
+        row = _header(ws, row, f"{n}. {item['kop']}", item["uitleg"], _key(item))
         ws.add_chart(ch, f"B{row}")
         row += ROWS_PER_CHART + 2
     ws.sheet_properties.pageSetUpPr.fitToPage = True

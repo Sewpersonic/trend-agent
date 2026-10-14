@@ -106,7 +106,8 @@ def chart_data(bars: list[Bar], title: str, entry: float | None = None, stop: fl
     r = lambda v: None if v is None else round(v, 4)  # noqa: E731
     return {"titel": title, "kop": head, "uitleg": lines, "valuta": currency,
             "datums": [_day(b.day) for b in view], "iso": [b.day.isoformat() for b in view],
-            "koers": [r(b.close) for b in view], "sma50": [r(v) for v in s50[off:]],
+            "koers": [r(b.close) for b in view], "open": [r(b.open) for b in view],
+            "hoog": [r(b.high) for b in view], "laag": [r(b.low) for b in view], "sma50": [r(v) for v in s50[off:]],
             "sma200": [r(v) for v in s200[off:]], "instap": entry, "stop": stop, "gekocht": opened,
             "verkocht": sold[0] if sold else None}
 
