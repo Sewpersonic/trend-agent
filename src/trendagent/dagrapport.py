@@ -49,11 +49,52 @@ def _plain(line: str) -> str:
     return line.removeprefix("- ").replace("**", "")
 
 
+MAANDEN = ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober",
+           "november", "december"]
+DAGEN = ["maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag"]
+
+
+def _nl(x: float, digits: int = 2) -> str:
+    return f"{x:,.{digits}f}".replace(",", "X").replace(".", ",").replace("X", ".")
+
+
+def _nl_date(day: str) -> str:
+    from datetime import date
+    try:
+        d = date.fromisoformat(day)
+    except ValueError:
+        return day
+    return f"{DAGEN[d.weekday()]} {d.day} {MAANDEN[d.month - 1]} {d.year}"
+
+
+def _height(text, width_chars: float, size: int = 11) -> float:
+    """Rijhoogte zodat afgebroken tekst helemaal zichtbaar is (Excel doet dat niet altijd zelf)."""
+    import math
+    if not isinstance(text, str) or not text:
+        return 18
+    per_line = max(width_chars * 11 / size * 1.05, 10)
+    lines = sum(max(1, math.ceil(len(part) / per_line)) for part in text.split("\n"))
+    return max(18, lines * size * 1.45 + 4)
+
+
+def _fit_rows(ws) -> None:
+    """Rijhoogtes voor tabellen met afgebroken tekst, op basis van de kolombreedtes."""
+    from openpyxl.utils import get_column_letter
+    for row in ws.iter_rows(min_row=2):
+        h = 18
+        for c in row:
+            if isinstance(c.value, str) and len(c.value) > 12:
+                width = ws.column_dimensions[get_column_letter(c.column)].width or 10
+                h = max(h, _height(c.value, width))
+        ws.row_dimensions[row[0].row].height = h
+
+
 def _wrap_rows(ws, first: int = 2) -> None:
     for row in ws.iter_rows(min_row=first):
         for c in row:
             if isinstance(c.value, str):
                 c.alignment = WRAP
+    _fit_rows(ws)
 
 
 def build(state_dir: Path, reports_dir: Path, day: str) -> Workbook:
@@ -64,53 +105,76 @@ def build(state_dir: Path, reports_dir: Path, day: str) -> Workbook:
     wb = Workbook()
     wb.remove(wb.active)
 
-    # --- Overzicht
-    ws = _sheet(wb, "Overzicht", ["Bot", "Waarde", "Winst of verlies", "Sinds start €", "Sinds start %",
-                                  "Vandaag €", "Vandaag %", "Afgesloten trades €", "Tegenover wereld-ETF",
-                                  "Klaar voor echt geld?"], [16, 14, 16, 14, 13, 12, 11, 18, 20, 60])
+    # --- Overzicht: als een leesbare pagina, niet als brede tabel
+    ws = wb.create_sheet("Overzicht")
+    ws.sheet_view.showGridLines = False
+    ws.column_dimensions["A"].width = 3
+    ws.column_dimensions["B"].width = 30
+    ws.column_dimensions["C"].width = 90
+    ws["B1"] = f"Dagrapport {_nl_date(day)}"
+    ws["B1"].font = Font(size=20, bold=True)
+    ws["B2"] = "Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies."
+    ws["B2"].font = Font(size=11, italic=True, color="52514E")
+    row = 4
     for name, key, _ in BOTS:
         hist = books[key].get("equity_history", [])
         st = _history_stats(hist)
-        ready = info.get(key, {}).get("klaar", {}).get("oordeel", "")
         start = hist[0]["equity"] if hist else None
         since = round(st["waarde"] - start, 2) if st and start else None
-        label = "–" if since is None else ("WINST" if since > 0.005 else "VERLIES" if since < -0.005 else "gelijk")
+        label = "–" if since is None else ("WINST" if since > 0.005 else "VERLIES" if since < -0.005 else "GELIJK")
         realised = round(sum(t.get("pnl_eur") or 0 for t in books[key].get("trades", []) if t.get("side") == "SELL"), 2)
-        ws.append([name, st.get("waarde"), label, since, st.get("sinds_start"), st.get("vandaag"),
-                   st.get("vandaag_pct"), realised, st.get("vs_etf"), ready])
-        r = ws.max_row
-        ws.cell(row=r, column=2).number_format = EUR
-        for col, fmt in ((4, RES_EUR), (5, RES_PCT), (6, RES_EUR), (7, RES_PCT), (8, RES_EUR), (9, RES_PCT)):
-            ws.cell(row=r, column=col).number_format = fmt
-        cell = ws.cell(row=r, column=3)
-        cell.font = BOLD
-        if label in ("WINST", "VERLIES"):
-            cell.fill = GREEN if label == "WINST" else RED
-    ws.append([])
-    ws.append(["Winst of verlies = waarde nu tegenover de €10.000 bij de start, inclusief posities die nog openstaan. "
-               "Afgesloten trades = winst of verlies dat al echt is vastgezet door te verkopen."])
-    ws.append([])
-    ws.append([f"Handelsdag {day}. Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies."])
-    ws.append([])
+        ws.cell(row=row, column=2, value=name).font = Font(size=15, bold=True)
+        row += 1
+        lines = [("Waarde nu", st.get("waarde"), EUR, None)]
+        if since is not None:
+            lines.append((f"{label} sinds de start", since, RES_EUR, label))
+            lines.append(("Sinds de start in %", st.get("sinds_start"), RES_PCT, None))
+        if "vandaag" in st:
+            lines.append(("Vandaag", st["vandaag"], RES_EUR, None))
+        lines.append(("Al vastgezet door verkopen", realised, RES_EUR, None))
+        if "vs_etf" in st:
+            lines.append(("Beter of slechter dan de wereld-ETF", st["vs_etf"], RES_PCT, None))
+        ready = info.get(key, {}).get("klaar", {}).get("oordeel")
+        if ready:
+            lines.append(("Klaar voor echt geld?", ready, None, None))
+        for lab, val, fmt, flag in lines:
+            ws.cell(row=row, column=2, value=lab).font = Font(size=12, color="52514E")
+            c = ws.cell(row=row, column=3, value=val)
+            c.font = Font(size=12, bold=flag is not None or lab == "Waarde nu")
+            c.alignment = Alignment(horizontal="left", wrap_text=True)
+            if fmt:
+                c.number_format = fmt
+            if flag in ("WINST", "VERLIES"):
+                ws.cell(row=row, column=2).fill = GREEN if flag == "WINST" else RED
+                ws.cell(row=row, column=2).font = Font(size=12, bold=True)
+            row += 1
+        row += 1
+
+    def section(title: str, items: list[str]) -> None:
+        nonlocal row
+        ws.cell(row=row, column=2, value=title).font = Font(size=14, bold=True)
+        row += 1
+        for text in items:
+            c = ws.cell(row=row, column=3, value=text)
+            c.font = Font(size=12)
+            c.alignment = WRAP
+            ws.cell(row=row, column=2, value="•").alignment = Alignment(horizontal="right", vertical="top")
+            ws.row_dimensions[row].height = _height(text, 90, 12)
+            row += 1
+        row += 1
+
     for name, key, _ in BOTS:
         d = info.get(key, {})
         if d.get("conclusies"):
-            ws.append([f"{name}: wat de bot eruit haalt"])
-            ws.cell(row=ws.max_row, column=1).font = BOLD
-            for c in d["conclusies"]:
-                ws.append(["", c])
-                ws.merge_cells(start_row=ws.max_row, start_column=2, end_row=ws.max_row, end_column=7)
-                ws.cell(row=ws.max_row, column=2).alignment = WRAP
-                ws.row_dimensions[ws.max_row].height = 30
-            ws.append([])
+            section(f"{name}: wat de bot uit de analyse haalt", d["conclusies"])
     done = [(name, t) for name, key, _ in BOTS for t in books[key].get("trades", []) if t.get("day") == day]
-    ws.append(["Vandaag gedaan"])
-    ws.cell(row=ws.max_row, column=1).font = BOLD
-    for name, t in done:
-        ws.append(["", f"{name} {'kocht' if t['side'] == 'BUY' else 'verkocht'} {t['ticker']} voor "
-                       f"€{t['value_eur']:,.2f} ({t['reason'][:90]})"])
-    if not done:
-        ws.append(["", "Niets gekocht of verkocht."])
+    section("Vandaag gekocht en verkocht", [
+        f"{name} {'kocht' if t['side'] == 'BUY' else 'verkocht'} {t['ticker']} voor €{_nl(t['value_eur'])}"
+        f" ({t['reason'][:90]})" for name, t in done] or ["Niets gekocht of verkocht."])
+    ws.cell(row=row, column=2, value="Meer weten? Zie de tabbladen hieronder: Grafieken, Analyse, Verlies en risico, "
+                                      "Kansen, Klaar voor echt geld.").font = Font(size=11, italic=True, color="52514E")
+    ws.cell(row=row + 2, column=2).value = None
+    ws._chart_row = row + 2   # hier komt de waardegrafiek
 
     # --- Analyse
     ws = _sheet(wb, "Analyse", ["Bot", "Onderdeel", "Wat de bot zag of concludeert"], [16, 22, 110])
@@ -126,12 +190,16 @@ def build(state_dir: Path, reports_dir: Path, day: str) -> Workbook:
 
     # --- Verlies en risico
     ws = _sheet(wb, "Verlies en risico", ["Bot", "Ticker", "Instap", "Koers nu", "Stop", "Resultaat €", "Resultaat %",
-                                          "Afstand tot stop", "Als de stop geraakt wordt €"],
-                [14, 12, 11, 11, 11, 13, 12, 15, 24])
+                                          "Afstand tot stop", "Als de stop geraakt wordt €", "In gewone taal"],
+                [14, 12, 11, 11, 11, 13, 12, 15, 24, 70])
     tr = info.get("trend", {})
     for r in tr.get("posities", []):
+        st = r["bij_stop_eur"]
+        plain = (f"Staat €{_nl(abs(r['resultaat_eur']))} in de {'plus' if r['resultaat_eur'] >= 0 else 'min'}. "
+                 f"Zakt de koers {_nl(abs(r['afstand_stop_pct'] or 0) * 100, 1)}% naar {_nl(r['stop'])}, dan verkoopt de bot "
+                 + (f"met ongeveer €{_nl(-st)} verlies." if st < 0 else f"en is €{_nl(st)} winst vastgezet."))
         ws.append(["Trend-agent", r["ticker"], r["instap"], r["koers"], r["stop"], r["resultaat_eur"],
-                   r["resultaat_pct"], r["afstand_stop_pct"], r["bij_stop_eur"]])
+                   r["resultaat_pct"], r["afstand_stop_pct"], r["bij_stop_eur"], plain])
         row = ws.max_row
         for col, fmt in ((6, RES_EUR), (7, RES_PCT), (8, PCT), (9, RES_EUR)):
             ws.cell(row=row, column=col).number_format = fmt
@@ -158,23 +226,49 @@ def build(state_dir: Path, reports_dir: Path, day: str) -> Workbook:
             for col, fmt in ((3, EUR), (4, EUR), (5, RES_EUR), (6, RES_PCT)):
                 ws.cell(row=row, column=col).number_format = fmt
 
-    # --- Kansen
-    ws = _sheet(wb, "Kansen", ["#", "Ticker", "Naam", "Instapmoment", "Waarom sterk", "Uitleg instapmoment", "Status",
-                               "Valuta", "Instap", "Stop", "Stop %", "Aantal", "Inzet €", "Max verlies €",
-                               "2x risico (oriëntatie)"],
-                [4, 10, 18, 13, 60, 45, 34, 7, 10, 10, 9, 8, 11, 13, 14])
+    _wrap_rows(ws)
+
+    # --- Kansen: per kans een blok dat je van boven naar beneden leest
+    ws = wb.create_sheet("Kansen")
+    ws.sheet_view.showGridLines = False
+    ws.column_dimensions["A"].width = 3
+    ws.column_dimensions["B"].width = 24
+    ws.column_dimensions["C"].width = 95
+    ws["B1"] = "Kansen: wat de trend-agent vandaag het sterkst vond"
+    ws["B1"].font = Font(size=18, bold=True)
+    ws["B2"] = ("Wat de oefenbot met nepgeld zou doen volgens zijn regels. Geen advies voor echt geld. "
+                "Het instapmoment is een ongeteste vuistregel en wordt door de bot niet gebruikt.")
+    ws["B2"].font = Font(size=11, italic=True, color="52514E")
+    row = 4
+    moment_fill = {"gunstig": GREEN, "opgelopen": RED}
     for i, k in enumerate(tr.get("kansen", []), 1):
         p = k["plan"]
-        ws.append([i, k["ticker"], k["naam"], k["moment"], k["uitleg"], k["moment_uitleg"], k["status"], p["valuta"],
-                   p["instap"], p["stop"], p["stop_pct"], p["aantal"], p["inzet_eur"], p["max_verlies_eur"], p["doel_2r"]])
-        row = ws.max_row
-        ws.cell(row=row, column=11).number_format = PCT
-        ws.cell(row=row, column=13).number_format = EUR
-        ws.cell(row=row, column=14).number_format = EUR
-    ws.append([])
-    ws.append(["", "Wat de oefenbot met nepgeld zou doen volgens zijn regels. Geen advies voor echt geld. "
-                   "Het instapmoment is een ongeteste vuistregel en wordt door de bot niet gebruikt."])
-    _wrap_rows(ws)
+        cur = p["valuta"]
+        head = ws.cell(row=row, column=2, value=f"{i}. {k['naam']} ({k['ticker']})")
+        head.font = Font(size=14, bold=True)
+        row += 1
+        if p["aantal"] >= 1:
+            plan = (f"Koop {p['aantal']:g} {'stuk' if p['aantal'] == 1 else 'stuks'} rond {_nl(p['instap'])} {cur} "
+                    f"(inzet €{_nl(p['inzet_eur'])}). Stop-loss op {_nl(p['stop'])} {cur} "
+                    f"({_nl(p['stop_pct'] * 100, 1)}%). Gaat het mis, dan is het verlies ongeveer €{_nl(p['max_verlies_eur'])}.")
+        else:
+            plan = (f"Instap rond {_nl(p['instap'])} {cur}, stop-loss {_nl(p['stop'])} {cur}. "
+                    "Er past geen heel stuk in het risicobudget van deze kleine oefenrekening.")
+        for lab, text, fill in (("Instapmoment", f"{k['moment']}: {k['moment_uitleg']}", moment_fill.get(k["moment"])),
+                                ("Waarom sterk", k["uitleg"], None),
+                                ("Plan van de bot", plan, None),
+                                ("Wat deed de bot?", k["status"], None)):
+            lc = ws.cell(row=row, column=2, value=lab)
+            lc.font = Font(size=12, color="52514E")
+            lc.alignment = Alignment(vertical="top")
+            if fill:
+                lc.fill = fill
+            c = ws.cell(row=row, column=3, value=text[0].upper() + text[1:] if text else text)
+            c.font = Font(size=12, bold=lab == "Plan van de bot")
+            c.alignment = WRAP
+            ws.row_dimensions[row].height = _height(text, 95, 12)
+            row += 1
+        row += 1
 
     # --- Klaar voor echt geld
     ws = _sheet(wb, "Klaar voor echt geld", ["Bot", "Eis", "Stand", "Nu"], [16, 36, 16, 50])
@@ -223,6 +317,7 @@ def build(state_dir: Path, reports_dir: Path, day: str) -> Workbook:
         for col in (7, 8):
             ws.cell(row=ws.max_row, column=col).number_format = EUR
         ws.cell(row=ws.max_row, column=9).number_format = RES_EUR
+    _wrap_rows(ws)
 
     # --- Controles
     ws = _sheet(wb, "Controles", ["Bot", "Controle"], [16, 120])
@@ -253,17 +348,57 @@ def build(state_dir: Path, reports_dir: Path, day: str) -> Workbook:
     return wb
 
 
+def _print_fit(ws) -> None:
+    ws.sheet_properties.pageSetUpPr.fitToPage = True
+    ws.page_setup.fitToWidth = 1
+    ws.page_setup.fitToHeight = 0
+    ws.page_setup.orientation = "landscape"
+    ws.page_setup.paperSize = ws.PAPERSIZE_A4
+
+
+def _chart_title(png: Path) -> str:
+    bot, _, ticker = png.stem.partition("-")
+    inst = BY_TICKER.get(ticker)
+    who = {"trend": "Trend-agent", "investeerder": "Investeerder"}.get(bot, bot)
+    return f"{who}: {inst.name if inst else ticker} ({ticker})"
+
+
 def write(state_dir: Path, reports_dir: Path, day: str) -> Path:
     reports_dir.mkdir(parents=True, exist_ok=True)
     path = reports_dir / "dagrapport.xlsx"
     tmp = path.with_suffix(".tmp.xlsx")
-    build(state_dir, reports_dir, day).save(tmp)
+    wb = build(state_dir, reports_dir, day)
+    for ws in wb.worksheets:   # afdrukken/PDF: altijd één pagina breed
+        _print_fit(ws)
+    value_png = None
+    try:   # waardegrafiek van beide bots tegenover de wereld-ETF
+        from . import charts
+        books = {key: _load(state_dir / fname) for _, key, fname in BOTS}
+        series = {name: [(e["day"], e["equity"]) for e in books[key].get("equity_history", []) if e["day"] != "start"]
+                  for name, key, _ in BOTS}
+        bench = [(e["day"], e["bench"]) for e in books["investeerder"].get("equity_history", []) if "bench" in e]
+        value_png = charts.value_chart(series, bench, charts.chart_dir(reports_dir, day) / "waarde.png")
+        if value_png:
+            from openpyxl.drawing.image import Image
+            ws = wb["Overzicht"]
+            img = Image(str(value_png))
+            scale = 820 / img.width
+            img.width, img.height = img.width * scale, img.height * scale
+            ws.add_image(img, f"B{getattr(ws, '_chart_row', 30)}")
+    except Exception:  # noqa: BLE001
+        value_png = None
+    wb.save(tmp)
     tmp.replace(path)
-    try:   # grafieken van vandaag erbij; een fout hierin laat het bestand gewoon staan
+    try:   # candle-grafieken van vandaag, elk met een kopje; trend-agent eerst
         from . import charts
         folder = charts.chart_dir(reports_dir, day)
-        pngs = sorted(folder.glob("*.png")) if folder.exists() else []
-        charts.add_to_excel(path, pngs)
+        pngs = sorted((p for p in folder.glob("*.png") if p.name != "waarde.png"),
+                      key=lambda p: (not p.name.startswith("trend"), p.name)) if folder.exists() else []
+        if value_png:
+            pngs = [value_png] + pngs
+        titles = ["Waarde van de bots tegenover de wereld-ETF" if p.name == "waarde.png" else _chart_title(p)
+                  for p in pngs]
+        charts.add_to_excel(path, pngs, titles, position=1)
     except Exception:  # noqa: BLE001
         pass
     return path

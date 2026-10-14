@@ -233,15 +233,18 @@ def _charts_for(s, day: str, bot: str, items: list, xlsx_name: str, note_name: s
     try:
         from . import charts
         folder = charts.chart_dir(s.reports_dir, day)
-        paths = []
-        for ticker, bars, title, entry, stop, cur in items:
+        paths, titles = [], []
+        for ticker, bars, title, entry, stop, cur, *extra in items:
             if bars and len(bars) >= 20:
-                paths.append(charts.candle_chart(bars, title, folder / f"{bot}-{ticker}.png", entry, stop, cur))
+                titles.append(title)
+                opened, sold = (extra + [None, None])[:2]
+                paths.append(charts.candle_chart(bars, title, folder / f"{bot}-{ticker}.png", entry, stop, cur,
+                                                 opened=opened, sold=sold))
         note = s.reports_dir / note_name
         if paths and note.exists():
             with note.open("a", encoding="utf-8") as f:
                 f.write(charts.markdown_section(paths, s.reports_dir))
-        charts.add_to_excel(s.reports_dir / xlsx_name, paths)
+        charts.add_to_excel(s.reports_dir / xlsx_name, paths, titles)
         charts.prune(s.reports_dir)
     except Exception as exc:  # noqa: BLE001
         print(f"Grafieken overgeslagen: {type(exc).__name__}: {exc}", file=sys.stderr)
@@ -256,12 +259,13 @@ def _trend_charts(s, agent, day: str) -> None:
     items = []
     for t, pos in pf.positions.items():
         inst = BY_TICKER.get(t)
-        items.append((t, bars.get(t), f"{inst.name if inst else t} ({t})", pos.entry_price, pos.stop, pos.currency))
+        items.append((t, bars.get(t), f"{inst.name if inst else t} ({t})", pos.entry_price, pos.stop, pos.currency,
+                      pos.opened, None))
     for tr in pf.trades:
         if tr.day == day and tr.side == "SELL" and tr.ticker not in pf.positions:
             inst = BY_TICKER.get(tr.ticker)
             items.append((tr.ticker, bars.get(tr.ticker), f"{inst.name if inst else tr.ticker} ({tr.ticker}) - verkocht",
-                          None, None, inst.currency if inst else ""))
+                          None, None, inst.currency if inst else "", None, (tr.day, tr.price)))
     _charts_for(s, day, "trend", items, "trend-agent.xlsx", f"{day}.md")
 
 
