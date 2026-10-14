@@ -14,7 +14,7 @@ _Oefenportefeuille met nepgeld. Geen beleggingsadvies; resultaten uit het verled
 
 **Wat de bot zag**
 
-- **Markt (IWDA.AS):** koers 131,81, 9,6% boven het 200-daags gemiddelde (120,29); de afgelopen maand +4,3%. Trend: **stijgend**.
+- **Markt (IWDA.AS):** koers 131,81, 9,5% boven het 200-daags gemiddelde (120,39); de afgelopen maand +4,8%. Trend: **stijgend**.
 - **Beweeglijkheid:** 8% op jaarbasis, tegen normaal 10% het afgelopen jaar: **laag**.
 - **Breedte:** 35 van de 50 instrumenten staan boven hun 200-daags gemiddelde (70%; EU 13 van 23, US 22 van 27).
 - **Bekeken:** 50 instrumenten.

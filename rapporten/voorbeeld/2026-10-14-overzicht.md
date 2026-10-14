@@ -6,7 +6,7 @@ _Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies._
 
 | Bot | Waarde | Vandaag | Sinds start | Tegenover wereld-ETF |
 | --- | --- | --- | --- | --- |
-| Investeerder | €9.820,86 | €-164,76 (-1,65%) | -1,79% | -1,31% (ETF -0,34% sinds 2026-10-13) |
+| Investeerder | €9.820,69 | €-164,93 (-1,65%) | -1,79% | -1,31% (ETF -0,34% sinds 2026-10-13) |
 | Trend-agent | €10.026,55 | €12,13 (+0,12%) | +0,27% | +0,46% (ETF -0,34% sinds 2026-10-13) |
 
 ## Vandaag gedaan
@@ -34,7 +34,7 @@ _Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies._
 - Trend-agent SAP.DE: €10,77 (+2,8%), +8,8% boven de stop; raakt hij de stop, dan €22,04 verlies.
 - Trend-agent MSFT: €0,61 (-0,3%), +4,7% boven de stop; raakt hij de stop, dan €21,71 verlies.
 - Trend-agent remmen: +0,0% vanaf de top (grens -5%), 0 van 3 verliestrades op rij.
-- Investeerder: -€179,12 op de beleggingen; grootste verlies MU -€45,59 (-7,6%).
+- Investeerder: -€179,30 op de beleggingen; grootste verlies MU -€45,53 (-7,6%).
 
 ## Beste kansen volgens de trend-agent
 

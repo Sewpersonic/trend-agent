@@ -3,7 +3,7 @@
 _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 
 **Status:** OK  
-**Waarde:** €9,820.86  
+**Waarde:** €9,820.69  
 **Marktregime:** stijgend-laag  
 **Strategieversie:** investeerder-1.0-c2474a  
 **Koersbronnen:** 0 bevestigd door 2 bronnen, 52 uit 1 bron, 0 afwijkend; wisselkoers bevestigd  
@@ -27,7 +27,7 @@ _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 
 **Wat de bot zag**
 
-- **Markt (IWDA.AS):** koers 131,81, 9,6% boven het 200-daags gemiddelde (120,29); de afgelopen maand +4,3%. Trend: **stijgend**.
+- **Markt (IWDA.AS):** koers 131,81, 9,5% boven het 200-daags gemiddelde (120,39); de afgelopen maand +4,8%. Trend: **stijgend**.
 - **Beweeglijkheid:** 8% op jaarbasis, tegen normaal 10% het afgelopen jaar: **laag**.
 - **Breedte:** 35 van de 50 instrumenten staan boven hun 200-daags gemiddelde (70%; EU 13 van 23, US 22 van 27).
 - **Sterkste momentum nu (12 maanden, zonder laatste maand):** Micron +382%, AMD +133%, CrowdStrike +91%, Palo Alto Networks +76%, ING +63%.
@@ -43,16 +43,16 @@ _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 
 | Instrument | Waarde | Ingelegd | Resultaat |
 | --- | --- | --- | --- |
-| MU | €554,41 | €600,00 | -€45,59 (-7,6%) |
+| MU | €554,47 | €600,00 | -€45,53 (-7,6%) |
 | IFX.DE | €563,00 | €600,00 | -€37,00 (-6,2%) |
 | ASML.AS | €571,26 | €600,00 | -€28,74 (-4,8%) |
-| SMH | €573,20 | €600,00 | -€26,80 (-4,5%) |
-| AMD | €576,20 | €600,00 | -€23,80 (-4,0%) |
-| ETH-USD | €488,14 | €500,00 | -€11,86 (-2,4%) |
-| BTC-USD | €494,29 | €500,00 | -€5,71 (-1,1%) |
+| SMH | €573,26 | €600,00 | -€26,74 (-4,5%) |
+| AMD | €576,26 | €600,00 | -€23,74 (-4,0%) |
+| ETH-USD | €487,99 | €500,00 | -€12,01 (-2,4%) |
+| BTC-USD | €494,08 | €500,00 | -€5,92 (-1,2%) |
 | IWDA.AS | €6.000,38 | €6.000,00 | €0,38 (+0,0%) |
 
-Totaal op de beleggingen: -€179,12 (inclusief aankoopkosten).
+Totaal op de beleggingen: -€179,30 (inclusief aankoopkosten).
 Daling vanaf de hoogste waarde ooit: -1,79% (top €10.000,00). De investeerder heeft geen stop-loss: hij houdt een spreiding vast en herverdeelt maandelijks.
 
 ## Vandaag gedaan
