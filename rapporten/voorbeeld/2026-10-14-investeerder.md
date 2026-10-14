@@ -1,38 +1,38 @@
-# Investeerder 2026-10-13
+# Investeerder 2026-10-14
 
 _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 
 **Status:** OK  
-**Waarde:** €9,918.81  
+**Waarde:** €9,816.29  
 **Marktregime:** stijgend-laag  
 **Strategieversie:** investeerder-1.0-c2474a  
 **Koersbronnen:** 0 bevestigd door 2 bronnen, 52 uit 1 bron, 0 afwijkend; wisselkoers bevestigd  
-**Sinds start:** -0.81%  
+**Sinds start:** -1.84%  
 
 ## Verdeling
 
 | Instrument | Aandeel |
 | --- | --- |
-| iShares MSCI World (IWDA.AS) | 60.7% |
-| AMD (AMD) | 6.0% |
-| Halfgeleider-ETF (SMH) | 5.9% |
+| iShares MSCI World (IWDA.AS) | 61.1% |
+| AMD (AMD) | 5.9% |
+| Halfgeleider-ETF (SMH) | 5.8% |
 | ASML (ASML.AS) | 5.8% |
-| Micron (MU) | 5.8% |
 | Infineon (IFX.DE) | 5.7% |
+| Micron (MU) | 5.7% |
 | Bitcoin (BTC-USD) | 5.0% |
-| Ethereum (ETH-USD) | 5.0% |
+| Ethereum (ETH-USD) | 4.9% |
 | Kas | 0.0% |
 
 ## Analyse van vandaag
 
 **Wat de bot zag**
 
-- **Markt (IWDA.AS):** koers 132,30, 10,0% boven het 200-daags gemiddelde (120,29); de afgelopen maand +4,6%. Trend: **stijgend**.
+- **Markt (IWDA.AS):** koers 131,81, 9,6% boven het 200-daags gemiddelde (120,29); de afgelopen maand +4,3%. Trend: **stijgend**.
 - **Beweeglijkheid:** 8% op jaarbasis, tegen normaal 10% het afgelopen jaar: **laag**.
 - **Breedte:** 35 van de 50 instrumenten staan boven hun 200-daags gemiddelde (70%; EU 13 van 23, US 22 van 27).
 - **Sterkste momentum nu (12 maanden, zonder laatste maand):** Micron +382%, AMD +133%, CrowdStrike +91%, Palo Alto Networks +76%, ING +63%.
-- **BTC-USD:** 14,2% boven het 200-daags gemiddelde (mag in de mix).
-- **ETH-USD:** 14,9% boven het 200-daags gemiddelde (mag in de mix).
+- **BTC-USD:** 13,1% boven het 200-daags gemiddelde (mag in de mix).
+- **ETH-USD:** 12,6% boven het 200-daags gemiddelde (mag in de mix).
 
 **Wat de bot eruit haalt**
 
@@ -43,17 +43,17 @@ _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 
 | Instrument | Waarde | Ingelegd | Resultaat |
 | --- | --- | --- | --- |
-| IFX.DE | €569,81 | €600,00 | -€30,19 (-5,0%) |
-| MU | €572,28 | €600,00 | -€27,72 (-4,6%) |
-| ASML.AS | €579,26 | €600,00 | -€20,74 (-3,5%) |
-| SMH | €585,09 | €600,00 | -€14,91 (-2,5%) |
-| AMD | €592,76 | €600,00 | -€7,24 (-1,2%) |
-| ETH-USD | €497,02 | €500,00 | -€2,98 (-0,6%) |
-| BTC-USD | €499,91 | €500,00 | -€0,09 (-0,0%) |
-| IWDA.AS | €6.022,68 | €6.000,00 | €22,68 (+0,4%) |
+| MU | €554,28 | €600,00 | -€45,72 (-7,6%) |
+| IFX.DE | €563,00 | €600,00 | -€37,00 (-6,2%) |
+| ASML.AS | €571,26 | €600,00 | -€28,74 (-4,8%) |
+| SMH | €573,07 | €600,00 | -€26,93 (-4,5%) |
+| AMD | €576,07 | €600,00 | -€23,93 (-4,0%) |
+| ETH-USD | €485,09 | €500,00 | -€14,91 (-3,0%) |
+| BTC-USD | €493,14 | €500,00 | -€6,86 (-1,4%) |
+| IWDA.AS | €6.000,38 | €6.000,00 | €0,38 (+0,0%) |
 
-Totaal op de beleggingen: -€81,19 (inclusief aankoopkosten).
-Daling vanaf de hoogste waarde ooit: -0,81% (top €10.000,00). De investeerder heeft geen stop-loss: hij houdt een spreiding vast en herverdeelt maandelijks.
+Totaal op de beleggingen: -€183,71 (inclusief aankoopkosten).
+Daling vanaf de hoogste waarde ooit: -1,84% (top €10.000,00). De investeerder heeft geen stop-loss: hij houdt een spreiding vast en herverdeelt maandelijks.
 
 ## Vandaag gedaan
 
@@ -65,9 +65,9 @@ Daling vanaf de hoogste waarde ooit: -0,81% (top €10.000,00). De investeerder 
 
 | Eis | Stand | Nu |
 | --- | --- | --- |
-| Oefentijd | ⏳ | 1 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | nog te weinig dagen |
-| Daling niet veel dieper dan de ETF | ✅ | bot -0,81%, ETF +0,00% |
+| Oefentijd | ⏳ | 2 van 63 handelsdagen (ongeveer 3 maanden) |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -1,36% |
+| Daling niet veel dieper dan de ETF | ✅ | bot -1,84%, ETF -0,34% |
 
 <details><summary>Zo analyseert de investeerder (klik om te openen)</summary>
 
@@ -81,20 +81,20 @@ Daling vanaf de hoogste waarde ooit: -0,81% (top €10.000,00). De investeerder 
 
 ## Grafieken (laatste 3 maanden)
 
-![investeerder-IWDA.AS](grafieken/2026-10-13/investeerder-IWDA.AS.png)
+![investeerder-IWDA.AS](grafieken/2026-10-14/investeerder-IWDA.AS.png)
 
-![investeerder-MU](grafieken/2026-10-13/investeerder-MU.png)
+![investeerder-MU](grafieken/2026-10-14/investeerder-MU.png)
 
-![investeerder-SMH](grafieken/2026-10-13/investeerder-SMH.png)
+![investeerder-SMH](grafieken/2026-10-14/investeerder-SMH.png)
 
-![investeerder-ASML.AS](grafieken/2026-10-13/investeerder-ASML.AS.png)
+![investeerder-ASML.AS](grafieken/2026-10-14/investeerder-ASML.AS.png)
 
-![investeerder-IFX.DE](grafieken/2026-10-13/investeerder-IFX.DE.png)
+![investeerder-IFX.DE](grafieken/2026-10-14/investeerder-IFX.DE.png)
 
-![investeerder-AMD](grafieken/2026-10-13/investeerder-AMD.png)
+![investeerder-AMD](grafieken/2026-10-14/investeerder-AMD.png)
 
-![investeerder-ETH-USD](grafieken/2026-10-13/investeerder-ETH-USD.png)
+![investeerder-ETH-USD](grafieken/2026-10-14/investeerder-ETH-USD.png)
 
-![investeerder-BTC-USD](grafieken/2026-10-13/investeerder-BTC-USD.png)
+![investeerder-BTC-USD](grafieken/2026-10-14/investeerder-BTC-USD.png)
 
 _Grafieken worden 20 handelsdagen bewaard._
