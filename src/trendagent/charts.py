@@ -245,7 +245,7 @@ def value_chart(series: dict[str, list[tuple[str, float]]], bench: list[tuple[st
     if len(bpts) >= 2:
         base = bpts[0][1]
         # Zelfde startbedrag als de bot op de eerste dag met ETF-koers, zodat je eerlijk vergelijkt.
-        first_bot = next((v for d, v in series.get("Investeerder", []) if d == bpts[0][0]), start)
+        first_bot = next((v for pts in series.values() for d, v in pts if d == bpts[0][0]), start)
         ys = [first_bot * v / base for _, v in bpts]
         ax.plot([idx[d] for d, _ in bpts], ys, color=REFERENCE, linewidth=2, linestyle=(0, (5, 3)), zorder=2)
         labels.append((ys[-1], f"wereld-ETF {_nl(ys[-1])}", REFERENCE))
@@ -272,8 +272,10 @@ def value_chart(series: dict[str, list[tuple[str, float]]], bench: list[tuple[st
     ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda v, _: _nl(v, 0)))
     ax.set_ylabel("waarde in euro", fontsize=10.5, color=INK_2)
     fig.text(0.08, 0.94, "Hoeveel zijn de bots waard?", fontsize=17, fontweight="bold", color=INK, va="top")
-    fig.text(0.08, 0.885, "Boven de startlijn = winst, eronder = verlies. De grijze stippellijn is wat je had gehad met "
-                          "gewoon de wereld-ETF kopen en vasthouden.", fontsize=11.5, color=INK_2, va="top")
+    sub = "Boven de startlijn = winst, eronder = verlies."
+    if len(bpts) >= 2:
+        sub += " De grijze stippellijn: wat je had gehad met gewoon de wereld-ETF kopen en vasthouden."
+    fig.text(0.08, 0.885, sub, fontsize=11.5, color=INK_2, va="top")
     fig.text(0.08, 0.04, "Oefenportefeuilles met nepgeld. Geen beleggingsadvies.", fontsize=8.5, color=INK_2)
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, facecolor=SURFACE)

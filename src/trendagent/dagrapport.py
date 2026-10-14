@@ -376,7 +376,9 @@ def write(state_dir: Path, reports_dir: Path, day: str) -> Path:
         books = {key: _load(state_dir / fname) for _, key, fname in BOTS}
         series = {name: [(e["day"], e["equity"]) for e in books[key].get("equity_history", []) if e["day"] != "start"]
                   for name, key, _ in BOTS}
-        bench = [(e["day"], e["bench"]) for e in books["investeerder"].get("equity_history", []) if "bench" in e]
+        benches = [[(e["day"], e["bench"]) for e in books[key].get("equity_history", []) if "bench" in e]
+                   for _, key, _ in BOTS]
+        bench = max(benches, key=len)   # de langste reeks met ETF-koersen
         value_png = charts.value_chart(series, bench, charts.chart_dir(reports_dir, day) / "waarde.png")
         if value_png:
             from openpyxl.drawing.image import Image
