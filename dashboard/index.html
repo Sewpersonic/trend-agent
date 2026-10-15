@@ -58,7 +58,9 @@
 .tx-tip .d { color: var(--cds-text-secondary); }
 
 /* Kaarten met minigrafiek */
-.tx-cards { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); }
+.tx-cards { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(min(100%, max(16rem, calc((100% - 3 * 18px) / 4))), 1fr)); }
+.tx-cards > * { min-width: 0; overflow: hidden; }
+.tx-tile2 .t-spark, .tx-tile2 .t-spark svg { max-width: 100%; }
 .tx-coincard { display: grid; grid-template-rows: auto auto 1fr; overflow: hidden; }
 .tx-coincard .h { display: flex; align-items: center; gap: 12px; padding: 18px 18px 6px; }
 .tx-coincard .h .tx-coin { width: 34px; height: 34px; font-size: 12px; }
