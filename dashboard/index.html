@@ -2705,26 +2705,33 @@ dash.calc('onderzoek_verschil', {
 .gr-card { padding: 16px 18px; }
 .gr-card h2 { margin: 0 0 10px; font-size: 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .gr-card h2 small { font-size: 13px; font-weight: normal; color: var(--color-fg-muted); }
-.gr-list { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-.gr-item { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 12px; align-items: center; padding: 12px 14px; border-radius: 16px; background: var(--color-panel); border: 1px solid var(--color-border-line); -webkit-tap-highlight-color: transparent; }
+.gr-list { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); align-items: stretch; }
+.gr-item { all: unset; box-sizing: border-box; cursor: pointer; display: flex; flex-direction: column; gap: 8px; padding: 16px 18px; border-radius: 16px; background: var(--color-panel); border: 1px solid var(--color-border-line); min-width: 0; -webkit-tap-highlight-color: transparent; }
 .gr-item:hover { border-color: var(--tx-accent); }
 .gr-item:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
-.gr-ring { width: 56px; height: 56px; position: relative; }
-.gr-ring svg { width: 56px; height: 56px; transform: rotate(-90deg); }
-.gr-ring b { position: absolute; inset: 0; display: grid; place-items: center; font-size: 13px; font-variant-numeric: tabular-nums; }
-.gr-txt { min-width: 0; display: grid; gap: 3px; }
-.gr-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.gr-top .n { font-size: 16px; font-weight: var(--cds-font-weight-medium); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.gr-st { font-size: 12px; font-weight: var(--cds-font-weight-medium); padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
-.gr-st.bezig { color: var(--color-warn); background: color-mix(in srgb, var(--color-warn) 14%, transparent); }
-.gr-st.nee { color: var(--tx-down); background: color-mix(in srgb, var(--tx-down) 13%, transparent); }
-.gr-st.klaar { color: var(--tx-up); background: color-mix(in srgb, var(--tx-up) 14%, transparent); }
-.gr-sub { font-size: 13px; color: var(--color-fg-muted); }
+.gr-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 4px; }
+.gr-nm { min-width: 0; display: grid; gap: 1px; }
+.gr-nm .n { font-size: 17px; font-weight: var(--cds-font-weight-medium); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gr-rol { font-size: 12px; color: var(--color-fg-muted); }
+.gr-st { flex: none; font-size: 12px; font-weight: var(--cds-font-weight-medium); padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+.gr-st.bezig { color: var(--color-warn); background: color-mix(in srgb, var(--color-warn) 15%, transparent); }
+.gr-st.nee { color: var(--tx-down); background: color-mix(in srgb, var(--tx-down) 14%, transparent); }
+.gr-st.klaar { color: var(--tx-up); background: color-mix(in srgb, var(--tx-up) 15%, transparent); }
+.gr-bh { display: flex; justify-content: space-between; font-size: 13px; color: var(--color-fg-muted); }
+.gr-bh b { color: var(--color-fg); font-weight: var(--cds-font-weight-medium); font-variant-numeric: tabular-nums; }
+.gr-bar { height: 8px; border-radius: 4px; background: color-mix(in srgb, var(--color-fg) 10%, transparent); overflow: hidden; }
+.gr-bar span { display: block; height: 100%; border-radius: 4px; background: var(--color-warn); }
+.gr-item.klaar .gr-bar span { background: var(--tx-up); } .gr-item.nee .gr-bar span { background: var(--tx-down); }
+.gr-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--color-border-line); }
+.gr-stats div { display: grid; gap: 2px; min-width: 0; }
+.gr-stats small { font-size: 12px; color: var(--color-fg-muted); }
+.gr-stats b { font-size: 15px; font-weight: var(--cds-font-weight-medium); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.gr-nog { margin: 0; font-size: 13px; color: var(--color-fg-muted); }
 .gr-big { margin-bottom: 16px; }
 .gr-big .gr-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; margin: 0 0 10px; }
 .gr-big .gr-head h2 { margin: 0; font-size: 20px; }
 .gr-big .gr-head small { color: var(--color-fg-muted); font-size: 13px; }
-.gr-one .gr-list { grid-template-columns: minmax(0, 1fr); }
+.gr-one .gr-list { grid-template-columns: minmax(0, 420px); }
 .gr-uitleg { font-size: 13px; color: var(--color-fg-muted); margin: 10px 2px 0; }
 .tx-nav svg { flex: none; }
 .tx-nav .nbadge { margin-left: auto; font-size: 0; width: 9px; height: 9px; padding: 0 !important; border-radius: 50%; flex: none; }
@@ -2768,7 +2775,8 @@ dash.calc('onderzoek_verschil', {
 @media (max-width: 640px) {
   #gr-home { display: none !important; }
   .gr-list { grid-template-columns: minmax(0, 1fr); }
-  .gr-item { padding: 12px; }
+  .gr-item { padding: 14px; gap: 6px; }
+  .gr-list { gap: 10px; }
   .vl-row { grid-template-columns: 40px minmax(0, 1fr) auto !important; }
   .vl-row .sp { display: none; }
   .lr-res b { font-size: 15px; }
@@ -2787,24 +2795,24 @@ dash.calc('onderzoek_verschil', {
   const D = (iso, f) => { try { return f.format(new Date(iso + (iso.length === 10 ? 'T12:00:00' : ''))); } catch (e) { return iso; } };
   const ST = { klaar: 'Klaar', bezig: 'Nog niet klaar', nee: 'Nog niet klaar' };
   const kleur = (st) => (st === 'klaar' ? 'var(--tx-up)' : st === 'nee' ? 'var(--tx-down)' : 'var(--color-warn)');
-  const ring = (frac, st) => {
-    const w = el('div', { class: 'gr-ring', role: 'img', 'aria-label': Math.round(frac * 100) + '% van de oefentijd' });
-    const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', '0 0 56 56');
-    const c = (stroke, dash) => { const k = document.createElementNS(NS, 'circle'); k.setAttribute('cx', 28); k.setAttribute('cy', 28); k.setAttribute('r', 23); k.setAttribute('fill', 'none'); k.setAttribute('stroke-width', 6); k.setAttribute('stroke', stroke); k.setAttribute('stroke-linecap', 'round'); if (dash != null) k.setAttribute('stroke-dasharray', dash + ' 999'); return k; };
-    const L = 2 * Math.PI * 23;
-    svg.append(c('color-mix(in srgb, var(--color-fg) 12%, transparent)'), c(kleur(st), Math.max(frac * L, 2)));
-    w.append(svg, el('b', {}, Math.round(frac * 100) + '%'));
-    return w;
-  };
   const naarRisico = () => { const n = document.getElementById('risico'); if (n) n.click(); };
+  const kortF = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' });
   const item = (g, opts = {}) => {
-    const b = el('button', { class: 'gr-item', type: 'button', 'data-source': 'gereed', 'data-field': 'status', 'data-where': 'id=' + g.id });
-    const t = el('div', { class: 'gr-txt' });
-    const top = el('div', { class: 'gr-top' }); top.append(el('span', { class: 'n' }, g.bot), el('span', { class: 'gr-st ' + g.status }, (g.status === 'klaar' ? '✓ ' : '⏳ ') + ST[g.status]));
-    t.append(top, el('span', { class: 'gr-sub' }, g.ok + ' van ' + g.totaal + ' eisen gehaald · ' + g.dagen + ' van ' + g.nodig + ' oefendagen'),
-      el('span', { class: 'gr-sub' }, g.status === 'klaar' ? 'Jij beslist of en wanneer.' : 'Op z\'n vroegst klaar: ' + D(g.vroegst, datumF)));
-    if (opts.lang) t.append(el('span', { class: 'gr-sub', style: 'color:var(--color-fg)' }, g.kort));
-    b.append(ring(g.voortgang, g.status), t);
+    const b = el('button', { class: 'gr-item ' + g.status, type: 'button', 'data-source': 'gereed', 'data-field': 'status', 'data-where': 'id=' + g.id });
+    const top = el('div', { class: 'gr-top' });
+    const nm = el('div', { class: 'gr-nm' }); nm.append(el('span', { class: 'n' }, g.bot));
+    nm.append(el('span', { class: 'gr-rol' }, { trend: 'korte trends', investeerder: 'lange termijn', oefenaccount: 'Trading 212, volgt de trend-agent' }[g.id] || ''));
+    top.append(nm, el('span', { class: 'gr-st ' + g.status }, ST[g.status]));
+    const bh = el('div', { class: 'gr-bh' }); bh.append(el('span', {}, 'Oefentijd'), el('b', {}, g.dagen + ' / ' + g.nodig + ' dagen'));
+    const bar = el('div', { class: 'gr-bar', role: 'img', 'aria-label': g.dagen + ' van ' + g.nodig + ' oefendagen' }); const f = el('span'); f.style.width = Math.max(g.voortgang * 100, 2) + '%'; bar.append(f);
+    const st = el('div', { class: 'gr-stats' });
+    const cel = (t, v) => { const d = el('div'); d.append(el('small', {}, t), el('b', {}, v)); return d; };
+    st.append(cel('Eisen gehaald', g.ok + ' van ' + g.totaal), cel(g.status === 'klaar' ? 'Status' : 'Op z\'n vroegst', g.status === 'klaar' ? 'Jij beslist' : D(g.vroegst, kortF)));
+    b.append(top, bh, bar, st);
+    if (opts.lang && g.status !== 'klaar') {
+      const rest = Math.max(g.nodig - g.dagen, 0), tr = /(\d+) afgesloten trades/.exec(g.kort || '');
+      b.append(el('p', { class: 'gr-nog' }, 'Nog nodig: ' + [rest ? rest + ' handelsdagen' : '', tr ? tr[1] + ' afgesloten trades' : ''].filter(Boolean).join(' · ')));
+    }
     if (!opts.geenKlik) b.addEventListener('click', naarRisico); else b.style.cursor = 'default';
     return b;
   };
@@ -2828,7 +2836,7 @@ dash.calc('onderzoek_verschil', {
     const rk = document.getElementById('gr-risico');
     const hh = el('div', { class: 'gr-head' }); hh.append(el('h2', {}, 'Klaar voor echt geld?'), el('small', {}, 'Eerst bewijzen, dan pas echt geld. Jij beslist altijd.'));
     const l2 = el('div', { class: 'gr-list' }); rows.forEach((r) => l2.append(item(r, { lang: true, geenKlik: true })));
-    rk.replaceChildren(hh, l2, el('p', { class: 'gr-uitleg' }, 'De ring is de oefentijd (63 handelsdagen, ongeveer 3 maanden). Alle eisen per bot staan hieronder. "Klaar" betekent nooit dat de bot vanzelf met echt geld gaat handelen: dat doe jij, met een klein bedrag en jouw ja per order.'));
+    rk.replaceChildren(hh, l2, el('p', { class: 'gr-uitleg' }, 'De balk is de oefentijd (63 handelsdagen, ongeveer 3 maanden). Alle eisen per bot staan hieronder. "Klaar" betekent nooit dat de bot vanzelf met echt geld gaat handelen: dat doe jij, met een klein bedrag en jouw ja per order.'));
     const br = rows.find((r) => r.id === 'oefenaccount');
     const bx = document.getElementById('gr-broker');
     if (br) { const hb = el('div', { class: 'gr-head' }); hb.append(el('h2', {}, 'Klaar voor echt geld?')); const l3 = el('div', { class: 'gr-list' }); l3.append(item(br, { lang: true })); bx.replaceChildren(hb, l3); }
