@@ -1,4 +1,4 @@
-# Dagoverzicht 2026-10-13
+# Dagoverzicht 2026-10-14
 
 _Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies._
 
@@ -6,19 +6,12 @@ _Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies._
 
 | Bot | Waarde | Vandaag | Sinds start | Tegenover wereld-ETF |
 | --- | --- | --- | --- | --- |
-| Investeerder | €9.985,62 | – | -0,14% | nog te kort |
-| Trend-agent | €10.014,42 | €18,14 (+0,18%) | +0,14% | nog te kort |
+| Investeerder | €9.887,78 | €-97,84 (-0,98%) | -1,12% | -0,58% (ETF -0,40% sinds 2026-10-13) |
+| Trend-agent | €10.027,51 | €13,09 (+0,13%) | +0,28% | +0,53% (ETF -0,40% sinds 2026-10-13) |
 
 ## Vandaag gedaan
 
-- Investeerder kocht IWDA.AS voor €5.997,00 (doelgewicht 60%)
-- Investeerder kocht MU voor €599,00 (doelgewicht 6%)
-- Investeerder kocht SMH voor €599,00 (doelgewicht 6%)
-- Investeerder kocht ASML.AS voor €599,00 (doelgewicht 6%)
-- Investeerder kocht IFX.DE voor €599,00 (doelgewicht 6%)
-- Investeerder kocht AMD voor €599,00 (doelgewicht 6%)
-- Investeerder kocht ETH-USD voor €499,00 (doelgewicht 5%)
-- Investeerder kocht BTC-USD voor €499,00 (doelgewicht 5%)
+- Niets gekocht of verkocht.
 
 ## Wat de bots uit de analyse halen
 
@@ -31,16 +24,17 @@ _Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies._
 
 - De markt stijgt breed: goede omstandigheden voor trendvolgen.
 - De markt is rustig: stops liggen dichterbij, posities kunnen iets groter.
+- Amerika staat er duidelijk beter voor dan Europa (78% tegen 52% in een stijgende trend).
 - Maar 0 van de 50 instrumenten zijn een koopbare trend: weinig keus, de bot is daardoor vanzelf voorzichtig.
 - Alle plekken zijn bezet, dus de bot koopt niets bij, hoe sterk een trend ook is.
 
 ## Verlies en risico
 
-- Trend-agent SHELL.AS: €6,53 (+1,1%), +5,4% boven de stop; raakt hij de stop, dan €24,67 verlies.
-- Trend-agent SAP.DE: €5,81 (+1,5%), +7,5% boven de stop; raakt hij de stop, dan €22,45 verlies.
-- Trend-agent MSFT: €5,08 (+1,1%), +6,1% boven de stop; raakt hij de stop, dan €23,80 verlies.
+- Trend-agent SHELL.AS: €11,60 (+2,0%), +6,3% boven de stop; raakt hij de stop, dan €24,67 verlies.
+- Trend-agent SAP.DE: €11,45 (+3,0%), +9,0% boven de stop; raakt hij de stop, dan €22,08 verlies.
+- Trend-agent MSFT: €7,46 (+1,5%), +6,6% boven de stop; raakt hij de stop, dan €23,50 verlies.
 - Trend-agent remmen: +0,0% vanaf de top (grens -5%), 0 van 3 verliestrades op rij.
-- Investeerder: -€14,39 op de beleggingen; grootste verlies IFX.DE -€17,98 (-3,0%).
+- Investeerder: -€112,22 op de beleggingen; grootste verlies ASML.AS -€35,69 (-5,9%).
 
 ## Klaar voor echt geld?
 
@@ -50,16 +44,16 @@ _Eerst bewijzen, dan pas een oefenaccount bij een echte broker, dan een klein be
 
 | Eis | Stand | Nu |
 | --- | --- | --- |
-| Oefentijd | ⏳ | 1 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | nog te weinig dagen |
-| Daling niet veel dieper dan de ETF | ✅ | bot -0,14%, ETF +0,00% |
+| Oefentijd | ⏳ | 2 van 63 handelsdagen (ongeveer 3 maanden) |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -0,58% |
+| Daling niet veel dieper dan de ETF | ✅ | bot -1,12%, ETF -0,40% |
 
 **Trend-agent:** Nog niet klaar: de bot is nog bezig met bewijzen. Blijven oefenen.
 
 | Eis | Stand | Nu |
 | --- | --- | --- |
-| Oefentijd | ⏳ | 2 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | nog te weinig dagen |
+| Oefentijd | ⏳ | 3 van 63 handelsdagen (ongeveer 3 maanden) |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe +0,53% |
 | Grootste daling onder 5% | ✅ | grootste daling tot nu toe -0,04% |
 | Genoeg afgesloten trades | ⏳ | 0 van 20 |
 
@@ -69,27 +63,27 @@ _Eerst bewijzen, dan pas een oefenaccount bij een echte broker, dan een klein be
 - Koersbronnen: 0 bevestigd door twee bronnen, 52 uit één bron, 0 afwijkend. Wisselkoers: bevestigd. Tweede bron overgeslagen na herhaalde fouten (GOOGL: Stooq gaf geen koersen ('<!DOCTYPE html><html><head><meta charset')).
 - 50 koersen waren niet bijgewerkt; die instrumenten zijn vandaag niet gekocht.
 - Niet gekocht door verdachte data: AAPL, AD.AS, ADYEN.AS, AIR.PA, ALV.DE, AMD, AMZN, ANET, ASM.AS, ASML.AS, AVGO, BESI.AS, BNP.PA, COST, CRM, CRWD, DTE.DE, GLD, GOOGL, HEIA.AS, IFX.DE, INGA.AS, IWDA.AS, JPM, LLY, MC.PA, META, MSFT, MU, NFLX, NVDA, OR.PA, ORCL, PANW, PLTR, PRX.AS, QQQ, RHM.DE, SAP.DE, SHELL.AS, SIE.DE, SMH, SPY, SU.PA, TSLA, TTE.PA, V, WKL.AS, XLE, XOM.
-- Alle koersen uit US lopen achter (nieuwste 12-10): mogelijk een beursvakantie of een storing bij de bron. Daar vandaag niets gekocht.
-- Alle koersen uit EU lopen achter (nieuwste 12-10): mogelijk een beursvakantie of een storing bij de bron. Daar vandaag niets gekocht.
-- AAPL: verdachte data (koers niet bijgewerkt (laatste 12-10, verwacht 13-10)), niet nieuw gekozen
-- MSFT: verdachte data (koers niet bijgewerkt (laatste 12-10, verwacht 13-10)), niet nieuw gekozen
-- NVDA: verdachte data (koers niet bijgewerkt (laatste 12-10, verwacht 13-10)), niet nieuw gekozen
-- AMZN: verdachte data (koers niet bijgewerkt (laatste 12-10, verwacht 13-10)), niet nieuw gekozen
+- Alle koersen uit US lopen achter (nieuwste 13-10): mogelijk een beursvakantie of een storing bij de bron. Daar vandaag niets gekocht.
+- Alle koersen uit EU lopen achter (nieuwste 13-10): mogelijk een beursvakantie of een storing bij de bron. Daar vandaag niets gekocht.
+- AAPL: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen
+- MSFT: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen
+- NVDA: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen
+- AMZN: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen
 - Trend-agent: status **OK**, 50 van 50 koersen opgehaald, marktregime stijgend-laag.
 - Koersbronnen: 0 bevestigd door twee bronnen, 50 uit één bron, 0 afwijkend. Wisselkoers: bevestigd. Tweede bron overgeslagen na herhaalde fouten (GOOGL: Stooq gaf geen koersen ('<!DOCTYPE html><html><head><meta charset')).
 - 50 koersen waren niet bijgewerkt; die instrumenten zijn vandaag niet gekocht.
 - Niet gekocht door verdachte data: AAPL, AD.AS, ADYEN.AS, AIR.PA, ALV.DE, AMD, AMZN, ANET, ASM.AS, ASML.AS, AVGO, BESI.AS, BNP.PA, COST, CRM, CRWD, DTE.DE, GLD, GOOGL, HEIA.AS, IFX.DE, INGA.AS, IWDA.AS, JPM, LLY, MC.PA, META, MSFT, MU, NFLX, NVDA, OR.PA, ORCL, PANW, PLTR, PRX.AS, QQQ, RHM.DE, SAP.DE, SHELL.AS, SIE.DE, SMH, SPY, SU.PA, TSLA, TTE.PA, V, WKL.AS, XLE, XOM.
-- Alle koersen uit US lopen achter (nieuwste 12-10): mogelijk een beursvakantie of een storing bij de bron. Daar vandaag niets gekocht.
-- Alle koersen uit EU lopen achter (nieuwste 12-10): mogelijk een beursvakantie of een storing bij de bron. Daar vandaag niets gekocht.
-- AAPL: verdachte data (koers niet bijgewerkt (laatste 12-10, verwacht 13-10)), niet gekocht
-- MSFT: verdachte data (koers niet bijgewerkt (laatste 12-10, verwacht 13-10)), niet gekocht
-- NVDA: verdachte data (koers niet bijgewerkt (laatste 12-10, verwacht 13-10)), niet gekocht
-- AMZN: verdachte data (koers niet bijgewerkt (laatste 12-10, verwacht 13-10)), niet gekocht
+- Alle koersen uit US lopen achter (nieuwste 13-10): mogelijk een beursvakantie of een storing bij de bron. Daar vandaag niets gekocht.
+- Alle koersen uit EU lopen achter (nieuwste 13-10): mogelijk een beursvakantie of een storing bij de bron. Daar vandaag niets gekocht.
+- AAPL: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht
+- MSFT: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht
+- NVDA: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht
+- AMZN: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht
 
-_GitHub startte deze ronde 3 uur later dan gepland. De koersen zijn die van de slotkoers van deze handelsdag; de vertraging verandert daar niets aan._
+_GitHub startte deze ronde 2 uur later dan gepland. De koersen zijn die van de slotkoers van deze handelsdag; de vertraging verandert daar niets aan._
 
 ## Details
 
-- Investeerder: [2026-10-13-investeerder.md](2026-10-13-investeerder.md)
-- Trend-agent: [2026-10-13.md](2026-10-13.md)
+- Investeerder: [2026-10-14-investeerder.md](2026-10-14-investeerder.md)
+- Trend-agent: [2026-10-14.md](2026-10-14.md)
 - Excel: `investeerder.xlsx` en `trend-agent.xlsx` (met tabblad Grafieken)

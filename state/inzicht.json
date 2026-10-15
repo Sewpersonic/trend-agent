@@ -1,17 +1,17 @@
 {
  "trend": {
-  "dag": "2026-10-13",
+  "dag": "2026-10-14",
   "posities": [
    {
     "ticker": "SHELL.AS",
     "aantal": 13,
     "valuta": "EUR",
     "instap": 45.0575,
-    "koers": 45.56,
+    "koers": 45.95,
     "stop": 43.2368,
-    "resultaat_eur": 6.53,
-    "resultaat_pct": 0.0112,
-    "afstand_stop_pct": 0.0537,
+    "resultaat_eur": 11.6,
+    "resultaat_pct": 0.0198,
+    "afstand_stop_pct": 0.0628,
     "bij_stop_eur": -24.67
    },
    {
@@ -19,32 +19,32 @@
     "aantal": 2,
     "valuta": "EUR",
     "instap": 191.5557,
-    "koers": 194.46,
-    "stop": 180.83,
-    "resultaat_eur": 5.81,
-    "resultaat_pct": 0.0152,
-    "afstand_stop_pct": 0.0754,
-    "bij_stop_eur": -22.45
+    "koers": 197.28,
+    "stop": 181.0157,
+    "resultaat_eur": 11.45,
+    "resultaat_pct": 0.0299,
+    "afstand_stop_pct": 0.0899,
+    "bij_stop_eur": -22.08
    },
    {
     "ticker": "MSFT",
     "aantal": 1,
     "valuta": "USD",
     "instap": 535.3375,
-    "koers": 541.15,
+    "koers": 543.45,
     "stop": 509.899,
-    "resultaat_eur": 5.08,
-    "resultaat_pct": 0.0109,
-    "afstand_stop_pct": 0.0613,
-    "bij_stop_eur": -23.8
+    "resultaat_eur": 7.46,
+    "resultaat_pct": 0.0152,
+    "afstand_stop_pct": 0.0658,
+    "bij_stop_eur": -23.5
    }
   ],
   "remmen": {
-   "waarde": 10014.42,
-   "top": 10014.42,
+   "waarde": 10027.51,
+   "top": 10027.51,
    "daling_vanaf_top": 0.0,
    "grens_daling": 0.05,
-   "vandaag": 0.0018,
+   "vandaag": 0.0013,
    "grens_dag": 0.01,
    "verlies_op_rij": 0,
    "grens_op_rij": 3
@@ -53,28 +53,29 @@
   "conclusies": [
    "De markt stijgt breed: goede omstandigheden voor trendvolgen.",
    "De markt is rustig: stops liggen dichterbij, posities kunnen iets groter.",
+   "Amerika staat er duidelijk beter voor dan Europa (78% tegen 52% in een stijgende trend).",
    "Maar 0 van de 50 instrumenten zijn een koopbare trend: weinig keus, de bot is daardoor vanzelf voorzichtig.",
    "Alle plekken zijn bezet, dus de bot koopt niets bij, hoe sterk een trend ook is."
   ],
   "zag": [
-   "- **Markt (IWDA.AS):** koers 132,26, 10,1% boven het 200-daags gemiddelde (120,19); de afgelopen maand +4,4%. Trend: **stijgend**.",
+   "- **Markt (IWDA.AS):** koers 131,73, 9,5% boven het 200-daags gemiddelde (120,29); de afgelopen maand +4,2%. Trend: **stijgend**.",
    "- **Beweeglijkheid:** 8% op jaarbasis, tegen normaal 10% het afgelopen jaar: **laag**.",
-   "- **Breedte:** 35 van de 50 instrumenten staan boven hun 200-daags gemiddelde (70%; EU 14 van 23, US 21 van 27).",
+   "- **Breedte:** 33 van de 50 instrumenten staan boven hun 200-daags gemiddelde (66%; EU 12 van 23, US 21 van 27).",
    "- **Bekeken:** 50 instrumenten.",
-   "- **Afgevallen** (een instrument kan op meer regels afvallen): geen stijgende trend (koers niet boven 50- en 200-daags gemiddelde): 21; niet gestegen over 1 of 3 maanden: 24; te weinig handel: 1.",
-   "- **Door de zeef:** 24, waarvan 24 met verdachte data (niet koopbaar). Koopbare trends: **0**."
+   "- **Afgevallen** (een instrument kan op meer regels afvallen): geen stijgende trend (koers niet boven 50- en 200-daags gemiddelde): 25; niet gestegen over 1 of 3 maanden: 25; te weinig handel: 1.",
+   "- **Door de zeef:** 20, waarvan 20 met verdachte data (niet koopbaar). Koopbare trends: **0**."
   ],
   "klaar": {
    "eisen": [
     [
      "Oefentijd",
      "bezig",
-     "2 van 63 handelsdagen (ongeveer 3 maanden)"
+     "3 van 63 handelsdagen (ongeveer 3 maanden)"
     ],
     [
      "Minstens zo goed als de wereld-ETF",
      "bezig",
-     "nog te weinig dagen"
+     "verschil tot nu toe +0,53%"
     ],
     [
      "Grootste daling onder 5%",
@@ -91,96 +92,96 @@
   }
  },
  "investeerder": {
-  "dag": "2026-10-13",
+  "dag": "2026-10-14",
   "posities": [
    {
-    "ticker": "IFX.DE",
-    "waarde_eur": 582.02,
+    "ticker": "ASML.AS",
+    "waarde_eur": 564.31,
     "kosten_eur": 600.0,
-    "resultaat_eur": -17.98,
-    "resultaat_pct": -0.03
+    "resultaat_eur": -35.69,
+    "resultaat_pct": -0.0595
    },
    {
-    "ticker": "ASML.AS",
-    "waarde_eur": 589.06,
+    "ticker": "IFX.DE",
+    "waarde_eur": 569.61,
     "kosten_eur": 600.0,
-    "resultaat_eur": -10.94,
-    "resultaat_pct": -0.0182
+    "resultaat_eur": -30.39,
+    "resultaat_pct": -0.0507
    },
    {
     "ticker": "MU",
-    "waarde_eur": 597.09,
+    "waarde_eur": 575.81,
     "kosten_eur": 600.0,
-    "resultaat_eur": -2.91,
-    "resultaat_pct": -0.0048
-   },
-   {
-    "ticker": "SMH",
-    "waarde_eur": 597.09,
-    "kosten_eur": 600.0,
-    "resultaat_eur": -2.91,
-    "resultaat_pct": -0.0048
-   },
-   {
-    "ticker": "AMD",
-    "waarde_eur": 597.09,
-    "kosten_eur": 600.0,
-    "resultaat_eur": -2.91,
-    "resultaat_pct": -0.0048
-   },
-   {
-    "ticker": "BTC-USD",
-    "waarde_eur": 500.64,
-    "kosten_eur": 500.0,
-    "resultaat_eur": 0.64,
-    "resultaat_pct": 0.0013
+    "resultaat_eur": -24.19,
+    "resultaat_pct": -0.0403
    },
    {
     "ticker": "ETH-USD",
-    "waarde_eur": 501.76,
+    "waarde_eur": 486.29,
     "kosten_eur": 500.0,
-    "resultaat_eur": 1.76,
-    "resultaat_pct": 0.0035
+    "resultaat_eur": -13.71,
+    "resultaat_pct": -0.0274
+   },
+   {
+    "ticker": "BTC-USD",
+    "waarde_eur": 491.45,
+    "kosten_eur": 500.0,
+    "resultaat_eur": -8.55,
+    "resultaat_pct": -0.0171
+   },
+   {
+    "ticker": "SMH",
+    "waarde_eur": 594.66,
+    "kosten_eur": 600.0,
+    "resultaat_eur": -5.34,
+    "resultaat_pct": -0.0089
    },
    {
     "ticker": "IWDA.AS",
-    "waarde_eur": 6020.86,
+    "waarde_eur": 5996.73,
     "kosten_eur": 6000.0,
-    "resultaat_eur": 20.86,
-    "resultaat_pct": 0.0035
+    "resultaat_eur": -3.27,
+    "resultaat_pct": -0.0005
+   },
+   {
+    "ticker": "AMD",
+    "waarde_eur": 608.92,
+    "kosten_eur": 600.0,
+    "resultaat_eur": 8.92,
+    "resultaat_pct": 0.0149
    }
   ],
   "daling": {
    "top": 10000.0,
-   "daling_vanaf_top": -0.0014
+   "daling_vanaf_top": -0.0112
   },
   "conclusies": [
    "De markt stijgt: de kern (wereld-ETF) doet zijn werk, de sterkste aandelen lopen mee.",
    "Uit de top gevallen: AMD, ASML.AS, IFX.DE, MU, SMH. Blijft dat zo, dan worden ze bij de volgende herverdeling (eerste handelsdag van 2026-11) vervangen door iets anders."
   ],
   "zag": [
-   "- **Markt (IWDA.AS):** koers 132,26, 10,1% boven het 200-daags gemiddelde (120,19); de afgelopen maand +4,4%. Trend: **stijgend**.",
+   "- **Markt (IWDA.AS):** koers 131,73, 9,5% boven het 200-daags gemiddelde (120,29); de afgelopen maand +4,2%. Trend: **stijgend**.",
    "- **Beweeglijkheid:** 8% op jaarbasis, tegen normaal 10% het afgelopen jaar: **laag**.",
-   "- **Breedte:** 35 van de 50 instrumenten staan boven hun 200-daags gemiddelde (70%; EU 14 van 23, US 21 van 27).",
-   "- **BTC-USD:** 15,4% boven het 200-daags gemiddelde (mag in de mix).",
-   "- **ETH-USD:** 17,1% boven het 200-daags gemiddelde (mag in de mix)."
+   "- **Breedte:** 33 van de 50 instrumenten staan boven hun 200-daags gemiddelde (66%; EU 12 van 23, US 21 van 27).",
+   "- **BTC-USD:** 13,1% boven het 200-daags gemiddelde (mag in de mix).",
+   "- **ETH-USD:** 13,2% boven het 200-daags gemiddelde (mag in de mix)."
   ],
   "klaar": {
    "eisen": [
     [
      "Oefentijd",
      "bezig",
-     "1 van 63 handelsdagen (ongeveer 3 maanden)"
+     "2 van 63 handelsdagen (ongeveer 3 maanden)"
     ],
     [
      "Minstens zo goed als de wereld-ETF",
      "bezig",
-     "nog te weinig dagen"
+     "verschil tot nu toe -0,58%"
     ],
     [
      "Daling niet veel dieper dan de ETF",
      "ok",
-     "bot -0,14%, ETF +0,00%"
+     "bot -1,12%, ETF -0,40%"
     ]
    ],
    "oordeel": "Nog niet klaar: de bot is nog bezig met bewijzen. Blijven oefenen."
