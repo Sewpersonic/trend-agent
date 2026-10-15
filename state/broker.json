@@ -1,0 +1,53 @@
+{
+ "tijd": "2026-10-15T16:30:57+00:00",
+ "status": "alleen kijken",
+ "reden": "Orders staan uit in config/broker.json.",
+ "orders": [],
+ "niet_gekoppeld": [],
+ "account": {
+  "id": 51866998,
+  "currency": "EUR",
+  "totalValue": 5000.0,
+  "cash": {
+   "availableToTrade": 5000.0,
+   "reservedForOrders": 0,
+   "inPies": 0
+  },
+  "investments": {
+   "currentValue": 0,
+   "totalCost": 0,
+   "realizedProfitLoss": 0,
+   "unrealizedProfitLoss": 0
+  }
+ },
+ "posities": [],
+ "plan": [
+  {
+   "ticker": "SHELLa_EQ",
+   "yahoo": "SHELL.AS",
+   "quantity": 13.0,
+   "waarde_eur": 603.46
+  },
+  {
+   "ticker": "SAPd_EQ",
+   "yahoo": "SAP.DE",
+   "quantity": 2.0,
+   "waarde_eur": 394.88
+  },
+  {
+   "ticker": "MSFT_US_EQ",
+   "yahoo": "MSFT",
+   "quantity": 1.0,
+   "waarde_eur": 516.28
+  }
+ ],
+ "managed": [],
+ "geschiedenis": [
+  {
+   "tijd": "2026-10-15T16:30:57+00:00",
+   "status": "alleen kijken",
+   "reden": "Orders staan uit in config/broker.json.",
+   "orders": []
+  }
+ ]
+}
