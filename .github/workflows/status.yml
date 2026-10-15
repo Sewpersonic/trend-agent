@@ -12,6 +12,7 @@ on:
 permissions:
   contents: write
   actions: read
+  pull-requests: read
 
 concurrency:
   group: status
@@ -31,13 +32,4 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: PYTHONPATH=src python -m trendagent.github_status
       - name: Alleen dashboard/github.json opslaan
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add dashboard/github.json
-          git diff --cached --quiet && exit 0
-          git commit -m "GitHub-status voor het dashboard"
-          for i in 1 2 3; do
-            git pull --rebase origin main && git push && break
-            sleep 5
-          done
+        run: bash scripts/opslaan.sh "GitHub-status voor het dashboard" dashboard/github.json

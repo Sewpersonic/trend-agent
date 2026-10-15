@@ -108,24 +108,24 @@ jobs:
 
       - name: Resultaat opslaan in de repository
         if: always() && github.event.inputs.action != 'voorbeeld'
-        run: |
-          git config user.name "trend-agent[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add state/ rapporten/ dashboard/
-          if git diff --cached --quiet; then
-            echo "Niets gewijzigd."
-          else
-            git commit -m "Oefenronde $(date -u +%F)"
-            for i in 1 2 3 4 5; do
-              git pull --rebase origin main && git push && break
-              echo "Opslaan mislukt (poging $i), opnieuw over 15 seconden..."; sleep 15
-            done
-            git fetch -q origin main
-            if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then echo "Opslaan definitief mislukt"; exit 1; fi
-          fi
+        run: bash scripts/opslaan.sh "Oefenronde $(date -u +%F)" state/ rapporten/ dashboard/
 
       # Laatste stap: maakt de run ROOD als een bot faalde of de koersdata onbetrouwbaar was.
       # GitHub stuurt je dan standaard een e-mail.
       - name: Gezondheidscontrole
         if: github.event.inputs.action != 'kill' && github.event.inputs.action != 'resume' && github.event.inputs.action != 'voorbeeld'
         run: python -m trendagent health --check
+
+      # Maakt de run ook rood als het oefenaccount bij Trading 212 een fout gaf (de bots zelf draaiden gewoon door).
+      - name: Controle oefenaccount
+        if: github.event.inputs.action != 'kill' && github.event.inputs.action != 'resume' && github.event.inputs.action != 'voorbeeld'
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          p = pathlib.Path("state/broker.json")
+          if not p.exists():
+              sys.exit(0)
+          v = json.loads(p.read_text())
+          print("Oefenaccount:", v.get("status"), v.get("reden", ""))
+          sys.exit(1 if v.get("status") in ("fout", "deels mislukt") else 0)
+          PY

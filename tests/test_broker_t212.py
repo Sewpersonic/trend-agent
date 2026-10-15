@@ -41,6 +41,9 @@ class FakeApi:
             body = INSTR
         elif path.startswith("/equity/orders/market"):
             body = {"id": 1, "status": "NEW"}
+        elif req.get_method() == "DELETE":
+            body = None
+            return FakeResp(b"")
         else:
             raise urllib.error.HTTPError(req.full_url, 404, "nf", {}, None)
         return FakeResp(json.dumps(body).encode())
@@ -117,3 +120,57 @@ class PendingTest(BrokerTest):
         v = b.run(self.dir, cfg, client=c)
         self.assertEqual(v["plan"], [])
         self.assertFalse(any(m == "POST" for m, *_ in api.calls))
+
+
+class HardeningTest(BrokerTest):
+    def _cfg(self):
+        cfg = self.dir / "cfg.json"; cfg.write_text(json.dumps({"orders_aan": True})); return cfg
+
+    def test_nested_shape_counts_positions(self):
+        api = FakeApi([{"instrument": {"ticker": "MSFT_US_EQ"}, "quantity": 1},
+                       {"instrument": {"ticker": "SAPd_EQ"}, "quantity": 2},
+                       {"instrument": {"ticker": "SHELLa_EQ"}, "quantity": 13}])
+        v = b.run(self.dir, self._cfg(), client=b.T212Demo("k", "s", opener=api))
+        self.assertEqual(v["plan"], [])
+
+    def test_bad_shape_means_no_orders(self):
+        api = FakeApi({"weird": True})
+        v = b.run(self.dir, self._cfg(), client=b.T212Demo("k", "s", opener=api))
+        self.assertEqual(v["status"], "fout")
+        self.assertFalse(any(m == "POST" for m, *_ in api.calls))
+
+    def test_missing_quantity_means_no_orders(self):
+        api = FakeApi([{"ticker": "MSFT_US_EQ"}])
+        v = b.run(self.dir, self._cfg(), client=b.T212Demo("k", "s", opener=api))
+        self.assertEqual(v["status"], "fout")
+
+    def test_never_sell_pending_and_cancel_unwanted_buy(self):
+        (self.dir / "portfolio.json").write_text(json.dumps({"positions": {}}))
+        (self.dir / "broker.json").write_text(json.dumps({"managed": ["MSFT_US_EQ"]}))
+        api = FakeApi([], pending=[{"id": 77, "ticker": "MSFT_US_EQ", "quantity": 1, "filledQuantity": 0}])
+        cfg = self.dir / "cfg.json"; cfg.write_text(json.dumps({"orders_aan": True}))
+        v = b.run(self.dir, cfg, client=b.T212Demo("k", "s", opener=api))
+        self.assertEqual([o["actie"] for o in v["orders"]], ["intrekken"])
+        self.assertTrue(any(m == "DELETE" for m, *_ in api.calls))
+        self.assertFalse(any(m == "POST" for m, *_ in api.calls))
+
+    def test_timeout_on_post_stops_and_keeps_managed(self):
+        api = FakeApi([])
+        orig = api.__call__
+        def boom(req, timeout=30):
+            if req.get_method() == "POST":
+                raise TimeoutError("read timeout")
+            return orig(req, timeout)
+        v = b.run(self.dir, self._cfg(), client=b.T212Demo("k", "s", opener=boom))
+        self.assertEqual(len(v["orders"]), 1)
+        self.assertEqual(v["orders"][0]["uitkomst"], "onzeker")
+        self.assertIn(v["orders"][0]["ticker"], v["managed"])
+        saved = json.loads((self.dir / "broker.json").read_text())
+        self.assertIn(v["orders"][0]["ticker"], saved["managed"])
+
+    def test_sells_first(self):
+        (self.dir / "broker.json").write_text(json.dumps({"managed": ["XYZa_EQ"]}))
+        api = FakeApi([{"ticker": "XYZa_EQ", "quantity": 3}])
+        v = b.run(self.dir, self._cfg(), client=b.T212Demo("k", "s", opener=api))
+        self.assertEqual(v["orders"][0]["actie"], "verkoop")
+        self.assertEqual(v["orders"][0]["quantity"], -3)

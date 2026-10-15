@@ -8,7 +8,8 @@
 name: onderzoek
 
 on:
-  push:   # ook draaien als de onderzoekscode zelf verandert
+  push:   # ook draaien als de onderzoekscode zelf verandert (alleen op main)
+    branches: [main]
     paths: [".github/workflows/research.yml", "src/trendagent/evaluation.py", "src/trendagent/learning.py"]
   schedule:
     - cron: "17 5 * * 6"   # zaterdag 05:17 UTC (07:17 Nederlandse zomertijd)
@@ -49,14 +50,8 @@ jobs:
             git status --porcelain
             exit 1
           fi
-          git diff --cached --quiet && exit 0
-          git commit -m "Onderzoek $(date -u +%F)"
-          for i in 1 2 3 4 5; do
-            git pull --rebase origin main && git push && break
-            echo "Opslaan mislukt (poging $i), opnieuw over 15 seconden..."; sleep 15
-          done
-          git fetch -q origin main
-          if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then echo "Opslaan definitief mislukt"; exit 1; fi
+          git reset -q
+          bash scripts/opslaan.sh "Onderzoek $(date -u +%F)" onderzoek/ dashboard/
 
       - name: Voorstel klaarzetten (alleen bij een bewezen verbetering)
         env:

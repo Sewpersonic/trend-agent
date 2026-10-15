@@ -59,6 +59,7 @@ def main(argv: list[str] | None = None) -> int:
     ov.add_argument("--simulated", action="store_true")
     br = sub.add_parser("broker", help="oefenaccount Trading 212 (demo) gelijkzetten met de trend-agent")
     br.add_argument("--check", action="store_true", help="alleen kijken en verbinding testen, geen orders")
+    br.add_argument("--live", action="store_true", help="alleen kijken voor het dashboard; schrijft state/broker_live.json, verandert niets anders")
     hc = sub.add_parser("health", help="gezondheid van de laatste rondes tonen")
     hc.add_argument("--check", action="store_true", help="foutcode 1 als er iets mis is")
     args = parser.parse_args(argv)
@@ -68,7 +69,12 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd == "broker":
         from . import broker_t212
-        v = broker_t212.run(s.state_dir, Path("config/broker.json"), check_only=args.check)
+        if args.live:
+            v = broker_t212.run(s.state_dir, Path("config/broker.json"), check_only=True, save_state=False)
+            v.pop("geschiedenis", None)
+            (s.state_dir / "broker_live.json").write_text(_json.dumps(v, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
+        else:
+            v = broker_t212.run(s.state_dir, Path("config/broker.json"), check_only=args.check)
         acc = v.get("account") or {}
         print(f"Oefenaccount Trading 212: {v['status']}. {v.get('reden', '')}".strip())
         if acc:

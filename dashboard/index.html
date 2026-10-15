@@ -208,6 +208,9 @@
 .d-broker .chip.ok { color: var(--tx-up); } .d-broker .chip.bad { color: var(--tx-down); }
 .d-broker .more { justify-self: start; margin-top: 8px; }
 @media (max-width: 900px) { .d-broker { grid-template-columns: 1fr; } }
+.tx-banner { border-radius: 12px; padding: 14px 18px; background: color-mix(in srgb, var(--color-warn) 14%, var(--color-panel)); border: 1px solid color-mix(in srgb, var(--color-warn) 45%, transparent); display: grid; gap: 6px; }
+.tx-banner b { font-size: 16px; }
+.tx-banner a { color: var(--tx-accent); font-weight: var(--cds-font-weight-medium); }
 .tx-pill.big { font-size: var(--cds-font-size-body); padding: 4px 12px; }
 .tx-group { display: grid; gap: 10px; }
 .tx-group-h { margin: 6px 0 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
@@ -574,6 +577,7 @@
         <p class="tx-what" style="padding:0">Elke zaterdag test de bot zijn regels op 5 jaar echte koersen, alsof hij toen al met €10.000 nepgeld begon. Zo zie je of hij op lange termijn winst maakt, en of een nieuwe regel beter zou werken.</p>
         <span class="tx-chipday" id="ond-dag" data-source="onderzoek">—</span>
       </div>
+      <div class="tx-banner" id="ond-voorstel" data-source="github" hidden></div>
       <div class="tx-answers" id="ond-antwoorden" data-source="onderzoek_antwoord"></div>
 
       <div class="tx-card" id="card-vergelijk">
@@ -1705,7 +1709,8 @@ dash.calc('onderzoek_verschil', {
     description: 'Drie antwoorden uit de lijst met GitHub-runs: of de laatste dagelijkse ronde goed ging, wat de laatste fout was (en of een latere run het weer goed deed), en hoeveel runs de afgelopen 14 dagen goed gingen.',
     inputs: ['github'],
     fn: (github) => {
-      const rows = github.filter((r) => !r.leeg);
+      const vs = github.filter((r) => r.soort === 'voorstel');
+      const rows = github.filter((r) => !r.leeg && r.soort !== 'voorstel');
       if (!rows.length) return [{ id: 'leeg', vraag: 'Liep alles goed?', antwoord: 'Nog onbekend', detail: 'Er zijn nog geen runs opgehaald.', kleur: 'neutraal' }];
       const out = [];
       const ronde = rows.find((r) => r.workflow === 'practice' && r.uitkomst !== 'geannuleerd');
@@ -1728,6 +1733,9 @@ dash.calc('onderzoek_verschil', {
       const regels = Object.entries(per).map(([w, [g, f]]) => w + ': ' + g + ' goed' + (f ? ', ' + f + ' mis' : '') + '.');
       out.push({ id: 'telling', vraag: 'Hoe vaak ging het goed? (14 dagen)', antwoord: goed + ' van ' + recent.length,
         detail: regels.join('\n') || 'Geen runs in de afgelopen 14 dagen.', kleur: goed === recent.length ? 'goed' : goed / Math.max(recent.length, 1) >= 0.8 ? 'letop' : 'slecht' });
+      out.push(vs.length
+        ? { id: 'voorstel', vraag: 'Wacht er een voorstel op jou?', antwoord: 'Ja', detail: vs.map((v) => v.titel).concat(['Het onderzoek vond een betere regel. Open het voorstel op GitHub en kies Merge (overnemen) of Close (niet).']).join('\n'), kleur: 'letop' }
+        : { id: 'voorstel', vraag: 'Wacht er een voorstel op jou?', antwoord: 'Nee', detail: 'Het onderzoek heeft (nog) geen regel gevonden die bewezen beter is. Dan blijft de bot zoals hij is.', kleur: 'neutraal' });
       return out;
     },
   });
@@ -1750,7 +1758,7 @@ dash.calc('onderzoek_verschil', {
     const s = dash.data('github');
     if (s.status === 'error') { const tr = el('tr'); const td = el('td', { colspan: '5' }); failed(td); tr.append(td); body.replaceChildren(tr); return; }
     if (s.status !== 'ok') return;
-    let rows = real(s.data);
+    let rows = real(s.data).filter((r) => r.soort !== 'voorstel');
     if (!rows.length) { const tr = el('tr'); tr.append(el('td', { colspan: '5', class: 'tx-empty' }, emptyReason(s.data) || 'Nog geen runs.')); body.replaceChildren(tr); return; }
     if (alleen.checked) rows = rows.filter((r) => r.uitkomst === 'fout' || r.uitkomst === 'geannuleerd');
     if (!rows.length) { const tr = el('tr'); tr.append(el('td', { colspan: '5', class: 'tx-empty' }, 'Er ging niets mis in de getoonde runs.')); body.replaceChildren(tr); return; }
@@ -2046,6 +2054,24 @@ dash.calc('onderzoek_verschil', {
     more.addEventListener('click', () => document.getElementById('broker').click());
     r.append(more);
     box.replaceChildren(l, r);
+  });
+})();
+</script>
+
+<script>
+// Onderzoek: laat zien als er een voorstel op jouw ja/nee wacht
+(() => {
+  const { el } = window.tx;
+  const box = document.getElementById('ond-voorstel');
+  dash.onData(() => {
+    const s = dash.data('github');
+    if (s.status !== 'ok') return;
+    const vs = (s.data || []).filter((r) => r.soort === 'voorstel');
+    box.hidden = !vs.length;
+    if (!vs.length) return;
+    box.replaceChildren(el('b', {}, 'Er wacht een voorstel op jou'),
+      el('span', {}, 'Het onderzoek vond een regel die over 5 jaar én in de laatste jaren duidelijk beter werkte. De bot neemt hem pas over als jij op GitHub op Merge drukt. Daarna gebruikt de trend-agent hem, en het oefenaccount volgt automatisch.'),
+      ...vs.map((v) => { const a = el('a', { href: v.link, target: '_blank', rel: 'noopener' }, (v.titel || 'Bekijk het voorstel') + ' →'); return a; }));
   });
 })();
 </script>

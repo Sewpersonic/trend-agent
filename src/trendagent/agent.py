@@ -148,6 +148,12 @@ class TrendAgent:
             if ticker not in bars:
                 rep.warnings.append(f"{ticker}: geen data, positie ongewijzigd gelaten")
                 continue
+            if ticker in suspicious:
+                # Regel: geen trade op onbetrouwbare data. Niet verkopen op een koers die misschien niet klopt;
+                # de stop-loss blijft staan en morgen wordt opnieuw gekeken.
+                rep.warnings.append(f"{ticker}: verdachte data, positie vandaag niet aangepast (stop blijft {pf.positions[ticker].stop:.2f})")
+                self.audit.append("exit_skipped_bad_data", ACTOR, {"ticker": ticker, "issues": suspicious[ticker]})
+                continue
             self._manage_position(pf, ticker, bars[ticker], analyses[ticker], fx, rep)
 
         # 5. risicoremmen (alleen als de kill switch nog niet aan staat)
@@ -228,8 +234,9 @@ class TrendAgent:
 
     def _risk_brakes(self, pf: Portfolio, equity: float, rep: RunReport) -> None:
         reason = None
-        prev = pf.equity_history[-1]["equity"] if pf.equity_history else None
-        if prev and pf.equity_history[-1]["day"] != rep.day and equity < prev * (1 - self.s.daily_loss_limit):
+        earlier = [h for h in pf.equity_history if h["day"] < rep.day]   # ook bij een tweede ronde op dezelfde dag
+        prev = earlier[-1]["equity"] if earlier else None
+        if prev and equity < prev * (1 - self.s.daily_loss_limit):
             reason = f"dagverlies groter dan {self.s.daily_loss_limit:.0%}"
         peak = pf.peak_equity() or equity
         if pf.peak_from_index == 0:      # vóór een eerste herstart telt het startkapitaal als top

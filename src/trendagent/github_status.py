@@ -30,6 +30,7 @@ STAP = {
     "Gezondheidscontrole": "De koersdata was niet betrouwbaar (bijvoorbeeld koersen niet bijgewerkt) of een bot liep vast. De bot heeft daarom niets gekocht.",
     "Onderzoek": "Het onderzoek zelf liep vast (bijvoorbeeld koersen downloaden mislukte).",
     "Oefenaccount Trading 212": "De koppeling met het oefenaccount van Trading 212 lukte niet (zie het verslag).",
+    "Controle oefenaccount": "Het oefenaccount van Trading 212 gaf een fout of een order lukte niet. De bots zelf draaiden gewoon door. Zie het tabblad Oefenaccount.",
     "pip install -e .": "Installeren van de software lukte niet (meestal tijdelijk bij GitHub).",
 }
 
@@ -85,8 +86,20 @@ def collect(limit: int = 100, per_workflow: int = 12) -> list[dict]:
     return out
 
 
+def voorstellen() -> list[dict]:
+    """Open voorstellen van het wekelijkse onderzoek (pull requests op een voorstel/-tak): wachten op jouw ja of nee."""
+    try:
+        prs = json.loads(_gh(["pr", "list", "--state", "open", "--json", "number,title,url,createdAt,headRefName"]))
+    except Exception:  # noqa: BLE001
+        return []
+    return [{"id": f"voorstel-{p['number']}", "soort": "voorstel", "workflow": "voorstel", "wat": "Voorstel van het onderzoek",
+             "titel": p.get("title", ""), "start": p.get("createdAt", ""), "uitkomst": "wacht", "link": p.get("url", ""),
+             "uitleg": "Het onderzoek vond een regel die bewezen beter werkte. Jij beslist: Merge = overnemen, Close = niet."}
+            for p in prs if str(p.get("headRefName", "")).startswith("voorstel/")]
+
+
 def write(path: Path) -> Path:
-    rows = collect()
+    rows = voorstellen() + collect()
     if not rows:
         rows = [{"id": "leeg", "leeg": True, "reden": "Nog geen runs gevonden."}]
     path.parent.mkdir(parents=True, exist_ok=True)

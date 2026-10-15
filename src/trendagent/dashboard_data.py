@@ -195,6 +195,10 @@ def build(state_dir: Path, reports_dir: Path) -> dict[str, list[dict]]:
 def broker_rows(state_dir: Path) -> list[dict]:
     """Oefenaccount Trading 212: stand, posities naast die van de trend-agent, en de laatste orders."""
     v = _load(state_dir / "broker.json")
+    live = _load(state_dir / "broker_live.json")
+    if live and live.get("status") != "fout" and live.get("tijd", "") > (v or {}).get("tijd", ""):
+        # Nieuwere stand van de uurlijkse controle tonen; de ordergeschiedenis komt uit broker.json.
+        v = {**live, "geschiedenis": (v or {}).get("geschiedenis", []), "managed": (v or {}).get("managed", [])}
     if not v:
         return []
     acc = v.get("account") or {}

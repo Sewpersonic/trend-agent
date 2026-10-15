@@ -224,6 +224,11 @@ class Investor:
             # Herverdelen op verouderde koersen van de kern is niet verstandig: een dag later opnieuw proberen.
             out["warnings"].append(f"Niet herverdeeld: koers van {self.mix.core_ticker} is niet bijgewerkt")
             due = False
+        held_bad = sorted(t for t in book.qty if t in suspicious)
+        if due and held_bad:
+            # Regel: geen trade op onbetrouwbare data. Niet herverdelen tegen een koers die misschien niet klopt.
+            out["warnings"].append("Niet herverdeeld: verdachte koers voor " + ", ".join(held_bad) + "; morgen opnieuw")
+            due = False
         if due:
             try:
                 weights, notes = target_weights(bars, self.mix, self.regime, frozenset(suspicious))
