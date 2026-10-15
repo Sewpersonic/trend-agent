@@ -268,6 +268,7 @@
 /* ===== App-opbouw voor Oefenaccount en Risico (computer en telefoon) ===== */
 #br-antwoorden, #card-br-pos, #card-br-orders, #pg-broker > .tx-card, #pg-broker > .tx-orderrow, #pg-broker > .m-broker, #pg-broker > .tx-what { display: none !important; }
 #pg-risico > .tx-card, #pg-risico > .tx-two { display: none !important; }
+#pg-controles > .tx-card { display: none !important; }
 .ap { display: grid; gap: 16px; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: start; }
 .ap-col { display: grid; gap: 16px; align-content: start; min-width: 0; }
 @media (max-width: 900px) { .ap { grid-template-columns: minmax(0, 1fr); } }
@@ -830,6 +831,7 @@
 
     <!-- CONTROLES -->
     <section class="tx-page" id="pg-controles" role="tabpanel" aria-labelledby="controles" hidden>
+      <div class="ap" id="ck-app" data-source="checks trades"></div>
       <div class="tx-card" id="card-controles">
         <div class="tx-card-h"><h2>Controles van de laatste ronde</h2></div>
         <div class="tx-card-b">
@@ -2947,5 +2949,120 @@ dash.calc('onderzoek_verschil', {
 
   const all = () => { for (const [n, f] of [['gereed', drawGereed], ['leren', drawLeren], ['volglijst', drawVolglijst]]) { try { f(); } catch (e) { console.log('ERR ' + n, e.message); } } };
   dash.onData(all);
+})();
+</script>
+
+<style>
+/* ===== Controles in gewone taal ===== */
+.ck-hero .big { font-size: clamp(1.9rem, 7vw, 2.4rem); display: flex; align-items: center; gap: 12px; }
+.ck-hero .big i { font-style: normal; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-size: 22px; flex: none; font-family: var(--font-sans, inherit); }
+.ck-hero.goed .big i { background: color-mix(in srgb, var(--tx-up) 16%, transparent); color: var(--tx-up); }
+.ck-hero.letop .big i { background: color-mix(in srgb, var(--color-warn) 18%, transparent); color: var(--color-warn); }
+.ck-hero.fout .big i { background: color-mix(in srgb, var(--tx-down) 16%, transparent); color: var(--tx-down); }
+.ck-zin { font-size: 15px; line-height: 1.45; margin: 0; }
+.ck-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--color-fg-muted); }
+.ck-legend > span { display: inline-flex; align-items: center; gap: 6px; }
+.ck-ic { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 15px; font-weight: 700; flex: none; }
+.ck-legend .ck-ic { width: 20px; height: 20px; font-size: 11px; }
+.ck-ic.goed { background: color-mix(in srgb, var(--tx-up) 15%, transparent); color: var(--tx-up); }
+.ck-ic.letop { background: color-mix(in srgb, var(--color-warn) 18%, transparent); color: var(--color-warn); }
+.ck-ic.fout { background: color-mix(in srgb, var(--tx-down) 15%, transparent); color: var(--tx-down); }
+.ck-ic.info { background: var(--tx-soft); color: var(--color-fg-muted); }
+.ck-row { all: unset; box-sizing: border-box; width: 100%; display: grid; grid-template-columns: 30px minmax(0, 1fr) 14px; gap: 12px; align-items: start; padding: 12px 0; border-top: 1px solid var(--color-border-line); -webkit-tap-highlight-color: transparent; }
+.ck-row:first-of-type { border-top: 0; }
+.ck-row[data-detail] { cursor: pointer; }
+.ck-row:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; border-radius: 8px; }
+.ck-row .q { font-size: 15px; font-weight: var(--cds-font-weight-medium); }
+.ck-row .a { font-size: 14px; color: var(--color-fg-muted); line-height: 1.45; margin-top: 2px; }
+.ck-row .d { display: none; font-size: 12px; color: var(--color-fg-muted); background: var(--tx-soft); border-radius: 8px; padding: 8px 10px; margin-top: 8px; word-break: break-word; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.ck-row.open .d { display: block; }
+.ck-row .chev { color: var(--color-fg-muted); font-size: 14px; padding-top: 6px; transition: transform .15s; }
+.ck-row.open .chev { transform: rotate(90deg); }
+.ck-sum { font-size: 12px; font-weight: var(--cds-font-weight-medium); padding: 3px 9px; border-radius: 999px; }
+.ck-sum.goed { color: var(--tx-up); background: color-mix(in srgb, var(--tx-up) 14%, transparent); }
+.ck-sum.letop { color: var(--color-warn); background: color-mix(in srgb, var(--color-warn) 15%, transparent); }
+.ck-sum.fout { color: var(--tx-down); background: color-mix(in srgb, var(--tx-down) 14%, transparent); }
+</style>
+
+<script>
+// Controles: per bot een vaste lijst vragen met goed / let op / fout, in gewone taal
+(() => {
+  const { el, eur, sEur, ud } = window.tx;
+  const dagF = new Intl.DateTimeFormat('nl-NL', { weekday: 'long', day: 'numeric', month: 'long' });
+  const D = (iso) => { try { return dagF.format(new Date(String(iso).slice(0, 10) + 'T12:00:00')); } catch (e) { return iso; } };
+  const IC = { goed: '✓', letop: '!', fout: '✕', info: 'i' };
+  const open = new Set();
+  const sec = (title, right) => { const d = el('div', { class: 'ap-sec' }); const h = el('h3'); h.append(document.createTextNode(title)); if (right) h.append(right); d.append(h); return d; };
+  function draw() {
+    const box = document.getElementById('ck-app');
+    const C = dash.data('checks'), T = dash.data('trades');
+    if (C.status === 'error') { window.tx.failed(box); return; }
+    if (C.status !== 'ok') return;
+    const rows = window.tx.real(C.data);
+    if (!rows.length) { box.replaceChildren(el('p', { class: 'tx-empty' }, (C.data[0] && C.data[0].reden) || 'Nog geen controles.')); return; }
+    const n = (st) => rows.filter((r) => r.stand === st).length;
+    const fout = n('fout'), letop = n('letop'), goed = n('goed');
+    const st = fout ? 'fout' : letop ? 'letop' : 'goed';
+    const left = el('div', { class: 'ap-col' }), right = el('div', { class: 'ap-col' });
+    const hero = el('div', { class: 'ap-hero ck-hero ' + st });
+    const dag = (rows.find((r) => r.bot === 'Trend-agent') || rows[0]).dag;
+    const lbl = el('div', { class: 'lbl' }); lbl.append(el('span', {}, 'Controle van de laatste ronde'), el('span', {}, dag ? D(dag) : ''));
+    const big = el('div', { class: 'big' }); big.append(el('i', { 'aria-hidden': 'true' }, IC[st]), document.createTextNode(st === 'goed' ? 'Alles in orde' : st === 'letop' ? 'In orde' : 'Er ging iets mis'));
+    const zin = st === 'goed' ? 'De bots hebben hun ronde goed gedaan en alle koersen zijn gecontroleerd.'
+      : st === 'letop' ? 'De bots hebben hun ronde gedaan. Er ' + (letop === 1 ? 'is 1 punt' : 'zijn ' + letop + ' punten') + ' waar je even naar kunt kijken; de bot is daar voorzichtig mee omgegaan.'
+      : 'Bij ' + fout + (fout === 1 ? ' controle' : ' controles') + ' ging het mis. Bij twijfel koopt de bot niets, dus je nepgeld is veilig. Kijk hieronder wat er aan de hand is.';
+    const chips = el('div', { class: 'ap-chips' });
+    chips.append(el('span', { class: 'ap-chip ok' }, '✓ ' + goed + ' goed'));
+    if (letop) chips.append(el('span', { class: 'ap-chip', style: 'color:var(--color-warn)' }, '! ' + letop + ' let op'));
+    if (fout) chips.append(el('span', { class: 'ap-chip bad' }, '✕ ' + fout + ' fout'));
+    hero.append(lbl, big, el('p', { class: 'ck-zin' }, zin), chips);
+    left.append(hero);
+    const leg = el('div', { class: 'ck-legend' });
+    [['goed', 'goed'], ['letop', 'let op: werkt, maar goed om te weten'], ['fout', 'fout: de bot heeft voor de zekerheid niets gedaan'], ['info', 'alleen informatie']].forEach(([k, t]) => { const s2 = el('span'); s2.append(el('span', { class: 'ck-ic ' + k, 'aria-hidden': 'true' }, IC[k]), document.createTextNode(t)); leg.append(s2); });
+    left.append(leg);
+    for (const bot of ['Trend-agent', 'Investeerder', 'Oefenaccount']) {
+      const rs = rows.filter((r) => r.bot === bot);
+      if (!rs.length) continue;
+      const bf = rs.filter((r) => r.stand === 'fout').length, bl = rs.filter((r) => r.stand === 'letop').length;
+      const k = bf ? 'fout' : bl ? 'letop' : 'goed';
+      const s2 = sec(bot, el('span', { class: 'ck-sum ' + k }, bf ? bf + ' fout' : bl ? bl + ' let op' : 'alles goed'));
+      rs.forEach((r) => {
+        const row = el('button', { class: 'ck-row' + (open.has(r.id) ? ' open' : ''), type: 'button', 'data-source': 'checks', 'data-field': 'stand', 'data-where': 'id=' + r.id });
+        if (r.detail) { row.dataset.detail = '1'; row.setAttribute('aria-expanded', String(open.has(r.id))); } else row.disabled = true;
+        const mid = el('div', { style: 'min-width:0' });
+        mid.append(el('div', { class: 'q' }, r.vraag), el('div', { class: 'a' }, r.uitleg));
+        if (r.detail) mid.append(el('div', { class: 'd' }, 'Technisch: ' + r.detail));
+        row.append(el('span', { class: 'ck-ic ' + r.stand, 'aria-label': r.stand }, IC[r.stand] || '•'), mid, el('span', { class: 'chev', 'aria-hidden': 'true' }, r.detail ? '›' : ''));
+        if (r.detail) row.addEventListener('click', () => { if (open.has(r.id)) open.delete(r.id); else open.add(r.id); row.classList.toggle('open'); row.setAttribute('aria-expanded', String(open.has(r.id))); });
+        s2.append(row);
+      });
+      (bot === 'Oefenaccount' ? right : left).append(s2);
+    }
+    // Alle trades met reden
+    if (T.status === 'ok') {
+      const tr = window.tx.real(T.data).slice(0, 30);
+      const ts = sec('Alle trades met reden', el('small', {}, tr.length ? 'laatste ' + tr.length : ''));
+      if (!tr.length) ts.append(el('p', { class: 'ap-empty' }, 'Nog geen trades.'));
+      let last = '';
+      tr.forEach((t) => {
+        if (t.dag !== last) { ts.append(el('div', { class: 'ap-day' }, D(t.dag))); last = t.dag; }
+        const koop = t.soort === 'koop';
+        const r = el('div', { class: 'ap-row' });
+        r.append(el('span', { class: 'ap-ico ' + (koop ? 'koop' : 'verkoop'), 'aria-hidden': 'true' }, koop ? '↑' : '↓'));
+        const mid = el('div', { style: 'min-width:0' });
+        const nm = el('div', { class: 'n' }, (koop ? 'Koop ' : 'Verkoop ') + t.naam); nm.append(el('span', { class: 'lr-bot' }, t.bot));
+        let reden = String(t.reden || '');
+        if (/^trend OK/.test(reden)) reden = 'Stijgende trend: ' + reden.split(':').slice(1).join(':').trim().replace('3m', '3 mnd').replace('1m', '1 mnd');
+        else if (/^doelgewicht/.test(reden)) reden = 'Herverdelen naar ' + reden;
+        mid.append(nm, el('div', { class: 's', style: 'white-space:normal' }, reden));
+        const rt = el('div', { class: 'r' }); rt.append(el('span', { class: 'v' }, eur.format(t.waarde_eur)));
+        if (t.resultaat_eur != null) rt.append(el('span', { class: 'c ' + ud(t.resultaat_eur) }, sEur(t.resultaat_eur)));
+        r.append(mid, rt); ts.append(r);
+      });
+      right.append(ts);
+    }
+    box.replaceChildren(left, right);
+  }
+  dash.onData(() => { try { draw(); } catch (e) { console.log('ERR controles', e.message); } });
 })();
 </script>

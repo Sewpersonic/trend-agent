@@ -195,6 +195,14 @@ def build(state_dir: Path, reports_dir: Path) -> dict[str, list[dict]]:
     odir = state_dir.parent / "onderzoek" if state_dir.name == "state" else Path("onderzoek")
     out["weken"] = weekoverzicht.weken(books, out["trades"], _load(state_dir / "broker.json"), onderzoek, odir)
     out["gereed"] = weekoverzicht.gereed(books, info)
+
+    # Controles in gewone taal (vraag, stand, uitleg, technisch detail)
+    from . import controles
+    bv = _load(state_dir / "broker.json")
+    live = _load(state_dir / "broker_live.json")
+    if live and live.get("tijd", "") > bv.get("tijd", ""):
+        bv = live
+    out["checks"] = controles.rows(health, bv, out["broker"])
     return out
 
 
@@ -337,6 +345,7 @@ EMPTY = {
     "patronen": "Nog geen grafieken om patronen in te zoeken.",
     "patronen_samenvatting": "Nog geen grafieken om samen te vatten.",
     "stand": "Nog geen stand.",
+    "checks": "Nog geen controles: de bots hebben nog geen ronde gedraaid.",
     "weken": "Nog geen week met gegevens.",
     "gereed": "Nog geen gegevens over klaar voor echt geld.",
     "volglijst": "De volglijst is nog niet bekeken; dat gebeurt elke werkdag in de oefenronde.",

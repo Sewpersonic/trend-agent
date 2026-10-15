@@ -33,7 +33,7 @@ telefoon (daar met een menu linksboven en een opbouw zoals een beurs-app).
 | **Analyse** | Wat de bots in de markt zagen en wat ze eruit concluderen. |
 | **Onderzoek** | Het wekelijkse onderzoek: wat €10.000 na 5 jaar werd en welke nieuwe regels zijn getest. Staat er een voorstel klaar, dan zie je dat hier bovenaan. |
 | **Risico** | Bovenaan "Klaar voor echt geld?" per bot (ook het oefenaccount); het menu toont een stip (oranje = nog niet klaar, groen = klaar). Daarna verlies en risico per positie, de remmen en alle eisen. |
-| **Controles** | Koersbronnen, waarschuwingen en alle trades met reden. |
+| **Controles** | Bovenaan in één woord hoe de laatste ronde ging (Alles in orde / In orde / Er ging iets mis). Per bot een vaste lijst vragen ("Zijn alle koersen binnengekomen?") met ✓ goed, ! let op, ✕ fout of i informatie, en een uitleg in gewone taal; tik op een vraag voor het technische detail. Daarnaast alle trades met reden. |
 | **GitHub** | Welke runs op GitHub goed gingen en welke niet, en waarom, in gewone taal. |
 | **Oefenaccount** | De stand bij Trading 212, of het gelijkloopt met de trend-agent, de orders, en knoppen om te kopen en verkopen. |
 
