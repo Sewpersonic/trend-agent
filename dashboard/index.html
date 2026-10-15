@@ -267,8 +267,8 @@
   .m-fav .val { font-family: var(--font-anthropic-serif); font-size: 22px; margin-top: 14px; text-align: right; font-variant-numeric: tabular-nums; }
   .m-fav .lb { font-size: 12px; color: var(--color-fg-muted); text-align: right; }
   .m-home .up { color: var(--tx-up); } .m-home .down { color: var(--tx-down); }
-  .m-tabs { display: flex; gap: 22px; border-bottom: 1px solid var(--color-border-line); }
-  .m-tabs button { all: unset; cursor: pointer; padding: 8px 0; font-size: 15px; color: var(--color-fg-muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .m-tabs { display: flex; gap: 20px; position: relative; z-index: 2; border-bottom: 1px solid var(--color-border-line); }
+  .m-tabs button { all: unset; cursor: pointer; padding: 12px 2px; touch-action: manipulation; -webkit-tap-highlight-color: transparent; font-size: 15px; color: var(--color-fg-muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
   .m-tabs button[aria-selected="true"] { color: var(--tx-accent); border-bottom-color: var(--tx-accent); font-weight: var(--cds-font-weight-medium); }
   .m-list { display: grid; }
   .m-sec { display: flex; justify-content: space-between; font-size: 13px; color: var(--color-fg-muted); padding: 12px 0 4px; }
@@ -349,7 +349,7 @@
 
     <!-- DASHBOARD -->
     <section class="tx-page" id="pg-dashboard" role="tabpanel" aria-labelledby="dashboard">
-      <div class="m-home" id="m-home" data-source="stand tickers posities">
+      <div class="m-home" id="m-home">
         <p class="m-sub">Mijn bots</p>
         <div class="m-favs" id="m-favs"></div>
         <div class="m-tabs" role="tablist" aria-label="Kies bot" id="m-tabs">
@@ -1701,7 +1701,8 @@ dash.calc('onderzoek_verschil', {
 
   let bot = '';
   const tabs = [...document.querySelectorAll('#m-tabs button')];
-  tabs.forEach((b) => b.addEventListener('click', () => { bot = b.dataset.bot; tabs.forEach((o) => o.setAttribute('aria-selected', String(o === b))); draw(); }));
+  const choose = (b) => { bot = b.dataset.bot; tabs.forEach((o) => o.setAttribute('aria-selected', String(o === b))); draw(); };
+  document.getElementById('m-tabs').addEventListener('click', (e) => { const b = e.target.closest('button[data-bot]'); if (b) { e.stopPropagation(); choose(b); } }, true);
   const pc = (v) => (v > 0 ? '▲ ' : v < 0 ? '▼ ' : '') + pct(v, 2).replace(/^[+−]/, '');
 
   function draw() {
