@@ -370,6 +370,27 @@
   .m-brow .r small { font-size: 12px; color: var(--color-fg-muted); }
   .m-fav.br { grid-column: 1 / -1; background: color-mix(in srgb, #2aa876 14%, var(--color-panel)); cursor: pointer; }
   .m-fav.br .val { margin-top: 6px; }
+  /* Telefoon: alleen de hoofdzaken op het overzicht */
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  #pg-dashboard > .tx-top, .tx-top h1, .tx-top p { }
+  #begin-hier, #kort-patronen, #recent, #koersverloop:not(.m-show) { display: none !important; }
+  .tx-top { padding: 0; }
+  .tx-top h1, .tx-top > div > p { display: none; }
+  .m-bh { display: grid; gap: 8px; }
+  .m-bhrow { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto; gap: 4px 10px; align-items: center; padding: 12px 14px; border-radius: 14px; background: var(--color-panel); border: 1px solid var(--color-border-line); }
+  .m-bhrow .bh-dot { grid-row: 1 / span 2; align-self: start; margin-top: 5px; }
+  .m-bhrow b { font-size: 16px; font-weight: var(--cds-font-weight-medium); }
+  .m-bhrow span.t { grid-column: 2 / -1; font-size: 15px; line-height: 1.4; color: var(--color-fg); }
+  .m-favs { grid-template-columns: 1fr 1fr; }
+  @media (max-width: 380px) {
+    .m-fav .val { font-size: 20px; }
+    .m-fav { padding: 12px; }
+    .m-row { grid-template-columns: 34px minmax(0, 1fr) auto; gap: 10px; }
+    .m-row .tx-coin { width: 34px !important; height: 34px !important; }
+    .m-row .n { font-size: 15px; }
+    .m-row .p { font-size: 14px; }
+    .m-row .c, .m-row .t { font-size: 12px; }
+  }
   /* Zijmenu */
   .tx { position: relative; }
   .m-shade:not([hidden]) { display: block; position: absolute; inset: 0; background: rgba(0,0,0,.35); z-index: 30; opacity: 0; transition: opacity .2s; }
@@ -459,6 +480,8 @@
       <div class="m-home" id="m-home">
         <p class="m-sub">Mijn bots</p>
         <div class="m-favs" id="m-favs"></div>
+        <p class="m-sub">Wat doen ze?</p>
+        <div class="m-bh" id="m-bh" data-source="begin_hier"></div>
         <div class="m-tabs" role="tablist" aria-label="Kies bot" id="m-tabs">
           <button role="tab" aria-selected="true" data-bot="">Alles</button><button role="tab" aria-selected="false" data-bot="Trend-agent">Trend-agent</button><button role="tab" aria-selected="false" data-bot="Investeerder">Investeerder</button>
         </div>
@@ -896,6 +919,7 @@ dash.calc('begin_hier', {
     const ta = st['Trend-agent'];
     const tpos = posities.filter((r) => !r.leeg && r.bot === 'Trend-agent');
     out.push({ id: 'trend', bot: 'Trend-agent', status: tpos.length >= 3 ? 'Wacht af' : 'Zoekt kansen', kleur: tpos.length >= 3 ? 'neutraal' : 'goed',
+      kort: tpos.length >= 3 ? 'Alle 3 plekken bezet. Verkoopt pas bij de stop-loss of een trendbreuk.' : (3 - tpos.length) + ' plek(ken) vrij: koopt vannacht de sterkste trend als die er is.',
       stand: ta ? eur(ta.sinds_start_eur) + ' sinds de start' : '',
       nu: (tpos.length ? 'Heeft ' + tpos.length + ' van 3 plekken bezet: ' + tpos.map((p) => p.naam).join(', ') + '. ' : 'Heeft nog niets in bezit. ') + kort('Trend-agent'),
       laatst: laatste('Trend-agent'),
@@ -905,6 +929,7 @@ dash.calc('begin_hier', {
     const k = kort('Investeerder');
     const m = k.match(/herverdeelt (.+?)\./);
     out.push({ id: 'invest', bot: 'Investeerder', status: 'Houdt vast', kleur: 'neutraal',
+      kort: m ? 'Doet niets tot hij ' + m[1] + ' herverdeelt.' : 'Herverdeelt één keer per maand.',
       stand: iv ? eur(iv.sinds_start_eur) + ' sinds de start' : '',
       nu: k || 'Belegt voor de lange termijn in een spreiding van ETF\'s, aandelen en een beetje crypto.',
       laatst: laatste('Investeerder'),
@@ -919,6 +944,7 @@ dash.calc('begin_hier', {
       const fout = bs.status === 'fout';
       out.push({ id: 'oefen', bot: 'Oefenaccount', status: fout ? 'Fout' : onderweg.length ? onderweg.length + ' onderweg' : gelijk === pos.length ? 'Gelijk' : 'Loopt achter',
         kleur: fout ? 'slecht' : onderweg.length ? 'letop' : 'goed',
+        kort: fout ? 'Koppeling met Trading 212 geeft een fout.' : onderweg.length ? onderweg.map((p) => p.naam).join(' en ') + ' worden gekocht als de beurs opengaat.' : 'Loopt gelijk met de trend-agent.',
         stand: bs.waarde == null ? '' : eur(bs.waarde - 5000) + ' sinds de start',
         nu: fout ? 'De koppeling met Trading 212 gaf een fout: ' + bs.reden : 'Volgt de trend-agent bij Trading 212 met nepgeld: ' + gelijk + ' van ' + pos.length + ' aandelen staan gelijk.',
         laatst: ords.length ? dag(ords[0].tijd) + ': ' + ords.filter((o) => o.tijd === ords[0].tijd).map((o) => (o.aantal > 0 ? 'koop ' : 'verkoop ') + Math.abs(o.aantal) + ' ' + ((pos.find((p) => p.ticker === o.ticker) || {}).naam || o.ticker)).join(', ') + '.' : 'Nog geen orders.',
@@ -2202,5 +2228,28 @@ dash.calc('onderzoek_verschil', {
     if (f && !f.querySelector('.tx-orderrow')) { const r = mk(); r.addEventListener('click', (e) => e.stopPropagation()); f.append(r); }
   });
   obs.observe(document.querySelector('.tx-main'), { childList: true, subtree: true });
+})();
+</script>
+
+<script>
+// Telefoon: 'Wat doen ze?' in één regel per bot, en de koersgrafiek pas tonen als je op een aandeel tikt
+(() => {
+  const { el } = window.tx;
+  const KLEUR = { 'Trend-agent': '#e8a33a', 'Investeerder': '#3b6fd8', 'Oefenaccount': '#2aa876' };
+  const box = document.getElementById('m-bh');
+  dash.onData(() => {
+    const b = dash.data('begin_hier');
+    if (b.status !== 'ok') return;
+    box.replaceChildren(...b.data.map((r) => {
+      const row = el('div', { class: 'm-bhrow' });
+      const dot = el('span', { class: 'bh-dot', 'aria-hidden': 'true' }); dot.style.background = KLEUR[r.bot] || 'var(--tx-accent)';
+      row.append(dot, el('b', {}, r.bot), el('span', { class: 'bh-pill k-' + r.kleur }, r.status),
+        el('span', { class: 't', 'data-source': 'begin_hier', 'data-field': 'kort', 'data-where': 'id=' + r.id }, r.kort || r.nu));
+      return row;
+    }));
+  });
+  document.getElementById('m-list').addEventListener('click', (e) => {
+    if (e.target.closest('.m-row')) { const k = document.getElementById('koersverloop'); k.classList.add('m-show'); window.tx.draws.forEach((f) => f()); }
+  }, true);
 })();
 </script>
