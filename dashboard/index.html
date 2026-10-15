@@ -180,7 +180,7 @@
 .tx-beeld .b-chip { display: inline-flex; align-items: center; gap: 6px; background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 999px; padding: 3px 10px 3px 3px; font-size: 14px; }
 .tx-beeld .b-chip small { font-size: 12px; }
 .tx-beeld .b-foot { font-size: 13px; color: var(--color-fg-muted); margin: 0; }
-.m-home, .tx-meer, .m-drawer, .m-shade { display: none; }
+.m-home, .tx-meer, .m-drawer, .m-shade, .m-topbar { display: none; }
 .tx-pill.big { font-size: var(--cds-font-size-body); padding: 4px 12px; }
 .tx-group { display: grid; gap: 10px; }
 .tx-group-h { margin: 6px 0 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
@@ -285,12 +285,20 @@
   /* App-opbouw: de pagina scrollt binnen het scherm, het menu staat er altijd onder */
   html, body { height: 100%; overflow: hidden; margin: 0; }
   .tx { display: flex !important; flex-direction: column; height: 100vh; height: 100dvh; min-height: 0 !important; }
-  .tx-main { flex: 1 1 auto; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; order: 1; }
+  .tx-main { flex: 1 1 auto; min-height: 0; padding-bottom: max(34px, env(safe-area-inset-bottom)) !important; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; order: 1; }
   .tx-side { order: 2; flex: none; align-self: stretch !important; width: 100%; height: auto !important; min-height: 0 !important; box-sizing: border-box; position: static !important; top: auto !important; display: grid !important; grid-template-columns: repeat(5, 1fr); padding: 8px 4px max(28px, calc(10px + env(safe-area-inset-bottom))) !important; border-bottom: 0 !important; border-top: 1px solid var(--color-border-line); overflow: visible !important; z-index: 20; gap: 0 !important; }
   .tx-side .tx-nav, .tx-meer { all: unset; box-sizing: border-box; cursor: pointer; display: grid !important; justify-items: center; gap: 3px; padding: 4px 0; -webkit-tap-highlight-color: transparent; touch-action: manipulation; font-size: 11px !important; color: var(--color-fg-muted); min-height: 0 !important; background: none !important; }
   .tx-side .tx-nav svg, .tx-meer svg { width: 22px !important; height: 22px !important; }
   .tx-side .tx-nav[aria-selected="true"], .tx-meer.on { color: var(--tx-accent); }
   #patronen, #analyse, #onderzoek, #controles, #github { display: none !important; }
+  /* Geen balk onderaan: menu via de knop linksboven */
+  .tx-side { display: none !important; }
+  .m-topbar { display: flex; order: 0; flex: none; align-items: center; gap: 10px; padding: 8px 12px; background: var(--color-panel); border-bottom: 1px solid var(--color-border-line); }
+  .m-topbar b { font-size: 18px; font-weight: var(--cds-font-weight-medium); }
+  .m-burger { all: unset; cursor: pointer; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px; color: var(--color-fg); -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  .m-burger svg { width: 26px; height: 26px; }
+  .m-burger:active { background: var(--tx-soft); }
+  .m-burger:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
   /* Zijmenu */
   .tx { position: relative; }
   .m-shade:not([hidden]) { display: block; position: absolute; inset: 0; background: rgba(0,0,0,.35); z-index: 30; opacity: 0; transition: opacity .2s; }
@@ -359,6 +367,10 @@
     <div class="m-dlist" id="m-dlist"></div>
   </aside>
 
+  <div class="m-topbar" id="m-topbar">
+    <button type="button" class="m-burger" id="m-burger" aria-label="Menu openen" aria-controls="m-drawer" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <b id="m-title">Overzicht</b>
+  </div>
   <main class="tx-main">
     <div class="tx-top">
       <div>
@@ -1718,9 +1730,13 @@ dash.calc('onderzoek_verschil', {
     sync();
     if (open) { drawer.hidden = false; shade.hidden = false; requestAnimationFrame(() => { drawer.classList.add('in'); shade.classList.add('in'); }); }
     else { drawer.classList.remove('in'); shade.classList.remove('in'); setTimeout(() => { if (!drawer.classList.contains('in')) { drawer.hidden = true; shade.hidden = true; } }, 220); }
-    meer.setAttribute('aria-expanded', String(open));
+    meer.setAttribute('aria-expanded', String(open)); burger.setAttribute('aria-expanded', String(open));
   }
   meer.addEventListener('click', () => setDrawer(drawer.hidden));
+  const burger = document.getElementById('m-burger'), title = document.getElementById('m-title');
+  burger.addEventListener('click', () => setDrawer(drawer.hidden));
+  const setTitle = () => { const n = navs.find((x) => x.getAttribute('aria-selected') === 'true'); if (n) title.textContent = n.textContent.trim(); };
+  navs.forEach((n) => n.addEventListener('click', setTitle)); setTitle();
   shade.addEventListener('click', () => setDrawer(false));
   document.getElementById('m-close').addEventListener('click', () => setDrawer(false));
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !drawer.hidden) setDrawer(false); });
