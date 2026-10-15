@@ -579,9 +579,9 @@
 
     <!-- KAARSGRAFIEKEN -->
     <section class="tx-page" id="pg-grafieken" role="tabpanel" aria-labelledby="grafieken" hidden>
-      <div class="g-pick" id="g-pick" data-source="tickers">
+      <div class="g-pick" id="g-pick" data-source="tickers broker">
         <div class="m-tabs g-bots" role="tablist" aria-label="Kies bot" id="g-bots">
-          <button role="tab" aria-selected="true" data-bot="Trend-agent">Trend-agent</button><button role="tab" aria-selected="false" data-bot="Investeerder">Investeerder</button>
+          <button role="tab" aria-selected="true" data-bot="Trend-agent">Trend-agent</button><button role="tab" aria-selected="false" data-bot="Investeerder">Investeerder</button><button role="tab" aria-selected="false" data-bot="Oefenaccount">Oefenaccount</button>
         </div>
         <div class="g-chips" id="g-chips" role="listbox" aria-label="Kies een aandeel"></div>
       </div>
@@ -1410,8 +1410,19 @@ dash.calc('trendreeks', {
     const tkBy = new Map((tk.status === 'ok' ? tk.data : []).map((r) => [r.ticker, r]));
     const posBy = new Map((ps.status === 'ok' ? real(ps.data) : []).map((r) => [r.bot + '|' + r.ticker, r]));
     gTabs.forEach((b) => b.setAttribute('aria-selected', String(b.dataset.bot === gBot)));
-    const mine = [...d3.group(rowsAll.filter((r) => r.bot === gBot), (r) => r.ticker)];
-    if (!mine.length) { chips.replaceChildren(); head.replaceChildren(el('p', { class: 'tx-empty' }, 'Deze bot heeft nu niets in bezit.')); root.replaceChildren(); return; }
+    // Oefenaccount: dezelfde koersen, voor de aandelen die in het oefenaccount staan of onderweg zijn
+    const br = dash.data('broker');
+    const brPos = br.status === 'ok' ? real(br.data).filter((r) => r.soort === 'positie' && (r.oefenaccount > 0 || r.onderweg > 0)) : [];
+    const brBy = new Map(brPos.map((r) => [r.yahoo || r.ticker, r]));
+    let mine;
+    if (gBot === 'Oefenaccount') {
+      const byT = d3.group(rowsAll, (r) => r.ticker);
+      mine = brPos.map((p) => [p.yahoo || p.ticker, byT.get(p.yahoo || p.ticker)]).filter(([, rows]) => rows && rows.length)
+        .map(([t, rows]) => [t, [...new Map(rows.map((r) => [r.dag, r])).values()]]);
+    } else {
+      mine = [...d3.group(rowsAll.filter((r) => r.bot === gBot), (r) => r.ticker)];
+    }
+    if (!mine.length) { chips.replaceChildren(); head.replaceChildren(el('p', { class: 'tx-empty' }, gBot === 'Oefenaccount' ? 'Er staat nog niets in het oefenaccount.' : 'Deze bot heeft nu niets in bezit.')); root.replaceChildren(); return; }
     if (!gTicker || !mine.some(([t]) => t === gTicker)) gTicker = mine[0][0];
     chips.replaceChildren(...mine.map(([ticker, rows]) => {
       const t = tkBy.get(ticker); const n = rows[0].naam;
@@ -1422,7 +1433,8 @@ dash.calc('trendreeks', {
       return c;
     }));
     const rs = mine.find(([t]) => t === gTicker)[1].slice().sort((a, b) => (a.dag < b.dag ? -1 : 1));
-    const r0 = rs[rs.length - 1], t = trBy.get(gTicker), k = tkBy.get(gTicker), pos = posBy.get(gBot + '|' + gTicker);
+    const r0 = rs[rs.length - 1], t = trBy.get(gTicker), k = tkBy.get(gTicker);
+    const pos = posBy.get((gBot === 'Oefenaccount' ? 'Trend-agent' : gBot) + '|' + gTicker), bp = gBot === 'Oefenaccount' ? brBy.get(gTicker) : null;
     const w = 'ticker=' + encodeURIComponent(gTicker);
     const title = el('div', { class: 'g-title' });
     title.append(window.tx.coin(gTicker, 34), el('h2', {}, r0.naam));
@@ -1431,8 +1443,11 @@ dash.calc('trendreeks', {
     const stats = el('div', { class: 'g-stats' });
     const stat = (l, v, cls) => { const d = el('div', { class: 't-stat' }); d.append(el('span', { class: 'l' }, l), el('span', { class: 'v ' + (cls || '') }, v)); stats.append(d); };
     if (k) { stat('Vandaag', window.tx.pct(k.dag_pct, 1), window.tx.ud(k.dag_pct)); stat('3 maanden', window.tx.pct(k.drie_mnd_pct, 1), window.tx.ud(k.drie_mnd_pct)); }
-    if (pos && pos.resultaat_eur != null) stat('Jouw resultaat', window.tx.sEur(pos.resultaat_eur), window.tx.ud(pos.resultaat_eur));
-    if (pos && pos.afstand_stop_pct != null) stat('Boven stop-loss', window.tx.pct(pos.afstand_stop_pct, 1).replace('+', ''), '');
+    if (bp) {
+      stat('In oefenaccount', bp.oefenaccount + (bp.onderweg ? ' (+' + bp.onderweg + ' onderweg)' : ''), '');
+      stat('Gelijk met bot', bp.gelijk ? 'ja' : bp.onderweg_gelijk ? 'onderweg' : 'nog niet', bp.gelijk ? 'up' : '');
+    } else if (pos && pos.resultaat_eur != null) stat('Jouw resultaat', window.tx.sEur(pos.resultaat_eur), window.tx.ud(pos.resultaat_eur));
+    if (pos && pos.afstand_stop_pct != null && (!bp || bp.trend_agent > 0)) stat('Boven stop-loss', window.tx.pct(pos.afstand_stop_pct, 1).replace('+', ''), '');
     const kort = t && mode === 'trend' ? zin(t) : (r0.uitleg || '').split(/(?<=\.)\s+/).slice(0, 2).join(' ');
     head.replaceChildren(title, stats, el('p', { class: 'g-zin' }, kort));
     const cb = el('div', { class: 'tx-candle', 'data-source': mode === 'trend' ? 'koersen trendkaarsen' : 'koersen' });
