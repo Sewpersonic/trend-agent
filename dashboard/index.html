@@ -255,6 +255,14 @@
 .g-foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; }
 .g-key { font-size: 12px; }
 .g-help summary { font-size: 13px; }
+.p-range { display: grid; gap: 6px; }
+.p-range .bar { position: relative; height: 10px; border-radius: 5px; background: linear-gradient(90deg, color-mix(in srgb, var(--tx-down) 35%, transparent), color-mix(in srgb, var(--color-fg) 10%, transparent), color-mix(in srgb, var(--tx-up) 35%, transparent)); }
+.p-range .bar i { position: absolute; top: -4px; width: 6px; height: 18px; border-radius: 3px; background: var(--color-fg); transform: translateX(-50%); }
+.p-range .lab { display: flex; justify-content: space-between; font-size: 12px; color: var(--color-fg-muted); }
+#p-main .g-stats { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+.p-pats { display: flex; flex-wrap: wrap; gap: 8px; }
+.p-pat { font-size: 14px; padding: 6px 12px; border-radius: 999px; background: var(--tx-soft); }
+.p-lbl { font-size: 12px; color: var(--color-fg-muted); text-transform: uppercase; letter-spacing: .03em; margin: 0; }
 .tx-pill.big { font-size: var(--cds-font-size-body); padding: 4px 12px; }
 .tx-group { display: grid; gap: 10px; }
 .tx-group-h { margin: 6px 0 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
@@ -608,13 +616,20 @@
 
     <!-- PATRONEN -->
     <section class="tx-page" id="pg-patronen" role="tabpanel" aria-labelledby="patronen" hidden>
+      <div class="g-pick" data-source="patronen broker">
+        <div class="m-tabs g-bots" role="tablist" aria-label="Kies bot" id="p-bots">
+          <button role="tab" aria-selected="true" data-bot="Trend-agent">Trend-agent</button><button role="tab" aria-selected="false" data-bot="Investeerder">Investeerder</button><button role="tab" aria-selected="false" data-bot="Oefenaccount">Oefenaccount</button>
+        </div>
+        <div class="g-chips" id="p-chips" role="listbox" aria-label="Kies een aandeel"></div>
+      </div>
+      <div class="tx-card g-main" id="p-main" data-source="patronen"></div>
       <div class="tx-card" id="card-samenvatting">
         <div class="tx-card-h"><h2>Wat de grafieken vandaag laten zien</h2><span class="tx-chipday" id="pat-dag" data-source="patronen">—</span></div>
         <div class="tx-card-b">
           <div class="tx-beeld" id="pat-sum" data-source="patronen"></div>
         </div>
       </div>
-      <div class="tx-card" id="card-patronen">
+      <div class="tx-card" id="card-patronen" hidden>
         <div class="tx-card-h"><h2>Per aandeel</h2></div>
         <div class="tx-card-b" style="padding-bottom:0"><p class="tx-note">Het balkje laat zien waar de koers nu staat tussen het laagste (links) en hoogste punt (rechts) van de laatste 3 maanden. Beschrijft alleen wat er gebeurd is; het voorspelt niets.</p></div>
         <div class="tx-tablewrap">
@@ -2316,5 +2331,65 @@ dash.calc('onderzoek_verschil', {
   document.getElementById('m-list').addEventListener('click', (e) => {
     if (e.target.closest('.m-row')) { const k = document.getElementById('koersverloop'); k.classList.add('m-show'); window.tx.draws.forEach((f) => f()); }
   }, true);
+})();
+</script>
+
+<script>
+// Patronen: zelfde opbouw als Grafieken (bot kiezen, aandeel kiezen, één overzichtelijke kaart)
+(() => {
+  const { el, pct, ud, coin, real } = window.tx;
+  let bot = 'Trend-agent', pick = null;
+  try { bot = localStorage.getItem('tx-pbot') || bot; pick = localStorage.getItem('tx-pticker'); } catch (e) { /* standaard */ }
+  const tabs = [...document.querySelectorAll('#p-bots button')];
+  tabs.forEach((b) => b.addEventListener('click', () => { bot = b.dataset.bot; pick = null; try { localStorage.setItem('tx-pbot', bot); } catch (e) { /* niet erg */ } draw(); }));
+  const TREND = { stijgend: ['▲ stijgend', 'win'], dalend: ['▼ dalend', 'loss'], zijwaarts: ['► geen richting', 'flat'] };
+  function draw() {
+    const s = dash.data('patronen');
+    const chips = document.getElementById('p-chips'), main = document.getElementById('p-main');
+    if (s.status === 'error') { window.tx.failed(main); return; }
+    if (s.status !== 'ok') return;
+    const rows = real(s.data);
+    tabs.forEach((b) => b.setAttribute('aria-selected', String(b.dataset.bot === bot)));
+    let mine;
+    if (bot === 'Oefenaccount') {
+      const br = dash.data('broker');
+      const yh = new Set((br.status === 'ok' ? real(br.data) : []).filter((r) => r.soort === 'positie' && (r.oefenaccount > 0 || r.onderweg > 0)).map((r) => r.yahoo || r.ticker));
+      mine = [...new Map(rows.filter((r) => yh.has(r.ticker)).map((r) => [r.ticker, r])).values()];
+    } else mine = rows.filter((r) => r.bot === bot);
+    if (!mine.length) { chips.replaceChildren(); main.replaceChildren(el('p', { class: 'tx-empty' }, bot === 'Oefenaccount' ? 'Er staat nog niets in het oefenaccount.' : 'Deze bot heeft nu niets in bezit.')); return; }
+    if (!pick || !mine.some((r) => r.ticker === pick)) pick = mine[0].ticker;
+    chips.replaceChildren(...mine.map((r) => {
+      const c = el('button', { class: 'g-chip', type: 'button', role: 'option', 'aria-selected': String(r.ticker === pick) });
+      const tr = TREND[r.trend] || [r.trend, 'flat'];
+      c.append(coin(r.ticker, 26), el('span', {}, r.naam), el('small', { class: r.trend === 'stijgend' ? 'up' : r.trend === 'dalend' ? 'down' : '' }, tr[0].split(' ')[0]));
+      c.addEventListener('click', () => { pick = r.ticker; try { localStorage.setItem('tx-pticker', pick); } catch (e) { /* niet erg */ } draw(); });
+      return c;
+    }));
+    const r = mine.find((x) => x.ticker === pick);
+    const w = 'id=' + encodeURIComponent(r.id);
+    const tr = TREND[r.trend] || [r.trend, 'flat'];
+    const title = el('div', { class: 'g-title' });
+    title.append(coin(r.ticker, 34), el('h2', {}, r.naam), el('span', { class: 'tx-pill ' + tr[1], 'data-source': 'patronen', 'data-field': 'trend', 'data-where': w }, tr[0]));
+    if (r.slot != null) title.append(el('span', { class: 'px' }, window.tx.num2.format(r.slot) + ' ' + (r.valuta || '')));
+    const stats = el('div', { class: 'g-stats' });
+    const stat = (l, v, f) => { const d = el('div', { class: 't-stat' }); d.append(el('span', { class: 'l' }, l), el('span', { class: 'v ' + (v == null ? '' : ud(v)), 'data-source': 'patronen', 'data-field': f, 'data-where': w }, v == null ? '–' : pct(v, 1))); stats.append(d); };
+    stat('Week', r.week, 'week'); stat('Maand', r.maand, 'maand'); stat('3 maanden', r.drie_mnd, 'drie_mnd');
+    const range = el('div', { class: 'p-range' });
+    if (r.plek_in_bereik != null) {
+      const bar = el('div', { class: 'bar', role: 'img', 'aria-label': 'Koers staat op ' + Math.round(r.plek_in_bereik * 100) + '% tussen het laagste en hoogste punt van 3 maanden' });
+      const i = el('i'); i.style.left = Math.max(2, Math.min(98, r.plek_in_bereik * 100)) + '%'; bar.append(i);
+      const lab = el('div', { class: 'lab' }); lab.append(el('span', {}, 'laagste 3 mnd'), el('span', {}, 'hoogste 3 mnd'));
+      range.append(el('p', { class: 'p-lbl' }, 'Waar staat de koers?'), bar, lab);
+    }
+    const pats = (r.patronen || '').split(' · ').filter(Boolean);
+    const pw = el('div', { class: 'p-pats', 'data-source': 'patronen', 'data-field': 'patronen', 'data-where': w });
+    pats.forEach((t) => pw.append(el('span', { class: 'p-pat' }, t.charAt(0).toUpperCase() + t.slice(1))));
+    const zin = (r.samenvatting || '').split(/(?<=\.)\s+/).slice(0, 2).join(' ');
+    main.replaceChildren(title, stats, range,
+      ...(pats.length ? [el('p', { class: 'p-lbl' }, 'Opvallend'), pw] : [el('p', { class: 'tx-note', style: 'margin:0' }, 'Niets opvallends in de grafiek.')]),
+      el('p', { class: 'g-zin' }, zin), el('p', { class: 'tx-note', style: 'margin:0' }, 'Beschrijft wat er gebeurd is; voorspelt niets.'));
+  }
+  window.tx.draws.push(draw);
+  dash.onData(draw);
 })();
 </script>
