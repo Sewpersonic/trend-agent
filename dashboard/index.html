@@ -111,6 +111,9 @@
 .tx-answer .q { font-size: 14px; color: var(--color-fg-muted); }
 .tx-answer .a { font-family: var(--font-anthropic-serif); font-size: 1.7rem; line-height: 1.15; }
 .tx-answer .d { font-size: 14px; line-height: 1.5; }
+.tx-answer .d.lines { display: grid; gap: 6px; }
+.tx-answer .d.lines p { margin: 0; }
+.tx-answer .d.lines p:last-child:not(:first-child) { color: var(--color-fg-muted); font-size: 13px; }
 .tx-cmp { display: grid; gap: 14px; }
 .tx-cmp-row { display: grid; grid-template-columns: minmax(7rem, 11rem) minmax(0, 1fr) auto; gap: 12px; align-items: center; }
 .tx-cmp-row .lab { font-size: 15px; font-weight: var(--cds-font-weight-medium); }
@@ -329,7 +332,7 @@
     <!-- KANSEN -->
     <section class="tx-page" id="pg-kansen" role="tabpanel" aria-labelledby="kansen" hidden>
       <p class="tx-what" style="padding:0">Elke nacht zoekt de trend-agent de aandelen met de sterkste stijgende trend. Hier zie je de 5 sterkste, wat hij ermee zou doen met zijn nepgeld en wat hij echt deed. Dit is geen advies voor echt geld.</p>
-      <div class="tx-answers" id="kansen-antwoorden" data-source="kansen_antwoord"></div>
+      <div class="tx-answers" id="kansen-antwoorden" data-source="kansen_antwoord kansen posities"></div>
       <div class="tx-two" id="kansen-cards" data-source="kansen"></div>
       <div class="tx-card" id="kansen-uitleg">
         <div class="tx-card-h"><h2>Zo lees je een kans</h2></div>
@@ -518,22 +521,49 @@ dash.calc('begin_hier', {
 
 dash.calc('kansen_antwoord', {
   title: 'Kansen: de antwoorden',
-  description: 'Drie antwoorden in gewone taal uit de kansen van de laatste ronde: hoeveel kansen, wat de bot kocht, en de kans die er het beste uitspringt (sterkste trend met een goed of neutraal instapmoment, nog niet in bezit).',
-  inputs: ['kansen'],
-  fn: (kansen) => {
+  description: 'Drie antwoorden in gewone taal uit de kansen en posities van de laatste ronde: welke sterke trends er zijn, wat de bot kocht en waarom, en de kans die er het beste uitspringt (nog niet in bezit, eerst een goed, dan een neutraal instapmoment). Elke regel van de uitleg staat op een eigen regel.',
+  inputs: ['kansen', 'posities'],
+  fn: (kansen, posities) => {
     const rows = kansen.filter((r) => !r.leeg);
-    if (!rows.length) return [{ id: 'aantal', vraag: 'Hoeveel kansen?', antwoord: 'Geen', detail: 'Bij de laatste ronde vond de bot geen koopbare trend, of de koersen waren niet bijgewerkt.', kleur: 'neutraal' }];
+    const pos = posities.filter((r) => !r.leeg && r.bot === 'Trend-agent');
+    const e = (v) => '€' + v.toFixed(2).replace('.', ',');
+    const drie = (r) => { const m = (r.waarom || '').match(/steeg ([+−-]?[\d,]+%) in 3 maanden en ([+−-]?[\d,]+%) in 1 maand/); return m ? { m3: m[1], m1: m[2] } : { m3: '?', m1: '?' }; };
+    const MOM = { gunstig: 'goed moment', neutraal: 'kan', opgelopen: 'liever even wachten' };
+    if (!rows.length) return [{ id: 'aantal', vraag: 'Hoeveel sterke trends?', antwoord: 'Geen',
+      detail: 'Bij de laatste ronde vond de bot geen koopbare trend, of de koersen waren niet bijgewerkt.\nEen sterke trend betekent: koers boven het gemiddelde van 50 en 200 dagen, en gestegen over 1 én 3 maanden.', kleur: 'neutraal' }];
     const gekocht = rows.filter((r) => /vandaag gekocht/.test(r.status));
-    const bezet = rows.some((r) => /plekken zijn bezet/.test(r.status));
+    const bezit = rows.filter((r) => /al in bezit/.test(r.status));
     const nieuw = rows.filter((r) => !/al in bezit|vandaag gekocht/.test(r.status));
+    const bezet = rows.some((r) => /plekken zijn bezet/.test(r.status));
     const top = nieuw.find((r) => r.moment === 'gunstig') || nieuw.find((r) => r.moment === 'neutraal') || nieuw[0];
+    const lijst = (rs) => rs.map((r) => r.naam + ' (' + drie(r).m3 + ')').join(', ');
+    const a1 = [];
+    if (bezit.length) a1.push('Al in bezit: ' + lijst(bezit) + '.');
+    if (nieuw.length) a1.push('Nieuw: ' + lijst(nieuw) + '.');
+    a1.push('Tussen haakjes de stijging over 3 maanden. Een sterke trend betekent: koers boven het gemiddelde van 50 en 200 dagen, en gestegen over 1 én 3 maanden.');
+    const a2 = [];
+    if (gekocht.length) {
+      gekocht.forEach((r) => a2.push(r.naam + ': voor ' + e(r.inzet_eur) + ' gekocht, met een stop-loss die het verlies beperkt tot ongeveer ' + e(r.max_verlies_eur) + '.'));
+    } else if (bezet) {
+      a2.push('Alle 3 plekken zijn bezet' + (pos.length ? ' door ' + pos.map((p) => p.naam).join(', ') : '') + '.');
+      a2.push('Hij verkoopt pas als een koers onder zijn stop-loss zakt of onder het gemiddelde van 50 dagen. Dan komt er een plek vrij en koopt hij de sterkste kans.');
+      const dichtst = pos.filter((p) => p.afstand_stop_pct != null).sort((x, y) => x.afstand_stop_pct - y.afstand_stop_pct)[0];
+      if (dichtst) a2.push('Het dichtst bij de stop-loss: ' + dichtst.naam + ', nog ' + (dichtst.afstand_stop_pct * 100).toFixed(1).replace('.', ',') + '% ruimte.');
+    } else {
+      a2.push('Er waren kansen, maar geen paste binnen de risicoregels (hooguit ongeveer €25 verlies per aankoop).');
+    }
+    const a3 = [];
+    if (top) {
+      const d = drie(top);
+      a3.push('Steeg ' + d.m3 + ' in 3 maanden en ' + d.m1 + ' in de laatste maand.');
+      a3.push('Instapmoment: ' + (MOM[top.moment] || top.moment) + '.');
+      if (top.aantal >= 1) a3.push('De bot zou voor ' + e(top.inzet_eur) + ' kopen; gaat het mis, dan is het verlies hooguit ongeveer ' + e(top.max_verlies_eur) + '.');
+      a3.push(bezet ? 'Hij koopt deze als eerste zodra er een plek vrijkomt (als hij dan nog bovenaan staat).' : 'Niet gekocht: ' + top.status.replace(/^niet gekocht: /, '') + '.');
+    }
     return [
-      { id: 'aantal', vraag: 'Hoeveel sterke trends?', antwoord: rows.length + ' bekeken', detail: (rows.length - nieuw.length) + ' daarvan heeft de bot al, ' + nieuw.length + ' zijn nieuw.', kleur: 'neutraal' },
-      { id: 'gekocht', vraag: 'Heeft de bot iets gekocht?', antwoord: gekocht.length ? 'Ja, ' + gekocht.map((r) => r.naam).join(', ') : 'Nee',
-        detail: gekocht.length ? 'Volgens zijn regels, met een stop-loss eronder.' : (bezet ? 'Alle 3 plekken zijn bezet. Hij koopt pas weer als hij iets verkoopt.' : 'Geen enkele kans paste binnen de risicoregels.'),
-        kleur: gekocht.length ? 'goed' : 'neutraal' },
-      { id: 'beste', vraag: 'Welke springt eruit?', antwoord: top ? top.naam : '–',
-        detail: top ? (top.moment === 'gunstig' ? 'Sterke trend en een rustig moment om in te stappen.' : top.moment === 'neutraal' ? 'Sterke trend; geen bijzonder goed of slecht moment.' : 'Sterke trend, maar net hard gestegen.') : 'Geen nieuwe kansen.',
+      { id: 'aantal', vraag: 'Hoeveel sterke trends?', antwoord: rows.length + ' bekeken, ' + nieuw.length + ' nieuw', detail: a1.join('\n'), kleur: 'neutraal' },
+      { id: 'gekocht', vraag: 'Heeft de bot iets gekocht?', antwoord: gekocht.length ? 'Ja, ' + gekocht.map((r) => r.naam).join(', ') : 'Nee', detail: a2.join('\n'), kleur: gekocht.length ? 'goed' : 'neutraal' },
+      { id: 'beste', vraag: 'Welke springt eruit?', antwoord: top ? top.naam + ' (' + top.ticker + ')' : '–', detail: top ? a3.join('\n') : 'Geen nieuwe kansen.',
         kleur: top && top.moment === 'gunstig' ? 'goed' : top && top.moment === 'opgelopen' ? 'letop' : 'neutraal' },
     ];
   },
@@ -1246,7 +1276,8 @@ dash.calc('onderzoek_verschil', {
       const w = 'id=' + encodeURIComponent(r.id);
       c.append(el('span', { class: 'q' }, r.vraag),
         el('span', { class: 'a', 'data-source': 'kansen_antwoord', 'data-field': 'antwoord', 'data-where': w }, r.antwoord),
-        el('span', { class: 'd', 'data-source': 'kansen_antwoord', 'data-field': 'detail', 'data-where': w }, r.detail));
+        (() => { const d = el('div', { class: 'd lines', 'data-source': 'kansen_antwoord', 'data-field': 'detail', 'data-where': w });
+          r.detail.split('\n').forEach((t) => d.append(el('p', {}, t))); return d; })());
       return c;
     }));
     const kb = document.getElementById('kansen-cards');
