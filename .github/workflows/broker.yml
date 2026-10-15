@@ -6,6 +6,8 @@
 name: broker
 
 on:
+  schedule:
+    - cron: "7 7-20 * * 1-5"   # elk uur tijdens beurstijden (ma-vr), alleen kijken: verse stand voor het dashboard
   workflow_dispatch:
     inputs:
       actie:
