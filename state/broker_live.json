@@ -1,0 +1,74 @@
+{
+ "tijd": "2026-10-15T20:18:10+00:00",
+ "status": "alleen kijken",
+ "reden": "Alleen gecontroleerd: geen orders geplaatst.",
+ "orders": [],
+ "niet_gekoppeld": [],
+ "managed": [
+  "MSFT_US_EQ",
+  "SAPd_EQ",
+  "SHELLa_EQ"
+ ],
+ "account": {
+  "id": 51866998,
+  "currency": "EUR",
+  "totalValue": 4998.74,
+  "cash": {
+   "availableToTrade": 3459.51,
+   "reservedForOrders": 1058.2,
+   "inPies": 0
+  },
+  "investments": {
+   "currentValue": 481.04,
+   "totalCost": 481.57,
+   "realizedProfitLoss": 0,
+   "unrealizedProfitLoss": -0.53
+  }
+ },
+ "posities": [
+  {
+   "instrument": {
+    "ticker": "MSFT_US_EQ",
+    "name": "Microsoft",
+    "isin": "US5949181045",
+    "currency": "USD"
+   },
+   "createdAt": "2026-10-15T19:38:29.744+03:00",
+   "quantity": 1.0,
+   "quantityAvailableForTrading": 1.0,
+   "quantityInPies": 0,
+   "currentPrice": 538.65,
+   "averagePricePaid": 539.52,
+   "walletImpact": {
+    "currency": "EUR",
+    "totalCost": 481.57,
+    "currentValue": 480.34,
+    "unrealizedProfitLoss": -1.23,
+    "fxImpact": -0.45
+   }
+  }
+ ],
+ "open_orders": [
+  {
+   "ticker": "SHELLa_EQ",
+   "quantity": 13.0,
+   "status": "NEW"
+  },
+  {
+   "ticker": "SAPd_EQ",
+   "quantity": 2.0,
+   "status": "NEW"
+  }
+ ],
+ "koppeling": {
+  "SHELL.AS": "SHELLa_EQ",
+  "SAP.DE": "SAPd_EQ",
+  "MSFT": "MSFT_US_EQ"
+ },
+ "handmatig": {},
+ "plan": [],
+ "wacht_op": [
+  "SHELLa_EQ",
+  "SAPd_EQ"
+ ]
+}
