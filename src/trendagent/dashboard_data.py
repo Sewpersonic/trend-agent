@@ -188,7 +188,47 @@ def build(state_dir: Path, reports_dir: Path) -> dict[str, list[dict]]:
     out["patronen"] = [dict(r, id=r["ticker"]) for r in prow]
     out["patronen_samenvatting"] = [{"id": f"s{i}", "nr": i, "tekst": t}
                                     for i, t in enumerate(patronen.samenvatting(prow), 1)]
+    out["broker"] = broker_rows(state_dir)
     return out
+
+
+def broker_rows(state_dir: Path) -> list[dict]:
+    """Oefenaccount Trading 212: stand, posities naast die van de trend-agent, en de laatste orders."""
+    v = _load(state_dir / "broker.json")
+    if not v:
+        return []
+    acc = v.get("account") or {}
+    cash = (acc.get("cash") or {}).get("availableToTrade")
+    inv = acc.get("investments") or {}
+    rows = [{"id": "stand", "soort": "stand", "status": v.get("status", ""), "reden": v.get("reden", ""),
+             "tijd": v.get("tijd", ""), "valuta": acc.get("currency", "EUR"), "waarde": acc.get("totalValue"),
+             "cash": cash, "belegd": inv.get("currentValue"),
+             "winst": (inv.get("unrealizedProfitLoss") or 0) + (inv.get("realizedProfitLoss") or 0) if inv else None,
+             "orders_aan": bool(_load(Path("config/broker.json")).get("orders_aan"))}]
+    port = _load(state_dir / "portfolio.json").get("positions", {})
+    have = {}
+    for p in v.get("posities") or []:
+        t = p.get("ticker") or (p.get("instrument") or {}).get("ticker")
+        if t:
+            have[t] = p
+    plan = {o["ticker"]: o for o in v.get("plan") or []}
+    seen = set()
+    for o in list(plan.values()) + [{"ticker": t, "yahoo": t} for t in have if t not in plan]:
+        t = o["ticker"]
+        if t in seen:
+            continue
+        seen.add(t)
+        y = o.get("yahoo", t)
+        hq = float((have.get(t) or {}).get("quantity") or 0)
+        bq = float((port.get(y) or {}).get("qty") or 0)
+        rows.append({"id": "pos-" + t, "soort": "positie", "ticker": t, "naam": _name(y) if y in port else t,
+                     "oefenaccount": hq, "trend_agent": bq, "gelijk": abs(hq - bq) < 1e-6})
+    for i, h in enumerate(reversed(v.get("geschiedenis") or [])):
+        for j, o in enumerate(h.get("orders") or []):
+            rows.append({"id": f"order-{i}-{j}", "soort": "order", "tijd": h.get("tijd", ""), "ticker": o.get("ticker"),
+                         "aantal": o.get("quantity"), "waarde_eur": o.get("waarde_eur"), "uitkomst": o.get("uitkomst"),
+                         "reden": o.get("reden") or ""})
+    return rows
 
 
 def _p(x: float) -> str:
@@ -260,6 +300,7 @@ EMPTY = {
     "patronen": "Nog geen grafieken om patronen in te zoeken.",
     "patronen_samenvatting": "Nog geen grafieken om samen te vatten.",
     "stand": "Nog geen stand.",
+    "broker": "Het oefenaccount van Trading 212 is nog niet gekoppeld.",
 }
 
 

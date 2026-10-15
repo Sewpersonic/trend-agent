@@ -1,4 +1,4 @@
 {
   "_uitleg": "Oefenaccount Trading 212 (demo, nepgeld). orders_aan=false: alleen kijken. true: het oefenaccount volgt de trend-agent met marktorders.",
-  "orders_aan": false
+  "orders_aan": true
 }

@@ -15,7 +15,7 @@
 from __future__ import annotations
 
 import argparse
-import json
+import json as _json
 import sys
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -72,7 +72,7 @@ def main(argv: list[str] | None = None) -> int:
         acc = v.get("account") or {}
         print(f"Oefenaccount Trading 212: {v['status']}. {v.get('reden', '')}".strip())
         if acc:
-            print("Account:", json.dumps({k: acc.get(k) for k in list(acc)[:8]}, ensure_ascii=False, default=str))
+            print("Account:", _json.dumps({k: acc.get(k) for k in list(acc)[:8]}, ensure_ascii=False, default=str))
         for o in v.get("plan", []):
             print(f"  plan: {o['ticker']} {o['quantity']:+g} (~€{o['waarde_eur']:.0f})")
         for o in v.get("orders", []):
