@@ -6,7 +6,7 @@ Periode **2021-10-15 t/m 2026-10-15** (ongeveer 5 jaar), startkapitaal €10.000
 
 ## In het kort
 
-- Over de hele periode deed de investeerder (zonder crypto) het beter dan gewoon de wereld-ETF vasthouden (+156,7% tegen +76,8%).
+- Over de hele periode deed de investeerder (zonder crypto) het beter dan gewoon de wereld-ETF vasthouden (+157,0% tegen +76,8%).
 - Zijn grootste daling was -21,4%, tegen -21,6% voor de ETF.
 - In 63% van alle periodes van 4 weken stond de investeerder (zonder crypto) aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -13,2%, het beste +16,9%.
 
@@ -14,9 +14,9 @@ Periode **2021-10-15 t/m 2026-10-15** (ongeveer 5 jaar), startkapitaal €10.000
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Investeerder (zonder crypto) | +156,7% | +20,8% | -21,4% | 1,18 | €25.638 |
+| Investeerder (zonder crypto) | +157,0% | +20,8% | -21,4% | 1,18 | €25.663 |
 | MSCI World-ETF (IWDA) | +76,8% | +12,1% | -21,6% | 0,86 | €17.680 |
-| S&P 500-ETF (SPY, in euro) | +90,8% | +13,8% | -23,0% | 0,77 | €19.081 |
+| S&P 500-ETF (SPY, in euro) | +90,9% | +13,8% | -23,0% | 0,77 | €19.086 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
 
@@ -28,7 +28,7 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 | 2022 | -12,2% | -13,5% | -13,1% |
 | 2023 | +31,5% | +19,9% | +21,5% |
 | 2024 | +46,2% | +27,2% | +32,8% |
-| 2025 | +13,4% | +7,1% | +4,3% |
+| 2025 | +13,5% | +7,1% | +4,3% |
 | 2026 | +30,3% | +17,2% | +19,2% |
 
 ## Periodes van 4 weken (20 handelsdagen)
@@ -44,7 +44,7 @@ Dit beantwoordt de vraag "wat kan er in een paar weken gebeuren?": elk mogelijk 
 ## Trades
 
 - Aankopen: 137, afgesloten: 141, waarvan winst: 67%
-- Gemiddelde winst: €134, gemiddeld verlies: €-103, profit factor: 2,6
+- Gemiddelde winst: €134, gemiddeld verlies: €-103, profit factor: 2,61
 - Gemiddeld vastgehouden: 60 dagen; totale kosten: €280
 - Kill switch aangegaan: 0 keer
 
