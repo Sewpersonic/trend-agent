@@ -59,6 +59,9 @@ def main(argv: list[str] | None = None) -> int:
     ov.add_argument("--simulated", action="store_true")
     br = sub.add_parser("broker", help="oefenaccount Trading 212 (demo) gelijkzetten met de trend-agent")
     br.add_argument("--check", action="store_true", help="alleen kijken en verbinding testen, geen orders")
+    br.add_argument("--handmatig", choices=["koop", "verkoop"], help="handmatige order in het oefenaccount")
+    br.add_argument("--aandeel", default="")
+    br.add_argument("--aantal", default="")
     br.add_argument("--live", action="store_true", help="alleen kijken voor het dashboard; schrijft state/broker_live.json, verandert niets anders")
     hc = sub.add_parser("health", help="gezondheid van de laatste rondes tonen")
     hc.add_argument("--check", action="store_true", help="foutcode 1 als er iets mis is")
@@ -69,6 +72,12 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd == "broker":
         from . import broker_t212
+        if args.handmatig:
+            e = broker_t212.manual(s.state_dir, args.handmatig, args.aandeel, args.aantal)
+            print(f"Handmatig {args.handmatig}: {e['status']}. {e.get('reden', '')}".strip())
+            for o in e.get("orders", []):
+                print(f"  {o['ticker']} {o['quantity']:+g} (~€{o['waarde_eur']:.0f}) -> {o['uitkomst']}")
+            return 0 if e["status"] == "ok" else 1
         if args.live:
             v = broker_t212.run(s.state_dir, Path("config/broker.json"), check_only=True, save_state=False)
             v.pop("geschiedenis", None)

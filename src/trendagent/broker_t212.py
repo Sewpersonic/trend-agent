@@ -198,7 +198,7 @@ def _instruments(client: "T212Demo", state_dir: Path) -> list[dict]:
 
 
 def sync(state_dir: Path, client: T212Demo, orders_aan: bool, kill_active: bool, managed: set[str] | None = None,
-         verslag: dict | None = None) -> dict:
+         verslag: dict | None = None, handmatig: dict | None = None) -> dict:
     """Vergelijk en zet gelijk. Schrijft in 'verslag' (ook als het halverwege misgaat blijft bewaard wat er al gebeurde)."""
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
     port = json.loads((state_dir / "portfolio.json").read_text(encoding="utf-8"))
@@ -239,6 +239,13 @@ def sync(state_dir: Path, client: T212Demo, orders_aan: bool, kill_active: bool,
         verslag.setdefault("koppeling", {})[y] = t
         target[t] = {"yahoo": y, "qty": float(p["qty"]), "prijs": float(p.get("highest_close") or p.get("entry_price") or 0),
                      "valuta": p.get("currency", "EUR"), "fx": float(p.get("entry_fx") or FX_NAAR_EUR.get(p.get("currency", "EUR"), 1.0))}
+    # Handmatige orders van de mens tellen mee, zodat gelijkzetten ze niet terugdraait.
+    for t, h in (handmatig or {}).items():
+        if t in target:
+            target[t]["qty"] = max(0.0, target[t]["qty"] + float(h.get("qty", 0)))
+        elif float(h.get("qty", 0)) > 0:
+            target[t] = {"yahoo": h.get("yahoo", t), "qty": float(h["qty"]), "prijs": 0.0, "valuta": "EUR", "fx": 1.0}
+    verslag["handmatig"] = handmatig or {}
     for t in managed:
         if t not in target and (filled.get(t, 0) > 0 or pending.get(t)):
             target[t] = {"yahoo": t, "qty": 0.0, "prijs": 0.0, "valuta": "EUR", "fx": 1.0}
@@ -296,7 +303,8 @@ def run(state_dir: Path, config_path: Path, check_only: bool = False, client: T2
         client = client or T212Demo()
         kill = KillSwitch(state_dir / "kill_switch.json").is_active()
         sync(state_dir, client, orders_aan=bool(cfg.get("orders_aan")) and not check_only,
-             kill_active=kill, managed=set(prev.get("managed", [])), verslag=verslag)
+             kill_active=kill, managed=set(prev.get("managed", [])), verslag=verslag,
+             handmatig=prev.get("handmatig", {}))
         if check_only and verslag["status"] == "alleen kijken" and cfg.get("orders_aan"):
             verslag["reden"] = "Alleen gecontroleerd: geen orders geplaatst."
     except Exception as e:  # noqa: BLE001 - elk probleem: verslag schrijven, niets meer doen
@@ -310,6 +318,7 @@ def run(state_dir: Path, config_path: Path, check_only: bool = False, client: T2
             if k not in verslag and k in prev:
                 verslag[k] = prev[k]
     verslag.setdefault("managed", prev.get("managed", []))
+    verslag["handmatig"] = prev.get("handmatig", {})
     hist = prev.get("geschiedenis", [])
     if verslag.get("orders") or verslag["status"] in ("fout", "deels mislukt") or not hist:
         hist.append({"tijd": verslag["tijd"], "status": verslag["status"], "reden": verslag.get("reden", ""),
@@ -319,3 +328,96 @@ def run(state_dir: Path, config_path: Path, check_only: bool = False, client: T2
     if save_state:
         out_path.write_text(json.dumps(verslag, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
     return verslag
+
+
+def find_instrument(aandeel: str):
+    """Zoek een aandeel uit de lijst die de bots kennen: op Yahoo-ticker (ASML.AS), ticker zonder beurs (ASML) of naam."""
+    from .universe import BY_TICKER
+    q = aandeel.strip().lower()
+    if not q:
+        return None
+    for t, i in BY_TICKER.items():
+        if q in (t.lower(), t.split(".")[0].lower(), i.name.lower()):
+            return i
+    hits = [i for i in BY_TICKER.values() if q in i.name.lower()]
+    return hits[0] if len(hits) == 1 else None
+
+
+def manual(state_dir: Path, side: str, aandeel: str, aantal: str, client: "T212Demo | None" = None,
+           price_eur=None) -> dict:
+    """Handmatige order in het OEFENACCOUNT, door de mens gestart (workflow 'broker').
+
+    Veilig: alleen aandelen die de bots kennen, hooguit MAX_ORDER_EUR, nooit meer verkopen dan er staat,
+    kopen niet als de kill switch aan staat. Het oefenaccount onthoudt de handmatige aantallen, zodat het gelijkzetten
+    met de trend-agent ze niet terugdraait.
+    """
+    from .core.kill_switch import KillSwitch
+    out_path = state_dir / "broker.json"
+    try:
+        prev = json.loads(out_path.read_text(encoding="utf-8")) if out_path.exists() else {}
+    except ValueError:
+        prev = {}
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    entry = {"tijd": now, "status": "ok", "reden": "", "orders": []}
+    try:
+        if side not in ("koop", "verkoop"):
+            raise BrokerError("Kies 'handmatig kopen' of 'handmatig verkopen'.")
+        try:
+            qty = float(str(aantal).replace(",", "."))
+        except ValueError:
+            raise BrokerError(f"Aantal '{aantal}' is geen getal.") from None
+        if not (0 < qty <= 10000):
+            raise BrokerError("Aantal moet groter dan 0 zijn.")
+        inst = find_instrument(aandeel)
+        if not inst:
+            raise BrokerError(f"'{aandeel}' staat niet in de lijst met aandelen die de bots kennen.")
+        if inst.kind == "CRYPTO":
+            raise BrokerError("Crypto kan niet in het Invest-oefenaccount van Trading 212.")
+        if side == "koop" and KillSwitch(state_dir / "kill_switch.json").is_active():
+            raise BrokerError("De kill switch staat aan: geen aankopen.")
+        client = client or T212Demo()
+        t212 = map_ticker(inst.ticker, inst.currency, _instruments(client, state_dir))
+        if not t212:
+            raise BrokerError(f"{inst.name} is niet te koop bij Trading 212 (bijvoorbeeld een Amerikaanse ETF).")
+        filled = {}
+        for p in client.positions():
+            t, q = _tq(p, "positie")
+            filled[t] = filled.get(t, 0.0) + q
+        if any(_tq(o, "order")[0] == t212 for o in client.open_orders()):
+            raise BrokerError(f"Er staat al een order open voor {inst.name}; wacht tot die is uitgevoerd.")
+        if side == "verkoop":
+            if filled.get(t212, 0.0) <= 0:
+                raise BrokerError(f"Er staat geen {inst.name} in het oefenaccount.")
+            qty = min(qty, filled[t212])   # nooit short
+        if price_eur is None:
+            from .data import YahooProvider
+            yp = YahooProvider()
+            close = yp.history(inst, 10)[-1].close
+            fx = yp.usd_to_eur() if inst.currency == "USD" else 1.0
+            price_eur = close * fx
+        waarde = round(qty * price_eur, 2)
+        if side == "koop" and waarde > MAX_ORDER_EUR:
+            raise BrokerError(f"Ongeveer €{waarde:.0f} is meer dan de grens van €{MAX_ORDER_EUR:.0f} per order.")
+        q = qty if side == "koop" else -qty
+        try:
+            r = client.market_order(t212, q)
+            uitkomst = "geplaatst"
+        except BrokerError as e:
+            r, uitkomst = None, ("onzeker" if e.onzeker else "mislukt")
+            entry["status"], entry["reden"] = "deels mislukt", str(e)
+        entry["orders"].append({"ticker": t212, "quantity": q, "actie": "handmatig " + side, "waarde_eur": waarde,
+                                "uitkomst": uitkomst, "reden": entry["reden"]})
+        if uitkomst != "mislukt":
+            hand = prev.get("handmatig", {})
+            h = hand.get(t212, {"yahoo": inst.ticker, "qty": 0.0})
+            h["qty"] = round(h["qty"] + q, 6)
+            hand[t212] = h
+            prev["handmatig"] = hand
+        entry["antwoord"] = r
+    except Exception as e:  # noqa: BLE001
+        entry.update(status="fout", reden=str(e) if isinstance(e, BrokerError) else f"Onverwachte fout: {type(e).__name__}: {e}")
+    hist = prev.get("geschiedenis", [])
+    hist.append({k: entry[k] for k in ("tijd", "status", "reden")} | {"orders": entry["orders"]})
+    prev["geschiedenis"] = hist[-60:]
+    out_path.write_text(json.dumps(prev, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
+    return entry

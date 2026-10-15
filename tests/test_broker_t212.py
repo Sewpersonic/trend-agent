@@ -219,3 +219,28 @@ class SecondRoundTest(BrokerTest):
         self.assertEqual(v["status"], "fout")
         self.assertEqual(v["orders"][0]["uitkomst"], "geplaatst")
         self.assertIn(v["orders"][0]["ticker"], v["managed"])
+
+
+class ManualTest(BrokerTest):
+    def test_manual_buy_is_kept_by_sync(self):
+        api = FakeApi([{"ticker": "MSFT_US_EQ", "quantity": 1}, {"ticker": "SAPd_EQ", "quantity": 2}, {"ticker": "SHELLa_EQ", "quantity": 13}])
+        c = b.T212Demo("k", "s", opener=api)
+        e = b.manual(self.dir, "koop", "SAP", "3", client=c, price_eur=190.0)
+        self.assertEqual(e["status"], "ok")
+        self.assertEqual(e["orders"][0]["quantity"], 3)
+        api.positions = [{"ticker": "MSFT_US_EQ", "quantity": 1}, {"ticker": "SAPd_EQ", "quantity": 5}, {"ticker": "SHELLa_EQ", "quantity": 13}]
+        cfg = self.dir / "cfg.json"; cfg.write_text(json.dumps({"orders_aan": True}))
+        v = b.run(self.dir, cfg, client=c)
+        self.assertEqual(v["plan"], [])
+
+    def test_manual_never_short_and_cap(self):
+        api = FakeApi([{"ticker": "SAPd_EQ", "quantity": 2}])
+        c = b.T212Demo("k", "s", opener=api)
+        e = b.manual(self.dir, "verkoop", "SAP.DE", "10", client=c, price_eur=190.0)
+        self.assertEqual(e["orders"][0]["quantity"], -2)
+        e = b.manual(self.dir, "koop", "SAP", "100", client=c, price_eur=190.0)
+        self.assertEqual(e["status"], "fout")
+        e = b.manual(self.dir, "koop", "Bitcoin", "1", client=c, price_eur=1.0)
+        self.assertEqual(e["status"], "fout")
+        e = b.manual(self.dir, "koop", "onbekend aandeel", "1", client=c, price_eur=1.0)
+        self.assertEqual(e["status"], "fout")

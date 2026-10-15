@@ -13,8 +13,16 @@ on:
       actie:
         description: "Wat wil je doen?"
         type: choice
-        options: ["kijken", "orders uit", "orders aan", "nu gelijkzetten"]
+        options: ["kijken", "orders uit", "orders aan", "nu gelijkzetten", "handmatig kopen", "handmatig verkopen"]
         default: "kijken"
+      aandeel:
+        description: "Alleen bij handmatig: welk aandeel (bv. ASML, Shell, MSFT)"
+        type: string
+        default: ""
+      aantal:
+        description: "Alleen bij handmatig: hoeveel aandelen"
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -51,8 +59,12 @@ jobs:
         env:
           T212_DEMO_KEY: ${{ secrets.T212_DEMO_KEY }}
           T212_DEMO_SECRET: ${{ secrets.T212_DEMO_SECRET }}
+          AANDEEL: ${{ github.event.inputs.aandeel }}
+          AANTAL: ${{ github.event.inputs.aantal }}
         run: |
           if [ "${{ github.event_name }}" = "schedule" ]; then python -m trendagent broker --live
+          elif [ "${{ github.event.inputs.actie }}" = "handmatig kopen" ]; then python -m trendagent broker --handmatig koop --aandeel "$AANDEEL" --aantal "$AANTAL"
+          elif [ "${{ github.event.inputs.actie }}" = "handmatig verkopen" ]; then python -m trendagent broker --handmatig verkoop --aandeel "$AANDEEL" --aantal "$AANTAL"
           elif [ "${{ github.event.inputs.actie }}" = "nu gelijkzetten" ]; then python -m trendagent broker
           else python -m trendagent broker --check; fi
       - name: Cijfers voor het dashboard

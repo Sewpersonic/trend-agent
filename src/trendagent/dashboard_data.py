@@ -227,13 +227,20 @@ def broker_rows(state_dir: Path) -> list[dict]:
             for t in bekend:
                 if t and (t == f"{base}_US_EQ" or (t.startswith(base) and t.endswith("_EQ") and len(t) == len(base) + 4)):
                     koppeling[y] = t
+    hand = v.get("handmatig") or {}
+    port = dict(port)
+    for t, h in hand.items():   # handmatig gekocht en niet bij de trend-agent: ook tonen
+        if h.get("yahoo") and h["yahoo"] not in port and float(h.get("qty", 0)) > 0:
+            port[h["yahoo"]] = {"qty": 0}
+            koppeling[h["yahoo"]] = t
     gezien = set()
     for y, p in port.items():
         t = koppeling.get(y)
         if not t:
             continue
         gezien.add(t)
-        hq, oq, bq = have.get(t, 0.0), onderweg.get(t, 0.0), float(p.get("qty") or 0)
+        hq, oq = have.get(t, 0.0), onderweg.get(t, 0.0)
+        bq = max(0.0, float(p.get("qty") or 0) + float(hand.get(t, {}).get("qty", 0)))
         rows.append({"id": "pos-" + t, "soort": "positie", "ticker": t, "yahoo": y, "naam": _name(y), "oefenaccount": hq,
                      "onderweg": oq, "trend_agent": bq, "gelijk": abs(hq - bq) < 1e-6, "onderweg_gelijk": abs(hq + oq - bq) < 1e-6})
     for t in set(have) | set(onderweg):

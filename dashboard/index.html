@@ -204,6 +204,34 @@
 .tx-banner { border-radius: 12px; padding: 14px 18px; background: color-mix(in srgb, var(--color-warn) 14%, var(--color-panel)); border: 1px solid color-mix(in srgb, var(--color-warn) 45%, transparent); display: grid; gap: 6px; }
 .tx-banner b { font-size: 16px; }
 .tx-banner a { color: var(--tx-accent); font-weight: var(--cds-font-weight-medium); }
+.bh-list { display: grid !important; gap: 14px !important; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
+.tx-start li.bh-bot { display: grid; grid-template-columns: none; gap: 8px; align-content: start; padding: 14px; border-radius: 12px; background: var(--tx-ground, var(--color-panel)); border: 1px solid var(--color-border-line); font-size: 14px; line-height: 1.45; }
+.bh-h { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto; gap: 10px; align-items: center; }
+.bh-dot { width: 12px; height: 12px; border-radius: 50%; }
+.bh-nm { display: grid; }
+.bh-nm b { font-size: 16px; font-weight: var(--cds-font-weight-medium); }
+.bh-nm small { font-size: 13px; }
+.bh-nm small.up { color: var(--tx-up); } .bh-nm small.down { color: var(--tx-down); }
+.bh-pill { font-size: 12px; font-weight: var(--cds-font-weight-medium); padding: 3px 10px; border-radius: 999px; color: var(--k); background: color-mix(in srgb, var(--k) 14%, transparent); white-space: nowrap; }
+.bh-l { display: grid; grid-template-columns: 4.2rem minmax(0, 1fr); gap: 8px; }
+.bh-lab { color: var(--color-fg-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .03em; padding-top: 2px; }
+.tx-order { border: 0; border-radius: 16px; padding: 0; width: min(92vw, 460px); background: var(--color-panel); color: var(--color-fg); box-shadow: 0 20px 60px rgba(0,0,0,.25); }
+.tx-order::backdrop { background: rgba(0,0,0,.35); }
+.tx-order-in { display: grid; gap: 12px; padding: 18px 20px 20px; }
+.tx-order-head { display: flex; justify-content: space-between; align-items: center; }
+.tx-order-head h2 { margin: 0; font-size: 1.2rem; font-weight: var(--cds-font-weight-medium); }
+.tx-order-side { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tx-order-side label { display: flex; justify-content: center; align-items: center; gap: 6px; padding: 10px; border-radius: 10px; border: 1px solid var(--color-border-line); cursor: pointer; font-weight: var(--cds-font-weight-medium); }
+.tx-order-side label:has(input:checked) { border-color: var(--tx-accent); background: var(--tx-soft); }
+.tx-order-f { display: grid; gap: 4px; font-size: 13px; color: var(--color-fg-muted); }
+.tx-order-f select, .tx-order-f input { font: inherit; font-size: 16px; color: var(--color-fg); padding: 10px; border-radius: 10px; border: 1px solid var(--color-border-line); background: var(--color-panel); }
+.tx-order-steps { margin: 0; padding-left: 20px; display: grid; gap: 4px; font-size: 14px; line-height: 1.45; }
+.tx-order-steps b { color: var(--tx-accent); }
+.tx-order-go { display: block; text-align: center; padding: 12px; border-radius: 12px; background: var(--tx-accent); color: #fff; text-decoration: none; font-weight: var(--cds-font-weight-medium); }
+.tx-orderbtn { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 14px; border-radius: 10px; background: var(--tx-accent); color: #fff; font-size: 14px; font-weight: var(--cds-font-weight-medium); }
+.tx-orderbtn.ghost { background: var(--tx-soft); color: var(--tx-accent); }
+.tx-orderbtn:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
+.tx-orderrow { display: flex; gap: 8px; flex-wrap: wrap; }
 .tx-pill.big { font-size: var(--cds-font-size-body); padding: 4px 12px; }
 .tx-group { display: grid; gap: 10px; }
 .tx-group-h { margin: 6px 0 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
@@ -438,8 +466,8 @@
         <p class="m-hint">Tik op een aandeel om de koersgrafiek te zien.</p>
       </div>
       <div class="tx-card tx-start" id="begin-hier">
-        <h2>Begin hier</h2>
-        <ol id="begin-lijst" data-source="begin_hier"></ol>
+        <h2>Begin hier: wat doen je bots?</h2>
+        <ol id="begin-lijst" class="bh-list" data-source="begin_hier"></ol>
       </div>
       <div class="tx-card tx-strip" id="strip" data-source="tickers"><div class="tx-strip-in" id="strip-in"><span class="dash-skeleton">—</span></div></div>
 
@@ -714,6 +742,21 @@
       </div>
     </section>
   </main>
+  <dialog class="tx-order" id="order-dlg" aria-labelledby="order-h">
+    <form method="dialog" class="tx-order-in">
+      <div class="tx-order-head"><h2 id="order-h">Kopen of verkopen</h2><button class="m-close" value="sluit" aria-label="Sluiten">✕</button></div>
+      <p class="tx-note" style="margin:0">In het oefenaccount bij Trading 212, met nepgeld. De order zelf geef je op GitHub: daar staat je sleutel veilig, het dashboard heeft die bewust niet.</p>
+      <div class="tx-order-side" role="radiogroup" aria-label="Kopen of verkopen">
+        <label><input type="radio" name="kant" value="kopen" checked> Kopen</label>
+        <label><input type="radio" name="kant" value="verkopen"> Verkopen</label>
+      </div>
+      <label class="tx-order-f">Aandeel<select id="order-aandeel"></select></label>
+      <label class="tx-order-f">Aantal<input id="order-aantal" type="number" min="1" step="1" value="1" inputmode="numeric"></label>
+      <ol class="tx-order-steps" id="order-steps"></ol>
+      <a class="tx-order-go" id="order-go" href="https://github.com/Sewpersonic/trend-agent/actions/workflows/broker.yml" target="_blank" rel="noopener">Naar GitHub →</a>
+      <p class="tx-note" style="margin:0">Regels: hooguit €3.000 per order, nooit meer verkopen dan er staat, geen crypto, en geen aankopen als de kill switch aan staat. De bot draait je order niet terug.</p>
+    </form>
+  </dialog>
 </div>
 
 <script>
@@ -829,25 +872,59 @@ dash.calc('tickers', {
 });
 
 dash.calc('begin_hier', {
-  title: 'Begin hier',
-  description: 'Drie zinnen in gewone taal: hoe staan de bots ervoor, wat deden ze op de laatste handelsdag, en waar moet je op letten. Gemaakt uit de stand, de trades en de analyse.',
-  inputs: ['stand', 'trades', 'oogopslag'],
-  fn: (stand, trades, oogopslag) => {
-    const eur = (v) => '€' + Math.abs(v).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    const st = stand.filter((r) => !r.leeg);
-    const dag = st.length ? st[0].dag : '';
-    const stand1 = st.map((r) => r.bot + ' staat ' + eur(r.sinds_start_eur) + (r.sinds_start_eur >= 0 ? ' in de plus' : ' in de min')).join(', ');
-    const vandaag = trades.filter((t) => !t.leeg && t.dag === dag);
-    const gedaan = vandaag.length
-      ? vandaag.map((t) => t.bot + (t.soort === 'koop' ? ' kocht ' : ' verkocht ') + t.naam).join('; ') + '.'
-      : 'Geen aankopen of verkopen: de bots hielden hun posities vast.';
-    const kort = oogopslag.filter((r) => !r.leeg && r.tegel === 'kort')
-      .sort((a, b) => (a.bot === 'Trend-agent' ? -1 : 1)).map((r) => r.uitleg);
-    return [
-      { id: 'stand', kop: 'Hoe staat het ervoor?', tekst: stand1 ? stand1 + ' sinds de start met elk €10.000 nepgeld.' : 'Nog geen stand.' },
-      { id: 'gedaan', kop: 'Wat deden de bots?', tekst: gedaan },
-      { id: 'letop', kop: 'Wat zie je in de markt?', tekst: kort.length ? kort.join(' ') : 'Nog geen analyse.' },
-    ];
+  title: 'Begin hier: wat doen je bots?',
+  description: 'Per bot (investeerder, trend-agent en het oefenaccount bij Trading 212): wat hij nu doet, wat hij als laatste deed en wat er straks gebeurt. Gemaakt uit de stand, de trades, de korte analyse, de posities en het oefenaccount.',
+  inputs: ['stand', 'trades', 'oogopslag', 'posities', 'broker'],
+  fn: (stand, trades, oogopslag, posities, broker) => {
+    const M = ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
+    const dag = (iso) => { const d = new Date(String(iso).slice(0, 10) + 'T00:00:00Z'); return d.getUTCDate() + ' ' + M[d.getUTCMonth()]; };
+    const eur = (v) => (v < 0 ? '−' : '+') + '€' + Math.abs(v).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const out = [];
+    const kort = (bot) => (oogopslag.find((r) => !r.leeg && r.bot === bot && r.tegel === 'kort') || {}).uitleg || '';
+    const laatste = (bot) => {
+      const ts = trades.filter((t) => !t.leeg && t.bot === bot).sort((a, b) => (a.dag < b.dag ? 1 : -1));
+      if (!ts.length) return 'Nog niets gekocht of verkocht.';
+      const d = ts[0].dag, zelfde = ts.filter((t) => t.dag === d);
+      const koop = zelfde.filter((t) => t.soort === 'koop').map((t) => t.naam), verk = zelfde.filter((t) => t.soort !== 'koop').map((t) => t.naam);
+      const delen = [];
+      if (koop.length) delen.push('kocht ' + (koop.length > 3 ? koop.length + ' beleggingen' : koop.join(', ')));
+      if (verk.length) delen.push('verkocht ' + (verk.length > 3 ? verk.length + ' beleggingen' : verk.join(', ')));
+      return dag(d) + ': ' + delen.join(' en ') + '.';
+    };
+    const st = Object.fromEntries(stand.filter((r) => !r.leeg).map((r) => [r.bot, r]));
+    // Trend-agent
+    const ta = st['Trend-agent'];
+    const tpos = posities.filter((r) => !r.leeg && r.bot === 'Trend-agent');
+    out.push({ id: 'trend', bot: 'Trend-agent', status: tpos.length >= 3 ? 'Wacht af' : 'Zoekt kansen', kleur: tpos.length >= 3 ? 'neutraal' : 'goed',
+      stand: ta ? eur(ta.sinds_start_eur) + ' sinds de start' : '',
+      nu: (tpos.length ? 'Heeft ' + tpos.length + ' van 3 plekken bezet: ' + tpos.map((p) => p.naam).join(', ') + '. ' : 'Heeft nog niets in bezit. ') + kort('Trend-agent'),
+      laatst: laatste('Trend-agent'),
+      straks: 'Vannacht rond 00:17 een nieuwe ronde: verkoopt als een koers onder de stop-loss of het 50-daags gemiddelde zakt, koopt de sterkste trend als er een plek vrij is.' });
+    // Investeerder
+    const iv = st['Investeerder'];
+    const k = kort('Investeerder');
+    const m = k.match(/herverdeelt (.+?)\./);
+    out.push({ id: 'invest', bot: 'Investeerder', status: 'Houdt vast', kleur: 'neutraal',
+      stand: iv ? eur(iv.sinds_start_eur) + ' sinds de start' : '',
+      nu: k || 'Belegt voor de lange termijn in een spreiding van ETF\'s, aandelen en een beetje crypto.',
+      laatst: laatste('Investeerder'),
+      straks: m ? 'Herverdeelt ' + m[1] + ' (één keer per maand).' : 'Herverdeelt één keer per maand.' });
+    // Oefenaccount
+    const br = broker.filter((r) => !r.leeg);
+    const bs = br.find((r) => r.soort === 'stand');
+    if (bs) {
+      const pos = br.filter((r) => r.soort === 'positie');
+      const gelijk = pos.filter((p) => p.gelijk).length, onderweg = pos.filter((p) => !p.gelijk && p.onderweg_gelijk);
+      const ords = br.filter((r) => r.soort === 'order');
+      const fout = bs.status === 'fout';
+      out.push({ id: 'oefen', bot: 'Oefenaccount', status: fout ? 'Fout' : onderweg.length ? onderweg.length + ' onderweg' : gelijk === pos.length ? 'Gelijk' : 'Loopt achter',
+        kleur: fout ? 'slecht' : onderweg.length ? 'letop' : 'goed',
+        stand: bs.waarde == null ? '' : eur(bs.waarde - 5000) + ' sinds de start',
+        nu: fout ? 'De koppeling met Trading 212 gaf een fout: ' + bs.reden : 'Volgt de trend-agent bij Trading 212 met nepgeld: ' + gelijk + ' van ' + pos.length + ' aandelen staan gelijk.',
+        laatst: ords.length ? dag(ords[0].tijd) + ': ' + ords.filter((o) => o.tijd === ords[0].tijd).map((o) => (o.aantal > 0 ? 'koop ' : 'verkoop ') + Math.abs(o.aantal) + ' ' + ((pos.find((p) => p.ticker === o.ticker) || {}).naam || o.ticker)).join(', ') + '.' : 'Nog geen orders.',
+        straks: onderweg.length ? onderweg.map((p) => p.naam).join(' en ') + ' worden gekocht zodra de beurs opengaat.' : 'Doet na elke ronde van de trend-agent hetzelfde. Elk uur wordt de stand bijgewerkt.' });
+    }
+    return out;
   },
 });
 
@@ -1485,10 +1562,16 @@ dash.calc('onderzoek_verschil', {
     const b = dash.data('begin_hier');
     if (b.status === 'error') { failed(list); return; }
     if (b.status !== 'ok') return;
-    list.replaceChildren(...b.data.map((r, i) => {
-      const li = el('li');
-      const t = el('div'); t.append(el('b', {}, r.kop + ' '), el('span', { 'data-source': 'begin_hier', 'data-field': 'tekst', 'data-where': 'id=' + r.id }, r.tekst));
-      li.append(el('span', { class: 'n', 'aria-hidden': 'true' }, String(i + 1)), t);
+    const KLEUR = { 'Trend-agent': '#e8a33a', 'Investeerder': '#3b6fd8', 'Oefenaccount': '#2aa876' };
+    list.replaceChildren(...b.data.map((r) => {
+      const w = 'id=' + r.id;
+      const li = el('li', { class: 'bh-bot', id: 'bh-' + r.id });
+      const h = el('div', { class: 'bh-h' });
+      const dot = el('span', { class: 'bh-dot', 'aria-hidden': 'true' }); dot.style.background = KLEUR[r.bot] || 'var(--tx-accent)';
+      const nm = el('div', { class: 'bh-nm' }); nm.append(el('b', {}, r.bot), el('small', { class: /^−/.test(r.stand) ? 'down' : 'up' }, r.stand));
+      h.append(dot, nm, el('span', { class: 'bh-pill k-' + r.kleur, 'data-source': 'begin_hier', 'data-field': 'status', 'data-where': w }, r.status));
+      const line = (lab, field) => { const d = el('div', { class: 'bh-l' }); d.append(el('span', { class: 'bh-lab' }, lab), el('span', { 'data-source': 'begin_hier', 'data-field': field, 'data-where': w }, r[field])); return d; };
+      li.append(h, line('Nu', 'nu'), line('Laatst', 'laatst'), line('Straks', 'straks'));
       return li;
     }));
   });
@@ -2077,5 +2160,47 @@ dash.calc('onderzoek_verschil', {
       el('span', {}, 'Het onderzoek vond een regel die over 5 jaar én in de laatste jaren duidelijk beter werkte. De bot neemt hem pas over als jij op GitHub op Merge drukt. Daarna gebruikt de trend-agent hem, en het oefenaccount volgt automatisch.'),
       ...vs.map((v) => { const a = el('a', { href: v.link, target: '_blank', rel: 'noopener' }, (v.titel || 'Bekijk het voorstel') + ' →'); return a; }));
   });
+})();
+</script>
+
+<script>
+// Koop- en verkoopknop: opent een venster dat precies zegt wat je op GitHub invult
+(() => {
+  const AANDELEN = [{"t": "ADYEN", "n": "Adyen"}, {"t": "AD", "n": "Ahold Delhaize"}, {"t": "AIR", "n": "Airbus"}, {"t": "ALV", "n": "Allianz"}, {"t": "GOOGL", "n": "Alphabet"}, {"t": "AMZN", "n": "Amazon"}, {"t": "AMD", "n": "AMD"}, {"t": "AAPL", "n": "Apple"}, {"t": "ANET", "n": "Arista Networks"}, {"t": "ASM", "n": "ASM International"}, {"t": "ASML", "n": "ASML"}, {"t": "BESI", "n": "BE Semiconductor"}, {"t": "BNP", "n": "BNP Paribas"}, {"t": "AVGO", "n": "Broadcom"}, {"t": "COST", "n": "Costco"}, {"t": "CRWD", "n": "CrowdStrike"}, {"t": "DTE", "n": "Deutsche Telekom"}, {"t": "LLY", "n": "Eli Lilly"}, {"t": "XOM", "n": "ExxonMobil"}, {"t": "HEIA", "n": "Heineken"}, {"t": "IFX", "n": "Infineon"}, {"t": "INGA", "n": "ING"}, {"t": "IWDA", "n": "iShares MSCI World"}, {"t": "JPM", "n": "JPMorgan Chase"}, {"t": "OR", "n": "L'Oreal"}, {"t": "MC", "n": "LVMH"}, {"t": "META", "n": "Meta Platforms"}, {"t": "MU", "n": "Micron"}, {"t": "MSFT", "n": "Microsoft"}, {"t": "NFLX", "n": "Netflix"}, {"t": "NVDA", "n": "Nvidia"}, {"t": "ORCL", "n": "Oracle"}, {"t": "PLTR", "n": "Palantir"}, {"t": "PANW", "n": "Palo Alto Networks"}, {"t": "PRX", "n": "Prosus"}, {"t": "RHM", "n": "Rheinmetall"}, {"t": "CRM", "n": "Salesforce"}, {"t": "SAP", "n": "SAP"}, {"t": "SU", "n": "Schneider Electric"}, {"t": "SHELL", "n": "Shell"}, {"t": "SIE", "n": "Siemens"}, {"t": "TSLA", "n": "Tesla"}, {"t": "TTE", "n": "TotalEnergies"}, {"t": "V", "n": "Visa"}, {"t": "WKL", "n": "Wolters Kluwer"}];
+  const dlg = document.getElementById('order-dlg');
+  const sel = document.getElementById('order-aandeel'), aantal = document.getElementById('order-aantal'), steps = document.getElementById('order-steps');
+  sel.replaceChildren(...AANDELEN.map((a) => new Option(a.n + ' (' + a.t + ')', a.t)));
+  const upd = () => {
+    const kant = dlg.querySelector('input[name=kant]:checked').value;
+    const n = Math.max(1, Math.floor(Number(aantal.value) || 1));
+    const b = (t) => { const x = document.createElement('b'); x.textContent = t; return x; };
+    const li = (...parts) => { const l = document.createElement('li'); parts.forEach((p) => l.append(typeof p === 'string' ? document.createTextNode(p) : p)); return l; };
+    steps.replaceChildren(
+      li('Klik op GitHub rechts op ', b('Run workflow'), '.'),
+      li('Bij "Wat wil je doen?": ', b('handmatig ' + kant), '.'),
+      li('Bij "aandeel": ', b(sel.value), ', bij "aantal": ', b(String(n)), '.'),
+      li('Klik op de groene knop ', b('Run workflow'), '. Na ongeveer een minuut staat de order in het oefenaccount; buiten beurstijd wordt hij uitgevoerd zodra de beurs opengaat.'));
+  };
+  dlg.addEventListener('change', upd); aantal.addEventListener('input', upd);
+  window.tx.openOrder = (kant, aandeel) => {
+    if (kant) dlg.querySelector('input[name=kant][value=' + kant + ']').checked = true;
+    if (aandeel && AANDELEN.some((a) => a.t === aandeel)) sel.value = aandeel;
+    upd();
+    if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+  };
+  const mk = (cls) => { const r = document.createElement('div'); r.className = 'tx-orderrow ' + (cls || '');
+    [['kopen', 'Kopen', ''], ['verkopen', 'Verkopen', ' ghost']].forEach(([k, t, c]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'tx-orderbtn' + c; b.textContent = t; b.addEventListener('click', () => window.tx.openOrder(k)); r.append(b); });
+    return r; };
+  // knoppen op het tabblad Oefenaccount (computer en telefoon)
+  const pg = document.getElementById('pg-broker');
+  pg.insertBefore(mk(), pg.querySelector('.m-broker'));
+  // knoppen onder de oefenaccount-kaart op het overzicht (computer) en de groene kaart (telefoon), na elke update
+  const obs = new MutationObserver(() => {
+    const d = document.getElementById('d-broker');
+    if (d && d.children.length && !d.querySelector('.tx-orderrow')) d.append(mk());
+    const f = document.querySelector('#m-favs .m-fav.br');
+    if (f && !f.querySelector('.tx-orderrow')) { const r = mk(); r.addEventListener('click', (e) => e.stopPropagation()); f.append(r); }
+  });
+  obs.observe(document.querySelector('.tx-main'), { childList: true, subtree: true });
 })();
 </script>
