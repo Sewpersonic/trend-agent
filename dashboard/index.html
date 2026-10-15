@@ -263,6 +263,8 @@
 .p-pats { display: flex; flex-wrap: wrap; gap: 8px; }
 .p-pat { font-size: 14px; padding: 6px 12px; border-radius: 999px; background: var(--tx-soft); }
 .p-lbl { font-size: 12px; color: var(--color-fg-muted); text-transform: uppercase; letter-spacing: .03em; margin: 0; }
+.a-one { display: grid; gap: 14px; }
+#a-bots { margin-bottom: 2px; }
 .tx-pill.big { font-size: var(--cds-font-size-body); padding: 4px 12px; }
 .tx-group { display: grid; gap: 10px; }
 .tx-group-h { margin: 6px 0 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
@@ -404,6 +406,8 @@
   /* iPhone: geen automatisch inzoomen bij het tikken in een keuzelijst of invulveld (gebeurt onder 16px) */
   select, input, textarea { font-size: 16px !important; }
   #pg-broker > .tx-orderrow { display: none; }
+  .tx-kort { font-size: 16px; }
+  .tx-tile .w { font-size: 18px; }
   /* Telefoon: alleen de hoofdzaken op het overzicht */
   html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   #pg-dashboard > .tx-top, .tx-top h1, .tx-top p { }
@@ -662,7 +666,10 @@
 
     <!-- ANALYSE -->
     <section class="tx-page" id="pg-analyse" role="tabpanel" aria-labelledby="analyse" hidden>
-      <div class="tx-two" id="analyse-cards" data-source="oogopslag analyse"></div>
+      <div class="m-tabs g-bots" role="tablist" aria-label="Kies bot" id="a-bots">
+        <button role="tab" aria-selected="true" data-bot="Trend-agent">Trend-agent</button><button role="tab" aria-selected="false" data-bot="Investeerder">Investeerder</button><button role="tab" aria-selected="false" data-bot="Oefenaccount">Oefenaccount</button>
+      </div>
+      <div class="a-one" id="analyse-cards" data-source="oogopslag analyse"></div>
     </section>
 
     <!-- ONDERZOEK -->
@@ -1828,16 +1835,24 @@ dash.calc('onderzoek_verschil', {
     const ab = document.getElementById('analyse-cards');
     const a = dash.data('analyse'), o = dash.data('oogopslag');
     if (a.status === 'error' || o.status === 'error') failed(ab);
-    else if (a.status === 'ok') {
+    else if (a.status === 'ok') { ab._render = () => {
       const rows = real(a.data);
       const tiles = o.status === 'ok' ? real(o.data) : [];
-      const bots = [...new Set(rows.map((r) => r.bot).concat(tiles.map((t) => t.bot)))];
+      const aBots = [...document.querySelectorAll('#a-bots button')];
+      let aBot = 'Trend-agent';
+      try { aBot = localStorage.getItem('tx-abot') || aBot; } catch (e) { /* standaard */ }
+      if (!ab._wired) { ab._wired = true; aBots.forEach((b) => b.addEventListener('click', () => { try { localStorage.setItem('tx-abot', b.dataset.bot); } catch (e) { /* niet erg */ } window.tx._aBot = b.dataset.bot; ab._render && ab._render(); })); }
+      aBot = window.tx._aBot || aBot;
+      aBots.forEach((b) => b.setAttribute('aria-selected', String(b.dataset.bot === aBot)));
+      const volgt = aBot === 'Oefenaccount';
+      const bots = [volgt ? 'Trend-agent' : aBot];
       const legend = el('div', { class: 'tx-legend', style: 'grid-column: 1 / -1' });
       [['goed', 'gunstig'], ['letop', 'let op'], ['slecht', 'ongunstig'], ['neutraal', 'neutraal']].forEach(([k, t]) => legend.append(el('span', { class: 'k-' + k }, t)));
       ab.replaceChildren(legend, ...bots.map((bot) => {
         const c = el('div', { class: 'tx-card', id: 'analyse-' + bot.toLowerCase().replace(/[^a-z]/g, '') });
-        const h = el('div', { class: 'tx-card-h' }); h.append(el('h2', {}, bot));
+        const h = el('div', { class: 'tx-card-h' }); h.append(el('h2', {}, volgt ? 'Oefenaccount' : bot));
         const b = el('div', { class: 'tx-card-b' });
+        if (volgt) b.append(el('p', { class: 'tx-note', style: 'margin:0' }, 'Het oefenaccount maakt geen eigen analyse: het koopt en verkoopt wat de trend-agent doet. Hieronder dus de analyse van de trend-agent.'));
         const mine = tiles.filter((t) => t.bot === bot);
         const kort = mine.find((t) => t.tegel === 'kort');
         if (kort) {
@@ -1866,7 +1881,7 @@ dash.calc('onderzoek_verschil', {
         c.append(h, b);
         return c;
       }));
-    }
+    }; ab._render(); }
 
     // Controles
     const cl = document.getElementById('ctl');
