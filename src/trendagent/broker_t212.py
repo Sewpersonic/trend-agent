@@ -331,15 +331,22 @@ def run(state_dir: Path, config_path: Path, check_only: bool = False, client: T2
 
 
 def find_instrument(aandeel: str):
-    """Zoek een aandeel uit de lijst die de bots kennen: op Yahoo-ticker (ASML.AS), ticker zonder beurs (ASML) of naam."""
+    """Zoek een aandeel uit de lijst die de bots kennen of de volglijst: op Yahoo-ticker (ASML.AS),
+    ticker zonder beurs (ASML) of naam."""
     from .universe import BY_TICKER
     q = aandeel.strip().lower()
     if not q:
         return None
-    for t, i in BY_TICKER.items():
+    known = dict(BY_TICKER)
+    try:
+        from .volglijst import load
+        known.update({i.ticker: i for i in load(Path("config/volglijst.json"))})
+    except (OSError, ValueError):
+        pass
+    for t, i in known.items():
         if q in (t.lower(), t.split(".")[0].lower(), i.name.lower()):
             return i
-    hits = [i for i in BY_TICKER.values() if q in i.name.lower()]
+    hits = [i for i in known.values() if q in i.name.lower()]
     return hits[0] if len(hits) == 1 else None
 
 

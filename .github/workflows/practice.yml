@@ -83,6 +83,13 @@ jobs:
           T212_DEMO_SECRET: ${{ secrets.T212_DEMO_SECRET }}
         run: python -m trendagent broker
 
+      # Volglijst: extra beleggingen alleen BEKIJKEN (trend, of hij ze zou kopen, of ze bij Trading 212 te koop zijn).
+      # Wordt nooit automatisch gekocht. Een fout hier stopt niets.
+      - name: Volglijst
+        if: github.event.inputs.action != 'kill' && github.event.inputs.action != 'resume' && github.event.inputs.action != 'voorbeeld'
+        continue-on-error: true
+        run: python -m trendagent volglijst
+
       - name: Investeerder
         if: github.event.inputs.action != 'kill' && github.event.inputs.action != 'resume' && github.event.inputs.action != 'voorbeeld'
         continue-on-error: true

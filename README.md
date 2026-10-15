@@ -25,13 +25,14 @@ telefoon (daar met een menu linksboven en een opbouw zoals een beurs-app).
 
 | Tabblad | Wat je ziet |
 | --- | --- |
-| **Overzicht** | *Begin hier*: per bot wat hij nu doet, wat hij als laatste deed en wat er straks gebeurt. Daaronder de drie kaarten (investeerder, trend-agent, oefenaccount), wat de grafieken vandaag laten zien, een koersgrafiek per aandeel en de laatste trades. |
+| **Overzicht** | *Begin hier*: per bot wat hij nu doet, wat hij als laatste deed en wat er straks gebeurt. Dan *Klaar voor echt geld?*: per bot een ring met de oefentijd, hoeveel eisen gehaald zijn en wanneer hij op zijn vroegst klaar kan zijn. Daaronder de drie kaarten (investeerder, trend-agent, oefenaccount), wat de grafieken vandaag laten zien, een koersgrafiek per aandeel en de laatste trades. |
+| **Weekoverzicht** | Per week: wat de bots kochten en verkochten (met reden), het resultaat tegenover de wereld-ETF, en *Wat heeft hij geleerd?* in gewone zinnen (afgesloten trades, onderzoek, patronen uit oude trades). |
 | **Grafieken** | Kaarsgrafieken per aandeel (rustige trendkaarsen of gewone kaarsen). |
 | **Patronen** | Per aandeel de trend, week/maand/3 maanden en opvallende patronen. Beschrijft alleen, voorspelt niets. |
-| **Kansen** | De sterkste trends, met een stoplicht voor het instapmoment en wat de bot zou doen. |
+| **Kansen** | De sterkste trends, met een stoplicht voor het instapmoment en wat de bot zou doen. Daaronder de **volglijst**: extra beleggingen die alleen bekeken worden (trend, rendement, of de trend-agent ze zou kopen, of ze bij Trading 212 te koop zijn). |
 | **Analyse** | Wat de bots in de markt zagen en wat ze eruit concluderen. |
 | **Onderzoek** | Het wekelijkse onderzoek: wat €10.000 na 5 jaar werd en welke nieuwe regels zijn getest. Staat er een voorstel klaar, dan zie je dat hier bovenaan. |
-| **Risico** | Verlies en risico per positie, de remmen en "Klaar voor echt geld?". |
+| **Risico** | Bovenaan "Klaar voor echt geld?" per bot (ook het oefenaccount); het menu toont een stip (oranje = nog niet klaar, groen = klaar). Daarna verlies en risico per positie, de remmen en alle eisen. |
 | **Controles** | Koersbronnen, waarschuwingen en alle trades met reden. |
 | **GitHub** | Welke runs op GitHub goed gingen en welke niet, en waarom, in gewone taal. |
 | **Oefenaccount** | De stand bij Trading 212, of het gelijkloopt met de trend-agent, de orders, en knoppen om te kopen en verkopen. |
@@ -45,7 +46,7 @@ kopiëren. De pagina zelf staat in `dashboard/index.html`.
 | Wanneer (Nederlandse zomertijd; in de wintertijd een uur eerder) | Workflow | Wat |
 | --- | --- | --- |
 | Werkdagen ± 00:17 | `practice` | De ronde van beide bots met de slotkoersen van die dag, daarna het oefenaccount gelijkzetten, rapporten en dashboardcijfers maken, opslaan, en de gezondheidscontrole. |
-| Werkdagen elk uur 09:07 – 22:07 | `broker` | Alleen kijken in het oefenaccount (geen orders), voor een verse stand op het dashboard. |
+| Werkdagen elk uur rond :25 | `broker` (gestart door een geplande taak van Claude) | Alleen kijken in het oefenaccount (geen orders) en de volglijst bijwerken, voor een verse stand op het dashboard. |
 | Na elke run | `status` | Zet de lijst van de laatste GitHub-runs en open voorstellen klaar voor het dashboard. |
 | Zaterdag ± 07:17 | `onderzoek` | Test varianten van de regels op 5 jaar koersen en zet een voorstel klaar als er een bewezen betere is. |
 | Na elke codewijziging | `tests`, `backtest` | Alle tests, en de backtest over 5 jaar. |
@@ -124,7 +125,7 @@ Het oefenaccount is het **demo-account** (Invest) van Trading 212: een echte bro
 | `kijken` | Verbinding testen en de stand ophalen. Geen orders. |
 | `orders uit` / `orders aan` | Het gelijkzetten uit- of aanzetten (`config/broker.json`). Uit = alleen kijken. |
 | `nu gelijkzetten` | Nu meteen gelijkzetten in plaats van 's nachts. |
-| `handmatig kopen` / `handmatig verkopen` | Zelf een order geven: vul ook **aandeel** (bijv. ASML, Shell, MSFT) en **aantal** in. Alleen aandelen die de bots kennen, hooguit €3.000. De bot draait je handmatige order niet terug. |
+| `handmatig kopen` / `handmatig verkopen` | Zelf een order geven: vul ook **aandeel** (bijv. ASML, Shell, MSFT) en **aantal** in. Alleen aandelen die de bots kennen of die op de volglijst staan, hooguit €3.000. De bot draait je handmatige order niet terug. |
 
 **Sleutels:** de API-sleutel staat alleen in GitHub Secrets (`T212_DEMO_KEY` en `T212_DEMO_SECRET`), nooit in
 de code, de chat of het dashboard. De sleutel heeft alleen de rechten Account data, History - Orders,
@@ -136,10 +137,22 @@ Metadata, Orders - Execute, Orders - Read en Portfolio.
 - **Elke zaterdag** test het onderzoek varianten van de regels (ook patronen uit de grafieken, zoals "koop na een
   terugval" of "verkoop na 2 rode trendkaarsen") tegen de huidige regels: op 5 jaar koersen, met een ongezien
   deel, 5 periodes, dubbele kosten en per marktregime. Rapport: `onderzoek/LAATSTE.md`.
+- **Elke week** zet het dashboard (tabblad **Weekoverzicht**) op een rij wat de bots kochten en verkochten en wat
+  ze ervan leerden, zodat je per week kunt nalezen welke orders er waren en waarom.
 - **Jij beslist.** Haalt een variant alle toetsen, dan zet het onderzoek een **voorstel** (pull request) klaar
   dat alleen `config/productie.json` wijzigt. Je ziet het op het dashboard en krijgt een e-mail. **Merge** =
   overnemen, **Close** = laten zoals het is. Na een merge gebruikt de trend-agent de nieuwe regel en volgt het
   oefenaccount vanzelf.
+
+## De volglijst (alleen kijken)
+
+In `config/volglijst.json` staan extra aandelen en fondsen (Walmart, Coca-Cola, Philips, Unilever, Sanofi,
+een S&P 500-ETF in euro, obligaties en meer). Elke werkdag en elk uur bij het kijken in het oefenaccount bekijkt
+`python -m trendagent volglijst` ze: koers, rendement over een week, maand en 3 maanden, de trend, of de
+trend-agent ze volgens zijn eigen regels zou kopen, en of ze bij Trading 212 te koop zijn (uit de
+instrumentenlijst van het oefenaccount). De bots kopen ze **nooit vanzelf**. Wil je er een in het oefenaccount,
+gebruik dan de knop Kopen. De koersen komen van Yahoo, omdat Trading 212 geen koersgeschiedenis geeft. Je mag de
+lijst zelf aanpassen.
 
 ## Rapporten
 
@@ -163,6 +176,7 @@ python -m trendagent invest                 # ronde van de investeerder
 python -m trendagent overzicht              # dagoverzicht en dagrapport.xlsx
 python -m trendagent dashboard              # cijfers voor het dashboard (map dashboard/)
 python -m trendagent health                 # gezondheid van de laatste rondes
+python -m trendagent volglijst              # volglijst bekijken (alleen kijken, nooit kopen)
 python -m trendagent kill "even stoppen"    # kill switch aan
 python -m trendagent resume                 # kill switch uit (alleen jij)
 python -m trendagent backtest --simulated   # backtest-proef zonder internet

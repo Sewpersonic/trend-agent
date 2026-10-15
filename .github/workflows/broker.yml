@@ -67,6 +67,10 @@ jobs:
           elif [ "${{ github.event.inputs.actie }}" = "handmatig verkopen" ]; then python -m trendagent broker --handmatig verkoop --aandeel "$AANDEEL" --aantal "$AANTAL"
           elif [ "${{ github.event.inputs.actie }}" = "nu gelijkzetten" ]; then python -m trendagent broker
           else python -m trendagent broker --check; fi
+      - name: Volglijst (alleen kijken)
+        if: always()
+        continue-on-error: true
+        run: python -m trendagent volglijst
       - name: Cijfers voor het dashboard
         if: always()
         run: python -m trendagent dashboard || true
@@ -75,5 +79,5 @@ jobs:
         run: |
           git config user.name "trend-agent[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if [ "${{ github.event_name }}" = "schedule" ]; then FILES="state/broker_live.json dashboard/broker.json"; else FILES="state/broker.json state/broker_live.json config/broker.json dashboard/"; fi
+          if [ "${{ github.event_name }}" = "schedule" ]; then FILES="state/broker_live.json dashboard/broker.json dashboard/volglijst.json"; else FILES="state/broker.json state/broker_live.json config/broker.json dashboard/"; fi
           bash scripts/opslaan.sh "Oefenaccount Trading 212: ${{ github.event.inputs.actie || 'uurlijkse stand' }}" $FILES

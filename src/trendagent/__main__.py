@@ -63,6 +63,8 @@ def main(argv: list[str] | None = None) -> int:
     br.add_argument("--aandeel", default="")
     br.add_argument("--aantal", default="")
     br.add_argument("--live", action="store_true", help="alleen kijken voor het dashboard; schrijft state/broker_live.json, verandert niets anders")
+    vl = sub.add_parser("volglijst", help="extra beleggingen bekijken (alleen kijken, nooit kopen); schrijft dashboard/volglijst.json")
+    vl.add_argument("--simulated", action="store_true")
     hc = sub.add_parser("health", help="gezondheid van de laatste rondes tonen")
     hc.add_argument("--check", action="store_true", help="foutcode 1 als er iets mis is")
     args = parser.parse_args(argv)
@@ -96,6 +98,17 @@ def main(argv: list[str] | None = None) -> int:
         if v.get("niet_gekoppeld"):
             print("  niet gevonden bij Trading 212:", ", ".join(v["niet_gekoppeld"]))
         return 0 if v["status"] != "fout" else 1
+
+    if args.cmd == "volglijst":
+        from . import volglijst
+        today = _market_day(args)
+        provider = SimulatedProvider(end=today) if args.simulated else YahooProvider()
+        rows = volglijst.build(Path("config/volglijst.json"), s.state_dir, provider, s, today)
+        print(volglijst.write(rows, Path("dashboard/volglijst.json")))
+        for r in rows[:40]:
+            t212 = {True: "bij T212", False: "niet bij T212", None: "T212 onbekend"}[r.get("bij_t212")]
+            print(f"  {r['ticker']:9} {r.get('trend', ''):9} {'KANDIDAAT' if r.get('kandidaat') else '':9} {t212}")
+        return 0
 
     if args.cmd == "run":
         today = _market_day(args)

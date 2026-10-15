@@ -189,6 +189,12 @@ def build(state_dir: Path, reports_dir: Path) -> dict[str, list[dict]]:
     out["patronen_samenvatting"] = [{"id": f"s{i}", "nr": i, "tekst": t}
                                     for i, t in enumerate(patronen.samenvatting(prow), 1)]
     out["broker"] = broker_rows(state_dir)
+
+    # Per week: orders en wat de bots leerden; per bot: klaar voor echt geld of nog niet
+    from . import weekoverzicht
+    odir = state_dir.parent / "onderzoek" if state_dir.name == "state" else Path("onderzoek")
+    out["weken"] = weekoverzicht.weken(books, out["trades"], _load(state_dir / "broker.json"), onderzoek, odir)
+    out["gereed"] = weekoverzicht.gereed(books, info)
     return out
 
 
@@ -331,6 +337,9 @@ EMPTY = {
     "patronen": "Nog geen grafieken om patronen in te zoeken.",
     "patronen_samenvatting": "Nog geen grafieken om samen te vatten.",
     "stand": "Nog geen stand.",
+    "weken": "Nog geen week met gegevens.",
+    "gereed": "Nog geen gegevens over klaar voor echt geld.",
+    "volglijst": "De volglijst is nog niet bekeken; dat gebeurt elke werkdag in de oefenronde.",
     "broker": "Het oefenaccount van Trading 212 is nog niet gekoppeld.",
 }
 

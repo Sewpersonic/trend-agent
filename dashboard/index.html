@@ -557,6 +557,7 @@
   <nav class="tx-side" role="tablist" aria-label="Onderdelen" aria-orientation="vertical">
     <div class="tx-logo" aria-hidden="true">T</div>
     <button class="tx-nav" role="tab" id="dashboard" aria-selected="true" data-page="pg-dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><span class="lbl">Overzicht</span></button>
+    <button class="tx-nav" role="tab" id="leren" aria-selected="false" data-page="pg-leren"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M8 14h3M8 17h6"/></svg><span class="lbl">Weekoverzicht</span></button>
     <button class="tx-nav" role="tab" id="grafieken" aria-selected="false" data-page="pg-grafieken"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 4v16M12 7v10M18 5v12"/><rect x="4.5" y="8" width="3" height="7" rx="1"/><rect x="10.5" y="9" width="3" height="5" rx="1"/><rect x="16.5" y="7" width="3" height="6" rx="1"/></svg><span class="lbl">Grafieken</span></button>
     <button class="tx-nav" role="tab" id="patronen" aria-selected="false" data-page="pg-patronen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l4-4 3 3 5-6 3 3 3-3"/><path d="M3 21h18"/><circle cx="15" cy="10" r="1.2"/></svg><span class="lbl">Patronen</span></button>
     <button class="tx-nav" role="tab" id="kansen" aria-selected="false" data-page="pg-kansen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg><span class="lbl">Kansen</span></button>
@@ -595,6 +596,8 @@
       <div class="m-home" id="m-home">
         <p class="m-sub">Mijn bots</p>
         <div class="m-favs" id="m-favs"></div>
+        <p class="m-sub">Klaar voor echt geld?</p>
+        <div class="gr-list" id="m-gr" data-source="gereed"></div>
         <p class="m-sub">Wat doen ze?</p>
         <div class="m-bh" id="m-bh" data-source="begin_hier"></div>
         <div class="m-tabs" role="tablist" aria-label="Kies bot" id="m-tabs">
@@ -607,6 +610,7 @@
         <h2>Begin hier: wat doen je bots?</h2>
         <ol id="begin-lijst" class="bh-list" data-source="begin_hier"></ol>
       </div>
+      <div class="tx-card gr-card" id="gr-home" data-source="gereed"></div>
       <div class="tx-card tx-strip" id="strip" data-source="tickers"><div class="tx-strip-in" id="strip-in"><span class="dash-skeleton">—</span></div></div>
 
       <div class="tx-card" id="kort-patronen">
@@ -727,6 +731,7 @@
       <p class="tx-what" style="padding:0">Elke nacht zoekt de trend-agent de aandelen met de sterkste stijgende trend. Hier zie je de 5 sterkste, wat hij ermee zou doen met zijn nepgeld en wat hij echt deed. Dit is geen advies voor echt geld.</p>
       <div class="tx-answers" id="kansen-antwoorden" data-source="kansen_antwoord kansen posities"></div>
       <div class="tx-two" id="kansen-cards" data-source="kansen"></div>
+      <div class="vl" id="vl-app" data-source="volglijst"></div>
       <div class="tx-card" id="kansen-uitleg">
         <div class="tx-card-h"><h2>Zo lees je het stoplicht</h2></div>
         <p class="tx-what">Bij elke kans staat of het een goed moment is om in te stappen. Dat zegt iets over hoe snel de koers de laatste dagen is gestegen.</p>
@@ -785,7 +790,13 @@
     </section>
 
     <!-- RISICO -->
+    <!-- WEEKOVERZICHT -->
+    <section class="tx-page" id="pg-leren" role="tabpanel" aria-labelledby="leren" hidden>
+      <div class="ap" id="lr-app" data-source="weken"></div>
+    </section>
+
     <section class="tx-page" id="pg-risico" role="tabpanel" aria-labelledby="risico" hidden>
+      <div class="gr-big" id="gr-risico" data-source="gereed klaar"></div>
       <div class="ap" id="rk-app" data-source="posities remmen klaar stand"></div>
       <div class="tx-card" id="card-risico">
         <div class="tx-card-h"><h2>Verlies en risico per positie</h2></div>
@@ -842,6 +853,7 @@
       <p class="tx-what" style="padding:0">De trend-agent oefent ook bij een echte broker: het oefenaccount (demo) van Trading 212, met nepgeld. Elke avond zet de bot dat account gelijk met wat hij volgens zijn eigen boekhouding bezit. Zo zie je of het bij een echte broker net zo gaat.</p>
       <div class="m-broker" id="m-broker"></div>
       <div class="ap" id="br-app" data-source="broker"></div>
+      <div class="gr-big gr-one" id="gr-broker" data-source="gereed"></div>
       <div class="tx-answers" id="br-antwoorden" data-source="broker"></div>
       <div class="tx-card" id="card-br-pos">
         <div class="tx-card-h"><h2>Klopt het met de trend-agent?</h2></div>
@@ -2370,6 +2382,11 @@ dash.calc('onderzoek_verschil', {
   const dlg = document.getElementById('order-dlg');
   const sel = document.getElementById('order-aandeel'), aantal = document.getElementById('order-aantal'), steps = document.getElementById('order-steps');
   sel.replaceChildren(...AANDELEN.map((a) => new Option(a.n + ' (' + a.t + ')', a.t)));
+  window.tx.addAandelen = (extra) => {
+    extra.forEach((x) => { if (!AANDELEN.some((a) => a.t === x.t)) AANDELEN.push(x); });
+    AANDELEN.sort((a, b) => a.n.localeCompare(b.n, 'nl'));
+    const v = sel.value; sel.replaceChildren(...AANDELEN.map((a) => new Option(a.n + ' (' + a.t + ')', a.t))); sel.value = v;
+  };
   const upd = () => {
     const kant = dlg.querySelector('input[name=kant]:checked').value;
     const n = Math.max(1, Math.floor(Number(aantal.value) || 1));
@@ -2679,6 +2696,248 @@ dash.calc('onderzoek_verschil', {
     box.replaceChildren(...out);
   }
   const all = () => { try { drawBroker(); } catch (e) { console.log('ERR broker', e.message); } try { drawRisico(); } catch (e) { console.log('ERR risico', e.message); } try { drawGh(); } catch (e) { console.log('ERR gh', e.message); } };
+  dash.onData(all);
+})();
+</script>
+
+<style>
+/* ===== Klaar voor echt geld, Weekoverzicht en Volglijst ===== */
+.gr-card { padding: 16px 18px; }
+.gr-card h2 { margin: 0 0 10px; font-size: 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.gr-card h2 small { font-size: 13px; font-weight: normal; color: var(--color-fg-muted); }
+.gr-list { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.gr-item { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 12px; align-items: center; padding: 12px 14px; border-radius: 16px; background: var(--color-panel); border: 1px solid var(--color-border-line); -webkit-tap-highlight-color: transparent; }
+.gr-item:hover { border-color: var(--tx-accent); }
+.gr-item:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
+.gr-ring { width: 56px; height: 56px; position: relative; }
+.gr-ring svg { width: 56px; height: 56px; transform: rotate(-90deg); }
+.gr-ring b { position: absolute; inset: 0; display: grid; place-items: center; font-size: 13px; font-variant-numeric: tabular-nums; }
+.gr-txt { min-width: 0; display: grid; gap: 3px; }
+.gr-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.gr-top .n { font-size: 16px; font-weight: var(--cds-font-weight-medium); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gr-st { font-size: 12px; font-weight: var(--cds-font-weight-medium); padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+.gr-st.bezig { color: var(--color-warn); background: color-mix(in srgb, var(--color-warn) 14%, transparent); }
+.gr-st.nee { color: var(--tx-down); background: color-mix(in srgb, var(--tx-down) 13%, transparent); }
+.gr-st.klaar { color: var(--tx-up); background: color-mix(in srgb, var(--tx-up) 14%, transparent); }
+.gr-sub { font-size: 13px; color: var(--color-fg-muted); }
+.gr-big { margin-bottom: 16px; }
+.gr-big .gr-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; margin: 0 0 10px; }
+.gr-big .gr-head h2 { margin: 0; font-size: 20px; }
+.gr-big .gr-head small { color: var(--color-fg-muted); font-size: 13px; }
+.gr-one .gr-list { grid-template-columns: minmax(0, 1fr); }
+.gr-uitleg { font-size: 13px; color: var(--color-fg-muted); margin: 10px 2px 0; }
+.tx-nav svg { flex: none; }
+.tx-nav .nbadge { margin-left: auto; font-size: 0; width: 9px; height: 9px; padding: 0 !important; border-radius: 50%; flex: none; }
+.tx-nav .nbadge.bezig { background: var(--color-warn); } .tx-nav .nbadge.klaar { background: var(--tx-up); } .tx-nav .nbadge.nee { background: var(--tx-down); }
+.m-ditem .nbadge { margin-left: auto; font-size: 11px; font-weight: var(--cds-font-weight-medium); padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+.nbadge.bezig { color: var(--color-warn); background: color-mix(in srgb, var(--color-warn) 14%, transparent); }
+.nbadge.klaar { color: var(--tx-up); background: color-mix(in srgb, var(--tx-up) 14%, transparent); }
+.nbadge.nee { color: var(--tx-down); background: color-mix(in srgb, var(--tx-down) 13%, transparent); }
+/* Weekoverzicht */
+.lr-weeks { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 6px; scrollbar-width: none; grid-column: 1 / -1; }
+.lr-weeks::-webkit-scrollbar { display: none; }
+.lr-weeks button { all: unset; cursor: pointer; flex: none; padding: 8px 14px; border-radius: 999px; font-size: 14px; background: var(--color-panel); border: 1px solid var(--color-border-line); white-space: nowrap; }
+.lr-weeks button[aria-pressed="true"] { background: var(--tx-accent); border-color: var(--tx-accent); color: #fff; }
+.lr-weeks button:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
+.lr-res { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.lr-res > div { background: color-mix(in srgb, var(--color-panel) 70%, transparent); border-radius: 12px; padding: 10px; display: grid; gap: 2px; min-width: 0; }
+.lr-res small { font-size: 12px; color: var(--color-fg-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lr-res b { font-size: 18px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.lr-res .up { color: var(--tx-up); } .lr-res .down { color: var(--tx-down); }
+.lr-les { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; padding: 10px 0; border-top: 1px solid var(--color-border-line); font-size: 15px; line-height: 1.45; }
+.lr-les:first-of-type { border-top: 0; }
+.lr-les .i { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 14px; background: var(--tx-soft); }
+.lr-bot { font-size: 11px; padding: 1px 7px; border-radius: 999px; background: var(--tx-soft); color: var(--color-fg-muted); margin-left: 6px; vertical-align: 1px; }
+.ap-row .s.wrap { white-space: normal; }
+/* Volglijst */
+.vl { margin-top: 16px; }
+.vl .ap-sec { padding-bottom: 6px; }
+.vl-intro { font-size: 13px; color: var(--color-fg-muted); margin: 0 0 6px; }
+.vl-chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0 4px; }
+.vl-chips button { all: unset; cursor: pointer; font-size: 13px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--color-border-line); }
+.vl-chips button[aria-pressed="true"] { background: var(--tx-soft); color: var(--tx-accent); border-color: var(--tx-accent); }
+.vl-chips button:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
+.vl-row { grid-template-columns: 40px minmax(0, 1fr) 84px auto !important; cursor: pointer; }
+.vl-row .sp { width: 84px; height: 30px; }
+.vl-row .n small { font-weight: normal; color: var(--color-fg-muted); font-size: 12px; margin-left: 6px; }
+.vl-more { display: none; grid-column: 1 / -1; font-size: 14px; color: var(--color-fg-muted); background: var(--tx-soft); border-radius: 12px; padding: 10px 12px; }
+.vl-more.open { display: grid; gap: 8px; }
+.vl-more .g { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.vl-more .g div { display: grid; } .vl-more .g b { color: var(--color-fg); font-variant-numeric: tabular-nums; }
+.vl-more .tx-orderbtn { justify-self: start; padding: 8px 18px; }
+@media (max-width: 640px) {
+  #gr-home { display: none !important; }
+  .gr-list { grid-template-columns: minmax(0, 1fr); }
+  .gr-item { padding: 12px; }
+  .vl-row { grid-template-columns: 40px minmax(0, 1fr) auto !important; }
+  .vl-row .sp { display: none; }
+  .lr-res b { font-size: 15px; }
+  .lr-res > div { padding: 8px; }
+  .tx-nav .nbadge { display: none; }
+}
+</style>
+
+<script>
+// Klaar voor echt geld (overzicht, Risico, Oefenaccount, menu), Weekoverzicht en Volglijst
+(() => {
+  const { el, eur, sEur, pct, ud, coin, real, num2 } = window.tx;
+  const NS = 'http://www.w3.org/2000/svg';
+  const datumF = new Intl.DateTimeFormat('nl-NL', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+  const dagF = new Intl.DateTimeFormat('nl-NL', { weekday: 'long', day: 'numeric', month: 'long' });
+  const D = (iso, f) => { try { return f.format(new Date(iso + (iso.length === 10 ? 'T12:00:00' : ''))); } catch (e) { return iso; } };
+  const ST = { klaar: 'Klaar', bezig: 'Nog niet klaar', nee: 'Nog niet klaar' };
+  const kleur = (st) => (st === 'klaar' ? 'var(--tx-up)' : st === 'nee' ? 'var(--tx-down)' : 'var(--color-warn)');
+  const ring = (frac, st) => {
+    const w = el('div', { class: 'gr-ring', role: 'img', 'aria-label': Math.round(frac * 100) + '% van de oefentijd' });
+    const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', '0 0 56 56');
+    const c = (stroke, dash) => { const k = document.createElementNS(NS, 'circle'); k.setAttribute('cx', 28); k.setAttribute('cy', 28); k.setAttribute('r', 23); k.setAttribute('fill', 'none'); k.setAttribute('stroke-width', 6); k.setAttribute('stroke', stroke); k.setAttribute('stroke-linecap', 'round'); if (dash != null) k.setAttribute('stroke-dasharray', dash + ' 999'); return k; };
+    const L = 2 * Math.PI * 23;
+    svg.append(c('color-mix(in srgb, var(--color-fg) 12%, transparent)'), c(kleur(st), Math.max(frac * L, 2)));
+    w.append(svg, el('b', {}, Math.round(frac * 100) + '%'));
+    return w;
+  };
+  const naarRisico = () => { const n = document.getElementById('risico'); if (n) n.click(); };
+  const item = (g, opts = {}) => {
+    const b = el('button', { class: 'gr-item', type: 'button', 'data-source': 'gereed', 'data-field': 'status', 'data-where': 'id=' + g.id });
+    const t = el('div', { class: 'gr-txt' });
+    const top = el('div', { class: 'gr-top' }); top.append(el('span', { class: 'n' }, g.bot), el('span', { class: 'gr-st ' + g.status }, (g.status === 'klaar' ? '✓ ' : '⏳ ') + ST[g.status]));
+    t.append(top, el('span', { class: 'gr-sub' }, g.ok + ' van ' + g.totaal + ' eisen gehaald · ' + g.dagen + ' van ' + g.nodig + ' oefendagen'),
+      el('span', { class: 'gr-sub' }, g.status === 'klaar' ? 'Jij beslist of en wanneer.' : 'Op z\'n vroegst klaar: ' + D(g.vroegst, datumF)));
+    if (opts.lang) t.append(el('span', { class: 'gr-sub', style: 'color:var(--color-fg)' }, g.kort));
+    b.append(ring(g.voortgang, g.status), t);
+    if (!opts.geenKlik) b.addEventListener('click', naarRisico); else b.style.cursor = 'default';
+    return b;
+  };
+  const badge = (rows) => {
+    const st = rows.some((r) => r.status === 'klaar') ? (rows.every((r) => r.status === 'klaar') ? 'klaar' : 'bezig') : rows.some((r) => r.status === 'nee') ? 'nee' : 'bezig';
+    const txt = st === 'klaar' ? 'klaar' : 'nog niet klaar';
+    [document.getElementById('risico'), document.querySelector('.m-ditem[data-for="risico"]')].forEach((n) => {
+      if (!n) return; let s = n.querySelector('.nbadge'); if (!s) { s = el('span', { class: 'nbadge' }); n.append(s); }
+      s.className = 'nbadge ' + st; s.textContent = txt; s.title = 'Klaar voor echt geld: ' + txt;
+    });
+  };
+  function drawGereed() {
+    const g = dash.data('gereed'); if (g.status !== 'ok') return;
+    const rows = real(g.data); if (!rows.length) return;
+    const klaarN = rows.filter((r) => r.status === 'klaar').length;
+    const home = document.getElementById('gr-home');
+    const h = el('h2'); h.append(document.createTextNode('Klaar voor echt geld?'), el('small', {}, klaarN ? klaarN + ' van ' + rows.length + ' klaar' : 'Nog geen enkele bot klaar · blijven oefenen'));
+    const l1 = el('div', { class: 'gr-list' }); rows.forEach((r) => l1.append(item(r)));
+    home.replaceChildren(h, l1);
+    document.getElementById('m-gr').replaceChildren(...rows.map((r) => item(r)));
+    const rk = document.getElementById('gr-risico');
+    const hh = el('div', { class: 'gr-head' }); hh.append(el('h2', {}, 'Klaar voor echt geld?'), el('small', {}, 'Eerst bewijzen, dan pas echt geld. Jij beslist altijd.'));
+    const l2 = el('div', { class: 'gr-list' }); rows.forEach((r) => l2.append(item(r, { lang: true, geenKlik: true })));
+    rk.replaceChildren(hh, l2, el('p', { class: 'gr-uitleg' }, 'De ring is de oefentijd (63 handelsdagen, ongeveer 3 maanden). Alle eisen per bot staan hieronder. "Klaar" betekent nooit dat de bot vanzelf met echt geld gaat handelen: dat doe jij, met een klein bedrag en jouw ja per order.'));
+    const br = rows.find((r) => r.id === 'oefenaccount');
+    const bx = document.getElementById('gr-broker');
+    if (br) { const hb = el('div', { class: 'gr-head' }); hb.append(el('h2', {}, 'Klaar voor echt geld?')); const l3 = el('div', { class: 'gr-list' }); l3.append(item(br, { lang: true })); bx.replaceChildren(hb, l3); }
+    badge(rows);
+  }
+
+  // ---------- Weekoverzicht ----------
+  let gekozen = '';
+  const icoon = (t) => (/kocht/.test(t) ? '🛒' : /sloot|trade/.test(t) && /winst/.test(t) ? '✓' : /markt/.test(t) ? '📈' : /Oefenaccount/.test(t) ? '🏦' : /Onderzoek/.test(t) ? '🔬' : /oude trades/.test(t) ? '💡' : /afgesloten trades die nodig/.test(t) ? '⏳' : '•');
+  function drawLeren() {
+    const box = document.getElementById('lr-app');
+    const s = dash.data('weken');
+    if (s.status === 'error') { window.tx.failed(box); return; }
+    if (s.status !== 'ok') return;
+    const rows = real(s.data), weken = rows.filter((r) => r.soort === 'week');
+    if (!weken.length) { box.replaceChildren(el('p', { class: 'tx-empty' }, 'Nog geen week met gegevens.')); return; }
+    if (!weken.some((w) => w.week === gekozen)) gekozen = weken[0].week;
+    const w = weken.find((x) => x.week === gekozen);
+    const chips = el('div', { class: 'lr-weeks', role: 'group', 'aria-label': 'Kies een week' });
+    weken.forEach((x) => { const b = el('button', { type: 'button', 'aria-pressed': String(x.week === gekozen) }, x.lopend ? 'Deze week' : x.label.split(' · ')[0]); b.addEventListener('click', () => { gekozen = x.week; drawLeren(); }); chips.append(b); });
+    const left = el('div', { class: 'ap-col' }), right = el('div', { class: 'ap-col' });
+    const hero = el('div', { class: 'ap-hero' });
+    const lbl = el('div', { class: 'lbl' }); lbl.append(el('span', {}, w.label), el('span', {}, w.lopend ? 'loopt nog' : 'afgelopen'));
+    const res = el('div', { class: 'lr-res' });
+    const cel = (t, e, p) => { const d = el('div'); d.append(el('small', {}, t), el('b', { class: ud(e == null ? p : e) }, e == null ? (p == null ? '–' : pct(p, 1)) : sEur(e)), el('small', {}, p == null || e == null ? '' : pct(p, 2))); return d; };
+    res.append(cel('Trend-agent', w.trend_eur, w.trend_pct), cel('Investeerder', w.inv_eur, w.inv_pct), cel('Wereld-ETF', null, w.etf_pct));
+    hero.append(lbl, el('div', { class: 'big', style: 'font-size:clamp(1.6rem,6vw,2.1rem)' }, w.kopen + ' gekocht · ' + w.verkopen + ' verkocht'), res);
+    left.append(hero);
+    const ls = el('div', { class: 'ap-sec' }); const lh = el('h3'); lh.append(document.createTextNode('Wat heeft hij geleerd?'), el('small', {}, w.geleerd.length + ' punten')); ls.append(lh);
+    w.geleerd.forEach((t) => { const r = el('div', { class: 'lr-les', 'data-source': 'weken', 'data-field': 'geleerd', 'data-where': 'id=' + w.id }); r.append(el('span', { class: 'i', 'aria-hidden': 'true' }, icoon(t)), el('span', {}, t)); ls.append(r); });
+    left.append(ls);
+    const ord = rows.filter((r) => r.soort === 'order' && r.week === gekozen);
+    const os = el('div', { class: 'ap-sec' }); const oh = el('h3'); oh.append(document.createTextNode('Orders deze week'), el('small', {}, ord.length ? ord.length + ' orders' : '')); os.append(oh);
+    if (!ord.length) os.append(el('p', { class: 'ap-empty' }, 'Geen orders in deze week.'));
+    let last = '';
+    ord.forEach((o) => {
+      if (o.dag !== last) { os.append(el('div', { class: 'ap-day' }, D(o.dag, dagF))); last = o.dag; }
+      const koop = o.actie === 'koop' || /koop/.test(o.actie);
+      const weg = /geweigerd|mislukt/.test(o.reden || '');
+      const r = el('div', { class: 'ap-row' });
+      r.append(el('span', { class: 'ap-ico ' + (weg ? 'grijs' : koop ? 'koop' : 'verkoop'), 'aria-hidden': 'true' }, weg ? '✕' : koop ? '↑' : '↓'));
+      const mid = el('div', { style: 'min-width:0' });
+      const n = el('div', { class: 'n' }, (koop ? 'Koop ' : o.actie === 'intrekken' ? 'Ingetrokken ' : 'Verkoop ') + o.naam); n.append(el('span', { class: 'lr-bot' }, o.bot));
+      mid.append(n, el('div', { class: 's wrap' }, o.reden || ''));
+      const rt = el('div', { class: 'r' });
+      if (o.waarde_eur != null) rt.append(el('span', { class: 'v' }, eur.format(o.waarde_eur)));
+      if (o.resultaat_eur != null) rt.append(el('span', { class: 'c ' + ud(o.resultaat_eur) }, sEur(o.resultaat_eur)));
+      r.append(mid, rt); os.append(r);
+    });
+    right.append(os);
+    box.replaceChildren(chips, left, right);
+  }
+
+  // ---------- Volglijst ----------
+  let filter = 'alles'; const open = new Set();
+  const mini = (vals, up) => {
+    const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', '0 0 84 30'); svg.setAttribute('class', 'sp'); svg.setAttribute('aria-hidden', 'true'); svg.setAttribute('preserveAspectRatio', 'none');
+    if (vals && vals.length > 1) {
+      const lo = Math.min(...vals), hi = Math.max(...vals), r = hi - lo || 1;
+      const p = document.createElementNS(NS, 'polyline');
+      p.setAttribute('points', vals.map((v, i) => (i / (vals.length - 1) * 84).toFixed(1) + ',' + (28 - (v - lo) / r * 26).toFixed(1)).join(' '));
+      p.setAttribute('fill', 'none'); p.setAttribute('stroke', up ? 'var(--tx-up)' : 'var(--tx-down)'); p.setAttribute('stroke-width', '1.8'); p.setAttribute('vector-effect', 'non-scaling-stroke');
+      svg.append(p);
+    }
+    return svg;
+  };
+  function drawVolglijst() {
+    const box = document.getElementById('vl-app');
+    const s = dash.data('volglijst');
+    if (s.status === 'error') { window.tx.failed(box); return; }
+    if (s.status !== 'ok') return;
+    const all = real(s.data);
+    const sec = el('div', { class: 'ap-sec' });
+    const h = el('h3'); h.append(document.createTextNode('Volglijst · alleen kijken'), el('small', {}, all.length ? all.length + ' beleggingen' : '')); sec.append(h);
+    sec.append(el('p', { class: 'vl-intro' }, 'Extra aandelen en fondsen die de bot elke werkdag bekijkt, naast zijn eigen lijst. Hij koopt ze niet zelf. Wil je er een in het oefenaccount, tik hem aan en kies Kopen.'));
+    if (!all.length) { sec.append(el('p', { class: 'ap-empty' }, (s.data[0] && s.data[0].reden) || 'Nog niet bekeken.')); box.replaceChildren(sec); return; }
+    window.tx.addAandelen && window.tx.addAandelen(all.filter((r) => r.bij_t212 !== false && !r.fout).map((r) => ({ t: r.ticker.split('.')[0], n: r.naam })));
+    const nKoop = all.filter((r) => r.kandidaat).length, nT = all.filter((r) => r.bij_t212).length;
+    const chips = el('div', { class: 'vl-chips', role: 'group', 'aria-label': 'Filter' });
+    [['alles', 'Alles'], ['kopen', 'Zou hij kopen (' + nKoop + ')'], ['stijgend', 'Stijgende trend'], ['t212', 'Bij Trading 212' + (nT ? ' (' + nT + ')' : '')]].forEach(([k, t]) => {
+      const b = el('button', { type: 'button', 'aria-pressed': String(filter === k) }, t); b.addEventListener('click', () => { filter = k; drawVolglijst(); }); chips.append(b);
+    });
+    sec.append(chips);
+    const rows = all.filter((r) => filter === 'alles' || (filter === 'kopen' && r.kandidaat) || (filter === 'stijgend' && r.trend === 'stijgend') || (filter === 't212' && r.bij_t212));
+    if (!rows.length) sec.append(el('p', { class: 'ap-empty' }, 'Niets in deze selectie.'));
+    rows.forEach((r) => {
+      const row = el('div', { class: 'ap-row vl-row', role: 'button', tabindex: '0', 'aria-expanded': String(open.has(r.ticker)) });
+      const mid = el('div', { style: 'min-width:0' });
+      const n = el('div', { class: 'n' }, r.naam); n.append(el('small', {}, r.ticker)); mid.append(n);
+      const sub = r.fout ? 'geen koersen opgehaald' : (r.kandidaat ? '✓ zou hij kopen' : r.trend === 'stijgend' ? 'stijgende trend' : r.trend === 'dalend' ? 'dalende trend' : 'zijwaarts') + (r.bij_t212 === true ? ' · bij Trading 212' : r.bij_t212 === false ? ' · niet bij Trading 212' : '');
+      mid.append(el('div', { class: 's', style: r.kandidaat ? 'color:var(--tx-up)' : '' }, sub));
+      const rt = el('div', { class: 'r' });
+      if (r.koers != null) rt.append(el('span', { class: 'v' }, num2.format(r.koers) + ' ' + (r.valuta === 'EUR' ? '€' : '$')));
+      if (r.maand != null) rt.append(el('span', { class: 'c ' + ud(r.maand) }, pct(r.maand, 1) + ' mnd'));
+      row.append(coin(r.ticker, 40), mid, mini(r.lijn, (r.maand || 0) >= 0), rt);
+      const more = el('div', { class: 'vl-more' + (open.has(r.ticker) ? ' open' : '') });
+      const g = el('div', { class: 'g' });
+      [['Week', r.week], ['Maand', r.maand], ['3 maanden', r.kwartaal]].forEach(([t, v]) => { const d = el('div'); d.append(el('span', {}, t), el('b', { class: ud(v) }, v == null ? '–' : pct(v, 1))); g.append(d); });
+      more.append(g, el('span', {}, r.oordeel || ''));
+      if (r.bij_t212 !== false && !r.fout) { const kb = el('button', { class: 'tx-orderbtn', type: 'button' }, 'Kopen in oefenaccount'); kb.addEventListener('click', (e) => { e.stopPropagation(); window.tx.openOrder && window.tx.openOrder('kopen', r.ticker.split('.')[0]); }); more.append(kb); }
+      const tog = () => { if (open.has(r.ticker)) open.delete(r.ticker); else open.add(r.ticker); more.classList.toggle('open'); row.setAttribute('aria-expanded', String(open.has(r.ticker))); };
+      row.addEventListener('click', tog); row.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tog(); } });
+      sec.append(row, more);
+    });
+    sec.append(el('p', { class: 'tx-note', style: 'margin:8px 0 4px' }, 'Koersen van Yahoo (Trading 212 geeft geen koersgeschiedenis). "Zou hij kopen" = dezelfde regels als de trend-agent. Dit is geen advies voor echt geld.'));
+    box.replaceChildren(sec);
+  }
+
+  const all = () => { for (const [n, f] of [['gereed', drawGereed], ['leren', drawLeren], ['volglijst', drawVolglijst]]) { try { f(); } catch (e) { console.log('ERR ' + n, e.message); } } };
   dash.onData(all);
 })();
 </script>

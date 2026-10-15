@@ -31,6 +31,8 @@ STAP = {
     "Onderzoek": "Het onderzoek zelf liep vast (bijvoorbeeld koersen downloaden mislukte).",
     "Oefenaccount Trading 212": "De koppeling met het oefenaccount van Trading 212 lukte niet (zie het verslag).",
     "Controle oefenaccount": "Het oefenaccount van Trading 212 gaf een fout of een order lukte niet. De bots zelf draaiden gewoon door. Zie het tabblad Oefenaccount.",
+    "Volglijst": "De volglijst (extra beleggingen bekijken) lukte niet. De bots draaiden gewoon door.",
+    "Volglijst (alleen kijken)": "De volglijst (extra beleggingen bekijken) lukte niet. Het oefenaccount werkte gewoon.",
     "pip install -e .": "Installeren van de software lukte niet (meestal tijdelijk bij GitHub).",
 }
 
