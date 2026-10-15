@@ -1,14 +1,18 @@
-# Met de hand: de koppeling met het oefenaccount (demo) van Trading 212 testen of gelijkzetten. Alleen nepgeld.
+# Met de hand: het oefenaccount (demo) van Trading 212 bedienen. Alleen nepgeld.
+#   kijken          = verbinding testen en kijken, geen orders
+#   orders uit      = de bot plaatst geen orders meer in het oefenaccount (alleen kijken)
+#   orders aan      = het oefenaccount volgt de trend-agent weer elke avond
+#   nu gelijkzetten = nu meteen gelijkzetten (alleen als orders aan staan)
 name: broker
 
 on:
   workflow_dispatch:
     inputs:
-      alleen_kijken:
-        description: "true = alleen verbinding testen en kijken, geen orders"
+      actie:
+        description: "Wat wil je doen?"
         type: choice
-        options: ["true", "false"]
-        default: "true"
+        options: ["kijken", "orders uit", "orders aan", "nu gelijkzetten"]
+        default: "kijken"
 
 permissions:
   contents: write
@@ -29,18 +33,32 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -e .
+      - name: Orders aan of uit zetten
+        if: github.event.inputs.actie == 'orders uit' || github.event.inputs.actie == 'orders aan'
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          p = pathlib.Path("config/broker.json")
+          cfg = json.loads(p.read_text()) if p.exists() else {}
+          cfg["orders_aan"] = "${{ github.event.inputs.actie }}" == "orders aan"
+          p.write_text(json.dumps(cfg, ensure_ascii=False, indent=2) + "\n")
+          print("orders_aan =", cfg["orders_aan"])
+          PY
       - name: Oefenaccount Trading 212
         env:
           T212_DEMO_KEY: ${{ secrets.T212_DEMO_KEY }}
           T212_DEMO_SECRET: ${{ secrets.T212_DEMO_SECRET }}
         run: |
-          if [ "${{ github.event.inputs.alleen_kijken }}" = "true" ]; then python -m trendagent broker --check; else python -m trendagent broker; fi
-      - name: Verslag opslaan
+          if [ "${{ github.event.inputs.actie }}" = "nu gelijkzetten" ]; then python -m trendagent broker; else python -m trendagent broker --check; fi
+      - name: Cijfers voor het dashboard
+        if: always()
+        run: python -m trendagent dashboard || true
+      - name: Opslaan
         if: always()
         run: |
           git config user.name "trend-agent[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add state/broker.json
+          git add state/broker.json config/broker.json dashboard/
           git diff --cached --quiet && exit 0
-          git commit -m "Oefenaccount Trading 212: verslag"
+          git commit -m "Oefenaccount Trading 212: ${{ github.event.inputs.actie }}"
           for i in 1 2 3; do git pull --rebase origin main && git push && break; sleep 10; done
