@@ -57,6 +57,11 @@ def validate_bars(bars: list[Bar], ticker: str) -> list[Bar]:
     return bars
 
 
+def drop_unfinished(bars: list[Bar], last_allowed) -> list[Bar]:
+    """Haalt dagen na de laatste afgesloten handelsdag weg (een halve dag die nog loopt)."""
+    return [b for b in bars if b.day <= last_allowed]
+
+
 def fill_from_intraday(bars: list[Bar], rows: list[tuple], last_allowed) -> list[Bar]:
     """Voegt dagen toe die wel in de uurkoersen staan maar nog niet in de dagkoersen.
 
@@ -103,8 +108,7 @@ class YahooProvider:
             for idx, r in df.iterrows()
             if r["Close"] == r["Close"]  # NaN-regels overslaan
         ]
-        if instrument.kind != "CRYPTO":
-            bars = self._fill_missing_day(instrument, bars)
+        bars = self._fill_missing_day(instrument, bars)
         return validate_bars(bars[-days:], instrument.ticker)
 
     def _fill_missing_day(self, instrument: Instrument, bars: list[Bar]) -> list[Bar]:
@@ -115,7 +119,10 @@ class YahooProvider:
         from .features import expected_market_day
 
         last_allowed = expected_market_day(datetime.now(timezone.utc))
-        if not bars or bars[-1].day >= last_allowed:
+        # Een dag die nog bezig is (Yahoo geeft overdag al een halve dagkoers) telt niet mee:
+        # de bot werkt alleen met afgesloten handelsdagen.
+        bars = drop_unfinished(bars, last_allowed)
+        if not bars or bars[-1].day >= last_allowed or instrument.kind == "CRYPTO":
             return bars
         try:
             df = yf.Ticker(instrument.ticker).history(period="5d", interval="60m", auto_adjust=True)

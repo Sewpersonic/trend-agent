@@ -149,3 +149,11 @@ class IntradayFillTests(unittest.TestCase):
         from trendagent.data import Bar, fill_from_intraday
         daily = [Bar(date(2026, 10, 14), 1, 2, 1, 1.5, 10)]
         self.assertEqual(fill_from_intraday(daily, [(date(2026, 10, 14), 1, 1, 1, 1, 1)], date(2026, 10, 14)), daily)
+
+
+class UnfinishedDayTests(unittest.TestCase):
+    def test_running_day_dropped(self):
+        from datetime import date
+        from trendagent.data import Bar, drop_unfinished
+        bars = [Bar(date(2026, 10, 13), 1, 2, 1, 1.5, 10), Bar(date(2026, 10, 15), 1, 2, 1, 1.6, 3)]
+        self.assertEqual([b.day for b in drop_unfinished(bars, date(2026, 10, 14))], [date(2026, 10, 13)])
