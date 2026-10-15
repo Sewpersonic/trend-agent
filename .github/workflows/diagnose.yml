@@ -1,0 +1,56 @@
+# Eenmalige controle: welke laatste handelsdag geeft Yahoo terug, en op welke manier ophalen werkt het best?
+# Schrijft de uitkomst naar diagnose/yahoo.txt. Verandert niets aan de bots.
+name: diagnose
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: diagnose
+  cancel-in-progress: false
+jobs:
+  yahoo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install -e .
+      - name: Yahoo testen
+        run: |
+          mkdir -p diagnose
+          python - > diagnose/yahoo.txt 2>&1 <<'PY'
+          import datetime as dt, yfinance as yf
+          print("nu (UTC):", dt.datetime.now(dt.timezone.utc).isoformat(), "yfinance", yf.__version__)
+          for t in ("SPY", "MSFT", "SAP.DE", "IWDA.AS"):
+              tk = yf.Ticker(t)
+              for label, kw in (("period=400d", dict(period="400d")),
+                                ("period=5d", dict(period="5d")),
+                                ("start/end+2", dict(start=(dt.date.today() - dt.timedelta(days=10)).isoformat(),
+                                                     end=(dt.date.today() + dt.timedelta(days=2)).isoformat()))):
+                  try:
+                      df = tk.history(interval="1d", auto_adjust=True, **kw)
+                      print(t, label, [(str(i.date()), round(float(r.Close), 2)) for i, r in df.tail(3).iterrows()])
+                  except Exception as e:
+                      print(t, label, "FOUT", type(e).__name__, e)
+              try:
+                  fi = tk.fast_info
+                  print(t, "fast_info last_price", fi.last_price, "previous_close", fi.previous_close)
+              except Exception as e:
+                  print(t, "fast_info FOUT", e)
+              try:
+                  df = yf.download(t, period="5d", interval="1d", progress=False, auto_adjust=True)
+                  print(t, "download period=5d", [str(i.date()) for i in df.index[-3:]])
+              except Exception as e:
+                  print(t, "download FOUT", e)
+          PY
+          cat diagnose/yahoo.txt
+      - name: Opslaan
+        run: |
+          git config user.name "trend-agent[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add diagnose
+          git commit -m "Diagnose Yahoo $(date -u +%F)" || exit 0
+          for i in 1 2 3; do git pull --rebase origin main && git push && break; sleep 10; done
