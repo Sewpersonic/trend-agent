@@ -2760,6 +2760,13 @@ dash.calc('onderzoek_verschil', {
 .lr-les .i { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 14px; background: var(--tx-soft); }
 .lr-bot { font-size: 11px; padding: 1px 7px; border-radius: 999px; background: var(--tx-soft); color: var(--color-fg-muted); margin-left: 6px; vertical-align: 1px; }
 .ap-row .s.wrap { white-space: normal; }
+/* Leerplan */
+.lp-doel { display: grid; gap: 8px; padding: 14px 18px; }
+.lp-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.lp-h b { font-size: 16px; font-weight: var(--cds-font-weight-medium); }
+.lp-nu { font-size: 15px; font-variant-numeric: tabular-nums; }
+.lp-w { margin: 0; font-size: 13px; color: var(--color-fg-muted); line-height: 1.45; }
+.lp-ex { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; line-height: 1.4; }
 /* Volglijst */
 .vl { margin-top: 16px; }
 .vl .ap-sec { padding-bottom: 6px; }
@@ -2848,8 +2855,30 @@ dash.calc('onderzoek_verschil', {
   }
 
   // ---------- Weekoverzicht ----------
-  let gekozen = '';
+  const lijst = (v, sep) => (Array.isArray(v) ? v : v == null || v === '' ? [] : String(v).split(sep).filter(Boolean));
+  let gekozen = 'plan';
   const icoon = (t) => (/kocht/.test(t) ? '🛒' : /sloot|trade/.test(t) && /winst/.test(t) ? '✓' : /markt/.test(t) ? '📈' : /Oefenaccount/.test(t) ? '🏦' : /Onderzoek/.test(t) ? '🔬' : /oude trades/.test(t) ? '💡' : /afgesloten trades die nodig/.test(t) ? '⏳' : '•');
+  function leerplan(doelen) {
+    const left = el('div', { class: 'ap-col' }), right = el('div', { class: 'ap-col' });
+    const klaar = doelen.filter((d) => d.status === 'klaar').length;
+    const hero = el('div', { class: 'ap-hero' });
+    const lbl = el('div', { class: 'lbl' }); lbl.append(el('span', {}, 'Leerplan van de bots'), el('span', {}, klaar + ' van ' + doelen.length + ' doelen gehaald'));
+    hero.append(lbl, el('div', { class: 'big', style: 'font-size:clamp(1.6rem,6vw,2.1rem)' }, 'Wat moet hij nog leren?'),
+      el('p', { class: 'ck-zin' }, 'Dit moeten de bots eerst leren of bewijzen voordat je ooit aan echt geld denkt. Elke week komt er iets bij; wat ze in een week leerden zie je als je hierboven een week kiest.'));
+    left.append(hero);
+    doelen.forEach((d, i) => {
+      const c = el('div', { class: 'ap-sec lp-doel', 'data-source': 'weken', 'data-field': 'nu', 'data-where': 'id=' + d.id });
+      const h = el('div', { class: 'lp-h' }); h.append(el('b', {}, d.titel), el('span', { class: 'gr-st ' + (d.status === 'klaar' ? 'klaar' : 'bezig') }, d.status === 'klaar' ? '✓ Gehaald' : 'Bezig'));
+      c.append(h, el('div', { class: 'lp-nu' }, d.nu));
+      if (d.voortgang != null) { const bar = el('div', { class: 'gr-bar', role: 'img', 'aria-label': Math.round(d.voortgang * 100) + '%' }); const f = el('span'); f.style.width = Math.max(d.voortgang * 100, 2) + '%'; if (d.status === 'klaar') f.style.background = 'var(--tx-up)'; bar.append(f); c.append(bar); }
+      c.append(el('p', { class: 'lp-w' }, d.waarom));
+      const ex = lijst(d.extra, '\n');
+      if (ex.length > 1 || (ex.length && !/^Doel:/.test(ex[0]))) { const ul = el('ul', { class: 'lp-ex' }); ex.forEach((t) => ul.append(el('li', {}, t))); c.append(ul); }
+      else if (ex.length) c.append(el('p', { class: 'lp-w', style: 'margin-top:0' }, ex[0]));
+      (i % 2 ? right : left).append(c);
+    });
+    return [left, right];
+  }
   function drawLeren() {
     const box = document.getElementById('lr-app');
     const s = dash.data('weken');
@@ -2857,10 +2886,13 @@ dash.calc('onderzoek_verschil', {
     if (s.status !== 'ok') return;
     const rows = real(s.data), weken = rows.filter((r) => r.soort === 'week');
     if (!weken.length) { box.replaceChildren(el('p', { class: 'tx-empty' }, 'Nog geen week met gegevens.')); return; }
-    if (!weken.some((w) => w.week === gekozen)) gekozen = weken[0].week;
-    const w = weken.find((x) => x.week === gekozen);
-    const chips = el('div', { class: 'lr-weeks', role: 'group', 'aria-label': 'Kies een week' });
+    const doelen = rows.filter((r) => r.soort === 'doel');
+    if (gekozen !== 'plan' && !weken.some((w) => w.week === gekozen)) gekozen = doelen.length ? 'plan' : (weken[0] || {}).week;
+    const chips = el('div', { class: 'lr-weeks', role: 'group', 'aria-label': 'Kies wat je wilt zien' });
+    if (doelen.length) { const pb = el('button', { type: 'button', 'aria-pressed': String(gekozen === 'plan') }, 'Wat moet hij leren?'); pb.addEventListener('click', () => { gekozen = 'plan'; drawLeren(); }); chips.append(pb); }
     weken.forEach((x) => { const b = el('button', { type: 'button', 'aria-pressed': String(x.week === gekozen) }, x.lopend ? 'Deze week' : x.label.split(' · ')[0]); b.addEventListener('click', () => { gekozen = x.week; drawLeren(); }); chips.append(b); });
+    if (gekozen === 'plan') { box.replaceChildren(chips, ...leerplan(doelen)); return; }
+    const w = weken.find((x) => x.week === gekozen);
     const left = el('div', { class: 'ap-col' }), right = el('div', { class: 'ap-col' });
     const hero = el('div', { class: 'ap-hero' });
     const lbl = el('div', { class: 'lbl' }); lbl.append(el('span', {}, w.label), el('span', {}, w.lopend ? 'loopt nog' : 'afgelopen'));
@@ -2869,8 +2901,8 @@ dash.calc('onderzoek_verschil', {
     res.append(cel('Trend-agent', w.trend_eur, w.trend_pct), cel('Investeerder', w.inv_eur, w.inv_pct), cel('Wereld-ETF', null, w.etf_pct));
     hero.append(lbl, el('div', { class: 'big', style: 'font-size:clamp(1.6rem,6vw,2.1rem)' }, w.kopen + ' gekocht · ' + w.verkopen + ' verkocht'), res);
     left.append(hero);
-    const ls = el('div', { class: 'ap-sec' }); const lh = el('h3'); lh.append(document.createTextNode('Wat heeft hij geleerd?'), el('small', {}, w.geleerd.length + ' punten')); ls.append(lh);
-    w.geleerd.forEach((t) => { const r = el('div', { class: 'lr-les', 'data-source': 'weken', 'data-field': 'geleerd', 'data-where': 'id=' + w.id }); r.append(el('span', { class: 'i', 'aria-hidden': 'true' }, icoon(t)), el('span', {}, t)); ls.append(r); });
+    const ls = el('div', { class: 'ap-sec' }); const lh = el('h3'); const geleerd = lijst(w.geleerd, '\n'); lh.append(document.createTextNode('Wat heeft hij geleerd?'), el('small', {}, geleerd.length + ' punten')); ls.append(lh);
+    geleerd.forEach((t) => { const r = el('div', { class: 'lr-les', 'data-source': 'weken', 'data-field': 'geleerd', 'data-where': 'id=' + w.id }); r.append(el('span', { class: 'i', 'aria-hidden': 'true' }, icoon(t)), el('span', {}, t)); ls.append(r); });
     left.append(ls);
     const ord = rows.filter((r) => r.soort === 'order' && r.week === gekozen);
     const os = el('div', { class: 'ap-sec' }); const oh = el('h3'); oh.append(document.createTextNode('Orders deze week'), el('small', {}, ord.length ? ord.length + ' orders' : '')); os.append(oh);
@@ -2935,7 +2967,7 @@ dash.calc('onderzoek_verschil', {
       const rt = el('div', { class: 'r' });
       if (r.koers != null) rt.append(el('span', { class: 'v' }, num2.format(r.koers) + ' ' + (r.valuta === 'EUR' ? '€' : '$')));
       if (r.maand != null) rt.append(el('span', { class: 'c ' + ud(r.maand) }, pct(r.maand, 1) + ' mnd'));
-      row.append(coin(r.ticker, 40), mid, mini(r.lijn, (r.maand || 0) >= 0), rt);
+      row.append(coin(r.ticker, 40), mid, mini(lijst(r.lijn, ',').map(Number), (r.maand || 0) >= 0), rt);
       const more = el('div', { class: 'vl-more' + (open.has(r.ticker) ? ' open' : '') });
       const g = el('div', { class: 'g' });
       [['Week', r.week], ['Maand', r.maand], ['3 maanden', r.kwartaal]].forEach(([t, v]) => { const d = el('div'); d.append(el('span', {}, t), el('b', { class: ud(v) }, v == null ? '–' : pct(v, 1))); g.append(d); });

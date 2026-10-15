@@ -34,7 +34,7 @@ class WekenTest(unittest.TestCase):
         self.assertEqual(w["kopen"], 1)
         self.assertEqual(w["verkopen"], 1)
         self.assertAlmostEqual(w["trend_eur"], 100.0)
-        tekst = " ".join(w["geleerd"])
+        tekst = w["geleerd"]
         self.assertIn("kocht 1×", tekst)
         self.assertIn("1 met winst", tekst)
         self.assertIn("1 order geplaatst", tekst)
@@ -44,6 +44,10 @@ class WekenTest(unittest.TestCase):
         self.assertEqual(len(orders), 4)
         self.assertIn("Shell", {o["naam"] for o in orders if o["bot"] == "Oefenaccount"})
         self.assertEqual(rows[0]["soort"], "week")  # nieuwste week bovenaan, samenvatting eerst
+        doelen = {r["id"]: r for r in rows if r["soort"] == "doel"}
+        self.assertIn("doel-trades", doelen)
+        self.assertIn("1 van 20", doelen["doel-trades"]["nu"])
+        self.assertIn("1 van 1 orders", doelen["doel-oefenaccount"]["nu"])
 
     def test_lesson_plain_language(self):
         z = weekoverzicht._les("Zwakte: RSI bij instap = 60-70: gemiddeld -0.21 R over 55 trades (x). Te testen via y.")
@@ -52,7 +56,7 @@ class WekenTest(unittest.TestCase):
         self.assertIn("-0,21 R", z)
 
     def test_empty(self):
-        self.assertEqual(weekoverzicht.weken({}, [], {}, {}, Path("/nonexistent")), [])
+        self.assertEqual([r for r in weekoverzicht.weken({}, [], {}, {}, Path("/nonexistent")) if r["soort"] != "doel"], [])
 
 
 class GereedTest(unittest.TestCase):
@@ -91,7 +95,7 @@ class VolglijstTest(unittest.TestCase):
             self.assertFalse(by["PHIA.AS"]["bij_t212"])
             for r in rows:
                 self.assertIn(r["trend"], ("stijgend", "dalend", "zijwaarts", "onbekend"))
-                self.assertLessEqual(len(r["lijn"]), 60)
+                self.assertLessEqual(len(r["lijn"].split(",")), 60)
             # zonder instrumentenlijst: onbekend in plaats van nee
             (d / "t212_instrumenten.json").unlink()
             rows = volglijst.build(cfg, d, SimulatedProvider(end=today), Settings(), today)

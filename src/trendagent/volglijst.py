@@ -69,7 +69,7 @@ def row(inst: Instrument, bars: list[Bar], today: date, s: Settings, t212: list[
         "afstand_sma50": round(a.close / a.sma50 - 1, 5) if a.sma50 else None,
         "trend": trend, "kandidaat": a.is_candidate, "score": a.score, "oordeel": oordeel,
         "bij_t212": None if t212 is None else bool(t212_ticker), "t212": t212_ticker or "",
-        "lijn": [round(c, 4) for c in closes[-60:]],
+        "lijn": ",".join(f"{c:.4g}" for c in closes[-60:]),
     }
 
 
