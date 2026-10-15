@@ -206,25 +206,37 @@ def broker_rows(state_dir: Path) -> list[dict]:
              "winst": (inv.get("unrealizedProfitLoss") or 0) + (inv.get("realizedProfitLoss") or 0) if inv else None,
              "orders_aan": bool(_load(Path("config/broker.json")).get("orders_aan"))}]
     port = _load(state_dir / "portfolio.json").get("positions", {})
-    have = {}
+    have: dict[str, float] = {}
     for p in v.get("posities") or []:
         t = p.get("ticker") or (p.get("instrument") or {}).get("ticker")
         if t:
-            have[t] = p
-    plan = {o["ticker"]: o for o in v.get("plan") or []}
-    seen = set()
-    for o in list(plan.values()) + [{"ticker": t, "yahoo": t} for t in have if t not in plan]:
-        t = o["ticker"]
-        if t in seen:
+            have[t] = float(p.get("quantity") or 0)
+    onderweg: dict[str, float] = {}
+    for o in v.get("open_orders") or []:
+        if o.get("ticker"):
+            onderweg[o["ticker"]] = onderweg.get(o["ticker"], 0.0) + float(o.get("quantity") or 0)
+    bekend = set(have) | set(onderweg) | {o.get("ticker") for h in v.get("geschiedenis") or [] for o in h.get("orders") or []}
+    koppeling = dict(v.get("koppeling") or {})
+    for y in port:
+        if y not in koppeling:  # oudere verslagen: zelfde naam zoeken onder de bekende Trading 212-tickers
+            base = y.split(".")[0]
+            for t in bekend:
+                if t and (t == f"{base}_US_EQ" or (t.startswith(base) and t.endswith("_EQ") and len(t) == len(base) + 4)):
+                    koppeling[y] = t
+    gezien = set()
+    for y, p in port.items():
+        t = koppeling.get(y)
+        if not t:
             continue
-        seen.add(t)
-        y = o.get("yahoo", t)
-        hq = float((have.get(t) or {}).get("quantity") or 0)
-        bq = float((port.get(y) or {}).get("qty") or 0)
-        oq = sum(float(o.get("quantity") or 0) for o in (v.get("open_orders") or []) if o.get("ticker") == t)
-        rows.append({"id": "pos-" + t, "soort": "positie", "ticker": t, "naam": _name(y) if y in port else t,
-                     "oefenaccount": hq, "onderweg": oq, "trend_agent": bq, "gelijk": abs(hq - bq) < 1e-6,
-                     "onderweg_gelijk": abs(hq + oq - bq) < 1e-6})
+        gezien.add(t)
+        hq, oq, bq = have.get(t, 0.0), onderweg.get(t, 0.0), float(p.get("qty") or 0)
+        rows.append({"id": "pos-" + t, "soort": "positie", "ticker": t, "naam": _name(y), "oefenaccount": hq,
+                     "onderweg": oq, "trend_agent": bq, "gelijk": abs(hq - bq) < 1e-6, "onderweg_gelijk": abs(hq + oq - bq) < 1e-6})
+    for t in set(have) | set(onderweg):
+        if t not in gezien:
+            hq, oq = have.get(t, 0.0), onderweg.get(t, 0.0)
+            rows.append({"id": "pos-" + t, "soort": "positie", "ticker": t, "naam": t, "oefenaccount": hq, "onderweg": oq,
+                         "trend_agent": 0.0, "gelijk": abs(hq) < 1e-6, "onderweg_gelijk": abs(hq + oq) < 1e-6})
     for i, h in enumerate(reversed(v.get("geschiedenis") or [])):
         for j, o in enumerate(h.get("orders") or []):
             rows.append({"id": f"order-{i}-{j}", "soort": "order", "tijd": h.get("tijd", ""), "ticker": o.get("ticker"),

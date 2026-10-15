@@ -172,6 +172,7 @@ def sync(state_dir: Path, client: T212Demo, orders_aan: bool, kill_active: bool,
         if not t:
             verslag["niet_gekoppeld"].append(y)
             continue
+        verslag.setdefault("koppeling", {})[y] = t
         target[t] = {"yahoo": y, "qty": float(p["qty"]), "prijs": float(p.get("highest_close") or p.get("entry_price") or 0),
                      "valuta": p.get("currency", "EUR")}
     managed = set(managed or set())
