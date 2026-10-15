@@ -116,6 +116,12 @@
    "status": "alleen kijken",
    "reden": "Alleen gecontroleerd (proef): geen orders geplaatst.",
    "orders": []
+  },
+  {
+   "tijd": "2026-10-15T17:49:24+00:00",
+   "status": "fout",
+   "reden": "Crypto kan niet in het Invest-oefenaccount van Trading 212.",
+   "orders": []
   }
  ]
 }
