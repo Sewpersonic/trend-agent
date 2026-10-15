@@ -180,6 +180,7 @@
 .tx-beeld .b-chip { display: inline-flex; align-items: center; gap: 6px; background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 999px; padding: 3px 10px 3px 3px; font-size: 14px; }
 .tx-beeld .b-chip small { font-size: 12px; }
 .tx-beeld .b-foot { font-size: 13px; color: var(--color-fg-muted); margin: 0; }
+.m-home, .tx-meer { display: none; }
 .tx-pill.big { font-size: var(--cds-font-size-body); padding: 4px 12px; }
 .tx-group { display: grid; gap: 10px; }
 .tx-group-h { margin: 6px 0 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
@@ -250,9 +251,47 @@
   .t-stat .v { font-size: 14px; }
   .tx-bots .t-spark .tx-spark { height: 50px; }
   /* Simpel op de telefoon: alles zichtbaar, zonder extra knoppen, maar korter */
-  #strip, #markten { display: none; }
-  #pg-dashboard > * { order: 5; }
-  #begin-hier { order: 1; } #botcards { order: 2; } #kort-patronen { order: 3; }
+  #strip, #markten, #botcards, #coincards { display: none; }
+  .tx-top h1 { font-size: 22px; }
+  /* Overzicht zoals een beurs-app: twee bot-kaarten, tabjes, lijst met aandelen */
+  .m-home { display: grid; gap: 12px; }
+  .m-sub { margin: 0; font-size: 14px; color: var(--color-fg-muted); }
+  .m-favs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .m-fav { border-radius: 16px; padding: 14px; display: grid; gap: 2px; min-width: 0; }
+  .m-fav.inv { background: color-mix(in srgb, #3b6fd8 13%, var(--color-panel)); }
+  .m-fav.tr { background: color-mix(in srgb, #e8a33a 22%, var(--color-panel)); }
+  .m-fav .top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 2px 6px; }
+  .m-fav .nm { font-size: 16px; font-weight: var(--cds-font-weight-medium); white-space: nowrap; }
+  .m-fav .ch { font-size: 13px; font-weight: var(--cds-font-weight-medium); white-space: nowrap; }
+  .m-fav .sb { font-size: 12px; color: var(--color-fg-muted); }
+  .m-fav .val { font-family: var(--font-anthropic-serif); font-size: 22px; margin-top: 14px; text-align: right; font-variant-numeric: tabular-nums; }
+  .m-fav .lb { font-size: 12px; color: var(--color-fg-muted); text-align: right; }
+  .m-home .up { color: var(--tx-up); } .m-home .down { color: var(--tx-down); }
+  .m-tabs { display: flex; gap: 22px; border-bottom: 1px solid var(--color-border-line); }
+  .m-tabs button { all: unset; cursor: pointer; padding: 8px 0; font-size: 15px; color: var(--color-fg-muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .m-tabs button[aria-selected="true"] { color: var(--tx-accent); border-bottom-color: var(--tx-accent); font-weight: var(--cds-font-weight-medium); }
+  .m-list { display: grid; }
+  .m-sec { display: flex; justify-content: space-between; font-size: 13px; color: var(--color-fg-muted); padding: 12px 0 4px; }
+  .m-row { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--color-border-line); }
+  .m-row .tx-coin { width: 38px !important; height: 38px !important; font-size: 12px; }
+  .m-row .n { font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .m-row .t { font-size: 13px; color: var(--color-fg-muted); }
+  .m-row .r { text-align: right; font-variant-numeric: tabular-nums; }
+  .m-row .p { font-size: 15px; }
+  .m-row .c { font-size: 13px; }
+  .m-row:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
+  .m-hint { margin: 0; font-size: 12px; color: var(--color-fg-muted); text-align: center; }
+  /* Menu onderaan zoals in een app */
+  .tx { padding-bottom: 72px; }
+  .tx-side { position: fixed !important; top: auto !important; bottom: 0; left: 0; right: 0; display: grid !important; grid-template-columns: repeat(5, 1fr); padding: 6px 4px calc(6px + env(safe-area-inset-bottom)) !important; border-bottom: 0 !important; border-top: 1px solid var(--color-border-line); overflow: visible !important; z-index: 20; gap: 0 !important; }
+  .tx-side .tx-nav, .tx-meer { all: unset; box-sizing: border-box; cursor: pointer; display: grid !important; justify-items: center; gap: 2px; padding: 4px 0; font-size: 11px !important; color: var(--color-fg-muted); min-height: 0 !important; background: none !important; }
+  .tx-side .tx-nav svg, .tx-meer svg { width: 22px !important; height: 22px !important; }
+  .tx-side .tx-nav[aria-selected="true"], .tx-meer.on { color: var(--tx-accent); }
+  #patronen, #analyse, #onderzoek, #controles, #github { display: none !important; }
+  .tx-side.open { grid-template-rows: auto auto; }
+  .tx-side.open #patronen, .tx-side.open #analyse, .tx-side.open #onderzoek, .tx-side.open #controles, .tx-side.open #github { display: grid !important; order: -1; padding: 10px 0; border-bottom: 1px solid var(--color-border-line); }
+  #pg-dashboard > * { order: 6; }
+  #m-home { order: 1; } #begin-hier { order: 2; } #koersverloop { order: 3; } #kort-patronen { order: 4; }
   /* Beleggingen als korte regels: naam, vandaag, 3 maanden, resultaat */
   #coincards .tx-cards { gap: 8px; }
   #coincards .tx-tile2.small { padding: 10px 12px; gap: 6px; }
@@ -291,6 +330,7 @@
     <button class="tx-nav" role="tab" id="risico" aria-selected="false" data-page="pg-risico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span class="lbl">Risico</span></button>
     <button class="tx-nav" role="tab" id="controles" aria-selected="false" data-page="pg-controles"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg><span class="lbl">Controles</span></button>
     <button class="tx-nav" role="tab" id="github" aria-selected="false" data-page="pg-github"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg><span class="lbl">GitHub</span></button>
+    <button class="tx-meer" id="meer" type="button" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="7" r="2.5"/><circle cx="7" cy="17" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg><span class="lbl">Meer</span></button>
   </nav>
 
   <main class="tx-main">
@@ -304,6 +344,15 @@
 
     <!-- DASHBOARD -->
     <section class="tx-page" id="pg-dashboard" role="tabpanel" aria-labelledby="dashboard">
+      <div class="m-home" id="m-home" data-source="stand tickers posities">
+        <p class="m-sub">Mijn bots</p>
+        <div class="m-favs" id="m-favs"></div>
+        <div class="m-tabs" role="tablist" aria-label="Kies bot" id="m-tabs">
+          <button role="tab" aria-selected="true" data-bot="">Alles</button><button role="tab" aria-selected="false" data-bot="Trend-agent">Trend-agent</button><button role="tab" aria-selected="false" data-bot="Investeerder">Investeerder</button>
+        </div>
+        <div class="m-list" id="m-list"></div>
+        <p class="m-hint">Tik op een aandeel om de koersgrafiek te zien.</p>
+      </div>
       <div class="tx-card tx-start" id="begin-hier">
         <h2>Begin hier</h2>
         <ol id="begin-lijst" data-source="begin_hier"></ol>
@@ -1621,3 +1670,71 @@ dash.calc('onderzoek_verschil', {
 })();
 </script>
 
+<script>
+// Telefoon: overzicht zoals een beurs-app, en het menu onderaan
+(() => {
+  const { el, eur, sEur, pct, ud, coin, real } = window.tx;
+  const side = document.querySelector('.tx-side');
+  const meer = document.getElementById('meer');
+  const extra = ['patronen', 'analyse', 'onderzoek', 'controles', 'github'];
+  const markMeer = () => meer.classList.toggle('on', extra.some((id) => document.getElementById(id).getAttribute('aria-selected') === 'true'));
+  meer.addEventListener('click', () => { const open = side.classList.toggle('open'); meer.setAttribute('aria-expanded', String(open)); });
+  document.querySelectorAll('.tx-nav').forEach((n) => n.addEventListener('click', () => { side.classList.remove('open'); meer.setAttribute('aria-expanded', 'false'); markMeer(); window.scrollTo(0, 0); }));
+
+  let bot = '';
+  const tabs = [...document.querySelectorAll('#m-tabs button')];
+  tabs.forEach((b) => b.addEventListener('click', () => { bot = b.dataset.bot; tabs.forEach((o) => o.setAttribute('aria-selected', String(o === b))); draw(); }));
+  const pc = (v) => (v > 0 ? '▲ ' : v < 0 ? '▼ ' : '') + pct(v, 2).replace(/^[+−]/, '');
+
+  function draw() {
+    const st = dash.data('stand'), tk = dash.data('tickers'), ps = dash.data('posities');
+    const favs = document.getElementById('m-favs');
+    if (st.status === 'ok') favs.replaceChildren(...['Investeerder', 'Trend-agent'].map((b) => {
+      const r = real(st.data).find((x) => x.bot === b);
+      if (!r) return el('div');
+      const w = 'bot=' + encodeURIComponent(b);
+      const c = el('div', { class: 'm-fav ' + (b === 'Investeerder' ? 'inv' : 'tr') });
+      const top = el('div', { class: 'top' });
+      top.append(el('span', { class: 'nm' }, b), el('span', { class: 'ch ' + ud(r.sinds_start_pct), 'data-source': 'stand', 'data-field': 'sinds_start_pct', 'data-where': w }, pc(r.sinds_start_pct)));
+      c.append(top, el('span', { class: 'sb' }, b === 'Investeerder' ? 'lange termijn' : 'korte trends'),
+        el('span', { class: 'val', 'data-source': 'stand', 'data-field': 'waarde', 'data-where': w }, eur.format(r.waarde)),
+        el('span', { class: 'lb ' + ud(r.sinds_start_eur), 'data-source': 'stand', 'data-field': 'sinds_start_eur', 'data-where': w }, sEur(r.sinds_start_eur) + ' sinds start'));
+      return c;
+    }));
+    const list = document.getElementById('m-list');
+    if (tk.status !== 'ok') return;
+    const pos = new Map(ps.status === 'ok' ? real(ps.data).map((p) => [p.bot + '|' + p.ticker, p]) : []);
+    const rows = tk.data.filter((r) => !bot || r.bot === bot);
+    const groups = ['Trend-agent', 'Investeerder'].filter((b) => !bot || b === bot);
+    const out = [];
+    groups.forEach((g) => {
+      const rs = rows.filter((r) => r.bot === g);
+      if (!rs.length) return;
+      const sec = el('div', { class: 'm-sec' }); sec.append(el('span', {}, g), el('span', {}, rs.length + (rs.length === 1 ? ' aandeel' : ' aandelen')));
+      out.push(sec);
+      rs.forEach((r) => {
+        const p = pos.get(r.bot + '|' + r.ticker);
+        const row = el('button', { class: 'm-row', type: 'button', 'aria-label': r.naam + ': koersgrafiek tonen' });
+        const mid = el('div', { style: 'min-width:0' });
+        mid.append(el('div', { class: 'n' }, r.naam));
+        const sub = el('div', { class: 't' }, r.ticker);
+        if (p) sub.append(document.createTextNode(' · '), el('span', { class: ud(p.resultaat_eur), 'data-source': 'posities', 'data-field': 'resultaat_eur', 'data-where': 'bot=' + encodeURIComponent(p.bot) + '&ticker=' + encodeURIComponent(p.ticker) }, sEur(p.resultaat_eur)));
+        mid.append(sub);
+        const right = el('div', { class: 'r' });
+        const w = 'ticker=' + encodeURIComponent(r.ticker);
+        right.append(el('div', { class: 'p', 'data-source': 'tickers', 'data-field': 'slot', 'data-where': w }, window.tx.num2.format(r.slot) + ' ' + r.valuta),
+          el('div', { class: 'c ' + ud(r.dag_pct), 'data-source': 'tickers', 'data-field': 'dag_pct', 'data-where': w }, pc(r.dag_pct) + ' vandaag'));
+        row.append(coin(r.ticker, 38), mid, right);
+        row.addEventListener('click', () => {
+          const pick = document.getElementById('pick');
+          pick.value = r.ticker; pick.dispatchEvent(new Event('change'));
+          document.getElementById('koersverloop').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        out.push(row);
+      });
+    });
+    list.replaceChildren(...out);
+  }
+  dash.onData(draw);
+})();
+</script>
