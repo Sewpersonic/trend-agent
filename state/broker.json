@@ -1,128 +1,61 @@
 {
- "tijd": "2026-10-15T16:38:25+00:00",
- "status": "ok",
- "reden": "",
- "orders": [
-  {
-   "ticker": "SHELLa_EQ",
-   "yahoo": "SHELL.AS",
-   "quantity": 13.0,
-   "waarde_eur": 603.46,
-   "uitkomst": "geplaatst",
-   "antwoord": {
-    "id": 56550174142,
-    "strategy": "QUANTITY",
-    "type": "MARKET",
-    "ticker": "SHELLa_EQ",
-    "quantity": 13.0,
-    "filledQuantity": 0,
-    "status": "NEW",
-    "currency": "EUR",
-    "extendedHours": false,
-    "initiatedFrom": "API",
-    "side": "BUY",
-    "createdAt": "2026-10-15T19:38:28.542+03:00",
-    "instrument": {
-     "ticker": "SHELLa_EQ",
-     "name": "Shell",
-     "isin": "GB00BP6MXD84",
-     "currency": "EUR"
-    }
-   }
-  },
-  {
-   "ticker": "SAPd_EQ",
-   "yahoo": "SAP.DE",
-   "quantity": 2.0,
-   "waarde_eur": 394.88,
-   "uitkomst": "geplaatst",
-   "antwoord": {
-    "id": 56550174144,
-    "strategy": "QUANTITY",
-    "type": "MARKET",
-    "ticker": "SAPd_EQ",
-    "quantity": 2.0,
-    "filledQuantity": 0,
-    "status": "NEW",
-    "currency": "EUR",
-    "extendedHours": false,
-    "initiatedFrom": "API",
-    "side": "BUY",
-    "createdAt": "2026-10-15T19:38:28.830+03:00",
-    "instrument": {
-     "ticker": "SAPd_EQ",
-     "name": "SAP",
-     "isin": "DE0007164600",
-     "currency": "EUR"
-    }
-   }
-  },
-  {
-   "ticker": "MSFT_US_EQ",
-   "yahoo": "MSFT",
-   "quantity": 1.0,
-   "waarde_eur": 516.28,
-   "uitkomst": "geplaatst",
-   "antwoord": {
-    "id": 56550174146,
-    "strategy": "QUANTITY",
-    "type": "MARKET",
-    "ticker": "MSFT_US_EQ",
-    "quantity": 1.0,
-    "filledQuantity": 0,
-    "status": "NEW",
-    "currency": "EUR",
-    "extendedHours": false,
-    "initiatedFrom": "API",
-    "side": "BUY",
-    "createdAt": "2026-10-15T19:38:29.140+03:00",
-    "instrument": {
-     "ticker": "MSFT_US_EQ",
-     "name": "Microsoft",
-     "isin": "US5949181045",
-     "currency": "USD"
-    }
-   }
-  }
- ],
+ "tijd": "2026-10-15T16:41:01+00:00",
+ "status": "alleen kijken",
+ "reden": "Alleen gecontroleerd (proef): geen orders geplaatst.",
+ "orders": [],
  "niet_gekoppeld": [],
  "account": {
   "id": 51866998,
   "currency": "EUR",
-  "totalValue": 5000.0,
+  "totalValue": 4999.18,
   "cash": {
-   "availableToTrade": 5000.0,
-   "reservedForOrders": 0,
+   "availableToTrade": 3459.51,
+   "reservedForOrders": 1058.2,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 0,
-   "totalCost": 0,
+   "currentValue": 481.48,
+   "totalCost": 481.57,
    "realizedProfitLoss": 0,
-   "unrealizedProfitLoss": 0
+   "unrealizedProfitLoss": -0.09
   }
  },
- "posities": [],
- "plan": [
+ "posities": [
+  {
+   "instrument": {
+    "ticker": "MSFT_US_EQ",
+    "name": "Microsoft",
+    "isin": "US5949181045",
+    "currency": "USD"
+   },
+   "createdAt": "2026-10-15T19:38:29.744+03:00",
+   "quantity": 1.0,
+   "quantityAvailableForTrading": 1.0,
+   "quantityInPies": 0,
+   "currentPrice": 539.55,
+   "averagePricePaid": 539.52,
+   "walletImpact": {
+    "currency": "EUR",
+    "totalCost": 481.57,
+    "currentValue": 481.49,
+    "unrealizedProfitLoss": -0.08,
+    "fxImpact": -0.11
+   }
+  }
+ ],
+ "open_orders": [
   {
    "ticker": "SHELLa_EQ",
-   "yahoo": "SHELL.AS",
    "quantity": 13.0,
-   "waarde_eur": 603.46
+   "status": "NEW"
   },
   {
    "ticker": "SAPd_EQ",
-   "yahoo": "SAP.DE",
    "quantity": 2.0,
-   "waarde_eur": 394.88
-  },
-  {
-   "ticker": "MSFT_US_EQ",
-   "yahoo": "MSFT",
-   "quantity": 1.0,
-   "waarde_eur": 516.28
+   "status": "NEW"
   }
  ],
+ "plan": [],
  "managed": [
   "MSFT_US_EQ",
   "SAPd_EQ",
@@ -168,6 +101,12 @@
      "reden": null
     }
    ]
+  },
+  {
+   "tijd": "2026-10-15T16:41:01+00:00",
+   "status": "alleen kijken",
+   "reden": "Alleen gecontroleerd (proef): geen orders geplaatst.",
+   "orders": []
   }
  ]
 }
