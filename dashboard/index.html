@@ -286,8 +286,8 @@
   html, body { height: 100%; overflow: hidden; margin: 0; }
   .tx { display: flex !important; flex-direction: column; height: 100vh; height: 100dvh; min-height: 0 !important; }
   .tx-main { flex: 1 1 auto; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; order: 1; }
-  .tx-side { order: 2; flex: none; align-self: stretch !important; width: 100%; height: auto !important; min-height: 0 !important; box-sizing: border-box; position: static !important; top: auto !important; display: grid !important; grid-template-columns: repeat(5, 1fr); padding: 6px 4px calc(6px + env(safe-area-inset-bottom)) !important; border-bottom: 0 !important; border-top: 1px solid var(--color-border-line); overflow: visible !important; z-index: 20; gap: 0 !important; }
-  .tx-side .tx-nav, .tx-meer { all: unset; box-sizing: border-box; cursor: pointer; display: grid !important; justify-items: center; gap: 2px; padding: 4px 0; font-size: 11px !important; color: var(--color-fg-muted); min-height: 0 !important; background: none !important; }
+  .tx-side { order: 2; flex: none; align-self: stretch !important; width: 100%; height: auto !important; min-height: 0 !important; box-sizing: border-box; position: static !important; top: auto !important; display: grid !important; grid-template-columns: repeat(5, 1fr); padding: 8px 4px max(28px, calc(10px + env(safe-area-inset-bottom))) !important; border-bottom: 0 !important; border-top: 1px solid var(--color-border-line); overflow: visible !important; z-index: 20; gap: 0 !important; }
+  .tx-side .tx-nav, .tx-meer { all: unset; box-sizing: border-box; cursor: pointer; display: grid !important; justify-items: center; gap: 3px; padding: 4px 0; -webkit-tap-highlight-color: transparent; touch-action: manipulation; font-size: 11px !important; color: var(--color-fg-muted); min-height: 0 !important; background: none !important; }
   .tx-side .tx-nav svg, .tx-meer svg { width: 22px !important; height: 22px !important; }
   .tx-side .tx-nav[aria-selected="true"], .tx-meer.on { color: var(--tx-accent); }
   #patronen, #analyse, #onderzoek, #controles, #github { display: none !important; }
