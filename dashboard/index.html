@@ -249,18 +249,33 @@
   .t-stat { padding: 7px 8px; }
   .t-stat .v { font-size: 14px; }
   .tx-bots .t-spark .tx-spark { height: 50px; }
-  /* Simpel op de telefoon: eerst de kern, details achter een knop */
-  #strip { display: none; }
+  /* Simpel op de telefoon: alles zichtbaar, zonder extra knoppen, maar korter */
+  #strip, #markten { display: none; }
   #pg-dashboard > * { order: 5; }
   #begin-hier { order: 1; } #botcards { order: 2; } #kort-patronen { order: 3; }
-  .tx-folded { display: none !important; }
-  .tx-foldbtn { all: unset; box-sizing: border-box; width: 100%; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2px 12px; padding: 14px 16px; border-radius: 12px; background: var(--color-panel); border: 1px solid var(--color-border-line); cursor: pointer; }
-  .tx-foldbtn b { font-size: 16px; font-weight: var(--cds-font-weight-medium); }
-  .tx-foldbtn span { grid-column: 1; font-size: 13px; color: var(--color-fg-muted); }
-  .tx-foldbtn i { grid-column: 2; grid-row: 1 / span 2; font-style: normal; font-size: 20px; color: var(--tx-accent); transition: transform .15s; }
-  .tx-foldbtn[aria-expanded="true"] i { transform: rotate(90deg); }
-  .tx-foldbtn:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
-  .tx-two:has(> .tx-foldbtn) { gap: 14px; }
+  /* Beleggingen als korte regels: naam, vandaag, 3 maanden, resultaat */
+  #coincards .tx-cards { gap: 8px; }
+  #coincards .tx-tile2.small { padding: 10px 12px; gap: 6px; }
+  #coincards .t-price, #coincards .t-spark, #coincards .t-pat, #coincards .t-stop, #coincards .t-sub { display: none; }
+  #coincards h3 { font-size: 16px; }
+  #coincards .tx-coin { width: 26px !important; height: 26px !important; font-size: 10px; }
+  #coincards .tx-group-h { font-size: 17px; }
+  #coincards .tx-note { display: none; }
+  /* Lange lijsten: alleen de nieuwste */
+  .tx-controls select { max-width: 100%; }
+  /* Recente trades als korte regel: datum · koop/verkoop · aandeel · bedrag */
+  #tbl-trades tr { display: flex !important; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; padding: 10px 16px !important; }
+  #tbl-trades td { width: auto !important; padding: 0 !important; min-height: 0; font-weight: normal !important; background: none !important; }
+  #tbl-trades tr { background: none !important; }
+  #tbl-trades td::before { display: none; }
+  #tbl-trades td:nth-child(2) { order: 9; width: 100% !important; font-size: 13px; color: var(--color-fg-muted); }
+  #tbl-trades td:nth-child(4) { font-weight: var(--cds-font-weight-medium) !important; }
+  #tbl-trades td:nth-child(5) { margin-left: auto; }
+  #recent .tx-tablewrap::after, #card-github .tx-tablewrap::after, #card-alletrades .tx-tablewrap::after { display: block; padding: 10px 16px 14px; font-size: 13px; color: var(--color-fg-muted); }
+  #recent .tx-tablewrap::after { content: "Hier staan de 5 nieuwste. Op de computer zie je alles."; }
+  #card-github .tx-tablewrap::after { content: "Hier staan de 6 nieuwste. Op de computer zie je alles."; }
+  #card-alletrades .tx-tablewrap::after { content: "Hier staan de 10 nieuwste. Op de computer zie je alles."; }
+  #tbl-trades tbody tr:nth-child(n+6), #tbl-github tbody tr:nth-child(n+7), #tbl-alletrades tbody tr:nth-child(n+11) { display: none !important; }
 }
 </style>
 
@@ -300,7 +315,7 @@
         <div class="tx-card-b"><div class="tx-beeld" id="pat-kort" data-source="patronen"></div></div>
       </div>
 
-      <div class="tx-card" id="koersverloop" data-fold="Koersgrafiek per aandeel" data-fold-uitleg="Kies een aandeel en zie hoe de koers liep">
+      <div class="tx-card" id="koersverloop">
         <div class="tx-card-h"><h2 id="big-title">Koersverloop</h2></div>
         <p class="tx-what">Wat zie je hier? De koers van één aandeel over de laatste maanden, met eronder hoeveel er per dag gehandeld is. Kies hieronder een aandeel en hoe ver je terug wilt kijken.</p>
         <div class="tx-card-b">
@@ -319,10 +334,10 @@
       </div>
 
       <div class="tx-bots" id="botcards" data-source="stand waarde"></div>
-      <div class="tx-page" id="coincards" data-fold="Alle beleggingen" data-fold-uitleg="Per aandeel: koers, vandaag en jouw resultaat" data-source="tickers patronen posities"></div>
+      <div class="tx-page" id="coincards" data-source="tickers patronen posities"></div>
 
       <div class="tx-two">
-        <div class="tx-card" id="recent" data-fold="Recente trades" data-fold-uitleg="Wat de bots kochten en verkochten">
+        <div class="tx-card" id="recent">
           <div class="tx-card-h"><h2>Recente trades</h2></div>
         <p class="tx-what">Wat zie je hier? Alles wat de bots kochten en verkochten, het nieuwste bovenaan. Bij een verkoop zie je of het winst of verlies opleverde.</p>
           <div class="tx-tablewrap">
@@ -332,7 +347,7 @@
             </table>
           </div>
         </div>
-        <div class="tx-card" id="markten" data-fold="Markt" data-fold-uitleg="Hoe de koersen vandaag bewogen">
+        <div class="tx-card" id="markten">
           <div class="tx-card-h"><h2>Markt</h2></div>
         <p class="tx-what">Wat zie je hier? De koersen van wat de bots in bezit hebben: hoeveel ze vandaag en in 3 maanden zijn gestegen of gedaald. Kies onderaan welke bot.</p>
           <div class="tx-tablewrap">
@@ -379,7 +394,7 @@
           <div class="tx-beeld" id="pat-sum" data-source="patronen"></div>
         </div>
       </div>
-      <div class="tx-card" id="card-patronen" data-fold="Patronen per aandeel" data-fold-uitleg="Trend, week, maand en 3 maanden per aandeel">
+      <div class="tx-card" id="card-patronen">
         <div class="tx-card-h"><h2>Per aandeel</h2></div>
         <div class="tx-card-b" style="padding-bottom:0"><p class="tx-note">Het balkje laat zien waar de koers nu staat tussen het laagste (links) en hoogste punt (rechts) van de laatste 3 maanden. Beschrijft alleen wat er gebeurd is; het voorspelt niets.</p></div>
         <div class="tx-tablewrap">
@@ -396,7 +411,7 @@
       <p class="tx-what" style="padding:0">Elke nacht zoekt de trend-agent de aandelen met de sterkste stijgende trend. Hier zie je de 5 sterkste, wat hij ermee zou doen met zijn nepgeld en wat hij echt deed. Dit is geen advies voor echt geld.</p>
       <div class="tx-answers" id="kansen-antwoorden" data-source="kansen_antwoord kansen posities"></div>
       <div class="tx-two" id="kansen-cards" data-source="kansen"></div>
-      <div class="tx-card" id="kansen-uitleg" data-fold="Zo lees je het stoplicht" data-fold-uitleg="Wat groen, grijs en geel betekenen">
+      <div class="tx-card" id="kansen-uitleg">
         <div class="tx-card-h"><h2>Zo lees je het stoplicht</h2></div>
         <p class="tx-what">Bij elke kans staat of het een goed moment is om in te stappen. Dat zegt iets over hoe snel de koers de laatste dagen is gestegen.</p>
         <div class="tx-card-b">
@@ -429,7 +444,7 @@
         <div class="tx-card-b"><div id="ond-vergelijk" data-source="onderzoek"></div></div>
       </div>
 
-      <div class="tx-card" id="card-regels" data-fold="Welke nieuwe regels zijn getest?" data-fold-uitleg="Alle geteste regels en of ze zijn overgenomen">
+      <div class="tx-card" id="card-regels">
         <div class="tx-card-h"><h2>Welke nieuwe regels zijn getest?</h2></div>
         <p class="tx-what">De bot probeert andere regels uit, ook patronen uit de grafieken. Een regel wordt alleen overgenomen als hij duidelijk beter is, ook in de laatste jaren die hij niet heeft "gezien". Dan zet hij een voorstel klaar op GitHub en beslis jij.</p>
         <div class="tx-tablewrap">
@@ -451,7 +466,7 @@
 
     <!-- RISICO -->
     <section class="tx-page" id="pg-risico" role="tabpanel" aria-labelledby="risico" hidden>
-      <div class="tx-card" id="card-risico" data-fold="Verlies en risico per positie" data-fold-uitleg="Per aandeel: plus of min en de stop-loss">
+      <div class="tx-card" id="card-risico">
         <div class="tx-card-h"><h2>Verlies en risico per positie</h2></div>
         <p class="tx-what">Wat zie je hier? Per aandeel hoeveel je in de plus of min staat, en wat er gebeurt als de koers zakt tot de stop-loss.</p>
         <div class="tx-tablewrap">
@@ -462,7 +477,7 @@
         </div>
       </div>
       <div class="tx-two">
-        <div class="tx-card" id="card-remmen" data-fold="Remmen van de trend-agent" data-fold-uitleg="Wanneer de bot stopt met kopen">
+        <div class="tx-card" id="card-remmen">
           <div class="tx-card-h"><h2>Remmen van de trend-agent</h2></div>
           <div class="tx-card-b" style="padding-bottom:0"><p class="tx-note">Gaat een van deze over de grens, dan zet de bot zijn noodstop aan en koopt hij niets meer.</p></div>
           <table class="tx-keep" id="tbl-remmen" data-source="remmen" data-row-key="rem">
@@ -470,7 +485,7 @@
             <tbody></tbody>
           </table>
         </div>
-        <div class="tx-card" id="card-klaar" data-fold="Klaar voor echt geld?" data-fold-uitleg="Welke eisen al gehaald zijn">
+        <div class="tx-card" id="card-klaar">
           <div class="tx-card-h"><h2>Klaar voor echt geld?</h2></div>
           <div class="tx-card-b" style="padding-bottom:0"><p class="tx-note">Eerst bewijzen, dan een oefenaccount bij een echte broker, dan een klein bedrag met jouw goedkeuring per order.</p></div>
           <table id="tbl-klaar" data-source="klaar" data-row-key="id">
@@ -490,7 +505,7 @@
           <ul class="tx-list" id="ctl" data-source="controles"></ul>
         </div>
       </div>
-      <div class="tx-card" id="card-alletrades" data-fold="Alle trades met reden" data-fold-uitleg="Elke aankoop en verkoop, met waarom">
+      <div class="tx-card" id="card-alletrades">
         <div class="tx-card-h"><h2>Alle trades met reden</h2></div>
         <div class="tx-tablewrap">
           <table id="tbl-alletrades" data-source="trades" data-row-key="id">
@@ -505,7 +520,7 @@
     <section class="tx-page" id="pg-github" role="tabpanel" aria-labelledby="github" hidden>
       <p class="tx-what" style="padding:0">GitHub draait de bots voor je: elke werkdag de dagelijkse ronde, op zaterdag het onderzoek, en na elke wijziging een controle van de code. Hier zie je welke runs goed gingen en welke niet, en waarom.</p>
       <div class="tx-answers" id="gh-antwoorden" data-source="github_antwoord"></div>
-      <div class="tx-card" id="card-github" data-fold="Alle runs op GitHub" data-fold-uitleg="Elke run met goed of mis">
+      <div class="tx-card" id="card-github">
         <div class="tx-card-h"><h2>De laatste runs</h2>
           <label class="tx-ghfilter"><input type="checkbox" id="gh-alleenfout"> Alleen wat misging</label></div>
         <p class="tx-what">Tijden in Nederlandse tijd. Groen is goed gegaan, rood is misgegaan. Bij rood staat waar het misging en of een latere run het weer goed deed.</p>
@@ -1606,35 +1621,3 @@ dash.calc('onderzoek_verschil', {
 })();
 </script>
 
-<script>
-// Telefoon: details achter een knop, zodat je eerst alleen de kern ziet
-(() => {
-  const mq = matchMedia('(max-width: 640px)');
-  const items = [...document.querySelectorAll('[data-fold]')];
-  const btns = new Map();
-  const apply = () => {
-    items.forEach((it) => {
-      let b = btns.get(it);
-      if (mq.matches) {
-        if (!b) {
-          b = document.createElement('button');
-          b.type = 'button'; b.className = 'tx-foldbtn'; b.setAttribute('aria-expanded', 'false');
-          const t = document.createElement('b'); t.textContent = it.dataset.fold;
-          const u = document.createElement('span'); u.textContent = it.dataset.foldUitleg || '';
-          const i = document.createElement('i'); i.setAttribute('aria-hidden', 'true'); i.textContent = '›';
-          b.append(t, i, u);
-          b.addEventListener('click', () => {
-            const open = it.classList.toggle('tx-folded') === false;
-            b.setAttribute('aria-expanded', String(open));
-            if (open) window.tx.draws.forEach((f) => f());
-          });
-          it.before(b); btns.set(it, b);
-        }
-        if (b.getAttribute('aria-expanded') !== 'true') it.classList.add('tx-folded');
-      } else if (b) { b.remove(); btns.delete(it); it.classList.remove('tx-folded'); }
-    });
-  };
-  mq.addEventListener('change', apply);
-  apply();
-})();
-</script>
