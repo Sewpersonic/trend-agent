@@ -123,6 +123,21 @@
    "status": "fout",
    "reden": "Crypto kan niet in het Invest-oefenaccount van Trading 212.",
    "orders": []
+  },
+  {
+   "tijd": "2026-10-15T23:02:27+00:00",
+   "status": "geweigerd",
+   "reden": "Aantal '' is geen getal.",
+   "orders": [
+    {
+     "ticker": "",
+     "quantity": null,
+     "actie": "handmatig koop",
+     "waarde_eur": null,
+     "uitkomst": "geweigerd",
+     "reden": "Aantal '' is geen getal."
+    }
+   ]
   }
  ]
 }
