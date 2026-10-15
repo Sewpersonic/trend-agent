@@ -100,6 +100,21 @@
 [data-dash-source-state=empty] { color: transparent; }
 [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 .tx-page[hidden] { display: none !important; }
+.tx-answers { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
+.tx-answer { background: var(--color-panel); border: 1px solid var(--color-border-line); border-top: 5px solid var(--k, var(--color-fg-muted)); border-radius: 12px; padding: 16px 18px; display: grid; gap: 6px; align-content: start; }
+.tx-answer .q { font-size: 14px; color: var(--color-fg-muted); }
+.tx-answer .a { font-family: var(--font-anthropic-serif); font-size: 1.7rem; line-height: 1.15; }
+.tx-answer .d { font-size: 14px; line-height: 1.5; }
+.tx-cmp { display: grid; gap: 14px; }
+.tx-cmp-row { display: grid; grid-template-columns: minmax(7rem, 11rem) minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+.tx-cmp-row .lab { font-size: 15px; font-weight: var(--cds-font-weight-medium); }
+.tx-cmp-row .lab small { display: block; font-weight: 400; color: var(--color-fg-muted); font-size: 12px; }
+.tx-cmp-row .track { height: 26px; background: color-mix(in srgb, var(--color-fg) 5%, transparent); border-radius: 6px; position: relative; }
+.tx-cmp-row .fill { position: absolute; inset: 0 auto 0 0; border-radius: 6px; }
+.tx-cmp-row .start { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--cds-chart-axis); }
+.tx-cmp-row .val { font-variant-numeric: tabular-nums; font-size: 17px; font-weight: var(--cds-font-weight-medium); min-width: 8ch; text-align: right; }
+.tx-cmp-note { font-size: 12px; color: var(--color-fg-muted); }
+@media (max-width: 520px) { .tx-cmp-row { grid-template-columns: 1fr auto; } .tx-cmp-row .track { grid-column: 1 / -1; grid-row: 2; } }
 .tx-what { margin: 0; padding: 10px 20px 0; font-size: 14px; color: var(--color-fg-muted); line-height: 1.5; max-width: 80ch; }
 .tx-start { padding: 20px; display: grid; gap: 12px; border-left: 5px solid var(--tx-accent); }
 .tx-start h2 { margin: 0; font-size: 1.25rem; font-weight: var(--cds-font-weight-medium); }
@@ -318,23 +333,36 @@
 
     <!-- ONDERZOEK -->
     <section class="tx-page" id="pg-onderzoek" role="tabpanel" aria-labelledby="onderzoek" hidden>
-      <div class="tx-card" id="card-onderzoek-sum">
-        <div class="tx-card-h"><h2>Maakt de bot winst, en leert hij?</h2><span class="tx-chipday" id="ond-dag" data-source="onderzoek">—</span></div>
+      <div class="tx-top" style="align-items:flex-start">
+        <p class="tx-what" style="padding:0">Elke zaterdag test de bot zijn regels op 5 jaar echte koersen, alsof hij toen al met €10.000 nepgeld begon. Zo zie je of hij op lange termijn winst maakt, en of een nieuwe regel beter zou werken.</p>
+        <span class="tx-chipday" id="ond-dag" data-source="onderzoek">—</span>
+      </div>
+      <div class="tx-answers" id="ond-antwoorden" data-source="onderzoek_antwoord"></div>
+
+      <div class="tx-card" id="card-vergelijk">
+        <div class="tx-card-h"><h2>Wat werd €10.000 na 5 jaar?</h2></div>
+        <p class="tx-what">Na alle kosten. De grijze balk is wat je had gehad met gewoon een wereldwijd beursfonds (wereld-ETF) kopen en vasthouden.</p>
+        <div class="tx-card-b"><div id="ond-vergelijk" data-source="onderzoek"></div></div>
+      </div>
+
+      <div class="tx-card" id="card-regels">
+        <div class="tx-card-h"><h2>Welke nieuwe regels zijn getest?</h2></div>
+        <p class="tx-what">De bot probeert andere regels uit, ook patronen uit de grafieken. Een regel wordt alleen overgenomen als hij duidelijk beter is, ook in de laatste jaren die hij niet heeft "gezien". Dan zet hij een voorstel klaar op GitHub en beslis jij.</p>
+        <div class="tx-tablewrap">
+          <table id="tbl-regels" data-source="onderzoek" data-row-key="id">
+            <thead><tr><th data-field="uitleg">Regel</th><th data-field="bot">Bot</th><th class="num" data-field="eindwaarde">€10.000 werd</th><th class="num" data-source="onderzoek_verschil" data-field="verschil">Vergeleken met nu</th><th data-field="oordeel">Overgenomen?</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
         <div class="tx-card-b">
-          <ul class="tx-points" id="ond-sum" data-source="onderzoek_samenvatting"></ul>
+          <details class="tx-details"><summary>Waarom niet overgenomen? (de toetsen per regel)</summary><div id="ond-toetsen" class="tx-zag" data-source="onderzoek"></div></details>
         </div>
       </div>
-      <div class="tx-card" id="card-hoe-leert">
-        <div class="tx-card-h"><h2>Zo leert de bot</h2></div>
-        <div class="tx-card-b">
-          <ol class="tx-list">
-            <li>Elke zaterdag test de bot zijn huidige regels én een paar andere regels op 5 jaar echte koersen, na kosten. Daarbij zitten ook patronen uit de grafieken: kopen na een terugval, kopen bij een nieuwe top, en verkopen na 2 rode trendkaarsen.</li>
-            <li>Een nieuwe regel telt alleen als hij beter is op de laatste 30% van de jaren die hij niet heeft "gezien", in de meeste periodes beter is, niet dieper daalt en ook met dubbele kosten beter blijft. Zo voorkom je dat de bot toevallige patronen uit het verleden overneemt.</li>
-            <li>Haalt een regel alle toetsen, dan zet de bot een voorstel klaar op GitHub. Jij beslist of het wordt overgenomen. De bot verandert nooit zelf zijn regels.</li>
-          </ol>
-        </div>
+
+      <div class="tx-card" id="card-ond-zinnen">
+        <div class="tx-card-h"><h2>Goed om te weten</h2></div>
+        <div class="tx-card-b"><ul class="tx-points" id="ond-sum" data-source="onderzoek_samenvatting"></ul></div>
       </div>
-      <div class="tx-two" id="ond-cards" data-source="onderzoek"></div>
     </section>
 
     <!-- RISICO -->
@@ -925,72 +953,124 @@ dash.calc('trendreeks', {
 
 <script>
 // Wekelijks onderzoek
-(() => {
-  const { pct, el, failed, real, emptyReason, dayLong } = window.tx;
-  const sum = document.getElementById('ond-sum');
-  const cards = document.getElementById('ond-cards');
-  const dag = document.getElementById('ond-dag');
-  const kleur = (t) => (/beter\.|aanbevolen|haalde alle/i.test(t) ? 'goed' : /slechter|was dus beter|niet alle|geen enkele|te kort/i.test(t) ? 'letop' : 'neutraal');
-  const OORDEEL = { productie: ['huidige regels', 'flat'], aanbevolen: ['aanbevolen', 'win'], afgewezen: ['niet overgenomen', 'loss'] };
-  dash.onData(() => {
-    const s = dash.data('onderzoek_samenvatting');
-    if (s.status === 'error') failed(sum);
-    else if (s.status === 'ok') {
-      const rows = real(s.data);
-      sum.replaceChildren(...(rows.length ? rows.map((r) => el('li', { class: 'k-' + kleur(r.tekst), 'data-source': 'onderzoek_samenvatting', 'data-field': 'tekst', 'data-where': 'id=' + encodeURIComponent(r.id) }, r.tekst))
-        : [el('li', {}, emptyReason(s.data))]));
+dash.calc('onderzoek_antwoord', {
+  title: 'Onderzoek: de antwoorden',
+  description: 'Drie antwoorden in gewone taal uit het wekelijkse onderzoek: maakt elke bot winst over 5 jaar tegenover de wereld-ETF, en is er een nieuwe regel overgenomen.',
+  inputs: ['onderzoek'],
+  fn: (onderzoek) => {
+    const rows = onderzoek.filter((r) => !r.leeg);
+    if (!rows.length) return [];
+    const e = (v) => '€' + Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const out = [];
+    for (const bot of ['Investeerder', 'Trend-agent']) {
+      const p = rows.find((r) => r.bot === bot && r.variant === 'productie');
+      if (!p) continue;
+      const etfEind = p.etf_totaal == null ? null : 10000 * (1 + p.etf_totaal);
+      const winst = p.eindwaarde > 10000;
+      const beter = etfEind != null && p.eindwaarde > etfEind;
+      out.push({ id: bot, vraag: 'Maakt de ' + bot.toLowerCase() + ' winst?',
+        antwoord: winst ? (beter ? 'Ja, meer dan de beurs' : 'Ja, maar minder dan de beurs') : 'Nee',
+        detail: 'In de test werd €10.000 ' + e(p.eindwaarde) + '. Met gewoon de wereld-ETF was het ' + (etfEind ? e(etfEind) : '–') + ' geworden.',
+        kleur: winst && beter ? 'goed' : winst ? 'letop' : 'slecht' });
     }
+    const tested = rows.filter((r) => r.variant !== 'productie');
+    const good = tested.filter((r) => r.oordeel === 'aanbevolen');
+    out.push({ id: 'geleerd', vraag: 'Heeft de bot iets nieuws geleerd?',
+      antwoord: good.length ? 'Ja, ' + good.length + ' betere regel' + (good.length > 1 ? 's' : '') : 'Nee, deze week niet',
+      detail: tested.length + ' andere regels getest. ' + (good.length ? 'Er staat een voorstel voor je klaar op GitHub; jij beslist.' : 'Geen enkele was duidelijk beter, dus de bot houdt zijn huidige regels.'),
+      kleur: good.length ? 'goed' : 'neutraal' });
+    return out;
+  },
+});
+
+dash.calc('onderzoek_verschil', {
+  title: 'Verschil met de huidige regels',
+  description: 'Per geteste regel: eindwaarde min de eindwaarde van de huidige regels van dezelfde bot, in euro.',
+  inputs: ['onderzoek'],
+  fn: (onderzoek) => {
+    const rows = onderzoek.filter((r) => !r.leeg);
+    return rows.map((r) => {
+      const p = rows.find((q) => q.bot === r.bot && q.variant === 'productie');
+      return { id: r.id, verschil: p ? Math.round((r.eindwaarde - p.eindwaarde) * 100) / 100 : null };
+    });
+  },
+});
+
+(() => {
+  const { eur, el, failed, real, emptyReason, dayLong } = window.tx;
+  const ans = document.getElementById('ond-antwoorden');
+  const cmp = document.getElementById('ond-vergelijk');
+  const body = document.querySelector('#tbl-regels tbody');
+  const tst = document.getElementById('ond-toetsen');
+  const sum = document.getElementById('ond-sum');
+  const dag = document.getElementById('ond-dag');
+  const e0 = (v) => eur.format(Math.round(v)).replace(/,00$/, '');
+  dash.onData(() => {
+    const A = dash.data('onderzoek_antwoord');
+    if (A.status === 'error') failed(ans);
+    else if (A.status === 'ok') ans.replaceChildren(...(A.data.length ? A.data.map((r) => {
+      const c = el('div', { class: 'tx-answer k-' + r.kleur, id: 'antwoord-' + r.id.toLowerCase().replace(/[^a-z]/g, '') });
+      const w = 'id=' + encodeURIComponent(r.id);
+      c.append(el('span', { class: 'q' }, r.vraag),
+        el('span', { class: 'a', 'data-source': 'onderzoek_antwoord', 'data-field': 'antwoord', 'data-where': w }, r.antwoord),
+        el('span', { class: 'd', 'data-source': 'onderzoek_antwoord', 'data-field': 'detail', 'data-where': w }, r.detail));
+      return c;
+    }) : [el('p', { class: 'tx-empty' }, 'Het onderzoek draait elke zaterdag; de uitkomst verschijnt daarna hier.')]));
+
     const o = dash.data('onderzoek');
-    if (o.status === 'error') { failed(cards); return; }
+    if (o.status === 'error') { failed(cmp); failed(tst); return; }
     if (o.status !== 'ok') return;
     const rows = real(o.data);
-    if (!rows.length) { cards.replaceChildren(el('p', { class: 'tx-empty' }, emptyReason(o.data))); return; }
+    if (!rows.length) { cmp.replaceChildren(el('p', { class: 'tx-empty' }, emptyReason(o.data))); body.replaceChildren(); return; }
     dag.replaceChildren(el('span', { 'data-source': 'onderzoek', 'data-field': 'datum', 'data-where': 'id=' + encodeURIComponent(rows[0].id) }, 'getest op ' + dayLong(rows[0].datum)));
-    const bots = [...new Set(rows.map((r) => r.bot))];
-    cards.replaceChildren(...bots.map((bot) => {
-      const rs = rows.filter((r) => r.bot === bot);
-      const etf = rs[0].etf_totaal;
-      const vals = rs.map((r) => r.totaal).concat(etf != null ? [etf, 0] : [0]);
-      const lo = Math.min(0, ...vals), hi = Math.max(...vals);
-      const pos = (v) => ((v - lo) / (hi - lo || 1)) * 100;
-      const c = el('div', { class: 'tx-card', id: 'ond-' + bot.toLowerCase().replace(/[^a-z]/g, '') });
-      const h = el('div', { class: 'tx-card-h' }); h.append(el('h2', {}, bot + ': 5 jaar getest'));
-      const b = el('div', { class: 'tx-card-b' });
-      b.append(el('p', { class: 'tx-note' }, 'Resultaat over 5 jaar met €10.000, na kosten. Het grijze streepje is de wereld-ETF (' + (etf != null ? pct(etf, 1) : '–') + ') over dezelfde periode. ' + rs[0].periode + '.'));
-      rs.forEach((r) => {
-        const w = 'id=' + encodeURIComponent(r.id);
-        const v = el('div', { class: 'tx-var' });
-        const top = el('div', { class: 'top' });
-        const nm = el('span', { class: 'name' }, r.variant === 'productie' ? 'Huidige regels' : r.variant.replace(/-/g, ' '));
-        if (r.patroon) nm.append(el('span', { class: 'tx-tag' }, 'patroon'));
-        const o2 = OORDEEL[r.oordeel] || [r.oordeel, 'flat'];
-        top.append(nm, el('span', { class: 'tx-pill ' + o2[1], 'data-source': 'onderzoek', 'data-field': 'oordeel', 'data-where': w }, o2[0]));
-        v.append(top, el('span', { class: 'desc' }, r.uitleg));
-        const row = el('div', { class: 'tx-barrow' });
-        const track = el('div', { class: 'tx-bartrack', role: 'img', 'aria-label': pct(r.totaal, 1) + ' over 5 jaar' });
-        const bar = el('div', { class: 'bar' });
-        const a = pos(Math.min(0, r.totaal)), z = pos(Math.max(0, r.totaal));
-        bar.style.left = a + '%'; bar.style.width = Math.max(0.6, z - a) + '%';
-        bar.style.background = r.variant === 'productie' ? 'var(--tx-accent)' : (r.totaal >= 0 ? 'var(--tx-up)' : 'var(--tx-down)');
-        if (r.variant !== 'productie') bar.style.opacity = '0.75';
-        track.append(bar);
-        const zero = el('div', { class: 'zero' }); zero.style.left = pos(0) + '%'; track.append(zero);
-        if (etf != null) { const e = el('div', { class: 'etf' }); e.style.left = pos(etf) + '%'; track.append(e); }
-        row.append(track, el('span', { class: 'val', 'data-source': 'onderzoek', 'data-field': 'totaal', 'data-where': w }, pct(r.totaal, 1)));
-        v.append(row);
-        const meta = el('span', { class: 'desc' });
-        meta.append(document.createTextNode('per jaar ' + pct(r.per_jaar, 1) + ' · grootste daling ' + pct(r.max_daling, 1) + ' · ' + r.trades + ' trades'));
-        v.append(meta);
-        if (r.toetsen) {
-          const d = el('details'); d.append(el('summary', {}, 'Toetsen bekijken'));
-          const p = el('p'); r.toetsen.split(' · ').forEach((t, i) => { if (i) p.append(el('br')); p.append(document.createTextNode(t)); });
-          d.append(p); v.append(d);
-        }
-        b.append(v);
-      });
-      c.append(h, b);
-      return c;
+
+    // Vergelijking: investeerder, wereld-ETF, trend-agent
+    const prods = rows.filter((r) => r.variant === 'productie');
+    const etfRow = prods.find((r) => r.etf_totaal != null);
+    const items = prods.map((r) => ({ lab: r.bot, sub: 'huidige regels', v: r.eindwaarde, kleur: r.bot === 'Investeerder' ? dash.colors[0] : dash.colors[1], mark: ['eindwaarde', 'id=' + encodeURIComponent(r.id)] }));
+    if (etfRow) items.push({ lab: 'Wereld-ETF', sub: 'kopen en vasthouden', v: 10000 * (1 + etfRow.etf_totaal), kleur: 'var(--cds-chart-muted)', mark: ['etf_totaal', 'id=' + encodeURIComponent(etfRow.id)] });
+    items.sort((a, b) => b.v - a.v);
+    const max = Math.max(...items.map((i) => i.v), 10000);
+    const box = el('div', { class: 'tx-cmp' });
+    items.forEach((it) => {
+      const row = el('div', { class: 'tx-cmp-row' });
+      const lab = el('span', { class: 'lab' }, it.lab); lab.append(el('small', {}, it.sub));
+      const tr = el('div', { class: 'track', role: 'img', 'aria-label': it.lab + ': ' + e0(it.v) });
+      const f = el('div', { class: 'fill' }); f.style.width = (it.v / max * 100) + '%'; f.style.background = it.kleur; tr.append(f);
+      const st = el('div', { class: 'start', title: 'start €10.000' }); st.style.left = (10000 / max * 100) + '%'; tr.append(st);
+      const val = el('span', { class: 'val', 'data-source': 'onderzoek', 'data-field': it.mark[0], 'data-where': it.mark[1] }, e0(it.v));
+      row.append(lab, tr, val);
+      box.append(row);
+    });
+    box.append(el('p', { class: 'tx-cmp-note' }, 'Het dunne streepje in elke balk is het startbedrag van €10.000. Periode: ' + rows[0].periode + '.'));
+    cmp.replaceChildren(box);
+
+    // Tabel met geteste regels
+    const V = dash.data('onderzoek_verschil');
+    const vm = new Map(V.status === 'ok' ? V.data.map((r) => [r.id, r.verschil]) : []);
+    const tested = rows.filter((r) => r.variant !== 'productie');
+    body.replaceChildren(...tested.map((r) => {
+      const tr = el('tr', { 'data-key': r.id });
+      const name = el('td'); name.append(el('div', {}, r.uitleg.replace(/^Patroon: /, '').replace(/^Investeerder: /, '')));
+      if (r.patroon) name.append(el('span', { class: 'tx-tag', style: 'margin-left:0' }, 'patroon uit de grafieken'));
+      const d = vm.get(r.id);
+      const ov = el('td'); ov.append(el('span', { class: 'tx-pill ' + (r.oordeel === 'aanbevolen' ? 'win' : 'flat') }, r.oordeel === 'aanbevolen' ? 'Ja, voorstel' : 'Nee'));
+      tr.append(name, el('td', {}, r.bot), el('td', { class: 'num' }, e0(r.eindwaarde)),
+        el('td', { class: 'num ' + (d > 0 ? 'up' : d < 0 ? 'down' : '') }, d == null ? '–' : (d > 0 ? '+' : d < 0 ? '−' : '') + e0(Math.abs(d))), ov);
+      return tr;
     }));
+    tst.replaceChildren(...tested.map((r) => {
+      const p = el('p', { style: 'margin:0' });
+      p.append(el('b', {}, r.uitleg.replace(/^Patroon: /, '') + ' '));
+      r.toetsen.split(' · ').forEach((t) => { p.append(el('br'), document.createTextNode(t)); });
+      return p;
+    }));
+
+    const S = dash.data('onderzoek_samenvatting');
+    if (S.status === 'ok') {
+      const keep = real(S.data).filter((r) => /^Live|geen garantie/.test(r.tekst));
+      sum.replaceChildren(...keep.map((r) => el('li', { class: 'k-neutraal', 'data-source': 'onderzoek_samenvatting', 'data-field': 'tekst', 'data-where': 'id=' + encodeURIComponent(r.id) }, r.tekst)));
+    }
   });
 })();
 
