@@ -100,6 +100,11 @@
 [data-dash-source-state=empty] { color: transparent; }
 [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 .tx-page[hidden] { display: none !important; }
+.tx-lights { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+.tx-lightcard { display: grid; grid-template-columns: 22px 1fr; column-gap: 10px; row-gap: 4px; align-items: center; padding: 14px; border: 1px solid var(--color-border-line); border-radius: 10px; }
+.tx-lightcard .dot { width: 18px; height: 18px; border-radius: 50%; background: var(--k, var(--color-fg-muted)); grid-row: 1; }
+.tx-lightcard b { font-size: 16px; font-weight: var(--cds-font-weight-medium); grid-row: 1; grid-column: 2; }
+.tx-lightcard span:last-child { grid-column: 1 / -1; font-size: 14px; line-height: 1.5; color: var(--color-fg-muted); }
 .t-txt { font-size: 15px; line-height: 1.5; }
 .t-txt b { font-weight: var(--cds-font-weight-medium); }
 .t-light { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; font-weight: var(--cds-font-weight-medium); }
@@ -335,14 +340,15 @@
       <div class="tx-answers" id="kansen-antwoorden" data-source="kansen_antwoord kansen posities"></div>
       <div class="tx-two" id="kansen-cards" data-source="kansen"></div>
       <div class="tx-card" id="kansen-uitleg">
-        <div class="tx-card-h"><h2>Zo lees je een kans</h2></div>
+        <div class="tx-card-h"><h2>Zo lees je het stoplicht</h2></div>
+        <p class="tx-what">Bij elke kans staat of het een goed moment is om in te stappen. Dat zegt iets over hoe snel de koers de laatste dagen is gestegen.</p>
         <div class="tx-card-b">
-          <ul class="tx-points">
-            <li class="k-goed"><b>Goed moment:</b> het aandeel stijgt al een tijd, maar is niet net hard omhooggeschoten. Rustig instappen.</li>
-            <li class="k-neutraal"><b>Kan:</b> niets bijzonders; de koers staat iets boven zijn gewone niveau.</li>
-            <li class="k-letop"><b>Liever even wachten:</b> de koers is de laatste dagen hard gestegen. Na zo'n sprint zakt een koers vaak eerst wat terug.</li>
-            <li class="k-neutraal">Dit stoplicht is een vuistregel die nog niet getest is. De bot gebruikt hem niet om te kopen.</li>
-          </ul>
+          <div class="tx-lights">
+            <div class="tx-lightcard k-goed"><span class="dot" aria-hidden="true"></span><b>Goed moment</b><span>Het aandeel stijgt al een tijd, maar is niet net hard omhooggeschoten. Rustig instappen.</span></div>
+            <div class="tx-lightcard k-neutraal"><span class="dot" aria-hidden="true"></span><b>Kan</b><span>Niets bijzonders. De koers staat iets boven zijn gewone niveau.</span></div>
+            <div class="tx-lightcard k-letop"><span class="dot" aria-hidden="true"></span><b>Liever even wachten</b><span>De koers is de laatste dagen hard gestegen. Daarna zakt hij vaak eerst wat terug.</span></div>
+          </div>
+          <p class="tx-note">Let op: dit stoplicht is een vuistregel die nog niet getest is. De bot gebruikt hem niet om te kopen of te verkopen.</p>
         </div>
       </div>
     </section>
