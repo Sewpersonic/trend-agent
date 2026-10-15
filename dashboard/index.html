@@ -98,6 +98,8 @@
 [data-dash-source-state=empty] { color: transparent; }
 [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 .tx-page[hidden] { display: none !important; }
+.tx-trendzin { margin: 0; font-size: var(--cds-font-size-body); line-height: 1.5; }
+.tx-note[hidden] { display: none; }
 .tx-more { all: unset; cursor: pointer; font-size: var(--cds-font-size-caption); color: var(--tx-accent); font-weight: var(--cds-font-weight-medium); }
 .tx-more:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
 .tx-coincard .pat { padding: 0 18px 8px; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.45; min-height: 2.9em; }
@@ -192,9 +194,18 @@
 
     <!-- KAARSGRAFIEKEN -->
     <section class="tx-page" id="pg-grafieken" role="tabpanel" aria-labelledby="grafieken" hidden>
+      <div class="tx-card" id="uitleg-kaarsen">
+        <div class="tx-card-h"><h2>Kaarsgrafieken</h2>
+          <span class="tx-zoom" id="kaars-mode" role="group" aria-label="Soort kaarsen"><button type="button" data-mode="trend" aria-pressed="true">Trendkaarsen</button><button type="button" data-mode="gewoon" aria-pressed="false">Gewone kaarsen</button></span>
+        </div>
+        <div class="tx-card-b">
+          <p class="tx-note" id="key-trend">Trendkaarsen tonen het gemiddelde van een dag en de dag ervoor, zodat kleine schommelingen wegvallen. Groen na groen = stijgende golf, rood na rood = dalende golf; bij een reeks van 3 of meer kleurt de achtergrond mee. Een groene kaars zonder lont onderaan wijst op een sterke stijging. Let op: de kaarsen zelf zijn gemiddelden; de echte koersen zie je als je met de muis over een kaars gaat.</p>
+          <p class="tx-note" id="key-gewoon" hidden>Elke kaars is één handelsdag; het streepje loopt van de laagste naar de hoogste koers van die dag.</p>
+        </div>
+      </div>
       <div class="tx-key">
-        <span><i class="box" style="background: var(--tx-up)"></i>dag gestegen</span>
-        <span><i class="box" style="background: var(--tx-down)"></i>dag gedaald</span>
+        <span><i class="box" style="background: var(--tx-up)"></i>gestegen</span>
+        <span><i class="box" style="background: var(--tx-down)"></i>gedaald</span>
         <span><i id="key-s50"></i>gemiddelde 50 dagen</span>
         <span><i id="key-s200"></i>gemiddelde 200 dagen</span>
         <span><i class="dash" style="border-color: var(--cds-chart-reference)"></i>instap</span>
@@ -597,10 +608,76 @@ dash.calc('uitleg_positie', {
 </script>
 
 <script>
-// Kaarsgrafieken, twee naast elkaar per bot
+// Trendkaarsen (Heikin-Ashi): elke kaars is een gemiddelde, zodat een trend als een rustige reeks oogt.
+dash.calc('trendkaarsen', {
+  title: 'Trendkaarsen',
+  description: 'Heikin-Ashi-kaarsen uit de dagkoersen: slot = gemiddelde van opening, hoogste, laagste en slot; opening = midden van de vorige trendkaars.',
+  inputs: ['koersen'],
+  fn: (koersen) => {
+    const by = new Map();
+    koersen.filter((r) => !r.leeg).forEach((r) => { if (!by.has(r.ticker)) by.set(r.ticker, []); by.get(r.ticker).push(r); });
+    const out = [];
+    for (const rows of by.values()) {
+      rows.sort((a, b) => (a.dag < b.dag ? -1 : 1));
+      let po = null, pc = null;
+      for (const r of rows) {
+        const c = (r.open + r.hoog + r.laag + r.slot) / 4;
+        const o = po == null ? (r.open + r.slot) / 2 : (po + pc) / 2;
+        out.push({ id: r.ticker + '|' + r.dag, ticker: r.ticker, dag: r.dag, ha_open: o, ha_slot: c,
+          ha_hoog: Math.max(r.hoog, o, c), ha_laag: Math.min(r.laag, o, c), kleur: c >= o ? 'groen' : 'rood' });
+        po = o; pc = c;
+      }
+    }
+    return out;
+  },
+});
+
+dash.calc('trendreeks', {
+  title: 'Trendreeks per aandeel',
+  description: 'Hoeveel trendkaarsen op rij dezelfde kleur hebben, tot en met de laatste dag, en of de laatste kaars geen lont heeft aan de kant tegen de trend in (een sterke trend).',
+  inputs: ['trendkaarsen'],
+  fn: (trendkaarsen) => {
+    const by = new Map();
+    trendkaarsen.forEach((r) => { if (!by.has(r.ticker)) by.set(r.ticker, []); by.get(r.ticker).push(r); });
+    return [...by.entries()].map(([ticker, rows]) => {
+      rows.sort((a, b) => (a.dag < b.dag ? -1 : 1));
+      const last = rows[rows.length - 1];
+      let reeks = 0;
+      for (let i = rows.length - 1; i >= 0 && rows[i].kleur === last.kleur; i--) reeks++;
+      const body = Math.abs(last.ha_slot - last.ha_open) || 1e-9;
+      const tegenLont = last.kleur === 'groen' ? Math.min(last.ha_open, last.ha_slot) - last.ha_laag : last.ha_hoog - Math.max(last.ha_open, last.ha_slot);
+      return { ticker, kleur: last.kleur, reeks, sterk: tegenLont < body * 0.05 };
+    });
+  },
+});
+
 (() => {
-  const { num2, el, dayNl, failed, real } = window.tx;
+  const { num2, el, dayNl, dayLong, failed, real } = window.tx;
   const root = document.getElementById('candles');
+  let mode = 'trend';
+  try { mode = localStorage.getItem('tx-kaars') || 'trend'; } catch (e) { /* geen opslag: standaard trendkaarsen */ }
+  const btns = [...document.querySelectorAll('#kaars-mode button')];
+  const setMode = (m) => {
+    mode = m;
+    btns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === m)));
+    document.getElementById('key-trend').hidden = m !== 'trend';
+    document.getElementById('key-gewoon').hidden = m === 'trend';
+    try { localStorage.setItem('tx-kaars', m); } catch (e) { /* niet erg */ }
+    draw();
+  };
+  btns.forEach((b) => b.addEventListener('click', () => setMode(b.dataset.mode)));
+
+  function zin(t) {
+    if (!t) return '';
+    const kleur = t.kleur === 'groen' ? 'groene' : 'rode';
+    let s = t.reeks + ' ' + kleur + ' trendkaars' + (t.reeks === 1 ? '' : 'en') + ' op rij';
+    if (t.reeks >= 5) s += t.kleur === 'groen' ? ': de koers zit in een stijgende golf' : ': de koers zit in een dalende golf';
+    else if (t.reeks <= 2) s += t.kleur === 'groen' ? ': de richting is net omgeslagen naar omhoog' : ': de richting is net omgeslagen naar omlaag';
+    if (t.sterk) s += t.kleur === 'groen' ? '. De laatste kaars heeft geen lont onderaan, een teken van een sterke stijging.' : '. De laatste kaars heeft geen lont bovenaan, een teken van een sterke daling.';
+    else s += '.';
+    return s;
+  }
+
   function draw() {
     if (document.getElementById('pg-grafieken').hidden) return;
     const s = dash.data('koersen');
@@ -608,6 +685,9 @@ dash.calc('uitleg_positie', {
     if (s.status !== 'ok') { root.replaceChildren(el('div', { class: 'tx-card dash-skeleton', style: 'min-height: 320px' })); return; }
     const rowsAll = real(s.data);
     if (!rowsAll.length) { root.replaceChildren(el('p', { class: 'tx-empty' }, window.tx.emptyReason(s.data))); return; }
+    const ha = dash.data('trendkaarsen'), tr = dash.data('trendreeks');
+    const haBy = new Map((ha.status === 'ok' ? ha.data : []).map((r) => [r.id, r]));
+    const trBy = new Map((tr.status === 'ok' ? tr.data : []).map((r) => [r.ticker, r]));
     const secs = [];
     for (const [bot, tickers] of d3.group(rowsAll, (r) => r.bot, (r) => r.ticker)) {
       const sec = el('div', { class: 'tx-page', id: 'kaarsen-' + bot.toLowerCase().replace(/[^a-z]/g, '') });
@@ -616,51 +696,74 @@ dash.calc('uitleg_positie', {
       for (const [ticker, rows] of tickers) {
         const rs = rows.slice().sort((a, b) => (a.dag < b.dag ? -1 : 1));
         const r0 = rs[rs.length - 1];
+        const t = trBy.get(ticker);
         const c = el('div', { class: 'tx-card', id: 'kaars-' + ticker.replace(/[^A-Za-z0-9]/g, '') });
-        const h = el('div', { class: 'tx-card-h' }); h.append(el('h2', {}, r0.naam + ' (' + ticker + ') · ' + num2.format(r0.slot) + ' ' + r0.valuta));
+        const h = el('div', { class: 'tx-card-h' });
+        h.append(el('h2', {}, r0.naam + ' (' + ticker + ') · ' + num2.format(r0.slot) + ' ' + r0.valuta));
+        if (t) h.append(el('span', { class: 'tx-pill ' + (t.kleur === 'groen' ? 'win' : 'loss'), 'data-source': 'trendreeks', 'data-field': 'reeks', 'data-where': 'ticker=' + encodeURIComponent(ticker) }, t.reeks + '× ' + t.kleur));
         const b = el('div', { class: 'tx-card-b' });
+        if (t && mode === 'trend') b.append(el('p', { class: 'tx-trendzin', 'data-source': 'trendreeks', 'data-field': 'kleur', 'data-where': 'ticker=' + encodeURIComponent(ticker) }, zin(t)));
         b.append(el('p', { class: 'tx-note' }, r0.uitleg || ''));
-        const cb = el('div', { class: 'tx-candle' });
+        const cb = el('div', { class: 'tx-candle', 'data-source': mode === 'trend' ? 'koersen trendkaarsen' : 'koersen' });
         b.append(cb); c.append(h, b); grid.append(c);
-        cb._rows = rs;
+        cb._rows = rs.map((r) => ({ ...r, ha: haBy.get(r.ticker + '|' + r.dag) }));
       }
       sec.append(grid); secs.push(sec);
     }
     root.replaceChildren(...secs);
     root.querySelectorAll('.tx-candle').forEach((cb) => candle(cb, cb._rows));
   }
+
   function candle(box, rows) {
-    const W = box.clientWidth || 480, H = 260, B = 24;
-    const core = rows.flatMap((r) => [r.laag, r.hoog]).concat([rows[0].instap, rows[0].stop].filter((v) => v != null));
+    const trend = mode === 'trend' && rows.every((r) => r.ha);
+    const O = (r) => (trend ? r.ha.ha_open : r.open), C = (r) => (trend ? r.ha.ha_slot : r.slot);
+    const Hh = (r) => (trend ? r.ha.ha_hoog : r.hoog), Ll = (r) => (trend ? r.ha.ha_laag : r.laag);
+    const W = box.clientWidth || 480, H = 280, B = 24;
+    const core = rows.flatMap((r) => [Ll(r), Hh(r)]).concat([rows[0].instap, rows[0].stop].filter((v) => v != null));
     let lo = d3.min(core), hi = d3.max(core);
     const reach = (hi - lo) * 0.5;
     const extra = rows.flatMap((r) => [r.sma50, r.sma200]).filter((v) => v != null && v >= lo - reach && v <= hi + reach);
     lo = Math.min(lo, ...extra); hi = Math.max(hi, ...extra);
     const pad = (hi - lo) * 0.06 || 1;
     const y = d3.scaleLinear([lo - pad, hi + pad], [H - B, 8]).nice();
-    const L = 52;
-    const x = d3.scaleBand(rows.map((r) => r.dag), [L, W - 6]).padding(0.3);
-    const svg = d3.create('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', 'Kaarsgrafiek ' + rows[0].naam);
-    svg.append('g').selectAll('line').data(y.ticks(4)).join('line').attr('x1', L).attr('x2', W - 6).attr('y1', y).attr('y2', y).attr('stroke', 'var(--cds-chart-grid)');
+    const L = 52, R = 6;
+    const x = d3.scaleBand(rows.map((r) => r.dag), [L, W - R]).padding(trend ? 0.18 : 0.3);
+    const svg = d3.create('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', (trend ? 'Trendkaarsen ' : 'Kaarsgrafiek ') + rows[0].naam);
+    // Achtergrondbanden: groene of rode reeksen licht gekleurd, zodat de golven opvallen
+    if (trend) {
+      let i = 0;
+      while (i < rows.length) {
+        let j = i; const k = rows[i].ha.kleur;
+        while (j + 1 < rows.length && rows[j + 1].ha.kleur === k) j++;
+        if (j - i + 1 >= 3) svg.append('rect').attr('x', x(rows[i].dag) - x.step() * x.paddingInner() / 2).attr('width', (j - i + 1) * x.step())
+          .attr('y', 8).attr('height', H - B - 8).attr('fill', k === 'groen' ? 'var(--tx-up)' : 'var(--tx-down)').attr('opacity', 0.06);
+        i = j + 1;
+      }
+    }
+    svg.append('g').selectAll('line').data(y.ticks(4)).join('line').attr('x1', L).attr('x2', W - R).attr('y1', y).attr('y2', y).attr('stroke', 'var(--cds-chart-grid)');
     svg.append('g').selectAll('text').data(y.ticks(4)).join('text').attr('x', L - 6).attr('y', (t) => y(t) + 4).attr('text-anchor', 'end').text((t) => num2.format(t));
     const step = Math.max(1, Math.round(rows.length / (W < 420 ? 3 : 5)));
     svg.append('g').selectAll('text').data(rows.filter((_, i) => i % step === 0)).join('text').attr('x', (r) => x(r.dag) + x.bandwidth() / 2).attr('y', H - 6).attr('text-anchor', 'middle').text((r) => dayNl(r.dag));
     const inside = (v) => v != null && v >= y.domain()[0] && v <= y.domain()[1];
-    const ln = (key, color) => { const p = rows.filter((r) => inside(r[key])); if (p.length > 1) svg.append('path').attr('d', d3.line().x((r) => x(r.dag) + x.bandwidth() / 2).y((r) => y(r[key]))(p)).attr('fill', 'none').attr('stroke', color).attr('stroke-width', 2).attr('stroke-linecap', 'round'); };
+    const ln = (key, color) => { const p = rows.filter((r) => inside(r[key])); if (p.length > 1) svg.append('path').attr('d', d3.line().x((r) => x(r.dag) + x.bandwidth() / 2).y((r) => y(r[key]))(p)).attr('fill', 'none').attr('stroke', color).attr('stroke-width', 2).attr('stroke-linecap', 'round').attr('opacity', trend ? 0.7 : 1); };
     ln('sma200', dash.colors[1]); ln('sma50', dash.colors[0]);
-    const hl = (v, color) => { if (inside(v)) svg.append('line').attr('x1', L).attr('x2', W - 6).attr('y1', y(v)).attr('y2', y(v)).attr('stroke', color).attr('stroke-width', 1.5).attr('stroke-dasharray', '5 4'); };
+    const hl = (v, color) => { if (inside(v)) svg.append('line').attr('x1', L).attr('x2', W - R).attr('y1', y(v)).attr('y2', y(v)).attr('stroke', color).attr('stroke-width', 1.5).attr('stroke-dasharray', '5 4'); };
     hl(rows[0].instap, 'var(--cds-chart-reference)'); hl(rows[0].stop, 'var(--tx-down)');
-    const col = (r) => (r.slot >= r.open ? 'var(--tx-up)' : 'var(--tx-down)');
+    const col = (r) => (C(r) >= O(r) ? 'var(--tx-up)' : 'var(--tx-down)');
     const g = svg.append('g').selectAll('g').data(rows).join('g');
-    g.append('line').attr('x1', (r) => x(r.dag) + x.bandwidth() / 2).attr('x2', (r) => x(r.dag) + x.bandwidth() / 2).attr('y1', (r) => y(r.hoog)).attr('y2', (r) => y(r.laag)).attr('stroke', col);
-    g.append('rect').attr('x', (r) => x(r.dag)).attr('width', x.bandwidth()).attr('y', (r) => y(Math.max(r.open, r.slot))).attr('height', (r) => Math.max(1, Math.abs(y(r.open) - y(r.slot)))).attr('fill', col).attr('rx', 1);
+    g.append('line').attr('x1', (r) => x(r.dag) + x.bandwidth() / 2).attr('x2', (r) => x(r.dag) + x.bandwidth() / 2).attr('y1', (r) => y(Hh(r))).attr('y2', (r) => y(Ll(r))).attr('stroke', col).attr('stroke-width', trend ? 1.4 : 1);
+    g.append('rect').attr('x', (r) => x(r.dag)).attr('width', x.bandwidth()).attr('y', (r) => y(Math.max(O(r), C(r)))).attr('height', (r) => Math.max(1.5, Math.abs(y(O(r)) - y(C(r)))))
+      .attr('fill', col).attr('rx', trend ? Math.min(3, x.bandwidth() / 2) : 1);
     const tip = el('div', { class: 'tx-tip', hidden: '' });
-    svg.append('rect').attr('x', L).attr('y', 0).attr('width', W - 6 - L).attr('height', H).attr('fill', 'transparent')
+    svg.append('rect').attr('x', L).attr('y', 0).attr('width', W - R - L).attr('height', H).attr('fill', 'transparent')
       .on('pointermove', (ev) => {
         const [mx] = d3.pointer(ev);
         const i = Math.max(0, Math.min(rows.length - 1, Math.round((mx - L - x.bandwidth() / 2) / x.step())));
         const r = rows[i];
-        tip.replaceChildren(el('div', { class: 'd' }, dayNl(r.dag)), el('div', {}, 'opening ' + num2.format(r.open) + ' · slot ' + num2.format(r.slot)), el('div', {}, 'hoogste ' + num2.format(r.hoog) + ' · laagste ' + num2.format(r.laag)));
+        tip.replaceChildren(el('div', { class: 'd' }, dayLong(r.dag)),
+          el('div', {}, 'echte koers: opening ' + num2.format(r.open) + ' · slot ' + num2.format(r.slot)),
+          el('div', {}, 'hoogste ' + num2.format(r.hoog) + ' · laagste ' + num2.format(r.laag)));
+        if (trend) tip.append(el('div', { class: 'd' }, 'trendkaars ' + r.ha.kleur + ' (gemiddelde ' + num2.format(r.ha.ha_slot) + ')'));
         tip.hidden = false;
         const sc = box.clientWidth / W;
         tip.style.left = Math.min((x(r.dag) + x.bandwidth()) * sc + 8, box.clientWidth - tip.offsetWidth - 4) + 'px'; tip.style.top = '6px';
@@ -668,6 +771,7 @@ dash.calc('uitleg_positie', {
       .on('pointerleave', () => { tip.hidden = true; });
     box.replaceChildren(svg.node(), tip);
   }
+  setMode(mode);
   window.tx.draws.push(draw);
   dash.onData(draw);
 })();
