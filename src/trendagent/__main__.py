@@ -17,6 +17,7 @@ from __future__ import annotations
 import argparse
 import sys
 from datetime import date, datetime, timezone
+from pathlib import Path
 
 from .agent import TrendAgent
 from .core.config import load_settings
@@ -51,6 +52,8 @@ def main(argv: list[str] | None = None) -> int:
     vs = sub.add_parser("voorstel", help="aanbeveling van het onderzoek in config/productie.json zetten (voor een pull request)")
     vs.add_argument("--aanbeveling", default="onderzoek/aanbeveling.json")
     vs.add_argument("--body", default="voorstel.md", help="bestand voor de tekst van het voorstel")
+    db = sub.add_parser("dashboard", help="cijfers voor het online dashboard schrijven (map dashboard/)")
+    db.add_argument("--map", default="dashboard")
     ov = sub.add_parser("overzicht", help="dagoverzicht van beide bots schrijven (rapporten/OVERZICHT.md)")
     ov.add_argument("--simulated", action="store_true")
     hc = sub.add_parser("health", help="gezondheid van de laatste rondes tonen")
@@ -105,6 +108,12 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd == "voorstel":
         return _proposal(args.aanbeveling, args.body)
+
+    if args.cmd == "dashboard":
+        from . import dashboard_data
+        for p in dashboard_data.write(s.state_dir, s.reports_dir, Path(args.map)):
+            print(p)
+        return 0
 
     if args.cmd == "overzicht":
         import json
