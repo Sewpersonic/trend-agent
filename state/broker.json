@@ -1,23 +1,28 @@
 {
- "tijd": "2026-10-15T16:41:01+00:00",
+ "tijd": "2026-10-15T17:04:40+00:00",
  "status": "alleen kijken",
- "reden": "Alleen gecontroleerd (proef): geen orders geplaatst.",
+ "reden": "Alleen gecontroleerd: geen orders geplaatst.",
  "orders": [],
  "niet_gekoppeld": [],
+ "managed": [
+  "MSFT_US_EQ",
+  "SAPd_EQ",
+  "SHELLa_EQ"
+ ],
  "account": {
   "id": 51866998,
   "currency": "EUR",
-  "totalValue": 4999.18,
+  "totalValue": 4999.05,
   "cash": {
    "availableToTrade": 3459.51,
    "reservedForOrders": 1058.2,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 481.48,
+   "currentValue": 481.35,
    "totalCost": 481.57,
    "realizedProfitLoss": 0,
-   "unrealizedProfitLoss": -0.09
+   "unrealizedProfitLoss": -0.22
   }
  },
  "posities": [
@@ -32,14 +37,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 539.55,
+   "currentPrice": 539.5,
    "averagePricePaid": 539.52,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 481.57,
-    "currentValue": 481.49,
-    "unrealizedProfitLoss": -0.08,
-    "fxImpact": -0.11
+    "currentValue": 481.35,
+    "unrealizedProfitLoss": -0.22,
+    "fxImpact": -0.2
    }
   }
  ],
@@ -55,11 +60,15 @@
    "status": "NEW"
   }
  ],
+ "koppeling": {
+  "SHELL.AS": "SHELLa_EQ",
+  "SAP.DE": "SAPd_EQ",
+  "MSFT": "MSFT_US_EQ"
+ },
  "plan": [],
- "managed": [
-  "MSFT_US_EQ",
-  "SAPd_EQ",
-  "SHELLa_EQ"
+ "wacht_op": [
+  "SHELLa_EQ",
+  "SAPd_EQ"
  ],
  "geschiedenis": [
   {
