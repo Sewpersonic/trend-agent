@@ -100,6 +100,12 @@
 [data-dash-source-state=empty] { color: transparent; }
 [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 .tx-page[hidden] { display: none !important; }
+.t-txt { font-size: 15px; line-height: 1.5; }
+.t-txt b { font-weight: var(--cds-font-weight-medium); }
+.t-light { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; font-weight: var(--cds-font-weight-medium); }
+.t-light::before { content: ""; width: 14px; height: 14px; border-radius: 50%; background: var(--k, var(--color-fg-muted)); }
+.n-badge { width: 22px; height: 22px; border-radius: 50%; background: var(--tx-soft); display: grid; place-items: center; font-size: 12px; font-weight: var(--cds-font-weight-medium); flex: none; }
+.tx-tile2 .t-label { margin-top: 4px; }
 .tx-answers { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
 .tx-answer { background: var(--color-panel); border: 1px solid var(--color-border-line); border-top: 5px solid var(--k, var(--color-fg-muted)); border-radius: 12px; padding: 16px 18px; display: grid; gap: 6px; align-content: start; }
 .tx-answer .q { font-size: 14px; color: var(--color-fg-muted); }
@@ -322,8 +328,20 @@
 
     <!-- KANSEN -->
     <section class="tx-page" id="pg-kansen" role="tabpanel" aria-labelledby="kansen" hidden>
-      <p class="tx-note">Wat de trend-agent met nepgeld zou doen volgens zijn eigen regels. Geen advies voor echt geld. Het instapmoment is een ongeteste vuistregel en wordt door de bot niet gebruikt.</p>
+      <p class="tx-what" style="padding:0">Elke nacht zoekt de trend-agent de aandelen met de sterkste stijgende trend. Hier zie je de 5 sterkste, wat hij ermee zou doen met zijn nepgeld en wat hij echt deed. Dit is geen advies voor echt geld.</p>
+      <div class="tx-answers" id="kansen-antwoorden" data-source="kansen_antwoord"></div>
       <div class="tx-two" id="kansen-cards" data-source="kansen"></div>
+      <div class="tx-card" id="kansen-uitleg">
+        <div class="tx-card-h"><h2>Zo lees je een kans</h2></div>
+        <div class="tx-card-b">
+          <ul class="tx-points">
+            <li class="k-goed"><b>Goed moment:</b> het aandeel stijgt al een tijd, maar is niet net hard omhooggeschoten. Rustig instappen.</li>
+            <li class="k-neutraal"><b>Kan:</b> niets bijzonders; de koers staat iets boven zijn gewone niveau.</li>
+            <li class="k-letop"><b>Liever even wachten:</b> de koers is de laatste dagen hard gestegen. Na zo'n sprint zakt een koers vaak eerst wat terug.</li>
+            <li class="k-neutraal">Dit stoplicht is een vuistregel die nog niet getest is. De bot gebruikt hem niet om te kopen.</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
     <!-- ANALYSE -->
@@ -494,6 +512,29 @@ dash.calc('begin_hier', {
       { id: 'stand', kop: 'Hoe staat het ervoor?', tekst: stand1 ? stand1 + ' sinds de start met elk €10.000 nepgeld.' : 'Nog geen stand.' },
       { id: 'gedaan', kop: 'Wat deden de bots?', tekst: gedaan },
       { id: 'letop', kop: 'Wat zie je in de markt?', tekst: kort.length ? kort.join(' ') : 'Nog geen analyse.' },
+    ];
+  },
+});
+
+dash.calc('kansen_antwoord', {
+  title: 'Kansen: de antwoorden',
+  description: 'Drie antwoorden in gewone taal uit de kansen van de laatste ronde: hoeveel kansen, wat de bot kocht, en de kans die er het beste uitspringt (sterkste trend met een goed of neutraal instapmoment, nog niet in bezit).',
+  inputs: ['kansen'],
+  fn: (kansen) => {
+    const rows = kansen.filter((r) => !r.leeg);
+    if (!rows.length) return [{ id: 'aantal', vraag: 'Hoeveel kansen?', antwoord: 'Geen', detail: 'Bij de laatste ronde vond de bot geen koopbare trend, of de koersen waren niet bijgewerkt.', kleur: 'neutraal' }];
+    const gekocht = rows.filter((r) => /vandaag gekocht/.test(r.status));
+    const bezet = rows.some((r) => /plekken zijn bezet/.test(r.status));
+    const nieuw = rows.filter((r) => !/al in bezit|vandaag gekocht/.test(r.status));
+    const top = nieuw.find((r) => r.moment === 'gunstig') || nieuw.find((r) => r.moment === 'neutraal') || nieuw[0];
+    return [
+      { id: 'aantal', vraag: 'Hoeveel sterke trends?', antwoord: rows.length + ' bekeken', detail: (rows.length - nieuw.length) + ' daarvan heeft de bot al, ' + nieuw.length + ' zijn nieuw.', kleur: 'neutraal' },
+      { id: 'gekocht', vraag: 'Heeft de bot iets gekocht?', antwoord: gekocht.length ? 'Ja, ' + gekocht.map((r) => r.naam).join(', ') : 'Nee',
+        detail: gekocht.length ? 'Volgens zijn regels, met een stop-loss eronder.' : (bezet ? 'Alle 3 plekken zijn bezet. Hij koopt pas weer als hij iets verkoopt.' : 'Geen enkele kans paste binnen de risicoregels.'),
+        kleur: gekocht.length ? 'goed' : 'neutraal' },
+      { id: 'beste', vraag: 'Welke springt eruit?', antwoord: top ? top.naam : '–',
+        detail: top ? (top.moment === 'gunstig' ? 'Sterke trend en een rustig moment om in te stappen.' : top.moment === 'neutraal' ? 'Sterke trend; geen bijzonder goed of slecht moment.' : 'Sterke trend, maar net hard gestegen.') : 'Geen nieuwe kansen.',
+        kleur: top && top.moment === 'gunstig' ? 'goed' : top && top.moment === 'opgelopen' ? 'letop' : 'neutraal' },
     ];
   },
 });
@@ -1196,29 +1237,53 @@ dash.calc('onderzoek_verschil', {
       return tr;
     }, '');
 
-    // Kansen
+    // Kansen: antwoorden en kaarten in gewone taal
+    const ka = dash.data('kansen_antwoord');
+    const kansA = document.getElementById('kansen-antwoorden');
+    if (ka.status === 'error') failed(kansA);
+    else if (ka.status === 'ok') kansA.replaceChildren(...ka.data.map((r) => {
+      const c = el('div', { class: 'tx-answer k-' + r.kleur, id: 'kansantwoord-' + r.id });
+      const w = 'id=' + encodeURIComponent(r.id);
+      c.append(el('span', { class: 'q' }, r.vraag),
+        el('span', { class: 'a', 'data-source': 'kansen_antwoord', 'data-field': 'antwoord', 'data-where': w }, r.antwoord),
+        el('span', { class: 'd', 'data-source': 'kansen_antwoord', 'data-field': 'detail', 'data-where': w }, r.detail));
+      return c;
+    }));
     const kb = document.getElementById('kansen-cards');
     const k = dash.data('kansen');
+    const MOM = { gunstig: ['Goed moment', 'goed'], neutraal: ['Kan', 'neutraal'], opgelopen: ['Liever even wachten', 'letop'], onbekend: ['Onbekend', 'neutraal'] };
+    const kort = (txt) => { const m = txt.match(/steeg ([+−-]?[\d,]+%) in 3 maanden en ([+−-]?[\d,]+%) in 1 maand/); return m ? 'Steeg ' + m[1] + ' in 3 maanden en ' + m[2] + ' in de laatste maand, en zit in een stijgende trend.' : txt; };
     if (k.status === 'error') failed(kb);
     else if (k.status === 'ok') {
       const rows = real(k.data);
       if (!rows.length) kb.replaceChildren(el('p', { class: 'tx-empty' }, emptyReason(k.data)));
       else kb.replaceChildren(...rows.map((r) => {
         const w = 'ticker=' + encodeURIComponent(r.ticker);
-        const c = el('div', { class: 'tx-card', id: 'kans-' + r.ticker.replace(/[^A-Za-z0-9]/g, '') });
-        const h = el('div', { class: 'tx-card-h' });
-        h.append(el('h2', {}, r.nr + '. ' + r.naam + ' (' + r.ticker + ')'));
-        h.append(mark('kansen', 'moment', w, 'span', r.moment, 'tx-pill ' + (r.moment === 'gunstig' ? 'win' : r.moment === 'opgelopen' ? 'loss' : 'flat')));
-        const b = el('div', { class: 'tx-card-b' });
-        b.append(mark('kansen', 'waarom', w, 'p', r.waarom + '.', 'tx-note'), mark('kansen', 'moment_uitleg', w, 'p', 'Instapmoment: ' + r.moment_uitleg + '.', 'tx-note'));
-        const plan = el('p', { style: 'margin:0; line-height:1.5' });
-        if (r.aantal >= 1) plan.append(document.createTextNode('Plan van de bot: koop '), mark('kansen', 'aantal', w, 'b', String(r.aantal)), document.createTextNode(' rond '),
-          mark('kansen', 'instap', w, 'b', num2.format(r.instap) + ' ' + r.valuta), document.createTextNode(' (inzet '), mark('kansen', 'inzet_eur', w, 'span', eur.format(r.inzet_eur)),
-          document.createTextNode('), stop-loss '), mark('kansen', 'stop', w, 'b', num2.format(r.stop) + ' ' + r.valuta), document.createTextNode('. Gaat het mis: ongeveer '),
-          mark('kansen', 'max_verlies_eur', w, 'b', eur.format(r.max_verlies_eur), 'down'), document.createTextNode(' verlies.'));
-        else plan.append(document.createTextNode('Instap rond '), mark('kansen', 'instap', w, 'span', num2.format(r.instap) + ' ' + r.valuta), document.createTextNode('; er past geen heel stuk in het kleine risicobudget.'));
-        b.append(plan, mark('kansen', 'status', w, 'p', 'Wat deed de bot? ' + r.status + '.', 'tx-note'));
-        c.append(h, b);
+        const mm = MOM[r.moment] || [r.moment, 'neutraal'];
+        const c = el('div', { class: 'tx-card tx-tile2', id: 'kans-' + r.ticker.replace(/[^A-Za-z0-9]/g, '') });
+        const h = el('div', { class: 't-head' });
+        const nm = el('div', { class: 't-name' }); nm.append(el('span', { class: 'n-badge' }, String(r.nr)), window.tx.coin(r.ticker, 32));
+        const nt = el('div', { style: 'min-width:0' }); nt.append(el('h3', {}, r.naam), el('div', { class: 't-sub' }, r.ticker)); nm.append(nt);
+        h.append(nm, mark('kansen', 'status', w, 'span', /vandaag gekocht/.test(r.status) ? 'Gekocht' : /al in bezit/.test(r.status) ? 'Al in bezit' : 'Niet gekocht',
+          'tx-pill ' + (/gekocht door/.test(r.status) ? 'win' : /al in bezit/.test(r.status) ? 'flat' : 'loss')));
+        c.append(h);
+        const lbl = (t) => el('div', { class: 't-label' }, t);
+        c.append(lbl('Waarom valt hij op?'), mark('kansen', 'waarom', w, 'div', kort(r.waarom), 't-txt'));
+        c.append(lbl('Goed moment om in te stappen?'));
+        const mo = el('div', { class: 't-light k-' + mm[1] }); mo.append(mark('kansen', 'moment', w, 'span', mm[0], 'w')); c.append(mo);
+        c.append(lbl('Wat zou de bot doen?'));
+        const plan = el('div', { class: 't-txt' });
+        if (r.aantal >= 1) plan.append(document.createTextNode('Voor '), mark('kansen', 'inzet_eur', w, 'b', eur.format(r.inzet_eur)), document.createTextNode(' kopen ('),
+          mark('kansen', 'aantal', w, 'span', String(r.aantal)), document.createTextNode(r.aantal === 1 ? ' aandeel). ' : ' aandelen). '),
+          document.createTextNode('Gaat het mis, dan verkoopt hij automatisch en verlies je hooguit ongeveer '), mark('kansen', 'max_verlies_eur', w, 'b', eur.format(r.max_verlies_eur), 'down'), document.createTextNode('.'));
+        else plan.append(document.createTextNode('Eén aandeel is te duur voor het kleine risicobudget van deze oefenrekening, dus hij zou niets kopen.'));
+        c.append(plan);
+        c.append(lbl('Wat deed de bot?'), mark('kansen', 'status', w, 'div', r.status.charAt(0).toUpperCase() + r.status.slice(1) + '.', 't-txt'));
+        const d = el('details', { class: 'tx-details' }); d.append(el('summary', {}, 'Meer details'));
+        const dp = el('div', { class: 'tx-zag' });
+        dp.append(el('p', { style: 'margin:0' }, r.waarom + '.'), el('p', { style: 'margin:0' }, 'Instapmoment: ' + r.moment_uitleg + '.'),
+          el('p', { style: 'margin:0' }, 'Instap rond ' + num2.format(r.instap) + ' ' + r.valuta + ', stop-loss ' + num2.format(r.stop) + ' ' + r.valuta + ' (' + pct(r.stop_pct, 1) + ').'));
+        d.append(dp); c.append(d);
         return c;
       }));
     }
