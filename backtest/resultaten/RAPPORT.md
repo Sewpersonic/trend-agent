@@ -1,12 +1,12 @@
 # Backtest trend-agent
 
-Periode **2021-10-14 t/m 2026-10-14** (ongeveer 5 jaar), startkapitaal €10.000 nepgeld, 52 instrumenten met koersdata. Zelfde regels, kosten en slippage als bij het dagelijks oefenen.
+Periode **2021-10-15 t/m 2026-10-15** (ongeveer 5 jaar), startkapitaal €10.000 nepgeld, 52 instrumenten met koersdata. Zelfde regels, kosten en slippage als bij het dagelijks oefenen.
 
 > Dit is geen voorspelling. Het laat zien hoe deze regels het in het verleden hadden gedaan.
 
 ## In het kort
 
-- Over de hele periode deed de trend-agent het slechter dan gewoon de wereld-ETF vasthouden (+6,8% tegen +79,7%).
+- Over de hele periode deed de trend-agent het slechter dan gewoon de wereld-ETF vasthouden (+6,6% tegen +78,2%).
 - Zijn grootste daling was -4,5%, tegen -21,6% voor de ETF.
 - In 53% van alle periodes van 4 weken stond de trend-agent aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -2,7%, het beste +2,4%.
 
@@ -14,9 +14,9 @@ Periode **2021-10-14 t/m 2026-10-14** (ongeveer 5 jaar), startkapitaal €10.000
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Trend-agent | +6,8% | +1,3% | -4,5% | 0,34 | €10.673 |
-| MSCI World-ETF (IWDA) | +79,7% | +12,4% | -21,6% | 0,75 | €17.966 |
-| S&P 500-ETF (SPY, in euro) | +93,3% | +14,1% | -23,0% | 0,66 | €19.333 |
+| Trend-agent | +6,6% | +1,3% | -4,5% | 0,33 | €10.652 |
+| MSCI World-ETF (IWDA) | +78,2% | +12,2% | -21,6% | 0,74 | €17.818 |
+| S&P 500-ETF (SPY, in euro) | +90,7% | +13,8% | -23,0% | 0,65 | €19.073 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
 
@@ -24,12 +24,12 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 
 | Jaar | Trend-agent | MSCI World-ETF (IWDA) | S&P 500-ETF (SPY, in euro) |
 | --- | --- | --- | --- |
-| 2021 | -0,1% | +7,7% | +10,3% |
+| 2021 | -0,4% | +6,8% | +9,4% |
 | 2022 | -2,5% | -13,5% | -13,1% |
 | 2023 | +2,2% | +19,9% | +21,5% |
-| 2024 | +4,1% | +27,2% | +32,8% |
-| 2025 | +1,9% | +7,1% | +4,3% |
-| 2026 | +1,1% | +18,2% | +19,8% |
+| 2024 | +4,2% | +27,2% | +32,8% |
+| 2025 | +2,0% | +7,1% | +4,3% |
+| 2026 | +1,0% | +18,1% | +19,1% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 
