@@ -6,8 +6,8 @@ _Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies._
 
 | Bot | Waarde | Vandaag | Sinds start | Tegenover wereld-ETF |
 | --- | --- | --- | --- | --- |
-| Investeerder | €9.803,04 | €-182,58 (-1,83%) | -1,97% | -1,47% (ETF -0,36% sinds 2026-10-13) |
-| Trend-agent | €10.024,69 | €10,27 (+0,10%) | +0,25% | +0,47% (ETF -0,36% sinds 2026-10-13) |
+| Investeerder | €9.799,15 | €-186,47 (-1,87%) | -2,01% | -1,50% (ETF -0,36% sinds 2026-10-13) |
+| Trend-agent | €10.024,11 | €9,69 (+0,10%) | +0,24% | +0,46% (ETF -0,36% sinds 2026-10-13) |
 
 ## Vandaag gedaan
 
@@ -32,9 +32,9 @@ _Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies._
 
 - Trend-agent SHELL.AS: €17,71 (+3,0%), +6,2% boven de stop; raakt hij de stop, dan €18,68 verlies.
 - Trend-agent SAP.DE: €11,77 (+3,1%), +9,0% boven de stop; raakt hij de stop, dan €21,72 verlies.
-- Trend-agent MSFT: -€1,79 (-0,3%), +4,7% boven de stop; raakt hij de stop, dan €24,01 verlies.
+- Trend-agent MSFT: -€2,38 (-0,3%), +4,7% boven de stop; raakt hij de stop, dan €24,57 verlies.
 - Trend-agent remmen: -0,0% vanaf de top (grens -5%), 0 van 3 verliestrades op rij.
-- Investeerder: -€196,96 op de beleggingen; grootste verlies MU -€48,32 (-8,1%).
+- Investeerder: -€200,86 op de beleggingen; grootste verlies MU -€49,12 (-8,2%).
 
 ## Beste kansen volgens de trend-agent
 
@@ -44,9 +44,9 @@ _Wat de oefenbot met nepgeld zou doen; geen advies. Uitleg per ticker in het tre
 | --- | --- | --- | --- | --- |
 | Shell (SHELL.AS) | opgelopen | 13 x rond 46.44 EUR, stop 44.63 | €25,59 | al in bezit |
 | SAP (SAP.DE) | neutraal | 2 x rond 197.54 EUR, stop 186.71 | €23,66 | al in bezit |
-| Energie-ETF (XLE) | neutraal | 11 x rond 67.66 USD, stop 65.22 | €25,98 | niet gekocht: alle 3 plekken zijn bezet |
+| Energie-ETF (XLE) | neutraal | 11 x rond 67.66 USD, stop 65.22 | €25,95 | niet gekocht: alle 3 plekken zijn bezet |
 | Wolters Kluwer (WKL.AS) | opgelopen | 5 x rond 78.18 EUR, stop 73.76 | €24,10 | niet gekocht: alle 3 plekken zijn bezet |
-| ExxonMobil (XOM) | opgelopen | 4 x rond 177.10 USD, stop 170.67 | €24,92 | niet gekocht: alle 3 plekken zijn bezet |
+| ExxonMobil (XOM) | opgelopen | 4 x rond 177.10 USD, stop 170.67 | €24,89 | niet gekocht: alle 3 plekken zijn bezet |
 
 ## Wat de grafieken laten zien
 
@@ -81,24 +81,24 @@ _Eerst bewijzen, dan pas een oefenaccount bij een echte broker, dan een klein be
 | Eis | Stand | Nu |
 | --- | --- | --- |
 | Oefentijd | ⏳ | 2 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -1,47% |
-| Daling niet veel dieper dan de ETF | ✅ | bot -1,97%, ETF -0,36% |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -1,50% |
+| Daling niet veel dieper dan de ETF | ✅ | bot -2,01%, ETF -0,36% |
 
 **Trend-agent:** Nog niet klaar: de bot is nog bezig met bewijzen. Blijven oefenen.
 
 | Eis | Stand | Nu |
 | --- | --- | --- |
 | Oefentijd | ⏳ | 3 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe +0,47% |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe +0,46% |
 | Grootste daling onder 5% | ✅ | grootste daling tot nu toe -0,04% |
 | Genoeg afgesloten trades | ⏳ | 0 van 20 |
 
 ## Controles
 
 - Investeerder: status **OK**, 52 van 52 koersen opgehaald, marktregime stijgend-laag.
-- Koersbronnen: 0 bevestigd door twee bronnen, 52 uit één bron, 0 afwijkend. Wisselkoers: bevestigd. Tweede bron overgeslagen na herhaalde fouten (ophalen mislukt: URLError).
+- Koersbronnen: 0 bevestigd door twee bronnen, 52 uit één bron, 0 afwijkend. Wisselkoers: bevestigd. Tweede bron overgeslagen na herhaalde fouten (GOOGL: Stooq gaf geen koersen ('<!DOCTYPE html><html><head><meta charset')).
 - Trend-agent: status **OK**, 50 van 50 koersen opgehaald, marktregime stijgend-laag.
-- Koersbronnen: 0 bevestigd door twee bronnen, 50 uit één bron, 0 afwijkend. Wisselkoers: bevestigd. Tweede bron overgeslagen na herhaalde fouten (ophalen mislukt: URLError).
+- Koersbronnen: 0 bevestigd door twee bronnen, 50 uit één bron, 0 afwijkend. Wisselkoers: bevestigd. Tweede bron overgeslagen na herhaalde fouten (GOOGL: Stooq gaf geen koersen ('<!DOCTYPE html><html><head><meta charset')).
 
 _GitHub startte deze ronde 10 uur later dan gepland. De koersen zijn die van de slotkoers van deze handelsdag; de vertraging verandert daar niets aan._
 

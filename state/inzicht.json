@@ -33,16 +33,16 @@
     "instap": 535.3375,
     "koers": 533.69,
     "stop": 509.899,
-    "resultaat_eur": -1.79,
+    "resultaat_eur": -2.38,
     "resultaat_pct": -0.0031,
     "afstand_stop_pct": 0.0467,
-    "bij_stop_eur": -24.01
+    "bij_stop_eur": -24.57
    }
   ],
   "remmen": {
-   "waarde": 10024.69,
-   "top": 10027.51,
-   "daling_vanaf_top": -0.0003,
+   "waarde": 10024.11,
+   "top": 10024.69,
+   "daling_vanaf_top": -0.0001,
    "grens_daling": 0.05,
    "vandaag": 0.001,
    "grens_dag": 0.01,
@@ -104,8 +104,8 @@
      "valuta": "USD",
      "doel_2r": 72.5524,
      "aantal": 11,
-     "inzet_eur": 663.77,
-     "max_verlies_eur": 25.98,
+     "inzet_eur": 662.95,
+     "max_verlies_eur": 25.95,
      "stop_pct": -0.0361,
      "budget_eur": 25.06
     }
@@ -144,8 +144,8 @@
      "valuta": "USD",
      "doel_2r": 189.9499,
      "aantal": 4,
-     "inzet_eur": 631.75,
-     "max_verlies_eur": 24.92,
+     "inzet_eur": 630.97,
+     "max_verlies_eur": 24.89,
      "stop_pct": -0.0363,
      "budget_eur": 25.06
     }
@@ -176,7 +176,7 @@
     [
      "Minstens zo goed als de wereld-ETF",
      "bezig",
-     "verschil tot nu toe +0,47%"
+     "verschil tot nu toe +0,46%"
     ],
     [
      "Grootste daling onder 5%",
@@ -190,17 +190,58 @@
     ]
    ],
    "oordeel": "Nog niet klaar: de bot is nog bezig met bewijzen. Blijven oefenen."
-  }
+  },
+  "markt": {
+   "regime": "stijgend-laag",
+   "trend": "stijgend",
+   "beweeglijkheid": "laag",
+   "bron": "IWDA.AS",
+   "koers": 131.78,
+   "sma50": 128.31,
+   "sma200": 120.39,
+   "afstand_sma200": 0.0946,
+   "maand": 0.0475,
+   "vol_nu": 0.084,
+   "vol_mediaan": 0.102,
+   "breedte": {
+    "totaal": [
+     35,
+     50
+    ],
+    "EU": [
+     13,
+     23
+    ],
+    "US": [
+     22,
+     27
+    ]
+   }
+  },
+  "zeef": {
+   "bekeken": 50,
+   "afgevallen": {
+    "geen stijgende trend (koers niet boven 50- en 200-daags gemiddelde)": 26,
+    "niet gestegen over 1 of 3 maanden": 27,
+    "te weinig handel": 1
+   },
+   "door_zeef": 18,
+   "verdacht": 0,
+   "kandidaten": 18
+  },
+  "vrije_plekken": 0,
+  "gekocht": [],
+  "verkocht": []
  },
  "investeerder": {
   "dag": "2026-10-14",
   "posities": [
    {
     "ticker": "MU",
-    "waarde_eur": 551.68,
+    "waarde_eur": 550.88,
     "kosten_eur": 600.0,
-    "resultaat_eur": -48.32,
-    "resultaat_pct": -0.0805
+    "resultaat_eur": -49.12,
+    "resultaat_pct": -0.0819
    },
    {
     "ticker": "IFX.DE",
@@ -211,17 +252,17 @@
    },
    {
     "ticker": "SMH",
-    "waarde_eur": 570.38,
+    "waarde_eur": 569.55,
     "kosten_eur": 600.0,
-    "resultaat_eur": -29.62,
-    "resultaat_pct": -0.0494
+    "resultaat_eur": -30.45,
+    "resultaat_pct": -0.0507
    },
    {
     "ticker": "AMD",
-    "waarde_eur": 573.37,
+    "waarde_eur": 572.53,
     "kosten_eur": 600.0,
-    "resultaat_eur": -26.63,
-    "resultaat_pct": -0.0444
+    "resultaat_eur": -27.47,
+    "resultaat_pct": -0.0458
    },
    {
     "ticker": "ASML.AS",
@@ -232,17 +273,17 @@
    },
    {
     "ticker": "ETH-USD",
-    "waarde_eur": 484.62,
+    "waarde_eur": 483.91,
     "kosten_eur": 500.0,
-    "resultaat_eur": -15.38,
-    "resultaat_pct": -0.0308
+    "resultaat_eur": -16.09,
+    "resultaat_pct": -0.0322
    },
    {
     "ticker": "BTC-USD",
-    "waarde_eur": 490.3,
+    "waarde_eur": 489.58,
     "kosten_eur": 500.0,
-    "resultaat_eur": -9.7,
-    "resultaat_pct": -0.0194
+    "resultaat_eur": -10.42,
+    "resultaat_pct": -0.0208
    },
    {
     "ticker": "IWDA.AS",
@@ -254,7 +295,7 @@
   ],
   "daling": {
    "top": 10000.0,
-   "daling_vanaf_top": -0.0197
+   "daling_vanaf_top": -0.0201
   },
   "conclusies": [
    "De markt stijgt: de kern (wereld-ETF) doet zijn werk, de sterkste aandelen lopen mee.",
@@ -278,15 +319,94 @@
     [
      "Minstens zo goed als de wereld-ETF",
      "bezig",
-     "verschil tot nu toe -1,47%"
+     "verschil tot nu toe -1,50%"
     ],
     [
      "Daling niet veel dieper dan de ETF",
      "ok",
-     "bot -1,97%, ETF -0,36%"
+     "bot -2,01%, ETF -0,36%"
     ]
    ],
    "oordeel": "Nog niet klaar: de bot is nog bezig met bewijzen. Blijven oefenen."
-  }
+  },
+  "markt": {
+   "regime": "stijgend-laag",
+   "trend": "stijgend",
+   "beweeglijkheid": "laag",
+   "bron": "IWDA.AS",
+   "koers": 131.78,
+   "sma50": 128.31,
+   "sma200": 120.39,
+   "afstand_sma200": 0.0946,
+   "maand": 0.0475,
+   "vol_nu": 0.084,
+   "vol_mediaan": 0.102,
+   "breedte": {
+    "totaal": [
+     35,
+     50
+    ],
+    "EU": [
+     13,
+     23
+    ],
+    "US": [
+     22,
+     27
+    ]
+   }
+  },
+  "beeld": {
+   "keuze_nu": [
+    {
+     "ticker": "MU",
+     "momentum": 3.8167
+    },
+    {
+     "ticker": "AMD",
+     "momentum": 1.3297
+    },
+    {
+     "ticker": "CRWD",
+     "momentum": 0.9071
+    },
+    {
+     "ticker": "PANW",
+     "momentum": 0.7587
+    },
+    {
+     "ticker": "INGA.AS",
+     "momentum": 0.6258
+    }
+   ],
+   "satelliet_bezit": [
+    "AMD",
+    "ASML.AS",
+    "IFX.DE",
+    "MU",
+    "SMH"
+   ],
+   "uit_top": [
+    "ASML.AS",
+    "IFX.DE",
+    "SMH"
+   ],
+   "nieuw_in_top": [
+    "CRWD",
+    "PANW",
+    "INGA.AS"
+   ],
+   "crypto": {
+    "BTC-USD": {
+     "boven_sma200": true,
+     "afstand": 0.1296
+    },
+    "ETH-USD": {
+     "boven_sma200": true,
+     "afstand": 0.1298
+    }
+   }
+  },
+  "volgende_herverdeling": "2026-11-01"
  }
 }

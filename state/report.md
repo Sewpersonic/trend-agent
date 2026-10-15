@@ -3,12 +3,12 @@
 _Oefenportefeuille met nepgeld. Geen beleggingsadvies; resultaten uit het verleden zeggen niets over de toekomst._
 
 **Status:** OK  
-**Waarde:** €10,024.69  
+**Waarde:** €10,024.11  
 **Kas:** €8,550.41  
 **Marktregime:** stijgend-laag  
 **Strategieversie:** trend-1.1-d373c7  
 **Koersbronnen:** 0 bevestigd door 2 bronnen, 50 uit 1 bron, 0 afwijkend; wisselkoers bevestigd  
-**Sinds start:** +0.25%  
+**Sinds start:** +0.24%  
 
 ## Analyse van vandaag
 
@@ -31,8 +31,7 @@ _Oefenportefeuille met nepgeld. Geen beleggingsadvies; resultaten uit het verled
 
 ## Vandaag gedaan
 
-- SHELL.AS: stop omhoog van 43.24 naar 43.70
-- SAP.DE: stop omhoog van 181.02 naar 181.20
+- Niets
 
 ## Verlies en risico
 
@@ -40,13 +39,13 @@ _Oefenportefeuille met nepgeld. Geen beleggingsadvies; resultaten uit het verled
 | --- | --- | --- | --- | --- | --- | --- |
 | SHELL.AS | 45.06 EUR | 46.42 | €17,71 (+3,0%) | 43.70 | +6,2% | -€18,68 verlies |
 | SAP.DE | 191.56 EUR | 197.44 | €11,77 (+3,1%) | 181.20 | +9,0% | -€21,72 verlies |
-| MSFT | 535.34 USD | 533.69 | -€1,79 (-0,3%) | 509.90 | +4,7% | -€24,01 verlies |
+| MSFT | 535.34 USD | 533.69 | -€2,38 (-0,3%) | 509.90 | +4,7% | -€24,57 verlies |
 
-Raken alle stops tegelijk, dan is het verlies hooguit ongeveer €64,41 (bij een koersgat 's ochtends kan het meer zijn).
+Raken alle stops tegelijk, dan is het verlies hooguit ongeveer €64,97 (bij een koersgat 's ochtends kan het meer zijn).
 
 **Remmen** (bij overschrijden gaat de kill switch aan en koopt de bot niets meer):
 
-- Daling vanaf de top: -0,03% (grens -5%; top was €10.027,51)
+- Daling vanaf de top: -0,01% (grens -5%; top was €10.024,69)
 - Vandaag: +0,10% (grens -1%)
 - Verliestrades op rij: 0 van 3
 
@@ -73,7 +72,7 @@ _Dit is wat de oefenbot met zijn nepgeld volgens zijn eigen regels zou doen. Gee
 - **Waarom sterk:** Energie-ETF steeg +19,3% in 3 maanden en +3,2% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,1x het normale volume; beweegt gemiddeld 1,8% per dag.
 - **Instapmoment:** de koers staat +5,2% van het 20-daags gemiddelde, RSI 72.
 - **Status:** niet gekocht: alle 3 plekken zijn bezet.
-- **Plan van de bot:** koop 11 stuks rond 67.66 USD (inzet €663,77), stop-loss 65.22 USD (-3,6%). Maximaal verlies als de stop wordt geraakt: ongeveer €25,98. Ter oriëntatie: 2x het risico winst ligt bij 72.55 USD; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+- **Plan van de bot:** koop 11 stuks rond 67.66 USD (inzet €662,95), stop-loss 65.22 USD (-3,6%). Maximaal verlies als de stop wordt geraakt: ongeveer €25,95. Ter oriëntatie: 2x het risico winst ligt bij 72.55 USD; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
 
 ### 4. Wolters Kluwer (WKL.AS): instapmoment **opgelopen**
 
@@ -87,7 +86,7 @@ _Dit is wat de oefenbot met zijn nepgeld volgens zijn eigen regels zou doen. Gee
 - **Waarom sterk:** ExxonMobil steeg +22,1% in 3 maanden en +4,5% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 0,9x het normale volume; beweegt gemiddeld 1,8% per dag.
 - **Instapmoment:** de koers staat +6,2% van het 20-daags gemiddelde (3,4x de normale dagbeweging) en RSI is 75; na zo'n sprint volgt vaak eerst een terugval.
 - **Status:** niet gekocht: alle 3 plekken zijn bezet.
-- **Plan van de bot:** koop 4 stuks rond 177.10 USD (inzet €631,75), stop-loss 170.67 USD (-3,6%). Maximaal verlies als de stop wordt geraakt: ongeveer €24,92. Ter oriëntatie: 2x het risico winst ligt bij 189.95 USD; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+- **Plan van de bot:** koop 4 stuks rond 177.10 USD (inzet €630,97), stop-loss 170.67 USD (-3,6%). Maximaal verlies als de stop wordt geraakt: ongeveer €24,89. Ter oriëntatie: 2x het risico winst ligt bij 189.95 USD; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
 
 
 ## Wat de bot tot nu toe geleerd heeft
@@ -101,7 +100,7 @@ _Dit is wat de oefenbot met zijn nepgeld volgens zijn eigen regels zou doen. Gee
 | Eis | Stand | Nu |
 | --- | --- | --- |
 | Oefentijd | ⏳ | 3 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe +0,47% |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe +0,46% |
 | Grootste daling onder 5% | ✅ | grootste daling tot nu toe -0,04% |
 | Genoeg afgesloten trades | ⏳ | 0 van 20 |
 

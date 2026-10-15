@@ -17,10 +17,10 @@
    },
    "wisselkoers": "bevestigd",
    "tweede_bron": "overgeslagen na herhaalde fouten",
-   "fout_tweede_bron": "ophalen mislukt: URLError",
+   "fout_tweede_bron": "GOOGL: Stooq gaf geen koersen ('<!DOCTYPE html><html><head><meta charset')",
    "afwijkend": []
   },
-  "vastgelegd_utc": "2026-10-15T08:00:46+00:00"
+  "vastgelegd_utc": "2026-10-15T08:23:29+00:00"
  },
  "investeerder": {
   "day": "2026-10-14",
@@ -40,9 +40,9 @@
    },
    "wisselkoers": "bevestigd",
    "tweede_bron": "overgeslagen na herhaalde fouten",
-   "fout_tweede_bron": "ophalen mislukt: URLError",
+   "fout_tweede_bron": "GOOGL: Stooq gaf geen koersen ('<!DOCTYPE html><html><head><meta charset')",
    "afwijkend": []
   },
-  "vastgelegd_utc": "2026-10-15T08:02:48+00:00"
+  "vastgelegd_utc": "2026-10-15T08:23:43+00:00"
  }
 }
