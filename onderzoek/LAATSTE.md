@@ -1,4 +1,4 @@
-# Onderzoeksrapport 2026-10-11
+# Onderzoeksrapport 2026-10-15
 
 Dit rapport test varianten van beide strategieën op echte koersen en kijkt wat de bots leren van hun eigen trades. **Er wordt niets automatisch aangepast.** Een aanbevolen variant gaat pas in productie als jij (of iemand die je vertrouwt) de instelling in de code aanpast; daarna draait de backtest opnieuw en loopt de nieuwe versie eerst weken mee op papier.
 
@@ -6,31 +6,52 @@ Dit rapport test varianten van beide strategieën op echte koersen en kijkt wat 
 
 ## Trend-agent
 
-Periode 2021-10-11 t/m 2026-10-11. Ontwikkeldeel 2021-10-11 t/m 2025-04-13, holdout 2025-04-14 t/m 2026-10-11. 3 varianten getest tegen productie.
+Periode 2021-10-15 t/m 2026-10-15. Ontwikkeldeel 2021-10-15 t/m 2025-04-19, holdout 2025-04-20 t/m 2026-10-15. 6 varianten getest tegen productie.
 
 ### Uitkomst
 
 - **rem-pas-na-5-verliezen: NIET AANBEVOLEN**
-    - ✗ Holdout (ongeziene laatste 30%): Sharpe 0.29 vs productie 0.55 (nodig: +0.10)
-    - ✗ Ontwikkeldeel (eerste 70%): Sharpe 0.23 vs 0.23
-    - ✗ Consistent over periodes: beter in 2 van 5 periodes (nodig: 60%)
-    - ✓ Grootste daling: -5.2% vs -5.0%
-    - ✗ Dubbele kosten en slippage: Sharpe 0.02 vs 0.04
-    - ✓ Genoeg trades: 200 afgesloten trades (nodig: 30)
+    - ✗ Holdout (ongeziene laatste 30%): Sharpe 0.25 vs productie 0.55 (nodig: +0.10)
+    - ✗ Ontwikkeldeel (eerste 70%): Sharpe 0.22 vs 0.25
+    - ✗ Consistent over periodes: beter in 1 van 5 periodes (nodig: 60%)
+    - ✓ Grootste daling: -5.2% vs -4.5%
+    - ✗ Dubbele kosten en slippage: Sharpe -0.08 vs 0.05
+    - ✓ Genoeg trades: 203 afgesloten trades (nodig: 30)
 - **regimefilter: NIET AANBEVOLEN**
-    - ✓ Holdout (ongeziene laatste 30%): Sharpe 0.76 vs productie 0.55 (nodig: +0.10)
-    - ✗ Ontwikkeldeel (eerste 70%): Sharpe -0.08 vs 0.23
-    - ✗ Consistent over periodes: beter in 2 van 5 periodes (nodig: 60%)
-    - ✓ Grootste daling: -6.1% vs -5.0%
-    - ✗ Dubbele kosten en slippage: Sharpe -0.19 vs 0.04
-    - ✓ Genoeg trades: 167 afgesloten trades (nodig: 30)
+    - ✓ Holdout (ongeziene laatste 30%): Sharpe 0.79 vs productie 0.55 (nodig: +0.10)
+    - ✗ Ontwikkeldeel (eerste 70%): Sharpe -0.25 vs 0.25
+    - ✗ Consistent over periodes: beter in 1 van 5 periodes (nodig: 60%)
+    - ✓ Grootste daling: -5.6% vs -4.5%
+    - ✗ Dubbele kosten en slippage: Sharpe -0.22 vs 0.05
+    - ✓ Genoeg trades: 170 afgesloten trades (nodig: 30)
 - **niet-kopen-boven-rsi-75: NIET AANBEVOLEN**
-    - ✗ Holdout (ongeziene laatste 30%): Sharpe 0.52 vs productie 0.55 (nodig: +0.10)
-    - ✗ Ontwikkeldeel (eerste 70%): Sharpe -0.00 vs 0.23
+    - ✗ Holdout (ongeziene laatste 30%): Sharpe 0.41 vs productie 0.55 (nodig: +0.10)
+    - ✗ Ontwikkeldeel (eerste 70%): Sharpe 0.12 vs 0.25
     - ✗ Consistent over periodes: beter in 2 van 5 periodes (nodig: 60%)
-    - ✓ Grootste daling: -6.0% vs -5.0%
-    - ✗ Dubbele kosten en slippage: Sharpe -0.08 vs 0.04
-    - ✓ Genoeg trades: 195 afgesloten trades (nodig: 30)
+    - ✓ Grootste daling: -4.8% vs -4.5%
+    - ✗ Dubbele kosten en slippage: Sharpe 0.02 vs 0.05
+    - ✓ Genoeg trades: 197 afgesloten trades (nodig: 30)
+- **koop-na-terugval: NIET AANBEVOLEN**
+    - ✓ Holdout (ongeziene laatste 30%): Sharpe 0.71 vs productie 0.55 (nodig: +0.10)
+    - ✗ Ontwikkeldeel (eerste 70%): Sharpe 0.04 vs 0.25
+    - ✗ Consistent over periodes: beter in 2 van 5 periodes (nodig: 60%)
+    - ✓ Grootste daling: -3.9% vs -4.5%
+    - ✗ Dubbele kosten en slippage: Sharpe -0.11 vs 0.05
+    - ✓ Genoeg trades: 196 afgesloten trades (nodig: 30)
+- **koop-bij-nieuwe-top: NIET AANBEVOLEN**
+    - ✗ Holdout (ongeziene laatste 30%): Sharpe 0.38 vs productie 0.55 (nodig: +0.10)
+    - ✓ Ontwikkeldeel (eerste 70%): Sharpe 0.26 vs 0.25
+    - ✗ Consistent over periodes: beter in 2 van 5 periodes (nodig: 60%)
+    - ✓ Grootste daling: -5.0% vs -4.5%
+    - ✗ Dubbele kosten en slippage: Sharpe 0.04 vs 0.05
+    - ✓ Genoeg trades: 173 afgesloten trades (nodig: 30)
+- **verkoop-na-2-rode-trendkaarsen: NIET AANBEVOLEN**
+    - ✗ Holdout (ongeziene laatste 30%): Sharpe -0.41 vs productie 0.55 (nodig: +0.10)
+    - ✗ Ontwikkeldeel (eerste 70%): Sharpe -0.80 vs 0.25
+    - ✗ Consistent over periodes: beter in 0 van 5 periodes (nodig: 60%)
+    - ✗ Grootste daling: -14.0% vs -4.5%
+    - ✗ Dubbele kosten en slippage: Sharpe -1.77 vs 0.05
+    - ✓ Genoeg trades: 588 afgesloten trades (nodig: 30)
 
 Geen enkele variant is aantoonbaar beter. Productie blijft zoals hij is.
 
@@ -38,41 +59,51 @@ Geen enkele variant is aantoonbaar beter. Productie blijft zoals hij is.
 
 | Variant | Totaal | Per jaar | Grootste daling | Sharpe | Sharpe holdout | Sharpe 2x kosten | Trades | Winst % | Winst/verlies |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| productie | +6.2% | +1.2% | -5.0% | 0.32 | 0.55 | 0.04 | 196 | 35% | 2.32 |
-| rem-pas-na-5-verliezen | +4.7% | +0.9% | -5.2% | 0.24 | 0.29 | 0.02 | 200 | 34% | 2.24 |
-| regimefilter | +3.3% | +0.7% | -6.1% | 0.18 | 0.76 | -0.19 | 167 | 29% | 2.68 |
-| niet-kopen-boven-rsi-75 | +2.9% | +0.6% | -6.0% | 0.16 | 0.52 | -0.08 | 195 | 33% | 2.18 |
+| productie | +6.7% | +1.3% | -4.5% | 0.34 | 0.55 | 0.05 | 195 | 34% | 2.38 |
+| rem-pas-na-5-verliezen | +4.5% | +0.9% | -5.2% | 0.23 | 0.25 | -0.08 | 203 | 35% | 2.13 |
+| regimefilter | +1.1% | +0.2% | -5.6% | 0.07 | 0.79 | -0.22 | 170 | 28% | 2.63 |
+| niet-kopen-boven-rsi-75 | +4.0% | +0.8% | -4.8% | 0.21 | 0.41 | 0.02 | 197 | 36% | 2.04 |
+| koop-na-terugval | +4.0% | +0.8% | -3.9% | 0.24 | 0.71 | -0.11 | 196 | 34% | 2.26 |
+| koop-bij-nieuwe-top | +5.3% | +1.0% | -5.0% | 0.30 | 0.38 | 0.04 | 173 | 38% | 2.01 |
+| verkoop-na-2-rode-trendkaarsen | -11.7% | -2.5% | -14.0% | -0.68 | -0.41 | -1.77 | 588 | 31% | 1.62 |
 
 ### Per periode (rendement)
 
 | Variant | Oct 2021–Oct 2022 | Oct 2022–Oct 2023 | Oct 2023–Oct 2024 | Oct 2024–Oct 2025 | Oct 2025–Oct 2026 |
 | --- | --- | --- | --- | --- | --- |
-| productie | -2.3% | +1.8% | -0.2% | +4.5% | +1.8% |
-| rem-pas-na-5-verliezen | -2.4% | +3.4% | -0.1% | +1.5% | +1.5% |
-| regimefilter | -3.3% | +1.1% | -2.5% | +4.6% | +3.2% |
-| niet-kopen-boven-rsi-75 | -3.4% | -0.7% | +0.5% | +1.7% | +4.3% |
+| productie | -2.3% | +2.1% | +0.4% | +4.9% | +1.0% |
+| rem-pas-na-5-verliezen | -2.7% | +4.0% | +0.3% | +1.8% | +0.7% |
+| regimefilter | -3.3% | +1.4% | -2.6% | +3.3% | +2.2% |
+| niet-kopen-boven-rsi-75 | -2.5% | -0.2% | +1.3% | +1.7% | +3.5% |
+| koop-na-terugval | -2.2% | +1.1% | +2.1% | +0.4% | +2.4% |
+| koop-bij-nieuwe-top | -2.3% | +1.5% | +3.2% | -0.3% | +2.8% |
+| verkoop-na-2-rode-trendkaarsen | -3.3% | -4.5% | -2.1% | +0.0% | -2.7% |
 
 ### Zelf bijsturen op basis van het verleden?
 
-Als de bot elke periode de variant had gekozen die tot dan toe het best was (productie, rem-pas-na-5-verliezen, rem-pas-na-5-verliezen, productie), was het resultaat over de laatste 4 periodes +5.2%, tegen +8.0% voor gewoon productie houden. Automatisch bijsturen voegde hier dus niets toe.
+Als de bot elke periode de variant had gekozen die tot dan toe het best was (productie, rem-pas-na-5-verliezen, koop-bij-nieuwe-top, productie), was het resultaat over de laatste 4 periodes +3.1%, tegen +8.6% voor gewoon productie houden. Automatisch bijsturen voegde hier dus niets toe.
 
 ### Per marktregime (gemiddeld rendement op jaarbasis)
 
 | Variant | dalend-hoog | dalend-laag | dalend-normaal | onbekend-onbekend | stijgend-hoog | stijgend-laag | stijgend-normaal | zijwaarts-hoog | zijwaarts-laag | zijwaarts-normaal |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| productie | +5% (92 d) | -0% (69 d) | -2% (100 d) | -29% (2 d) | +2% (240 d) | +1% (381 d) | +2% (619 d) | -2% (78 d) | -2% (93 d) | -0% (142 d) |
-| rem-pas-na-5-verliezen | +6% (92 d) | -1% (69 d) | -1% (100 d) | -29% (2 d) | +2% (240 d) | +1% (381 d) | +1% (615 d) | -3% (73 d) | -0% (93 d) | -1% (142 d) |
-| regimefilter | +0% (92 d) | +1% (69 d) | -1% (98 d) | -29% (2 d) | +1% (235 d) | +1% (381 d) | +2% (615 d) | -3% (78 d) | -3% (93 d) | +1% (139 d) |
-| niet-kopen-boven-rsi-75 | +6% (92 d) | -1% (69 d) | -2% (100 d) | -55% (2 d) | +2% (237 d) | -1% (379 d) | +3% (617 d) | -4% (76 d) | -5% (93 d) | -1% (142 d) |
+| productie | +5% (92 d) | -0% (69 d) | -2% (100 d) | +5% (4 d) | +1% (234 d) | +1% (385 d) | +2% (616 d) | -2% (77 d) | -2% (93 d) | -1% (142 d) |
+| rem-pas-na-5-verliezen | +6% (92 d) | -1% (69 d) | -1% (100 d) | +5% (4 d) | +1% (234 d) | +1% (385 d) | +1% (616 d) | -3% (73 d) | -0% (93 d) | -1% (142 d) |
+| regimefilter | +0% (92 d) | +1% (69 d) | -1% (98 d) | +5% (4 d) | -1% (224 d) | +1% (385 d) | +1% (611 d) | -3% (77 d) | -3% (93 d) | +1% (139 d) |
+| niet-kopen-boven-rsi-75 | +5% (92 d) | -1% (69 d) | -2% (100 d) | +7% (4 d) | +2% (229 d) | -0% (383 d) | +2% (614 d) | -3% (77 d) | -5% (93 d) | -2% (142 d) |
+| koop-na-terugval | +4% (92 d) | -1% (69 d) | +2% (100 d) | +7% (4 d) | -0% (225 d) | +2% (385 d) | +0% (612 d) | +0% (77 d) | -3% (90 d) | +1% (142 d) |
+| koop-bij-nieuwe-top | +0% (92 d) | +2% (69 d) | +2% (100 d) | +5% (4 d) | +4% (229 d) | -1% (385 d) | +2% (613 d) | -1% (77 d) | -6% (88 d) | +1% (142 d) |
+| verkoop-na-2-rode-trendkaarsen | +0% (92 d) | -4% (67 d) | -2% (90 d) | +5% (4 d) | +2% (210 d) | -1% (355 d) | -2% (592 d) | -5% (74 d) | -9% (84 d) | -2% (135 d) |
 
 ## Trend-agent: lessen uit 5 jaar backtest (productie)
 
-196 afgesloten trades, 35% winst, gemiddeld +0.12 R per trade (mediaan -0.42 R), totaal €542, gemiddeld 26 dagen vastgehouden.
+195 afgesloten trades, 34% winst, gemiddeld +0.12 R per trade (mediaan -0.44 R), totaal €559, gemiddeld 26 dagen vastgehouden.
 
 ### Bevindingen
 
-- Zwakte: RSI bij instap = 60-70: gemiddeld -0.22 R over 54 trades (-0.47 R t.o.v. de rest, t = -2.2). Te testen via instelling `max_rsi_entry`.
-- Sterkte: Marktbeweeglijkheid bij instap = normaal: gemiddeld +0.38 R over 94 trades (+0.51 R t.o.v. de rest, t = 2.1). Te testen via instelling `regime_filter`.
+- Sterkte: Marktbeweeglijkheid bij instap = normaal: gemiddeld +0.42 R over 91 trades (+0.56 R t.o.v. de rest, t = 2.2). Te testen via instelling `regime_filter`.
+- Zwakte: RSI bij instap = 60-70: gemiddeld -0.21 R over 55 trades (-0.47 R t.o.v. de rest, t = -2.2). Te testen via instelling `max_rsi_entry`.
+- Sterkte: RSI bij instap = 70-80: gemiddeld +0.58 R over 54 trades (+0.63 R t.o.v. de rest, t = 2.1). Te testen via instelling `max_rsi_entry`.
 
 _Dit zijn hypotheses. Een regel verandert pas na een test op ongeziene data (zie het onderzoeksrapport)._
 
@@ -80,104 +111,106 @@ _Dit zijn hypotheses. Een regel verandert pas na een test op ongeziene data (zie
 
 | Groep | Trades | Winst | Gem. R | Totaal € |
 | --- | --- | --- | --- | --- |
-| stijgend | 135 | 34% | +0.14 | 469 |
-| zijwaarts | 33 | 39% | +0.07 | 57 |
+| stijgend | 131 | 33% | +0.13 | 437 |
+| zijwaarts | 36 | 42% | +0.15 | 132 |
 | dalend | 25 | 36% | +0.14 | 50 |
-| onbekend (te weinig) | 3 | 0% | -0.46 | -35 |
+| onbekend (te weinig) | 3 | 0% | -0.78 | -60 |
 
 ### Marktbeweeglijkheid bij instap
 
 | Groep | Trades | Winst | Gem. R | Totaal € |
 | --- | --- | --- | --- | --- |
-| normaal | 94 | 37% | +0.38 | 871 |
-| laag | 51 | 31% | -0.07 | -117 |
-| hoog | 48 | 35% | -0.17 | -176 |
-| onbekend (te weinig) | 3 | 0% | -0.46 | -35 |
+| normaal | 91 | 37% | +0.42 | 930 |
+| laag | 52 | 33% | -0.05 | -84 |
+| hoog | 49 | 33% | -0.20 | -226 |
+| onbekend (te weinig) | 3 | 0% | -0.78 | -60 |
 
 ### RSI bij instap
 
 | Groep | Trades | Winst | Gem. R | Totaal € |
 | --- | --- | --- | --- | --- |
-| 50-60 | 61 | 36% | +0.20 | 266 |
-| 70-80 | 56 | 45% | +0.51 | 690 |
-| 60-70 | 54 | 28% | -0.22 | -277 |
-| 80 of hoger (te weinig) | 14 | 21% | -0.15 | -45 |
-| onder 50 (te weinig) | 11 | 27% | -0.33 | -92 |
+| 50-60 | 62 | 34% | +0.16 | 198 |
+| 60-70 | 55 | 27% | -0.21 | -255 |
+| 70-80 | 54 | 46% | +0.58 | 750 |
+| 80 of hoger (te weinig) | 14 | 21% | -0.16 | -50 |
+| onder 50 (te weinig) | 10 | 30% | -0.33 | -84 |
 
 ### MACD-histogram bij instap
 
 | Groep | Trades | Winst | Gem. R | Totaal € |
 | --- | --- | --- | --- | --- |
-| positief | 118 | 34% | +0.17 | 460 |
-| negatief | 78 | 36% | +0.04 | 82 |
+| positief | 114 | 35% | +0.22 | 582 |
+| negatief | 81 | 33% | -0.01 | -23 |
 
 ### Volume t.o.v. normaal
 
 | Groep | Trades | Winst | Gem. R | Totaal € |
 | --- | --- | --- | --- | --- |
-| hoger (>1,1) | 81 | 35% | +0.03 | 81 |
-| normaal | 76 | 38% | +0.30 | 526 |
-| lager (<0,9) | 39 | 28% | -0.06 | -65 |
+| hoger (>1,1) | 82 | 34% | +0.01 | 35 |
+| normaal | 74 | 36% | +0.31 | 524 |
+| lager (<0,9) | 39 | 31% | +0.01 | 1 |
 
 ### Afstand tot SMA200
 
 | Groep | Trades | Winst | Gem. R | Totaal € |
 | --- | --- | --- | --- | --- |
-| 10-25% | 93 | 30% | -0.10 | -258 |
-| meer dan 25% | 83 | 36% | +0.31 | 628 |
-| tot 10% | 20 | 50% | +0.35 | 173 |
+| 10-25% | 91 | 29% | -0.09 | -223 |
+| meer dan 25% | 84 | 37% | +0.31 | 628 |
+| tot 10% | 20 | 50% | +0.31 | 154 |
 
 ### Beweeglijkheid aandeel (ATR%)
 
 | Groep | Trades | Winst | Gem. R | Totaal € |
 | --- | --- | --- | --- | --- |
-| normaal | 110 | 32% | -0.02 | -125 |
-| wild (>3%) | 58 | 41% | +0.45 | 689 |
-| rustig (<1,5%) | 28 | 32% | -0.02 | -22 |
+| normaal | 114 | 32% | -0.01 | -111 |
+| wild (>3%) | 57 | 40% | +0.39 | 596 |
+| rustig (<1,5%) | 24 | 33% | +0.13 | 74 |
 
 ### Uitstapreden (uitkomst, ter informatie)
 
 | Groep | Trades | Winst | Gem. R | Totaal € |
 | --- | --- | --- | --- | --- |
-| stop-loss geraakt | 177 | 37% | +0.17 | 687 |
-| trend gebroken (slot onder 50-daags gemiddelde) (te weinig) | 19 | 11% | -0.33 | -145 |
+| stop-loss geraakt | 177 | 37% | +0.17 | 692 |
+| trend gebroken (slot onder 50-daags gemiddelde) (te weinig) | 18 | 11% | -0.32 | -133 |
 
 ### Houdduur (uitkomst, ter informatie)
 
 | Groep | Trades | Winst | Gem. R | Totaal € |
 | --- | --- | --- | --- | --- |
-| middel | 75 | 13% | -0.51 | -879 |
-| lang (>30 d) | 66 | 86% | +1.73 | 2,671 |
-| kort (<10 d) | 55 | 2% | -0.96 | -1,250 |
+| middel | 76 | 13% | -0.51 | -882 |
+| lang (>30 d) | 67 | 84% | +1.69 | 2,628 |
+| kort (<10 d) | 52 | 2% | -0.96 | -1,186 |
 
 ### Strategieversie (uitkomst, ter informatie)
 
 | Groep | Trades | Winst | Gem. R | Totaal € |
 | --- | --- | --- | --- | --- |
-| trend-1.1-d373c7 | 196 | 35% | +0.12 | 542 |
+| trend-1.1-d373c7 | 195 | 34% | +0.12 | 559 |
 
 ## Trend-agent: lessen uit het oefenen (nepgeld, live)
+
+Live van 2026-10-13 t/m 2026-10-14 (2 handelsdagen): bot +0.10%, wereld-ETF -0.36%, verschil +0.46%.
 
 Nog geen afgesloten trades om van te leren.
 
 ## Investeerder
 
-Periode 2021-10-11 t/m 2026-10-09. Ontwikkeldeel 2021-10-11 t/m 2025-04-09, holdout 2025-04-10 t/m 2026-10-09. 2 varianten getest tegen productie.
+Periode 2021-10-15 t/m 2026-10-15. Ontwikkeldeel 2021-10-15 t/m 2025-04-15, holdout 2025-04-16 t/m 2026-10-15. 2 varianten getest tegen productie.
 
 ### Uitkomst
 
 - **regimefilter: NIET AANBEVOLEN**
-    - ✗ Holdout (ongeziene laatste 30%): Sharpe 2.12 vs productie 2.19 (nodig: +0.10)
-    - ✓ Ontwikkeldeel (eerste 70%): Sharpe 0.85 vs 0.83
+    - ✗ Holdout (ongeziene laatste 30%): Sharpe 1.82 vs productie 1.86 (nodig: +0.10)
+    - ✗ Ontwikkeldeel (eerste 70%): Sharpe 0.83 vs 0.90
     - ✗ Consistent over periodes: beter in 1 van 5 periodes (nodig: 60%)
-    - ✓ Grootste daling: -20.1% vs -21.4%
-    - ✓ Dubbele kosten en slippage: Sharpe 1.24 vs 1.23
+    - ✓ Grootste daling: -20.2% vs -21.7%
+    - ✗ Dubbele kosten en slippage: Sharpe 1.08 vs 1.13
 - **satelliet-3-aandelen: NIET AANBEVOLEN**
-    - ✗ Holdout (ongeziene laatste 30%): Sharpe 2.16 vs productie 2.19 (nodig: +0.10)
-    - ✗ Ontwikkeldeel (eerste 70%): Sharpe 0.65 vs 0.83
+    - ✗ Holdout (ongeziene laatste 30%): Sharpe 1.95 vs productie 1.86 (nodig: +0.10)
+    - ✗ Ontwikkeldeel (eerste 70%): Sharpe 0.74 vs 0.90
     - ✗ Consistent over periodes: beter in 2 van 5 periodes (nodig: 60%)
-    - ✗ Grootste daling: -24.0% vs -21.4%
-    - ✗ Dubbele kosten en slippage: Sharpe 1.13 vs 1.23
+    - ✗ Grootste daling: -24.4% vs -21.7%
+    - ✗ Dubbele kosten en slippage: Sharpe 1.07 vs 1.13
 
 Geen enkele variant is aantoonbaar beter. Productie blijft zoals hij is.
 
@@ -185,26 +218,30 @@ Geen enkele variant is aantoonbaar beter. Productie blijft zoals hij is.
 
 | Variant | Totaal | Per jaar | Grootste daling | Sharpe | Sharpe holdout | Sharpe 2x kosten | Trades | Winst % | Winst/verlies |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| productie | +175.5% | +22.5% | -21.4% | 1.27 | 2.19 | 1.23 | 146 | 70% | 1.18 |
-| regimefilter | +164.2% | +21.5% | -20.1% | 1.27 | 2.12 | 1.24 | 157 | 68% | 1.24 |
-| satelliet-3-aandelen | +164.6% | +21.5% | -24.0% | 1.15 | 2.16 | 1.13 | 118 | 69% | 1.20 |
+| productie | +152.0% | +20.3% | -21.7% | 1.17 | 1.86 | 1.13 | 152 | 66% | 1.24 |
+| regimefilter | +131.1% | +18.2% | -20.2% | 1.12 | 1.82 | 1.08 | 159 | 65% | 1.24 |
+| satelliet-3-aandelen | +150.8% | +20.2% | -24.4% | 1.10 | 1.95 | 1.07 | 125 | 68% | 1.13 |
 
 ### Per periode (rendement)
 
 | Variant | Oct 2021–Oct 2022 | Oct 2022–Oct 2023 | Oct 2023–Oct 2024 | Oct 2024–Oct 2025 | Oct 2025–Oct 2026 |
 | --- | --- | --- | --- | --- | --- |
-| productie | -9.3% | +20.8% | +44.3% | +32.4% | +36.0% |
-| regimefilter | -8.6% | +18.9% | +44.3% | +28.1% | +35.9% |
-| satelliet-3-aandelen | -12.8% | +16.4% | +40.6% | +36.7% | +41.0% |
+| productie | -11.3% | +19.6% | +46.0% | +26.7% | +28.1% |
+| regimefilter | -10.6% | +11.1% | +46.0% | +24.3% | +27.9% |
+| satelliet-3-aandelen | -15.1% | +16.6% | +41.4% | +30.9% | +36.2% |
 
 ### Zelf bijsturen op basis van het verleden?
 
-Als de bot elke periode de variant had gekozen die tot dan toe het best was (productie, productie, regimefilter, regimefilter), was het resultaat over de laatste 4 periodes +203.5%, tegen +213.8% voor gewoon productie houden. Automatisch bijsturen voegde hier dus niets toe.
+Als de bot elke periode de variant had gekozen die tot dan toe het best was (productie, productie, productie, productie), was het resultaat over de laatste 4 periodes +183.6%, tegen +183.6% voor gewoon productie houden. Automatisch bijsturen voegde hier dus niets toe.
 
 ### Per marktregime (gemiddeld rendement op jaarbasis)
 
 | Variant | dalend-hoog | dalend-laag | dalend-normaal | onbekend-onbekend | stijgend-hoog | stijgend-laag | stijgend-normaal | zijwaarts-hoog | zijwaarts-laag | zijwaarts-normaal |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| productie | +66% (66 d) | +14% (51 d) | +30% (74 d) | -59% (2 d) | +42% (172 d) | +30% (269 d) | +4% (447 d) | +36% (56 d) | -19% (67 d) | +22% (100 d) |
-| regimefilter | +57% (66 d) | +14% (51 d) | +29% (74 d) | -59% (2 d) | +42% (172 d) | +32% (269 d) | +4% (447 d) | +30% (56 d) | -19% (67 d) | +15% (100 d) |
-| satelliet-3-aandelen | +56% (66 d) | +16% (51 d) | +33% (74 d) | -24% (2 d) | +40% (172 d) | +28% (269 d) | +6% (447 d) | +46% (56 d) | -27% (67 d) | +17% (100 d) |
+| productie | +69% (66 d) | +14% (51 d) | +31% (74 d) | +85% (2 d) | +38% (168 d) | +24% (273 d) | +4% (447 d) | +36% (56 d) | -24% (67 d) | +21% (100 d) |
+| regimefilter | +61% (66 d) | +10% (51 d) | +29% (74 d) | +85% (2 d) | +38% (168 d) | +23% (273 d) | +4% (447 d) | +30% (56 d) | -27% (67 d) | +15% (100 d) |
+| satelliet-3-aandelen | +59% (66 d) | +17% (51 d) | +28% (74 d) | +85% (2 d) | +35% (168 d) | +24% (273 d) | +7% (447 d) | +48% (56 d) | -26% (67 d) | +17% (100 d) |
+
+## Investeerder live (nepgeld)
+
+Van 2026-10-13 t/m 2026-10-14: investeerder -1.87%, wereld-ETF -0.36%, verschil -1.50%.
