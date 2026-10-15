@@ -1,1 +1,1 @@
-[{"rem": "Daling vanaf de top", "nu": 0.0, "grens": -0.05, "eenheid": "pct"}, {"rem": "Vandaag", "nu": 0.0015, "grens": -0.01, "eenheid": "pct"}, {"rem": "Verliestrades op rij", "nu": 0, "grens": 3, "eenheid": "aantal"}]
+[{"rem": "Daling vanaf de top", "nu": -0.0003, "grens": -0.05, "eenheid": "pct"}, {"rem": "Vandaag", "nu": 0.001, "grens": -0.01, "eenheid": "pct"}, {"rem": "Verliestrades op rij", "nu": 0, "grens": 3, "eenheid": "aantal"}]

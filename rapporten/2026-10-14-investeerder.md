@@ -3,23 +3,23 @@
 _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 
 **Status:** OK  
-**Waarde:** €9,639.62  
-**Marktregime:** stijgend-normaal  
+**Waarde:** €9,803.04  
+**Marktregime:** stijgend-laag  
 **Strategieversie:** investeerder-1.0-c2474a  
 **Koersbronnen:** 0 bevestigd door 2 bronnen, 52 uit 1 bron, 0 afwijkend; wisselkoers bevestigd  
-**Sinds start:** -3.60%  
+**Sinds start:** -1.97%  
 
 ## Verdeling
 
 | Instrument | Aandeel |
 | --- | --- |
-| iShares MSCI World (IWDA.AS) | 61.5% |
+| iShares MSCI World (IWDA.AS) | 61.2% |
+| ASML (ASML.AS) | 5.9% |
 | AMD (AMD) | 5.9% |
-| Halfgeleider-ETF (SMH) | 5.9% |
-| Micron (MU) | 5.7% |
-| ASML (ASML.AS) | 5.6% |
-| Infineon (IFX.DE) | 5.3% |
-| Bitcoin (BTC-USD) | 5.1% |
+| Halfgeleider-ETF (SMH) | 5.8% |
+| Infineon (IFX.DE) | 5.7% |
+| Micron (MU) | 5.6% |
+| Bitcoin (BTC-USD) | 5.0% |
 | Ethereum (ETH-USD) | 4.9% |
 | Kas | 0.0% |
 
@@ -27,12 +27,12 @@ _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 
 **Wat de bot zag**
 
-- **Markt (IWDA.AS):** koers 130,18, 8,1% boven het 200-daags gemiddelde (120,38); de afgelopen maand +3,5%. Trend: **stijgend**.
-- **Beweeglijkheid:** 10% op jaarbasis, tegen normaal 10% het afgelopen jaar: **normaal**.
-- **Breedte:** 34 van de 50 instrumenten staan boven hun 200-daags gemiddelde (68%; EU 12 van 23, US 22 van 27).
+- **Markt (IWDA.AS):** koers 131,78, 9,5% boven het 200-daags gemiddelde (120,39); de afgelopen maand +4,8%. Trend: **stijgend**.
+- **Beweeglijkheid:** 8% op jaarbasis, tegen normaal 10% het afgelopen jaar: **laag**.
+- **Breedte:** 35 van de 50 instrumenten staan boven hun 200-daags gemiddelde (70%; EU 13 van 23, US 22 van 27).
 - **Sterkste momentum nu (12 maanden, zonder laatste maand):** Micron +382%, AMD +133%, CrowdStrike +91%, Palo Alto Networks +76%, ING +63%.
-- **BTC-USD:** 12,6% boven het 200-daags gemiddelde (mag in de mix).
-- **ETH-USD:** 10,9% boven het 200-daags gemiddelde (mag in de mix).
+- **BTC-USD:** 13,0% boven het 200-daags gemiddelde (mag in de mix).
+- **ETH-USD:** 13,0% boven het 200-daags gemiddelde (mag in de mix).
 
 **Wat de bot eruit haalt**
 
@@ -43,17 +43,17 @@ _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 
 | Instrument | Waarde | Ingelegd | Resultaat |
 | --- | --- | --- | --- |
-| IFX.DE | €513,97 | €600,00 | -€86,03 (-14,3%) |
-| IWDA.AS | €5.926,17 | €6.000,00 | -€73,83 (-1,2%) |
-| ASML.AS | €538,67 | €600,00 | -€61,33 (-10,2%) |
-| MU | €551,62 | €600,00 | -€48,38 (-8,1%) |
-| SMH | €570,32 | €600,00 | -€29,68 (-5,0%) |
-| AMD | €573,30 | €600,00 | -€26,70 (-4,5%) |
-| ETH-USD | €476,21 | €500,00 | -€23,79 (-4,8%) |
-| BTC-USD | €489,35 | €500,00 | -€10,65 (-2,1%) |
+| MU | €551,68 | €600,00 | -€48,32 (-8,1%) |
+| IFX.DE | €559,95 | €600,00 | -€40,05 (-6,7%) |
+| SMH | €570,38 | €600,00 | -€29,62 (-4,9%) |
+| AMD | €573,37 | €600,00 | -€26,63 (-4,4%) |
+| ASML.AS | €573,73 | €600,00 | -€26,27 (-4,4%) |
+| ETH-USD | €484,62 | €500,00 | -€15,38 (-3,1%) |
+| BTC-USD | €490,30 | €500,00 | -€9,70 (-1,9%) |
+| IWDA.AS | €5.999,01 | €6.000,00 | -€0,99 (-0,0%) |
 
-Totaal op de beleggingen: -€360,39 (inclusief aankoopkosten).
-Daling vanaf de hoogste waarde ooit: -3,60% (top €10.000,00). De investeerder heeft geen stop-loss: hij houdt een spreiding vast en herverdeelt maandelijks.
+Totaal op de beleggingen: -€196,96 (inclusief aankoopkosten).
+Daling vanaf de hoogste waarde ooit: -1,97% (top €10.000,00). De investeerder heeft geen stop-loss: hij houdt een spreiding vast en herverdeelt maandelijks.
 
 ## Vandaag gedaan
 
@@ -66,8 +66,8 @@ Daling vanaf de hoogste waarde ooit: -3,60% (top €10.000,00). De investeerder 
 | Eis | Stand | Nu |
 | --- | --- | --- |
 | Oefentijd | ⏳ | 2 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -1,89% |
-| Daling niet veel dieper dan de ETF | ✅ | bot -3,60%, ETF -1,57% |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -1,47% |
+| Daling niet veel dieper dan de ETF | ✅ | bot -1,97%, ETF -0,36% |
 
 <details><summary>Zo analyseert de investeerder (klik om te openen)</summary>
 
