@@ -156,6 +156,7 @@
 .t-stop { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
 .t-spark .tx-spark { height: 70px; }
 .t-pat { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.4; }
+.tx-ghfilter { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--color-fg-muted); cursor: pointer; }
 .tx-pill.big { font-size: var(--cds-font-size-body); padding: 4px 12px; }
 .tx-group { display: grid; gap: 10px; }
 .tx-group-h { margin: 6px 0 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
@@ -219,6 +220,7 @@
     <button class="tx-nav" role="tab" id="onderzoek" aria-selected="false" data-page="pg-onderzoek"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3"/><path d="M7.5 15h9"/></svg><span class="lbl">Onderzoek</span></button>
     <button class="tx-nav" role="tab" id="risico" aria-selected="false" data-page="pg-risico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span class="lbl">Risico</span></button>
     <button class="tx-nav" role="tab" id="controles" aria-selected="false" data-page="pg-controles"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg><span class="lbl">Controles</span></button>
+    <button class="tx-nav" role="tab" id="github" aria-selected="false" data-page="pg-github"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg><span class="lbl">GitHub</span></button>
   </nav>
 
   <main class="tx-main">
@@ -440,6 +442,33 @@
             <thead><tr><th data-field="dag">Datum</th><th data-field="bot">Bot</th><th data-field="soort">Soort</th><th data-field="naam">Aandeel</th><th data-field="reden">Reden</th></tr></thead>
             <tbody></tbody>
           </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- GITHUB -->
+    <section class="tx-page" id="pg-github" role="tabpanel" aria-labelledby="github" hidden>
+      <p class="tx-what" style="padding:0">GitHub draait de bots voor je: elke werkdag de dagelijkse ronde, op zaterdag het onderzoek, en na elke wijziging een controle van de code. Hier zie je welke runs goed gingen en welke niet, en waarom.</p>
+      <div class="tx-answers" id="gh-antwoorden" data-source="github_antwoord"></div>
+      <div class="tx-card" id="card-github">
+        <div class="tx-card-h"><h2>De laatste runs</h2>
+          <label class="tx-ghfilter"><input type="checkbox" id="gh-alleenfout"> Alleen wat misging</label></div>
+        <p class="tx-what">Tijden in Nederlandse tijd. Groen is goed gegaan, rood is misgegaan. Bij rood staat waar het misging en of een latere run het weer goed deed.</p>
+        <div class="tx-tablewrap">
+          <table id="tbl-github" data-source="github" data-row-key="id">
+            <thead><tr><th data-field="start">Wanneer</th><th data-field="wat">Wat</th><th data-field="uitkomst">Uitkomst</th><th data-field="uitleg">Wat ging er mis?</th><th data-field="link">Op GitHub</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="tx-card" id="card-gh-uitleg">
+        <div class="tx-card-h"><h2>Wat moet ik doen bij rood?</h2></div>
+        <div class="tx-card-b">
+          <ul class="tx-points">
+            <li class="k-neutraal">Meestal niets. Ging een latere run weer goed, dan is het vanzelf opgelost.</li>
+            <li class="k-letop">Rood bij de gezondheidscontrole betekent: de koersen waren niet betrouwbaar. De bot koopt dan bewust niets. Geen geld verloren.</li>
+            <li class="k-slecht">Gaat de dagelijkse ronde meerdere dagen achter elkaar mis, vraag dan aan Claude om het uit te zoeken.</li>
+          </ul>
         </div>
       </div>
     </section>
@@ -1375,5 +1404,88 @@ dash.calc('onderzoek_verschil', {
     if (cc.status === 'error') failed(cl);
     else if (cc.status === 'ok') cl.replaceChildren(...real(cc.data).map((r) => mark('controles', 'tekst', 'id=' + encodeURIComponent(r.id), 'li', r.tekst)));
   });
+})();
+</script>
+
+<script>
+// GitHub: liep het goed of niet?
+(() => {
+  const { el, failed, real, emptyReason } = window.tx;
+  const tijd = new Intl.DateTimeFormat('nl-NL', { timeZone: 'Europe/Amsterdam', weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+  const wanneer = (iso) => tijd.format(new Date(iso));
+  const UIT = { goed: ['Goed', 'ok'], fout: ['Mis', 'nee'], geannuleerd: ['Gestopt', 'flat'], bezig: ['Bezig', 'bezig'], overgeslagen: ['Overgeslagen', 'flat'], onbekend: ['Onbekend', 'flat'] };
+
+  dash.calc('github_antwoord', {
+    title: 'GitHub: de antwoorden',
+    description: 'Drie antwoorden uit de lijst met GitHub-runs: of de laatste dagelijkse ronde goed ging, wat de laatste fout was (en of een latere run het weer goed deed), en hoeveel runs de afgelopen 14 dagen goed gingen.',
+    inputs: ['github'],
+    fn: (github) => {
+      const rows = github.filter((r) => !r.leeg);
+      if (!rows.length) return [{ id: 'leeg', vraag: 'Liep alles goed?', antwoord: 'Nog onbekend', detail: 'Er zijn nog geen runs opgehaald.', kleur: 'neutraal' }];
+      const out = [];
+      const ronde = rows.find((r) => r.workflow === 'practice' && r.uitkomst !== 'geannuleerd');
+      if (ronde) {
+        const ok = ronde.uitkomst === 'goed', bezig = ronde.uitkomst === 'bezig';
+        const d = [wanneer(ronde.start) + ', ' + ronde.aanleiding + ', duurde ' + String(ronde.duur_min).replace('.', ',') + ' min.'];
+        if (!ok && !bezig) d.push(ronde.uitleg);
+        out.push({ id: 'ronde', vraag: 'Liep de laatste dagelijkse ronde goed?', antwoord: ok ? 'Ja' : bezig ? 'Bezig' : 'Nee', detail: d.join('\n'), kleur: ok ? 'goed' : bezig ? 'neutraal' : 'slecht' });
+      }
+      const fout = rows.find((r) => r.uitkomst === 'fout');
+      if (fout) out.push({ id: 'fout', vraag: 'Wat ging er als laatste mis?', antwoord: fout.wat,
+        detail: [wanneer(fout.start) + '.', fout.uitleg, fout.opgelost ? 'Een latere run ging weer goed, dus het is opgelost.' : 'Nog niet opgelost: er is nog geen latere run die goed ging.'].join('\n'),
+        kleur: fout.opgelost ? 'letop' : 'slecht' });
+      else out.push({ id: 'fout', vraag: 'Wat ging er als laatste mis?', antwoord: 'Niets', detail: 'In de getoonde runs ging niets mis.', kleur: 'goed' });
+      const grens = Date.now() - 14 * 864e5;
+      const recent = rows.filter((r) => new Date(r.start).getTime() >= grens && ['goed', 'fout'].includes(r.uitkomst));
+      const goed = recent.filter((r) => r.uitkomst === 'goed').length;
+      const per = {};
+      recent.forEach((r) => { per[r.wat] = per[r.wat] || [0, 0]; per[r.wat][r.uitkomst === 'goed' ? 0 : 1]++; });
+      const regels = Object.entries(per).map(([w, [g, f]]) => w + ': ' + g + ' goed' + (f ? ', ' + f + ' mis' : '') + '.');
+      out.push({ id: 'telling', vraag: 'Hoe vaak ging het goed? (14 dagen)', antwoord: goed + ' van ' + recent.length,
+        detail: regels.join('\n') || 'Geen runs in de afgelopen 14 dagen.', kleur: goed === recent.length ? 'goed' : goed / Math.max(recent.length, 1) >= 0.8 ? 'letop' : 'slecht' });
+      return out;
+    },
+  });
+
+  const alleen = document.getElementById('gh-alleenfout');
+  const draw = () => {
+    const ga = dash.data('github_antwoord');
+    const box = document.getElementById('gh-antwoorden');
+    if (ga.status === 'error') failed(box);
+    else if (ga.status === 'ok') box.replaceChildren(...ga.data.map((r) => {
+      const w = 'id=' + encodeURIComponent(r.id);
+      const c = el('div', { class: 'tx-answer k-' + r.kleur, id: 'ghantwoord-' + r.id });
+      const d = el('div', { class: 'd lines', 'data-source': 'github_antwoord', 'data-field': 'detail', 'data-where': w });
+      r.detail.split('\n').forEach((t) => d.append(el('p', {}, t)));
+      c.append(el('span', { class: 'q' }, r.vraag), el('span', { class: 'a', 'data-source': 'github_antwoord', 'data-field': 'antwoord', 'data-where': w }, r.antwoord), d);
+      return c;
+    }));
+
+    const body = document.querySelector('#tbl-github tbody');
+    const s = dash.data('github');
+    if (s.status === 'error') { const tr = el('tr'); const td = el('td', { colspan: '5' }); failed(td); tr.append(td); body.replaceChildren(tr); return; }
+    if (s.status !== 'ok') return;
+    let rows = real(s.data);
+    if (!rows.length) { const tr = el('tr'); tr.append(el('td', { colspan: '5', class: 'tx-empty' }, emptyReason(s.data) || 'Nog geen runs.')); body.replaceChildren(tr); return; }
+    if (alleen.checked) rows = rows.filter((r) => r.uitkomst === 'fout' || r.uitkomst === 'geannuleerd');
+    if (!rows.length) { const tr = el('tr'); tr.append(el('td', { colspan: '5', class: 'tx-empty' }, 'Er ging niets mis in de getoonde runs.')); body.replaceChildren(tr); return; }
+    body.replaceChildren(...rows.map((r) => {
+      const w = 'id=' + encodeURIComponent(r.id);
+      const m = (field, text, tag = 'span', cl) => el(tag, { 'data-source': 'github', 'data-field': field, 'data-where': w, class: cl }, text);
+      const tr = el('tr', { 'data-key': r.id });
+      const u = UIT[r.uitkomst] || [r.uitkomst, 'flat'];
+      const t1 = el('td'); t1.append(m('start', wanneer(r.start)));
+      const t2 = el('td'); t2.append(m('wat', r.wat), el('div', { class: 'tx-note', style: 'margin:0' }, r.aanleiding));
+      const t3 = el('td'); t3.append(m('uitkomst', u[0], 'span', 'tx-pill ' + u[1]));
+      const t4 = el('td');
+      if (r.uitleg) { t4.append(m('uitleg', r.uitleg)); if (r.uitkomst === 'fout') t4.append(el('div', { class: 'tx-note', style: 'margin:2px 0 0' }, r.opgelost ? 'Later weer goed gegaan.' : 'Nog niet opgelost.')); }
+      else t4.append(el('span', { style: 'color: var(--color-fg-muted)' }, '—'));
+      const t5 = el('td'); const a = el('a', { href: r.link, target: '_blank', rel: 'noopener' }, 'Bekijk'); t5.append(a);
+      tr.append(t1, t2, t3, t4, t5);
+      return tr;
+    }));
+  };
+  alleen.addEventListener('change', draw);
+  dash.onData(draw);
 })();
 </script>
