@@ -1,107 +1,76 @@
 # Trend-agent en investeerder (oefenen met nepgeld)
 
-Er draaien twee bots naast elkaar, elk met hun eigen €10.000 nepgeld:
+Twee bots die beleggen met **nepgeld**, plus een **oefenaccount bij Trading 212** (ook nepgeld) dat de
+trend-agent volgt. Alles draait vanzelf op GitHub; de uitkomst zie je op het online dashboard, in Excel en in
+dagnotities.
 
-- **Investeerder** (`python -m trendagent invest`): 60% wereldwijde ETF, 30% de 5 sterkste aandelen/ETF's
-  van het afgelopen jaar, 10% Bitcoin/Ethereum alleen in een stijgende trend. Eén keer per maand herverdelen.
-  Rapport: `rapporten/investeerder.xlsx`.
-- **Trend-agent** (`python -m trendagent run`): handelt korter op trends met een zeer klein risico per trade.
-  Rapport: `rapporten/trend-agent.xlsx`.
+> Geen beleggingsadvies. Resultaten op papier en in een oefenaccount zeggen niets over toekomstige resultaten
+> met echt geld.
 
-Backtest over 5 jaar (okt 2021 tot okt 2026, €10.000, na kosten): investeerder €27.400, investeerder met alleen
-ETF's €20.800, gewoon de wereld-ETF vasthouden €18.000, trend-agent €10.600. Zie `backtest/`. Het verleden is
-geen garantie, en de aandelenlijst is achteraf gekozen.
+| | Wat | Startbedrag |
+| --- | --- | --- |
+| **Investeerder** | Lange termijn: 60% wereldwijde ETF, 30% de 5 sterkste aandelen/ETF's van het afgelopen jaar, 10% Bitcoin/Ethereum (alleen in een stijgende trend). Herverdeelt één keer per maand. | €10.000 nepgeld |
+| **Trend-agent** | Korte trends in grote Europese en Amerikaanse aandelen, maximaal 3 posities, met een stop-loss op elke positie en een heel klein risico per trade. | €10.000 nepgeld |
+| **Oefenaccount** | Het demo-account van Trading 212. Volgt elke aankoop en verkoop van de trend-agent bij een echte broker. Je kunt er ook zelf kopen en verkopen. | €5.000 nepgeld (van Trading 212) |
 
-## Candle-grafieken
+**Onderzoek over 5 jaar** (okt 2021 – okt 2026, €10.000, na kosten, gemeten op 15 okt 2026):
+investeerder €25.201, gewoon de wereld-ETF vasthouden €17.613, trend-agent €10.666.
+De aandelenlijst is achteraf gekozen (bedrijven die groot zijn geworden zitten erin), dus de echte uitkomst zou
+waarschijnlijk minder goed zijn geweest.
 
-Elke dag maakt de bot per positie een candle-grafiek van de laatste 3 maanden, met het 50- en 200-daags
-gemiddelde, de instapprijs, de stop-loss en het volume. Je ziet ze onderaan de dagnotities in `rapporten/`
-en in het tabblad **Grafieken** van `trend-agent.xlsx` en `investeerder.xlsx`. De afbeeldingen staan in
-`rapporten/grafieken/` en worden 20 handelsdagen bewaard.
+## Het dashboard
 
-## Analyse van vandaag en "Klaar voor echt geld?"
+Het dashboard is een privé webpagina op claude.ai (in de zijbalk vastgezet). Het werkt op de computer en op de
+telefoon (daar met een menu linksboven en een opbouw zoals een beurs-app).
 
-Elk dagrapport begint met **Analyse van vandaag**:
+| Tabblad | Wat je ziet |
+| --- | --- |
+| **Overzicht** | *Begin hier*: per bot wat hij nu doet, wat hij als laatste deed en wat er straks gebeurt. Daaronder de drie kaarten (investeerder, trend-agent, oefenaccount), wat de grafieken vandaag laten zien, een koersgrafiek per aandeel en de laatste trades. |
+| **Grafieken** | Kaarsgrafieken per aandeel (rustige trendkaarsen of gewone kaarsen). |
+| **Patronen** | Per aandeel de trend, week/maand/3 maanden en opvallende patronen. Beschrijft alleen, voorspelt niets. |
+| **Kansen** | De sterkste trends, met een stoplicht voor het instapmoment en wat de bot zou doen. |
+| **Analyse** | Wat de bots in de markt zagen en wat ze eruit concluderen. |
+| **Onderzoek** | Het wekelijkse onderzoek: wat €10.000 na 5 jaar werd en welke nieuwe regels zijn getest. Staat er een voorstel klaar, dan zie je dat hier bovenaan. |
+| **Risico** | Verlies en risico per positie, de remmen en "Klaar voor echt geld?". |
+| **Controles** | Koersbronnen, waarschuwingen en alle trades met reden. |
+| **GitHub** | Welke runs op GitHub goed gingen en welke niet, en waarom, in gewone taal. |
+| **Oefenaccount** | De stand bij Trading 212, of het gelijkloopt met de trend-agent, de orders, en knoppen om te kopen en verkopen. |
 
-- **Wat de bot zag:** de markt (trend en beweeglijkheid van de wereld-ETF), de breedte (hoeveel aandelen in
-  Europa en Amerika boven hun 200-daags gemiddelde staan), en bij de trend-agent hoeveel instrumenten op welke
-  regel afvielen. Bij de investeerder: wie nu het sterkste momentum heeft en of Bitcoin/Ethereum in een trend zitten.
-- **Wat de bot eruit haalt:** de conclusies in gewone zinnen, bijvoorbeeld "de markt daalt: meer kans dat nieuwe
-  posities op de stop uitkomen" of "Europa staat er beter voor dan Amerika".
+Bijwerken: elke werkdag rond 07:41 alles, en tijdens beurstijden elk uur (rond :25) het oefenaccount en het
+GitHub-overzicht. Dat doen twee geplande taken van Claude die de bestanden uit `dashboard/` naar de pagina
+kopiëren. De pagina zelf staat in `dashboard/index.html`.
 
-Verder: **Wat de bot tot nu toe geleerd heeft** (afgesloten trades, winstpercentage, gemiddeld resultaat) en
-**Klaar voor echt geld?**: een lijst eisen (3 maanden oefenen, minstens zo goed als de wereld-ETF, beperkte
-daling, genoeg trades met gemiddeld winst) met per eis de stand. Pas als alles groen is, is de volgende stap
-zinvol: een oefenaccount bij een echte broker. Die beslissing neem jij, niet de bot. Onderaan elk rapport kun
-je openklappen hoe de bot zijn analyse precies doet.
+## Wanneer gebeurt wat
 
-## Verlies, risico en kansen in het rapport
+| Wanneer (Nederlandse zomertijd; in de wintertijd een uur eerder) | Workflow | Wat |
+| --- | --- | --- |
+| Werkdagen ± 00:17 | `practice` | De ronde van beide bots met de slotkoersen van die dag, daarna het oefenaccount gelijkzetten, rapporten en dashboardcijfers maken, opslaan, en de gezondheidscontrole. |
+| Werkdagen elk uur 09:07 – 22:07 | `broker` | Alleen kijken in het oefenaccount (geen orders), voor een verse stand op het dashboard. |
+| Na elke run | `status` | Zet de lijst van de laatste GitHub-runs en open voorstellen klaar voor het dashboard. |
+| Zaterdag ± 07:17 | `onderzoek` | Test varianten van de regels op 5 jaar koersen en zet een voorstel klaar als er een bewezen betere is. |
+| Na elke codewijziging | `tests`, `backtest` | Alle tests, en de backtest over 5 jaar. |
+| Met de hand | `diagnose` | Test of de koersbron werkt. |
 
-Elk dagrapport (en `rapporten/OVERZICHT.md`) laat zien:
+Een run die misgaat wordt rood en GitHub mailt je. Op het dashboard (tabblad **GitHub**) staat in gewone taal
+wat er misging en of een latere run het weer goed deed.
 
-- **Verlies en risico:** per open positie het resultaat nu, hoe ver de koers boven de stop-loss staat en wat je
-  verliest (of al vastzet) als de stop wordt geraakt; plus hoe dicht de bot bij zijn remmen zit (daling vanaf de
-  top, dagverlies, verliestrades op rij). Bij de investeerder: winst of verlies per belegging.
-- **Kansen:** de 5 sterkste trends met uitleg waarom, een inschatting van het instapmoment (gunstig, neutraal of
-  opgelopen) en het precieze plan van de bot: instapprijs, stop-loss, aantal, inzet in euro en maximaal verlies.
+## De trend-agent
 
-Dit is wat de oefenbot met nepgeld zou doen, geen advies voor echt geld. Het instapmoment is een ongeteste
-vuistregel; de bot gebruikt hem niet bij het kopen.
-
-## Koersen uit meerdere bronnen
-
-Elke dag haalt de bot de koersen bij **Yahoo Finance** (hoofdbron) en controleert hij ze bij **Stooq**. De
-wisselkoers euro/dollar controleert hij bij de **Europese Centrale Bank**. Wijken de bronnen meer dan 2% af,
-dan koopt de bot dat aandeel die dag niet. Wijkt de wisselkoers meer dan 1% af, dan handelt hij die dag
-helemaal niet. Valt Yahoo uit, dan gebruikt hij Stooq of de ECB. Lopen de koersen van een hele markt
-achter (bijvoorbeeld alle Europese aandelen), dan koopt hij daar die dag niets. In het dagrapport en de gezondheidscontrole
-staat hoeveel koersen door twee bronnen zijn bevestigd. Google Finance heeft geen API en mag niet automatisch
-worden uitgelezen, dus die zit er niet bij. De backtest gebruikt alleen Yahoo.
-
-## Hoe de bots leren en verbeteren
-
-- **Elke werkdag** (Action `practice`): beide bots handelen met nepgeld en leggen elke trade vast met reden,
-  marktregime, indicatoren (RSI, MACD, EMA, ATR) en strategieversie. Het dagrapport legt per trade uit waarom.
-  Gaat er iets mis met de data of de bot, dan wordt de run rood en mailt GitHub je.
-- **Elke zaterdag** (Action `onderzoek`): varianten worden getest tegen productie op 5 jaar echte koersen, met
-  een ongezien deel, 5 periodes, dubbele kosten en een uitsplitsing per marktregime. Daarna volgt een analyse van
-  welke omstandigheden samengaan met winst of verlies, en of de bot live nog presteert zoals in de test.
-  Rapport: `onderzoek/LAATSTE.md`; verloop: `onderzoek/historie.csv`.
-- **Een mens beslist.** Haalt een variant alle toetsen, dan zet het onderzoek een **voorstel** (pull request)
-  klaar dat alleen `config/productie.json` wijzigt. Je krijgt een e-mail van GitHub. **Merge** = overnemen,
-  **Close** = laten zoals het is. Na een merge draait de backtest opnieuw met de nieuwe instellingen.
-  Eenmalig nodig: Settings → Actions → General → "Allow GitHub Actions to create and approve pull requests" aanvinken.
-
-Zie `docs/verbeterplan.md` voor de inventaris en `docs/ml-beoordeling.md` voor waarom er (nog) geen machine learning is.
-
-## Trend-agent
-
-Een agent die **zelfstandig** handelt in wat op dit moment trending is in Europa en Amerika,
-maar alleen in een **nep-portefeuille** van €10.000. Er gaat nooit echt geld om: er bestaat
-geen code die met een broker praat, en de agent weigert te starten als `PAPER_TRADING` niet `true` is.
-
-> Geen beleggingsadvies. Resultaten op papier zeggen niets over toekomstige resultaten met echt geld.
-
-## Wat de agent elke werkdag doet
-
-1. **Koersen ophalen** van ongeveer 50 grote aandelen en ETF's: VS (Apple, Nvidia, S&P 500-ETF, ...) en
-   eurozone (ASML, SAP, LVMH, Shell, ...). Zie `src/trendagent/universe.py`.
-2. **Trending bepalen** met vaste regels:
-   - slotkoers boven het 50-daags gemiddelde, en dat boven het 200-daags gemiddelde;
-   - positief rendement over 1 en 3 maanden;
-   - genoeg handel (gemiddelde dagomzet minstens 20 miljoen);
-   - geen verdachte dagsprong van meer dan 25% (pump-and-dump-filter).
-   Daarna rangschikt hij op rendement gedeeld door beweeglijkheid: een rustige, stevige stijger wint van een wilde.
-3. **Verkopen** als de stop-loss wordt geraakt of de koers onder het 50-daags gemiddelde zakt.
-   Gaat een positie goed, dan schuift de stop mee omhoog.
-4. **Kopen**: de sterkste trends, maximaal 3 posities tegelijk.
+1. **Koersen ophalen** van ongeveer 50 grote aandelen en ETF's in Amerika en Europa (zie
+   `src/trendagent/universe.py`), bij twee bronnen (zie *Koersen*).
+2. **Trending bepalen** met vaste regels: slot boven het 50-daags gemiddelde en dat boven het 200-daagse,
+   gestegen over 1 en 3 maanden, genoeg handel, geen verdachte sprong. Rangschikken op rendement gedeeld door
+   beweeglijkheid.
+3. **Verkopen** als de stop-loss wordt geraakt of de koers onder het 50-daags gemiddelde zakt. Gaat het goed,
+   dan schuift de stop mee omhoog.
+4. **Kopen**: de sterkste trends, maximaal 3 posities.
 5. **Kosten meetellen**: 0,05% slippage plus 0,05% kosten (minimaal €1) per order.
 
-## Ingebouwde remmen
+### Ingebouwde remmen
 
 | Rem | Standaard |
 | --- | --- |
-| Max verlies per trade (als de stop wordt geraakt) | 0,25% van het vermogen |
+| Max verlies per trade (als de stop wordt geraakt) | 0,25% van het vermogen (± €25) |
 | Max opgeteld risico van alle posities | 1% |
 | Max posities tegelijk | 3 |
 | Max gewicht per positie | 25% |
@@ -110,40 +79,76 @@ geen code die met een broker praat, en de agent weigert te starten als `PAPER_TR
 | 3 verliestrades op rij | kill switch aan |
 | Wisselkoers of te veel koersdata ontbreekt | die dag geen handel |
 
-De kill switch gaat **alleen** weer uit als jij `resume` doet. Bijkopen in een verliezende positie,
-short gaan en hefboom bestaan niet in de code.
+De kill switch gaat **alleen** weer uit als jij `resume` doet. Bijkopen in een verliezende positie, short gaan en
+hefboom bestaan niet in de code.
 
-Omdat het risico per trade klein is (0,25% van €10.000 = €25), koopt de agent vaak maar 1 of 2 aandelen
-per positie, en slaat hij dure aandelen soms over. Dat is bewust: eerst leren, dan pas opschalen.
+## Koersen uit meerdere bronnen
 
-## Oefenen op GitHub (automatisch)
+De bot haalt de koersen bij **Yahoo Finance** en controleert ze bij **Stooq**; de euro/dollar-koers controleert
+hij bij de **Europese Centrale Bank**.
 
-De workflow `.github/workflows/practice.yml` draait elke werkdag om 21:30 UTC, na het sluiten van de
-Amerikaanse beurs. Je resultaten staan daarna in de map `state/`:
+- Wijken de bronnen meer dan 2% af, dan koopt hij dat aandeel die dag niet.
+- **Geen trade op een koers die niet klopt:** spreken de bronnen elkaar tegen of loopt de koers achter, dan
+  verkoopt of herverdeelt hij die belegging ook niet, hooguit 3 handelsdagen achter elkaar. Daarna gaat de
+  stop-loss weer voor, want verlies beperken wint.
+- Wijkt de wisselkoers meer dan 1% af, dan handelt hij die dag helemaal niet.
+- Yahoo publiceert slotkoersen soms laat; een ontbrekende dag wordt aangevuld uit uurkoersen, en een half
+  afgemaakte dag (tijdens de handel) wordt genegeerd.
 
-- `state/report.md`: het dagrapport (wat gekocht en verkocht, open posities, sterkste trends);
-- `state/portfolio.json`: de nep-portefeuille;
-- `state/audit.jsonl`: elke beslissing, beveiligd tegen achteraf wijzigen.
+## Het oefenaccount bij Trading 212
 
-Daarnaast komt er elke ronde iets bij in de map **`rapporten/`**:
+Het oefenaccount is het **demo-account** (Invest) van Trading 212: een echte broker, maar met nepgeld.
 
-- `rapporten/2026-10-12.md` (één notitie per dag, blijft bewaard);
-- `rapporten/trend-agent.xlsx`: één Excel-bestand dat elke dag wordt bijgewerkt, met de tabbladen
-  Overzicht (waarde per dag), Posities, Trades, Trends en Uitleg.
-  Downloaden: open het bestand op GitHub en klik op het download-icoon.
+**Hoe het werkt**
+- Na elke ronde zet de bot het oefenaccount gelijk met wat de trend-agent volgens zijn eigen boekhouding bezit:
+  hij koopt wat ontbreekt en verkoopt wat de trend-agent niet meer heeft. Verkopen gaan voor kopen.
+- Orders die buiten beurstijd worden geplaatst, voert Trading 212 uit zodra de beurs opengaat. Zolang een order
+  nog open staat, plaatst de bot voor dat aandeel niets nieuws (geen dubbele aankopen). Wil de bot het aandeel
+  niet meer, dan trekt hij de openstaande koop in.
+- Crypto kan niet in het Invest-account; Bitcoin/Ethereum en de investeerder blijven daarom alleen op papier.
 
-Zelf een ronde starten of de agent stoppen: tab **Actions**, kies **practice**, klik **Run workflow**
-en kies `run`, `kill` of `resume`.
+**Veiligheid (vast in de code, `src/trendagent/broker_t212.py`)**
+- Alleen het demo-adres `https://demo.trading212.com` werkt; het echte account weigert de code.
+- Alleen als `PAPER_TRADING=true`.
+- Nooit short: verkopen alleen wat echt in het account staat. Geen hefboom.
+- Hooguit 6 orders per ronde en hooguit €3.000 per order.
+- Staat de kill switch aan, dan plaatst hij niets (handmatig verkopen mag wel).
+- Krijgt hij een onduidelijk antwoord van Trading 212 (time-out, storing), dan stopt hij die ronde; de volgende
+  ronde kijkt eerst wat er echt in het account staat.
+- Onverwacht antwoord of fout: niets doen, de reden staat in `state/broker.json` en de run wordt rood.
 
-## Backtest: hoe had het de afgelopen jaren gewerkt?
+**Bedienen** (tab **Actions** → **broker** → **Run workflow**, of via de knoppen op het dashboard)
 
-`.github/workflows/backtest.yml` laat de agent de afgelopen 5 jaar opnieuw doorlopen op echte koersen,
-dag voor dag, met dezelfde regels en kosten. Hij vergelijkt het resultaat met gewoon een MSCI World-ETF of
-de S&P 500 vasthouden. De uitkomst staat in `backtest/resultaten/`: `RAPPORT.md`, `backtest.xlsx` en een grafiek.
-Hij draait vanzelf als de code verandert, of handmatig via **Actions** → **backtest** → **Run workflow**.
+| Keuze | Wat er gebeurt |
+| --- | --- |
+| `kijken` | Verbinding testen en de stand ophalen. Geen orders. |
+| `orders uit` / `orders aan` | Het gelijkzetten uit- of aanzetten (`config/broker.json`). Uit = alleen kijken. |
+| `nu gelijkzetten` | Nu meteen gelijkzetten in plaats van 's nachts. |
+| `handmatig kopen` / `handmatig verkopen` | Zelf een order geven: vul ook **aandeel** (bijv. ASML, Shell, MSFT) en **aantal** in. Alleen aandelen die de bots kennen, hooguit €3.000. De bot draait je handmatige order niet terug. |
 
-Let op: de lijst instrumenten is vandaag gekozen, dus bedrijven die groot zijn geworden zitten erin
-(survivorship bias). De echte uitkomst zou waarschijnlijk minder goed zijn geweest.
+**Sleutels:** de API-sleutel staat alleen in GitHub Secrets (`T212_DEMO_KEY` en `T212_DEMO_SECRET`), nooit in
+de code, de chat of het dashboard. De sleutel heeft alleen de rechten Account data, History - Orders,
+Metadata, Orders - Execute, Orders - Read en Portfolio.
+
+## Hoe de bots leren
+
+- **Elke ronde** leggen de bots elke trade vast met reden, marktregime, indicatoren en strategieversie.
+- **Elke zaterdag** test het onderzoek varianten van de regels (ook patronen uit de grafieken, zoals "koop na een
+  terugval" of "verkoop na 2 rode trendkaarsen") tegen de huidige regels: op 5 jaar koersen, met een ongezien
+  deel, 5 periodes, dubbele kosten en per marktregime. Rapport: `onderzoek/LAATSTE.md`.
+- **Jij beslist.** Haalt een variant alle toetsen, dan zet het onderzoek een **voorstel** (pull request) klaar
+  dat alleen `config/productie.json` wijzigt. Je ziet het op het dashboard en krijgt een e-mail. **Merge** =
+  overnemen, **Close** = laten zoals het is. Na een merge gebruikt de trend-agent de nieuwe regel en volgt het
+  oefenaccount vanzelf.
+
+## Rapporten
+
+- `rapporten/dagrapport.xlsx`: één Excel-bestand, elke dag bijgewerkt, met Overzicht, Grafieken (kaarsgrafieken),
+  Patronen, Analyse, Verlies en risico, Kansen, Klaar voor echt geld, Waarde per dag, Trades, Controles en Uitleg.
+- `rapporten/OVERZICHT.md`: het dagoverzicht van beide bots.
+- `rapporten/JJJJ-MM-DD.md`: een notitie per dag; grafieken in `rapporten/grafieken/`.
+- `state/`: de nep-portefeuilles, het auditlog (`audit.jsonl`), de gezondheid en het oefenaccount (`broker.json`).
+- `backtest/` en `onderzoek/`: de uitkomsten van de backtest en het wekelijkse onderzoek.
 
 ## Lokaal draaien
 
@@ -152,23 +157,33 @@ python -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
 
-python -m trendagent run --simulated   # proefronde met verzonnen koersen
-python -m trendagent run               # ronde met echte (gratis) koersen van Yahoo Finance
-python -m trendagent status
-python -m trendagent kill "even stoppen"
-python -m trendagent resume
-python -m trendagent backtest --simulated   # backtest-proef zonder internet
-python -m trendagent invest --simulated     # investeerder-proef
-python -m trendagent onderzoek --simulated  # onderzoek-proef (duurt een paar minuten)
+python -m trendagent run --simulated        # proefronde trend-agent met verzonnen koersen
+python -m trendagent run                    # ronde met echte (gratis) koersen
+python -m trendagent invest                 # ronde van de investeerder
+python -m trendagent overzicht              # dagoverzicht en dagrapport.xlsx
+python -m trendagent dashboard              # cijfers voor het dashboard (map dashboard/)
 python -m trendagent health                 # gezondheid van de laatste rondes
-pytest -v
+python -m trendagent kill "even stoppen"    # kill switch aan
+python -m trendagent resume                 # kill switch uit (alleen jij)
+python -m trendagent backtest --simulated   # backtest-proef zonder internet
+python -m trendagent onderzoek --simulated  # onderzoek-proef (duurt een paar minuten)
+
+# Oefenaccount (alleen met T212_DEMO_KEY en T212_DEMO_SECRET in je omgeving)
+python -m trendagent broker --check                                       # alleen kijken
+python -m trendagent broker                                               # gelijkzetten
+python -m trendagent broker --handmatig koop --aandeel ASML --aantal 1    # handmatige order
+
+PYTHONPATH=src python -m unittest discover -s tests -t .   # alle tests
 ```
 
-Instellingen staan in `.env.example`.
+Instellingen staan in `.env.example` en `config/`. Alle workflows slaan hun resultaat op via
+`scripts/opslaan.sh`, dat een botsing met een andere workflow netjes oplost en de run rood maakt als opslaan
+niet lukt.
 
 ## Later: echt geld?
 
-Pas na maanden oefenen met een stabiel resultaat dat beter is dan gewoon een wereldwijde ETF vasthouden.
-Dan kan er een koppeling met een broker (bijvoorbeeld het paper-account van Interactive Brokers) worden
-toegevoegd, met jouw goedkeuring per order. Broker-sleutels horen dan in GitHub Secrets of een `.env`-bestand,
-nooit in de code.
+Op het dashboard (tabblad **Risico** → *Klaar voor echt geld?*) staan de eisen: minstens 3 maanden oefenen,
+minstens zo goed als de wereld-ETF, beperkte daling, genoeg trades met gemiddeld winst. Pas als alles groen is
+én het oefenaccount maanden betrouwbaar meeloopt, is een volgende stap zinvol: een klein bedrag, met **jouw
+goedkeuring per order**. Die beslissing neem jij, niet de bot. Tot die tijd bestaat er geen code die met echt
+geld handelt.
