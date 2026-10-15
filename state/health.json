@@ -3,186 +3,14 @@
   "day": "2026-10-14",
   "status": "OK",
   "versie": "trend-1.1-d373c7",
-  "waarschuwingen": [
-   "Alle koersen uit US lopen achter (nieuwste 13-10): mogelijk een beursvakantie of een storing bij de bron. Daar vandaag niets gekocht.",
-   "Alle koersen uit EU lopen achter (nieuwste 13-10): mogelijk een beursvakantie of een storing bij de bron. Daar vandaag niets gekocht.",
-   "AAPL: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht",
-   "MSFT: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht",
-   "NVDA: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht",
-   "AMZN: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht",
-   "GOOGL: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht",
-   "META: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht",
-   "AVGO: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht",
-   "TSLA: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht",
-   "AMD: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht",
-   "MU: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht",
-   "ORCL: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht",
-   "CRM: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht",
-   "NFLX: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht",
-   "PLTR: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht",
-   "CRWD: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht",
-   "PANW: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht",
-   "ANET: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht",
-   "JPM: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet gekocht"
-  ],
+  "waarschuwingen": [],
   "gevraagd": 50,
   "ok": 50,
   "mislukt": 0,
-  "verdacht": {
-   "AAPL": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "MSFT": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "NVDA": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "AMZN": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "GOOGL": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "META": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "AVGO": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "TSLA": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "AMD": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "MU": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "ORCL": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "CRM": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "NFLX": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "PLTR": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "CRWD": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "PANW": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "ANET": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "JPM": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "V": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "LLY": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "COST": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "XOM": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "SPY": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "QQQ": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "SMH": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "XLE": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "GLD": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "ASML.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "ASM.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "BESI.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "ADYEN.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "INGA.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "SHELL.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "PRX.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "AD.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "HEIA.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "WKL.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "SAP.DE": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "SIE.DE": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "ALV.DE": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "DTE.DE": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "RHM.DE": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "IFX.DE": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "MC.PA": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "OR.PA": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "TTE.PA": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "SU.PA": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "AIR.PA": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "BNP.PA": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "IWDA.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ]
-  },
+  "verdacht": {},
   "wisselkoers": "ok",
-  "regime": "stijgend-laag",
-  "verouderd": 50,
+  "regime": "stijgend-normaal",
+  "verouderd": 0,
   "bronnen": {
    "koersen": {
     "1 bron": 50
@@ -192,192 +20,20 @@
    "fout_tweede_bron": "GOOGL: Stooq gaf geen koersen ('<!DOCTYPE html><html><head><meta charset')",
    "afwijkend": []
   },
-  "vastgelegd_utc": "2026-10-15T00:31:45+00:00"
+  "vastgelegd_utc": "2026-10-15T07:55:43+00:00"
  },
  "investeerder": {
   "day": "2026-10-14",
   "status": "OK",
   "versie": "investeerder-1.0-c2474a",
-  "waarschuwingen": [
-   "Alle koersen uit US lopen achter (nieuwste 13-10): mogelijk een beursvakantie of een storing bij de bron. Daar vandaag niets gekocht.",
-   "Alle koersen uit EU lopen achter (nieuwste 13-10): mogelijk een beursvakantie of een storing bij de bron. Daar vandaag niets gekocht.",
-   "AAPL: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen",
-   "MSFT: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen",
-   "NVDA: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen",
-   "AMZN: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen",
-   "GOOGL: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen",
-   "META: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen",
-   "AVGO: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen",
-   "TSLA: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen",
-   "AMD: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen",
-   "MU: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen",
-   "ORCL: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen",
-   "CRM: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen",
-   "NFLX: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen",
-   "PLTR: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen",
-   "CRWD: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen",
-   "PANW: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen",
-   "ANET: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen",
-   "JPM: verdachte data (koers niet bijgewerkt (laatste 13-10, verwacht 14-10)), niet nieuw gekozen"
-  ],
+  "waarschuwingen": [],
   "gevraagd": 52,
   "ok": 52,
   "mislukt": 0,
-  "verdacht": {
-   "AAPL": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "MSFT": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "NVDA": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "AMZN": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "GOOGL": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "META": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "AVGO": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "TSLA": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "AMD": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "MU": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "ORCL": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "CRM": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "NFLX": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "PLTR": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "CRWD": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "PANW": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "ANET": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "JPM": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "V": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "LLY": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "COST": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "XOM": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "SPY": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "QQQ": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "SMH": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "XLE": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "GLD": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "ASML.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "ASM.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "BESI.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "ADYEN.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "INGA.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "SHELL.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "PRX.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "AD.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "HEIA.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "WKL.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "SAP.DE": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "SIE.DE": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "ALV.DE": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "DTE.DE": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "RHM.DE": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "IFX.DE": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "MC.PA": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "OR.PA": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "TTE.PA": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "SU.PA": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "AIR.PA": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "BNP.PA": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ],
-   "IWDA.AS": [
-    "koers niet bijgewerkt (laatste 13-10, verwacht 14-10)"
-   ]
-  },
+  "verdacht": {},
   "wisselkoers": "ok",
-  "regime": "stijgend-laag",
-  "verouderd": 50,
+  "regime": "stijgend-normaal",
+  "verouderd": 0,
   "bronnen": {
    "koersen": {
     "1 bron": 52
@@ -387,6 +43,6 @@
    "fout_tweede_bron": "GOOGL: Stooq gaf geen koersen ('<!DOCTYPE html><html><head><meta charset')",
    "afwijkend": []
   },
-  "vastgelegd_utc": "2026-10-15T00:32:02+00:00"
+  "vastgelegd_utc": "2026-10-15T07:55:56+00:00"
  }
 }
