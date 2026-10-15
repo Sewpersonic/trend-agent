@@ -98,6 +98,29 @@
 [data-dash-source-state=empty] { color: transparent; }
 [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 .tx-page[hidden] { display: none !important; }
+.tx-bots { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+.tx-tile2 { padding: 20px; display: grid; gap: 10px; align-content: start; }
+.tx-tile2.small { padding: 16px; gap: 8px; }
+.tx-tile2 h3 { margin: 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.t-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.t-name { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.t-sub { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.t-label { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); text-transform: uppercase; letter-spacing: .04em; }
+.t-big { font-family: var(--font-anthropic-serif); font-size: clamp(2rem, 4vw, 2.6rem); line-height: 1.05; font-variant-numeric: tabular-nums; }
+.t-price { font-family: var(--font-anthropic-serif); font-size: 1.6rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.t-res { font-size: 1.1rem; font-weight: var(--cds-font-weight-medium); font-variant-numeric: tabular-nums; display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.t-res .arrow { font-size: .9em; }
+.t-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr)); gap: 8px; }
+.t-stat { background: color-mix(in srgb, var(--color-fg) 4%, transparent); border-radius: 8px; padding: 8px 10px; display: grid; gap: 2px; }
+.t-stat .l { font-size: 11px; color: var(--color-fg-muted); }
+.t-stat .v { font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); font-variant-numeric: tabular-nums; }
+.t-trend { font-size: var(--cds-font-size-caption); font-weight: var(--cds-font-weight-medium); white-space: nowrap; }
+.t-stop { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.t-spark .tx-spark { height: 70px; }
+.t-pat { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.4; }
+.tx-pill.big { font-size: var(--cds-font-size-body); padding: 4px 12px; }
+.tx-group { display: grid; gap: 10px; }
+.tx-group-h { margin: 6px 0 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
 .tx-var { display: grid; gap: 4px; padding: 12px 0; border-bottom: 1px solid var(--color-border-line); }
 .tx-var:last-child { border-bottom: 0; }
 .tx-var .top { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; flex-wrap: wrap; }
@@ -194,8 +217,8 @@
         </div>
       </div>
 
-      <div class="tx-cards" id="botcards" data-source="stand waarde"></div>
-      <div class="tx-cards" id="coincards" data-source="tickers patronen"></div>
+      <div class="tx-bots" id="botcards" data-source="stand waarde"></div>
+      <div class="tx-page" id="coincards" data-source="tickers patronen posities"></div>
 
       <div class="tx-two">
         <div class="tx-card" id="recent">
@@ -492,65 +515,95 @@ dash.calc('uitleg_positie', {
       strip.classList.toggle('run', items.length > 4);
     }
 
-    // Botkaarten met waardeverloop
+    // Botkaarten: groot en eenvoudig
     const w = dash.data('waarde');
+    const ROL = { 'Investeerder': 'Belegt voor de lange termijn, herverdeelt 1 keer per maand', 'Trend-agent': 'Volgt korte trends met een stop-loss op elke positie' };
     if (s.status === 'error') failed(botcards);
     else if (s.status === 'ok') {
       botcards.replaceChildren(...real(s.data).map((r, i) => {
-        const c = el('div', { class: 'tx-card tx-coincard tx-botcard', id: 'bot-' + r.bot.toLowerCase().replace(/[^a-z]/g, '') });
-        const h = el('div', { class: 'h' });
-        h.append(coin(r.bot === 'Investeerder' ? 'IN' : 'TA', 34), el('h3', {}, r.bot));
-        const lab = r.sinds_start_eur > 0.005 ? ['WINST', 'win'] : r.sinds_start_eur < -0.005 ? ['VERLIES', 'loss'] : ['GELIJK', 'flat'];
-        h.append(el('span', { class: 'tx-pill ' + lab[1], style: 'margin-left:auto' }, lab[0]));
-        c.append(h);
+        const c = el('div', { class: 'tx-card tx-tile2', id: 'bot-' + r.bot.toLowerCase().replace(/[^a-z]/g, '') });
         const mark = (field, text, cl) => el('span', { 'data-source': 'stand', 'data-field': field, 'data-where': 'bot=' + encodeURIComponent(r.bot), class: cl }, text);
-        const big = el('div', { class: 'big' }); big.append(mark('waarde', eur.format(r.waarde)));
-        c.append(big);
-        const m = el('div', { class: 'm' });
-        const left = el('span'); left.append(document.createTextNode('sinds start '), mark('sinds_start_eur', sEur(r.sinds_start_eur), ud(r.sinds_start_eur)));
-        const right = el('span'); right.append(document.createTextNode('vandaag '), r.vandaag_eur == null ? el('span', {}, '–') : mark('vandaag_eur', sEur(r.vandaag_eur), ud(r.vandaag_eur)));
-        m.append(left, right);
-        c.append(m);
-        const m2 = el('div', { class: 'm' });
-        const l2 = el('span'); l2.append(document.createTextNode('tegenover wereld-ETF '), r.vs_etf_pct == null ? el('span', {}, '–') : mark('vs_etf_pct', pct(r.vs_etf_pct), ud(r.vs_etf_pct)));
-        m2.append(l2);
-        c.append(m2);
+        const h = el('div', { class: 't-head' });
+        const ti = el('div'); ti.append(el('h3', {}, r.bot), el('div', { class: 't-sub' }, ROL[r.bot] || ''));
+        const lab = r.sinds_start_eur > 0.005 ? ['WINST', 'win'] : r.sinds_start_eur < -0.005 ? ['VERLIES', 'loss'] : ['GELIJK', 'flat'];
+        h.append(ti, el('span', { class: 'tx-pill big ' + lab[1] }, lab[0]));
+        c.append(h);
+        c.append(el('div', { class: 't-label' }, 'Waarde nu'));
+        const big = el('div', { class: 't-big' }); big.append(mark('waarde', eur.format(r.waarde))); c.append(big);
+        const res = el('div', { class: 't-res ' + ud(r.sinds_start_eur) });
+        res.append(el('span', { class: 'arrow', 'aria-hidden': 'true' }, r.sinds_start_eur > 0 ? '▲' : r.sinds_start_eur < 0 ? '▼' : '■'),
+          mark('sinds_start_eur', sEur(r.sinds_start_eur)), document.createTextNode(' sinds de start ('), mark('sinds_start_pct', pct(r.sinds_start_pct)), document.createTextNode(')'));
+        c.append(res);
+        const stats = el('div', { class: 't-stats' });
+        const stat = (label, node) => { const d = el('div', { class: 't-stat' }); d.append(el('span', { class: 'l' }, label), node); stats.append(d); };
+        stat('Vandaag', r.vandaag_eur == null ? el('span', { class: 'v' }, '–') : mark('vandaag_eur', sEur(r.vandaag_eur), 'v ' + ud(r.vandaag_eur)));
+        stat('Tegenover wereld-ETF', r.vs_etf_pct == null ? el('span', { class: 'v' }, '–') : mark('vs_etf_pct', pct(r.vs_etf_pct), 'v ' + ud(r.vs_etf_pct)));
+        stat('Klaar voor echt geld?', mark('klaar', /^Alle eisen/.test(r.klaar) ? 'ja' : 'nog niet', 'v'));
+        c.append(stats);
         const pts = w.status === 'ok' ? real(w.data).filter((p) => p.bot === r.bot).sort((a, b) => (a.dag < b.dag ? -1 : 1)).map((p) => p.waarde) : [];
-        const sb = el('div', { 'data-source': 'waarde' });
+        const sb = el('div', { 'data-source': 'waarde', class: 't-spark' });
+        sb.append(el('div', { class: 't-label' }, 'Waarde sinds de start'));
         if (pts.length >= 2) spark(sb, [10000, ...pts], r.sinds_start_eur >= 0 ? 'var(--tx-up)' : 'var(--tx-down)', 'g-bot-' + i);
-        else sb.append(el('p', { class: 'tx-note', style: 'padding: 0 18px 18px' }, 'Het verloop verschijnt na een paar handelsdagen.'));
+        else sb.append(el('p', { class: 'tx-note' }, 'Het verloop verschijnt na een paar handelsdagen.'));
         c.append(sb);
         return c;
       }));
     }
 
-    // Kaarten per aandeel met minigrafiek
+    // Kaarten per aandeel, per bot gegroepeerd
     const k = dash.data('koersen');
     const pd = dash.data('patronen');
+    const pz = dash.data('posities');
     const pat = new Map(pd.status === 'ok' ? real(pd.data).map((p) => [p.ticker, p]) : []);
+    const pos = new Map(pz.status === 'ok' ? real(pz.data).map((p) => [p.bot + '|' + p.ticker, p]) : []);
     if (t.status === 'ok') {
-      cards.replaceChildren(...t.data.map((r, i) => {
-        const c = el('div', { class: 'tx-card tx-coincard', id: 'kaart-' + r.ticker.replace(/[^A-Za-z0-9]/g, '') });
-        const h = el('div', { class: 'h' });
-        const tt = el('div', { style: 'min-width:0' });
-        tt.append(el('h3', {}, r.naam), el('div', { class: 'tag' }, r.ticker + ' · ' + r.bot));
-        h.append(coin(r.ticker, 34), tt);
-        c.append(h);
-        const m = el('div', { class: 'm' });
-        m.append(W(r.ticker, 'slot', 'span', num2.format(r.slot) + ' ' + r.valuta, 'p'), W(r.ticker, 'drie_mnd_pct', 'span', pct(r.drie_mnd_pct, 1) + ' in 3 mnd', ud(r.drie_mnd_pct)));
-        c.append(m);
-        const pt = pat.get(r.ticker);
-        if (pt) {
-          const pill = el('span', { class: 'tx-pill ' + ({ stijgend: 'win', dalend: 'loss' }[pt.trend] || 'flat'), style: 'margin-left:auto', 'data-source': 'patronen', 'data-field': 'trend', 'data-where': 'id=' + encodeURIComponent(pt.id) }, pt.trend);
-          h.append(pill);
-          c.append(el('div', { class: 'pat', 'data-source': 'patronen', 'data-field': 'patronen', 'data-where': 'id=' + encodeURIComponent(pt.id) }, pt.patronen || 'Niets bijzonders.'));
-        }
-        const vals = k.status === 'ok' ? real(k.data).filter((q) => q.ticker === r.ticker).sort((a, b) => (a.dag < b.dag ? -1 : 1)).map((q) => q.slot) : [];
-        const sb = el('div', { 'data-source': 'koersen' });
-        if (vals.length > 1) spark(sb, vals, r.drie_mnd_pct >= 0 ? 'var(--tx-up)' : 'var(--tx-down)', 'g-' + i);
-        c.append(sb);
-        return c;
-      }));
+      const groups = d3.group(t.data, (r) => r.bot);
+      const secs = [];
+      for (const [bot, rows] of groups) {
+        const sec = el('div', { class: 'tx-group', id: 'bezit-' + bot.toLowerCase().replace(/[^a-z]/g, '') });
+        sec.append(el('h2', { class: 'tx-group-h' }, bot + ' bezit ' + rows.length + (rows.length === 1 ? ' belegging' : ' beleggingen')));
+        sec.append(el('p', { class: 'tx-note' }, bot === 'Trend-agent'
+          ? 'Per aandeel: de koers, hoe het ging en hoeveel ruimte er nog is tot de stop-loss.'
+          : 'Per belegging: de koers en hoe het ging. De investeerder heeft geen stop-loss; hij herverdeelt maandelijks.'));
+        const grid = el('div', { class: 'tx-cards' });
+        rows.forEach((r, i) => {
+          const W2 = (field, text, cl) => W(r.ticker, field, 'span', text, cl);
+          const c = el('div', { class: 'tx-card tx-tile2 small', id: 'kaart-' + r.ticker.replace(/[^A-Za-z0-9]/g, '') });
+          const h = el('div', { class: 't-head' });
+          const nm = el('div', { class: 't-name' });
+          nm.append(coin(r.ticker, 32));
+          const nt = el('div', { style: 'min-width:0' }); nt.append(el('h3', {}, r.naam), el('div', { class: 't-sub' }, r.ticker));
+          nm.append(nt);
+          h.append(nm);
+          const pt = pat.get(r.ticker);
+          if (pt) h.append(el('span', { class: 't-trend ' + ({ stijgend: 'up', dalend: 'down' }[pt.trend] || ''), 'data-source': 'patronen', 'data-field': 'trend', 'data-where': 'id=' + encodeURIComponent(pt.id) },
+            ({ stijgend: '▲ stijgend', dalend: '▼ dalend', zijwaarts: '► zijwaarts' }[pt.trend] || pt.trend)));
+          c.append(h);
+          const price = el('div', { class: 't-price' }); price.append(W2('slot', num2.format(r.slot) + ' ' + r.valuta)); c.append(price);
+          const stats = el('div', { class: 't-stats' });
+          const stat = (label, node) => { const d = el('div', { class: 't-stat' }); d.append(el('span', { class: 'l' }, label), node); stats.append(d); };
+          stat('Vandaag', W2('dag_pct', pct(r.dag_pct, 1), 'v ' + ud(r.dag_pct)));
+          stat('3 maanden', W2('drie_mnd_pct', pct(r.drie_mnd_pct, 1), 'v ' + ud(r.drie_mnd_pct)));
+          const p = pos.get(r.bot + '|' + r.ticker);
+          const pw = p ? 'bot=' + encodeURIComponent(p.bot) + '&ticker=' + encodeURIComponent(p.ticker) : '';
+          if (p) stat('Jouw resultaat', el('span', { class: 'v ' + ud(p.resultaat_eur), 'data-source': 'posities', 'data-field': 'resultaat_eur', 'data-where': pw }, sEur(p.resultaat_eur)));
+          c.append(stats);
+          if (p && p.afstand_stop_pct != null) {
+            const st = el('div', { class: 't-stop' });
+            st.append(document.createTextNode('Stop-loss ligt '), el('span', { 'data-source': 'posities', 'data-field': 'afstand_stop_pct', 'data-where': pw }, pct(Math.abs(p.afstand_stop_pct), 1).replace('+', '')), document.createTextNode(' lager'));
+            c.append(st);
+          }
+          const vals = k.status === 'ok' ? real(k.data).filter((q) => q.ticker === r.ticker).sort((a, b) => (a.dag < b.dag ? -1 : 1)).map((q) => q.slot) : [];
+          const sb = el('div', { 'data-source': 'koersen', class: 't-spark' });
+          if (vals.length > 1) spark(sb, vals, r.drie_mnd_pct >= 0 ? 'var(--tx-up)' : 'var(--tx-down)', 'g-' + bot.slice(0, 1) + i);
+          c.append(sb);
+          if (pt && pt.patronen) c.append(el('div', { class: 't-pat', 'data-source': 'patronen', 'data-field': 'patronen', 'data-where': 'id=' + encodeURIComponent(pt.id) }, 'Opvallend: ' + pt.patronen.split(' · ')[0]));
+          grid.append(c);
+        });
+        sec.append(grid);
+        secs.push(sec);
+      }
+      cards.replaceChildren(...secs);
     }
     drawMarkt();
   });
