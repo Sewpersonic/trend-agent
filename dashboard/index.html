@@ -36,7 +36,8 @@
 /* Lopende koersbalk */
 .tx-strip { overflow: hidden; padding: 14px 0; mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); }
 .tx-strip-in { display: flex; gap: 28px; width: max-content; padding-inline: 20px; }
-.tx-strip { overflow-x: auto; }
+@media (prefers-reduced-motion: no-preference) { .tx-strip-in.run { animation: tx-marquee 45s linear infinite; } .tx-strip:hover .tx-strip-in, .tx-strip:focus-within .tx-strip-in { animation-play-state: paused; } }
+@media (prefers-reduced-motion: reduce) { .tx-strip { overflow-x: auto; } }
 @keyframes tx-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .tx-tick { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
 .tx-coin { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 10px; font-weight: 700; color: #fff; flex: none; }
@@ -551,7 +552,7 @@ dash.calc('uitleg_positie', {
       });
       // Twee keer achter elkaar, zodat de balk naadloos doorloopt
       const copy = items.map((n) => { const c = n.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.querySelectorAll('[data-source]').forEach((m) => { m.removeAttribute('data-source'); m.removeAttribute('data-field'); m.removeAttribute('data-where'); }); return c; });
-      strip.replaceChildren(...items);
+      strip.replaceChildren(...items, ...copy);
       strip.classList.toggle('run', items.length > 4);
     }
 
