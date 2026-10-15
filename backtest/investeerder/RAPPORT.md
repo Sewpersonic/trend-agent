@@ -14,9 +14,9 @@ Periode **2021-10-15 t/m 2026-10-15** (ongeveer 5 jaar), startkapitaal €10.000
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Investeerder | +152,3% | +20,3% | -21,5% | 1,17 | €25.189 |
-| MSCI World-ETF (IWDA) | +75,9% | +12,0% | -21,6% | 0,85 | €17.592 |
-| S&P 500-ETF (SPY, in euro) | +90,7% | +13,8% | -23,0% | 0,77 | €19.073 |
+| Investeerder | +152,3% | +20,3% | -21,5% | 1,17 | €25.191 |
+| MSCI World-ETF (IWDA) | +75,9% | +12,0% | -21,6% | 0,85 | €17.591 |
+| S&P 500-ETF (SPY, in euro) | +90,6% | +13,8% | -23,0% | 0,77 | €19.064 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
 
@@ -26,10 +26,10 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 | --- | --- | --- | --- |
 | 2021 | +1,1% | +6,8% | +9,4% |
 | 2022 | -11,6% | -13,5% | -13,1% |
-| 2023 | +31,6% | +19,9% | +21,5% |
-| 2024 | +50,5% | +27,2% | +32,8% |
+| 2023 | +31,3% | +19,9% | +21,5% |
+| 2024 | +50,9% | +27,2% | +32,8% |
 | 2025 | +10,4% | +7,1% | +4,3% |
-| 2026 | +29,2% | +16,6% | +19,1% |
+| 2026 | +29,1% | +16,6% | +19,1% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 
@@ -43,9 +43,9 @@ Dit beantwoordt de vraag "wat kan er in een paar weken gebeuren?": elk mogelijk 
 
 ## Trades
 
-- Aankopen: 150, afgesloten: 152, waarvan winst: 66%
-- Gemiddelde winst: €134, gemiddeld verlies: €-108, profit factor: 2,47
-- Gemiddeld vastgehouden: 66 dagen; totale kosten: €304
+- Aankopen: 147, afgesloten: 152, waarvan winst: 66%
+- Gemiddelde winst: €134, gemiddeld verlies: €-107, profit factor: 2,48
+- Gemiddeld vastgehouden: 66 dagen; totale kosten: €301
 - Kill switch aangegaan: 0 keer
 
 ## Belangrijke kanttekeningen
