@@ -221,8 +221,10 @@ def broker_rows(state_dir: Path) -> list[dict]:
         y = o.get("yahoo", t)
         hq = float((have.get(t) or {}).get("quantity") or 0)
         bq = float((port.get(y) or {}).get("qty") or 0)
+        oq = sum(float(o.get("quantity") or 0) for o in (v.get("open_orders") or []) if o.get("ticker") == t)
         rows.append({"id": "pos-" + t, "soort": "positie", "ticker": t, "naam": _name(y) if y in port else t,
-                     "oefenaccount": hq, "trend_agent": bq, "gelijk": abs(hq - bq) < 1e-6})
+                     "oefenaccount": hq, "onderweg": oq, "trend_agent": bq, "gelijk": abs(hq - bq) < 1e-6,
+                     "onderweg_gelijk": abs(hq + oq - bq) < 1e-6})
     for i, h in enumerate(reversed(v.get("geschiedenis") or [])):
         for j, o in enumerate(h.get("orders") or []):
             rows.append({"id": f"order-{i}-{j}", "soort": "order", "tijd": h.get("tijd", ""), "ticker": o.get("ticker"),

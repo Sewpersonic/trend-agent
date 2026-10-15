@@ -22,8 +22,9 @@ class FakeResp(io.BytesIO):
 
 
 class FakeApi:
-    def __init__(self, positions):
+    def __init__(self, positions, pending=None):
         self.positions = positions
+        self.pending = pending or []
         self.calls = []
 
     def __call__(self, req, timeout=30):
@@ -32,6 +33,8 @@ class FakeApi:
         path = req.full_url.split("/api/v0")[1]
         if path.startswith("/equity/account/summary"):
             body = {"cash": {"availableToTrade": 50000}, "currency": "EUR"}
+        elif path == "/equity/orders":
+            body = self.pending
         elif path.startswith("/equity/positions"):
             body = self.positions
         elif path.startswith("/equity/metadata/instruments"):
@@ -102,3 +105,15 @@ class BrokerTest(unittest.TestCase):
         v = b.run(self.dir, self.dir / "nope.json")
         self.assertEqual(v["status"], "fout")
         self.assertIn("T212_DEMO_KEY", v["reden"])
+
+
+class PendingTest(BrokerTest):
+    def test_pending_orders_prevent_double_buy(self):
+        api = FakeApi([{"ticker": "MSFT_US_EQ", "quantity": 1}],
+                      pending=[{"ticker": "SHELLa_EQ", "quantity": 13, "filledQuantity": 0, "status": "NEW"},
+                               {"ticker": "SAPd_EQ", "quantity": 2, "filledQuantity": 0, "status": "NEW"}])
+        c = b.T212Demo("k", "s", opener=api)
+        cfg = self.dir / "broker.json"; cfg.write_text(json.dumps({"orders_aan": True}))
+        v = b.run(self.dir, cfg, client=c)
+        self.assertEqual(v["plan"], [])
+        self.assertFalse(any(m == "POST" for m, *_ in api.calls))

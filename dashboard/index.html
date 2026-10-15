@@ -1876,10 +1876,14 @@ dash.calc('onderzoek_verschil', {
         [wanneer(st.tijd) + '.', ok ? (st.orders_aan ? 'Orders staan aan: het oefenaccount volgt de trend-agent elke avond.' : 'Alleen kijken: er worden nog geen orders geplaatst.') : st.reden], ok ? 'goed' : 'slecht'),
       tile('waarde', 'Hoeveel staat er in het oefenaccount?', st.waarde == null ? '–' : eur.format(st.waarde),
         [(st.cash == null ? '' : eur.format(st.cash) + ' vrij, ') + (st.belegd == null ? '' : eur.format(st.belegd) + ' belegd.'), st.winst == null ? '' : 'Winst of verlies tot nu toe: ' + sEur(st.winst) + '.'].filter(Boolean), 'neutraal'),
-      tile('gelijk', 'Volgt het de trend-agent?', pos.length ? gelijk + ' van ' + pos.length : '–',
-        [gelijk === pos.length ? 'Alles is gelijk.' : 'Het verschil wordt bij de volgende avondronde rechtgezet. Orders die buiten beurstijd worden geplaatst, voert Trading 212 uit zodra de beurs opengaat.'], gelijk === pos.length ? 'goed' : 'letop'));
+      (() => { const onderweg = pos.filter((p) => !p.gelijk && p.onderweg_gelijk).length;
+        return tile('gelijk', 'Volgt het de trend-agent?', pos.length ? gelijk + ' van ' + pos.length : '–',
+        [gelijk === pos.length ? 'Alles is gelijk.' : onderweg ? onderweg + ' order' + (onderweg === 1 ? ' staat' : 's staan') + ' klaar en ' + (onderweg === 1 ? 'wordt' : 'worden') + ' uitgevoerd zodra de beurs opengaat.' : 'Het verschil wordt bij de volgende avondronde rechtgezet.'],
+        gelijk === pos.length ? 'goed' : 'letop'); })());
     pb.replaceChildren(...pos.map((r) => { const tr = el('tr', { 'data-key': r.id }); const w = 'id=' + encodeURIComponent(r.id);
-      const g = el('td'); g.append(el('span', { class: 'tx-pill ' + (r.gelijk ? 'ok' : 'flat'), 'data-source': 'broker', 'data-field': 'gelijk', 'data-where': w }, r.gelijk ? 'Gelijk' : 'Nog niet'));
+      const lab = r.gelijk ? ['Gelijk', 'ok'] : r.onderweg_gelijk ? ['Order onderweg', 'bezig'] : ['Nog niet', 'flat'];
+      const g = el('td'); g.append(el('span', { class: 'tx-pill ' + lab[1], 'data-source': 'broker', 'data-field': 'gelijk', 'data-where': w }, lab[0]));
+      if (!r.gelijk && r.onderweg) g.append(el('div', { class: 'tx-note', style: 'margin:2px 0 0' }, 'Wordt uitgevoerd zodra de beurs opengaat.'));
       tr.append(el('td', {}, r.naam), el('td', { class: 'num' }, String(r.oefenaccount)), el('td', { class: 'num' }, String(r.trend_agent)), g); return tr; }));
     if (!ord.length) { const tr = el('tr'); tr.append(el('td', { colspan: '5', class: 'tx-empty' }, 'Nog geen orders geplaatst.')); ob.replaceChildren(tr); }
     else ob.replaceChildren(...ord.map((r) => { const tr = el('tr', { 'data-key': r.id }); const u = UIT[r.uitkomst] || [r.uitkomst, 'flat'];

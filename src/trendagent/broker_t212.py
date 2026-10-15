@@ -88,6 +88,10 @@ class T212Demo:
     def positions(self) -> list[dict]:
         return self._req("GET", "/equity/positions") or []
 
+    def open_orders(self) -> list[dict]:
+        r = self._req("GET", "/equity/orders") or []
+        return r.get("items", []) if isinstance(r, dict) else r
+
     def instruments(self) -> list[dict]:
         return self._req("GET", "/equity/metadata/instruments") or []
 
@@ -154,6 +158,13 @@ def sync(state_dir: Path, client: T212Demo, orders_aan: bool, kill_active: bool,
     verslag["posities"] = positions
     instruments = client.instruments()
     have = _pos_qty(positions)
+    # Orders die al geplaatst zijn maar nog niet uitgevoerd (bv. beurs dicht) tellen mee, anders koopt hij dubbel.
+    pending = client.open_orders()
+    verslag["open_orders"] = [{"ticker": o.get("ticker"), "quantity": o.get("quantity"), "status": o.get("status")} for o in pending]
+    for o in pending:
+        t, q, done = o.get("ticker"), o.get("quantity"), o.get("filledQuantity") or 0
+        if t and q is not None:
+            have[t] = have.get(t, 0.0) + float(q) - float(done if float(q) > 0 else -abs(float(done)))
 
     target: dict[str, dict] = {}
     for y, p in bot_pos.items():
