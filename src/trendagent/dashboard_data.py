@@ -162,6 +162,14 @@ def build(state_dir: Path, reports_dir: Path) -> dict[str, list[dict]]:
         for i, line in enumerate(_plain_checks(name, health.get(key, {}))[:8]):
             rows.append({"id": f"{key}-{i}", "bot": name, "tekst": line.replace("**", "")})
     out["controles"] = rows
+
+    # Patronen in de grafieken (beschrijvend, voorspelt niets)
+    from . import patronen
+    folder = patronen.latest_folder(reports_dir)
+    prow = patronen.per_ticker(folder) if folder else []
+    out["patronen"] = [dict(r, id=r["ticker"]) for r in prow]
+    out["patronen_samenvatting"] = [{"id": f"s{i}", "nr": i, "tekst": t}
+                                    for i, t in enumerate(patronen.samenvatting(prow), 1)]
     return out
 
 
@@ -175,6 +183,8 @@ EMPTY = {
     "koersen": "Nog geen koersen voor grafieken.",
     "controles": "Nog geen controles.",
     "waarde": "Nog geen waarde per dag.",
+    "patronen": "Nog geen grafieken om patronen in te zoeken.",
+    "patronen_samenvatting": "Nog geen grafieken om samen te vatten.",
     "stand": "Nog geen stand.",
 }
 

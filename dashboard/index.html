@@ -98,6 +98,9 @@
 [data-dash-source-state=empty] { color: transparent; }
 [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 .tx-page[hidden] { display: none !important; }
+.tx-range-bar { position: relative; width: 120px; height: 8px; border-radius: 4px; background: color-mix(in srgb, var(--color-fg) 10%, transparent); margin-top: 6px; }
+.tx-range-bar i { position: absolute; top: -3px; width: 4px; height: 14px; border-radius: 2px; background: var(--tx-accent); transform: translateX(-50%); }
+.tx-range-lab { display: flex; justify-content: space-between; width: 120px; font-size: 10px; color: var(--color-fg-muted); }
 .tx-page { display: grid; gap: 18px; min-width: 0; }
 
 @media (max-width: 640px) {
@@ -113,6 +116,7 @@
     <div class="tx-logo" aria-hidden="true">T</div>
     <button class="tx-nav" role="tab" id="dashboard" aria-selected="true" data-page="pg-dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><span class="lbl">Dashboard</span></button>
     <button class="tx-nav" role="tab" id="grafieken" aria-selected="false" data-page="pg-grafieken"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 4v16M12 7v10M18 5v12"/><rect x="4.5" y="8" width="3" height="7" rx="1"/><rect x="10.5" y="9" width="3" height="5" rx="1"/><rect x="16.5" y="7" width="3" height="6" rx="1"/></svg><span class="lbl">Kaarsgrafieken</span></button>
+    <button class="tx-nav" role="tab" id="patronen" aria-selected="false" data-page="pg-patronen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l4-4 3 3 5-6 3 3 3-3"/><path d="M3 21h18"/><circle cx="15" cy="10" r="1.2"/></svg><span class="lbl">Patronen in de grafieken</span></button>
     <button class="tx-nav" role="tab" id="kansen" aria-selected="false" data-page="pg-kansen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg><span class="lbl">Kansen</span></button>
     <button class="tx-nav" role="tab" id="analyse" aria-selected="false" data-page="pg-analyse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19l5-6 4 3 7-9"/><path d="M15 7h5v5"/></svg><span class="lbl">Analyse</span></button>
     <button class="tx-nav" role="tab" id="risico" aria-selected="false" data-page="pg-risico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span class="lbl">Risico en klaar voor echt geld</span></button>
@@ -189,6 +193,26 @@
         <span><i class="dash" style="border-color: var(--tx-down)"></i>stop-loss (hier verkoopt de bot)</span>
       </div>
       <div id="candles" data-source="koersen"></div>
+    </section>
+
+    <!-- PATRONEN -->
+    <section class="tx-page" id="pg-patronen" role="tabpanel" aria-labelledby="patronen" hidden>
+      <div class="tx-card" id="card-samenvatting">
+        <div class="tx-card-h"><h2>Wat de grafieken vandaag laten zien</h2><span class="tx-chipday" id="pat-dag" data-source="patronen">—</span></div>
+        <div class="tx-card-b">
+          <ul class="tx-list" id="pat-sum" data-source="patronen_samenvatting"></ul>
+        </div>
+      </div>
+      <div class="tx-card" id="card-patronen">
+        <div class="tx-card-h"><h2>Per aandeel</h2></div>
+        <div class="tx-card-b" style="padding-bottom:0"><p class="tx-note">Het balkje laat zien waar de koers nu staat tussen het laagste (links) en hoogste punt (rechts) van de laatste 3 maanden. Beschrijft alleen wat er gebeurd is; het voorspelt niets.</p></div>
+        <div class="tx-tablewrap">
+          <table id="tbl-patronen" data-source="patronen" data-row-key="id">
+            <thead><tr><th data-field="naam">Aandeel</th><th data-field="trend">Trend</th><th class="num" data-field="week">Week</th><th class="num" data-field="maand">Maand</th><th class="num" data-field="drie_mnd">3 maanden</th><th data-field="plek_in_bereik">Tussen bodem en top</th><th data-field="samenvatting">Samenvatting</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
     </section>
 
     <!-- KANSEN -->
@@ -634,6 +658,43 @@ dash.calc('uitleg_positie', {
 </script>
 
 <script>
+// Patronen in de grafieken
+(() => {
+  const { pct, ud, el, failed, real, emptyReason, dayLong } = window.tx;
+  const sum = document.getElementById('pat-sum');
+  const body = document.querySelector('#tbl-patronen tbody');
+  const dag = document.getElementById('pat-dag');
+  const TREND = { stijgend: 'win', dalend: 'loss', zijwaarts: 'flat' };
+  dash.onData(() => {
+    const s = dash.data('patronen_samenvatting');
+    if (s.status === 'error') failed(sum);
+    else if (s.status === 'ok') {
+      const rows = real(s.data);
+      sum.replaceChildren(...(rows.length ? rows.map((r) => el('li', { 'data-source': 'patronen_samenvatting', 'data-field': 'tekst', 'data-where': 'id=' + encodeURIComponent(r.id) }, r.tekst))
+        : [el('li', { class: 'tx-empty' }, emptyReason(s.data))]));
+    }
+    const p = dash.data('patronen');
+    if (p.status === 'error') { const tr = el('tr'); const td = el('td', { colspan: '7' }); failed(td); tr.append(td); body.replaceChildren(tr); return; }
+    if (p.status !== 'ok') return;
+    const rows = real(p.data);
+    if (rows[0]) dag.replaceChildren(el('span', { 'data-source': 'patronen', 'data-field': 'dag', 'data-where': 'id=' + encodeURIComponent(rows[0].id) }, 't/m ' + dayLong(rows[0].dag)));
+    if (!rows.length) { const tr = el('tr'); tr.append(el('td', { colspan: '7', class: 'tx-empty' }, emptyReason(p.data))); body.replaceChildren(tr); return; }
+    body.replaceChildren(...rows.map((r) => {
+      const tr = el('tr', { 'data-key': r.id });
+      const n = el('td'); n.append(el('div', {}, r.naam), el('div', { class: 'tx-note' }, r.ticker + ' · ' + r.bot));
+      const t = el('td'); t.append(el('span', { class: 'tx-pill ' + TREND[r.trend] }, r.trend));
+      const f = (v) => el('td', { class: 'num ' + ud(v) }, v == null ? '–' : pct(v, 1));
+      const bar = el('td');
+      const b = el('div', { class: 'tx-range-bar', role: 'img', 'aria-label': Math.round(r.plek_in_bereik * 100) + '% van bodem naar top' });
+      const m = el('i'); m.style.left = Math.max(0, Math.min(100, r.plek_in_bereik * 100)) + '%'; b.append(m);
+      const lab = el('div', { class: 'tx-range-lab' }); lab.append(el('span', {}, 'bodem'), el('span', {}, 'top'));
+      bar.append(b, lab);
+      tr.append(n, t, f(r.week), f(r.maand), f(r.drie_mnd), bar, el('td', { class: 'wrap', style: 'color: var(--color-fg); font-size: var(--cds-font-size-body)' }, r.samenvatting));
+      return tr;
+    }));
+  });
+})();
+
 // Trades, kansen, analyse, risico en controles
 (() => {
   const { eur, num2, sEur, pct, dayNl, ud, el, failed, real, emptyReason } = window.tx;

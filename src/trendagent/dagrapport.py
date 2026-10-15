@@ -336,6 +336,53 @@ def build(state_dir: Path, reports_dir: Path, day: str) -> Workbook:
             ws.append([name, line.replace("**", "")])
     _wrap_rows(ws)
 
+    # --- Patronen in de grafieken
+    try:
+        from . import patronen
+        folder = patronen.latest_folder(reports_dir)
+        prow = patronen.per_ticker(folder) if folder else []
+    except Exception:  # noqa: BLE001
+        prow = []
+    if prow:
+        ws = wb.create_sheet("Patronen", 1)
+        ws.sheet_view.showGridLines = False
+        ws.column_dimensions["A"].width = 3
+        for col, w in zip("BCDEFGH", (26, 13, 10, 10, 11, 60, 70)):
+            ws.column_dimensions[col].width = w
+        ws["B1"] = "Wat de grafieken laten zien"
+        ws["B1"].font = Font(size=18, bold=True)
+        row = 3
+        for t in patronen.samenvatting(prow):
+            c = ws.cell(row=row, column=2, value="• " + t)
+            c.font = Font(size=12)
+            ws.merge_cells(start_row=row, start_column=2, end_row=row, end_column=8)
+            c.alignment = WRAP
+            ws.row_dimensions[row].height = _height(t, 180, 12)
+            row += 1
+        row += 1
+        heads = ["Aandeel", "Trend", "Week", "Maand", "3 maanden", "Opvallend", "Samenvatting"]
+        for j, h in enumerate(heads, start=2):
+            c = ws.cell(row=row, column=j, value=h)
+            c.font = Font(bold=True, color="FFFFFF")
+            c.fill = PatternFill("solid", fgColor="1F3A5F")
+        row += 1
+        trend_fill = {"stijgend": GREEN, "dalend": RED}
+        for r in prow:
+            vals = [f"{r['naam']} ({r['ticker']})", r["trend"], r["week"], r["maand"], r["drie_mnd"],
+                    r["patronen"] or "–", r["samenvatting"]]
+            for j, v in enumerate(vals, start=2):
+                c = ws.cell(row=row, column=j, value=v)
+                c.alignment = WRAP
+                if j in (4, 5, 6):
+                    c.number_format = RES_PCT
+            if r["trend"] in trend_fill:
+                ws.cell(row=row, column=3).fill = trend_fill[r["trend"]]
+            ws.row_dimensions[row].height = max(_height(r["samenvatting"], 70), _height(r["patronen"], 60))
+            row += 1
+        ws.cell(row=row + 1, column=2, value="Dit beschrijft wat er gebeurd is; het voorspelt niet wat de koersen "
+                                             "morgen doen. De bots gebruiken het niet om te beslissen.").font = \
+            Font(size=10, italic=True, color="52514E")
+
     # --- Uitleg
     ws = _sheet(wb, "Uitleg", ["Begrip", "Betekenis"], [26, 110])
     for row in (

@@ -157,6 +157,18 @@ def build(state_dir: Path, reports_dir: Path, day: str, now_utc: datetime | None
             lines += [f"**{n}**", ""] + [f"- {c}" for c in cs] + [""]
         lines.pop()
     lines += _risk_and_chances(data, day)
+    try:
+        from . import patronen
+        folder = patronen.latest_folder(reports_dir)
+        prow = patronen.per_ticker(folder) if folder and folder.name == day else []
+        if prow:
+            lines += ["", "## Wat de grafieken laten zien", ""] + [f"- {t}" for t in patronen.samenvatting(prow)]
+            lines += ["", "| Aandeel | Trend | Week | Maand | 3 maanden | Opvallend |", "| --- | --- | --- | --- | --- | --- |"]
+            f = lambda v: "–" if v is None else f"{v:+.1%}".replace(".", ",")  # noqa: E731
+            lines += [f"| {r['naam']} ({r['ticker']}) | {r['trend']} | {f(r['week'])} | {f(r['maand'])} | "
+                      f"{f(r['drie_mnd'])} | {r['patronen'] or '–'} |" for r in prow]
+    except Exception:  # noqa: BLE001  (patronen mogen het overzicht nooit laten mislukken)
+        pass
     ready = [(n, data.get(k, {}).get("klaar")) for n, k in (("Investeerder", "investeerder"), ("Trend-agent", "trend"))]
     ready = [(n, r) for n, r in ready if r]
     if ready:
