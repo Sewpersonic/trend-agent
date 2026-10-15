@@ -9,18 +9,19 @@
   --tx-up: var(--color-ok);
   --tx-down: var(--color-bad);
   font-family: var(--font-anthropic-sans); color: var(--color-fg);
-  display: grid; grid-template-columns: 64px minmax(0, 1fr); min-height: 100%;
+  display: grid; grid-template-columns: 172px minmax(0, 1fr); min-height: 100%;
+  font-size: 15px; line-height: 1.5;
   background: var(--tx-ground);
 }
-.tx-side { background: var(--color-panel); border-right: 1px solid var(--color-border-line); display: flex; flex-direction: column; align-items: center; gap: 6px; padding-block: 16px; position: sticky; top: 0; align-self: start; height: max-content; min-height: 100%; }
-.tx-logo { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--tx-accent); color: var(--tx-accent); display: grid; place-items: center; font-weight: 700; font-size: 15px; margin-bottom: 14px; }
-.tx-nav { all: unset; box-sizing: border-box; width: 44px; height: 44px; border-radius: 10px; display: grid; place-items: center; color: var(--color-fg-muted); cursor: pointer; position: relative; }
+.tx-side { background: var(--color-panel); border-right: 1px solid var(--color-border-line); display: flex; flex-direction: column; align-items: stretch; gap: 4px; padding-inline: 10px; padding-block: 16px; position: sticky; top: 0; align-self: start; height: max-content; min-height: 100%; }
+.tx-logo { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--tx-accent); color: var(--tx-accent); display: grid; place-items: center; font-weight: 700; font-size: 15px; margin: 0 0 14px 8px; }
+.tx-nav { all: unset; box-sizing: border-box; width: 100%; min-height: 42px; border-radius: 10px; display: flex; align-items: center; gap: 10px; padding: 0 12px; color: var(--color-fg-muted); cursor: pointer; position: relative; font-size: 15px; }
 .tx-nav svg { width: 20px; height: 20px; }
 .tx-nav:hover { background: var(--tx-soft); color: var(--color-fg); }
 .tx-nav[aria-selected="true"] { background: var(--tx-soft); color: var(--tx-accent); }
 .tx-nav:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
-.tx-nav .lbl { position: absolute; left: 52px; white-space: nowrap; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); box-shadow: var(--cds-shadow-popover); border-radius: var(--cds-radius); padding: 3px 8px; font-size: var(--cds-font-size-caption); color: var(--color-fg); opacity: 0; pointer-events: none; z-index: 5; }
-.tx-nav:hover .lbl, .tx-nav:focus-visible .lbl { opacity: 1; }
+.tx-nav .lbl { white-space: nowrap; }
+.tx-nav[aria-selected="true"] { font-weight: var(--cds-font-weight-medium); }
 .tx-main { min-width: 0; padding-block: 18px 28px; padding-left: clamp(12px, 2.4vw, 28px); padding-right: clamp(12px, 2.4vw, 28px); display: grid; gap: 18px; align-content: start; }
 .tx-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
 .tx-top h1 { margin: 0; font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); }
@@ -35,7 +36,7 @@
 /* Lopende koersbalk */
 .tx-strip { overflow: hidden; padding: 14px 0; mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); }
 .tx-strip-in { display: flex; gap: 28px; width: max-content; padding-inline: 20px; }
-@media (prefers-reduced-motion: no-preference) { .tx-strip-in.run { animation: tx-marquee 60s linear infinite; } .tx-strip:hover .tx-strip-in { animation-play-state: paused; } }
+.tx-strip { overflow-x: auto; }
 @keyframes tx-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .tx-tick { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
 .tx-coin { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 10px; font-weight: 700; color: #fff; flex: none; }
@@ -98,6 +99,13 @@
 [data-dash-source-state=empty] { color: transparent; }
 [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 .tx-page[hidden] { display: none !important; }
+.tx-what { margin: 0; padding: 10px 20px 0; font-size: 14px; color: var(--color-fg-muted); line-height: 1.5; max-width: 80ch; }
+.tx-start { padding: 20px; display: grid; gap: 12px; border-left: 5px solid var(--tx-accent); }
+.tx-start h2 { margin: 0; font-size: 1.25rem; font-weight: var(--cds-font-weight-medium); }
+.tx-start ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.tx-start li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; font-size: 16px; line-height: 1.5; align-items: start; }
+.tx-start li .n { width: 26px; height: 26px; border-radius: 50%; background: var(--tx-soft); color: var(--color-fg); display: grid; place-items: center; font-size: 13px; font-weight: var(--cds-font-weight-medium); }
+.tx-start li b { font-weight: var(--cds-font-weight-medium); }
 .tx-bots { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
 .tx-tile2 { padding: 20px; display: grid; gap: 10px; align-content: start; }
 .tx-tile2.small { padding: 16px; gap: 8px; }
@@ -165,20 +173,21 @@
   .tx { grid-template-columns: minmax(0, 1fr); }
   .tx-side { position: static; flex-direction: row; justify-content: center; height: auto; min-height: 0; padding: 8px; border-right: 0; border-bottom: 1px solid var(--color-border-line); flex-wrap: wrap; }
   .tx-logo { margin: 0 8px 0 0; }
-  .tx-nav .lbl { display: none; }
+  .tx-nav { width: auto; min-height: 38px; padding: 0 10px; font-size: 13px; gap: 6px; }
+  .tx-nav svg { width: 16px; height: 16px; }
 }
 </style>
 
 <div class="tx" id="tx">
   <nav class="tx-side" role="tablist" aria-label="Onderdelen" aria-orientation="vertical">
     <div class="tx-logo" aria-hidden="true">T</div>
-    <button class="tx-nav" role="tab" id="dashboard" aria-selected="true" data-page="pg-dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><span class="lbl">Dashboard</span></button>
-    <button class="tx-nav" role="tab" id="grafieken" aria-selected="false" data-page="pg-grafieken"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 4v16M12 7v10M18 5v12"/><rect x="4.5" y="8" width="3" height="7" rx="1"/><rect x="10.5" y="9" width="3" height="5" rx="1"/><rect x="16.5" y="7" width="3" height="6" rx="1"/></svg><span class="lbl">Kaarsgrafieken</span></button>
-    <button class="tx-nav" role="tab" id="patronen" aria-selected="false" data-page="pg-patronen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l4-4 3 3 5-6 3 3 3-3"/><path d="M3 21h18"/><circle cx="15" cy="10" r="1.2"/></svg><span class="lbl">Patronen in de grafieken</span></button>
+    <button class="tx-nav" role="tab" id="dashboard" aria-selected="true" data-page="pg-dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><span class="lbl">Overzicht</span></button>
+    <button class="tx-nav" role="tab" id="grafieken" aria-selected="false" data-page="pg-grafieken"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 4v16M12 7v10M18 5v12"/><rect x="4.5" y="8" width="3" height="7" rx="1"/><rect x="10.5" y="9" width="3" height="5" rx="1"/><rect x="16.5" y="7" width="3" height="6" rx="1"/></svg><span class="lbl">Grafieken</span></button>
+    <button class="tx-nav" role="tab" id="patronen" aria-selected="false" data-page="pg-patronen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l4-4 3 3 5-6 3 3 3-3"/><path d="M3 21h18"/><circle cx="15" cy="10" r="1.2"/></svg><span class="lbl">Patronen</span></button>
     <button class="tx-nav" role="tab" id="kansen" aria-selected="false" data-page="pg-kansen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg><span class="lbl">Kansen</span></button>
     <button class="tx-nav" role="tab" id="analyse" aria-selected="false" data-page="pg-analyse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19l5-6 4 3 7-9"/><path d="M15 7h5v5"/></svg><span class="lbl">Analyse</span></button>
-    <button class="tx-nav" role="tab" id="onderzoek" aria-selected="false" data-page="pg-onderzoek"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3"/><path d="M7.5 15h9"/></svg><span class="lbl">Wekelijks onderzoek: leert de bot?</span></button>
-    <button class="tx-nav" role="tab" id="risico" aria-selected="false" data-page="pg-risico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span class="lbl">Risico en klaar voor echt geld</span></button>
+    <button class="tx-nav" role="tab" id="onderzoek" aria-selected="false" data-page="pg-onderzoek"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3"/><path d="M7.5 15h9"/></svg><span class="lbl">Onderzoek</span></button>
+    <button class="tx-nav" role="tab" id="risico" aria-selected="false" data-page="pg-risico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span class="lbl">Risico</span></button>
     <button class="tx-nav" role="tab" id="controles" aria-selected="false" data-page="pg-controles"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg><span class="lbl">Controles</span></button>
   </nav>
 
@@ -193,6 +202,10 @@
 
     <!-- DASHBOARD -->
     <section class="tx-page" id="pg-dashboard" role="tabpanel" aria-labelledby="dashboard">
+      <div class="tx-card tx-start" id="begin-hier">
+        <h2>Begin hier</h2>
+        <ol id="begin-lijst" data-source="begin_hier"></ol>
+      </div>
       <div class="tx-card tx-strip" id="strip" data-source="tickers"><div class="tx-strip-in" id="strip-in"><span class="dash-skeleton">—</span></div></div>
 
       <div class="tx-card" id="kort-patronen">
@@ -202,6 +215,7 @@
 
       <div class="tx-card" id="koersverloop">
         <div class="tx-card-h"><h2 id="big-title">Koersverloop</h2></div>
+        <p class="tx-what">Wat zie je hier? De koers van één aandeel over de laatste maanden, met eronder hoeveel er per dag gehandeld is. Kies hieronder een aandeel en hoe ver je terug wilt kijken.</p>
         <div class="tx-card-b">
           <div class="tx-controls">
             <label>Aandeel <select id="pick" aria-label="Kies een aandeel"></select></label>
@@ -223,6 +237,7 @@
       <div class="tx-two">
         <div class="tx-card" id="recent">
           <div class="tx-card-h"><h2>Recente trades</h2></div>
+        <p class="tx-what">Wat zie je hier? Alles wat de bots kochten en verkochten, het nieuwste bovenaan. Bij een verkoop zie je of het winst of verlies opleverde.</p>
           <div class="tx-tablewrap">
             <table id="tbl-trades" data-source="trades" data-row-key="id">
               <thead><tr><th data-field="dag">Datum</th><th data-field="bot">Bot</th><th data-field="soort">Soort</th><th data-field="naam">Aandeel</th><th class="num" data-field="waarde_eur">Bedrag</th><th class="num" data-field="resultaat_eur">Resultaat</th></tr></thead>
@@ -232,6 +247,7 @@
         </div>
         <div class="tx-card" id="markten">
           <div class="tx-card-h"><h2>Markt</h2></div>
+        <p class="tx-what">Wat zie je hier? De koersen van wat de bots in bezit hebben: hoeveel ze vandaag en in 3 maanden zijn gestegen of gedaald. Kies onderaan welke bot.</p>
           <div class="tx-tablewrap">
             <table id="tbl-markt" data-source="tickers" data-row-key="ticker">
               <thead><tr><th data-field="naam">Aandeel</th><th class="num" data-field="slot">Koers</th><th class="num" data-field="dag_pct">Vandaag</th><th class="num" data-field="drie_mnd_pct">3 maanden</th></tr></thead>
@@ -324,6 +340,7 @@
     <section class="tx-page" id="pg-risico" role="tabpanel" aria-labelledby="risico" hidden>
       <div class="tx-card" id="card-risico">
         <div class="tx-card-h"><h2>Verlies en risico per positie</h2></div>
+        <p class="tx-what">Wat zie je hier? Per aandeel hoeveel je in de plus of min staat, en wat er gebeurt als de koers zakt tot de stop-loss.</p>
         <div class="tx-tablewrap">
           <table id="tbl-posities" data-source="posities" data-row-key="bot,ticker">
             <thead><tr><th data-field="bot">Bot</th><th data-field="naam">Aandeel</th><th class="num" data-field="resultaat_eur">Resultaat</th><th class="num" data-field="resultaat_pct">%</th><th class="num" data-field="afstand_stop_pct">Boven stop</th><th class="num" data-field="bij_stop_eur">Bij stop-loss</th><th data-source="uitleg_positie" data-field="uitleg">In gewone taal</th></tr></thead>
@@ -429,6 +446,29 @@ dash.calc('tickers', {
   },
 });
 
+dash.calc('begin_hier', {
+  title: 'Begin hier',
+  description: 'Drie zinnen in gewone taal: hoe staan de bots ervoor, wat deden ze op de laatste handelsdag, en waar moet je op letten. Gemaakt uit de stand, de trades en de analyse.',
+  inputs: ['stand', 'trades', 'oogopslag'],
+  fn: (stand, trades, oogopslag) => {
+    const eur = (v) => '€' + Math.abs(v).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const st = stand.filter((r) => !r.leeg);
+    const dag = st.length ? st[0].dag : '';
+    const stand1 = st.map((r) => r.bot + ' staat ' + eur(r.sinds_start_eur) + (r.sinds_start_eur >= 0 ? ' in de plus' : ' in de min')).join(', ');
+    const vandaag = trades.filter((t) => !t.leeg && t.dag === dag);
+    const gedaan = vandaag.length
+      ? vandaag.map((t) => t.bot + (t.soort === 'koop' ? ' kocht ' : ' verkocht ') + t.naam).join('; ') + '.'
+      : 'Geen aankopen of verkopen: de bots hielden hun posities vast.';
+    const kort = oogopslag.filter((r) => !r.leeg && r.tegel === 'kort')
+      .sort((a, b) => (a.bot === 'Trend-agent' ? -1 : 1)).map((r) => r.uitleg);
+    return [
+      { id: 'stand', kop: 'Hoe staat het ervoor?', tekst: stand1 ? stand1 + ' sinds de start met elk €10.000 nepgeld.' : 'Nog geen stand.' },
+      { id: 'gedaan', kop: 'Wat deden de bots?', tekst: gedaan },
+      { id: 'letop', kop: 'Wat zie je in de markt?', tekst: kort.length ? kort.join(' ') : 'Nog geen analyse.' },
+    ];
+  },
+});
+
 dash.calc('uitleg_positie', {
   title: 'Uitleg per positie',
   description: 'Een zin per positie, gemaakt uit resultaat, afstand tot de stop-loss en het bedrag bij de stop-loss.',
@@ -511,7 +551,7 @@ dash.calc('uitleg_positie', {
       });
       // Twee keer achter elkaar, zodat de balk naadloos doorloopt
       const copy = items.map((n) => { const c = n.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.querySelectorAll('[data-source]').forEach((m) => { m.removeAttribute('data-source'); m.removeAttribute('data-field'); m.removeAttribute('data-where'); }); return c; });
-      strip.replaceChildren(...items, ...copy);
+      strip.replaceChildren(...items);
       strip.classList.toggle('run', items.length > 4);
     }
 
@@ -949,6 +989,23 @@ dash.calc('trendreeks', {
       });
       c.append(h, b);
       return c;
+    }));
+  });
+})();
+
+// Begin hier
+(() => {
+  const { el, failed } = window.tx;
+  const list = document.getElementById('begin-lijst');
+  dash.onData(() => {
+    const b = dash.data('begin_hier');
+    if (b.status === 'error') { failed(list); return; }
+    if (b.status !== 'ok') return;
+    list.replaceChildren(...b.data.map((r, i) => {
+      const li = el('li');
+      const t = el('div'); t.append(el('b', {}, r.kop + ' '), el('span', { 'data-source': 'begin_hier', 'data-field': 'tekst', 'data-where': 'id=' + r.id }, r.tekst));
+      li.append(el('span', { class: 'n', 'aria-hidden': 'true' }, String(i + 1)), t);
+      return li;
     }));
   });
 })();
