@@ -395,6 +395,8 @@ def _research(s, args) -> int:
     base = replace_settings(s)
 
     sections, rows, recommendations = [], [], []
+    dash_rows, dash_lessen = [], []
+    etf_ret = None
     for kind in ("trend", "investeerder"):
         print(f"Onderzoek {kind}...")
         results = evaluation.run_variants(kind, base, provider, start, today)
@@ -414,6 +416,27 @@ def _research(s, args) -> int:
                                     "sharpe_holdout_productie": round(prod_m["sharpe_holdout"], 3),
                                     "max_daling": round(m["max_daling"], 4),
                                     "max_daling_productie": round(prod_m["max_daling"], 4)})
+        if etf_ret is None and "IWDA.AS" in bars:
+            pts = [b.close for b in bars["IWDA.AS"] if days[0] <= b.day <= days[-1]]
+            etf_ret = pts[-1] / pts[0] - 1 if len(pts) > 1 else None
+        checks = {v.variant: v.checks for v in verdicts}
+        for r in results:
+            m = evaluation.metrics_row(r, days)
+            ok = r.name == "productie" or accepted.get(r.name)
+            dash_rows.append({
+                "id": f"{kind}-{r.name}", "datum": today.isoformat(),
+                "bot": "Trend-agent" if kind == "trend" else "Investeerder", "variant": r.name,
+                "uitleg": evaluation.UITLEG.get(r.name, ""),
+                "patroon": r.name in ("koop-na-terugval", "koop-bij-nieuwe-top", "verkoop-na-2-rode-trendkaarsen"),
+                "totaal": round(m["totaal"], 4), "per_jaar": round(m["per_jaar"], 4),
+                "eindwaarde": round(10000 * (1 + m["totaal"]), 2), "max_daling": round(m["max_daling"], 4),
+                "sharpe_holdout": round(m["sharpe_holdout"], 3), "trades": m["trades"],
+                "winst_pct": round(m["winst_pct"], 3) if m["winst_pct"] == m["winst_pct"] else None,
+                "etf_totaal": round(etf_ret, 4) if etf_ret is not None else None,
+                "oordeel": "productie" if r.name == "productie" else ("aanbevolen" if ok else "afgewezen"),
+                "toetsen": " · ".join(("✓ " if c.ok else "✗ ") + c.name + ": " + c.detail for c in checks.get(r.name, [])),
+                "periode": f"{days[0].isoformat()} t/m {days[-1].isoformat()}",
+            })
         for r in results:
             m = evaluation.metrics_row(r, days)
             rows.append([today.isoformat(), kind, r.name, prod_version if r.name == "productie" else "",
@@ -423,6 +446,9 @@ def _research(s, args) -> int:
         if kind == "trend":
             prod = next(r for r in results if r.name == "productie")
             sections.append(learning.render("Trend-agent: lessen uit 5 jaar backtest (productie)", prod.trades))
+            _, _, found = learning.analyse(prod.trades)
+            dash_lessen += [{"id": f"les-{i}", "bron": "5 jaar test", "soort": f.kind, "tekst": f.text()}
+                            for i, f in enumerate(found)]
             live_path = s.state_dir / "portfolio.json"
             if live_path.exists():
                 pf = Portfolio.load(live_path, s.starting_cash_eur)
@@ -447,6 +473,9 @@ def _research(s, args) -> int:
     out.mkdir(parents=True, exist_ok=True)
     (out / "LAATSTE.md").write_text(report, encoding="utf-8")
     (out / f"{today.isoformat()}.md").write_text(report, encoding="utf-8")
+    (out / "dashboard.json").write_text(json.dumps({"datum": today.isoformat(), "varianten": dash_rows,
+                                                    "lessen": dash_lessen}, indent=1, ensure_ascii=False),
+                                        encoding="utf-8")
     (out / "aanbeveling.json").write_text(json.dumps(recommendations, indent=2, ensure_ascii=False) + "\n",
                                           encoding="utf-8")
     hist = out / "historie.csv"

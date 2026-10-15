@@ -173,6 +173,14 @@ def build(state_dir: Path, reports_dir: Path) -> dict[str, list[dict]]:
             rows.append({"id": f"{key}-{i}", "bot": name, "tekst": line.replace("**", "")})
     out["controles"] = rows
 
+    # Wekelijks onderzoek (zaterdag): getoetste varianten en wat de bot leerde
+    onderzoek = _load(state_dir.parent / "onderzoek" / "dashboard.json") if state_dir.name == "state" else {}
+    if not onderzoek:
+        onderzoek = _load(Path("onderzoek") / "dashboard.json")
+    out["onderzoek"] = onderzoek.get("varianten", [])
+    out["onderzoek_samenvatting"] = [{"id": f"o{i}", "nr": i, "tekst": t}
+                                     for i, t in enumerate(onderzoek_zinnen(onderzoek, books), 1)]
+
     # Patronen in de grafieken (beschrijvend, voorspelt niets)
     from . import patronen
     folder = patronen.latest_folder(reports_dir)
@@ -180,6 +188,58 @@ def build(state_dir: Path, reports_dir: Path) -> dict[str, list[dict]]:
     out["patronen"] = [dict(r, id=r["ticker"]) for r in prow]
     out["patronen_samenvatting"] = [{"id": f"s{i}", "nr": i, "tekst": t}
                                     for i, t in enumerate(patronen.samenvatting(prow), 1)]
+    return out
+
+
+def _p(x: float) -> str:
+    return f"{x:+.1%}".replace(".", ",")
+
+
+def onderzoek_zinnen(onderzoek: dict, books: dict) -> list[str]:
+    """Het onderzoek in gewone taal: is er bewijs dat de bots winst maken, en leerde de bot iets nieuws?"""
+    rows = onderzoek.get("varianten", [])
+    if not rows:
+        return []
+    out = []
+    datum = onderzoek.get("datum", "")
+    for bot in ("Trend-agent", "Investeerder"):
+        prod = next((r for r in rows if r["bot"] == bot and r["variant"] == "productie"), None)
+        if not prod:
+            continue
+        etf = prod.get("etf_totaal")
+        line = (f"{bot}: in de test over 5 jaar werd €10.000 ongeveer €{prod['eindwaarde']:,.0f} "
+                f"({_p(prod['totaal'])}, {_p(prod['per_jaar'])} per jaar)").replace(",", ".", 1)
+        if etf is not None:
+            line += f"; de wereld-ETF deed {_p(etf)}" + (", de bot deed het dus beter." if prod["totaal"] > etf
+                                                          else ", gewoon de ETF kopen was dus beter.")
+        else:
+            line += "."
+        out.append(line)
+    tested = [r for r in rows if r["variant"] != "productie"]
+    good = [r for r in tested if r["oordeel"] == "aanbevolen"]
+    pat = [r for r in tested if r.get("patroon")]
+    out.append(f"Getest op {datum}: {len(tested)} andere regels, waarvan {len(pat)} op basis van patronen uit de "
+               f"grafieken. " + (f"Aanbevolen: {', '.join(r['variant'] for r in good)}. Er staat een voorstel "
+                                 "voor je klaar op GitHub; jij beslist." if good else
+                                 "Geen enkele was aantoonbaar beter op de ongeziene laatste 30% van de jaren, "
+                                 "dus de bot blijft bij zijn huidige regels."))
+    for r in pat:
+        prod = next((p for p in rows if p["bot"] == r["bot"] and p["variant"] == "productie"), None)
+        if prod:
+            beter = r["totaal"] > prod["totaal"]
+            out.append(f"Patroon '{r['uitleg'].split(': ', 1)[-1].rstrip('.')}' leverde {_p(r['totaal'])} op, "
+                       f"tegen {_p(prod['totaal'])} met de huidige regels: "
+                       + ("op het geheel beter, " if beter else "slechter, ")
+                       + ("en het haalde alle toetsen." if r["oordeel"] == "aanbevolen" else "maar het haalde niet alle toetsen."))
+    for name, key in (("Trend-agent", "trend"), ("Investeerder", "investeerder")):
+        pts = [e for e in books.get(key, {}).get("equity_history", []) if "bench" in e]
+        if len(pts) >= 2:
+            bot = pts[-1]["equity"] / pts[0]["equity"] - 1
+            etf = pts[-1]["bench"] / pts[0]["bench"] - 1
+            out.append(f"Live met nepgeld ({len(pts)} handelsdagen): {name} {_p(bot)}, wereld-ETF {_p(etf)}. "
+                       "Nog te kort om iets te bewijzen; daar zijn ongeveer 3 maanden voor nodig.")
+    out.append("Winst in het verleden is geen garantie voor later. De aandelenlijst is achteraf gekozen, "
+               "dus de echte uitkomst zou waarschijnlijk lager zijn geweest.")
     return out
 
 
@@ -194,6 +254,8 @@ EMPTY = {
     "controles": "Nog geen controles.",
     "waarde": "Nog geen waarde per dag.",
     "oogopslag": "De samenvatting verschijnt na de volgende ronde van de bots.",
+    "onderzoek": "Het wekelijkse onderzoek draait elke zaterdag; de uitkomst verschijnt daarna hier.",
+    "onderzoek_samenvatting": "Het wekelijkse onderzoek draait elke zaterdag; de uitkomst verschijnt daarna hier.",
     "patronen": "Nog geen grafieken om patronen in te zoeken.",
     "patronen_samenvatting": "Nog geen grafieken om samen te vatten.",
     "stand": "Nog geen stand.",

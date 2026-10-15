@@ -38,3 +38,33 @@ class PatronenTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PatternRuleTests(unittest.TestCase):
+    def test_heikin_ashi_red(self):
+        from datetime import date, timedelta
+        from trendagent.agent import heikin_ashi_red
+        from trendagent.data import Bar
+        up = [Bar(date(2026, 1, 1) + timedelta(days=i), 100 + i, 101 + i, 99 + i, 100.5 + i, 1) for i in range(20)]
+        down = [Bar(date(2026, 2, 1) + timedelta(days=i), 120 - i, 121 - i, 118 - i, 119 - i, 1) for i in range(6)]
+        self.assertFalse(heikin_ashi_red(up, 2))
+        self.assertTrue(heikin_ashi_red(up + down, 2))
+
+    def test_production_accepts_pattern_settings(self):
+        import json, tempfile
+        from pathlib import Path
+        from trendagent.core.production import ProductionConfigError, load_production
+        p = Path(tempfile.mkdtemp()) / "p.json"
+        p.write_text(json.dumps({"trend": {"entry_filter": "terugval", "ha_exit": True}}))
+        self.assertEqual(load_production(p)["trend"]["entry_filter"], "terugval")
+        p.write_text(json.dumps({"trend": {"entry_filter": "gokken"}}))
+        with self.assertRaises(ProductionConfigError):
+            load_production(p)
+
+    def test_version_unchanged_with_defaults(self):
+        from trendagent.core.config import Settings
+        from trendagent.strategies import trend_version
+        from dataclasses import replace
+        s = Settings()
+        self.assertNotEqual(trend_version(s), trend_version(replace(s, ha_exit=True)))
+        self.assertNotIn("ha_exit", __import__("trendagent.strategies", fromlist=["x"]).trend_params(s))

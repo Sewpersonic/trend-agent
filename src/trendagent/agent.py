@@ -139,6 +139,7 @@ class TrendAgent:
                       "verdacht": {t: i for t, i in suspicious.items()}, "wisselkoers": "ok",
                       "regime": rep.regime, "verouderd": len(stale)}
         self.last_bars = bars
+        self._bars = bars
         if hasattr(self.provider, "summary"):
             rep.health["bronnen"] = self.provider.summary()
 
@@ -211,6 +212,13 @@ class TrendAgent:
                         exit_context=self._ctx(ticker, a), regime=self.regime.label)
             self._log_trade(t, rep)
             return
+        if self.s.ha_exit and heikin_ashi_red(bars, 2):
+            fill = a.close * (1 - self.s.slippage)
+            t = pf.sell(rep.day, ticker, fill, rate, self._costs(pos.qty * fill * rate),
+                        "2 rode trendkaarsen op rij (trend verzwakt)",
+                        exit_context=self._ctx(ticker, a), regime=self.regime.label)
+            self._log_trade(t, rep)
+            return
         trail = pos.highest_close - self.s.trail_atr_multiple * a.atr14
         if trail > pos.stop:
             self.audit.append("stop_raised", ACTOR, {"ticker": ticker, "old": round(pos.stop, 4),
@@ -249,6 +257,10 @@ class TrendAgent:
             if rsi_now is not None and rsi_now > self.s.max_rsi_entry:
                 rep.actions.append(f"{a.ticker}: overgeslagen (RSI {rsi_now:.0f} boven {self.s.max_rsi_entry:.0f})")
                 continue
+            why_not = self._pattern_blocks(a.ticker)
+            if why_not:
+                rep.actions.append(f"{a.ticker}: overgeslagen ({why_not})")
+                continue
             inst = BY_TICKER[a.ticker]
             rate = fx[inst.currency]
             entry = a.close * (1 + self.s.slippage)
@@ -274,6 +286,20 @@ class TrendAgent:
             slots -= 1
 
     # ------------------------------------------------------------------ hulp
+
+    def _pattern_blocks(self, ticker: str) -> str | None:
+        """Patroonfilter bij instap (alleen als entry_filter aan staat). Geeft de reden om niet te kopen, of None."""
+        mode = getattr(self.s, "entry_filter", "geen")
+        if mode == "geen":
+            return None
+        closes = [b.close for b in getattr(self, "_bars", {}).get(ticker, [])]
+        if len(closes) < 64:
+            return "te weinig historie voor het patroonfilter"
+        if mode == "terugval" and not closes[-1] < closes[-6]:
+            return "patroonfilter: geen terugval in de laatste week"
+        if mode == "uitbraak" and not closes[-1] >= max(closes[-64:-1]):
+            return "patroonfilter: geen nieuwe 3-maands top"
+        return None
 
     def _ctx(self, ticker: str, a: Analysis) -> dict:
         """Marktomstandigheden van één instrument, voor het journaal en de uitleg."""
@@ -329,6 +355,21 @@ class TrendAgent:
         self.audit.append("run_finished", ACTOR, {"status": rep.status, "equity_eur": rep.equity_eur,
                                                    "actions": len(rep.actions)})
         return rep
+
+
+def heikin_ashi_red(bars: list[Bar], n: int) -> bool:
+    """True als de laatste n trendkaarsen (Heikin-Ashi) rood zijn. Gebruikt de laatste 30 dagen."""
+    view = bars[-30:]
+    if len(view) < n + 2:
+        return False
+    po = pc = None
+    colors = []
+    for b in view:
+        c = (b.open + b.high + b.low + b.close) / 4
+        o = (b.open + b.close) / 2 if po is None else (po + pc) / 2
+        colors.append(c >= o)
+        po, pc = o, c
+    return not any(colors[-n:])
 
 
 def render_report(rep: RunReport, pf: Portfolio) -> str:

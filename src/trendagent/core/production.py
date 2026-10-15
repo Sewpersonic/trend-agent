@@ -30,6 +30,8 @@ TREND_ALLOWED = {
     "trail_atr_multiple": (float, 1.0, 6.0),
     "regime_filter": (bool, None, None),
     "max_rsi_entry": (float, 50.0, 100.0),
+    "entry_filter": (str, ("geen", "terugval", "uitbraak"), None),
+    "ha_exit": (bool, None, None),
 }
 
 INVESTOR_ALLOWED = {
@@ -56,6 +58,9 @@ def _check(section: str, values: dict, allowed: dict) -> dict:
         if typ is bool:
             if not isinstance(value, bool):
                 raise ProductionConfigError(f"'{section}.{key}' moet true of false zijn")
+        elif typ is str:
+            if value not in lo:
+                raise ProductionConfigError(f"'{section}.{key}' moet een van {list(lo)} zijn")
         else:
             if isinstance(value, bool) or not isinstance(value, (int, float)):
                 raise ProductionConfigError(f"'{section}.{key}' moet een getal zijn")

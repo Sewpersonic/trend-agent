@@ -36,8 +36,15 @@ def _fingerprint(params: dict) -> str:
     return hashlib.sha256(raw.encode()).hexdigest()[:6]
 
 
+# Later toegevoegde instellingen tellen alleen mee als ze afwijken van de standaard,
+# zodat de versie van bestaande productie-instellingen niet verandert.
+TREND_OPTIONAL = {"entry_filter": "geen", "ha_exit": False}
+
+
 def trend_params(settings) -> dict:
-    return {k: getattr(settings, k) for k in TREND_PARAMS}
+    out = {k: getattr(settings, k) for k in TREND_PARAMS}
+    out.update({k: getattr(settings, k) for k, d in TREND_OPTIONAL.items() if getattr(settings, k, d) != d})
+    return out
 
 
 def trend_version(settings) -> str:

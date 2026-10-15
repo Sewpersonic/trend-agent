@@ -59,6 +59,8 @@ class Settings:
     # Filters die alleen aangaan als het onderzoek bewijst dat ze helpen (standaard uit):
     regime_filter: bool = False           # geen nieuwe aankopen bij dalende markt of hoge beweeglijkheid
     max_rsi_entry: float = 100.0          # niet kopen boven deze RSI (100 = filter uit)
+    entry_filter: str = "geen"            # patroon bij instap: geen / terugval (na een dip) / uitbraak (op een nieuwe top)
+    ha_exit: bool = False                 # ook verkopen na 2 rode trendkaarsen (Heikin-Ashi) op rij
 
     # --- simulatie van kosten
     slippage: float = 0.0005              # 0,05% slechter dan de slotkoers

@@ -53,6 +53,22 @@ TREND_VARIANTS: dict[str, dict] = {
     "rem-pas-na-5-verliezen": {"max_consecutive_losses": 5},
     "regimefilter": {"regime_filter": True},
     "niet-kopen-boven-rsi-75": {"max_rsi_entry": 75.0},
+    # Patronen uit de grafieken, getoetst als regels:
+    "koop-na-terugval": {"entry_filter": "terugval"},
+    "koop-bij-nieuwe-top": {"entry_filter": "uitbraak"},
+    "verkoop-na-2-rode-trendkaarsen": {"ha_exit": True},
+}
+
+# In gewone taal: wat elke variant test.
+UITLEG = {
+    "productie": "De huidige regels van de bot.",
+    "rem-pas-na-5-verliezen": "Noodstop pas na 5 verliestrades op rij in plaats van 3.",
+    "regimefilter": "Niets nieuws kopen als de hele markt daalt of erg onrustig is.",
+    "niet-kopen-boven-rsi-75": "Niet kopen als een aandeel net heel snel is gestegen (RSI boven 75).",
+    "koop-na-terugval": "Patroon: alleen kopen na een terugval in de laatste week (kopen in de dip).",
+    "koop-bij-nieuwe-top": "Patroon: alleen kopen als het aandeel een nieuwe 3-maands top maakt (uitbraak).",
+    "verkoop-na-2-rode-trendkaarsen": "Patroon: ook verkopen zodra er 2 rode trendkaarsen op rij komen.",
+    "satelliet-3-aandelen": "Investeerder: 3 in plaats van 5 sterke aandelen.",
 }
 
 # Wijzigingen ten opzichte van de huidige productie-instellingen.
