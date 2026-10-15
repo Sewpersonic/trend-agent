@@ -10,7 +10,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from . import insights
+from . import insights, uitleg
 from .universe import BY_TICKER
 
 BOTS = (("Investeerder", "investeerder", "investeerder.json"), ("Trend-agent", "trend", "portfolio.json"))
@@ -103,7 +103,17 @@ def build(state_dir: Path, reports_dir: Path) -> dict[str, list[dict]]:
         for i, c in enumerate(d.get("conclusies", [])):
             rows.append({"id": f"{key}-conclusie-{i}", "bot": name, "soort": "conclusie", "onderdeel": "",
                          "tekst": c})
+    for r in rows:
+        if r["soort"] == "conclusie":
+            r["kleur"] = uitleg.kleur_van(r["tekst"])
     out["analyse"] = rows
+
+    # In één oogopslag: tegels per bot
+    rows = []
+    for name, key, _ in BOTS:
+        for i, t in enumerate(uitleg.oogopslag(key, info.get(key, {}))):
+            rows.append(dict(t, id=f"{key}-{i}", bot=name))
+    out["oogopslag"] = rows
 
     # Kansen
     rows = []
@@ -183,6 +193,7 @@ EMPTY = {
     "koersen": "Nog geen koersen voor grafieken.",
     "controles": "Nog geen controles.",
     "waarde": "Nog geen waarde per dag.",
+    "oogopslag": "De samenvatting verschijnt na de volgende ronde van de bots.",
     "patronen": "Nog geen grafieken om patronen in te zoeken.",
     "patronen_samenvatting": "Nog geen grafieken om samen te vatten.",
     "stand": "Nog geen stand.",

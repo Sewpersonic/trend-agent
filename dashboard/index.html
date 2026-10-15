@@ -98,6 +98,22 @@
 [data-dash-source-state=empty] { color: transparent; }
 [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 .tx-page[hidden] { display: none !important; }
+.tx-kort { margin: 0; font-size: var(--cds-font-size-heading); line-height: 1.45; padding: 12px 14px; border-radius: 10px; background: var(--tx-soft); border-left: 4px solid var(--k, var(--color-fg-muted)); }
+.tx-tiles { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr)); }
+.tx-tile { border: 1px solid var(--color-border-line); border-radius: 10px; padding: 10px 12px; display: grid; gap: 4px; align-content: start; }
+.tx-tile .o { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.tx-tile .w { font-family: var(--font-anthropic-serif); font-size: var(--cds-font-size-title); line-height: 1.1; display: flex; align-items: center; gap: 8px; }
+.tx-tile .w::before { content: ""; width: 12px; height: 12px; border-radius: 50%; background: var(--k, var(--color-fg-muted)); flex: none; }
+.tx-tile .u { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.45; }
+.k-goed { --k: var(--tx-up); } .k-letop { --k: var(--color-warn); } .k-slecht { --k: var(--tx-down); } .k-neutraal { --k: var(--color-fg-muted); }
+.tx-points { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.tx-points li { display: grid; grid-template-columns: 12px 1fr; gap: 10px; align-items: baseline; line-height: 1.5; font-size: var(--cds-font-size-body); }
+.tx-points li::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--k, var(--color-fg-muted)); transform: translateY(1px); }
+.tx-details summary { cursor: pointer; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.tx-details[open] summary { margin-bottom: 8px; }
+.tx-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.tx-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.tx-legend span::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--k); }
 .tx-trendzin { margin: 0; font-size: var(--cds-font-size-body); line-height: 1.5; }
 .tx-note[hidden] { display: none; }
 .tx-more { all: unset; cursor: pointer; font-size: var(--cds-font-size-caption); color: var(--tx-accent); font-weight: var(--cds-font-weight-medium); }
@@ -242,7 +258,7 @@
 
     <!-- ANALYSE -->
     <section class="tx-page" id="pg-analyse" role="tabpanel" aria-labelledby="analyse" hidden>
-      <div class="tx-two" id="analyse-cards" data-source="analyse"></div>
+      <div class="tx-two" id="analyse-cards" data-source="oogopslag analyse"></div>
     </section>
 
     <!-- RISICO -->
@@ -910,23 +926,46 @@ dash.calc('trendreeks', {
       }));
     }
 
-    // Analyse
+    // Analyse: eerst in één oogopslag, dan wat het betekent, details uitklapbaar
     const ab = document.getElementById('analyse-cards');
-    const a = dash.data('analyse');
-    if (a.status === 'error') failed(ab);
+    const a = dash.data('analyse'), o = dash.data('oogopslag');
+    if (a.status === 'error' || o.status === 'error') failed(ab);
     else if (a.status === 'ok') {
       const rows = real(a.data);
-      ab.replaceChildren(...[...new Set(rows.map((r) => r.bot))].map((bot) => {
+      const tiles = o.status === 'ok' ? real(o.data) : [];
+      const bots = [...new Set(rows.map((r) => r.bot).concat(tiles.map((t) => t.bot)))];
+      const legend = el('div', { class: 'tx-legend', style: 'grid-column: 1 / -1' });
+      [['goed', 'gunstig'], ['letop', 'let op'], ['slecht', 'ongunstig'], ['neutraal', 'neutraal']].forEach(([k, t]) => legend.append(el('span', { class: 'k-' + k }, t)));
+      ab.replaceChildren(legend, ...bots.map((bot) => {
         const c = el('div', { class: 'tx-card', id: 'analyse-' + bot.toLowerCase().replace(/[^a-z]/g, '') });
         const h = el('div', { class: 'tx-card-h' }); h.append(el('h2', {}, bot));
         const b = el('div', { class: 'tx-card-b' });
-        b.append(el('h3', { style: 'margin:0; font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium)' }, 'Wat de bot zag'));
+        const mine = tiles.filter((t) => t.bot === bot);
+        const kort = mine.find((t) => t.tegel === 'kort');
+        if (kort) {
+          const p = el('p', { class: 'tx-kort k-' + kort.kleur });
+          p.append(el('b', {}, 'Kort gezegd: '), mark('oogopslag', 'uitleg', 'id=' + encodeURIComponent(kort.id), 'span', kort.uitleg));
+          b.append(p);
+        }
+        const grid = el('div', { class: 'tx-tiles' });
+        mine.filter((t) => t.tegel !== 'kort').forEach((t) => {
+          const tile = el('div', { class: 'tx-tile k-' + t.kleur });
+          tile.append(el('span', { class: 'o' }, t.tegel), mark('oogopslag', 'waarde', 'id=' + encodeURIComponent(t.id), 'span', t.waarde, 'w'),
+            mark('oogopslag', 'uitleg', 'id=' + encodeURIComponent(t.id), 'span', t.uitleg, 'u'));
+          grid.append(tile);
+        });
+        if (mine.length) b.append(grid);
+        b.append(el('h3', { style: 'margin:4px 0 0; font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium)' }, 'Wat betekent dit?'));
+        const pts = el('ul', { class: 'tx-points' });
+        rows.filter((r) => r.bot === bot && r.soort === 'conclusie').forEach((r) => pts.append(mark('analyse', 'tekst', 'id=' + encodeURIComponent(r.id), 'li', r.tekst, 'k-' + (r.kleur || 'neutraal'))));
+        b.append(pts);
+        const det = el('details', { class: 'tx-details' });
+        det.append(el('summary', {}, 'Alle cijfers die de bot bekeek'));
         const zag = el('div', { class: 'tx-zag' });
         rows.filter((r) => r.bot === bot && r.soort === 'zag').forEach((r) => { const p = el('p', { style: 'margin:0' }); p.append(el('b', {}, r.onderdeel + ': '), mark('analyse', 'tekst', 'id=' + encodeURIComponent(r.id), 'span', r.tekst)); zag.append(p); });
-        b.append(zag, el('h3', { style: 'margin:0; font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium)' }, 'Wat de bot eruit haalt'));
-        const l = el('ul', { class: 'tx-list' });
-        rows.filter((r) => r.bot === bot && r.soort === 'conclusie').forEach((r) => l.append(mark('analyse', 'tekst', 'id=' + encodeURIComponent(r.id), 'li', r.tekst)));
-        b.append(l); c.append(h, b);
+        det.append(zag);
+        b.append(det);
+        c.append(h, b);
         return c;
       }));
     }

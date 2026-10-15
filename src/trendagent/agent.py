@@ -311,7 +311,12 @@ class TrendAgent:
                                                   "conclusies": rep.analyse.get("conclusies", []),
                                                   "zag": (uitleg.market_lines(rep.analyse["markt"])
                                                           + uitleg.funnel_lines(rep.analyse["zeef"])) if rep.analyse else [],
-                                                  "klaar": uitleg.readiness("trend", pf.equity_history, r_values)})
+                                                  "klaar": uitleg.readiness("trend", pf.equity_history, r_values),
+                                                  "markt": rep.analyse.get("markt", {}),
+                                                  "zeef": rep.analyse.get("zeef", {}),
+                                                  "vrije_plekken": self.s.max_positions - len(pf.positions),
+                                                  "gekocht": [t.ticker for t in pf.trades if t.day == rep.day and t.side == "BUY"],
+                                                  "verkocht": [t.ticker for t in pf.trades if t.day == rep.day and t.side == "SELL"]})
         markdown = render_report(rep, pf)
         (self.s.state_dir / "report.md").write_text(markdown, encoding="utf-8")
         # Rapporten voor de mens. Een fout hierin mag de handel nooit beïnvloeden.

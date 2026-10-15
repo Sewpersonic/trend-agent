@@ -265,7 +265,10 @@ class Investor:
             "zag": (uitleg.market_lines(out["analyse"]["markt"])
                     + uitleg.investor_lines(out["analyse"]["beeld"], {t: i.name for t, i in BY_TICKER.items()}))
             if out.get("analyse") else [],
-            "klaar": uitleg.readiness("investeerder", book.equity_history, [])})
+            "klaar": uitleg.readiness("investeerder", book.equity_history, []),
+            "markt": out.get("analyse", {}).get("markt", {}),
+            "beeld": out.get("analyse", {}).get("beeld", {}),
+            "volgende_herverdeling": date(today.year + today.month // 12, today.month % 12 + 1, 1).isoformat()})
         self.audit.append("run_finished", ACTOR, {"day": out["day"], "equity_eur": out["equity_eur"],
                                                    "rebalanced": due, "actions": len(out["actions"])})
         return out

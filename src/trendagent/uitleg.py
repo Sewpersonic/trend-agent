@@ -316,3 +316,104 @@ def learning_lines(r_values: list[float], pnl: float) -> list[str]:
     else:
         lines.append("- Het wekelijkse onderzoek (zaterdag) zoekt in deze trades naar patronen. Zie `onderzoek/LAATSTE.md`.")
     return lines
+
+
+# ------------------------------------------------------------------ in één oogopslag (dashboard)
+
+MAANDEN = ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober",
+           "november", "december"]
+
+
+def oogopslag(bot: str, d: dict) -> list[dict]:
+    """Eenvoudige tegels per bot: onderwerp, waarde, kleur (goed/letop/slecht/neutraal) en uitleg in gewone taal.
+    Plus één regel 'kort gezegd'. Alleen uit cijfers die de bot al berekende."""
+    m = d.get("markt") or {}
+    if not m:
+        return []
+    rows = []
+    trend = m.get("trend", "onbekend")
+    afst = m.get("afstand_sma200")
+    t_kleur = {"stijgend": "goed", "dalend": "slecht", "zijwaarts": "letop"}.get(trend, "neutraal")
+    t_uitleg = "De wereldwijde beurs (wereld-ETF) "
+    if afst is not None:
+        t_uitleg += (f"staat {abs(afst) * 100:.1f}% {'boven' if afst > 0 else 'onder'} zijn gemiddelde van de "
+                     f"laatste 200 dagen.").replace(".", ",", 1)
+    else:
+        t_uitleg += "heeft te weinig historie."
+    rows.append({"tegel": "Markt", "waarde": {"stijgend": "Stijgt", "dalend": "Daalt", "zijwaarts": "Zijwaarts"}
+                 .get(trend, "Onbekend"), "kleur": t_kleur, "uitleg": t_uitleg})
+
+    bw = m.get("beweeglijkheid", "onbekend")
+    rows.append({"tegel": "Onrust", "waarde": {"laag": "Rustig", "normaal": "Normaal", "hoog": "Onrustig"}.get(bw, "Onbekend"),
+                 "kleur": {"laag": "goed", "normaal": "neutraal", "hoog": "letop"}.get(bw, "neutraal"),
+                 "uitleg": {"laag": "Koersen bewegen minder dan normaal. Minder kans op plotselinge dalingen.",
+                            "normaal": "Koersen bewegen zoals gewoonlijk.",
+                            "hoog": "Koersen schieten meer op en neer dan normaal. " + (
+                                "Grotere kans dat een stop-loss wordt geraakt." if bot == "trend"
+                                else "De waarde schommelt dan ook meer.")}
+                 .get(bw, "Te weinig gegevens.")})
+
+    br = (m.get("breedte") or {})
+    tot = br.get("totaal")
+    if tot and tot[1]:
+        share = tot[0] / tot[1]
+        extra = ""
+        if br.get("EU") and br.get("US") and br["EU"][1] and br["US"][1]:
+            extra = f" Amerika {br['US'][0] / br['US'][1]:.0%}, Europa {br['EU'][0] / br['EU'][1]:.0%}."
+        rows.append({"tegel": "Hoeveel stijgt er?", "waarde": f"{share:.0%}",
+                     "kleur": "goed" if share >= 0.6 else "letop" if share >= 0.4 else "slecht",
+                     "uitleg": f"{tot[0]} van de {tot[1]} aandelen zitten in een stijgende trend.{extra}"})
+
+    if bot == "trend":
+        z = d.get("zeef") or {}
+        n = z.get("kandidaten", 0)
+        free = d.get("vrije_plekken", 0)
+        gek = d.get("gekocht") or []
+        if gek:
+            act = "Gekocht vandaag: " + ", ".join(gek) + "."
+        elif free <= 0:
+            act = "Alle 3 plekken zijn bezet, dus de bot koopt nu niets bij."
+        elif n:
+            act = "Er waren kansen, maar geen paste binnen de risicoregels."
+        else:
+            act = "Niets dat aan alle regels voldoet, dus de bot wacht."
+        rows.append({"tegel": "Koopbare trends", "waarde": str(n), "kleur": "goed" if n >= 5 else "letop" if n else "slecht",
+                     "uitleg": f"{n} van de {z.get('bekeken', '?')} aandelen voldoen aan alle regels. {act}"})
+        if t_kleur == "goed" and tot and tot[0] / tot[1] >= 0.6:
+            kort = "Goede omstandigheden: de markt stijgt breed."
+        elif trend == "dalend":
+            kort = "Lastige markt: de beurs daalt, de bot is voorzichtig."
+        elif trend == "zijwaarts":
+            kort = "Geen duidelijke richting: trends houden vaak kort stand."
+        else:
+            kort = "De markt stijgt, maar niet breed: wat kwetsbaarder."
+        rows.insert(0, {"tegel": "kort", "waarde": "", "kleur": t_kleur, "uitleg": kort + " " + act})
+    else:
+        b = d.get("beeld") or {}
+        uit = b.get("uit_top") or []
+        nxt = d.get("volgende_herverdeling", "")
+        when = ""
+        if nxt:
+            y, mo, _ = nxt.split("-")
+            when = f"begin {MAANDEN[int(mo) - 1]}"
+        rows.append({"tegel": "Keuzes nog goed?", "waarde": "Ja" if not uit else f"{len(uit)} wankelen",
+                     "kleur": "goed" if not uit else "letop",
+                     "uitleg": ("Alle aandelen die hij koos horen nog bij de sterkste 5." if not uit else
+                                "Uit de top 5 gevallen: " + ", ".join(uit) + f". Blijft dat zo, dan wisselt hij ze {when}.")})
+        kort = ("De investeerder houdt zijn verdeling vast en herverdeelt " + (when or "volgende maand") + ".")
+        if trend == "dalend":
+            kort = "De beurs daalt; de investeerder verkoopt daar niet op en blijft gespreid. " + kort
+        rows.insert(0, {"tegel": "kort", "waarde": "", "kleur": t_kleur, "uitleg": kort})
+    return rows
+
+
+def kleur_van(tekst: str) -> str:
+    """Grove indeling van een conclusie: goed nieuws, aandachtspunt of neutraal (voor een gekleurd bolletje)."""
+    t = tekst.lower()
+    if any(w in t for w in ("daalt", "kwetsbaar", "onder het", "terugval", "opgelopen", "te weinig", "verlies",
+                            "meer dan normaal", "sneller geraakt", "uit de top", "lastig", "naar kas")):
+        return "letop"
+    if any(w in t for w in ("stijgt breed", "goede omstandigheden", "rustig", "houdt stand", "gekocht vandaag",
+                            "sterk zonder", "doet zijn werk", "beter voor")):
+        return "goed"
+    return "neutraal"
