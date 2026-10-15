@@ -282,8 +282,11 @@
   .m-row:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
   .m-hint { margin: 0; font-size: 12px; color: var(--color-fg-muted); text-align: center; }
   /* Menu onderaan zoals in een app */
-  .tx { padding-bottom: 72px; }
-  .tx-side { position: fixed !important; top: auto !important; bottom: 0; left: 0; right: 0; display: grid !important; grid-template-columns: repeat(5, 1fr); padding: 6px 4px calc(6px + env(safe-area-inset-bottom)) !important; border-bottom: 0 !important; border-top: 1px solid var(--color-border-line); overflow: visible !important; z-index: 20; gap: 0 !important; }
+  /* App-opbouw: de pagina scrollt binnen het scherm, het menu staat er altijd onder */
+  html, body { height: 100%; overflow: hidden; margin: 0; }
+  .tx { display: flex !important; flex-direction: column; height: 100vh; height: 100dvh; min-height: 0 !important; }
+  .tx-main { flex: 1 1 auto; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; order: 1; }
+  .tx-side { order: 2; flex: none; align-self: stretch !important; width: 100%; height: auto !important; min-height: 0 !important; box-sizing: border-box; position: static !important; top: auto !important; display: grid !important; grid-template-columns: repeat(5, 1fr); padding: 6px 4px calc(6px + env(safe-area-inset-bottom)) !important; border-bottom: 0 !important; border-top: 1px solid var(--color-border-line); overflow: visible !important; z-index: 20; gap: 0 !important; }
   .tx-side .tx-nav, .tx-meer { all: unset; box-sizing: border-box; cursor: pointer; display: grid !important; justify-items: center; gap: 2px; padding: 4px 0; font-size: 11px !important; color: var(--color-fg-muted); min-height: 0 !important; background: none !important; }
   .tx-side .tx-nav svg, .tx-meer svg { width: 22px !important; height: 22px !important; }
   .tx-side .tx-nav[aria-selected="true"], .tx-meer.on { color: var(--tx-accent); }
@@ -306,7 +309,10 @@
   #coincards .tx-group-h { font-size: 17px; }
   #coincards .tx-note { display: none; }
   /* Lange lijsten: alleen de nieuwste */
-  .tx-controls select { max-width: 100%; }
+  .tx-controls { flex-wrap: wrap; }
+  .tx-controls label { display: grid; width: 100%; gap: 4px; }
+  .tx-controls select { max-width: 100%; width: 100%; }
+  .tx-controls > span[style] { margin-left: 0 !important; }
   /* Recente trades als korte regel: datum · koop/verkoop · aandeel · bedrag */
   #tbl-trades tr { display: flex !important; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; padding: 10px 16px !important; }
   #tbl-trades td { width: auto !important; padding: 0 !important; min-height: 0; font-weight: normal !important; background: none !important; }
@@ -1683,19 +1689,8 @@ dash.calc('onderzoek_verschil', {
   const meer = document.getElementById('meer');
   const extra = ['patronen', 'analyse', 'onderzoek', 'controles', 'github'];
   const markMeer = () => meer.classList.toggle('on', extra.some((id) => document.getElementById(id).getAttribute('aria-selected') === 'true'));
-  // Werkt "vast onderaan" hier echt? Zo niet: menu bovenaan met alle tegels.
-  const root = document.getElementById('tx');
-  const check = () => {
-    if (!matchMedia('(max-width: 640px)').matches) { root.classList.remove('m-flow'); return; }
-    if (root.classList.contains('m-flow')) return;
-    // Alleen als de weergave de hele pagina in één keer toont (geen eigen scrollen), kan niets onderaan blijven staan.
-    if (window.innerHeight > 2000) { root.classList.add('m-flow'); side.classList.remove('open'); }
-  };
-  addEventListener('load', () => setTimeout(check, 300));
-  addEventListener('resize', () => { root.classList.remove('m-flow'); setTimeout(check, 100); });
-  setTimeout(check, 800);
   meer.addEventListener('click', () => { const open = side.classList.toggle('open'); meer.setAttribute('aria-expanded', String(open)); });
-  document.querySelectorAll('.tx-nav').forEach((n) => n.addEventListener('click', () => { side.classList.remove('open'); meer.setAttribute('aria-expanded', 'false'); markMeer(); window.scrollTo(0, 0); }));
+  document.querySelectorAll('.tx-nav').forEach((n) => n.addEventListener('click', () => { side.classList.remove('open'); meer.setAttribute('aria-expanded', 'false'); markMeer(); document.querySelector('.tx-main').scrollTop = 0; window.scrollTo(0, 0); }));
 
   let bot = '';
   const tabs = [...document.querySelectorAll('#m-tabs button')];
