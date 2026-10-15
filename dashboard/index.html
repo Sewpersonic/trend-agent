@@ -180,7 +180,7 @@
 .tx-beeld .b-chip { display: inline-flex; align-items: center; gap: 6px; background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 999px; padding: 3px 10px 3px 3px; font-size: 14px; }
 .tx-beeld .b-chip small { font-size: 12px; }
 .tx-beeld .b-foot { font-size: 13px; color: var(--color-fg-muted); margin: 0; }
-.m-home, .tx-meer, .m-drawer, .m-shade, .m-topbar { display: none; }
+.m-home, .tx-meer, .m-drawer, .m-shade, .m-topbar, .m-broker { display: none; }
 .tx-ordersw { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: center; margin-top: 14px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--color-border-line); color: var(--color-fg); text-decoration: none; }
 .tx-ordersw:hover { background: var(--tx-soft); }
 .tx-ordersw:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
@@ -311,6 +311,26 @@
   .m-burger svg { width: 26px; height: 26px; }
   .m-burger:active { background: var(--tx-soft); }
   .m-burger:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
+  /* Oefenaccount als app */
+  #br-antwoorden, #card-br-pos, #card-br-orders { display: none !important; }
+  .m-broker { display: grid; gap: 12px; }
+  .m-bcard { border-radius: 16px; padding: 16px; background: color-mix(in srgb, #2aa876 14%, var(--color-panel)); display: grid; gap: 4px; }
+  .m-bcard .top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .m-bcard .nm { font-size: 16px; font-weight: var(--cds-font-weight-medium); }
+  .m-bcard .val { font-family: var(--font-anthropic-serif); font-size: 30px; line-height: 1.1; margin-top: 6px; }
+  .m-bcard .sb { font-size: 13px; color: var(--color-fg-muted); }
+  .m-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .m-chip { font-size: 12px; padding: 4px 10px; border-radius: 999px; background: var(--color-panel); border: 1px solid var(--color-border-line); }
+  .m-chip.ok { color: var(--tx-up); border-color: color-mix(in srgb, var(--tx-up) 40%, transparent); }
+  .m-chip.bad { color: var(--tx-down); border-color: color-mix(in srgb, var(--tx-down) 40%, transparent); }
+  .m-brow { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--color-border-line); }
+  .m-brow .tx-coin { width: 38px !important; height: 38px !important; font-size: 12px; }
+  .m-brow .n { font-size: 16px; }
+  .m-brow .t { font-size: 13px; color: var(--color-fg-muted); }
+  .m-brow .r { text-align: right; display: grid; justify-items: end; gap: 3px; }
+  .m-brow .r small { font-size: 12px; color: var(--color-fg-muted); }
+  .m-fav.br { grid-column: 1 / -1; background: color-mix(in srgb, #2aa876 14%, var(--color-panel)); cursor: pointer; }
+  .m-fav.br .val { margin-top: 6px; }
   /* Zijmenu */
   .tx { position: relative; }
   .m-shade:not([hidden]) { display: block; position: absolute; inset: 0; background: rgba(0,0,0,.35); z-index: 30; opacity: 0; transition: opacity .2s; }
@@ -621,6 +641,7 @@
     <!-- OEFENACCOUNT TRADING 212 -->
     <section class="tx-page" id="pg-broker" role="tabpanel" aria-labelledby="broker" hidden>
       <p class="tx-what" style="padding:0">De trend-agent oefent ook bij een echte broker: het oefenaccount (demo) van Trading 212, met nepgeld. Elke avond zet de bot dat account gelijk met wat hij volgens zijn eigen boekhouding bezit. Zo zie je of het bij een echte broker net zo gaat.</p>
+      <div class="m-broker" id="m-broker"></div>
       <div class="tx-answers" id="br-antwoorden" data-source="broker"></div>
       <div class="tx-card" id="card-br-pos">
         <div class="tx-card-h"><h2>Klopt het met de trend-agent?</h2></div>
@@ -1909,5 +1930,69 @@ dash.calc('onderzoek_verschil', {
       t.textContent = !st ? 'Nog niet gekoppeld' : (on ? 'Aan' : 'Uit') + (fout ? ' · koppeling geeft een fout' : '') + ' · tik om te wijzigen op GitHub';
     });
   });
+})();
+</script>
+
+<script>
+// Telefoon: oefenaccount als app (kaart + lijst), en een kaart op het overzicht
+(() => {
+  const { el, eur, sEur, coin, real } = window.tx;
+  const tijd = new Intl.DateTimeFormat('nl-NL', { timeZone: 'Europe/Amsterdam', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+  const wanneer = (iso) => { try { return tijd.format(new Date(iso)); } catch (e) { return ''; } };
+  const sec = (a, b) => { const d = el('div', { class: 'm-sec' }); d.append(el('span', {}, a), el('span', {}, b || '')); return d; };
+  const draw = () => {
+    const s = dash.data('broker');
+    if (s.status !== 'ok') return;
+    const rows = real(s.data);
+    const st = rows.find((r) => r.soort === 'stand');
+    const box = document.getElementById('m-broker');
+    // kaart op het overzicht
+    const favs = document.getElementById('m-favs');
+    favs.querySelectorAll('.m-fav.br').forEach((x) => x.remove());
+    if (!st) { box.replaceChildren(el('p', { class: 'tx-empty' }, 'Het oefenaccount is nog niet gekoppeld.')); return; }
+    const pos = rows.filter((r) => r.soort === 'positie'), ord = rows.filter((r) => r.soort === 'order');
+    const naam = Object.fromEntries(pos.map((p) => [p.ticker, p.naam]));
+    const yh = Object.fromEntries(pos.map((p) => [p.ticker, p.yahoo || p.ticker]));
+    const cn = (t) => coin(yh[t] || t.replace(/_.*$/, '').replace(/[a-z]$/, ''), 38);
+    const gelijk = pos.filter((p) => p.gelijk).length, onderweg = pos.filter((p) => !p.gelijk && p.onderweg_gelijk).length;
+    const ok = st.status !== 'fout';
+    const fav = el('div', { class: 'm-fav br', role: 'button', tabindex: '0', 'aria-label': 'Naar het oefenaccount' });
+    const top = el('div', { class: 'top' }); top.append(el('span', { class: 'nm' }, 'Oefenaccount Trading 212'), el('span', { class: 'ch ' + (st.winst > 0 ? 'up' : st.winst < 0 ? 'down' : '') }, st.winst == null ? '' : sEur(st.winst)));
+    fav.append(top, el('span', { class: 'sb' }, ok ? (gelijk + ' van ' + pos.length + ' gelijk met de trend-agent' + (onderweg ? ', ' + onderweg + ' onderweg' : '')) : 'Koppeling geeft een fout'),
+      el('span', { class: 'val', 'data-source': 'broker', 'data-field': 'waarde', 'data-where': 'id=stand' }, st.waarde == null ? '–' : eur.format(st.waarde)));
+    const go = () => document.getElementById('broker').click();
+    fav.addEventListener('click', go); fav.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    favs.append(fav);
+    // tabblad
+    const card = el('div', { class: 'm-bcard' });
+    const t = el('div', { class: 'top' }); t.append(el('span', { class: 'nm' }, 'Oefenaccount'), el('span', { class: 'sb' }, wanneer(st.tijd)));
+    const chips = el('div', { class: 'm-chips' });
+    chips.append(el('span', { class: 'm-chip ' + (ok ? 'ok' : 'bad') }, ok ? '✓ Koppeling werkt' : '✕ Koppeling fout'),
+      el('span', { class: 'm-chip ' + (st.orders_aan ? 'ok' : '') }, st.orders_aan ? 'Orders aan' : 'Orders uit'),
+      el('span', { class: 'm-chip' }, gelijk + ' van ' + pos.length + ' gelijk'));
+    card.append(t, el('span', { class: 'val', 'data-source': 'broker', 'data-field': 'waarde', 'data-where': 'id=stand' }, st.waarde == null ? '–' : eur.format(st.waarde)),
+      el('span', { class: 'sb' }, (st.cash == null ? '' : eur.format(st.cash) + ' vrij · ') + (st.belegd == null ? '' : eur.format(st.belegd) + ' belegd') + (st.winst == null ? '' : ' · ' + sEur(st.winst))), chips);
+    if (!ok && st.reden) card.append(el('span', { class: 'sb' }, st.reden));
+    const out = [card, sec('Aandelen', 'oefenaccount / trend-agent')];
+    pos.forEach((p) => {
+      const r = el('div', { class: 'm-brow', 'data-source': 'broker', 'data-where': 'id=' + encodeURIComponent(p.id) });
+      const mid = el('div', { style: 'min-width:0' }); mid.append(el('div', { class: 'n' }, p.naam), el('div', { class: 't' }, p.oefenaccount + ' / ' + p.trend_agent + ' aandelen'));
+      const lab = p.gelijk ? ['Gelijk', 'ok'] : p.onderweg_gelijk ? ['Onderweg', 'bezig'] : ['Nog niet', 'flat'];
+      const right = el('div', { class: 'r' }); right.append(el('span', { class: 'tx-pill ' + lab[1] }, lab[0]));
+      if (!p.gelijk && p.onderweg) right.append(el('small', {}, 'bij opening beurs'));
+      r.append(cn(p.ticker), mid, right); out.push(r);
+    });
+    out.push(sec('Laatste orders', ord.length ? '' : 'nog geen'));
+    ord.slice(0, 6).forEach((o) => {
+      const r = el('div', { class: 'm-brow' });
+      const nm = naam[o.ticker] || o.ticker;
+      const mid = el('div', { style: 'min-width:0' }); mid.append(el('div', { class: 'n' }, (o.aantal > 0 ? 'Koop ' : 'Verkoop ') + Math.abs(o.aantal) + ' ' + nm), el('div', { class: 't' }, wanneer(o.tijd) + (o.waarde_eur == null ? '' : ' · ~' + eur.format(o.waarde_eur))));
+      const u = { geplaatst: ['Geplaatst', 'ok'], mislukt: ['Mislukt', 'nee'], overgeslagen: ['Overgeslagen', 'flat'] }[o.uitkomst] || [o.uitkomst, 'flat'];
+      const right = el('div', { class: 'r' }); right.append(el('span', { class: 'tx-pill ' + u[1] }, u[0])); if (o.reden) right.append(el('small', {}, o.reden));
+      r.append(cn(o.ticker), mid, right); out.push(r);
+    });
+    box.replaceChildren(...out);
+  };
+  dash.onData(draw);
 })();
 </script>

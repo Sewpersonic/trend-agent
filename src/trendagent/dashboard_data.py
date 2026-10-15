@@ -230,7 +230,7 @@ def broker_rows(state_dir: Path) -> list[dict]:
             continue
         gezien.add(t)
         hq, oq, bq = have.get(t, 0.0), onderweg.get(t, 0.0), float(p.get("qty") or 0)
-        rows.append({"id": "pos-" + t, "soort": "positie", "ticker": t, "naam": _name(y), "oefenaccount": hq,
+        rows.append({"id": "pos-" + t, "soort": "positie", "ticker": t, "yahoo": y, "naam": _name(y), "oefenaccount": hq,
                      "onderweg": oq, "trend_agent": bq, "gelijk": abs(hq - bq) < 1e-6, "onderweg_gelijk": abs(hq + oq - bq) < 1e-6})
     for t in set(have) | set(onderweg):
         if t not in gezien:
