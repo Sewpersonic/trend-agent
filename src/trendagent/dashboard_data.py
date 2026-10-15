@@ -203,7 +203,26 @@ def build(state_dir: Path, reports_dir: Path) -> dict[str, list[dict]]:
     if live and live.get("tijd", "") > bv.get("tijd", ""):
         bv = live
     out["checks"] = controles.rows(health, bv, out["broker"])
+
+    # Wanneer is wat ververst (voor de tijd bovenaan het dashboard)
+    from datetime import datetime, timezone
+    bots = max((str(h.get("vastgelegd_utc") or "") for h in health.values() if isinstance(h, dict)), default="")
+    vl = _load_list(Path("dashboard") / "volglijst.json") if state_dir.name == "state" else []
+    out["ververst"] = [
+        {"id": "cijfers", "wat": "Cijfers van het dashboard", "tijd": datetime.now(timezone.utc).isoformat(timespec="seconds")},
+        {"id": "bots", "wat": "Laatste ronde van de bots", "tijd": bots},
+        {"id": "oefenaccount", "wat": "Stand oefenaccount", "tijd": str(bv.get("tijd") or "")},
+        {"id": "handelsdag", "wat": "Laatste handelsdag", "tijd": max((r["dag"] for r in out["stand"] if r.get("dag")), default="")},
+    ] + ([{"id": "volglijst", "wat": "Volglijst", "tijd": vl[0].get("gemaakt", "")}] if vl and vl[0].get("gemaakt") else [])
     return out
+
+
+def _load_list(path: Path) -> list:
+    try:
+        v = json.loads(path.read_text(encoding="utf-8"))
+        return v if isinstance(v, list) else []
+    except (OSError, ValueError):
+        return []
 
 
 def broker_rows(state_dir: Path) -> list[dict]:

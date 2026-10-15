@@ -87,6 +87,10 @@ def build(config: Path, state_dir: Path, provider, s: Settings, today: date | No
             continue
         if bars:
             rows.append(row(inst, bars, today, s, t212))
+    from datetime import datetime, timezone
+    nu = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    for r in rows:
+        r["gemaakt"] = nu
     # Eerst wat de trend-agent zou kopen (hoogste score), dan de rest op rendement over 3 maanden.
     return sorted(rows, key=lambda r: (not r.get("kandidaat"), -(r.get("score") or 0), -(r.get("kwartaal") or -9)))
 
