@@ -174,3 +174,48 @@ class HardeningTest(BrokerTest):
         v = b.run(self.dir, self._cfg(), client=b.T212Demo("k", "s", opener=api))
         self.assertEqual(v["orders"][0]["actie"], "verkoop")
         self.assertEqual(v["orders"][0]["quantity"], -3)
+
+
+class SecondRoundTest(BrokerTest):
+    def test_incomplete_read_keeps_managed_and_orders(self):
+        import http.client
+        api = FakeApi([])
+        orig = api.__call__
+        n = {"post": 0}
+        def flaky(req, timeout=30):
+            if req.get_method() == "POST":
+                n["post"] += 1
+                if n["post"] == 2:
+                    raise http.client.IncompleteRead(b"")
+            return orig(req, timeout)
+        cfg = self.dir / "cfg.json"; cfg.write_text(json.dumps({"orders_aan": True}))
+        v = b.run(self.dir, cfg, client=b.T212Demo("k", "s", opener=flaky))
+        self.assertEqual([o["uitkomst"] for o in v["orders"]], ["geplaatst", "onzeker"])
+        self.assertEqual(len(v["managed"]), 2)
+
+    def test_gateway_error_on_order_is_uncertain(self):
+        api = FakeApi([])
+        orig = api.__call__
+        def gw(req, timeout=30):
+            if req.get_method() == "POST":
+                raise urllib.error.HTTPError(req.full_url, 504, "gw", {}, None)
+            return orig(req, timeout)
+        cfg = self.dir / "cfg.json"; cfg.write_text(json.dumps({"orders_aan": True}))
+        v = b.run(self.dir, cfg, client=b.T212Demo("k", "s", opener=gw))
+        self.assertEqual([o["uitkomst"] for o in v["orders"]], ["onzeker"])
+
+    def test_crash_mid_run_keeps_placed_orders(self):
+        api = FakeApi([])
+        orig = api.__call__
+        n = {"post": 0}
+        def crash(req, timeout=30):
+            if req.get_method() == "POST":
+                n["post"] += 1
+                if n["post"] == 2:
+                    raise KeyError("onverwacht")
+            return orig(req, timeout)
+        cfg = self.dir / "cfg.json"; cfg.write_text(json.dumps({"orders_aan": True}))
+        v = b.run(self.dir, cfg, client=b.T212Demo("k", "s", opener=crash))
+        self.assertEqual(v["status"], "fout")
+        self.assertEqual(v["orders"][0]["uitkomst"], "geplaatst")
+        self.assertIn(v["orders"][0]["ticker"], v["managed"])

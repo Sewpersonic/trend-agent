@@ -17,6 +17,8 @@ order kan versturen.
 
 from __future__ import annotations
 
+import json
+
 import math
 from dataclasses import dataclass, field
 from datetime import date
@@ -144,17 +146,43 @@ class TrendAgent:
             rep.health["bronnen"] = self.provider.summary()
 
         # 4. open posities
+        skip_path = self.s.state_dir / "overgeslagen.json"
+        try:
+            skipped = json.loads(skip_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            skipped = {}
         for ticker in list(pf.positions):
             if ticker not in bars:
                 rep.warnings.append(f"{ticker}: geen data, positie ongewijzigd gelaten")
                 continue
-            if ticker in suspicious:
-                # Regel: geen trade op onbetrouwbare data. Niet verkopen op een koers die misschien niet klopt;
-                # de stop-loss blijft staan en morgen wordt opnieuw gekeken.
-                rep.warnings.append(f"{ticker}: verdachte data, positie vandaag niet aangepast (stop blijft {pf.positions[ticker].stop:.2f})")
-                self.audit.append("exit_skipped_bad_data", ACTOR, {"ticker": ticker, "issues": suspicious[ticker]})
+            # Regel: geen trade op een koers die we niet kunnen bevestigen (bronnen oneens of koers verouderd).
+            # Hooguit 3 handelsdagen achter elkaar; daarna gaat de stop-loss weer voor (risico beperken wint).
+            # Een sprong die door de tweede bron wordt bevestigd, is echt: dan gewoon beheren.
+            checks = getattr(self.provider, "checks", {}) or {}
+            bevestigd = checks.get(ticker, {}).get("status") == "bevestigd"
+            onzeker = (bool(src_issues(ticker)) or ticker in stale
+                       or (bool(data_issues(bars[ticker])) and not bevestigd))
+            sk = skipped.get(ticker)
+            sk = sk if isinstance(sk, dict) else {"n": 0, "dag": ""}
+            if onzeker and (sk["n"] < 3 or sk["dag"] == rep.day):
+                if sk["dag"] != rep.day:   # handelsdagen tellen, niet rondes
+                    sk = {"n": sk["n"] + 1, "dag": rep.day}
+                skipped[ticker] = sk
+                pos = pf.positions[ticker]
+                pos.last_checked = bars[ticker][-1].day.isoformat()   # later niet alsnog op een oude koers verkopen
+                rep.warnings.append(f"{ticker}: koers niet bevestigd, positie vandaag niet aangepast "
+                                    f"(dag {sk['n']} van max. 3; stop blijft {pos.stop:.2f})")
+                self.audit.append("exit_skipped_bad_data", ACTOR, {"ticker": ticker, "issues": suspicious.get(ticker, []),
+                                                                   "dag": sk["n"]})
                 continue
+            skipped.pop(ticker, None)
             self._manage_position(pf, ticker, bars[ticker], analyses[ticker], fx, rep)
+
+        skipped = {t: n for t, n in skipped.items() if t in pf.positions}
+        try:
+            skip_path.write_text(json.dumps(skipped), encoding="utf-8")
+        except OSError:
+            pass
 
         # 5. risicoremmen (alleen als de kill switch nog niet aan staat)
         equity = pf.equity(prices, fx)

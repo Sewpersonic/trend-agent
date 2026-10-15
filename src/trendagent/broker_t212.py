@@ -16,6 +16,7 @@ Lukt iets niet (geen sleutel, storing), dan gebeurt er niets en staat de reden i
 from __future__ import annotations
 
 import base64
+import http.client
 import json
 import os
 import time
@@ -69,6 +70,8 @@ class T212Demo:
                     raw = r.read()
                     return json.loads(raw) if raw else None
             except urllib.error.HTTPError as e:
+                if e.code in (408, 500, 502, 503, 504) and method != "GET":
+                    raise BrokerError(f"HTTP {e.code} bij {method} {path}: onbekend of de order is aangekomen.", onzeker=True) from None
                 if e.code == 429 and poging < 2:
                     self._sleep(6 if "instruments" not in path else 55)
                     continue
@@ -82,7 +85,7 @@ class T212Demo:
                 raise BrokerError(f"HTTP {e.code} ({uitleg}) bij {method} {path}. {detail}".strip()) from None
             except urllib.error.URLError as e:
                 raise BrokerError(f"Trading 212 niet bereikbaar: {e.reason}", onzeker=method != "GET") from None
-            except (OSError, ValueError) as e:  # time-out, verbroken verbinding, kapotte JSON
+            except (OSError, ValueError, http.client.HTTPException) as e:  # time-out, afgebroken antwoord, kapotte JSON
                 raise BrokerError(f"Geen goed antwoord van Trading 212 ({type(e).__name__}).", onzeker=method != "GET") from None
         raise BrokerError("Te veel verzoeken achter elkaar (rate limit).")
 
@@ -194,12 +197,15 @@ def _instruments(client: "T212Demo", state_dir: Path) -> list[dict]:
     return keep
 
 
-def sync(state_dir: Path, client: T212Demo, orders_aan: bool, kill_active: bool, managed: set[str] | None = None) -> dict:
-    """Vergelijk en zet gelijk. Geeft een verslag terug."""
+def sync(state_dir: Path, client: T212Demo, orders_aan: bool, kill_active: bool, managed: set[str] | None = None,
+         verslag: dict | None = None) -> dict:
+    """Vergelijk en zet gelijk. Schrijft in 'verslag' (ook als het halverwege misgaat blijft bewaard wat er al gebeurde)."""
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
     port = json.loads((state_dir / "portfolio.json").read_text(encoding="utf-8"))
     bot_pos = port.get("positions", {})
-    verslag: dict = {"tijd": now, "status": "ok", "reden": "", "orders": [], "niet_gekoppeld": []}
+    if verslag is None:
+        verslag = {}
+    verslag.update({"tijd": now, "status": "ok", "reden": "", "orders": [], "niet_gekoppeld": []})
     managed = set(managed or set())
     verslag["managed"] = sorted(managed)
 
@@ -284,20 +290,24 @@ def run(state_dir: Path, config_path: Path, check_only: bool = False, client: T2
         prev = json.loads(out_path.read_text(encoding="utf-8")) if out_path.exists() else {}
     except ValueError:
         prev = {}
+    verslag: dict = {}
     try:
         cfg = json.loads(config_path.read_text(encoding="utf-8")) if config_path.exists() else {}
         client = client or T212Demo()
         kill = KillSwitch(state_dir / "kill_switch.json").is_active()
-        verslag = sync(state_dir, client, orders_aan=bool(cfg.get("orders_aan")) and not check_only,
-                       kill_active=kill, managed=set(prev.get("managed", [])))
+        sync(state_dir, client, orders_aan=bool(cfg.get("orders_aan")) and not check_only,
+             kill_active=kill, managed=set(prev.get("managed", [])), verslag=verslag)
         if check_only and verslag["status"] == "alleen kijken" and cfg.get("orders_aan"):
             verslag["reden"] = "Alleen gecontroleerd: geen orders geplaatst."
     except Exception as e:  # noqa: BLE001 - elk probleem: verslag schrijven, niets meer doen
-        verslag = {"tijd": datetime.now(timezone.utc).isoformat(timespec="seconds"), "status": "fout",
-                   "reden": str(e) if isinstance(e, BrokerError) else f"Onverwachte fout: {type(e).__name__}: {e}",
-                   "orders": [], "managed": prev.get("managed", [])}
+        # Wat er al gebeurde (orders, managed) blijft in 'verslag' staan.
+        verslag.update({"tijd": verslag.get("tijd") or datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                        "status": "fout",
+                        "reden": str(e) if isinstance(e, BrokerError) else f"Onverwachte fout: {type(e).__name__}: {e}"})
+        verslag.setdefault("orders", [])
+        verslag["managed"] = sorted(set(verslag.get("managed", [])) | set(prev.get("managed", [])))
         for k in ("account", "posities", "open_orders", "koppeling"):
-            if k in prev:
+            if k not in verslag and k in prev:
                 verslag[k] = prev[k]
     verslag.setdefault("managed", prev.get("managed", []))
     hist = prev.get("geschiedenis", [])

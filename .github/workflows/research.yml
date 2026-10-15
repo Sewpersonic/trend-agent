@@ -51,7 +51,7 @@ jobs:
             exit 1
           fi
           git reset -q
-          bash scripts/opslaan.sh "Onderzoek $(date -u +%F)" onderzoek/ dashboard/
+          bash scripts/opslaan.sh "Onderzoek $(date -u +%F)" onderzoek/ dashboard/onderzoek.json dashboard/onderzoek_samenvatting.json
 
       - name: Voorstel klaarzetten (alleen bij een bewezen verbetering)
         env:

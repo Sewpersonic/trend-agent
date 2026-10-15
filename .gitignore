@@ -13,3 +13,6 @@ venv/
 build/
 dist/
 *.tmp
+
+# Instrumentenlijst van Trading 212: groot, wordt elke dag opnieuw opgehaald
+state/t212_instrumenten.json

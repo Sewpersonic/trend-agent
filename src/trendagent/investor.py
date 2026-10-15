@@ -224,17 +224,20 @@ class Investor:
             # Herverdelen op verouderde koersen van de kern is niet verstandig: een dag later opnieuw proberen.
             out["warnings"].append(f"Niet herverdeeld: koers van {self.mix.core_ticker} is niet bijgewerkt")
             due = False
-        held_bad = sorted(t for t in book.qty if t in suspicious)
-        if due and held_bad:
-            # Regel: geen trade op onbetrouwbare data. Niet herverdelen tegen een koers die misschien niet klopt.
-            out["warnings"].append("Niet herverdeeld: verdachte koers voor " + ", ".join(held_bad) + "; morgen opnieuw")
-            due = False
+        # Regel: geen trade op een koers die we niet kunnen bevestigen. Die beleggingen blijven staan zoals ze zijn;
+        # de rest wordt gewoon herverdeeld.
+        self._frozen = {t for t in book.qty if src_issues(t) or t in stale}
+        if due and self._frozen:
+            out["warnings"].append("Niet aangeraakt bij het herverdelen (koers niet bevestigd): " + ", ".join(sorted(self._frozen)))
         if due:
             try:
                 weights, notes = target_weights(bars, self.mix, self.regime, frozenset(suspicious))
                 out["notes"] += notes
-                self._rebalance(book, weights, prices, equity, today, out)
-                book.last_rebalance = today.isoformat()
+                # Bevroren beleggingen tellen mee voor hun kostprijs, niet voor een onbevestigde koers.
+                eq = equity - sum(book.qty[t] * prices[t] for t in self._frozen) + sum(book.cost_eur.get(t, 0.0) for t in self._frozen)
+                self._rebalance(book, weights, prices, eq, today, out)
+                if not self._frozen:   # anders morgen opnieuw proberen voor wat nu bleef staan
+                    book.last_rebalance = today.isoformat()
             except DataError as exc:
                 out["warnings"].append(f"niet herverdeeld: {exc}")
 
@@ -285,7 +288,10 @@ class Investor:
             out["warnings"].append("kill switch actief: alleen verkopen")
         threshold = equity * self.mix.min_trade_share
         diffs = {}
+        frozen = getattr(self, "_frozen", set())
         for t in set(book.qty) | set(weights):
+            if t in frozen:
+                continue
             current = book.qty.get(t, 0.0) * prices[t]
             diffs[t] = equity * weights.get(t, 0.0) - current
         # Eerst verkopen (maakt kas vrij), dan kopen.

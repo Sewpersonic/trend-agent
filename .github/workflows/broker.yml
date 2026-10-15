@@ -63,5 +63,5 @@ jobs:
         run: |
           git config user.name "trend-agent[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if [ "${{ github.event_name }}" = "schedule" ]; then FILES="state/broker_live.json dashboard/broker.json"; else FILES="state/broker.json state/broker_live.json state/t212_instrumenten.json config/broker.json dashboard/"; fi
+          if [ "${{ github.event_name }}" = "schedule" ]; then FILES="state/broker_live.json dashboard/broker.json"; else FILES="state/broker.json state/broker_live.json config/broker.json dashboard/"; fi
           bash scripts/opslaan.sh "Oefenaccount Trading 212: ${{ github.event.inputs.actie || 'uurlijkse stand' }}" $FILES
