@@ -206,15 +206,20 @@ def broker_rows(state_dir: Path) -> list[dict]:
     inv = acc.get("investments") or {}
     rows = [{"id": "stand", "soort": "stand", "status": v.get("status", ""), "reden": v.get("reden", ""),
              "tijd": v.get("tijd", ""), "valuta": acc.get("currency", "EUR"), "waarde": acc.get("totalValue"),
-             "cash": cash, "belegd": inv.get("currentValue"),
+             "cash": cash, "belegd": inv.get("currentValue"), "gereserveerd": (acc.get("cash") or {}).get("reservedForOrders"),
              "winst": (inv.get("unrealizedProfitLoss") or 0) + (inv.get("realizedProfitLoss") or 0) if inv else None,
              "orders_aan": bool(_load(Path("config/broker.json")).get("orders_aan"))}]
     port = _load(state_dir / "portfolio.json").get("positions", {})
     have: dict[str, float] = {}
+    info: dict[str, dict] = {}
     for p in v.get("posities") or []:
         t = p.get("ticker") or (p.get("instrument") or {}).get("ticker")
         if t:
             have[t] = float(p.get("quantity") or 0)
+            wi = p.get("walletImpact") or {}
+            info[t] = {"waarde_eur": wi.get("currentValue"), "winst_eur": wi.get("unrealizedProfitLoss"),
+                       "koers": p.get("currentPrice"), "gem_prijs": p.get("averagePricePaid") or p.get("averagePrice"),
+                       "valuta": (p.get("instrument") or {}).get("currency")}
     onderweg: dict[str, float] = {}
     for o in v.get("open_orders") or []:
         if o.get("ticker"):
@@ -242,7 +247,8 @@ def broker_rows(state_dir: Path) -> list[dict]:
         hq, oq = have.get(t, 0.0), onderweg.get(t, 0.0)
         bq = max(0.0, float(p.get("qty") or 0) + float(hand.get(t, {}).get("qty", 0)))
         rows.append({"id": "pos-" + t, "soort": "positie", "ticker": t, "yahoo": y, "naam": _name(y), "oefenaccount": hq,
-                     "onderweg": oq, "trend_agent": bq, "gelijk": abs(hq - bq) < 1e-6, "onderweg_gelijk": abs(hq + oq - bq) < 1e-6})
+                     "onderweg": oq, "trend_agent": bq, "gelijk": abs(hq - bq) < 1e-6, "onderweg_gelijk": abs(hq + oq - bq) < 1e-6,
+                     **info.get(t, {})})
     for t in set(have) | set(onderweg):
         if t not in gezien:
             hq, oq = have.get(t, 0.0), onderweg.get(t, 0.0)
