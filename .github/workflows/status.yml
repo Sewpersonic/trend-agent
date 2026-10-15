@@ -3,7 +3,7 @@ name: status
 
 on:
   workflow_run:
-    workflows: [practice, onderzoek, backtest, tests, diagnose]
+    workflows: [practice, onderzoek, backtest, tests, diagnose, broker]
     types: [completed]
   schedule:
     - cron: "23 5 * * *"

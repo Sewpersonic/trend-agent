@@ -15,6 +15,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -56,12 +57,29 @@ def main(argv: list[str] | None = None) -> int:
     db.add_argument("--map", default="dashboard")
     ov = sub.add_parser("overzicht", help="dagoverzicht van beide bots schrijven (rapporten/OVERZICHT.md)")
     ov.add_argument("--simulated", action="store_true")
+    br = sub.add_parser("broker", help="oefenaccount Trading 212 (demo) gelijkzetten met de trend-agent")
+    br.add_argument("--check", action="store_true", help="alleen kijken en verbinding testen, geen orders")
     hc = sub.add_parser("health", help="gezondheid van de laatste rondes tonen")
     hc.add_argument("--check", action="store_true", help="foutcode 1 als er iets mis is")
     args = parser.parse_args(argv)
 
     s = load_settings()
     ks = KillSwitch(s.state_dir / "kill_switch.json")
+
+    if args.cmd == "broker":
+        from . import broker_t212
+        v = broker_t212.run(s.state_dir, Path("config/broker.json"), check_only=args.check)
+        acc = v.get("account") or {}
+        print(f"Oefenaccount Trading 212: {v['status']}. {v.get('reden', '')}".strip())
+        if acc:
+            print("Account:", json.dumps({k: acc.get(k) for k in list(acc)[:8]}, ensure_ascii=False, default=str))
+        for o in v.get("plan", []):
+            print(f"  plan: {o['ticker']} {o['quantity']:+g} (~€{o['waarde_eur']:.0f})")
+        for o in v.get("orders", []):
+            print(f"  order: {o['ticker']} {o['quantity']:+g} -> {o['uitkomst']} {o.get('reden', '')}")
+        if v.get("niet_gekoppeld"):
+            print("  niet gevonden bij Trading 212:", ", ".join(v["niet_gekoppeld"]))
+        return 0 if v["status"] != "fout" else 1
 
     if args.cmd == "run":
         today = _market_day(args)

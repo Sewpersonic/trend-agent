@@ -18,6 +18,7 @@ WAT = {
     "backtest": "Backtest over 5 jaar",
     "tests": "Controle van de code",
     "diagnose": "Test van de koersbron",
+    "broker": "Oefenaccount Trading 212",
 }
 
 STAP = {
@@ -28,6 +29,7 @@ STAP = {
     "Resultaat opslaan in de repository": "Opslaan op GitHub lukte niet (vaak tijdelijk; de volgende ronde probeert het opnieuw).",
     "Gezondheidscontrole": "De koersdata was niet betrouwbaar (bijvoorbeeld koersen niet bijgewerkt) of een bot liep vast. De bot heeft daarom niets gekocht.",
     "Onderzoek": "Het onderzoek zelf liep vast (bijvoorbeeld koersen downloaden mislukte).",
+    "Oefenaccount Trading 212": "De koppeling met het oefenaccount van Trading 212 lukte niet (zie het verslag).",
     "pip install -e .": "Installeren van de software lukte niet (meestal tijdelijk bij GitHub).",
 }
 

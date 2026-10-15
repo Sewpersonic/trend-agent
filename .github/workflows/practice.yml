@@ -74,6 +74,15 @@ jobs:
         continue-on-error: true
         run: python -m trendagent run
 
+      # Oefenaccount (demo) bij Trading 212 volgt de trend-agent. Alleen nepgeld; een fout hier stopt de bots niet.
+      - name: Oefenaccount Trading 212
+        if: github.event.inputs.action != 'kill' && github.event.inputs.action != 'resume' && github.event.inputs.action != 'voorbeeld'
+        continue-on-error: true
+        env:
+          T212_DEMO_KEY: ${{ secrets.T212_DEMO_KEY }}
+          T212_DEMO_SECRET: ${{ secrets.T212_DEMO_SECRET }}
+        run: python -m trendagent broker
+
       - name: Investeerder
         if: github.event.inputs.action != 'kill' && github.event.inputs.action != 'resume' && github.event.inputs.action != 'voorbeeld'
         continue-on-error: true
