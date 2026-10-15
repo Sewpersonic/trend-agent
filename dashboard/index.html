@@ -157,6 +157,27 @@
 .t-spark .tx-spark { height: 70px; }
 .t-pat { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.4; }
 .tx-ghfilter { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--color-fg-muted); cursor: pointer; }
+.tx-beeld { display: grid; gap: 18px; }
+.tx-beeld .b-lbl { font-size: 13px; color: var(--color-fg-muted); margin: 0 0 6px; }
+.tx-beeld .b-bar { display: flex; height: 14px; border-radius: 7px; overflow: hidden; background: var(--tx-soft); }
+.tx-beeld .b-bar span { display: block; height: 100%; }
+.tx-beeld .b-key { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 8px; font-size: 15px; }
+.tx-beeld .b-key span { display: inline-flex; align-items: center; gap: 6px; }
+.tx-beeld .b-key i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.tx-beeld .b-stats { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
+.tx-beeld .b-stat { border: 1px solid var(--color-border-line); border-radius: 10px; padding: 12px 14px; display: grid; gap: 4px; align-content: start; }
+.tx-beeld .b-stat .who { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: var(--cds-font-weight-medium); min-width: 0; }
+.tx-beeld .b-stat .v { font-family: var(--font-anthropic-serif); font-size: 1.6rem; line-height: 1.1; }
+.tx-beeld .b-stat .u { font-size: 13px; color: var(--color-fg-muted); }
+.tx-beeld .up { color: var(--tx-up); } .tx-beeld .down { color: var(--tx-down); }
+.tx-beeld .b-groups { display: grid; gap: 10px; }
+.tx-beeld .b-group { border-left: 4px solid var(--k); background: color-mix(in srgb, var(--k) 7%, transparent); border-radius: 0 10px 10px 0; padding: 10px 14px; display: grid; gap: 6px; }
+.tx-beeld .b-group b { font-size: 15px; }
+.tx-beeld .b-group .u { font-size: 13px; color: var(--color-fg-muted); }
+.tx-beeld .b-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.tx-beeld .b-chip { display: inline-flex; align-items: center; gap: 6px; background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 999px; padding: 3px 10px 3px 3px; font-size: 14px; }
+.tx-beeld .b-chip small { font-size: 12px; }
+.tx-beeld .b-foot { font-size: 13px; color: var(--color-fg-muted); margin: 0; }
 .tx-pill.big { font-size: var(--cds-font-size-body); padding: 4px 12px; }
 .tx-group { display: grid; gap: 10px; }
 .tx-group-h { margin: 6px 0 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
@@ -242,7 +263,7 @@
 
       <div class="tx-card" id="kort-patronen">
         <div class="tx-card-h"><h2>Wat de grafieken vandaag laten zien</h2><button class="tx-more" id="naar-patronen" type="button">Alle patronen per aandeel →</button></div>
-        <div class="tx-card-b"><ul class="tx-list" id="pat-kort" data-source="patronen_samenvatting"></ul></div>
+        <div class="tx-card-b"><div class="tx-beeld" id="pat-kort" data-source="patronen"></div></div>
       </div>
 
       <div class="tx-card" id="koersverloop">
@@ -321,7 +342,7 @@
       <div class="tx-card" id="card-samenvatting">
         <div class="tx-card-h"><h2>Wat de grafieken vandaag laten zien</h2><span class="tx-chipday" id="pat-dag" data-source="patronen">—</span></div>
         <div class="tx-card-b">
-          <ul class="tx-list" id="pat-sum" data-source="patronen_samenvatting"></ul>
+          <div class="tx-beeld" id="pat-sum" data-source="patronen"></div>
         </div>
       </div>
       <div class="tx-card" id="card-patronen">
@@ -494,7 +515,63 @@
   // Kleur per aandeel voor het rondje: vaste volgorde, op naam, zodat een aandeel zijn kleur houdt.
   const coinColor = (ticker) => dash.colors[[...ticker].reduce((a, c) => a + c.charCodeAt(0), 0) % dash.colors.length];
   const coin = (ticker, size) => { const c = el('span', { class: 'tx-coin', 'aria-hidden': 'true' }, ticker.replace(/[^A-Z]/g, '').slice(0, 2) || ticker.slice(0, 2)); c.style.background = coinColor(ticker); if (size) { c.style.width = c.style.height = size + 'px'; } return c; };
-  window.tx = { MAAND, eur, num2, compact, sEur, pct, dayNl, dayLong, ud, el, failed, real, emptyReason, coin, draws: [] };
+  const beeld = (box, p) => {
+    if (p.status === 'error') { failed(box); return; }
+    if (p.status !== 'ok') return;
+    const rows = real(p.data);
+    if (!rows.length) { box.replaceChildren(el('p', { class: 'tx-empty' }, emptyReason(p.data))); return; }
+    const w = (r) => 'id=' + encodeURIComponent(r.id);
+    const pc = (v) => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v * 100).toLocaleString('nl-NL', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
+    const n = rows.length;
+    const up = rows.filter((r) => r.trend === 'stijgend'), down = rows.filter((r) => r.trend === 'dalend');
+    const flat = n - up.length - down.length;
+    // 1. Richting
+    const r1 = el('div');
+    r1.append(el('p', { class: 'b-lbl' }, 'Welke kant gaan de ' + n + ' grafieken op?'));
+    const bar = el('div', { class: 'b-bar', role: 'img', 'aria-label': up.length + ' stijgend, ' + flat + ' zonder richting, ' + down.length + ' dalend' });
+    const key = el('div', { class: 'b-key' });
+    [[up.length, 'var(--tx-up)', 'stijgend'], [flat, 'var(--color-fg-muted)', 'geen duidelijke richting'], [down.length, 'var(--tx-down)', 'dalend']].forEach(([c, col, t]) => {
+      if (c) { const sp = el('span'); sp.style.width = (c / n * 100) + '%'; sp.style.background = col; bar.append(sp); }
+      const k = el('span'); const i = el('i'); i.style.background = col; k.append(i, el('b', {}, String(c)), document.createTextNode(' ' + t)); key.append(k);
+    });
+    r1.append(bar, key);
+    // 2. Cijfers
+    const stats = el('div', { class: 'b-stats' });
+    const mm = rows.filter((r) => r.maand != null);
+    const stat = (lbl, r, v, u) => { const c = el('div', { class: 'b-stat' }); c.append(el('span', { class: 'b-lbl', style: 'margin:0' }, lbl));
+      if (r) { const who = el('span', { class: 'who' }); who.append(coin(r.ticker, 24), el('span', { 'data-source': 'patronen', 'data-field': 'naam', 'data-where': w(r) }, r.naam)); c.append(who); }
+      c.append(v, el('span', { class: 'u' }, u)); return c; };
+    if (mm.length) {
+      const best = mm.reduce((a, b) => (b.maand > a.maand ? b : a)), worst = mm.reduce((a, b) => (b.maand < a.maand ? b : a));
+      stats.append(stat('Sterkste deze maand', best, el('span', { class: 'v ' + ud(best.maand), 'data-source': 'patronen', 'data-field': 'maand', 'data-where': w(best) }, pc(best.maand)), 'koersverandering in de laatste maand'));
+      stats.append(stat('Zwakste deze maand', worst, el('span', { class: 'v ' + ud(worst.maand), 'data-source': 'patronen', 'data-field': 'maand', 'data-where': w(worst) }, pc(worst.maand)), 'koersverandering in de laatste maand'));
+    }
+    const ww = rows.filter((r) => r.week != null);
+    if (ww.length) {
+      const avg = ww.reduce((a, r) => a + r.week, 0) / ww.length, rise = ww.filter((r) => r.week > 0).length;
+      const v = el('span', { class: 'v' }, rise + ' van ' + ww.length);
+      stats.append(stat('Afgelopen week gestegen', null, v, 'gemiddeld ' + pc(avg) + ' in een week'));
+    }
+    // 3. Opvallend
+    const groups = el('div', { class: 'b-groups' });
+    const G = [
+      ['3-maands top', 'goed', 'Op hun hoogste punt van 3 maanden', 'Sterk: de koers staat bovenaan zijn bereik.'],
+      ['terugval binnen een stijgende trend', 'letop', 'Even teruggezakt, maar nog in een stijgende trend', 'Stijgt al langer en zakte de laatste dagen wat terug.'],
+      ['net onder het 50-daags', 'slecht', 'Net onder het gemiddelde van 50 dagen gezakt', 'Zwakker geworden. Voor de trend-agent is dit een reden om te verkopen.'],
+      ['3-maands bodem', 'slecht', 'Op hun laagste punt van 3 maanden', 'Zwak: de koers staat onderaan zijn bereik.'],
+    ];
+    G.forEach(([zoek, k, kop, u]) => {
+      const rs = rows.filter((r) => (r.patronen || '').includes(zoek));
+      if (!rs.length) return;
+      const g = el('div', { class: 'b-group k-' + k }); const chips = el('div', { class: 'b-chips' });
+      rs.forEach((r) => { const c = el('span', { class: 'b-chip', 'data-source': 'patronen', 'data-field': 'patronen', 'data-where': w(r) }); c.append(coin(r.ticker, 22), el('span', {}, r.naam));
+        if (r.maand != null) c.append(el('small', { class: ud(r.maand) }, pc(r.maand) + ' mnd')); chips.append(c); });
+      g.append(el('b', {}, kop), el('span', { class: 'u' }, u), chips); groups.append(g);
+    });
+    const r3 = el('div'); r3.append(el('p', { class: 'b-lbl' }, 'Wat valt op?'), groups.childNodes.length ? groups : el('p', { class: 'b-foot' }, 'Niets bijzonders vandaag.'));
+    box.replaceChildren(r1, stats, r3, el('p', { class: 'b-foot' }, 'Dit beschrijft wat er gebeurd is. Het voorspelt niet wat de koersen morgen doen.'));
+  };
+  window.tx = { beeld, MAAND, eur, num2, compact, sEur, pct, dayNl, dayLong, ud, el, failed, real, emptyReason, coin, draws: [] };
   const root = document.getElementById('tx');
   root.style.setProperty('--tx-accent', dash.colors[3]);
   document.getElementById('key-s50').style.borderColor = dash.colors[0];
@@ -1202,14 +1279,7 @@ dash.calc('onderzoek_verschil', {
   const { el, failed, real, emptyReason } = window.tx;
   const box = document.getElementById('pat-kort');
   document.getElementById('naar-patronen').addEventListener('click', () => document.getElementById('patronen').click());
-  dash.onData(() => {
-    const s = dash.data('patronen_samenvatting');
-    if (s.status === 'error') { failed(box); return; }
-    if (s.status !== 'ok') return;
-    const rows = real(s.data);
-    box.replaceChildren(...(rows.length ? rows.map((r) => el('li', { 'data-source': 'patronen_samenvatting', 'data-field': 'tekst', 'data-where': 'id=' + encodeURIComponent(r.id) }, r.tekst))
-      : [el('li', { class: 'tx-empty' }, emptyReason(s.data))]));
-  });
+  dash.onData(() => window.tx.beeld(box, dash.data('patronen')));
 })();
 
 // Patronen in de grafieken
@@ -1220,13 +1290,7 @@ dash.calc('onderzoek_verschil', {
   const dag = document.getElementById('pat-dag');
   const TREND = { stijgend: 'win', dalend: 'loss', zijwaarts: 'flat' };
   dash.onData(() => {
-    const s = dash.data('patronen_samenvatting');
-    if (s.status === 'error') failed(sum);
-    else if (s.status === 'ok') {
-      const rows = real(s.data);
-      sum.replaceChildren(...(rows.length ? rows.map((r) => el('li', { 'data-source': 'patronen_samenvatting', 'data-field': 'tekst', 'data-where': 'id=' + encodeURIComponent(r.id) }, r.tekst))
-        : [el('li', { class: 'tx-empty' }, emptyReason(s.data))]));
-    }
+    window.tx.beeld(sum, dash.data('patronen'));
     const p = dash.data('patronen');
     if (p.status === 'error') { const tr = el('tr'); const td = el('td', { colspan: '7' }); failed(td); tr.append(td); body.replaceChildren(tr); return; }
     if (p.status !== 'ok') return;
