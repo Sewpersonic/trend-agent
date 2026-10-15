@@ -229,8 +229,9 @@ def onderzoek_zinnen(onderzoek: dict, books: dict) -> list[str]:
             beter = r["totaal"] > prod["totaal"]
             out.append(f"Patroon '{r['uitleg'].split(': ', 1)[-1].rstrip('.')}' leverde {_p(r['totaal'])} op, "
                        f"tegen {_p(prod['totaal'])} met de huidige regels: "
-                       + ("op het geheel beter, " if beter else "slechter, ")
-                       + ("en het haalde alle toetsen." if r["oordeel"] == "aanbevolen" else "maar het haalde niet alle toetsen."))
+                       + ("beter, en het haalde alle toetsen." if beter and r["oordeel"] == "aanbevolen" else
+                          "op het geheel beter, maar het haalde niet alle toetsen, dus niet overgenomen." if beter else
+                          "slechter, dus niet overgenomen."))
     for name, key in (("Trend-agent", "trend"), ("Investeerder", "investeerder")):
         pts = [e for e in books.get(key, {}).get("equity_history", []) if "bench" in e]
         if len(pts) >= 2:
