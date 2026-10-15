@@ -98,6 +98,9 @@
 [data-dash-source-state=empty] { color: transparent; }
 [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
 .tx-page[hidden] { display: none !important; }
+.tx-more { all: unset; cursor: pointer; font-size: var(--cds-font-size-caption); color: var(--tx-accent); font-weight: var(--cds-font-weight-medium); }
+.tx-more:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
+.tx-coincard .pat { padding: 0 18px 8px; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height: 1.45; min-height: 2.9em; }
 .tx-range-bar { position: relative; width: 120px; height: 8px; border-radius: 4px; background: color-mix(in srgb, var(--color-fg) 10%, transparent); margin-top: 6px; }
 .tx-range-bar i { position: absolute; top: -3px; width: 4px; height: 14px; border-radius: 2px; background: var(--tx-accent); transform: translateX(-50%); }
 .tx-range-lab { display: flex; justify-content: space-between; width: 120px; font-size: 10px; color: var(--color-fg-muted); }
@@ -136,6 +139,11 @@
     <section class="tx-page" id="pg-dashboard" role="tabpanel" aria-labelledby="dashboard">
       <div class="tx-card tx-strip" id="strip" data-source="tickers"><div class="tx-strip-in" id="strip-in"><span class="dash-skeleton">—</span></div></div>
 
+      <div class="tx-card" id="kort-patronen">
+        <div class="tx-card-h"><h2>Wat de grafieken vandaag laten zien</h2><button class="tx-more" id="naar-patronen" type="button">Alle patronen per aandeel →</button></div>
+        <div class="tx-card-b"><ul class="tx-list" id="pat-kort" data-source="patronen_samenvatting"></ul></div>
+      </div>
+
       <div class="tx-card" id="koersverloop">
         <div class="tx-card-h"><h2 id="big-title">Koersverloop</h2></div>
         <div class="tx-card-b">
@@ -154,7 +162,7 @@
       </div>
 
       <div class="tx-cards" id="botcards" data-source="stand waarde"></div>
-      <div class="tx-cards" id="coincards" data-source="tickers"></div>
+      <div class="tx-cards" id="coincards" data-source="tickers patronen"></div>
 
       <div class="tx-two">
         <div class="tx-card" id="recent">
@@ -455,6 +463,8 @@ dash.calc('uitleg_positie', {
 
     // Kaarten per aandeel met minigrafiek
     const k = dash.data('koersen');
+    const pd = dash.data('patronen');
+    const pat = new Map(pd.status === 'ok' ? real(pd.data).map((p) => [p.ticker, p]) : []);
     if (t.status === 'ok') {
       cards.replaceChildren(...t.data.map((r, i) => {
         const c = el('div', { class: 'tx-card tx-coincard', id: 'kaart-' + r.ticker.replace(/[^A-Za-z0-9]/g, '') });
@@ -466,6 +476,12 @@ dash.calc('uitleg_positie', {
         const m = el('div', { class: 'm' });
         m.append(W(r.ticker, 'slot', 'span', num2.format(r.slot) + ' ' + r.valuta, 'p'), W(r.ticker, 'drie_mnd_pct', 'span', pct(r.drie_mnd_pct, 1) + ' in 3 mnd', ud(r.drie_mnd_pct)));
         c.append(m);
+        const pt = pat.get(r.ticker);
+        if (pt) {
+          const pill = el('span', { class: 'tx-pill ' + ({ stijgend: 'win', dalend: 'loss' }[pt.trend] || 'flat'), style: 'margin-left:auto', 'data-source': 'patronen', 'data-field': 'trend', 'data-where': 'id=' + encodeURIComponent(pt.id) }, pt.trend);
+          h.append(pill);
+          c.append(el('div', { class: 'pat', 'data-source': 'patronen', 'data-field': 'patronen', 'data-where': 'id=' + encodeURIComponent(pt.id) }, pt.patronen || 'Niets bijzonders.'));
+        }
         const vals = k.status === 'ok' ? real(k.data).filter((q) => q.ticker === r.ticker).sort((a, b) => (a.dag < b.dag ? -1 : 1)).map((q) => q.slot) : [];
         const sb = el('div', { 'data-source': 'koersen' });
         if (vals.length > 1) spark(sb, vals, r.drie_mnd_pct >= 0 ? 'var(--tx-up)' : 'var(--tx-down)', 'g-' + i);
@@ -658,6 +674,21 @@ dash.calc('uitleg_positie', {
 </script>
 
 <script>
+// Korte samenvatting op de hoofdpagina
+(() => {
+  const { el, failed, real, emptyReason } = window.tx;
+  const box = document.getElementById('pat-kort');
+  document.getElementById('naar-patronen').addEventListener('click', () => document.getElementById('patronen').click());
+  dash.onData(() => {
+    const s = dash.data('patronen_samenvatting');
+    if (s.status === 'error') { failed(box); return; }
+    if (s.status !== 'ok') return;
+    const rows = real(s.data);
+    box.replaceChildren(...(rows.length ? rows.map((r) => el('li', { 'data-source': 'patronen_samenvatting', 'data-field': 'tekst', 'data-where': 'id=' + encodeURIComponent(r.id) }, r.tekst))
+      : [el('li', { class: 'tx-empty' }, emptyReason(s.data))]));
+  });
+})();
+
 // Patronen in de grafieken
 (() => {
   const { pct, ud, el, failed, real, emptyReason, dayLong } = window.tx;
