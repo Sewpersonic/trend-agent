@@ -269,6 +269,7 @@
 #br-antwoorden, #card-br-pos, #card-br-orders, #pg-broker > .tx-card, #pg-broker > .tx-orderrow, #pg-broker > .m-broker, #pg-broker > .tx-what { display: none !important; }
 #pg-risico > .tx-card, #pg-risico > .tx-two { display: none !important; }
 #pg-controles > .tx-card { display: none !important; }
+#pg-onderzoek > .tx-card, #pg-onderzoek > .tx-top, #pg-onderzoek > .tx-answers, #pg-onderzoek > .tx-banner { display: none !important; }
 .ap { display: grid; gap: 16px; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: start; }
 .ap-col { display: grid; gap: 16px; align-content: start; min-width: 0; }
 @media (max-width: 900px) { .ap { grid-template-columns: minmax(0, 1fr); } }
@@ -761,6 +762,7 @@
         <p class="tx-what" style="padding:0">Elke zaterdag test de bot zijn regels op 5 jaar echte koersen, alsof hij toen al met €10.000 nepgeld begon. Zo zie je of hij op lange termijn winst maakt, en of een nieuwe regel beter zou werken.</p>
         <span class="tx-chipday" id="ond-dag" data-source="onderzoek">—</span>
       </div>
+      <div class="ap" id="od-app" data-source="onderzoek onderzoek_samenvatting github"></div>
       <div class="tx-banner" id="ond-voorstel" data-source="github" hidden></div>
       <div class="tx-answers" id="ond-antwoorden" data-source="onderzoek_antwoord"></div>
 
@@ -3064,5 +3066,136 @@ dash.calc('onderzoek_verschil', {
     box.replaceChildren(left, right);
   }
   dash.onData(() => { try { draw(); } catch (e) { console.log('ERR controles', e.message); } });
+})();
+</script>
+
+<style>
+/* ===== Onderzoek in de opbouw van een beurs-app ===== */
+.od-hero .big { font-size: clamp(1.7rem, 6vw, 2.3rem); }
+.od-bars { display: grid; gap: 14px; padding: 6px 0 12px; }
+.od-bar .h { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 15px; }
+.od-bar .h b { font-variant-numeric: tabular-nums; font-size: 17px; }
+.od-bar .t { height: 12px; border-radius: 6px; background: color-mix(in srgb, var(--color-fg) 8%, transparent); margin: 6px 0 4px; overflow: hidden; }
+.od-bar .t span { display: block; height: 100%; border-radius: 6px; }
+.od-bar small { font-size: 13px; color: var(--color-fg-muted); }
+.od-bar.etf .t span { background: color-mix(in srgb, var(--color-fg) 35%, transparent); }
+.od-bar.inv .t span { background: #3b6fd8; } .od-bar.tr .t span { background: #e8a33a; }
+.od-row { all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 12px 0; border-top: 1px solid var(--color-border-line); -webkit-tap-highlight-color: transparent; }
+.od-row:first-of-type { border-top: 0; }
+.od-row:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; border-radius: 8px; }
+.od-row .q { font-size: 15px; font-weight: var(--cds-font-weight-medium); line-height: 1.35; }
+.od-row .tag { font-size: 11px; padding: 1px 7px; border-radius: 999px; background: var(--tx-soft); color: var(--tx-accent); margin-left: 6px; vertical-align: 1px; white-space: nowrap; }
+.od-row .a { font-size: 13px; color: var(--color-fg-muted); margin-top: 3px; }
+.od-row .r { text-align: right; font-size: 15px; font-weight: var(--cds-font-weight-medium); font-variant-numeric: tabular-nums; white-space: nowrap; padding-top: 2px; }
+.od-row .r small { display: block; font-size: 11px; font-weight: normal; color: var(--color-fg-muted); }
+.od-row .up { color: var(--tx-up); } .od-row .down { color: var(--tx-down); }
+.od-tests { display: none; grid-column: 2 / -1; background: var(--tx-soft); border-radius: 12px; padding: 8px 12px; }
+.od-row.open .od-tests { display: grid; gap: 6px; }
+.od-test { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 8px; font-size: 13px; }
+.od-test b { font-weight: var(--cds-font-weight-medium); } .od-test small { display: block; color: var(--color-fg-muted); }
+.od-test .ok { color: var(--tx-up); } .od-test .no { color: var(--tx-down); }
+.od-bot { font-size: 12px; color: var(--color-fg-muted); text-transform: uppercase; letter-spacing: .04em; padding: 12px 0 2px; }
+.od-weet { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; padding: 10px 0; border-top: 1px solid var(--color-border-line); font-size: 15px; line-height: 1.45; }
+.od-weet:first-of-type { border-top: 0; }
+.od-weet .i { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--tx-soft); font-size: 14px; }
+</style>
+
+<script>
+// Onderzoek: conclusie, wat werd €10.000, welke regels getest (tik voor de toetsen), goed om te weten
+(() => {
+  const { el, eur, pct } = window.tx;
+  const dagF = new Intl.DateTimeFormat('nl-NL', { weekday: 'long', day: 'numeric', month: 'long' });
+  const D = (iso) => { try { return dagF.format(new Date(String(iso).slice(0, 10) + 'T12:00:00')); } catch (e) { return iso; } };
+  const eur0 = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+  const TOETS = [[/^Holdout/, 'Beter in de laatste jaren, die hij niet kende'], [/^Ontwikkeldeel/, 'Beter in de eerste jaren'], [/^Consistent/, 'Vaak genoeg beter (in de meeste periodes)'],
+    [/^Grootste daling/, 'Geen veel grotere daling'], [/^Dubbele kosten/, 'Nog steeds goed met dubbele kosten'], [/^Genoeg trades/, 'Genoeg trades om iets te zeggen']];
+  const open = new Set();
+  const sec = (t, sm) => { const d = el('div', { class: 'ap-sec' }); const h = el('h3'); h.append(document.createTextNode(t)); if (sm) h.append(el('small', {}, sm)); d.append(h); return d; };
+  function draw() {
+    const box = document.getElementById('od-app');
+    const O = dash.data('onderzoek'), S = dash.data('onderzoek_samenvatting'), G = dash.data('github');
+    if (O.status === 'error') { window.tx.failed(box); return; }
+    if (O.status !== 'ok') return;
+    const rows = window.tx.real(O.data);
+    if (!rows.length) { box.replaceChildren(el('p', { class: 'tx-empty' }, (O.data[0] && O.data[0].reden) || 'Het onderzoek draait elke zaterdag.')); return; }
+    const prod = Object.fromEntries(rows.filter((r) => r.oordeel === 'productie').map((r) => [r.bot, r]));
+    const getest = rows.filter((r) => r.oordeel !== 'productie');
+    const goed = getest.filter((r) => r.oordeel === 'aanbevolen');
+    const voorstel = G.status === 'ok' ? window.tx.real(G.data).filter((r) => r.soort === 'voorstel') : [];
+    const left = el('div', { class: 'ap-col' }), right = el('div', { class: 'ap-col' });
+    // conclusie
+    const hero = el('div', { class: 'ap-hero od-hero' });
+    const lbl = el('div', { class: 'lbl' }); lbl.append(el('span', {}, 'Wekelijks onderzoek · 5 jaar koersen'), el('span', {}, D(rows[0].datum)));
+    const titel = voorstel.length || goed.length ? 'Er is een betere regel gevonden' : 'Huidige regels blijven';
+    const zin = voorstel.length || goed.length
+      ? 'Een nieuwe regel werkte bewezen beter. Hij staat als voorstel klaar op GitHub; de bot gebruikt hem pas als jij op Merge drukt.'
+      : getest.length + ' andere regels getest. Geen enkele was duidelijk beter, ook niet in de laatste jaren die de bot niet kende. Dus de bots houden hun huidige regels.';
+    hero.append(lbl, el('div', { class: 'big' }, titel), el('p', { class: 'ck-zin' }, zin));
+    const chips = el('div', { class: 'ap-chips' });
+    chips.append(el('span', { class: 'ap-chip' }, getest.length + ' regels getest'), el('span', { class: 'ap-chip' }, getest.filter((r) => r.patroon).length + ' uit grafiekpatronen'));
+    if (goed.length) chips.append(el('span', { class: 'ap-chip ok' }, '✓ ' + goed.length + ' beter'));
+    hero.append(chips);
+    voorstel.forEach((v) => { const a = el('a', { href: v.link, target: '_blank', rel: 'noopener', class: 'tx-orderbtn', style: 'justify-self:start;text-decoration:none' }, 'Bekijk het voorstel op GitHub →'); hero.append(a); });
+    left.append(hero);
+    // wat werd €10.000
+    const ws = sec('Wat werd €10.000 in 5 jaar?', 'na alle kosten');
+    const bars = [];
+    if (prod['Investeerder']) bars.push(['Investeerder', 'inv', prod['Investeerder']]);
+    if (prod['Trend-agent']) bars.push(['Trend-agent', 'tr', prod['Trend-agent']]);
+    const etf = rows[0].etf_totaal;
+    bars.push(['Wereld-ETF', 'etf', { eindwaarde: 10000 * (1 + etf), totaal: etf }]);
+    bars.sort((a, b) => b[2].eindwaarde - a[2].eindwaarde);
+    const max = Math.max(...bars.map((b) => b[2].eindwaarde));
+    const bw = el('div', { class: 'od-bars' });
+    bars.forEach(([n, k, r]) => {
+      const b = el('div', { class: 'od-bar ' + k }); const h = el('div', { class: 'h' }); h.append(el('span', {}, n), el('b', {}, eur0.format(r.eindwaarde)));
+      const t = el('div', { class: 't' }); const sp = el('span'); sp.style.width = (r.eindwaarde / max * 100) + '%'; t.append(sp);
+      b.append(h, t, el('small', {}, pct(r.totaal, 1) + ' in 5 jaar' + (k === 'etf' ? ' · gewoon kopen en vasthouden' : '') + (r.per_jaar != null ? ' · ' + pct(r.per_jaar, 1) + ' per jaar · grootste daling ' + pct(r.max_daling, 1) : '')));
+      bw.append(b);
+    });
+    ws.append(bw, el('p', { class: 'tx-note', style: 'margin:0 0 8px' }, 'Periode ' + String(rows[0].periode || '').replace(/(\d{4})-(\d{2})-(\d{2})/g, (m, y, mo, d) => +d + '-' + +mo + '-' + y) + '. Uit het verleden, dus geen garantie voor later. De score in de toetsen is winst gedeeld door de schommelingen: hoger is beter.'));
+    left.append(ws);
+    // goed om te weten
+    if (S.status === 'ok') {
+      const zinnen = window.tx.real(S.data).map((r) => r.tekst).filter((t) => !/^(Patroon|Trend-agent: in de test|Investeerder: in de test|Getest op)/.test(t));
+      if (zinnen.length) {
+        const gs = sec('Goed om te weten');
+        zinnen.forEach((t) => { const r = el('div', { class: 'od-weet' }); r.append(el('span', { class: 'i', 'aria-hidden': 'true' }, /^Live/.test(t) ? '⏳' : 'ℹ'), el('span', {}, t)); gs.append(r); });
+        left.append(gs);
+      }
+    }
+    // geteste regels
+    const rs = sec('Welke regels zijn getest?', 'tik voor de toetsen');
+    for (const bot of ['Trend-agent', 'Investeerder']) {
+      const lijst = getest.filter((r) => r.bot === bot).sort((a, b) => b.eindwaarde - a.eindwaarde);
+      if (!lijst.length) continue;
+      rs.append(el('div', { class: 'od-bot' }, bot + ' · nu ' + eur0.format(prod[bot] ? prod[bot].eindwaarde : 0)));
+      lijst.forEach((r) => {
+        const ok = r.oordeel === 'aanbevolen';
+        const row = el('button', { class: 'od-row' + (open.has(r.id) ? ' open' : ''), type: 'button', 'aria-expanded': String(open.has(r.id)), 'data-source': 'onderzoek', 'data-field': 'oordeel', 'data-where': 'id=' + r.id });
+        const mid = el('div', { style: 'min-width:0' });
+        const q0 = String(r.uitleg || r.variant).replace(/^(Patroon|Investeerder): /, ''); const q = el('div', { class: 'q' }, q0.charAt(0).toUpperCase() + q0.slice(1));
+        if (r.patroon) q.append(el('span', { class: 'tag' }, 'patroon'));
+        const p0 = prod[bot];
+        const diff = p0 ? r.eindwaarde - p0.eindwaarde : 0;
+        mid.append(q, el('div', { class: 'a' }, (ok ? '✓ Bewezen beter: voorstel' : '✕ Niet overgenomen') + ' · €10.000 werd ' + eur0.format(r.eindwaarde)));
+        const rt = el('div', { class: 'r ' + (diff > 0 ? 'up' : diff < 0 ? 'down' : '') }); rt.append(document.createTextNode((diff > 0 ? '+' : diff < 0 ? '−' : '') + eur0.format(Math.abs(diff))), el('small', {}, 'vs nu'));
+        row.append(el('span', { class: 'ck-ic ' + (ok ? 'goed' : 'info'), 'aria-hidden': 'true' }, ok ? '✓' : '✕'), mid, rt);
+        const tests = el('div', { class: 'od-tests' });
+        String(r.toetsen || '').split(' · ').filter(Boolean).forEach((t) => {
+          const pass = t.startsWith('✓'); const body = t.slice(1).trim(); const [naam, ...rest] = body.split(':');
+          const m = TOETS.find(([re]) => re.test(naam)); const d = el('div', { class: 'od-test' });
+          const tx = el('div'); tx.append(el('b', {}, m ? m[1] : naam), el('small', {}, rest.join(':').trim().replace(/Sharpe/g, 'score').replace(/ vs productie /g, ' tegen nu ').replace(/ vs /g, ' tegen ').replace(/\(nodig: \+0\.10\)/, '(moet 0,10 hoger zijn)').replace(/(\d)\.(\d)/g, '$1,$2')));
+          d.append(el('span', { class: pass ? 'ok' : 'no', 'aria-hidden': 'true' }, pass ? '✓' : '✕'), tx); tests.append(d);
+        });
+        if (tests.childNodes.length) { tests.prepend(el('div', { style: 'font-size:13px;color:var(--color-fg-muted)' }, 'Een regel wordt alleen voorgesteld als hij alle toetsen haalt:')); row.append(tests); }
+        row.addEventListener('click', () => { if (open.has(r.id)) open.delete(r.id); else open.add(r.id); row.classList.toggle('open'); row.setAttribute('aria-expanded', String(open.has(r.id))); });
+        rs.append(row);
+      });
+    }
+    right.append(rs);
+    box.replaceChildren(left, right);
+  }
+  dash.onData(() => { try { draw(); } catch (e) { console.log('ERR onderzoek', e.message); } });
 })();
 </script>
