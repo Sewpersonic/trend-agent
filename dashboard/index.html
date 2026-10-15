@@ -180,7 +180,7 @@
 .tx-beeld .b-chip { display: inline-flex; align-items: center; gap: 6px; background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 999px; padding: 3px 10px 3px 3px; font-size: 14px; }
 .tx-beeld .b-chip small { font-size: 12px; }
 .tx-beeld .b-foot { font-size: 13px; color: var(--color-fg-muted); margin: 0; }
-.m-home, .tx-meer { display: none; }
+.m-home, .tx-meer, .m-drawer, .m-shade { display: none; }
 .tx-pill.big { font-size: var(--cds-font-size-body); padding: 4px 12px; }
 .tx-group { display: grid; gap: 10px; }
 .tx-group-h { margin: 6px 0 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
@@ -291,13 +291,22 @@
   .tx-side .tx-nav svg, .tx-meer svg { width: 22px !important; height: 22px !important; }
   .tx-side .tx-nav[aria-selected="true"], .tx-meer.on { color: var(--tx-accent); }
   #patronen, #analyse, #onderzoek, #controles, #github { display: none !important; }
-  .tx-side.open { grid-template-rows: auto auto; }
-  /* Als vast-onderaan niet werkt in de weergave (bijv. in een app), staat het menu bovenaan met alle tegels */
-  .tx.m-flow { padding-bottom: 0; grid-template-rows: auto 1fr; align-content: start; }
-  .tx.m-flow .tx-side { position: static !important; border-top: 0; border-bottom: 1px solid var(--color-border-line) !important; padding: 8px 4px !important; row-gap: 6px !important; }
-  .tx.m-flow .tx-side #patronen, .tx.m-flow .tx-side #analyse, .tx.m-flow .tx-side #onderzoek, .tx.m-flow .tx-side #controles, .tx.m-flow .tx-side #github { display: grid !important; order: 0; padding: 4px 0; border: 0; }
-  .tx.m-flow .tx-meer { display: none !important; }
-  .tx-side.open #patronen, .tx-side.open #analyse, .tx-side.open #onderzoek, .tx-side.open #controles, .tx-side.open #github { display: grid !important; order: -1; padding: 10px 0; border-bottom: 1px solid var(--color-border-line); }
+  /* Zijmenu */
+  .tx { position: relative; }
+  .m-shade:not([hidden]) { display: block; position: absolute; inset: 0; background: rgba(0,0,0,.35); z-index: 30; opacity: 0; transition: opacity .2s; }
+  .m-shade.in { opacity: 1; }
+  .m-drawer:not([hidden]) { display: flex; flex-direction: column; position: absolute; top: 0; bottom: 0; left: 0; width: min(80%, 300px); background: var(--color-panel); z-index: 31; box-shadow: 4px 0 24px rgba(0,0,0,.18); transform: translateX(-100%); transition: transform .2s ease-out; padding: 18px 12px 28px; overflow-y: auto; box-sizing: border-box; }
+  .m-drawer.in { transform: none; }
+  .m-dhead { display: flex; justify-content: space-between; align-items: center; padding: 0 8px; }
+  .m-dhead b { font-size: 20px; }
+  .m-close { all: unset; cursor: pointer; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; font-size: 18px; color: var(--color-fg-muted); }
+  .m-dsub { margin: 4px 8px 12px; font-size: 13px; color: var(--color-fg-muted); }
+  .m-dlist { display: grid; gap: 4px; }
+  .m-ditem { all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: 14px; padding: 13px 12px; border-radius: 12px; font-size: 17px; color: var(--color-fg); -webkit-tap-highlight-color: transparent; }
+  .m-ditem svg { width: 22px; height: 22px; color: var(--color-fg-muted); flex: none; }
+  .m-ditem[aria-current="true"] { background: var(--tx-soft); color: var(--tx-accent); font-weight: var(--cds-font-weight-medium); }
+  .m-ditem[aria-current="true"] svg { color: var(--tx-accent); }
+  .m-close:focus-visible, .m-ditem:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
   #pg-dashboard > * { order: 6; }
   #m-home { order: 1; } #begin-hier { order: 2; } #koersverloop { order: 3; } #kort-patronen { order: 4; }
   /* Beleggingen als korte regels: naam, vandaag, 3 maanden, resultaat */
@@ -341,8 +350,14 @@
     <button class="tx-nav" role="tab" id="risico" aria-selected="false" data-page="pg-risico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span class="lbl">Risico</span></button>
     <button class="tx-nav" role="tab" id="controles" aria-selected="false" data-page="pg-controles"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg><span class="lbl">Controles</span></button>
     <button class="tx-nav" role="tab" id="github" aria-selected="false" data-page="pg-github"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg><span class="lbl">GitHub</span></button>
-    <button class="tx-meer" id="meer" type="button" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="7" r="2.5"/><circle cx="7" cy="17" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg><span class="lbl">Meer</span></button>
+    <button class="tx-meer" id="meer" type="button" aria-expanded="false" aria-controls="m-drawer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span class="lbl">Menu</span></button>
   </nav>
+  <div class="m-shade" id="m-shade" hidden></div>
+  <aside class="m-drawer" id="m-drawer" aria-label="Alle onderdelen" hidden>
+    <div class="m-dhead"><b>Trend-agent</b><button type="button" class="m-close" id="m-close" aria-label="Menu sluiten">✕</button></div>
+    <p class="m-dsub">Kies een onderdeel</p>
+    <div class="m-dlist" id="m-dlist"></div>
+  </aside>
 
   <main class="tx-main">
     <div class="tx-top">
@@ -1689,7 +1704,26 @@ dash.calc('onderzoek_verschil', {
   const meer = document.getElementById('meer');
   const extra = ['patronen', 'analyse', 'onderzoek', 'controles', 'github'];
   const markMeer = () => meer.classList.toggle('on', extra.some((id) => document.getElementById(id).getAttribute('aria-selected') === 'true'));
-  meer.addEventListener('click', () => { const open = side.classList.toggle('open'); meer.setAttribute('aria-expanded', String(open)); });
+  // Zijmenu (telefoon): alle onderdelen, schuift van links in beeld
+  const drawer = document.getElementById('m-drawer'), shade = document.getElementById('m-shade'), dlist = document.getElementById('m-dlist');
+  const navs = [...document.querySelectorAll('.tx-nav')];
+  dlist.replaceChildren(...navs.map((n) => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'm-ditem'; b.dataset.for = n.id;
+    b.innerHTML = n.querySelector('svg').outerHTML; const l = document.createElement('span'); l.textContent = n.textContent.trim(); b.append(l);
+    b.addEventListener('click', () => { n.click(); setDrawer(false); });
+    return b;
+  }));
+  const sync = () => dlist.querySelectorAll('.m-ditem').forEach((b) => b.setAttribute('aria-current', String(document.getElementById(b.dataset.for).getAttribute('aria-selected') === 'true')));
+  function setDrawer(open) {
+    sync();
+    if (open) { drawer.hidden = false; shade.hidden = false; requestAnimationFrame(() => { drawer.classList.add('in'); shade.classList.add('in'); }); }
+    else { drawer.classList.remove('in'); shade.classList.remove('in'); setTimeout(() => { if (!drawer.classList.contains('in')) { drawer.hidden = true; shade.hidden = true; } }, 220); }
+    meer.setAttribute('aria-expanded', String(open));
+  }
+  meer.addEventListener('click', () => setDrawer(drawer.hidden));
+  shade.addEventListener('click', () => setDrawer(false));
+  document.getElementById('m-close').addEventListener('click', () => setDrawer(false));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !drawer.hidden) setDrawer(false); });
   document.querySelectorAll('.tx-nav').forEach((n) => n.addEventListener('click', () => { side.classList.remove('open'); meer.setAttribute('aria-expanded', 'false'); markMeer(); document.querySelector('.tx-main').scrollTop = 0; window.scrollTo(0, 0); }));
 
   let bot = '';
