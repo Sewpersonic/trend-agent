@@ -76,8 +76,9 @@ def main(argv: list[str] | None = None) -> int:
             e = broker_t212.manual(s.state_dir, args.handmatig, args.aandeel, args.aantal)
             print(f"Handmatig {args.handmatig}: {e['status']}. {e.get('reden', '')}".strip())
             for o in e.get("orders", []):
-                print(f"  {o['ticker']} {o['quantity']:+g} (~€{o['waarde_eur']:.0f}) -> {o['uitkomst']}")
-            return 0 if e["status"] == "ok" else 1
+                if o.get("quantity") is not None:
+                    print(f"  {o['ticker']} {o['quantity']:+g} (~€{o['waarde_eur']:.0f}) -> {o['uitkomst']}")
+            return 0 if e["status"] in ("ok", "geweigerd") else 1
         if args.live:
             v = broker_t212.run(s.state_dir, Path("config/broker.json"), check_only=True, save_state=False)
             v.pop("geschiedenis", None)

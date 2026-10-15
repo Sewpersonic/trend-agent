@@ -202,6 +202,7 @@
 .d-broker .t-row small { color: var(--color-fg-muted); font-size: 12px; }
 .d-broker .more { justify-self: start; margin-top: 6px; }
 .tx-banner { border-radius: 12px; padding: 14px 18px; background: color-mix(in srgb, var(--color-warn) 14%, var(--color-panel)); border: 1px solid color-mix(in srgb, var(--color-warn) 45%, transparent); display: grid; gap: 6px; }
+.tx-banner[hidden] { display: none; }
 .tx-banner b { font-size: 16px; }
 .tx-banner a { color: var(--tx-accent); font-weight: var(--cds-font-weight-medium); }
 .bh-list { display: grid !important; gap: 14px !important; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
@@ -370,6 +371,9 @@
   .m-brow .r small { font-size: 12px; color: var(--color-fg-muted); }
   .m-fav.br { grid-column: 1 / -1; background: color-mix(in srgb, #2aa876 14%, var(--color-panel)); cursor: pointer; }
   .m-fav.br .val { margin-top: 6px; }
+  /* iPhone: geen automatisch inzoomen bij het tikken in een keuzelijst of invulveld (gebeurt onder 16px) */
+  select, input, textarea { font-size: 16px !important; }
+  #pg-broker > .tx-orderrow { display: none; }
   /* Telefoon: alleen de hoofdzaken op het overzicht */
   html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   #pg-dashboard > .tx-top, .tx-top h1, .tx-top p { }
@@ -947,7 +951,7 @@ dash.calc('begin_hier', {
         kort: fout ? 'Koppeling met Trading 212 geeft een fout.' : onderweg.length ? onderweg.map((p) => p.naam).join(' en ') + ' worden gekocht als de beurs opengaat.' : 'Loopt gelijk met de trend-agent.',
         stand: bs.waarde == null ? '' : eur(bs.waarde - 5000) + ' sinds de start',
         nu: fout ? 'De koppeling met Trading 212 gaf een fout: ' + bs.reden : 'Volgt de trend-agent bij Trading 212 met nepgeld: ' + gelijk + ' van ' + pos.length + ' aandelen staan gelijk.',
-        laatst: ords.length ? dag(ords[0].tijd) + ': ' + ords.filter((o) => o.tijd === ords[0].tijd).map((o) => (o.aantal > 0 ? 'koop ' : 'verkoop ') + Math.abs(o.aantal) + ' ' + ((pos.find((p) => p.ticker === o.ticker) || {}).naam || o.ticker)).join(', ') + '.' : 'Nog geen orders.',
+        laatst: ords.length ? dag(ords[0].tijd) + ': ' + ords.filter((o) => o.tijd === ords[0].tijd).map((o) => (o.aantal == null ? (o.actie || 'order') + ' geweigerd:' : (o.aantal > 0 ? 'koop ' : 'verkoop ') + Math.abs(o.aantal)) + ' ' + ((pos.find((p) => p.ticker === o.ticker) || {}).naam || o.ticker)).join(', ') + '.' : 'Nog geen orders.',
         straks: onderweg.length ? onderweg.map((p) => p.naam).join(' en ') + ' worden gekocht zodra de beurs opengaat.' : 'Doet na elke ronde van de trend-agent hetzelfde. Elk uur wordt de stand bijgewerkt.' });
     }
     return out;
@@ -2004,7 +2008,7 @@ dash.calc('onderzoek_verschil', {
   const { el, eur, sEur, failed, real, emptyReason } = window.tx;
   const tijd = new Intl.DateTimeFormat('nl-NL', { timeZone: 'Europe/Amsterdam', weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
   const wanneer = (iso) => { try { return tijd.format(new Date(iso)); } catch (e) { return iso; } };
-  const UIT = { geplaatst: ['Geplaatst', 'ok'], mislukt: ['Mislukt', 'nee'], overgeslagen: ['Overgeslagen', 'flat'] };
+  const UIT = { geplaatst: ['Geplaatst', 'ok'], mislukt: ['Mislukt', 'nee'], overgeslagen: ['Overgeslagen', 'flat'], geweigerd: ['Geweigerd', 'flat'], onzeker: ['Onzeker', 'nee'], ingetrokken: ['Ingetrokken', 'flat'] };
   const draw = () => {
     const s = dash.data('broker');
     const box = document.getElementById('br-antwoorden');
@@ -2037,7 +2041,7 @@ dash.calc('onderzoek_verschil', {
     if (!ord.length) { const tr = el('tr'); tr.append(el('td', { colspan: '5', class: 'tx-empty' }, 'Nog geen orders geplaatst.')); ob.replaceChildren(tr); }
     else ob.replaceChildren(...ord.map((r) => { const tr = el('tr', { 'data-key': r.id }); const u = UIT[r.uitkomst] || [r.uitkomst, 'flat'];
       const t = el('td'); t.append(el('span', { class: 'tx-pill ' + u[1] }, u[0])); if (r.reden) t.append(el('div', { class: 'tx-note', style: 'margin:2px 0 0' }, r.reden));
-      tr.append(el('td', {}, wanneer(r.tijd)), el('td', {}, r.ticker), el('td', { class: 'num' }, (r.aantal > 0 ? 'koop ' : 'verkoop ') + Math.abs(r.aantal)), el('td', { class: 'num' }, r.waarde_eur == null ? '–' : eur.format(r.waarde_eur)), t); return tr; }));
+      tr.append(el('td', {}, wanneer(r.tijd)), el('td', {}, r.ticker), el('td', { class: 'num' }, r.aantal == null ? (r.actie || '–') : (r.aantal > 0 ? 'koop ' : 'verkoop ') + Math.abs(r.aantal)), el('td', { class: 'num' }, r.waarde_eur == null ? '–' : eur.format(r.waarde_eur)), t); return tr; }));
   };
   dash.onData(draw);
 })();
@@ -2101,7 +2105,9 @@ dash.calc('onderzoek_verschil', {
     card.append(t, el('span', { class: 'val', 'data-source': 'broker', 'data-field': 'waarde', 'data-where': 'id=stand' }, st.waarde == null ? '–' : eur.format(st.waarde)),
       el('span', { class: 'sb' }, (st.cash == null ? '' : eur.format(st.cash) + ' vrij · ') + (st.belegd == null ? '' : eur.format(st.belegd) + ' belegd') + (st.winst == null ? '' : ' · ' + sEur(st.winst))), chips);
     if (!ok && st.reden) card.append(el('span', { class: 'sb' }, st.reden));
-    const out = [card, sec('Aandelen', 'oefenaccount / trend-agent')];
+    const out = [card];
+    if (window.tx.orderRow) out.push(window.tx.orderRow());
+    out.push(sec('Aandelen', 'oefenaccount / trend-agent'));
     pos.forEach((p) => {
       const r = el('div', { class: 'm-brow', 'data-source': 'broker', 'data-where': 'id=' + encodeURIComponent(p.id) });
       const mid = el('div', { style: 'min-width:0' }); mid.append(el('div', { class: 'n' }, p.naam), el('div', { class: 't' }, p.oefenaccount + ' / ' + p.trend_agent + ' aandelen'));
@@ -2114,8 +2120,8 @@ dash.calc('onderzoek_verschil', {
     ord.slice(0, 6).forEach((o) => {
       const r = el('div', { class: 'm-brow' });
       const nm = naam[o.ticker] || o.ticker;
-      const mid = el('div', { style: 'min-width:0' }); mid.append(el('div', { class: 'n' }, (o.aantal > 0 ? 'Koop ' : 'Verkoop ') + Math.abs(o.aantal) + ' ' + nm), el('div', { class: 't' }, wanneer(o.tijd) + (o.waarde_eur == null ? '' : ' · ~' + eur.format(o.waarde_eur))));
-      const u = { geplaatst: ['Geplaatst', 'ok'], mislukt: ['Mislukt', 'nee'], overgeslagen: ['Overgeslagen', 'flat'] }[o.uitkomst] || [o.uitkomst, 'flat'];
+      const mid = el('div', { style: 'min-width:0' }); mid.append(el('div', { class: 'n' }, o.aantal == null ? (o.actie || 'Order') + ': ' + nm : (o.aantal > 0 ? 'Koop ' : 'Verkoop ') + Math.abs(o.aantal) + ' ' + nm), el('div', { class: 't' }, wanneer(o.tijd) + (o.waarde_eur == null ? '' : ' · ~' + eur.format(o.waarde_eur))));
+      const u = { geplaatst: ['Geplaatst', 'ok'], mislukt: ['Mislukt', 'nee'], overgeslagen: ['Overgeslagen', 'flat'], geweigerd: ['Geweigerd', 'flat'], onzeker: ['Onzeker', 'nee'], ingetrokken: ['Ingetrokken', 'flat'] }[o.uitkomst] || [o.uitkomst, 'flat'];
       const right = el('div', { class: 'r' }); right.append(el('span', { class: 'tx-pill ' + u[1] }, u[0])); if (o.reden) right.append(el('small', {}, o.reden));
       r.append(cn(o.ticker), mid, right); out.push(r);
     });
@@ -2217,7 +2223,8 @@ dash.calc('onderzoek_verschil', {
   const mk = (cls) => { const r = document.createElement('div'); r.className = 'tx-orderrow ' + (cls || '');
     [['kopen', 'Kopen', ''], ['verkopen', 'Verkopen', ' ghost']].forEach(([k, t, c]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'tx-orderbtn' + c; b.textContent = t; b.addEventListener('click', () => window.tx.openOrder(k)); r.append(b); });
     return r; };
-  // knoppen op het tabblad Oefenaccount (computer en telefoon)
+  window.tx.orderRow = mk;
+  // knoppen op het tabblad Oefenaccount (computer)
   const pg = document.getElementById('pg-broker');
   pg.insertBefore(mk(), pg.querySelector('.m-broker'));
   // knoppen onder de oefenaccount-kaart op het overzicht (computer) en de groene kaart (telefoon), na elke update

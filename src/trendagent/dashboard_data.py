@@ -251,7 +251,7 @@ def broker_rows(state_dir: Path) -> list[dict]:
     for i, h in enumerate(reversed(v.get("geschiedenis") or [])):
         for j, o in enumerate(h.get("orders") or []):
             rows.append({"id": f"order-{i}-{j}", "soort": "order", "tijd": h.get("tijd", ""), "ticker": o.get("ticker"),
-                         "aantal": o.get("quantity"), "waarde_eur": o.get("waarde_eur"), "uitkomst": o.get("uitkomst"),
+                         "aantal": o.get("quantity"), "actie": o.get("actie", ""), "waarde_eur": o.get("waarde_eur"), "uitkomst": o.get("uitkomst"),
                          "reden": o.get("reden") or ""})
     return rows
 

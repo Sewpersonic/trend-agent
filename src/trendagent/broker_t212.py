@@ -414,8 +414,13 @@ def manual(state_dir: Path, side: str, aandeel: str, aantal: str, client: "T212D
             hand[t212] = h
             prev["handmatig"] = hand
         entry["antwoord"] = r
+    except BrokerError as e:
+        # Een order die niet mag (verkeerd aandeel, te groot, kill switch) is geen storing: 'geweigerd', met de reden.
+        entry.update(status="geweigerd", reden=str(e))
+        entry["orders"].append({"ticker": aandeel, "quantity": None, "actie": "handmatig " + side, "waarde_eur": None,
+                                "uitkomst": "geweigerd", "reden": str(e)})
     except Exception as e:  # noqa: BLE001
-        entry.update(status="fout", reden=str(e) if isinstance(e, BrokerError) else f"Onverwachte fout: {type(e).__name__}: {e}")
+        entry.update(status="fout", reden=f"Onverwachte fout: {type(e).__name__}: {e}")
     hist = prev.get("geschiedenis", [])
     hist.append({k: entry[k] for k in ("tijd", "status", "reden")} | {"orders": entry["orders"]})
     prev["geschiedenis"] = hist[-60:]
