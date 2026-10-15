@@ -1,7 +1,7 @@
 {
- "tijd": "2026-10-15T16:30:57+00:00",
+ "tijd": "2026-10-15T16:36:09+00:00",
  "status": "alleen kijken",
- "reden": "Orders staan uit in config/broker.json.",
+ "reden": "Alleen gecontroleerd (proef): geen orders geplaatst.",
  "orders": [],
  "niet_gekoppeld": [],
  "account": {
@@ -47,6 +47,12 @@
    "tijd": "2026-10-15T16:30:57+00:00",
    "status": "alleen kijken",
    "reden": "Orders staan uit in config/broker.json.",
+   "orders": []
+  },
+  {
+   "tijd": "2026-10-15T16:36:09+00:00",
+   "status": "alleen kijken",
+   "reden": "Alleen gecontroleerd (proef): geen orders geplaatst.",
    "orders": []
   }
  ]
