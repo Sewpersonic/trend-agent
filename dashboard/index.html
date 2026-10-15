@@ -1,432 +1,594 @@
 <style>
-#dash-root { --dash-gutter: clamp(12px, 3vw, 32px); }
-.ta { font-family: var(--font-anthropic-sans); color: var(--color-fg); max-width: 1180px; margin-inline: auto; display: grid; gap: var(--cds-gap-lg); }
-.ta-head { display: grid; gap: var(--cds-gap-xs); }
-.ta-title { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
-.ta-take { font-size: var(--cds-font-size-body); margin: 0; max-width: 70ch; }
-.ta-note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: 0; }
-.ta-tabs { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs); border-bottom: 1px solid var(--color-border-line); }
-.ta-tab { font: inherit; font-size: var(--cds-font-size-body); background: none; border: 0; border-bottom: 2px solid transparent; color: var(--color-fg-muted); padding: var(--cds-pad-sm) var(--cds-pad-md); cursor: pointer; margin-bottom: -1px; }
-.ta-tab[aria-selected="true"] { color: var(--color-fg); border-bottom-color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
-.ta-tab:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
-.ta-page { display: grid; gap: var(--cds-gap-lg); }
-.ta-grid2 { display: grid; gap: var(--cds-gap-md); grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr)); }
-.ta-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: grid; gap: var(--cds-gap-sm); min-width: 0; align-content: start; }
-.ta-card h2, .ta-card h3 { margin: 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
-.ta-section { margin: 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
-.ta-sub { margin: 0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
-.ta-bot { display: flex; justify-content: space-between; align-items: baseline; gap: var(--cds-gap-sm); flex-wrap: wrap; }
-.ta-pill { font-size: var(--cds-font-size-caption); font-weight: var(--cds-font-weight-medium); padding: 2px 10px; border-radius: 999px; border: 1px solid currentColor; }
-.ta-pill.win { color: var(--color-ok); } .ta-pill.loss { color: var(--color-bad); } .ta-pill.flat { color: var(--color-fg-muted); }
-.ta-big { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); font-variant-numeric: tabular-nums; }
-.ta-kv { display: grid; grid-template-columns: auto 1fr; gap: 4px var(--cds-gap-md); font-size: var(--cds-font-size-body); }
-.ta-kv dt { color: var(--color-fg-muted); } .ta-kv dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
-.pos { color: var(--color-ok); } .neg { color: var(--color-bad); }
-.ta-ready { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); border-top: 1px solid var(--color-border-line); padding-top: var(--cds-pad-sm); }
-.ta-chart { position: relative; min-height: 300px; }
-.ta-candle { position: relative; min-height: 260px; }
-.ta-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); white-space: nowrap; z-index: 2; font-variant-numeric: tabular-nums; }
-.ta-tip .d { color: var(--cds-text-secondary); }
-.ta-tablewrap { overflow-x: auto; }
-.ta table { border-collapse: collapse; width: 100%; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
-.ta th { text-align: left; font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); padding: 6px 8px; border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
-.ta td { padding: 8px; border-bottom: 1px solid var(--color-border-line); vertical-align: top; }
-.ta td.num, .ta th.num { text-align: right; white-space: nowrap; }
-.ta-plain { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); min-width: 16rem; }
-.ta-list { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; font-size: var(--cds-font-size-body); line-height: 1.5; }
-.ta-zag { display: grid; gap: 6px; margin: 0; font-size: var(--cds-font-size-body); line-height: 1.5; }
-.ta-zag b { font-weight: var(--cds-font-weight-medium); }
-.ta-key { display: flex; flex-wrap: wrap; gap: 4px var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
-.ta-key i { display: inline-block; width: 14px; height: 0; border-top: 2px solid; vertical-align: middle; margin-right: 6px; }
-.ta-key i.box { width: 8px; height: 12px; border: 0; border-radius: 2px; }
-.ta-key i.dash { border-top-style: dashed; }
-.ta-kans-head { display: flex; justify-content: space-between; gap: var(--cds-gap-sm); flex-wrap: wrap; align-items: baseline; }
-.ta-plan { font-size: var(--cds-font-size-body); line-height: 1.5; margin: 0; }
-.ta-empty { color: var(--color-fg-muted); font-size: var(--cds-font-size-body); margin: 0; }
-.ta-state { display: inline-flex; align-items: center; gap: 6px; }
-.ta-state::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
-.ta-state.ok { color: var(--color-ok); } .ta-state.bezig { color: var(--color-warn); } .ta-state.nee { color: var(--color-bad); }
-.ta-fail { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: inherit; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
-.ta-fail::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--color-bad); }
+/* Indeling: smalle menubalk links, inhoud rechts op een warme, lichte ondergrond.
+   Bovenaan een lopende koersbalk, dan één grote grafiek met volume, daarna kaarten en twee tabellen. */
+#dash-root { --dash-gutter: 0; }
+.tx {
+  --tx-accent: #e8930c;                 /* overschreven door script met de themakleur van het dashboard */
+  --tx-ground: color-mix(in srgb, var(--tx-accent) 5%, var(--color-bg));
+  --tx-soft: color-mix(in srgb, var(--tx-accent) 14%, var(--color-panel));
+  --tx-up: var(--color-ok);
+  --tx-down: var(--color-bad);
+  font-family: var(--font-anthropic-sans); color: var(--color-fg);
+  display: grid; grid-template-columns: 64px minmax(0, 1fr); min-height: 100%;
+  background: var(--tx-ground);
+}
+.tx-side { background: var(--color-panel); border-right: 1px solid var(--color-border-line); display: flex; flex-direction: column; align-items: center; gap: 6px; padding-block: 16px; position: sticky; top: 0; align-self: start; height: max-content; min-height: 100%; }
+.tx-logo { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--tx-accent); color: var(--tx-accent); display: grid; place-items: center; font-weight: 700; font-size: 15px; margin-bottom: 14px; }
+.tx-nav { all: unset; box-sizing: border-box; width: 44px; height: 44px; border-radius: 10px; display: grid; place-items: center; color: var(--color-fg-muted); cursor: pointer; position: relative; }
+.tx-nav svg { width: 20px; height: 20px; }
+.tx-nav:hover { background: var(--tx-soft); color: var(--color-fg); }
+.tx-nav[aria-selected="true"] { background: var(--tx-soft); color: var(--tx-accent); }
+.tx-nav:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
+.tx-nav .lbl { position: absolute; left: 52px; white-space: nowrap; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); box-shadow: var(--cds-shadow-popover); border-radius: var(--cds-radius); padding: 3px 8px; font-size: var(--cds-font-size-caption); color: var(--color-fg); opacity: 0; pointer-events: none; z-index: 5; }
+.tx-nav:hover .lbl, .tx-nav:focus-visible .lbl { opacity: 1; }
+.tx-main { min-width: 0; padding-block: 18px 28px; padding-left: clamp(12px, 2.4vw, 28px); padding-right: clamp(12px, 2.4vw, 28px); display: grid; gap: 18px; align-content: start; }
+.tx-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.tx-top h1 { margin: 0; font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); }
+.tx-top p { margin: 0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.tx-chipday { font-size: var(--cds-font-size-caption); background: var(--tx-soft); color: var(--color-fg); border-radius: 999px; padding: 6px 12px; white-space: nowrap; }
+.tx-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 12px; min-width: 0; }
+.tx-card-h { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 16px 20px; border-bottom: 1px solid var(--color-border-line); }
+.tx-card-h h2 { margin: 0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
+.tx-card-b { padding: 16px 20px; display: grid; gap: 12px; }
+.tx-note { margin: 0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+
+/* Lopende koersbalk */
+.tx-strip { overflow: hidden; padding: 14px 0; mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); }
+.tx-strip-in { display: flex; gap: 28px; width: max-content; padding-inline: 20px; }
+@media (prefers-reduced-motion: no-preference) { .tx-strip-in.run { animation: tx-marquee 60s linear infinite; } .tx-strip:hover .tx-strip-in { animation-play-state: paused; } }
+@keyframes tx-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.tx-tick { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
+.tx-coin { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 10px; font-weight: 700; color: #fff; flex: none; }
+.tx-tick .p { color: var(--tx-accent); }
+.up { color: var(--tx-up); } .down { color: var(--tx-down); }
+
+/* Grote grafiek */
+.tx-controls { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.tx-controls select { font: inherit; font-size: var(--cds-font-size-body); color: var(--color-fg); background: var(--color-bg); border: 1px solid var(--color-border-line); border-radius: 6px; padding: 4px 8px; }
+.tx-range { font-variant-numeric: tabular-nums; border: 1px solid var(--color-border-line); border-radius: 6px; padding: 4px 10px; color: var(--color-fg); background: var(--color-bg); }
+.tx-zoom { display: inline-flex; gap: 4px; }
+.tx-zoom button { font: inherit; font-size: var(--cds-font-size-caption); color: var(--color-fg); background: var(--color-bg); border: 1px solid var(--color-border-line); border-radius: 6px; padding: 4px 9px; cursor: pointer; }
+.tx-zoom button[aria-pressed="true"] { background: var(--tx-soft); border-color: var(--tx-accent); color: var(--color-fg); }
+.tx-big { position: relative; min-height: 400px; }
+.tx svg text { fill: var(--color-fg-muted); font-size: 11px; font-family: var(--font-anthropic-sans); }
+.tx svg text.lab { fill: var(--color-fg); font-size: 12px; }
+.tx-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); white-space: nowrap; z-index: 3; font-variant-numeric: tabular-nums; }
+.tx-tip .d { color: var(--cds-text-secondary); }
+
+/* Kaarten met minigrafiek */
+.tx-cards { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); }
+.tx-coincard { display: grid; grid-template-rows: auto auto 1fr; overflow: hidden; }
+.tx-coincard .h { display: flex; align-items: center; gap: 12px; padding: 18px 18px 6px; }
+.tx-coincard .h .tx-coin { width: 34px; height: 34px; font-size: 12px; }
+.tx-coincard h3 { margin: 0; font-size: var(--cds-font-size-heading); font-weight: 400; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tx-coincard .m { display: flex; justify-content: space-between; gap: 8px; padding: 2px 18px 8px; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+.tx-coincard .m .p { color: var(--tx-accent); font-weight: var(--cds-font-weight-medium); }
+.tx-coincard .tag { font-size: 11px; color: var(--color-fg-muted); }
+.tx-spark { height: 90px; display: block; }
+.tx-botcard .big { font-family: var(--font-anthropic-serif); font-size: var(--cds-font-size-title); font-weight: 400; padding: 0 18px; font-variant-numeric: tabular-nums; }
+.tx-pill { display: inline-block; font-size: 12px; font-weight: var(--cds-font-weight-medium); padding: 2px 9px; border-radius: 4px; color: #fff; white-space: nowrap; }
+.tx-pill.win, .tx-pill.koop, .tx-pill.ok { background: var(--tx-up); }
+.tx-pill.loss, .tx-pill.verkoop, .tx-pill.nee { background: var(--tx-down); }
+.tx-pill.flat, .tx-pill.bezig { background: var(--color-fg-muted); }
+
+/* Tabellen */
+.tx-two { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr)); align-items: start; }
+.tx-tablewrap { overflow-x: auto; }
+.tx table { border-collapse: collapse; width: 100%; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
+.tx th { text-align: left; font-weight: var(--cds-font-weight-medium); padding: 12px 16px; border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
+.tx td { padding: 12px 16px; border-bottom: 1px solid var(--color-border-line); vertical-align: top; }
+.tx tbody tr:nth-child(odd) td { background: color-mix(in srgb, var(--color-fg) 3%, transparent); }
+.tx td.num, .tx th.num { text-align: right; white-space: nowrap; }
+.tx td.wrap { min-width: 14rem; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.tx-tabs2 { display: flex; border-top: 1px solid var(--color-border-line); }
+.tx-tabs2 button { all: unset; flex: 1; text-align: center; padding: 12px; cursor: pointer; font-size: var(--cds-font-size-body); border-top: 3px solid transparent; }
+.tx-tabs2 button[aria-selected="true"] { background: var(--tx-accent); color: #fff; }
+.tx-tabs2 button:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: -2px; }
+.tx-list { margin: 0; padding-left: 1.1em; display: grid; gap: 8px; line-height: 1.5; font-size: var(--cds-font-size-body); }
+.tx-zag { display: grid; gap: 8px; margin: 0; line-height: 1.5; font-size: var(--cds-font-size-body); }
+.tx-zag b { font-weight: var(--cds-font-weight-medium); }
+.tx-key { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.tx-key i { display: inline-block; width: 14px; height: 0; border-top: 2px solid; vertical-align: middle; margin-right: 6px; }
+.tx-key i.box { width: 8px; height: 12px; border: 0; border-radius: 2px; }
+.tx-key i.dash { border-top-style: dashed; }
+.tx-candle { position: relative; min-height: 260px; }
+.tx-empty { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-body); }
+.tx-fail { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: inherit; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.tx-fail::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--color-bad); }
 [data-dash-source-state=empty] { color: transparent; }
 [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
-.ta svg text { fill: var(--color-fg-muted); font-size: 11px; font-family: var(--font-anthropic-sans); }
-.ta svg .end { fill: var(--color-fg); font-size: 12px; }
+.tx-page[hidden] { display: none !important; }
+.tx-page { display: grid; gap: 18px; min-width: 0; }
+
+@media (max-width: 640px) {
+  .tx { grid-template-columns: minmax(0, 1fr); }
+  .tx-side { position: static; flex-direction: row; justify-content: center; height: auto; min-height: 0; padding: 8px; border-right: 0; border-bottom: 1px solid var(--color-border-line); flex-wrap: wrap; }
+  .tx-logo { margin: 0 8px 0 0; }
+  .tx-nav .lbl { display: none; }
+}
 </style>
 
-<div class="ta" id="top">
-  <header class="ta-head">
-    <h1 class="ta-title">Trend-agent Dashboard</h1>
-    <p class="ta-take" id="takeaway" data-source="stand"><span class="dash-skeleton">—</span></p>
-    <p class="ta-note">Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies. Elke werkdag 's ochtends bijgewerkt met de slotkoersen van de vorige handelsdag.</p>
-  </header>
-
-  <nav class="ta-tabs" role="tablist" aria-label="Onderdelen">
-    <button class="ta-tab" role="tab" id="overzicht" aria-selected="true" data-page="p-overzicht">Overzicht</button>
-    <button class="ta-tab" role="tab" id="grafieken" aria-selected="false" data-page="p-grafieken">Grafieken</button>
-    <button class="ta-tab" role="tab" id="kansen" aria-selected="false" data-page="p-kansen">Kansen</button>
-    <button class="ta-tab" role="tab" id="analyse" aria-selected="false" data-page="p-analyse">Analyse</button>
-    <button class="ta-tab" role="tab" id="trades" aria-selected="false" data-page="p-trades">Trades en controles</button>
+<div class="tx" id="tx">
+  <nav class="tx-side" role="tablist" aria-label="Onderdelen" aria-orientation="vertical">
+    <div class="tx-logo" aria-hidden="true">T</div>
+    <button class="tx-nav" role="tab" id="dashboard" aria-selected="true" data-page="pg-dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><span class="lbl">Dashboard</span></button>
+    <button class="tx-nav" role="tab" id="grafieken" aria-selected="false" data-page="pg-grafieken"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 4v16M12 7v10M18 5v12"/><rect x="4.5" y="8" width="3" height="7" rx="1"/><rect x="10.5" y="9" width="3" height="5" rx="1"/><rect x="16.5" y="7" width="3" height="6" rx="1"/></svg><span class="lbl">Kaarsgrafieken</span></button>
+    <button class="tx-nav" role="tab" id="kansen" aria-selected="false" data-page="pg-kansen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg><span class="lbl">Kansen</span></button>
+    <button class="tx-nav" role="tab" id="analyse" aria-selected="false" data-page="pg-analyse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19l5-6 4 3 7-9"/><path d="M15 7h5v5"/></svg><span class="lbl">Analyse</span></button>
+    <button class="tx-nav" role="tab" id="risico" aria-selected="false" data-page="pg-risico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span class="lbl">Risico en klaar voor echt geld</span></button>
+    <button class="tx-nav" role="tab" id="controles" aria-selected="false" data-page="pg-controles"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg><span class="lbl">Controles</span></button>
   </nav>
 
-  <!-- Overzicht -->
-  <section class="ta-page" id="p-overzicht" role="tabpanel" aria-labelledby="overzicht">
-    <div class="ta-grid2" id="botcards"></div>
-    <div class="ta-card" id="card-waarde">
-      <h2>Hoeveel zijn de bots waard?</h2>
-      <p class="ta-sub">Boven de startlijn van €10.000 = winst, eronder = verlies. De grijze stippellijn is wat je had gehad met gewoon de wereld-ETF.</p>
-      <div class="ta-chart" id="chart-waarde" data-source="waarde"></div>
-    </div>
-    <div class="ta-card" id="card-risico">
-      <h2>Verlies en risico per positie</h2>
-      <p class="ta-sub">Trend-agent: hoe ver elke koers boven de stop-loss staat en wat je verliest (of vastzet) als die geraakt wordt. Investeerder: winst of verlies per belegging; hij heeft geen stop-loss.</p>
-      <div class="ta-tablewrap">
-        <table id="tbl-posities" data-source="posities" data-row-key="bot,ticker">
-          <thead><tr>
-            <th data-field="bot">Bot</th><th data-field="naam">Aandeel</th>
-            <th class="num" data-field="resultaat_eur">Resultaat</th><th class="num" data-field="resultaat_pct">%</th>
-            <th class="num" data-field="afstand_stop_pct">Boven stop</th><th class="num" data-field="bij_stop_eur">Bij stop-loss</th>
-            <th data-source="uitleg_positie" data-field="uitleg">In gewone taal</th>
-          </tr></thead>
-          <tbody></tbody>
-        </table>
+  <main class="tx-main">
+    <div class="tx-top">
+      <div>
+        <h1>Trend-agent Dashboard</h1>
+        <p>Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies.</p>
       </div>
+      <span class="tx-chipday" id="lastday" data-source="stand">laatste handelsdag —</span>
     </div>
-    <div class="ta-grid2">
-      <div class="ta-card" id="card-remmen">
-        <h2>Remmen van de trend-agent</h2>
-        <p class="ta-sub">Gaat een van deze over de grens, dan zet de bot zijn noodstop aan en koopt hij niets meer.</p>
-        <table id="tbl-remmen" data-source="remmen" data-row-key="rem">
-          <thead><tr><th data-field="rem">Rem</th><th class="num" data-field="nu">Nu</th><th class="num" data-field="grens">Grens</th></tr></thead>
-          <tbody></tbody>
-        </table>
+
+    <!-- DASHBOARD -->
+    <section class="tx-page" id="pg-dashboard" role="tabpanel" aria-labelledby="dashboard">
+      <div class="tx-card tx-strip" id="strip" data-source="tickers"><div class="tx-strip-in" id="strip-in"><span class="dash-skeleton">—</span></div></div>
+
+      <div class="tx-card" id="koersverloop">
+        <div class="tx-card-h"><h2 id="big-title">Koersverloop</h2></div>
+        <div class="tx-card-b">
+          <div class="tx-controls">
+            <label>Aandeel <select id="pick" aria-label="Kies een aandeel"></select></label>
+            <span>Van <span class="tx-range" id="r-from">—</span> tot <span class="tx-range" id="r-to">—</span></span>
+            <span style="margin-left:auto">Zoom
+              <span class="tx-zoom" id="zoom">
+                <button data-n="5" aria-pressed="false">1 week</button><button data-n="22" aria-pressed="false">1 maand</button><button data-n="44" aria-pressed="false">2 maanden</button><button data-n="0" aria-pressed="true">Max</button>
+              </span>
+            </span>
+          </div>
+          <div class="tx-big" id="big" data-source="koersen"></div>
+          <p class="tx-note" id="big-note"></p>
+        </div>
       </div>
-      <div class="ta-card" id="card-klaar">
-        <h2>Klaar voor echt geld?</h2>
-        <p class="ta-sub">Eerst bewijzen, dan een oefenaccount bij een echte broker, dan een klein bedrag met jouw goedkeuring per order.</p>
-        <table id="tbl-klaar" data-source="klaar" data-row-key="id">
-          <thead><tr><th data-field="bot">Bot</th><th data-field="eis">Eis</th><th data-field="stand">Stand</th><th data-field="nu">Nu</th></tr></thead>
-          <tbody></tbody>
-        </table>
+
+      <div class="tx-cards" id="botcards" data-source="stand waarde"></div>
+      <div class="tx-cards" id="coincards" data-source="tickers"></div>
+
+      <div class="tx-two">
+        <div class="tx-card" id="recent">
+          <div class="tx-card-h"><h2>Recente trades</h2></div>
+          <div class="tx-tablewrap">
+            <table id="tbl-trades" data-source="trades" data-row-key="id">
+              <thead><tr><th data-field="dag">Datum</th><th data-field="bot">Bot</th><th data-field="soort">Soort</th><th data-field="naam">Aandeel</th><th class="num" data-field="waarde_eur">Bedrag</th><th class="num" data-field="resultaat_eur">Resultaat</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tx-card" id="markten">
+          <div class="tx-card-h"><h2>Markt</h2></div>
+          <div class="tx-tablewrap">
+            <table id="tbl-markt" data-source="tickers" data-row-key="ticker">
+              <thead><tr><th data-field="naam">Aandeel</th><th class="num" data-field="slot">Koers</th><th class="num" data-field="dag_pct">Vandaag</th><th class="num" data-field="drie_mnd_pct">3 maanden</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="tx-tabs2" role="tablist" aria-label="Markt per bot" id="mtabs">
+            <button role="tab" aria-selected="true" data-bot="Trend-agent">Trend-agent</button>
+            <button role="tab" aria-selected="false" data-bot="Investeerder">Investeerder</button>
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Grafieken -->
-  <section class="ta-page" id="p-grafieken" role="tabpanel" aria-labelledby="grafieken" hidden>
-    <div class="ta-key" aria-label="Uitleg kleuren">
-      <span><i class="box" style="background: var(--color-ok)"></i>dag gestegen</span>
-      <span><i class="box" style="background: var(--color-bad)"></i>dag gedaald</span>
-      <span><i id="key-s50"></i>gemiddelde 50 dagen</span>
-      <span><i id="key-s200"></i>gemiddelde 200 dagen</span>
-      <span><i class="dash" style="border-color: var(--cds-chart-reference)"></i>instap</span>
-      <span><i class="dash" style="border-color: var(--color-bad)"></i>stop-loss (hier verkoopt de bot)</span>
-    </div>
-    <p class="ta-note">Elke kaars is één handelsdag; het streepje loopt van de laagste naar de hoogste koers van die dag. Ga met je muis of vinger over een kaars voor de koersen.</p>
-    <div id="candles" data-source="koersen"></div>
-  </section>
-
-  <!-- Kansen -->
-  <section class="ta-page" id="p-kansen" role="tabpanel" aria-labelledby="kansen" hidden>
-    <p class="ta-note">Wat de trend-agent met nepgeld zou doen volgens zijn eigen regels. Geen advies voor echt geld. Het instapmoment is een ongeteste vuistregel en wordt door de bot niet gebruikt.</p>
-    <div class="ta-grid2" id="kansen-cards" data-source="kansen"></div>
-  </section>
-
-  <!-- Analyse -->
-  <section class="ta-page" id="p-analyse" role="tabpanel" aria-labelledby="analyse" hidden>
-    <div class="ta-grid2" id="analyse-cards" data-source="analyse"></div>
-  </section>
-
-  <!-- Trades en controles -->
-  <section class="ta-page" id="p-trades" role="tabpanel" aria-labelledby="trades" hidden>
-    <div class="ta-card" id="card-trades">
-      <h2>Alle aan- en verkopen</h2>
-      <p class="ta-sub">Nieuwste bovenaan. Resultaat staat alleen bij verkopen.</p>
-      <div class="ta-tablewrap">
-        <table id="tbl-trades" data-source="trades" data-row-key="id">
-          <thead><tr>
-            <th data-field="dag">Datum</th><th data-field="bot">Bot</th><th data-field="soort">Soort</th><th data-field="naam">Aandeel</th>
-            <th class="num" data-field="waarde_eur">Bedrag</th><th class="num" data-field="resultaat_eur">Resultaat</th><th data-field="reden">Reden</th>
-          </tr></thead>
-          <tbody></tbody>
-        </table>
+    <!-- KAARSGRAFIEKEN -->
+    <section class="tx-page" id="pg-grafieken" role="tabpanel" aria-labelledby="grafieken" hidden>
+      <div class="tx-key">
+        <span><i class="box" style="background: var(--tx-up)"></i>dag gestegen</span>
+        <span><i class="box" style="background: var(--tx-down)"></i>dag gedaald</span>
+        <span><i id="key-s50"></i>gemiddelde 50 dagen</span>
+        <span><i id="key-s200"></i>gemiddelde 200 dagen</span>
+        <span><i class="dash" style="border-color: var(--cds-chart-reference)"></i>instap</span>
+        <span><i class="dash" style="border-color: var(--tx-down)"></i>stop-loss (hier verkoopt de bot)</span>
       </div>
-    </div>
-    <div class="ta-card" id="card-controles">
-      <h2>Controles van de laatste ronde</h2>
-      <p class="ta-sub">Koersbronnen, achterlopende koersen en waarschuwingen. Verdachte data betekent: dat aandeel is die dag niet gekocht.</p>
-      <ul class="ta-list" id="controles" data-source="controles"></ul>
-    </div>
-  </section>
+      <div id="candles" data-source="koersen"></div>
+    </section>
+
+    <!-- KANSEN -->
+    <section class="tx-page" id="pg-kansen" role="tabpanel" aria-labelledby="kansen" hidden>
+      <p class="tx-note">Wat de trend-agent met nepgeld zou doen volgens zijn eigen regels. Geen advies voor echt geld. Het instapmoment is een ongeteste vuistregel en wordt door de bot niet gebruikt.</p>
+      <div class="tx-two" id="kansen-cards" data-source="kansen"></div>
+    </section>
+
+    <!-- ANALYSE -->
+    <section class="tx-page" id="pg-analyse" role="tabpanel" aria-labelledby="analyse" hidden>
+      <div class="tx-two" id="analyse-cards" data-source="analyse"></div>
+    </section>
+
+    <!-- RISICO -->
+    <section class="tx-page" id="pg-risico" role="tabpanel" aria-labelledby="risico" hidden>
+      <div class="tx-card" id="card-risico">
+        <div class="tx-card-h"><h2>Verlies en risico per positie</h2></div>
+        <div class="tx-tablewrap">
+          <table id="tbl-posities" data-source="posities" data-row-key="bot,ticker">
+            <thead><tr><th data-field="bot">Bot</th><th data-field="naam">Aandeel</th><th class="num" data-field="resultaat_eur">Resultaat</th><th class="num" data-field="resultaat_pct">%</th><th class="num" data-field="afstand_stop_pct">Boven stop</th><th class="num" data-field="bij_stop_eur">Bij stop-loss</th><th data-source="uitleg_positie" data-field="uitleg">In gewone taal</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="tx-two">
+        <div class="tx-card" id="card-remmen">
+          <div class="tx-card-h"><h2>Remmen van de trend-agent</h2></div>
+          <div class="tx-card-b" style="padding-bottom:0"><p class="tx-note">Gaat een van deze over de grens, dan zet de bot zijn noodstop aan en koopt hij niets meer.</p></div>
+          <table id="tbl-remmen" data-source="remmen" data-row-key="rem">
+            <thead><tr><th data-field="rem">Rem</th><th class="num" data-field="nu">Nu</th><th class="num" data-field="grens">Grens</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="tx-card" id="card-klaar">
+          <div class="tx-card-h"><h2>Klaar voor echt geld?</h2></div>
+          <div class="tx-card-b" style="padding-bottom:0"><p class="tx-note">Eerst bewijzen, dan een oefenaccount bij een echte broker, dan een klein bedrag met jouw goedkeuring per order.</p></div>
+          <table id="tbl-klaar" data-source="klaar" data-row-key="id">
+            <thead><tr><th data-field="bot">Bot</th><th data-field="eis">Eis</th><th data-field="stand">Stand</th><th data-field="nu">Nu</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTROLES -->
+    <section class="tx-page" id="pg-controles" role="tabpanel" aria-labelledby="controles" hidden>
+      <div class="tx-card" id="card-controles">
+        <div class="tx-card-h"><h2>Controles van de laatste ronde</h2></div>
+        <div class="tx-card-b">
+          <p class="tx-note">Koersbronnen, achterlopende koersen en waarschuwingen. Verdachte data betekent: dat aandeel is die dag niet gekocht.</p>
+          <ul class="tx-list" id="ctl" data-source="controles"></ul>
+        </div>
+      </div>
+      <div class="tx-card" id="card-alletrades">
+        <div class="tx-card-h"><h2>Alle trades met reden</h2></div>
+        <div class="tx-tablewrap">
+          <table id="tbl-alletrades" data-source="trades" data-row-key="id">
+            <thead><tr><th data-field="dag">Datum</th><th data-field="bot">Bot</th><th data-field="soort">Soort</th><th data-field="naam">Aandeel</th><th data-field="reden">Reden</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
 </div>
 
 <script>
+// Gedeelde hulpjes
 (() => {
   const MAAND = ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
   const eur = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' });
   const num2 = new Intl.NumberFormat('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  const sEur = (v) => (v > 0 ? '+' : '') + eur.format(v);
-  const pct = (v, d = 2) => (v > 0 ? '+' : '') + (v * 100).toLocaleString('nl-NL', { minimumFractionDigits: d, maximumFractionDigits: d }) + '%';
+  const compact = new Intl.NumberFormat('nl-NL', { notation: 'compact', maximumFractionDigits: 1 });
+  const sEur = (v) => (v > 0 ? '+' : v < 0 ? '−' : '') + eur.format(Math.abs(v));
+  const pct = (v, d = 2) => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v * 100).toLocaleString('nl-NL', { minimumFractionDigits: d, maximumFractionDigits: d }) + '%';
   const dayNl = (iso) => { const d = new Date(iso + 'T00:00:00Z'); return d.getUTCDate() + ' ' + MAAND[d.getUTCMonth()]; };
-  const cls = (v) => (v > 0 ? 'pos' : v < 0 ? 'neg' : '');
+  const dayLong = (iso) => { const d = new Date(iso + 'T00:00:00Z'); return d.getUTCDate() + ' ' + MAAND[d.getUTCMonth()] + ' ' + d.getUTCFullYear(); };
+  const ud = (v) => (v > 0 ? 'up' : v < 0 ? 'down' : '');
   const el = (tag, attrs = {}, text) => { const e = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) if (v != null) e.setAttribute(k, v); if (text != null) e.textContent = text; return e; };
-  const failed = (box) => { box.replaceChildren(el('div', { class: 'ta-fail' }, 'Failed to load')); };
-  window.taFmt = { eur, num2, sEur, pct, dayNl, cls, el, failed, MAAND };
-
-  // Tabbladen
-  const tabs = [...document.querySelectorAll('.ta-tab')];
-  const show = (tab) => {
-    tabs.forEach((t) => { const on = t === tab; t.setAttribute('aria-selected', String(on)); document.getElementById(t.dataset.page).hidden = !on; });
-    dash.setLink(tab.id);
-    window.taRedraw && window.taRedraw();
-  };
-  tabs.forEach((t) => t.addEventListener('click', () => show(t)));
-  const named = document.getElementById(location.hash.slice(1));
-  if (named && named.classList.contains('ta-tab')) show(named);
+  const failed = (box) => box.replaceChildren(el('div', { class: 'tx-fail' }, 'Failed to load'));
+  const real = (rows) => (rows || []).filter((r) => !r.leeg);
+  const emptyReason = (rows) => ((rows || []).find((r) => r.leeg) || {}).reden;
+  // Kleur per aandeel voor het rondje: vaste volgorde, op naam, zodat een aandeel zijn kleur houdt.
+  const coinColor = (ticker) => dash.colors[[...ticker].reduce((a, c) => a + c.charCodeAt(0), 0) % dash.colors.length];
+  const coin = (ticker, size) => { const c = el('span', { class: 'tx-coin', 'aria-hidden': 'true' }, ticker.replace(/[^A-Z]/g, '').slice(0, 2) || ticker.slice(0, 2)); c.style.background = coinColor(ticker); if (size) { c.style.width = c.style.height = size + 'px'; } return c; };
+  window.tx = { MAAND, eur, num2, compact, sEur, pct, dayNl, dayLong, ud, el, failed, real, emptyReason, coin, draws: [] };
+  const root = document.getElementById('tx');
+  root.style.setProperty('--tx-accent', dash.colors[3]);
   document.getElementById('key-s50').style.borderColor = dash.colors[0];
   document.getElementById('key-s200').style.borderColor = dash.colors[1];
-})();
-</script>
 
-<script>
-// Kopregel en botkaarten
-(() => {
-  const { eur, sEur, pct, cls, el } = window.taFmt;
-  const take = document.getElementById('takeaway');
-  const cards = document.getElementById('botcards');
-  const span = (bot, field, text, c) => el('span', { 'data-source': 'stand', 'data-field': field, 'data-where': 'bot=' + encodeURIComponent(bot), class: c }, text);
-  dash.onData(() => {
-    const s = dash.data('stand');
-    if (s.status !== 'ok') {
-      if (s.status === 'error') { take.textContent = 'De cijfers konden niet worden geladen.'; }
-      cards.replaceChildren(el('div', { class: 'ta-card dash-skeleton', style: 'min-height: 220px' }), el('div', { class: 'ta-card dash-skeleton', style: 'min-height: 220px' }));
-      return;
-    }
-    const rows = s.data;
-    // Kopregel: per bot winst of verlies sinds de start
-    const parts = [];
-    rows.forEach((r, i) => {
-      if (i) parts.push(document.createTextNode(' '));
-      parts.push(document.createTextNode(r.bot + ' staat '));
-      parts.push(span(r.bot, 'sinds_start_eur', eur.format(Math.abs(r.sinds_start_eur)), cls(r.sinds_start_eur)));
-      parts.push(document.createTextNode(r.sinds_start_eur >= 0 ? ' in de plus.' : ' in de min.'));
-    });
-    if (rows[0]) { parts.push(document.createTextNode(' Laatste handelsdag: ')); parts.push(span(rows[0].bot, 'dag', window.taFmt.dayNl(rows[0].dag))); parts.push(document.createTextNode('.')); }
-    take.replaceChildren(...parts);
-
-    cards.replaceChildren(...rows.map((r) => {
-      const c = el('div', { class: 'ta-card', id: 'bot-' + r.bot.toLowerCase().replace(/[^a-z]/g, '') });
-      const head = el('div', { class: 'ta-bot' });
-      head.append(el('h2', {}, r.bot));
-      const lab = r.sinds_start_eur > 0.005 ? ['WINST', 'win'] : r.sinds_start_eur < -0.005 ? ['VERLIES', 'loss'] : ['GELIJK', 'flat'];
-      head.append(el('span', { class: 'ta-pill ' + lab[1] }, lab[0]));
-      c.append(head);
-      c.append(span(r.bot, 'waarde', eur.format(r.waarde), 'ta-big'));
-      const kv = el('dl', { class: 'ta-kv' });
-      const add = (label, field, text, cl) => { kv.append(el('dt', {}, label)); const dd = el('dd'); dd.append(text == null ? el('span', {}, '–') : span(r.bot, field, text, cl)); kv.append(dd); };
-      add('Sinds de start', 'sinds_start_eur', sEur(r.sinds_start_eur), cls(r.sinds_start_eur));
-      add('Sinds de start in %', 'sinds_start_pct', pct(r.sinds_start_pct), cls(r.sinds_start_pct));
-      add('Vandaag', 'vandaag_eur', r.vandaag_eur == null ? null : sEur(r.vandaag_eur), cls(r.vandaag_eur));
-      add('Tegenover de wereld-ETF', 'vs_etf_pct', r.vs_etf_pct == null ? null : pct(r.vs_etf_pct), cls(r.vs_etf_pct));
-      add('Vastgezet door verkopen', 'vastgezet_eur', sEur(r.vastgezet_eur), cls(r.vastgezet_eur));
-      add('Status laatste ronde', 'status', r.status || null);
-      c.append(kv);
-      const ready = el('p', { class: 'ta-ready' });
-      ready.append(document.createTextNode('Klaar voor echt geld? '));
-      ready.append(span(r.bot, 'klaar', r.klaar));
-      c.append(ready);
-      return c;
-    }));
-  });
-})();
-</script>
-
-<script>
-// Waardegrafiek
-(() => {
-  const { eur, el, dayNl, failed } = window.taFmt;
-  const box = document.getElementById('chart-waarde');
-  const parse = d3.utcParse('%Y-%m-%d');
-  const draw = () => {
-    if (document.getElementById('p-overzicht').hidden) return;
-    const s = dash.data('waarde');
-    if (s.status === 'error') { failed(box); return; }
-    if (s.status !== 'ok') { box.replaceChildren(); box.classList.add('dash-skeleton'); return; }
-    box.classList.remove('dash-skeleton');
-    const rows = s.data.map((r) => ({ ...r, d: parse(r.dag) }));
-    const bots = [...new Set(rows.map((r) => r.bot))];
-    const series = bots.map((b, i) => ({ name: b, color: dash.colors[i], pts: rows.filter((r) => r.bot === b).sort((a, c) => a.d - c.d) }));
-    // De ETF-lijn van de bot met de langste reeks ETF-koersen
-    const etfBot = series.map((sr) => ({ name: sr.name, pts: sr.pts.filter((p) => p.etf_waarde != null) })).sort((a, b) => b.pts.length - a.pts.length)[0];
-    const etf = etfBot && etfBot.pts.length >= 2 ? etfBot.pts.map((p) => ({ d: p.d, v: p.etf_waarde, dag: p.dag })) : [];
-    const W = box.clientWidth || 600, H = 300;
-    const svg = d3.create('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', 'Waarde van de bots per dag');
-    const days = [...new Set(rows.map((r) => r.dag))].sort();
-    if (days.length < 2) {
-      box.replaceChildren(el('p', { class: 'ta-empty' }, 'De grafiek verschijnt zodra er twee handelsdagen zijn.'));
-      return;
-    }
-    const vals = rows.map((r) => r.waarde).concat(etf.map((p) => p.v), [10000]);
-    const y0 = d3.min(vals), y1 = d3.max(vals), pad = Math.max((y1 - y0) * 0.15, 20);
-    const y = d3.scaleLinear([y0 - pad, y1 + pad], [H - 28, 12]).nice();
-    // Marge links uit de breedste ticklabel, rechts uit het breedste eindlabel
-    const fmtY = (v) => eur.format(v).replace(',00', '');
-    const meas = svg.append('g');
-    const tickW = d3.max(y.ticks(5), (t) => meas.append('text').text(fmtY(t)).node().getComputedTextLength?.() || fmtY(t).length * 6.5);
-    const ends = series.map((sr) => ({ name: sr.name, color: sr.color, last: sr.pts[sr.pts.length - 1] })).filter((e) => e.last);
-    if (etf.length) ends.push({ name: 'wereld-ETF', color: 'var(--cds-chart-muted)', last: { waarde: etf[etf.length - 1].v, d: etf[etf.length - 1].d } });
-    const endW = d3.max(ends, (e) => (e.name + ' ' + fmtY(e.last.waarde)).length * 6.8) || 80;
-    meas.remove();
-    const L = (tickW || 50) + 12, R = Math.min(endW + 14, W * 0.42);
-    const x = d3.scaleUtc(d3.extent(rows, (r) => r.d), [L, W - R]);
-    svg.append('g').selectAll('line').data(y.ticks(5)).join('line').attr('x1', L).attr('x2', W - R).attr('y1', y).attr('y2', y).attr('stroke', 'var(--cds-chart-grid)');
-    svg.append('g').selectAll('text').data(y.ticks(5)).join('text').attr('x', L - 8).attr('y', (t) => y(t) + 4).attr('text-anchor', 'end').text(fmtY);
-    const xt = days.length <= 8 ? days.map(parse) : x.ticks(6);
-    svg.append('g').selectAll('text').data(xt).join('text').attr('x', x).attr('y', H - 8).attr('text-anchor', 'middle').text((d) => dayNl(d3.utcFormat('%Y-%m-%d')(d)));
-    svg.append('line').attr('x1', L).attr('x2', W - R).attr('y1', y(10000)).attr('y2', y(10000)).attr('stroke', 'var(--cds-chart-reference)').attr('stroke-dasharray', '4 3');
-    svg.append('text').attr('x', L + 4).attr('y', y(10000) - 5).text('start €10.000');
-    const line = d3.line().x((p) => x(p.d)).y((p) => y(p.waarde));
-    if (etf.length) svg.append('path').attr('d', d3.line().x((p) => x(p.d)).y((p) => y(p.v))(etf)).attr('fill', 'none').attr('stroke', 'var(--cds-chart-muted)').attr('stroke-width', 2).attr('stroke-dasharray', '6 4');
-    series.forEach((sr) => {
-      svg.append('path').attr('d', line(sr.pts)).attr('fill', 'none').attr('stroke', sr.color).attr('stroke-width', 2).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round');
-      svg.append('g').selectAll('circle').data(sr.pts).join('circle').attr('cx', (p) => x(p.d)).attr('cy', (p) => y(p.waarde)).attr('r', 3).attr('fill', sr.color);
-    });
-    // Eindlabels, uit elkaar geschoven
-    const placed = [];
-    ends.map((e) => ({ ...e, ty: y(e.last.waarde) })).sort((a, b) => a.ty - b.ty).forEach((e) => {
-      let ty = e.ty; if (placed.length && ty - placed[placed.length - 1] < 16) ty = placed[placed.length - 1] + 16; placed.push(ty);
-      const g = svg.append('g');
-      g.append('line').attr('x1', x(e.last.d) + 4).attr('x2', W - R + 8).attr('y1', e.ty).attr('y2', ty).attr('stroke', e.color).attr('stroke-width', 2);
-      g.append('text').attr('class', 'end').attr('x', W - R + 12).attr('y', ty + 4).text(e.name + ' ' + fmtY(e.last.waarde));
-    });
-    // Tooltip
-    const tip = el('div', { class: 'ta-tip', hidden: '' });
-    const rule = svg.append('line').attr('y1', 12).attr('y2', H - 28).attr('stroke', 'var(--cds-chart-axis)').attr('opacity', 0);
-    svg.append('rect').attr('x', L).attr('y', 0).attr('width', W - R - L).attr('height', H).attr('fill', 'transparent')
-      .on('pointermove', (ev) => {
-        const [mx] = d3.pointer(ev);
-        const day = days.reduce((a, b) => (Math.abs(x(parse(b)) - mx) < Math.abs(x(parse(a)) - mx) ? b : a));
-        rule.attr('x1', x(parse(day))).attr('x2', x(parse(day))).attr('opacity', 1);
-        tip.replaceChildren(el('div', { class: 'd' }, dayNl(day)));
-        series.forEach((sr) => { const p = sr.pts.find((q) => q.dag === day); if (p) tip.append(el('div', {}, sr.name + ': ' + eur.format(p.waarde))); });
-        const e = etf.find((q) => q.dag === day); if (e) tip.append(el('div', {}, 'wereld-ETF: ' + eur.format(e.v)));
-        tip.hidden = false;
-        const bw = box.clientWidth, scale = bw / W, left = x(parse(day)) * scale;
-        tip.style.left = Math.min(Math.max(left + 10, 0), bw - tip.offsetWidth - 4) + 'px'; tip.style.top = '8px';
-      })
-      .on('pointerleave', () => { tip.hidden = true; rule.attr('opacity', 0); });
-    box.replaceChildren(svg.node(), tip);
+  const navs = [...document.querySelectorAll('.tx-nav')];
+  const show = (b) => {
+    navs.forEach((n) => { const on = n === b; n.setAttribute('aria-selected', String(on)); document.getElementById(n.dataset.page).hidden = !on; });
+    dash.setLink(b.id);
+    window.tx.draws.forEach((f) => f());
   };
-  window.taDraw = window.taDraw || [];
-  window.taDraw.push(draw);
-  dash.onData(draw);
+  navs.forEach((n) => n.addEventListener('click', () => show(n)));
+  const named = document.getElementById(location.hash.slice(1));
+  if (named && named.classList.contains('tx-nav')) show(named);
 })();
 </script>
 
 <script>
-// Uitleg per positie (een berekening uit de posities)
+// Per aandeel: laatste koers, verandering vandaag en over 3 maanden (uit de dagkoersen)
+dash.calc('tickers', {
+  title: 'Koers en verandering per aandeel',
+  description: 'Laatste slotkoers per aandeel, de verandering ten opzichte van de handelsdag ervoor en over de getoonde 3 maanden.',
+  inputs: ['koersen'],
+  fn: (koersen) => {
+    const rows = koersen.filter((r) => !r.leeg);
+    const by = new Map();
+    rows.forEach((r) => { if (!by.has(r.ticker)) by.set(r.ticker, []); by.get(r.ticker).push(r); });
+    return [...by.values()].map((rs) => {
+      rs.sort((a, b) => (a.dag < b.dag ? -1 : 1));
+      const last = rs[rs.length - 1], prev = rs[rs.length - 2] || last, first = rs[0];
+      return { ticker: last.ticker, naam: last.naam, bot: last.bot, valuta: last.valuta, dag: last.dag, slot: last.slot,
+        dag_pct: last.slot / prev.slot - 1, drie_mnd_pct: last.slot / first.slot - 1 };
+    });
+  },
+});
+
 dash.calc('uitleg_positie', {
   title: 'Uitleg per positie',
   description: 'Een zin per positie, gemaakt uit resultaat, afstand tot de stop-loss en het bedrag bij de stop-loss.',
   inputs: ['posities'],
-  fn: (posities) => posities.map((p) => {
+  fn: (posities) => posities.filter((p) => !p.leeg).map((p) => {
     const e = (v) => '€' + Math.abs(v).toFixed(2).replace('.', ',');
-    let uitleg;
-    if (p.bot === 'Trend-agent') {
-      uitleg = 'Staat ' + e(p.resultaat_eur) + (p.resultaat_eur >= 0 ? ' in de plus. ' : ' in de min. ') +
-        'Zakt de koers ' + (Math.abs(p.afstand_stop_pct) * 100).toFixed(1).replace('.', ',') + '%, dan verkoopt de bot ' +
-        (p.bij_stop_eur < 0 ? 'met ongeveer ' + e(p.bij_stop_eur) + ' verlies.' : 'en is ' + e(p.bij_stop_eur) + ' winst vastgezet.');
-    } else {
-      uitleg = 'Belegging van ' + e(p.waarde_eur) + '; ' + (p.resultaat_eur >= 0 ? 'winst ' : 'verlies ') + e(p.resultaat_eur) + ' sinds aankoop.';
-    }
+    const uitleg = p.bot === 'Trend-agent'
+      ? 'Staat ' + e(p.resultaat_eur) + (p.resultaat_eur >= 0 ? ' in de plus. ' : ' in de min. ') + 'Zakt de koers ' +
+        (Math.abs(p.afstand_stop_pct) * 100).toFixed(1).replace('.', ',') + '%, dan verkoopt de bot ' +
+        (p.bij_stop_eur < 0 ? 'met ongeveer ' + e(p.bij_stop_eur) + ' verlies.' : 'en is ' + e(p.bij_stop_eur) + ' winst vastgezet.')
+      : 'Belegging van ' + e(p.waarde_eur) + '; ' + (p.resultaat_eur >= 0 ? 'winst ' : 'verlies ') + e(p.resultaat_eur) + ' sinds aankoop.';
     return { bot: p.bot, ticker: p.ticker, uitleg };
   }),
 });
+</script>
 
+<script>
+// Koersbalk, laatste dag, kaarten en markttabel
 (() => {
-  const { sEur, pct, cls, el, failed } = window.taFmt;
-  const tb = document.querySelector('#tbl-posities tbody');
-  const remB = document.querySelector('#tbl-remmen tbody');
-  const klaarB = document.querySelector('#tbl-klaar tbody');
-  const STAND = { ok: 'gehaald', bezig: 'nog bezig', nee: 'niet gehaald' };
-  const fail = (body, n) => { const tr = el('tr'); const td = el('td', { colspan: String(n) }); failed(td); tr.append(td); body.replaceChildren(tr); };
+  const { eur, num2, sEur, pct, dayLong, ud, el, failed, real, coin } = window.tx;
+  const strip = document.getElementById('strip-in');
+  const lastday = document.getElementById('lastday');
+  const cards = document.getElementById('coincards');
+  const botcards = document.getElementById('botcards');
+  const mBody = document.querySelector('#tbl-markt tbody');
+  let mBot = 'Trend-agent';
+  const W = (ticker, field, tag, text, c) => el(tag, { 'data-source': 'tickers', 'data-field': field, 'data-where': 'ticker=' + encodeURIComponent(ticker), class: c }, text);
+
+  const spark = (svgBox, values, color, id) => {
+    const w = 300, h = 90;
+    const x = d3.scaleLinear([0, Math.max(values.length - 1, 1)], [0, w]);
+    const [lo, hi] = d3.extent(values); const pad = (hi - lo) * 0.15 || 1;
+    const y = d3.scaleLinear([lo - pad, hi + pad], [h - 4, 6]);
+    const svg = d3.create('svg').attr('class', 'tx-spark').attr('viewBox', `0 0 ${w} ${h}`).attr('preserveAspectRatio', 'none').attr('width', '100%').attr('aria-hidden', 'true');
+    const grad = svg.append('defs').append('linearGradient').attr('id', id).attr('x1', 0).attr('x2', 0).attr('y1', 0).attr('y2', 1);
+    [[0, .5], [.5, .2], [1, .03]].forEach(([o, a]) => grad.append('stop').attr('offset', o).style('stop-color', color).style('stop-opacity', a));
+    const area = d3.area().x((_, i) => x(i)).y0(h).y1((v) => y(v)).curve(d3.curveMonotoneX);
+    const line = d3.line().x((_, i) => x(i)).y((v) => y(v)).curve(d3.curveMonotoneX);
+    svg.append('path').attr('d', area(values)).attr('fill', `url(#${id})`);
+    svg.append('path').attr('d', line(values)).attr('fill', 'none').attr('stroke', color).attr('stroke-width', 2).attr('vector-effect', 'non-scaling-stroke');
+    svgBox.append(svg.node());
+  };
+
+  const drawMarkt = () => {
+    const t = dash.data('tickers');
+    if (t.status === 'error') { const tr = el('tr'); const td = el('td', { colspan: '4' }); failed(td); tr.append(td); mBody.replaceChildren(tr); return; }
+    if (t.status !== 'ok') return;
+    const rows = t.data.filter((r) => r.bot === mBot);
+    mBody.replaceChildren(...(rows.length ? rows.map((r) => {
+      const tr = el('tr', { 'data-key': r.ticker });
+      const n = el('td'); n.append(el('span', {}, r.naam + ' (' + r.ticker + ')'));
+      tr.append(n, el('td', { class: 'num' }, num2.format(r.slot) + ' ' + r.valuta),
+        el('td', { class: 'num ' + ud(r.dag_pct) }, pct(r.dag_pct) + (r.dag_pct > 0 ? ' ▲' : r.dag_pct < 0 ? ' ▼' : '')),
+        el('td', { class: 'num ' + ud(r.drie_mnd_pct) }, pct(r.drie_mnd_pct, 1)));
+      return tr;
+    }) : [(() => { const tr = el('tr'); tr.append(el('td', { colspan: '4', class: 'tx-empty' }, 'Geen posities bij deze bot.')); return tr; })()]));
+  };
+  document.querySelectorAll('#mtabs button').forEach((b) => b.addEventListener('click', () => {
+    mBot = b.dataset.bot;
+    document.querySelectorAll('#mtabs button').forEach((o) => o.setAttribute('aria-selected', String(o === b)));
+    drawMarkt();
+  }));
+
   dash.onData(() => {
-    const p = dash.data('posities'), u = dash.data('uitleg_positie');
-    if (p.status === 'error') fail(tb, 7);
-    else if (p.status === 'ok') {
-      const ul = new Map(((u.data) || []).map((r) => [r.bot + '|' + r.ticker, r.uitleg]));
-      tb.replaceChildren(...(p.data.length ? p.data.map((r) => {
-        const tr = el('tr', { 'data-key': encodeURIComponent(r.bot) + ',' + encodeURIComponent(r.ticker) });
-        tr.append(el('td', {}, r.bot), el('td', {}, r.naam + ' (' + r.ticker + ')'));
-        tr.append(el('td', { class: 'num ' + cls(r.resultaat_eur) }, sEur(r.resultaat_eur)));
-        tr.append(el('td', { class: 'num ' + cls(r.resultaat_pct) }, pct(r.resultaat_pct, 1)));
-        tr.append(el('td', { class: 'num' }, r.afstand_stop_pct == null ? '–' : pct(r.afstand_stop_pct, 1)));
-        tr.append(el('td', { class: 'num ' + cls(r.bij_stop_eur) }, r.bij_stop_eur == null ? '–' : sEur(r.bij_stop_eur)));
-        tr.append(el('td', { class: 'ta-plain' }, ul.get(r.bot + '|' + r.ticker) || ''));
-        return tr;
-      }) : [(() => { const tr = el('tr'); tr.append(el('td', { colspan: '7', class: 'ta-empty' }, 'Geen open posities.')); return tr; })()]));
+    // Laatste handelsdag
+    const s = dash.data('stand');
+    if (s.status === 'ok' && real(s.data)[0]) {
+      const r = real(s.data)[0];
+      lastday.replaceChildren(document.createTextNode('laatste handelsdag '), el('span', { 'data-source': 'stand', 'data-field': 'dag', 'data-where': 'bot=' + encodeURIComponent(r.bot) }, dayLong(r.dag)));
     }
-    const rm = dash.data('remmen');
-    if (rm.status === 'error') fail(remB, 3);
-    else if (rm.status === 'ok') {
-      remB.replaceChildren(...rm.data.map((r) => {
-        const tr = el('tr');
-        const f = (v) => (r.eenheid === 'pct' ? pct(v, 2) : String(v));
-        tr.append(el('td', {}, r.rem), el('td', { class: 'num' }, f(r.nu)), el('td', { class: 'num' }, f(r.grens)));
-        return tr;
+
+    // Koersbalk
+    const t = dash.data('tickers');
+    if (t.status === 'error') failed(strip);
+    else if (t.status === 'ok') {
+      const items = t.data.map((r) => {
+        const s1 = el('span', { class: 'tx-tick' });
+        s1.append(coin(r.ticker), el('span', {}, r.ticker), W(r.ticker, 'slot', 'span', num2.format(r.slot) + ' ' + r.valuta, 'p'), W(r.ticker, 'dag_pct', 'span', pct(r.dag_pct), ud(r.dag_pct)));
+        return s1;
+      });
+      // Twee keer achter elkaar, zodat de balk naadloos doorloopt
+      const copy = items.map((n) => { const c = n.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.querySelectorAll('[data-source]').forEach((m) => { m.removeAttribute('data-source'); m.removeAttribute('data-field'); m.removeAttribute('data-where'); }); return c; });
+      strip.replaceChildren(...items, ...copy);
+      strip.classList.toggle('run', items.length > 4);
+    }
+
+    // Botkaarten met waardeverloop
+    const w = dash.data('waarde');
+    if (s.status === 'error') failed(botcards);
+    else if (s.status === 'ok') {
+      botcards.replaceChildren(...real(s.data).map((r, i) => {
+        const c = el('div', { class: 'tx-card tx-coincard tx-botcard', id: 'bot-' + r.bot.toLowerCase().replace(/[^a-z]/g, '') });
+        const h = el('div', { class: 'h' });
+        h.append(coin(r.bot === 'Investeerder' ? 'IN' : 'TA', 34), el('h3', {}, r.bot));
+        const lab = r.sinds_start_eur > 0.005 ? ['WINST', 'win'] : r.sinds_start_eur < -0.005 ? ['VERLIES', 'loss'] : ['GELIJK', 'flat'];
+        h.append(el('span', { class: 'tx-pill ' + lab[1], style: 'margin-left:auto' }, lab[0]));
+        c.append(h);
+        const mark = (field, text, cl) => el('span', { 'data-source': 'stand', 'data-field': field, 'data-where': 'bot=' + encodeURIComponent(r.bot), class: cl }, text);
+        const big = el('div', { class: 'big' }); big.append(mark('waarde', eur.format(r.waarde)));
+        c.append(big);
+        const m = el('div', { class: 'm' });
+        const left = el('span'); left.append(document.createTextNode('sinds start '), mark('sinds_start_eur', sEur(r.sinds_start_eur), ud(r.sinds_start_eur)));
+        const right = el('span'); right.append(document.createTextNode('vandaag '), r.vandaag_eur == null ? el('span', {}, '–') : mark('vandaag_eur', sEur(r.vandaag_eur), ud(r.vandaag_eur)));
+        m.append(left, right);
+        c.append(m);
+        const m2 = el('div', { class: 'm' });
+        const l2 = el('span'); l2.append(document.createTextNode('tegenover wereld-ETF '), r.vs_etf_pct == null ? el('span', {}, '–') : mark('vs_etf_pct', pct(r.vs_etf_pct), ud(r.vs_etf_pct)));
+        m2.append(l2);
+        c.append(m2);
+        const pts = w.status === 'ok' ? real(w.data).filter((p) => p.bot === r.bot).sort((a, b) => (a.dag < b.dag ? -1 : 1)).map((p) => p.waarde) : [];
+        const sb = el('div', { 'data-source': 'waarde' });
+        if (pts.length >= 2) spark(sb, [10000, ...pts], r.sinds_start_eur >= 0 ? 'var(--tx-up)' : 'var(--tx-down)', 'g-bot-' + i);
+        else sb.append(el('p', { class: 'tx-note', style: 'padding: 0 18px 18px' }, 'Het verloop verschijnt na een paar handelsdagen.'));
+        c.append(sb);
+        return c;
       }));
     }
-    const k = dash.data('klaar');
-    if (k.status === 'error') fail(klaarB, 4);
-    else if (k.status === 'ok') {
-      klaarB.replaceChildren(...k.data.map((r) => {
-        const tr = el('tr', { 'data-key': r.id });
-        const st = el('td'); st.append(el('span', { class: 'ta-state ' + r.stand }, STAND[r.stand] || r.stand));
-        tr.append(el('td', {}, r.bot), el('td', {}, r.eis), st, el('td', {}, r.nu));
-        return tr;
+
+    // Kaarten per aandeel met minigrafiek
+    const k = dash.data('koersen');
+    if (t.status === 'ok') {
+      cards.replaceChildren(...t.data.map((r, i) => {
+        const c = el('div', { class: 'tx-card tx-coincard', id: 'kaart-' + r.ticker.replace(/[^A-Za-z0-9]/g, '') });
+        const h = el('div', { class: 'h' });
+        const tt = el('div', { style: 'min-width:0' });
+        tt.append(el('h3', {}, r.naam), el('div', { class: 'tag' }, r.ticker + ' · ' + r.bot));
+        h.append(coin(r.ticker, 34), tt);
+        c.append(h);
+        const m = el('div', { class: 'm' });
+        m.append(W(r.ticker, 'slot', 'span', num2.format(r.slot) + ' ' + r.valuta, 'p'), W(r.ticker, 'drie_mnd_pct', 'span', pct(r.drie_mnd_pct, 1) + ' in 3 mnd', ud(r.drie_mnd_pct)));
+        c.append(m);
+        const vals = k.status === 'ok' ? real(k.data).filter((q) => q.ticker === r.ticker).sort((a, b) => (a.dag < b.dag ? -1 : 1)).map((q) => q.slot) : [];
+        const sb = el('div', { 'data-source': 'koersen' });
+        if (vals.length > 1) spark(sb, vals, r.drie_mnd_pct >= 0 ? 'var(--tx-up)' : 'var(--tx-down)', 'g-' + i);
+        c.append(sb);
+        return c;
       }));
     }
+    drawMarkt();
   });
+})();
+</script>
+
+<script>
+// Grote grafiek: koers als lijn met punten en vlak, volume eronder, zoom en keuze van aandeel
+(() => {
+  const { num2, compact, dayNl, dayLong, el, failed, real } = window.tx;
+  const box = document.getElementById('big');
+  const pick = document.getElementById('pick');
+  const note = document.getElementById('big-note');
+  let ticker = null, zoom = 0;
+  pick.addEventListener('change', () => { ticker = pick.value; draw(); });
+  document.querySelectorAll('#zoom button').forEach((b) => b.addEventListener('click', () => {
+    zoom = Number(b.dataset.n);
+    document.querySelectorAll('#zoom button').forEach((o) => o.setAttribute('aria-pressed', String(o === b)));
+    draw();
+  }));
+
+  function draw() {
+    if (document.getElementById('pg-dashboard').hidden) return;
+    const s = dash.data('koersen');
+    if (s.status === 'error') { failed(box); return; }
+    if (s.status !== 'ok') { box.classList.add('dash-skeleton'); return; }
+    box.classList.remove('dash-skeleton');
+    const all = real(s.data);
+    if (!all.length) { box.replaceChildren(el('p', { class: 'tx-empty' }, window.tx.emptyReason(s.data) || 'Nog geen koersen.')); return; }
+    const tickers = [...new Map(all.map((r) => [r.ticker, r])).values()];
+    if (!ticker || !tickers.some((t) => t.ticker === ticker)) ticker = tickers[0].ticker;
+    if (pick.options.length !== tickers.length) pick.replaceChildren(...tickers.map((t) => new Option(t.naam + ' (' + t.ticker + ') · ' + t.bot, t.ticker)));
+    pick.value = ticker;
+    let rows = all.filter((r) => r.ticker === ticker).sort((a, b) => (a.dag < b.dag ? -1 : 1));
+    if (zoom) rows = rows.slice(-zoom);
+    const r0 = rows[rows.length - 1];
+    document.getElementById('big-title').textContent = 'Koersverloop ' + r0.naam;
+    document.getElementById('r-from').textContent = dayLong(rows[0].dag);
+    document.getElementById('r-to').textContent = dayLong(r0.dag);
+    note.textContent = r0.uitleg || '';
+    const hasVol = rows.some((r) => r.volume != null && r.volume > 0);
+    const W = box.clientWidth || 800, H = 400, VH = hasVol ? 90 : 0, gap = hasVol ? 26 : 0, B = 24;
+    const priceBottom = H - B - VH - gap;
+    const ys = rows.map((r) => r.slot).concat([r0.instap, r0.stop].filter((v) => v != null));
+    const lo = d3.min(ys), hi = d3.max(ys), pad = (hi - lo) * 0.1 || 1;
+    const y = d3.scaleLinear([lo - pad, hi + pad], [priceBottom, 10]).nice();
+    const svg = d3.create('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', 'Koersverloop ' + r0.naam);
+    const probe = d3.select(box).append('svg').attr('width', 0).attr('height', 0).style('position', 'absolute');
+    const tw = d3.max(y.ticks(5), (t) => probe.append('text').style('font-size', '11px').text(num2.format(t)).node().getComputedTextLength()) || 50;
+    probe.remove();
+    const L = tw + 14, R = 12;
+    const x = d3.scalePoint(rows.map((r) => r.dag), [L + 8, W - R - 8]);
+    svg.append('text').attr('x', L - 8).attr('y', 8).attr('text-anchor', 'end').text('Koers');
+    svg.append('g').selectAll('line').data(y.ticks(5)).join('line').attr('x1', L).attr('x2', W - R).attr('y1', y).attr('y2', y).attr('stroke', 'var(--cds-chart-grid)');
+    svg.append('g').selectAll('text').data(y.ticks(5)).join('text').attr('x', L - 8).attr('y', (t) => y(t) + 4).attr('text-anchor', 'end').text((t) => num2.format(t));
+    const accent = getComputedStyle(document.getElementById('tx')).getPropertyValue('--tx-accent').trim() || dash.colors[3];
+    const grad = svg.append('defs').append('linearGradient').attr('id', 'g-big').attr('x1', 0).attr('x2', 0).attr('y1', 0).attr('y2', 1);
+    [[0, .26], [.25, .16], [.5, .08], [.75, .03], [1, 0]].forEach(([o, a]) => grad.append('stop').attr('offset', o).style('stop-color', accent).style('stop-opacity', a));
+    svg.append('path').attr('d', d3.area().x((r) => x(r.dag)).y0(priceBottom).y1((r) => y(r.slot)).curve(d3.curveMonotoneX)(rows)).attr('fill', 'url(#g-big)');
+    const hl = (v, color, label) => {
+      if (v == null || v < y.domain()[0] || v > y.domain()[1]) return;
+      svg.append('line').attr('x1', L).attr('x2', W - R).attr('y1', y(v)).attr('y2', y(v)).attr('stroke', color).attr('stroke-width', 1.5).attr('stroke-dasharray', '5 4');
+      svg.append('text').attr('x', W - R - 4).attr('y', y(v) - 5).attr('text-anchor', 'end').text(label + ' ' + num2.format(v));
+    };
+    hl(r0.instap, 'var(--cds-chart-reference)', 'instap');
+    hl(r0.stop, 'var(--tx-down)', 'stop-loss');
+    svg.append('path').attr('d', d3.line().x((r) => x(r.dag)).y((r) => y(r.slot)).curve(d3.curveMonotoneX)(rows)).attr('fill', 'none').attr('stroke', accent).attr('stroke-width', 2.2).attr('stroke-linecap', 'round');
+    if (rows.length <= 70) svg.append('g').selectAll('circle').data(rows).join('circle').attr('cx', (r) => x(r.dag)).attr('cy', (r) => y(r.slot)).attr('r', rows.length > 40 ? 2.2 : 3.5).attr('fill', accent);
+    // Volume
+    let vy = null;
+    if (hasVol) {
+      const vTop = priceBottom + gap, vBottom = H - B;
+      vy = d3.scaleLinear([0, d3.max(rows, (r) => r.volume || 0)], [vBottom, vTop + 8]).nice();
+      svg.append('text').attr('x', L - 8).attr('y', vTop + 4).attr('text-anchor', 'end').text('Volume');
+      svg.append('text').attr('x', L - 8).attr('y', vy(vy.domain()[1]) + 12).attr('text-anchor', 'end').text(compact.format(vy.domain()[1]));
+      const bw = Math.max(2, Math.min(32, (W - L - R) / rows.length * 0.7));
+      svg.append('g').selectAll('rect').data(rows.filter((r) => r.volume)).join('rect')
+        .attr('x', (r) => x(r.dag) - bw / 2).attr('width', bw).attr('y', (r) => vy(r.volume)).attr('height', (r) => vBottom - vy(r.volume))
+        .attr('rx', Math.min(4, bw / 2)).attr('fill', accent).attr('opacity', 0.85);
+    }
+    const step = Math.max(1, Math.round(rows.length / (W < 500 ? 4 : 8)));
+    svg.append('g').selectAll('text').data(rows.filter((_, i) => i % step === 0)).join('text').attr('x', (r) => x(r.dag)).attr('y', H - 6).attr('text-anchor', 'middle').text((r) => dayNl(r.dag));
+    // Tooltip
+    const tip = el('div', { class: 'tx-tip', hidden: '' });
+    const rule = svg.append('line').attr('y1', 10).attr('y2', H - B).attr('stroke', 'var(--cds-chart-axis)').attr('opacity', 0);
+    const dot = svg.append('circle').attr('r', 5).attr('fill', accent).attr('stroke', 'var(--color-panel)').attr('stroke-width', 2).attr('opacity', 0);
+    svg.append('rect').attr('x', L).attr('y', 0).attr('width', W - R - L).attr('height', H).attr('fill', 'transparent')
+      .on('pointermove', (ev) => {
+        const [mx] = d3.pointer(ev);
+        const r = rows.reduce((a, b) => (Math.abs(x(b.dag) - mx) < Math.abs(x(a.dag) - mx) ? b : a));
+        rule.attr('x1', x(r.dag)).attr('x2', x(r.dag)).attr('opacity', 1);
+        dot.attr('cx', x(r.dag)).attr('cy', y(r.slot)).attr('opacity', 1);
+        tip.replaceChildren(el('div', { class: 'd' }, dayLong(r.dag)), el('div', {}, 'slot ' + num2.format(r.slot) + ' ' + r.valuta),
+          el('div', {}, 'hoogste ' + num2.format(r.hoog) + ' · laagste ' + num2.format(r.laag)));
+        if (r.volume) tip.append(el('div', {}, 'volume ' + compact.format(r.volume)));
+        tip.hidden = false;
+        const sc = box.clientWidth / W, left = x(r.dag) * sc;
+        tip.style.left = Math.min(Math.max(left + 12, 0), box.clientWidth - tip.offsetWidth - 4) + 'px';
+        tip.style.top = '8px';
+      })
+      .on('pointerleave', () => { tip.hidden = true; rule.attr('opacity', 0); dot.attr('opacity', 0); });
+    box.replaceChildren(svg.node(), tip);
+  }
+  window.tx.draws.push(draw);
+  dash.onData(draw);
 })();
 </script>
 
 <script>
 // Kaarsgrafieken, twee naast elkaar per bot
 (() => {
-  const { num2, el, dayNl, failed } = window.taFmt;
+  const { num2, el, dayNl, failed, real } = window.tx;
   const root = document.getElementById('candles');
-  const draw = () => {
-    if (document.getElementById('p-grafieken').hidden) return;
+  function draw() {
+    if (document.getElementById('pg-grafieken').hidden) return;
     const s = dash.data('koersen');
     if (s.status === 'error') { failed(root); return; }
-    if (s.status !== 'ok') { root.replaceChildren(el('div', { class: 'ta-card dash-skeleton', style: 'min-height: 320px' })); return; }
-    const byKey = d3.group(s.data, (r) => r.bot, (r) => r.ticker);
-    if (!s.data.length) { root.replaceChildren(el('p', { class: 'ta-empty' }, 'Nog geen grafieken: die verschijnen na de volgende ronde van de bots.')); return; }
-    const sections = [];
-    for (const [bot, tickers] of byKey) {
-      const sec = el('div', { class: 'ta-page', id: 'grafieken-' + bot.toLowerCase().replace(/[^a-z]/g, '') });
-      sec.append(el('h2', { class: 'ta-section' }, bot === 'Trend-agent' ? 'Trend-agent: open posities' : 'Investeerder: beleggingen'));
-      const grid = el('div', { class: 'ta-grid2' });
-      for (const [ticker, rows] of tickers) grid.append(card(ticker, rows));
-      sec.append(grid);
-      sections.push(sec);
+    if (s.status !== 'ok') { root.replaceChildren(el('div', { class: 'tx-card dash-skeleton', style: 'min-height: 320px' })); return; }
+    const rowsAll = real(s.data);
+    if (!rowsAll.length) { root.replaceChildren(el('p', { class: 'tx-empty' }, window.tx.emptyReason(s.data))); return; }
+    const secs = [];
+    for (const [bot, tickers] of d3.group(rowsAll, (r) => r.bot, (r) => r.ticker)) {
+      const sec = el('div', { class: 'tx-page', id: 'kaarsen-' + bot.toLowerCase().replace(/[^a-z]/g, '') });
+      sec.append(el('h2', { style: 'margin:0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium)' }, bot === 'Trend-agent' ? 'Trend-agent: open posities' : 'Investeerder: beleggingen'));
+      const grid = el('div', { class: 'tx-two' });
+      for (const [ticker, rows] of tickers) {
+        const rs = rows.slice().sort((a, b) => (a.dag < b.dag ? -1 : 1));
+        const r0 = rs[rs.length - 1];
+        const c = el('div', { class: 'tx-card', id: 'kaars-' + ticker.replace(/[^A-Za-z0-9]/g, '') });
+        const h = el('div', { class: 'tx-card-h' }); h.append(el('h2', {}, r0.naam + ' (' + ticker + ') · ' + num2.format(r0.slot) + ' ' + r0.valuta));
+        const b = el('div', { class: 'tx-card-b' });
+        b.append(el('p', { class: 'tx-note' }, r0.uitleg || ''));
+        const cb = el('div', { class: 'tx-candle' });
+        b.append(cb); c.append(h, b); grid.append(c);
+        cb._rows = rs;
+      }
+      sec.append(grid); secs.push(sec);
     }
-    root.replaceChildren(...sections);
-    root.querySelectorAll('.ta-candle').forEach((b) => b._draw && b._draw());
-  };
-
-  function card(ticker, rows) {
-    rows = rows.slice().sort((a, b) => (a.dag < b.dag ? -1 : 1));
-    const r0 = rows[rows.length - 1];
-    const c = el('div', { class: 'ta-card', id: 'kaars-' + ticker.replace(/[^A-Za-z0-9]/g, '') });
-    c.append(el('h3', {}, r0.naam + ' (' + ticker + ') · ' + num2.format(r0.slot) + ' ' + r0.valuta));
-    c.append(el('p', { class: 'ta-sub' }, r0.uitleg));
-    const box = el('div', { class: 'ta-candle' });
-    c.append(box);
-    box._draw = () => candle(box, rows);
-    return c;
+    root.replaceChildren(...secs);
+    root.querySelectorAll('.tx-candle').forEach((cb) => candle(cb, cb._rows));
   }
-
   function candle(box, rows) {
     const W = box.clientWidth || 480, H = 260, B = 24;
     const core = rows.flatMap((r) => [r.laag, r.hoog]).concat([rows[0].instap, rows[0].stop].filter((v) => v != null));
@@ -436,145 +598,148 @@ dash.calc('uitleg_positie', {
     lo = Math.min(lo, ...extra); hi = Math.max(hi, ...extra);
     const pad = (hi - lo) * 0.06 || 1;
     const y = d3.scaleLinear([lo - pad, hi + pad], [H - B, 8]).nice();
-    const fmt = (v) => num2.format(v);
-    const svg = d3.create('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', 'Koersverloop ' + rows[0].naam);
-    const m = svg.append('text').text(fmt(hi));
-    const L = (m.node().getComputedTextLength?.() || 48) + 10; m.remove();
+    const L = 52;
     const x = d3.scaleBand(rows.map((r) => r.dag), [L, W - 6]).padding(0.3);
+    const svg = d3.create('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', 'Kaarsgrafiek ' + rows[0].naam);
     svg.append('g').selectAll('line').data(y.ticks(4)).join('line').attr('x1', L).attr('x2', W - 6).attr('y1', y).attr('y2', y).attr('stroke', 'var(--cds-chart-grid)');
-    svg.append('g').selectAll('text').data(y.ticks(4)).join('text').attr('x', L - 6).attr('y', (t) => y(t) + 4).attr('text-anchor', 'end').text(fmt);
+    svg.append('g').selectAll('text').data(y.ticks(4)).join('text').attr('x', L - 6).attr('y', (t) => y(t) + 4).attr('text-anchor', 'end').text((t) => num2.format(t));
     const step = Math.max(1, Math.round(rows.length / (W < 420 ? 3 : 5)));
-    svg.append('g').selectAll('text').data(rows.filter((_, i) => i % step === 0)).join('text')
-      .attr('x', (r) => x(r.dag) + x.bandwidth() / 2).attr('y', H - 6).attr('text-anchor', 'middle').text((r) => dayNl(r.dag));
-    const clip = (v) => v != null && v >= y.domain()[0] && v <= y.domain()[1];
-    const ln = (key, color) => {
-      const pts = rows.filter((r) => clip(r[key]));
-      if (pts.length > 1) svg.append('path').attr('d', d3.line().x((r) => x(r.dag) + x.bandwidth() / 2).y((r) => y(r[key]))(pts))
-        .attr('fill', 'none').attr('stroke', color).attr('stroke-width', 2).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round');
-    };
-    ln('sma200', dash.colors[1]);
-    ln('sma50', dash.colors[0]);
-    const hline = (v, color) => { if (v != null && clip(v)) svg.append('line').attr('x1', L).attr('x2', W - 6).attr('y1', y(v)).attr('y2', y(v)).attr('stroke', color).attr('stroke-width', 1.5).attr('stroke-dasharray', '5 4'); };
-    hline(rows[0].instap, 'var(--cds-chart-reference)');
-    hline(rows[0].stop, 'var(--color-bad)');
+    svg.append('g').selectAll('text').data(rows.filter((_, i) => i % step === 0)).join('text').attr('x', (r) => x(r.dag) + x.bandwidth() / 2).attr('y', H - 6).attr('text-anchor', 'middle').text((r) => dayNl(r.dag));
+    const inside = (v) => v != null && v >= y.domain()[0] && v <= y.domain()[1];
+    const ln = (key, color) => { const p = rows.filter((r) => inside(r[key])); if (p.length > 1) svg.append('path').attr('d', d3.line().x((r) => x(r.dag) + x.bandwidth() / 2).y((r) => y(r[key]))(p)).attr('fill', 'none').attr('stroke', color).attr('stroke-width', 2).attr('stroke-linecap', 'round'); };
+    ln('sma200', dash.colors[1]); ln('sma50', dash.colors[0]);
+    const hl = (v, color) => { if (inside(v)) svg.append('line').attr('x1', L).attr('x2', W - 6).attr('y1', y(v)).attr('y2', y(v)).attr('stroke', color).attr('stroke-width', 1.5).attr('stroke-dasharray', '5 4'); };
+    hl(rows[0].instap, 'var(--cds-chart-reference)'); hl(rows[0].stop, 'var(--tx-down)');
+    const col = (r) => (r.slot >= r.open ? 'var(--tx-up)' : 'var(--tx-down)');
     const g = svg.append('g').selectAll('g').data(rows).join('g');
-    const col = (r) => (r.slot >= r.open ? 'var(--color-ok)' : 'var(--color-bad)');
-    g.append('line').attr('x1', (r) => x(r.dag) + x.bandwidth() / 2).attr('x2', (r) => x(r.dag) + x.bandwidth() / 2)
-      .attr('y1', (r) => y(r.hoog)).attr('y2', (r) => y(r.laag)).attr('stroke', col).attr('stroke-width', 1);
-    g.append('rect').attr('x', (r) => x(r.dag)).attr('width', x.bandwidth())
-      .attr('y', (r) => y(Math.max(r.open, r.slot))).attr('height', (r) => Math.max(1, Math.abs(y(r.open) - y(r.slot))))
-      .attr('fill', col).attr('rx', 1);
-    const tip = el('div', { class: 'ta-tip', hidden: '' });
+    g.append('line').attr('x1', (r) => x(r.dag) + x.bandwidth() / 2).attr('x2', (r) => x(r.dag) + x.bandwidth() / 2).attr('y1', (r) => y(r.hoog)).attr('y2', (r) => y(r.laag)).attr('stroke', col);
+    g.append('rect').attr('x', (r) => x(r.dag)).attr('width', x.bandwidth()).attr('y', (r) => y(Math.max(r.open, r.slot))).attr('height', (r) => Math.max(1, Math.abs(y(r.open) - y(r.slot)))).attr('fill', col).attr('rx', 1);
+    const tip = el('div', { class: 'tx-tip', hidden: '' });
     svg.append('rect').attr('x', L).attr('y', 0).attr('width', W - 6 - L).attr('height', H).attr('fill', 'transparent')
       .on('pointermove', (ev) => {
         const [mx] = d3.pointer(ev);
         const i = Math.max(0, Math.min(rows.length - 1, Math.round((mx - L - x.bandwidth() / 2) / x.step())));
         const r = rows[i];
-        tip.replaceChildren(el('div', { class: 'd' }, dayNl(r.dag)),
-          el('div', {}, 'opening ' + fmt(r.open) + ' · slot ' + fmt(r.slot)),
-          el('div', {}, 'hoogste ' + fmt(r.hoog) + ' · laagste ' + fmt(r.laag)));
+        tip.replaceChildren(el('div', { class: 'd' }, dayNl(r.dag)), el('div', {}, 'opening ' + num2.format(r.open) + ' · slot ' + num2.format(r.slot)), el('div', {}, 'hoogste ' + num2.format(r.hoog) + ' · laagste ' + num2.format(r.laag)));
         tip.hidden = false;
-        const scale = box.clientWidth / W, left = (x(r.dag) + x.bandwidth()) * scale;
-        tip.style.left = Math.min(left + 8, box.clientWidth - tip.offsetWidth - 4) + 'px'; tip.style.top = '6px';
+        const sc = box.clientWidth / W;
+        tip.style.left = Math.min((x(r.dag) + x.bandwidth()) * sc + 8, box.clientWidth - tip.offsetWidth - 4) + 'px'; tip.style.top = '6px';
       })
       .on('pointerleave', () => { tip.hidden = true; });
     box.replaceChildren(svg.node(), tip);
   }
-
-  window.taDraw = window.taDraw || [];
-  window.taDraw.push(draw);
+  window.tx.draws.push(draw);
   dash.onData(draw);
 })();
 </script>
 
 <script>
-// Kansen, analyse, trades en controles
+// Trades, kansen, analyse, risico en controles
 (() => {
-  const { eur, num2, sEur, pct, cls, el, dayNl, failed } = window.taFmt;
-  const kansBox = document.getElementById('kansen-cards');
-  const anBox = document.getElementById('analyse-cards');
-  const trB = document.querySelector('#tbl-trades tbody');
-  const ctl = document.getElementById('controles');
-  const MOMENT = { gunstig: 'pos', opgelopen: 'neg' };
+  const { eur, num2, sEur, pct, dayNl, ud, el, failed, real, emptyReason } = window.tx;
+  const STAND = { ok: 'gehaald', bezig: 'nog bezig', nee: 'niet gehaald' };
   const mark = (src, field, where, tag, text, c) => el(tag, { 'data-source': src, 'data-field': field, 'data-where': where, class: c }, text);
+  const fillTable = (body, n, s, rowFn, emptyText) => {
+    if (s.status === 'error') { const tr = el('tr'); const td = el('td', { colspan: String(n) }); failed(td); tr.append(td); body.replaceChildren(tr); return; }
+    if (s.status !== 'ok') return;
+    const rows = real(s.data);
+    if (!rows.length) { const tr = el('tr'); tr.append(el('td', { colspan: String(n), class: 'tx-empty' }, emptyReason(s.data) || emptyText)); body.replaceChildren(tr); return; }
+    body.replaceChildren(...rows.map(rowFn));
+  };
   dash.onData(() => {
-    const k = dash.data('kansen');
-    if (k.status === 'error') failed(kansBox);
-    else if (k.status === 'ok') {
-      if (!k.data.length) {
-        kansBox.replaceChildren(el('p', { class: 'ta-empty' }, 'Bij de laatste ronde vond de trend-agent geen koopbare trends, of waren de koersen niet bijgewerkt. Kijk bij Trades en controles voor de reden.'));
-      } else kansBox.replaceChildren(...k.data.map((r) => {
-        const w = 'ticker=' + encodeURIComponent(r.ticker);
-        const c = el('div', { class: 'ta-card', id: 'kans-' + r.ticker.replace(/[^A-Za-z0-9]/g, '') });
-        const h = el('div', { class: 'ta-kans-head' });
-        h.append(el('h3', {}, r.nr + '. ' + r.naam + ' (' + r.ticker + ')'));
-        h.append(mark('kansen', 'moment', w, 'span', 'instapmoment ' + r.moment, 'ta-pill ' + (MOMENT[r.moment] === 'pos' ? 'win' : MOMENT[r.moment] === 'neg' ? 'loss' : 'flat')));
-        c.append(h);
-        c.append(mark('kansen', 'waarom', w, 'p', r.waarom + '.', 'ta-sub'));
-        c.append(mark('kansen', 'moment_uitleg', w, 'p', 'Instapmoment: ' + r.moment_uitleg + '.', 'ta-sub'));
-        const plan = el('p', { class: 'ta-plan' });
-        if (r.aantal >= 1) {
-          plan.append(document.createTextNode('Plan van de bot: koop '), mark('kansen', 'aantal', w, 'b', String(r.aantal)),
-            document.createTextNode(' rond '), mark('kansen', 'instap', w, 'b', num2.format(r.instap) + ' ' + r.valuta),
-            document.createTextNode(' (inzet '), mark('kansen', 'inzet_eur', w, 'span', eur.format(r.inzet_eur)),
-            document.createTextNode('), stop-loss '), mark('kansen', 'stop', w, 'b', num2.format(r.stop) + ' ' + r.valuta),
-            document.createTextNode(' ('), mark('kansen', 'stop_pct', w, 'span', pct(r.stop_pct, 1)),
-            document.createTextNode('). Gaat het mis: ongeveer '), mark('kansen', 'max_verlies_eur', w, 'b', eur.format(r.max_verlies_eur), 'neg'),
-            document.createTextNode(' verlies.'));
-        } else {
-          plan.append(document.createTextNode('Instap rond '), mark('kansen', 'instap', w, 'span', num2.format(r.instap) + ' ' + r.valuta),
-            document.createTextNode(', stop-loss '), mark('kansen', 'stop', w, 'span', num2.format(r.stop) + ' ' + r.valuta),
-            document.createTextNode('. Er past geen heel stuk in het kleine risicobudget.'));
-        }
-        c.append(plan);
-        c.append(mark('kansen', 'status', w, 'p', 'Wat deed de bot? ' + r.status + '.', 'ta-ready'));
-        return c;
-      }));
-    }
-
-    const a = dash.data('analyse');
-    if (a.status === 'error') failed(anBox);
-    else if (a.status === 'ok') {
-      const bots = [...new Set(a.data.map((r) => r.bot))];
-      anBox.replaceChildren(...bots.map((b) => {
-        const c = el('div', { class: 'ta-card', id: 'analyse-' + b.toLowerCase().replace(/[^a-z]/g, '') });
-        c.append(el('h2', {}, b));
-        c.append(el('h3', {}, 'Wat de bot zag'));
-        const zag = el('div', { class: 'ta-zag' });
-        a.data.filter((r) => r.bot === b && r.soort === 'zag').forEach((r) => {
-          const p = el('p', { style: 'margin:0' });
-          p.append(el('b', {}, r.onderdeel + ': '), mark('analyse', 'tekst', 'id=' + encodeURIComponent(r.id), 'span', r.tekst));
-          zag.append(p);
-        });
-        c.append(zag);
-        c.append(el('h3', {}, 'Wat de bot eruit haalt'));
-        const ul = el('ul', { class: 'ta-list' });
-        a.data.filter((r) => r.bot === b && r.soort === 'conclusie').forEach((r) => ul.append(mark('analyse', 'tekst', 'id=' + encodeURIComponent(r.id), 'li', r.tekst)));
-        c.append(ul);
-        return c;
-      }));
-    }
-
     const t = dash.data('trades');
-    if (t.status === 'error') { const tr = el('tr'); const td = el('td', { colspan: '7' }); failed(td); tr.append(td); trB.replaceChildren(tr); }
-    else if (t.status === 'ok') {
-      trB.replaceChildren(...t.data.map((r) => {
-        const tr = el('tr', { 'data-key': r.id });
-        tr.append(el('td', {}, dayNl(r.dag)), el('td', {}, r.bot), el('td', {}, r.soort), el('td', {}, r.naam));
-        tr.append(el('td', { class: 'num' }, eur.format(r.waarde_eur)));
-        tr.append(el('td', { class: 'num ' + cls(r.resultaat_eur) }, r.resultaat_eur == null ? '–' : sEur(r.resultaat_eur)));
-        tr.append(el('td', { class: 'ta-plain' }, r.reden));
-        return tr;
+    fillTable(document.querySelector('#tbl-trades tbody'), 6, t, (r) => {
+      const tr = el('tr', { 'data-key': r.id });
+      const st = el('td'); st.append(el('span', { class: 'tx-pill ' + r.soort }, r.soort === 'koop' ? 'Koop' : 'Verkoop'));
+      tr.append(el('td', {}, dayNl(r.dag)), el('td', {}, r.bot), st, el('td', {}, r.naam),
+        el('td', { class: 'num' }, eur.format(r.waarde_eur)),
+        el('td', { class: 'num ' + ud(r.resultaat_eur) }, r.resultaat_eur == null ? '–' : (r.resultaat_eur > 0 ? '▲ ' : '▼ ') + sEur(r.resultaat_eur)));
+      return tr;
+    }, 'Nog geen trades.');
+    fillTable(document.querySelector('#tbl-alletrades tbody'), 5, t, (r) => {
+      const tr = el('tr', { 'data-key': r.id });
+      tr.append(el('td', {}, dayNl(r.dag)), el('td', {}, r.bot), el('td', {}, r.soort), el('td', {}, r.naam), el('td', { class: 'wrap' }, r.reden));
+      return tr;
+    }, 'Nog geen trades.');
+
+    const p = dash.data('posities'), u = dash.data('uitleg_positie');
+    const ul = new Map((u.status === 'ok' ? u.data : []).map((r) => [r.bot + '|' + r.ticker, r.uitleg]));
+    fillTable(document.querySelector('#tbl-posities tbody'), 7, p, (r) => {
+      const tr = el('tr', { 'data-key': encodeURIComponent(r.bot) + ',' + encodeURIComponent(r.ticker) });
+      tr.append(el('td', {}, r.bot), el('td', {}, r.naam + ' (' + r.ticker + ')'),
+        el('td', { class: 'num ' + ud(r.resultaat_eur) }, sEur(r.resultaat_eur)), el('td', { class: 'num ' + ud(r.resultaat_pct) }, pct(r.resultaat_pct, 1)),
+        el('td', { class: 'num' }, r.afstand_stop_pct == null ? '–' : pct(r.afstand_stop_pct, 1)),
+        el('td', { class: 'num ' + ud(r.bij_stop_eur) }, r.bij_stop_eur == null ? '–' : sEur(r.bij_stop_eur)),
+        el('td', { class: 'wrap' }, ul.get(r.bot + '|' + r.ticker) || ''));
+      return tr;
+    }, 'Geen open posities.');
+
+    fillTable(document.querySelector('#tbl-remmen tbody'), 3, dash.data('remmen'), (r) => {
+      const tr = el('tr');
+      const f = (v) => (r.eenheid === 'pct' ? pct(v, 2) : String(v));
+      tr.append(el('td', {}, r.rem), el('td', { class: 'num' }, f(r.nu)), el('td', { class: 'num' }, f(r.grens)));
+      return tr;
+    }, '');
+    fillTable(document.querySelector('#tbl-klaar tbody'), 4, dash.data('klaar'), (r) => {
+      const tr = el('tr', { 'data-key': r.id });
+      const st = el('td'); st.append(el('span', { class: 'tx-pill ' + r.stand }, STAND[r.stand] || r.stand));
+      tr.append(el('td', {}, r.bot), el('td', {}, r.eis), st, el('td', {}, r.nu));
+      return tr;
+    }, '');
+
+    // Kansen
+    const kb = document.getElementById('kansen-cards');
+    const k = dash.data('kansen');
+    if (k.status === 'error') failed(kb);
+    else if (k.status === 'ok') {
+      const rows = real(k.data);
+      if (!rows.length) kb.replaceChildren(el('p', { class: 'tx-empty' }, emptyReason(k.data)));
+      else kb.replaceChildren(...rows.map((r) => {
+        const w = 'ticker=' + encodeURIComponent(r.ticker);
+        const c = el('div', { class: 'tx-card', id: 'kans-' + r.ticker.replace(/[^A-Za-z0-9]/g, '') });
+        const h = el('div', { class: 'tx-card-h' });
+        h.append(el('h2', {}, r.nr + '. ' + r.naam + ' (' + r.ticker + ')'));
+        h.append(mark('kansen', 'moment', w, 'span', r.moment, 'tx-pill ' + (r.moment === 'gunstig' ? 'win' : r.moment === 'opgelopen' ? 'loss' : 'flat')));
+        const b = el('div', { class: 'tx-card-b' });
+        b.append(mark('kansen', 'waarom', w, 'p', r.waarom + '.', 'tx-note'), mark('kansen', 'moment_uitleg', w, 'p', 'Instapmoment: ' + r.moment_uitleg + '.', 'tx-note'));
+        const plan = el('p', { style: 'margin:0; line-height:1.5' });
+        if (r.aantal >= 1) plan.append(document.createTextNode('Plan van de bot: koop '), mark('kansen', 'aantal', w, 'b', String(r.aantal)), document.createTextNode(' rond '),
+          mark('kansen', 'instap', w, 'b', num2.format(r.instap) + ' ' + r.valuta), document.createTextNode(' (inzet '), mark('kansen', 'inzet_eur', w, 'span', eur.format(r.inzet_eur)),
+          document.createTextNode('), stop-loss '), mark('kansen', 'stop', w, 'b', num2.format(r.stop) + ' ' + r.valuta), document.createTextNode('. Gaat het mis: ongeveer '),
+          mark('kansen', 'max_verlies_eur', w, 'b', eur.format(r.max_verlies_eur), 'down'), document.createTextNode(' verlies.'));
+        else plan.append(document.createTextNode('Instap rond '), mark('kansen', 'instap', w, 'span', num2.format(r.instap) + ' ' + r.valuta), document.createTextNode('; er past geen heel stuk in het kleine risicobudget.'));
+        b.append(plan, mark('kansen', 'status', w, 'p', 'Wat deed de bot? ' + r.status + '.', 'tx-note'));
+        c.append(h, b);
+        return c;
       }));
     }
 
+    // Analyse
+    const ab = document.getElementById('analyse-cards');
+    const a = dash.data('analyse');
+    if (a.status === 'error') failed(ab);
+    else if (a.status === 'ok') {
+      const rows = real(a.data);
+      ab.replaceChildren(...[...new Set(rows.map((r) => r.bot))].map((bot) => {
+        const c = el('div', { class: 'tx-card', id: 'analyse-' + bot.toLowerCase().replace(/[^a-z]/g, '') });
+        const h = el('div', { class: 'tx-card-h' }); h.append(el('h2', {}, bot));
+        const b = el('div', { class: 'tx-card-b' });
+        b.append(el('h3', { style: 'margin:0; font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium)' }, 'Wat de bot zag'));
+        const zag = el('div', { class: 'tx-zag' });
+        rows.filter((r) => r.bot === bot && r.soort === 'zag').forEach((r) => { const p = el('p', { style: 'margin:0' }); p.append(el('b', {}, r.onderdeel + ': '), mark('analyse', 'tekst', 'id=' + encodeURIComponent(r.id), 'span', r.tekst)); zag.append(p); });
+        b.append(zag, el('h3', { style: 'margin:0; font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium)' }, 'Wat de bot eruit haalt'));
+        const l = el('ul', { class: 'tx-list' });
+        rows.filter((r) => r.bot === bot && r.soort === 'conclusie').forEach((r) => l.append(mark('analyse', 'tekst', 'id=' + encodeURIComponent(r.id), 'li', r.tekst)));
+        b.append(l); c.append(h, b);
+        return c;
+      }));
+    }
+
+    // Controles
+    const cl = document.getElementById('ctl');
     const cc = dash.data('controles');
-    if (cc.status === 'error') failed(ctl);
-    else if (cc.status === 'ok') ctl.replaceChildren(...cc.data.map((r) => mark('controles', 'tekst', 'id=' + encodeURIComponent(r.id), 'li', r.tekst)));
+    if (cc.status === 'error') failed(cl);
+    else if (cc.status === 'ok') cl.replaceChildren(...real(cc.data).map((r) => mark('controles', 'tekst', 'id=' + encodeURIComponent(r.id), 'li', r.tekst)));
   });
 })();
-</script>
-
-<script>
-window.taRedraw = () => (window.taDraw || []).forEach((f) => f());
 </script>

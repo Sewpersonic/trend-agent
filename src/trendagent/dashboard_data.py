@@ -141,7 +141,8 @@ def build(state_dir: Path, reports_dir: Path) -> dict[str, list[dict]]:
                 rows.append({"bot": bot, "ticker": ticker, "naam": _name(ticker), "valuta": d.get("valuta", ""),
                              "dag": day, "open": (d.get("open") or d["koers"])[i],
                              "hoog": (d.get("hoog") or d["koers"])[i], "laag": (d.get("laag") or d["koers"])[i],
-                             "slot": d["koers"][i], "sma50": d["sma50"][i], "sma200": d["sma200"][i],
+                             "slot": d["koers"][i], "volume": (d.get("volume") or [None] * len(d["iso"]))[i],
+                             "sma50": d["sma50"][i], "sma200": d["sma200"][i],
                              "instap": d.get("instap"), "stop": d.get("stop"), "uitleg": " ".join(d.get("uitleg", []))})
     out["koersen"] = rows
 
@@ -164,10 +165,28 @@ def build(state_dir: Path, reports_dir: Path) -> dict[str, list[dict]]:
     return out
 
 
+EMPTY = {
+    "kansen": "Bij de laatste ronde vond de trend-agent geen koopbare trends, of waren de koersen niet bijgewerkt.",
+    "posities": "Geen open posities.",
+    "trades": "Nog geen aan- of verkopen.",
+    "remmen": "Nog geen gegevens over de remmen.",
+    "analyse": "Nog geen analyse.",
+    "klaar": "Nog geen gegevens.",
+    "koersen": "Nog geen koersen voor grafieken.",
+    "controles": "Nog geen controles.",
+    "waarde": "Nog geen waarde per dag.",
+    "stand": "Nog geen stand.",
+}
+
+
 def write(state_dir: Path, reports_dir: Path, out_dir: Path) -> list[Path]:
+    """Een leeg onderdeel krijgt één rij met leeg=true en de reden, zodat het dashboard laat zien
+    waarom er niets is (een helemaal leeg bestand kan het dashboard niet lezen)."""
     out_dir.mkdir(parents=True, exist_ok=True)
     paths = []
     for name, rows in build(state_dir, reports_dir).items():
+        if not rows:
+            rows = [{"id": "leeg", "leeg": True, "reden": EMPTY.get(name, "Nog geen gegevens.")}]
         p = out_dir / f"{name}.json"
         p.write_text(json.dumps(rows, ensure_ascii=False), encoding="utf-8")
         paths.append(p)
