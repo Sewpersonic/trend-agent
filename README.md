@@ -39,7 +39,9 @@ telefoon (daar met een menu linksboven en een opbouw zoals een beurs-app).
 
 Bijwerken: elke werkdag rond 07:41 alles, en tijdens beurstijden elk uur (rond :25) het oefenaccount en het
 GitHub-overzicht. Dat doen twee geplande taken van Claude die de bestanden uit `dashboard/` naar de pagina
-kopiëren. De pagina zelf staat in `dashboard/index.html`.
+kopiëren. De pagina zelf staat in `dashboard/index.html`. Omdat het dashboard per bestand hooguit 256 KB
+accepteert, gaat de pagina in delen online: `python scripts/pagina_splitsen.py` maakt `index.html`, `stijl.css` en
+`app-01.js`, `app-02.js`, ... in `dashboard/pagina/` (die map staat niet in git).
 
 ## Wanneer gebeurt wat
 

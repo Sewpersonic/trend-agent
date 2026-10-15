@@ -16,3 +16,6 @@ dist/
 
 # Instrumentenlijst van Trading 212: groot, wordt elke dag opnieuw opgehaald
 state/t212_instrumenten.json
+
+# Gesplitste pagina voor het online dashboard (gemaakt door scripts/pagina_splitsen.py)
+dashboard/pagina/
