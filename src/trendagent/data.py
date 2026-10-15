@@ -57,6 +57,25 @@ def validate_bars(bars: list[Bar], ticker: str) -> list[Bar]:
     return bars
 
 
+def fill_from_intraday(bars: list[Bar], rows: list[tuple], last_allowed) -> list[Bar]:
+    """Voegt dagen toe die wel in de uurkoersen staan maar nog niet in de dagkoersen.
+
+    rows: (datum, open, hoog, laag, slot, volume) per uur. Alleen afgesloten handelsdagen (t/m last_allowed)
+    en alleen dagen na de laatste dagkoers. Opening = eerste uur, slot = laatste uur, hoog/laag = uiterste.
+    """
+    days: dict = {}
+    for d, o, h, l, c, v in rows:
+        if bars and d <= bars[-1].day or d > last_allowed:
+            continue
+        cur = days.get(d)
+        days[d] = (o, h, l, c, v) if cur is None else (cur[0], max(cur[1], h), min(cur[2], l), c, cur[4] + v)
+    out = list(bars)
+    for d in sorted(days):
+        o, h, l, c, v = days[d]
+        out.append(Bar(d, o, max(h, o, c), min(l, o, c), c, v))
+    return out
+
+
 class YahooProvider:
     """Dagkoersen van Yahoo Finance. Gratis, maar onofficieel: kan haperen."""
 
@@ -84,7 +103,27 @@ class YahooProvider:
             for idx, r in df.iterrows()
             if r["Close"] == r["Close"]  # NaN-regels overslaan
         ]
+        if instrument.kind != "CRYPTO":
+            bars = self._fill_missing_day(instrument, bars)
         return validate_bars(bars[-days:], instrument.ticker)
+
+    def _fill_missing_day(self, instrument: Instrument, bars: list[Bar]) -> list[Bar]:
+        """Yahoo zet de dagkoers pas uren later klaar (Europese aandelen soms pas de volgende dag).
+        Ontbreekt de laatste afgesloten handelsdag, dan bouwen we die op uit de uurkoersen van die dag."""
+        import yfinance as yf
+        from datetime import datetime, timezone
+        from .features import expected_market_day
+
+        last_allowed = expected_market_day(datetime.now(timezone.utc))
+        if not bars or bars[-1].day >= last_allowed:
+            return bars
+        try:
+            df = yf.Ticker(instrument.ticker).history(period="5d", interval="60m", auto_adjust=True)
+        except Exception:  # noqa: BLE001  (lukt het niet, dan blijft de reeks zoals hij was)
+            return bars
+        rows = [(idx.date(), float(r["Open"]), float(r["High"]), float(r["Low"]), float(r["Close"]),
+                 float(r["Volume"])) for idx, r in df.iterrows() if r["Close"] == r["Close"]] if df is not None else []
+        return fill_from_intraday(bars, rows, last_allowed)
 
     def usd_to_eur(self) -> float:
         import yfinance as yf

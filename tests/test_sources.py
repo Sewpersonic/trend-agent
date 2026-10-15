@@ -129,3 +129,23 @@ class MultiSourceTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class IntradayFillTests(unittest.TestCase):
+    def test_missing_day_built_from_hours(self):
+        from datetime import date
+        from trendagent.data import Bar, fill_from_intraday
+        daily = [Bar(date(2026, 10, 12), 1, 2, 1, 1.5, 10), Bar(date(2026, 10, 13), 1.5, 2, 1, 1.8, 10)]
+        hours = [(date(2026, 10, 13), 9, 9, 9, 9, 1),            # al in de dagkoersen: overslaan
+                 (date(2026, 10, 14), 1.8, 2.0, 1.7, 1.9, 5), (date(2026, 10, 14), 1.9, 2.3, 1.85, 2.1, 7),
+                 (date(2026, 10, 15), 2.1, 2.2, 2.0, 2.15, 3)]     # nog niet afgesloten: overslaan
+        out = fill_from_intraday(daily, hours, date(2026, 10, 14))
+        self.assertEqual(len(out), 3)
+        b = out[-1]
+        self.assertEqual((b.day, b.open, b.high, b.low, b.close, b.volume), (date(2026, 10, 14), 1.8, 2.3, 1.7, 2.1, 12))
+
+    def test_nothing_missing(self):
+        from datetime import date
+        from trendagent.data import Bar, fill_from_intraday
+        daily = [Bar(date(2026, 10, 14), 1, 2, 1, 1.5, 10)]
+        self.assertEqual(fill_from_intraday(daily, [(date(2026, 10, 14), 1, 1, 1, 1, 1)], date(2026, 10, 14)), daily)

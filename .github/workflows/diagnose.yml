@@ -45,6 +45,13 @@ jobs:
                   print(t, "download period=5d", [str(i.date()) for i in df.index[-3:]])
               except Exception as e:
                   print(t, "download FOUT", e)
+          print("--- met de bot zelf (dagkoersen + aanvulling uit uurkoersen) ---")
+          from trendagent.data import YahooProvider
+          from trendagent.universe import BY_TICKER
+          p = YahooProvider()
+          for t in ("SPY", "MSFT", "SAP.DE", "IWDA.AS", "ASML.AS", "SHELL.AS"):
+              b = p.history(BY_TICKER[t], 260)
+              print(t, [(str(x.day), round(x.open, 2), round(x.high, 2), round(x.low, 2), round(x.close, 2), int(x.volume)) for x in b[-2:]])
           PY
           cat diagnose/yahoo.txt
       - name: Opslaan
