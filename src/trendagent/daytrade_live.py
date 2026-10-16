@@ -16,10 +16,20 @@ from __future__ import annotations
 
 import json
 from dataclasses import asdict
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, time, timedelta, timezone
 from pathlib import Path
 
-from .daytrader import CLOSE, NY, OPEN, Bar5, DayEngine, Params, avg_or_volumes, check_times, split_days
+from .daytrader import (
+    CLOSE,
+    NY,
+    OPEN,
+    Bar5,
+    DayEngine,
+    Params,
+    avg_or_volumes,
+    check_times,
+    split_days,
+)
 
 START = 10_000.0
 MAX_JUMP = 0.15          # een sprong van meer dan 15% tussen twee blokken van 5 minuten = verdacht
@@ -169,6 +179,15 @@ def run(state_dir: Path, config_path: Path = Path("config/daytrader.json"), now:
             log += [f"{t:%H:%M} {x}" for x in stap]
             if e.klaar:
                 break
+        # Vroege sluiting (bijvoorbeeld de dag na Thanksgiving en kerstavond: de beurs sluit om 13:00):
+        # komen er na 13:00 al 20 minuten geen nieuwe koersen meer, dan alles verkopen tegen de laatste koers.
+        if not e.klaar and e.open and ny.time() >= time(13, 5) and mkt_last.time() < time(15, 0) \
+                and ny - mkt_last > timedelta(minutes=20):
+            for tk in list(e.open):
+                prijs = live_price(tk, ny) or e.open[tk].entry
+                e._close(e.open[tk], prijs, ny, "beurs vroeg dicht")
+                log.append(f"{tk}: verkocht (de beurs sloot vandaag vroeg)")
+            e.klaar = True
         if due and not any("gekocht" in x for x in log):
             t_last = due[-1]
             if e.klaar:

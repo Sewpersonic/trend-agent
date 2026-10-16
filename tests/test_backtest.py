@@ -7,8 +7,13 @@ from datetime import date, timedelta
 from pathlib import Path
 
 from trendagent.agent import TrendAgent
-from trendagent.backtest import (HistoricalProvider, max_drawdown, run_backtest, window_stats,
-                                 windows)
+from trendagent.backtest import (
+    HistoricalProvider,
+    max_drawdown,
+    run_backtest,
+    window_stats,
+    windows,
+)
 from trendagent.backtest_report import write_all
 from trendagent.core.config import Settings
 from trendagent.core.kill_switch import KillSwitch

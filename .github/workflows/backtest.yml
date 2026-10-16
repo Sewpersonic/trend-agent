@@ -6,7 +6,10 @@ name: backtest
 on:
   push:
     branches: [main]
-    paths: ["src/**", "config/**", ".github/workflows/backtest.yml"]
+    # alleen als de regels van de bots veranderen (niet bij elke wijziging aan dashboard of rapporten: scheelt rekentijd)
+    paths: ["src/trendagent/agent.py", "src/trendagent/signals.py", "src/trendagent/features.py", "src/trendagent/investor.py",
+            "src/trendagent/strategies.py", "src/trendagent/portfolio.py", "src/trendagent/backtest.py",
+            "src/trendagent/core/config.py", "config/productie.json", ".github/workflows/backtest.yml"]
   workflow_dispatch:
     inputs:
       years:

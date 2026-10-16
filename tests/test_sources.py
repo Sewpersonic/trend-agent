@@ -2,7 +2,7 @@
 
 import tempfile
 import unittest
-from datetime import date, timedelta
+from datetime import date
 from pathlib import Path
 
 from trendagent.agent import TrendAgent
@@ -134,6 +134,7 @@ if __name__ == "__main__":
 class IntradayFillTests(unittest.TestCase):
     def test_missing_day_built_from_hours(self):
         from datetime import date
+
         from trendagent.data import Bar, fill_from_intraday
         daily = [Bar(date(2026, 10, 12), 1, 2, 1, 1.5, 10), Bar(date(2026, 10, 13), 1.5, 2, 1, 1.8, 10)]
         hours = [(date(2026, 10, 13), 9, 9, 9, 9, 1),            # al in de dagkoersen: overslaan
@@ -146,6 +147,7 @@ class IntradayFillTests(unittest.TestCase):
 
     def test_nothing_missing(self):
         from datetime import date
+
         from trendagent.data import Bar, fill_from_intraday
         daily = [Bar(date(2026, 10, 14), 1, 2, 1, 1.5, 10)]
         self.assertEqual(fill_from_intraday(daily, [(date(2026, 10, 14), 1, 1, 1, 1, 1)], date(2026, 10, 14)), daily)
@@ -154,6 +156,7 @@ class IntradayFillTests(unittest.TestCase):
 class UnfinishedDayTests(unittest.TestCase):
     def test_running_day_dropped(self):
         from datetime import date
+
         from trendagent.data import Bar, drop_unfinished
         bars = [Bar(date(2026, 10, 13), 1, 2, 1, 1.5, 10), Bar(date(2026, 10, 15), 1, 2, 1, 1.6, 3)]
         self.assertEqual([b.day for b in drop_unfinished(bars, date(2026, 10, 14))], [date(2026, 10, 13)])

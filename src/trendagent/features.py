@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
+from datetime import date
 
 from .data import Bar
 
@@ -177,7 +178,7 @@ def data_issues(bars: list[Bar], max_jump: float = 0.40) -> list[str]:
 
 # ------------------------------------------------------- achterlopende koersen
 
-def expected_market_day(now_utc) -> "date":
+def expected_market_day(now_utc) -> date:
     """De handelsdag waarvan de slotkoersen er nu zouden moeten zijn.
 
     Na 21:00 UTC zijn zowel Europa als Amerika gesloten: dan is het vandaag.

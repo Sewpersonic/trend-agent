@@ -1110,7 +1110,7 @@ dash.calc('begin_hier', {
         kort: fout ? 'Koppeling met Trading 212 geeft een fout.' : onderweg.length ? onderweg.map((p) => p.naam).join(' en ') + ' worden gekocht als de beurs opengaat.' : 'Loopt gelijk met de trend-agent.',
         stand: bs.waarde == null ? '' : eur(bs.waarde - 5000) + ' sinds de start',
         nu: fout ? 'De koppeling met Trading 212 gaf een fout: ' + bs.reden : 'Volgt de trend-agent bij Trading 212 met nepgeld: ' + gelijk + ' van ' + pos.length + ' aandelen staan gelijk.',
-        laatst: ords.length ? dag(ords[0].tijd) + ': ' + ords.filter((o) => o.tijd === ords[0].tijd).map((o) => (o.aantal == null ? (o.actie || 'order') + ' geweigerd:' : (o.aantal > 0 ? 'koop ' : 'verkoop ') + Math.abs(o.aantal)) + ' ' + ((pos.find((p) => p.ticker === o.ticker) || {}).naam || o.ticker)).join(', ') + '.' : 'Nog geen orders.',
+        laatst: ords.length ? dag(ords[0].tijd) + ': ' + ords.filter((o) => o.tijd === ords[0].tijd).map((o) => (o.aantal == null ? (o.actie || 'order') + ' geweigerd' + (o.reden ? ' (' + o.reden.replace(/\.$/, '') + ')' : '') : (o.aantal > 0 ? 'koop ' : 'verkoop ') + Math.abs(o.aantal) + ' ' + ((pos.find((p) => p.ticker === o.ticker) || {}).naam || o.ticker))).join(', ') + '.' : 'Nog geen orders.',
         straks: onderweg.length ? onderweg.map((p) => p.naam).join(' en ') + ' worden gekocht zodra de beurs opengaat.' : 'Doet na elke ronde van de trend-agent hetzelfde. Elk uur wordt de stand bijgewerkt.' });
     }
     return out;
@@ -2601,7 +2601,7 @@ dash.calc('onderzoek_verschil', {
       r.append(el('span', { class: 'ap-ico ' + (geweigerd ? 'grijs' : koop ? 'koop' : 'verkoop'), 'aria-hidden': 'true' }, geweigerd ? '✕' : koop ? '↑' : '↓'));
       const mid = el('div', { style: 'min-width:0' });
       const nm = naam[o.ticker] || o.ticker;
-      mid.append(el('div', { class: 'n' }, o.aantal == null ? (o.actie || 'Order') + ' · ' + nm : (koop ? 'Koop ' : 'Verkoop ') + Math.abs(o.aantal) + ' ' + nm),
+      mid.append(el('div', { class: 'n' }, o.aantal == null ? ((o.actie || 'Order').replace(/^./, (c) => c.toUpperCase()) + (nm ? ' · ' + nm : '')) : (koop ? 'Koop ' : 'Verkoop ') + Math.abs(o.aantal) + ' ' + nm),
         el('div', { class: 's' }, T(o.tijd, uurF) + (o.reden ? ' · ' + o.reden : (/handmatig/.test(o.actie || '') ? ' · door jou' : ' · door de bot'))));
       const rt = el('div', { class: 'r' });
       if (o.waarde_eur != null) rt.append(el('span', { class: 'v' }, '~' + eur.format(o.waarde_eur)));

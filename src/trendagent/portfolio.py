@@ -68,7 +68,7 @@ class Portfolio:
     # ---------------------------------------------------------------- opslag
 
     @classmethod
-    def load(cls, path: Path, starting_cash: float) -> "Portfolio":
+    def load(cls, path: Path, starting_cash: float) -> Portfolio:
         if not path.exists():
             return cls(cash_eur=starting_cash)
         raw = json.loads(path.read_text(encoding="utf-8"))

@@ -21,7 +21,7 @@ def download(tickers=TICKERS, period: str = "60d") -> dict[str, list[Bar5]]:
     import yfinance as yf
     out: dict[str, list[Bar5]] = {}
     for tk in tickers:
-        for poging in range(3):
+        for _poging in range(3):
             try:
                 df = yf.Ticker(tk).history(period=period, interval="5m", auto_adjust=False, prepost=False)
                 break

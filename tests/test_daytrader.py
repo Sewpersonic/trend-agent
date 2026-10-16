@@ -2,7 +2,7 @@ import unittest
 from datetime import date, datetime, timedelta
 
 from trendagent import daytrader as dt
-from trendagent.daytrade_test import baselines, drop_unfinished_day, rapport, run
+from trendagent.daytrade_test import baselines, drop_unfinished_day, run
 
 
 def day_bars(d: date, prices, vols=None):
@@ -107,6 +107,7 @@ class LiveTest(unittest.TestCase):
     def test_live_matches_backtest(self):
         import tempfile
         from pathlib import Path
+
         from trendagent import daytrade_live as dl
         last = self.days[-1]
         with tempfile.TemporaryDirectory() as d:
@@ -134,8 +135,10 @@ class LiveTest(unittest.TestCase):
         self.assertEqual(live, [(x["ticker"], x["t_in"], x["reden"]) for x in bt["trades"]])
 
     def test_kill_switch_blocks_buying(self):
-        import tempfile, json
+        import json
+        import tempfile
         from pathlib import Path
+
         from trendagent import daytrade_live as dl
         last = self.days[-1]
         with tempfile.TemporaryDirectory() as d:
@@ -148,6 +151,27 @@ class LiveTest(unittest.TestCase):
                 st = dl.run(sd, cfg, now=t.replace(tzinfo=dt.NY), provider=self.provider_at(t))
                 t += timedelta(minutes=15)
             self.assertEqual(st["trades"], [])
+
+    def test_early_close_sells_everything(self):
+        import tempfile
+        from pathlib import Path
+
+        from trendagent import daytrade_live as dl
+        last = self.days[-1]
+        stop = datetime.combine(last, dt.time(13, 0))
+        self.data = {tk: [b for b in bs if b.t.date() != last or b.t < stop] for tk, bs in self.data.items()}
+        with tempfile.TemporaryDirectory() as d:
+            sd = Path(d)
+            cfg = sd / "cfg.json"
+            cfg.write_text("{}")
+            t = datetime.combine(last, dt.OPEN) + timedelta(minutes=33)
+            while t <= datetime.combine(last, dt.CLOSE):
+                st = dl.run(sd, cfg, now=t.replace(tzinfo=dt.NY), provider=self.provider_at(t))
+                t += timedelta(minutes=15)
+            self.assertTrue(st["trades"])
+            self.assertTrue(st["vandaag"]["klaar"])
+            self.assertEqual(st["vandaag"]["open"], {})
+            self.assertTrue(all(x["t_uit"] < "14:00" for x in st["trades"]), st["trades"])
 
 
 if __name__ == "__main__":

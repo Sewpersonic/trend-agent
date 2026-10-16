@@ -11,15 +11,15 @@ from __future__ import annotations
 from pathlib import Path
 
 from openpyxl import load_workbook
+from openpyxl.cell.rich_text import CellRichText, TextBlock
+from openpyxl.cell.text import InlineFont
 from openpyxl.chart import LineChart, Reference, StockChart
 from openpyxl.chart.axis import ChartLines
 from openpyxl.chart.data_source import NumData, NumVal
-from openpyxl.chart.updown_bars import UpDownBars
 from openpyxl.chart.layout import Layout, ManualLayout
 from openpyxl.chart.shapes import GraphicalProperties
+from openpyxl.chart.updown_bars import UpDownBars
 from openpyxl.drawing.line import LineProperties
-from openpyxl.cell.rich_text import CellRichText, TextBlock
-from openpyxl.cell.text import InlineFont
 from openpyxl.styles import Alignment, Font
 
 INK = "0B0B0B"

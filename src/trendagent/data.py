@@ -114,8 +114,10 @@ class YahooProvider:
     def _fill_missing_day(self, instrument: Instrument, bars: list[Bar]) -> list[Bar]:
         """Yahoo zet de dagkoers pas uren later klaar (Europese aandelen soms pas de volgende dag).
         Ontbreekt de laatste afgesloten handelsdag, dan bouwen we die op uit de uurkoersen van die dag."""
-        import yfinance as yf
         from datetime import datetime, timezone
+
+        import yfinance as yf
+
         from .features import expected_market_day
 
         last_allowed = expected_market_day(datetime.now(timezone.utc))

@@ -14,7 +14,6 @@ from trendagent.data import Bar, SimulatedProvider
 from trendagent.features import data_issues, ema, macd, market_regime, rsi, snapshot
 from trendagent.portfolio import Portfolio, Trade
 from trendagent.strategies import trend_version
-from trendagent.universe import BY_TICKER
 
 END = date(2026, 10, 9)
 UP = {"ASML.AS": 0.004, "NVDA": 0.004, "SAP.DE": 0.003, "SPY": 0.002, "IWDA.AS": 0.001}
@@ -212,9 +211,10 @@ class HealthTests(unittest.TestCase):
         self.assertEqual(len(health_problems(bad)), 2)
 
     def test_run_writes_health(self):
-        from trendagent.__main__ import main
         import os
         from unittest import mock
+
+        from trendagent.__main__ import main
         tmp = Path(tempfile.mkdtemp())
         env = {"STATE_DIR": str(tmp / "s"), "REPORTS_DIR": str(tmp / "r"), "TICKERS": ",".join(FEW)}
         with mock.patch.dict(os.environ, env):

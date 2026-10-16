@@ -18,7 +18,6 @@ order kan versturen.
 from __future__ import annotations
 
 import json
-
 import math
 from dataclasses import dataclass, field
 from datetime import date
@@ -30,9 +29,9 @@ from .core.kill_switch import KillSwitch
 from .data import Bar, DataError, DataProvider
 from .features import UNKNOWN, data_issues, market_regime, snapshot, stale_issues
 from .portfolio import Portfolio
-from .strategies import trend_version
 from .reports import write_daily_note, write_excel
 from .signals import Analysis, analyse, trend_broken
+from .strategies import trend_version
 from .universe import BY_TICKER, select
 
 HISTORY_DAYS = 260

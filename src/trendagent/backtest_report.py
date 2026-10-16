@@ -6,15 +6,21 @@
 
 from __future__ import annotations
 
-from datetime import date
 from pathlib import Path
 
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill
 from openpyxl.utils import get_column_letter
 
-from .backtest import (WINDOW_DAYS, BacktestResult, per_year, summary, trade_stats,
-                       window_stats, windows)
+from .backtest import (
+    WINDOW_DAYS,
+    BacktestResult,
+    per_year,
+    summary,
+    trade_stats,
+    window_stats,
+    windows,
+)
 
 NAMES = {"AGENT": "Agent", "IWDA.AS": "MSCI World-ETF (IWDA)", "SPY": "S&P 500-ETF (SPY, in euro)"}
 

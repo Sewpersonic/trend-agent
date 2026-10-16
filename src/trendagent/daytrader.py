@@ -193,7 +193,7 @@ class DayEngine:
                 "open": {k: {**asdict(v), "t_in": v.t_in.isoformat()} for k, v in self.open.items()}}
 
     @classmethod
-    def from_dict(cls, d: dict, p: Params = Params()) -> "DayEngine":
+    def from_dict(cls, d: dict, p: Params = Params()) -> DayEngine:
         e = cls(date.fromisoformat(d["dag"]), float(d["begin"]), p)
         e.realized = float(d.get("realized", 0.0))
         e.klaar = bool(d.get("klaar"))
@@ -280,7 +280,7 @@ class DayEngine:
             ok, why, score = entry_signal(tk, done, o, avg_or_vol.get(tk), market_ok, p)
             if ok:
                 kandidaten.append((score, tk, o, why))
-        for score, tk, o, why in sorted(kandidaten, key=lambda x: -x[0]):
+        for _score, tk, o, why in sorted(kandidaten, key=lambda x: -x[0]):
             if len(self.open) >= p.max_open or len(self.res.trades) + len(self.open) >= p.max_trades:
                 break
             prijs = fill_at(tk, t)

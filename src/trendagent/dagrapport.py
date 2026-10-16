@@ -430,6 +430,7 @@ def write(state_dir: Path, reports_dir: Path, day: str) -> Path:
     tmp.replace(path)
     try:   # echte Excel-grafieken: eerst de waarde van de bots, dan elke positie (trend-agent eerst)
         import json
+
         from . import charts, excel_charts
         books = {key: _load(state_dir / fname) for _, key, fname in BOTS}
         series = {name: [(e["day"], e["equity"]) for e in books[key].get("equity_history", []) if e["day"] != "start"]

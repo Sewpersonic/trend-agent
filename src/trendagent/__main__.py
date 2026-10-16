@@ -19,7 +19,7 @@ from __future__ import annotations
 import argparse
 import json as _json
 import sys
-from datetime import date, datetime, timezone
+from datetime import datetime, timezone
 from pathlib import Path
 
 from .agent import TrendAgent
@@ -184,6 +184,7 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd == "overzicht":
         import json
+
         from . import summary
         health = s.state_dir / "health.json"
         days = []
@@ -217,7 +218,12 @@ def _backtest(s, args) -> int:
     from datetime import timedelta
     from pathlib import Path
 
-    from .backtest import HistoricalProvider, download_history, run_backtest, run_investor_backtest
+    from .backtest import (
+        HistoricalProvider,
+        download_history,
+        run_backtest,
+        run_investor_backtest,
+    )
     from .backtest_report import write_all
     from .universe import CRYPTO, UNIVERSE
 
@@ -236,9 +242,8 @@ def _backtest(s, args) -> int:
             return 2
     provider = HistoricalProvider(bars, fx)
     start = today - timedelta(days=round(args.years * 365.25))
-    from functools import partial
-
     from dataclasses import replace as _replace
+    from functools import partial
 
     from .strategies import production_mix
     prod = production_mix()
@@ -310,6 +315,7 @@ def _charts_for(s, day: str, bot: str, items: list, xlsx_name: str, note_name: s
         from . import charts
         folder = charts.chart_dir(s.reports_dir, day)
         import json
+
         from . import excel_charts
         paths, datas = [], []
         for ticker, bars, title, entry, stop, cur, *extra in items:

@@ -36,7 +36,13 @@ import statistics
 from dataclasses import dataclass, field, replace
 from datetime import date
 
-from .backtest import HistoricalProvider, max_drawdown, run_backtest, run_investor_backtest, trade_stats
+from .backtest import (
+    HistoricalProvider,
+    max_drawdown,
+    run_backtest,
+    run_investor_backtest,
+    trade_stats,
+)
 from .core.config import Settings
 from .features import market_regime
 from .universe import BY_TICKER

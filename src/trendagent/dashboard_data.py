@@ -252,7 +252,7 @@ def daytrader_rows(state_dir: Path) -> list[dict]:
                      "instap": round(o["entry"], 2), "koers": round(k, 2), "stop": round(o["stop"], 2),
                      "doel": round(o["target"], 2) if o.get("target") else None, "t_in": o["t_in"],
                      "resultaat": round((k - o["entry"]) * o["qty"], 2)})
-    for i, t in enumerate(reversed(gesloten[-40:])):
+    for t in reversed(gesloten[-40:]):
         rows.append({"id": f"t-{t['dag']}-{t['ticker']}-{t['t_in']}", "soort": "trade", "dag": t["dag"], "ticker": t["ticker"],
                      "aantal": t["qty"], "instap": round(t["instap"], 2), "uitstap": round(t["uitstap"], 2),
                      "t_in": t["t_in"], "t_uit": t["t_uit"], "reden": t["reden"], "resultaat": t["resultaat"], "r": t["r"]})

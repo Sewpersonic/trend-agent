@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from dataclasses import asdict, fields
+from dataclasses import fields
 
 TREND_LABEL = "trend-1.1"
 INVESTOR_LABEL = "investeerder-1.0"

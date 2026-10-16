@@ -35,8 +35,8 @@ from .core.audit_log import AuditLog
 from .core.config import Settings
 from .core.kill_switch import KillSwitch
 from .data import Bar, DataError, DataProvider
-from .portfolio import Trade
 from .features import UNKNOWN, Regime, data_issues, market_regime, stale_issues
+from .portfolio import Trade
 from .signals import sma
 from .strategies import investor_version
 from .universe import BY_TICKER, CRYPTO, UNIVERSE
@@ -71,7 +71,7 @@ class Book:
     last_rebalance: str = ""
 
     @classmethod
-    def load(cls, path: Path, cash: float) -> "Book":
+    def load(cls, path: Path, cash: float) -> Book:
         if not path.exists():
             return cls(cash_eur=cash)
         raw = json.loads(path.read_text(encoding="utf-8"))

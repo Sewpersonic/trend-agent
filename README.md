@@ -11,6 +11,7 @@ dagnotities.
 | --- | --- | --- |
 | **Investeerder** | Lange termijn: 60% wereldwijde ETF, 30% de 5 sterkste aandelen/ETF's van het afgelopen jaar, 10% Bitcoin/Ethereum (alleen in een stijgende trend). Herverdeelt één keer per maand. | €10.000 nepgeld |
 | **Trend-agent** | Korte trends in grote Europese en Amerikaanse aandelen, maximaal 3 posities, met een stop-loss op elke positie en een heel klein risico per trade. | €10.000 nepgeld |
+| **Daytrade-bot** | Koopt en verkoopt op dezelfde dag op de Amerikaanse beurs: alleen bij een sterke uitbraak in de ochtend, met stop-loss, daglimiet en hooguit 3 aankopen per dag. Verkoopt alles om 15:45 New Yorkse tijd. Eigen boekhouding, nog geen broker. | $10.000 nepgeld |
 | **Oefenaccount** | Het demo-account van Trading 212. Volgt elke aankoop en verkoop van de trend-agent bij een echte broker. Je kunt er ook zelf kopen en verkopen. | €5.000 nepgeld (van Trading 212) |
 
 **Onderzoek over 5 jaar** (okt 2021 – okt 2026, €10.000, na kosten, gemeten op 15 okt 2026):
@@ -36,6 +37,7 @@ telefoon (daar met een menu linksboven en een opbouw zoals een beurs-app).
 | **Controles** | Bovenaan in één woord hoe de laatste ronde ging (Alles in orde / In orde / Er ging iets mis). Per bot een vaste lijst vragen ("Zijn alle koersen binnengekomen?") met ✓ goed, ! let op, ✕ fout of i informatie, en een uitleg in gewone taal; tik op een vraag voor het technische detail. Daarnaast alle trades met reden. |
 | **GitHub** | Welke runs op GitHub goed gingen en welke niet, en waarom, in gewone taal. |
 | **Oefenaccount** | De stand bij Trading 212, of het gelijkloopt met de trend-agent, de orders, en knoppen om te kopen en verkopen. |
+| **Daytrader** | De daytrade-bot: waarde, wat er nu open staat (met stop en doel), resultaat per beursdag, alle trades en wat hij in de laatste ronde deed. |
 
 Bijwerken: elke werkdag rond 07:41 alles, en tijdens beurstijden elk uur (rond :25) het oefenaccount en het
 GitHub-overzicht. Dat doen twee geplande taken van Claude die de bestanden uit `dashboard/` naar de pagina
@@ -49,9 +51,11 @@ accepteert, gaat de pagina in delen online: `python scripts/pagina_splitsen.py` 
 | --- | --- | --- |
 | Werkdagen ± 00:17 | `practice` | De ronde van beide bots met de slotkoersen van die dag, daarna het oefenaccount gelijkzetten, rapporten en dashboardcijfers maken, opslaan, en de gezondheidscontrole. |
 | Werkdagen elk uur rond :25 | `broker` (gestart door een geplande taak van Claude) | Alleen kijken in het oefenaccount (geen orders) en de volglijst bijwerken, voor een verse stand op het dashboard. |
+| Werkdagen elk kwartier tijdens de Amerikaanse beurs | `daytrade` | Eén ronde van de daytrade-bot. Buiten beurstijd stopt de run meteen. |
 | Na elke run | `status` | Zet de lijst van de laatste GitHub-runs en open voorstellen klaar voor het dashboard. |
 | Zaterdag ± 07:17 | `onderzoek` | Test varianten van de regels op 5 jaar koersen en zet een voorstel klaar als er een bewezen betere is. |
-| Na elke codewijziging | `tests`, `backtest` | Alle tests, en de backtest over 5 jaar. |
+| Na elke codewijziging | `tests` | Alle tests en een controle op fouten in de code. |
+| Als de regels van de bots veranderen | `backtest` | De backtest over 5 jaar. |
 | Met de hand | `diagnose` | Test of de koersbron werkt. |
 
 Een run die misgaat wordt rood en GitHub mailt je. Op het dashboard (tabblad **GitHub**) staat in gewone taal
@@ -84,6 +88,26 @@ wat er misging en of een latere run het weer goed deed.
 
 De kill switch gaat **alleen** weer uit als jij `resume` doet. Bijkopen in een verliezende positie, short gaan en
 hefboom bestaan niet in de code.
+
+## De daytrade-bot
+
+Oefent met $10.000 nepgeld op de Amerikaanse beurs (meestal 15:30-22:00 Nederlandse tijd) en houdt nooit iets 's nachts vast.
+
+1. Het eerste half uur kijkt hij alleen: wat is de hoogste en laagste koers (de *openingsrange*)?
+2. Daarna, tot 12:30 New Yorkse tijd, koopt hij een aandeel dat boven die hoogste koers uitbreekt, met veel meer handel dan normaal, boven de gemiddelde prijs van de dag (VWAP), terwijl de hele markt (SPY) boven de opening staat.
+3. Stop-loss op de onderkant van de openingsrange (hooguit 2% lager), winstdoel twee keer het risico.
+4. Om 15:45 verkoopt hij alles.
+
+| Rem | Standaard |
+| --- | --- |
+| Risico per aankoop | 0,5% van het vermogen |
+| Max gewicht per aandeel | 25% |
+| Max aankopen per dag / tegelijk | 3 / 2 |
+| Dagverlies 1,5% | die dag niets meer kopen |
+| Koersen te oud of verdacht | niets kopen |
+| Kill switch aan of `config/daytrader.json` "aan": false | alleen nog verkopen |
+
+De regels zijn getest op de 5-minutenkoersen van de afgelopen ~60 beursdagen (`backtest/daytrade/RAPPORT.md`; opnieuw via Actions → daytrade → `test`). Dat is te kort om iets te bewijzen; daarom oefent hij eerst in zijn eigen boekhouding. Daarna kan hij naar een oefenaccount bij een broker (Alpaca paper trading). De test en het echte oefenen gebruiken dezelfde rekenkern (`daytrader.DayEngine`), zodat ze niet van elkaar kunnen afwijken.
 
 ## Koersen uit meerdere bronnen
 
@@ -179,6 +203,8 @@ python -m trendagent overzicht              # dagoverzicht en dagrapport.xlsx
 python -m trendagent dashboard              # cijfers voor het dashboard (map dashboard/)
 python -m trendagent health                 # gezondheid van de laatste rondes
 python -m trendagent volglijst              # volglijst bekijken (alleen kijken, nooit kopen)
+python -m trendagent daytrade               # één ronde van de daytrade-bot (doet buiten beurstijd niets)
+python -m trendagent daytrade-test          # daytrade-regels testen op 5-minutenkoersen (~60 beursdagen)
 python -m trendagent kill "even stoppen"    # kill switch aan
 python -m trendagent resume                 # kill switch uit (alleen jij)
 python -m trendagent backtest --simulated   # backtest-proef zonder internet

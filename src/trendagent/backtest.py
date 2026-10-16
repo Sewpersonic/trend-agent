@@ -23,7 +23,7 @@ import math
 import statistics
 import tempfile
 from dataclasses import dataclass, field, replace
-from datetime import date, timedelta
+from datetime import date
 from pathlib import Path
 
 from .agent import TrendAgent
@@ -31,7 +31,7 @@ from .core.config import Settings
 from .core.kill_switch import HUMAN, KillSwitch
 from .data import Bar, DataError, validate_bars
 from .portfolio import Portfolio
-from .universe import BY_TICKER, CRYPTO, Instrument, UNIVERSE
+from .universe import BY_TICKER, CRYPTO, UNIVERSE, Instrument
 
 WINDOW_DAYS = 20          # "een paar weken" = 20 handelsdagen, ongeveer 4 weken
 RESUME_AFTER_DAYS = 5     # gesimuleerde mens zet de agent na 5 handelsdagen weer aan

@@ -179,7 +179,7 @@ def plan_orders(target: dict[str, dict], filled: dict[str, float], pending: dict
     return sorted(orders, key=lambda o: {"intrekken": 0, "verkoop": 1, "koop": 2}[o["actie"]])
 
 
-def _instruments(client: "T212Demo", state_dir: Path) -> list[dict]:
+def _instruments(client: T212Demo, state_dir: Path) -> list[dict]:
     """Instrumentenlijst, één keer per dag opgehaald (Trading 212 staat maar 1 verzoek per 50 seconden toe)."""
     cache = state_dir / "t212_instrumenten.json"
     try:
@@ -350,7 +350,7 @@ def find_instrument(aandeel: str):
     return hits[0] if len(hits) == 1 else None
 
 
-def manual(state_dir: Path, side: str, aandeel: str, aantal: str, client: "T212Demo | None" = None,
+def manual(state_dir: Path, side: str, aandeel: str, aantal: str, client: T212Demo | None = None,
            price_eur=None) -> dict:
     """Handmatige order in het OEFENACCOUNT, door de mens gestart (workflow 'broker').
 
@@ -369,6 +369,10 @@ def manual(state_dir: Path, side: str, aandeel: str, aantal: str, client: "T212D
     try:
         if side not in ("koop", "verkoop"):
             raise BrokerError("Kies 'handmatig kopen' of 'handmatig verkopen'.")
+        if not str(aandeel).strip():
+            raise BrokerError("Geen aandeel ingevuld. Vul bij 'aandeel' bijvoorbeeld ASML of Shell in.")
+        if not str(aantal).strip():
+            raise BrokerError("Geen aantal ingevuld. Vul bij 'aantal' in hoeveel aandelen.")
         try:
             qty = float(str(aantal).replace(",", "."))
         except ValueError:
