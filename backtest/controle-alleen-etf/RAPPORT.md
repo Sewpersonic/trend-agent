@@ -16,7 +16,7 @@ Periode **2021-10-18 t/m 2026-10-16** (ongeveer 5 jaar), startkapitaal €10.000
 | --- | --- | --- | --- | --- | --- |
 | Investeerder (alleen ETF's) | +101,5% | +15,1% | -19,4% | 1,09 | €20.127 |
 | MSCI World-ETF (IWDA) | +76,6% | +12,1% | -21,6% | 0,86 | €17.655 |
-| S&P 500-ETF (SPY, in euro) | +88,2% | +13,5% | -23,0% | 0,76 | €18.818 |
+| S&P 500-ETF (SPY, in euro) | +88,1% | +13,5% | -23,0% | 0,76 | €18.814 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
 
