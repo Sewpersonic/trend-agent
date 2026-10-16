@@ -9,6 +9,8 @@ Belangrijk: dit zijn maar ongeveer 2 maanden. Dat is te kort om iets te bewijzen
 | Variant | Rendement | Trades | Winst-% | Gem. R | Grootste daling |
 |---|---|---|---|---|---|
 | basis | +2,3% | 38 | 63% | 0,15 | -0,9% |
+| alleen als de daggrafiek van het aandeel stijgt | +0,4% | 31 | 48% | -0,054 | -1,0% |
+| niet als de daggrafiek van de markt daalt | +2,3% | 38 | 63% | 0,15 | -0,9% |
 | zonder winstdoel (alleen stop of einde dag) | +2,3% | 37 | 62% | 0,157 | -0,9% |
 | zonder marktfilter | +0,5% | 59 | 51% | 0,017 | -2,1% |
 | openingsrange 15 minuten | +2,1% | 52 | 52% | -0,016 | -1,3% |
@@ -25,5 +27,10 @@ Belangrijk: dit zijn maar ongeveer 2 maanden. Dat is te kort om iets te bewijzen
 - Winstdoel gehaald: 1
 - Verkocht aan het einde van de dag: 36
 - Dagen met minstens één trade: 22 van 49
+
+## Wat leert hij van de grafieken?
+
+- Test op oude koersen: 38 trades, 63% met winst, gemiddeld +0,15 R per trade.
+- Tijdstip van kopen (New York): bij '10:00-10:59' ging het duidelijk beter dan anders (25 trades, gemiddeld +0,27 R, +0,36 R verschil met de rest). Misschien een kans om op te letten.
 
 Gem. R: gemiddelde winst of verlies per trade, gemeten in 'risico-eenheden' (1 R = het bedrag dat hij verliest als de stop-loss geraakt wordt). Boven 0 betekent: de winsten wogen zwaarder dan de verliezen.

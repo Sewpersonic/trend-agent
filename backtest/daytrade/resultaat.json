@@ -1,5 +1,5 @@
 {
- "gemaakt": "2026-10-16T18:33:46+00:00",
+ "gemaakt": "2026-10-16T19:38:56+00:00",
  "van": "2026-08-07",
  "tot": "2026-10-15",
  "aandelen": [
@@ -37,6 +37,42 @@
  },
  "varianten": {
   "basis": {
+   "stats": {
+    "trades": 38,
+    "dagen": 49,
+    "dagen_met_trade": 22,
+    "winst_pct": 0.632,
+    "gem_r": 0.15,
+    "rendement": 0.0227,
+    "max_daling": -0.0085,
+    "profit_factor": 2.35,
+    "redenen": {
+     "stop-loss": 1,
+     "winstdoel": 1,
+     "einde van de dag": 36
+    }
+   },
+   "eind": 10227.07
+  },
+  "alleen als de daggrafiek van het aandeel stijgt": {
+   "stats": {
+    "trades": 31,
+    "dagen": 49,
+    "dagen_met_trade": 20,
+    "winst_pct": 0.484,
+    "gem_r": -0.054,
+    "rendement": 0.0038,
+    "max_daling": -0.01,
+    "profit_factor": 1.21,
+    "redenen": {
+     "stop-loss": 3,
+     "winstdoel": 0,
+     "einde van de dag": 28
+    }
+   },
+   "eind": 10037.68
+  },
+  "niet als de daggrafiek van de markt daalt": {
    "stats": {
     "trades": 38,
     "dagen": 49,
@@ -620,5 +656,213 @@
    "2026-10-15",
    10227.07
   ]
- ]
+ ],
+ "regels": {
+  "dagtrend_filter": false,
+  "markt_trend_filter": false
+ },
+ "leren": {
+  "totaal": {
+   "n": 38,
+   "gem_r": 0.15,
+   "winst_pct": 0.632,
+   "resultaat": 227.05
+  },
+  "groepen": {
+   "Daggrafiek van het aandeel": [
+    {
+     "groep": "stijgende trend",
+     "n": 20,
+     "gem_r": 0.056,
+     "winst_pct": 0.55,
+     "resultaat": 50.68
+    },
+    {
+     "groep": "geen duidelijke richting",
+     "n": 14,
+     "gem_r": 0.319,
+     "winst_pct": 0.786,
+     "resultaat": 171.88
+    },
+    {
+     "groep": "dalende trend",
+     "n": 4,
+     "gem_r": 0.027,
+     "winst_pct": 0.5,
+     "resultaat": 4.49
+    }
+   ],
+   "Plek in het bereik van 3 maanden": [
+    {
+     "groep": "midden in het bereik",
+     "n": 25,
+     "gem_r": 0.225,
+     "winst_pct": 0.64,
+     "resultaat": 204.4
+    },
+    {
+     "groep": "bij de 3-maands top",
+     "n": 10,
+     "gem_r": 0.004,
+     "winst_pct": 0.6,
+     "resultaat": 21.1
+    },
+    {
+     "groep": "onderaan het bereik",
+     "n": 3,
+     "gem_r": 0.016,
+     "winst_pct": 0.667,
+     "resultaat": 1.55
+    }
+   ],
+   "Daggrafiek van de markt (SPY)": [
+    {
+     "groep": "markt in stijgende trend",
+     "n": 36,
+     "gem_r": 0.188,
+     "winst_pct": 0.667,
+     "resultaat": 256.24
+    },
+    {
+     "groep": "markt zonder richting",
+     "n": 2,
+     "gem_r": -0.537,
+     "winst_pct": 0.0,
+     "resultaat": -29.19
+    }
+   ],
+   "Tijdstip van kopen (New York)": [
+    {
+     "groep": "10:00-10:59",
+     "n": 25,
+     "gem_r": 0.273,
+     "winst_pct": 0.72,
+     "resultaat": 260.87
+    },
+    {
+     "groep": "11:00-11:59",
+     "n": 12,
+     "gem_r": -0.079,
+     "winst_pct": 0.5,
+     "resultaat": -26.29
+    },
+    {
+     "groep": "12:00-12:30",
+     "n": 1,
+     "gem_r": -0.165,
+     "winst_pct": 0.0,
+     "resultaat": -7.53
+    }
+   ],
+   "Extra handel in het eerste half uur": [
+    {
+     "groep": "1,2-1,5x",
+     "n": 21,
+     "gem_r": 0.153,
+     "winst_pct": 0.667,
+     "resultaat": 129.48
+    },
+    {
+     "groep": "1,5-2,5x",
+     "n": 15,
+     "gem_r": 0.133,
+     "winst_pct": 0.533,
+     "resultaat": 76.96
+    },
+    {
+     "groep": "meer dan 2,5x",
+     "n": 2,
+     "gem_r": 0.242,
+     "winst_pct": 1.0,
+     "resultaat": 20.61
+    }
+   ],
+   "Breedte van de openingsrange": [
+    {
+     "groep": "smal (<1%)",
+     "n": 14,
+     "gem_r": 0.098,
+     "winst_pct": 0.571,
+     "resultaat": 49.96
+    },
+    {
+     "groep": "normaal (1-2%)",
+     "n": 13,
+     "gem_r": 0.141,
+     "winst_pct": 0.692,
+     "resultaat": 85.13
+    },
+    {
+     "groep": "breed (>2%)",
+     "n": 11,
+     "gem_r": 0.227,
+     "winst_pct": 0.636,
+     "resultaat": 91.96
+    }
+   ],
+   "Opening t.o.v. gisteren": [
+    {
+     "groep": "lager geopend",
+     "n": 14,
+     "gem_r": 0.281,
+     "winst_pct": 0.714,
+     "resultaat": 124.65
+    },
+    {
+     "groep": "hoger geopend",
+     "n": 13,
+     "gem_r": 0.154,
+     "winst_pct": 0.769,
+     "resultaat": 86.55
+    },
+    {
+     "groep": "rond gisteren",
+     "n": 9,
+     "gem_r": -0.062,
+     "winst_pct": 0.333,
+     "resultaat": 8.11
+    },
+    {
+     "groep": "veel hoger geopend (>2%)",
+     "n": 2,
+     "gem_r": 0.162,
+     "winst_pct": 0.5,
+     "resultaat": 7.74
+    }
+   ],
+   "Markt op het moment van kopen": [
+    {
+     "groep": "licht hoger (<0,3%)",
+     "n": 35,
+     "gem_r": 0.15,
+     "winst_pct": 0.629,
+     "resultaat": 213.5
+    },
+    {
+     "groep": "hoger (0,3-0,8%)",
+     "n": 3,
+     "gem_r": 0.151,
+     "winst_pct": 0.667,
+     "resultaat": 13.55
+    }
+   ]
+  },
+  "lessen": [
+   {
+    "kenmerk": "Tijdstip van kopen (New York)",
+    "groep": "10:00-10:59",
+    "soort": "beter",
+    "n": 25,
+    "gem_r": 0.273,
+    "verschil_r": 0.359,
+    "t": 2.1,
+    "tekst": "Tijdstip van kopen (New York): bij '10:00-10:59' ging het duidelijk beter dan anders (25 trades, gemiddeld +0,27 R, +0,36 R verschil met de rest). Misschien een kans om op te letten."
+   }
+  ]
+ },
+ "lessen": [
+  "Test op oude koersen: 38 trades, 63% met winst, gemiddeld +0,15 R per trade.",
+  "Tijdstip van kopen (New York): bij '10:00-10:59' ging het duidelijk beter dan anders (25 trades, gemiddeld +0,27 R, +0,36 R verschil met de rest). Misschien een kans om op te letten."
+ ],
+ "voorstel": null
 }
