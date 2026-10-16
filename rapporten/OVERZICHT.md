@@ -1,4 +1,4 @@
-# Dagoverzicht 2026-10-14
+# Dagoverzicht 2026-10-15
 
 _Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies._
 
@@ -6,8 +6,8 @@ _Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies._
 
 | Bot | Waarde | Vandaag | Sinds start | Tegenover wereld-ETF |
 | --- | --- | --- | --- | --- |
-| Investeerder | €9.799,15 | €-186,47 (-1,87%) | -2,01% | -1,50% (ETF -0,36% sinds 2026-10-13) |
-| Trend-agent | €10.024,11 | €9,69 (+0,10%) | +0,24% | +0,46% (ETF -0,36% sinds 2026-10-13) |
+| Investeerder | €9.700,37 | €-98,78 (-1,01%) | -3,00% | -1,77% (ETF -1,09% sinds 2026-10-13) |
+| Trend-agent | €10.038,89 | €14,78 (+0,15%) | +0,39% | +1,33% (ETF -1,09% sinds 2026-10-13) |
 
 ## Vandaag gedaan
 
@@ -18,23 +18,22 @@ _Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies._
 **Investeerder**
 
 - De markt stijgt: de kern (wereld-ETF) doet zijn werk, de sterkste aandelen lopen mee.
-- Uit de top gevallen: ASML.AS, IFX.DE, SMH. Blijft dat zo, dan worden ze bij de volgende herverdeling (eerste handelsdag van 2026-11) vervangen door CRWD, PANW, INGA.AS.
+- Uit de top gevallen: ASML.AS, IFX.DE. Blijft dat zo, dan worden ze bij de volgende herverdeling (eerste handelsdag van 2026-11) vervangen door CRWD, PANW.
 
 **Trend-agent**
 
 - De markt stijgt breed: goede omstandigheden voor trendvolgen.
 - De markt is rustig: stops liggen dichterbij, posities kunnen iets groter.
-- Amerika staat er duidelijk beter voor dan Europa (81% tegen 57% in een stijgende trend).
-- 3 van de 5 sterkste staan al ver boven hun gemiddelde (SHELL.AS, WKL.AS, XOM): de trend is sterk, maar instappen op zo'n moment kost vaker een terugval.
+- Amerika staat er duidelijk beter voor dan Europa (81% tegen 52% in een stijgende trend).
 - Alle plekken zijn bezet, dus de bot koopt niets bij, hoe sterk een trend ook is.
 
 ## Verlies en risico
 
-- Trend-agent SHELL.AS: €17,71 (+3,0%), +6,2% boven de stop; raakt hij de stop, dan €18,68 verlies.
-- Trend-agent SAP.DE: €11,77 (+3,1%), +9,0% boven de stop; raakt hij de stop, dan €21,72 verlies.
-- Trend-agent MSFT: -€2,38 (-0,3%), +4,7% boven de stop; raakt hij de stop, dan €24,57 verlies.
-- Trend-agent remmen: -0,0% vanaf de top (grens -5%), 0 van 3 verliestrades op rij.
-- Investeerder: -€200,86 op de beleggingen; grootste verlies MU -€49,12 (-8,2%).
+- Trend-agent SHELL.AS: €18,36 (+3,1%), +6,2% boven de stop; raakt hij de stop, dan €17,72 verlies.
+- Trend-agent SAP.DE: €20,29 (+5,3%), +9,2% boven de stop; raakt hij de stop, dan €14,87 verlies.
+- Trend-agent MSFT: €3,24 (+0,8%), +5,8% boven de stop; raakt hij de stop, dan €24,01 verlies.
+- Trend-agent remmen: +0,0% vanaf de top (grens -5%), 0 van 3 verliestrades op rij.
+- Investeerder: -€299,63 op de beleggingen; grootste verlies IFX.DE -€67,62 (-11,3%).
 
 ## Beste kansen volgens de trend-agent
 
@@ -42,35 +41,36 @@ _Wat de oefenbot met nepgeld zou doen; geen advies. Uitleg per ticker in het tre
 
 | Ticker | Instapmoment | Plan van de bot | Max verlies | Status |
 | --- | --- | --- | --- | --- |
-| Shell (SHELL.AS) | opgelopen | 13 x rond 46.44 EUR, stop 44.63 | €25,59 | al in bezit |
-| SAP (SAP.DE) | neutraal | 2 x rond 197.54 EUR, stop 186.71 | €23,66 | al in bezit |
-| Energie-ETF (XLE) | neutraal | 11 x rond 67.66 USD, stop 65.22 | €25,95 | niet gekocht: alle 3 plekken zijn bezet |
-| Wolters Kluwer (WKL.AS) | opgelopen | 5 x rond 78.18 EUR, stop 73.76 | €24,10 | niet gekocht: alle 3 plekken zijn bezet |
-| ExxonMobil (XOM) | opgelopen | 4 x rond 177.10 USD, stop 170.67 | €24,89 | niet gekocht: alle 3 plekken zijn bezet |
+| Shell (SHELL.AS) | opgelopen | 13 x rond 46.49 EUR, stop 44.69 | €25,39 | al in bezit |
+| Wolters Kluwer (WKL.AS) | opgelopen | 5 x rond 81.20 EUR, stop 76.44 | €25,80 | niet gekocht: alle 3 plekken zijn bezet |
+| SAP (SAP.DE) | neutraal | 2 x rond 201.80 EUR, stop 190.42 | €24,77 | al in bezit |
+| Microsoft (MSFT) | neutraal | 1 x rond 539.60 USD, stop 516.89 | €22,25 | al in bezit |
+| ExxonMobil (XOM) | neutraal | 4 x rond 174.74 USD, stop 167.92 | €26,31 | niet gekocht: alle 3 plekken zijn bezet |
 
 ## Wat de grafieken laten zien
 
-- 7 van de 11 grafieken staan in een stijgende trend, 0 in een dalende, 4 zonder duidelijke richting.
-- Sterkste van de laatste maand: AMD (+13,2%); zwakste: Ethereum (-9,9%).
-- Afgelopen week: 4 van de 11 gestegen, gemiddeld -3,8%.
+- 6 van de 11 grafieken staan in een stijgende trend, 0 in een dalende, 5 zonder duidelijke richting.
+- Sterkste van de laatste maand: Shell (+11,1%); zwakste: Ethereum (-9,9%).
+- Afgelopen week: 3 van de 11 gestegen, gemiddeld -3,3%.
 - Op of vlak bij hun hoogste punt van 3 maanden: Microsoft, SAP, Shell, iShares MSCI World.
-- Terugval binnen een stijgende trend: AMD, ASML.
-- Net onder het 50-daags gemiddelde gezakt (voor de trend-agent een verkoopsignaal): ASML, Infineon, Micron, Halfgeleider-ETF.
+- Op of vlak bij hun laagste punt van 3 maanden: Infineon.
+- Terugval binnen een stijgende trend: AMD.
+- Net onder het 50-daags gemiddelde gezakt (voor de trend-agent een verkoopsignaal): ASML, Micron, Halfgeleider-ETF.
 - Dit beschrijft wat er gebeurd is; het voorspelt niet wat de koersen morgen doen.
 
 | Aandeel | Trend | Week | Maand | 3 maanden | Opvallend |
 | --- | --- | --- | --- | --- | --- |
-| Microsoft (MSFT) | stijgend | +0,7% | +7,4% | +35,1% | nieuwe 3-maands top · 50-daags gemiddelde kruiste omhoog door het 200-daagse op 28 aug |
-| SAP (SAP.DE) | stijgend | +5,2% | +5,5% | +43,5% | nieuwe 3-maands top · 50-daags gemiddelde kruiste omhoog door het 200-daagse op 14 sep · 4 dagen op rij gestegen |
-| Shell (SHELL.AS) | stijgend | +7,3% | +8,7% | +25,9% | nieuwe 3-maands top · 10 dagen op rij gestegen · 9 van de laatste 10 dagen groen |
-| AMD (AMD) | stijgend | -11,6% | +13,2% | +7,9% | terugval binnen een stijgende trend |
-| ASML (ASML.AS) | stijgend | -4,7% | +11,3% | -3,9% | net onder het 50-daags gemiddelde gezakt · net boven het 50-daags gemiddelde gestegen · terugval binnen een stijgende trend |
+| Microsoft (MSFT) | stijgend | +3,2% | +10,0% | +34,7% | nieuwe 3-maands top · 50-daags gemiddelde kruiste omhoog door het 200-daagse op 28 aug · veel handel op de laatste dag (3,1x normaal) |
+| SAP (SAP.DE) | stijgend | +9,2% | +8,1% | +46,2% | nieuwe 3-maands top · 50-daags gemiddelde kruiste omhoog door het 200-daagse op 14 sep |
+| Shell (SHELL.AS) | stijgend | +3,8% | +11,1% | +23,4% | nieuwe 3-maands top · 11 dagen op rij gestegen · 9 van de laatste 10 dagen groen |
+| AMD (AMD) | stijgend | -9,4% | +9,7% | +12,2% | terugval binnen een stijgende trend · veel handel op de laatste dag (2,6x normaal) |
+| ASML (ASML.AS) | zijwaarts | -10,3% | +4,8% | -4,7% | net onder het 50-daags gemiddelde gezakt · net boven het 50-daags gemiddelde gestegen · net onder het 50-daags gemiddelde gezakt · grote beweging op de laatste dag (-4,3%) |
 | Bitcoin (BTC-USD) | stijgend | -1,2% | -3,3% | +28,3% | 50-daags gemiddelde kruiste omhoog door het 200-daagse op 8 sep |
 | Ethereum (ETH-USD) | zijwaarts | -2,7% | -9,9% | +28,5% | 50-daags gemiddelde kruiste omhoog door het 200-daagse op 31 aug · beweegt de laatste 2 weken veel meer dan daarvoor |
-| Infineon (IFX.DE) | zijwaarts | -9,7% | +1,3% | -14,9% | net onder het 50-daags gemiddelde gezakt · 6 dagen op rij gedaald |
-| iShares MSCI World (IWDA.AS) | stijgend | +0,2% | +4,8% | +4,4% | nieuwe 3-maands top |
-| Micron (MU) | zijwaarts | -16,0% | -1,4% | +1,1% | net onder het 50-daags gemiddelde gezakt · 5 dagen op rij gedaald |
-| Halfgeleider-ETF (SMH) | zijwaarts | -9,7% | +4,2% | -4,4% | net onder het 50-daags gemiddelde gezakt · 7 dagen op rij gedaald · grote beweging op de laatste dag (-4,0%) · veel handel op de laatste dag (1,9x normaal) |
+| Infineon (IFX.DE) | zijwaarts | -11,1% | -4,8% | -17,8% | nieuwe 3-maands bodem · 7 dagen op rij gedaald |
+| iShares MSCI World (IWDA.AS) | stijgend | -0,1% | +3,4% | +4,8% | nieuwe 3-maands top |
+| Micron (MU) | zijwaarts | -10,1% | +0,5% | +9,2% | net onder het 50-daags gemiddelde gezakt · veel handel op de laatste dag (2,3x normaal) |
+| Halfgeleider-ETF (SMH) | zijwaarts | -8,0% | +2,4% | -1,8% | net onder het 50-daags gemiddelde gezakt · 8 dagen op rij gedaald · veel handel op de laatste dag (7,7x normaal) |
 
 ## Klaar voor echt geld?
 
@@ -80,16 +80,16 @@ _Eerst bewijzen, dan pas een oefenaccount bij een echte broker, dan een klein be
 
 | Eis | Stand | Nu |
 | --- | --- | --- |
-| Oefentijd | ⏳ | 2 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -1,50% |
-| Daling niet veel dieper dan de ETF | ✅ | bot -2,01%, ETF -0,36% |
+| Oefentijd | ⏳ | 3 van 63 handelsdagen (ongeveer 3 maanden) |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -1,77% |
+| Daling niet veel dieper dan de ETF | ✅ | bot -3,00%, ETF -1,09% |
 
 **Trend-agent:** Nog niet klaar: de bot is nog bezig met bewijzen. Blijven oefenen.
 
 | Eis | Stand | Nu |
 | --- | --- | --- |
-| Oefentijd | ⏳ | 3 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe +0,46% |
+| Oefentijd | ⏳ | 4 van 63 handelsdagen (ongeveer 3 maanden) |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe +1,33% |
 | Grootste daling onder 5% | ✅ | grootste daling tot nu toe -0,04% |
 | Genoeg afgesloten trades | ⏳ | 0 van 20 |
 
@@ -100,10 +100,10 @@ _Eerst bewijzen, dan pas een oefenaccount bij een echte broker, dan een klein be
 - Trend-agent: status **OK**, 50 van 50 koersen opgehaald, marktregime stijgend-laag.
 - Koersbronnen: 0 bevestigd door twee bronnen, 50 uit één bron, 0 afwijkend. Wisselkoers: bevestigd. Tweede bron overgeslagen na herhaalde fouten (GOOGL: Stooq gaf geen koersen ('<!DOCTYPE html><html><head><meta charset')).
 
-_GitHub startte deze ronde 10 uur later dan gepland. De koersen zijn die van de slotkoers van deze handelsdag; de vertraging verandert daar niets aan._
+_GitHub startte deze ronde 2 uur later dan gepland. De koersen zijn die van de slotkoers van deze handelsdag; de vertraging verandert daar niets aan._
 
 ## Details
 
-- Investeerder: [2026-10-14-investeerder.md](2026-10-14-investeerder.md)
-- Trend-agent: [2026-10-14.md](2026-10-14.md)
+- Investeerder: [2026-10-15-investeerder.md](2026-10-15-investeerder.md)
+- Trend-agent: [2026-10-15.md](2026-10-15.md)
 - Excel: `investeerder.xlsx` en `trend-agent.xlsx` (met tabblad Grafieken)
