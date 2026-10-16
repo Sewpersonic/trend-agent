@@ -1,0 +1,91 @@
+import unittest
+from datetime import date, datetime, timedelta
+
+from trendagent import daytrader as dt
+from trendagent.daytrade_test import baselines, drop_unfinished_day, rapport, run
+
+
+def day_bars(d: date, prices, vols=None):
+    """78 blokken van 5 minuten vanaf 9:30; prices = lijst slotkoersen (wordt aangevuld met de laatste)."""
+    prices = list(prices) + [prices[-1]] * (78 - len(prices))
+    vols = list(vols or [1000] * 78) + [1000] * (78 - len(vols or [1000] * 78))
+    out, prev = [], prices[0]
+    for i, c in enumerate(prices[:78]):
+        t = datetime.combine(d, dt.OPEN) + timedelta(minutes=5 * i)
+        o = prev
+        out.append(dt.Bar5(t, o, max(o, c) * 1.001, min(o, c) * 0.999, c, vols[i]))
+        prev = c
+    return out
+
+
+def flat_days(start: date, n: int, price=100.0):
+    days, d = [], start
+    while len(days) < n:
+        if d.weekday() < 5:
+            days.append(d)
+        d += timedelta(days=1)
+    return days
+
+
+class DaytraderTest(unittest.TestCase):
+    def setUp(self):
+        self.days = flat_days(date(2026, 8, 3), 12)
+        self.data = {"SPY": [], "AAA": []}
+        for d in self.days[:-1]:
+            self.data["SPY"] += day_bars(d, [500.0] * 78)
+            self.data["AAA"] += day_bars(d, [100.0] * 78)
+        last = self.days[-1]
+        # markt stijgt licht; AAA: rustige range rond 100, dan uitbraak met veel volume en verder omhoog
+        self.data["SPY"] += day_bars(last, [500 + 0.05 * i for i in range(78)])
+        aaa = [100.0, 100.4, 99.8, 100.2, 100.1, 100.3] + [100.6 + 0.08 * i for i in range(72)]
+        self.data["AAA"] += day_bars(last, aaa, [5000] * 6 + [3000] * 72)
+
+    def test_breakout_trade_and_flat_at_close(self):
+        r = dt.backtest(self.data, dt.Params(rvol_days=10))
+        trades = r["trades"]
+        self.assertTrue(trades, "verwacht minstens één trade op de uitbraakdag")
+        t = trades[0]
+        self.assertEqual(t["ticker"], "AAA")
+        self.assertGreaterEqual(t["t_in"], "10:00")
+        self.assertLessEqual(t["t_in"], "12:30")
+        # nooit iets mee de nacht in: elke trade is dezelfde dag gesloten
+        self.assertTrue(all(x["t_uit"] <= "16:00" for x in trades))
+        self.assertIn(t["reden"], ("winstdoel", "einde van de dag"))
+        self.assertGreater(t["resultaat"], 0)
+
+    def test_no_trade_when_market_down(self):
+        last = self.days[-1]
+        self.data["SPY"] = [b for b in self.data["SPY"] if b.t.date() != last] + day_bars(last, [500 - 0.1 * i for i in range(78)])
+        r = dt.backtest(self.data, dt.Params(rvol_days=10))
+        self.assertEqual(r["trades"], [])
+        r2 = dt.backtest(self.data, dt.Params(rvol_days=10, market_filter=False))
+        self.assertTrue(r2["trades"])
+
+    def test_stop_loss_hit(self):
+        last = self.days[-1]
+        aaa = [100.0, 100.4, 99.8, 100.2, 100.1, 100.3, 100.6, 100.7, 100.8] + [98.0] * 69
+        self.data["AAA"] = [b for b in self.data["AAA"] if b.t.date() != last] + day_bars(last, aaa, [5000] * 6 + [3000] * 72)
+        r = dt.backtest(self.data, dt.Params(rvol_days=10))
+        t = r["trades"][0]
+        self.assertEqual(t["reden"], "stop-loss")
+        self.assertAlmostEqual(t["r"], -1.0, delta=0.15)
+
+    def test_sizing_limits(self):
+        p = dt.Params()
+        q = dt.size(10_000, 100.0, 99.0, p)   # risico 50 / 1 = 50, maar max 25% = 25 stuks
+        self.assertEqual(q, 25)
+        self.assertEqual(dt.size(10_000, 100.0, 100.0, p), 0)
+
+    def test_unfinished_day_dropped_and_report(self):
+        bs = self.data["SPY"][:-10]
+        self.assertNotEqual(drop_unfinished_day(bs)[-1].t.date(), bs[-1].t.date())
+        with __import__("tempfile").TemporaryDirectory() as d:
+            from pathlib import Path
+            s = run(Path(d), data=self.data)
+            self.assertIn("basis", s["varianten"])
+            self.assertIn("Test daytrade-bot", (Path(d) / "RAPPORT.md").read_text())
+        self.assertIn("spy_vasthouden", baselines(self.data, self.days[0].isoformat()))
+
+
+if __name__ == "__main__":
+    unittest.main()

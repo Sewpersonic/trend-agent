@@ -1,0 +1,38 @@
+# Daytrade-bot (alleen nepgeld). Nu nog alleen de test op oude koersen per 5 minuten.
+#   test = de regels naspelen op de afgelopen ~60 beursdagen; resultaten in backtest/daytrade/
+name: daytrade
+
+on:
+  workflow_dispatch:
+    inputs:
+      actie:
+        description: "Wat wil je doen?"
+        type: choice
+        options: ["test"]
+        default: "test"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daytrade
+  cancel-in-progress: false
+
+jobs:
+  daytrade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PAPER_TRADING: "true"
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install -e .
+      - name: Test op 5-minutenkoersen
+        run: |
+          python -m trendagent daytrade-test
+          cat backtest/daytrade/RAPPORT.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Resultaten opslaan
+        run: bash scripts/opslaan.sh "Daytrade-test $(date -u +%F)" backtest/daytrade/

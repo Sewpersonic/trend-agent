@@ -9,6 +9,7 @@
   python -m trendagent backtest --simulated   idem op verzonnen koersen (zonder internet)
   python -m trendagent invest            één ronde van de investeerder
   python -m trendagent onderzoek         varianten testen + leerrapport (schrijft alleen naar onderzoek/)
+  python -m trendagent daytrade-test     daytrade-bot testen op 5-minutenkoersen (~60 beursdagen)
   python -m trendagent health --check    controle na de dagelijkse ronde; foutcode als er iets mis is
 """
 
@@ -65,6 +66,7 @@ def main(argv: list[str] | None = None) -> int:
     br.add_argument("--live", action="store_true", help="alleen kijken voor het dashboard; schrijft state/broker_live.json, verandert niets anders")
     vl = sub.add_parser("volglijst", help="extra beleggingen bekijken (alleen kijken, nooit kopen); schrijft dashboard/volglijst.json")
     vl.add_argument("--simulated", action="store_true")
+    sub.add_parser("daytrade-test", help="daytrade-bot testen op de 5-minutenkoersen van de afgelopen ~60 beursdagen")
     hc = sub.add_parser("health", help="gezondheid van de laatste rondes tonen")
     hc.add_argument("--check", action="store_true", help="foutcode 1 als er iets mis is")
     args = parser.parse_args(argv)
@@ -72,6 +74,12 @@ def main(argv: list[str] | None = None) -> int:
     s = load_settings()
     ks = KillSwitch(s.state_dir / "kill_switch.json")
 
+    if args.cmd == "daytrade-test":
+        from .daytrade_test import run as _dtt
+        r = _dtt()
+        b = r["varianten"]["basis"]["stats"]
+        print(f"Daytrade-test {r['van']} t/m {r['tot']}: {b['trades']} trades, rendement {b['rendement']:+.2%}")
+        return 0
     if args.cmd == "broker":
         from . import broker_t212
         if args.handmatig:
