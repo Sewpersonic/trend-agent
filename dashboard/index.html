@@ -592,6 +592,7 @@
       </div>
       <div class="vv-wrap">
         <button class="tx-chipday vv-btn" id="ververst" type="button" aria-expanded="false" data-source="ververst">Ververst —</button>
+        <button class="vv-nu" id="vv-nu" type="button" aria-label="Nu verversen" title="Nu verversen"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Ververs</span></button>
         <span class="tx-chipday" id="lastday" data-source="stand">laatste handelsdag —</span>
         <div class="vv-pop" id="vv-pop" hidden></div>
       </div>
@@ -3245,6 +3246,14 @@ dash.calc('onderzoek_verschil', {
 .vv-btn:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
 .vv-pop { position: absolute; top: calc(100% + 6px); right: 0; z-index: 30; min-width: 270px; background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 14px; padding: 10px 14px; box-shadow: 0 8px 24px rgba(0,0,0,.14); display: grid; gap: 2px; }
 .vv-pop[hidden] { display: none; }
+.vv-nu { all: unset; box-sizing: border-box; cursor: pointer; font-size: var(--cds-font-size-caption); border-radius: 999px; padding: 6px 12px; white-space: nowrap; border: 1px solid var(--color-border-line); color: var(--color-fg); display: inline-flex; align-items: center; gap: 6px; }
+.vv-nu:hover { background: color-mix(in srgb, var(--color-fg) 6%, transparent); }
+.vv-nu:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
+.vv-nu[disabled] { cursor: default; opacity: .8; }
+.vv-nu.bezig svg { animation: vv-draai .9s linear infinite; }
+.vv-nu.klaar { border-color: var(--tx-up); }
+@keyframes vv-draai { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .vv-nu.bezig svg { animation: none; } }
 .vv-row { display: flex; justify-content: space-between; gap: 14px; font-size: 14px; padding: 6px 0; border-top: 1px solid var(--color-border-line); }
 .vv-row:first-of-type { border-top: 0; }
 .vv-row span { color: var(--color-fg-muted); } .vv-row b { font-weight: var(--cds-font-weight-medium); white-space: nowrap; }
@@ -3287,6 +3296,30 @@ dash.calc('onderzoek_verschil', {
       const r = el('div', { class: 'vv-row', 'data-source': 'ververst', 'data-field': 'tijd', 'data-where': 'id=' + k }); r.append(el('span', {}, by[k].wat), el('b', {}, wanneer(by[k].tijd))); return r; });
     pop.replaceChildren(...lijst, el('p', {}, 'Het oefenaccount en de volglijst worden op werkdagen elk uur ververst (rond :25), de rest elke ochtend rond 07:41 na de nachtelijke ronde.' + (oud ? ' Let op: al meer dan een dag niet ververst.' : '')));
   }
-  dash.onData(() => { try { draw(); } catch (e) { console.log('ERR ververst', e.message); } });
+  // Ververs-knop: haalt de nieuwste gegevens op die er zijn. Laat de bots zelf niet draaien.
+  const nu = document.getElementById('vv-nu'), label = nu.querySelector('span');
+  const IDS = ['stand', 'waarde', 'posities', 'remmen', 'analyse', 'oogopslag', 'kansen', 'klaar', 'koersen', 'trades',
+    'controles', 'patronen', 'patronen_samenvatting', 'onderzoek', 'onderzoek_samenvatting', 'github', 'broker', 'weken',
+    'gereed', 'volglijst', 'checks', 'ververst'];
+  let bezig = false, sinds = 0, terug = null;
+  const zet = (k, t) => { nu.className = 'vv-nu' + (k ? ' ' + k : ''); label.textContent = t; nu.disabled = k === 'bezig'; };
+  nu.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (bezig) return;
+    bezig = true; sinds = Date.now(); clearTimeout(terug); zet('bezig', 'Bezig…');
+    IDS.forEach((id) => { try { dash.refresh(id); } catch (err) { console.log('ERR refresh', id, err.message); } });
+    setTimeout(klaar, 20000);  // nooit blijven draaien
+  });
+  function klaar() {
+    if (!bezig) return;
+    bezig = false; zet('klaar', 'Bijgewerkt');
+    terug = setTimeout(() => zet('', 'Ververs'), 2500);
+  }
+  function check() {
+    if (!bezig || Date.now() - sinds < 600) return;
+    if (!IDS.some((id) => { const d = dash.data(id); return d.refreshing || d.status === 'loading'; })) klaar();
+  }
+  dash.onData(() => { try { draw(); check(); } catch (e) { console.log('ERR ververst', e.message); } });
+  setInterval(check, 500);
 })();
 </script>
