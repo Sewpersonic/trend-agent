@@ -60,6 +60,9 @@ class Params:
     use_target: bool = True
     rvol_days: int = 10
     market: str = "SPY"
+    # Regels uit de grafiekanalyse (standaard uit; alleen aan na onderzoek en jouw ja):
+    dagtrend_filter: bool = False      # alleen kopen als de daggrafiek van het aandeel stijgt (slot > 50d > 200d)
+    markt_trend_filter: bool = False   # niet kopen als de daggrafiek van de markt (SPY) daalt
 
 
 @dataclass
@@ -81,6 +84,7 @@ class Pos:
     target: float | None
     t_in: datetime
     risk: float
+    ctx: dict = field(default_factory=dict)   # hoe de situatie eruitzag bij het kopen (om van te leren)
 
 
 @dataclass
@@ -95,6 +99,7 @@ class DayTrade:
     reden: str
     resultaat: float      # in valuta van de boekhouding, na slippage
     r: float              # resultaat in risico-eenheden
+    ctx: dict = field(default_factory=dict)
 
 
 @dataclass
@@ -211,12 +216,12 @@ class DayEngine:
         self.realized += pnl
         self.res.trades.append(DayTrade(self.res.dag, pos.ticker, pos.qty, round(pos.entry, 4), round(fill, 4),
                                         pos.t_in.strftime("%H:%M"), when.strftime("%H:%M"), why, round(pnl, 2),
-                                        round(pnl / pos.risk, 3) if pos.risk else 0.0))
+                                        round(pnl / pos.risk, 3) if pos.risk else 0.0, dict(pos.ctx)))
         del self.open[pos.ticker]
         self.res.eind = self.res.begin + self.realized
 
     def step(self, t: datetime, day_bars: dict[str, list[Bar5]], avg_or_vol: dict[str, float],
-             fill_at=None, allow_entries: bool = True) -> list[str]:
+             fill_at=None, allow_entries: bool = True, context: dict | None = None) -> list[str]:
         """Kijkmoment t (New Yorkse tijd, zonder tijdzone). Gebruikt alleen blokken die vóór t begonnen.
         fill_at(ticker, t) -> prijs waartegen nu gekocht/verkocht wordt (test: opening van het blok op t).
         Geeft een lijst met wat er gebeurde, in gewone woorden."""
@@ -266,12 +271,17 @@ class DayEngine:
                 self.res.notities.append("daglimiet")
                 log.append("daglimiet bereikt: vandaag niets meer kopen")
             return log
+        context = context or {}
         mkt = day_bars.get(p.market) or []
         m_done = [b for b in mkt if b.t.replace(tzinfo=None) < t]
         market_ok = (not p.market_filter) or (bool(m_done) and m_done[-1].c > mkt[0].o)
+        if p.markt_trend_filter and (context.get(p.market) or {}).get("dagtrend") == "dalend":
+            market_ok = False
         kandidaten = []
         for tk, bs in day_bars.items():
             if tk in self.open or tk in self.traded:
+                continue
+            if p.dagtrend_filter and (context.get(tk) or {}).get("dagtrend") != "stijgend":
                 continue
             o = or_stats(bs, p)
             done = [b for b in bs if b.t.replace(tzinfo=None) < t]
@@ -294,14 +304,39 @@ class DayEngine:
             if q < 1:
                 continue
             target = entry + p.target_r * (entry - stop) if p.use_target else None
-            self.open[tk] = Pos(tk, q, entry, stop, target, t, (entry - stop) * q)
+            ctx = entry_context(tk, day_bars, t, o, avg_or_vol.get(tk), context, p)
+            self.open[tk] = Pos(tk, q, entry, stop, target, t, (entry - stop) * q, ctx)
             self.traded.add(tk)
             log.append(f"{tk}: gekocht ({q} stuks, {why})")
         return log
 
 
+def entry_context(tk: str, day_bars: dict[str, list[Bar5]], t: datetime, o: tuple[float, float, float],
+                  avg_vol: float | None, context: dict | None, p: Params) -> dict:
+    """Hoe de situatie eruitzag op het moment van kopen: de dag zelf en de daggrafiek (om later van te leren)."""
+    done = [b for b in day_bars.get(tk, []) if b.t.replace(tzinfo=None) < t]
+    mkt = [b for b in day_bars.get(p.market, []) if b.t.replace(tzinfo=None) < t]
+    dc = (context or {}).get(tk) or {}
+    mc = (context or {}).get(p.market) or {}
+    top, bodem, ovol = o
+    open_ = done[0].o if done else None
+    ctx = {"tijd": t.strftime("%H:%M"),
+           "rvol": round(ovol / avg_vol, 2) if avg_vol else None,
+           "or_breedte": round((top - bodem) / top, 4) if top else None,
+           "boven_range": round(done[-1].c / top - 1, 4) if done and top else None,
+           "markt_vandaag": round(mkt[-1].c / mkt[0].o - 1, 4) if mkt else None,
+           "dag_tot_nu": round(done[-1].c / open_ - 1, 4) if done and open_ else None,
+           "gap": round(open_ / dc["vorig_slot"] - 1, 4) if open_ and dc.get("vorig_slot") else None}
+    for k in ("dagtrend", "plek", "terugval", "boven_sma50"):
+        if k in dc:
+            ctx[k] = dc[k]
+    if mc.get("dagtrend"):
+        ctx["markt_dagtrend"] = mc["dagtrend"]
+    return ctx
+
+
 def simulate_day(day_bars: dict[str, list[Bar5]], avg_or_vol: dict[str, float], equity: float,
-                 p: Params = Params()) -> DayResult:
+                 p: Params = Params(), context: dict | None = None) -> DayResult:
     """Speelt één beursdag na zoals de bot hem live zou doen: alleen op kijkmomenten beslissen, met
     alleen de blokken die op dat moment al afgesloten zijn; vullen tegen de opening van het volgende blok."""
     any_bars = next((b for b in day_bars.values() if b), None)
@@ -310,7 +345,7 @@ def simulate_day(day_bars: dict[str, list[Bar5]], avg_or_vol: dict[str, float], 
     day = any_bars[0].t.date()
     e = DayEngine(day, equity, p)
     for t in check_times(day, p):
-        e.step(t, day_bars, avg_or_vol)
+        e.step(t, day_bars, avg_or_vol, context=context)
         if e.klaar:
             break
     for tk in list(e.open):  # vangnet: de data hield eerder op
@@ -346,8 +381,11 @@ def avg_or_volumes(history: dict[str, dict[date, list[Bar5]]], day: date, p: Par
     return out
 
 
-def backtest(data: dict[str, list[Bar5]], p: Params = Params(), start_equity: float = 10_000.0) -> dict:
-    """Alle dagen in de data naspelen. De eerste rvol_days dagen dienen alleen om 'normaal volume' te leren."""
+def backtest(data: dict[str, list[Bar5]], p: Params = Params(), start_equity: float = 10_000.0,
+             daily: dict | None = None) -> dict:
+    """Alle dagen in de data naspelen. De eerste rvol_days dagen dienen alleen om 'normaal volume' te leren.
+    daily: dagkoersen per aandeel (voor de daggrafiek-analyse); alleen dagen vóór de handelsdag worden gebruikt."""
+    from .daytrade_leren import dag_context
     per = {tk: split_days(bs) for tk, bs in data.items()}
     days = sorted({d for x in per.values() for d in x})
     eq = start_equity
@@ -356,7 +394,7 @@ def backtest(data: dict[str, list[Bar5]], p: Params = Params(), start_equity: fl
         day_bars = {tk: x[d] for tk, x in per.items() if d in x and len(x[d]) >= 70}
         if p.market not in day_bars:
             continue
-        r = simulate_day(day_bars, avg_or_volumes(per, d, p), eq, p)
+        r = simulate_day(day_bars, avg_or_volumes(per, d, p), eq, p, dag_context(daily, d) if daily else None)
         eq = r.eind
         trades += r.trades
         dagen.append({"dag": r.dag, "resultaat": round(r.eind - r.begin, 2), "trades": len(r.trades),

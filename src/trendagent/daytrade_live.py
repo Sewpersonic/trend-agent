@@ -66,6 +66,38 @@ def fetch(tks: list[str], period: str) -> dict[str, list[Bar5]]:
     return out
 
 
+def fetch_daily(tks: list[str]) -> dict:
+    """Dagkoersen van ongeveer een jaar (voor de daggrafiek), in één verzoek."""
+    import yfinance as yf
+
+    from .data import Bar
+    df = yf.download(tks, period="1y", interval="1d", group_by="ticker", auto_adjust=True, threads=True, progress=False)
+    out: dict = {}
+    if df is None or df.empty:
+        return out
+    for tk in tks:
+        try:
+            sub = df[tk]
+        except KeyError:
+            continue
+        bars = [Bar(idx.date(), float(r["Open"]), float(r["High"]), float(r["Low"]), float(r["Close"]), float(r["Volume"]))
+                for idx, r in sub.iterrows() if r["Close"] == r["Close"]]
+        if bars:
+            out[tk] = bars
+    return out
+
+
+# Regels die jij in config/daytrader.json onder "regels" mag aan- of uitzetten (na het onderzoek). Alles erbuiten
+# wordt genegeerd: de remmen (risico, daglimiet, aantal trades) zijn niet via dit bestand te versoepelen.
+REGELS = {"dagtrend_filter": bool, "markt_trend_filter": bool}
+
+
+def params_from(cfg: dict, base: Params = Params()) -> Params:
+    from dataclasses import replace
+    kies = {k: bool(v) for k, v in (cfg.get("regels") or {}).items() if k in REGELS and isinstance(v, bool)}
+    return replace(base, **kies) if kies else base
+
+
 def suspicious(bars: list[Bar5]) -> str | None:
     for a, b in zip(bars, bars[1:]):
         if min(b.o, b.h, b.l, b.c) <= 0:
@@ -87,17 +119,21 @@ def load(path: Path) -> dict:
 
 
 def run(state_dir: Path, config_path: Path = Path("config/daytrader.json"), now: datetime | None = None,
-        provider=None, p: Params = Params()) -> dict:
-    """Eén ronde. provider(tickers, period) -> {ticker: [Bar5]} (standaard Yahoo; in tests verzonnen koersen)."""
+        provider=None, p: Params | None = None, daily_provider=None) -> dict:
+    """Eén ronde. provider(tickers, period) -> {ticker: [Bar5]} (standaard Yahoo; in tests verzonnen koersen).
+    daily_provider(tickers) -> {ticker: [Bar]}: dagkoersen voor de daggrafiek (één keer per dag)."""
     from .core.kill_switch import KillSwitch
     path = state_dir / "daytrader.json"
     st = load(path) or {"start": START, "equity": START, "dagen": [], "trades": [], "vandaag": None}
     cfg = load(config_path)
+    p = p or params_from(cfg)
     aan = cfg.get("aan", True)
     kill = KillSwitch(state_dir / "kill_switch.json").is_active()
     now = now or datetime.now(timezone.utc)
     ny = _naive(now.astimezone(NY)) if NY else now
     today = ny.date()
+    if daily_provider is None:
+        daily_provider = fetch_daily if provider is None else (lambda _tks: {})
     provider = provider or fetch
     log: list[str] = []
     ronde = {"tijd": now.isoformat(timespec="seconds"), "ny": ny.strftime("%Y-%m-%d %H:%M"), "status": "ok", "log": log}
@@ -148,6 +184,18 @@ def run(state_dir: Path, config_path: Path = Path("config/daytrader.json"), now:
             st["vandaag"] = DayEngine(today, float(st["equity"]), p).to_dict()
             st["gem_vol"] = avg_or_volumes(per, today, p)
             st["uitgesloten"] = {}
+            # Daggrafiek van elk aandeel (zelfde regels als de patronen van de trend-agent), één keer per dag.
+            from .daytrade_leren import dag_context
+            try:
+                st["dagcontext"] = dag_context(daily_provider(tickers()), today)
+            except Exception as exc:  # noqa: BLE001 - zonder daggrafiek handelt hij gewoon, maar leert hij minder
+                st["dagcontext"] = {}
+                log.append(f"Daggrafieken niet opgehaald ({type(exc).__name__}); vandaag zonder grafiekanalyse.")
+            if (p.dagtrend_filter or p.markt_trend_filter) and not st["dagcontext"]:
+                log.append("Regel uit de grafiekanalyse staat aan, maar de daggrafieken ontbreken: vandaag niets kopen.")
+                st["geen_context"] = True
+            else:
+                st["geen_context"] = False
         e = DayEngine.from_dict(st["vandaag"], p)
         avg = st.get("gem_vol") or {}
 
@@ -173,9 +221,10 @@ def run(state_dir: Path, config_path: Path = Path("config/daytrader.json"), now:
 
         for i, t in enumerate(due):
             laatste = i == len(due) - 1
-            mag_kopen = (laatste and aan and not kill and vers and (ny - t) <= timedelta(minutes=14))
+            mag_kopen = (laatste and aan and not kill and vers and (ny - t) <= timedelta(minutes=14)
+                         and not st.get("geen_context"))
             stap = e.step(t, live_bars if mag_kopen else bars, avg, fill_at=live_price if laatste else None,
-                          allow_entries=mag_kopen)
+                          allow_entries=mag_kopen, context=st.get("dagcontext") or {})
             log += [f"{t:%H:%M} {x}" for x in stap]
             if e.klaar:
                 break

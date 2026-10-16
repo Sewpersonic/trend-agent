@@ -52,6 +52,7 @@ accepteert, gaat de pagina in delen online: `python scripts/pagina_splitsen.py` 
 | Werkdagen ± 00:17 | `practice` | De ronde van beide bots met de slotkoersen van die dag, daarna het oefenaccount gelijkzetten, rapporten en dashboardcijfers maken, opslaan, en de gezondheidscontrole. |
 | Werkdagen elk uur rond :25 | `broker` (gestart door een geplande taak van Claude) | Alleen kijken in het oefenaccount (geen orders) en de volglijst bijwerken, voor een verse stand op het dashboard. |
 | Werkdagen elk kwartier tijdens de Amerikaanse beurs | `daytrade` | Eén ronde van de daytrade-bot. Buiten beurstijd stopt de run meteen. |
+| Zaterdag ± 08:41 | `daytrade` | Onderzoek van de daytrade-bot: regels (ook uit de grafiekanalyse) opnieuw testen en lessen bijwerken. |
 | Na elke run | `status` | Zet de lijst van de laatste GitHub-runs en open voorstellen klaar voor het dashboard. |
 | Zaterdag ± 07:17 | `onderzoek` | Test varianten van de regels op 5 jaar koersen en zet een voorstel klaar als er een bewezen betere is. |
 | Na elke codewijziging | `tests` | Alle tests en een controle op fouten in de code. |
@@ -106,6 +107,8 @@ Oefent met $10.000 nepgeld op de Amerikaanse beurs (meestal 15:30-22:00 Nederlan
 | Dagverlies 1,5% | die dag niets meer kopen |
 | Koersen te oud of verdacht | niets kopen |
 | Kill switch aan of `config/daytrader.json` "aan": false | alleen nog verkopen |
+
+**Leren van de grafieken.** Elke ochtend bekijkt hij de daggrafiek van elk aandeel en van de markt, met dezelfde regels als de patronen van de trend-agent: trend (slot boven of onder het 50- en 200-daags gemiddelde), plek in het bereik van 3 maanden, terugval binnen een stijgende trend. Bij elke aankoop legt hij dat vast, samen met het tijdstip, de extra handel, de breedte van de openingsrange en of het aandeel met een gat opende (`daytrade_leren.py`). Het tabblad Daytrader laat per situatie zien hoe de trades uitpakten, en welke situaties duidelijk beter of slechter waren (alleen met genoeg trades). Elke zaterdag test het onderzoek ook regels uit de grafiekanalyse ("alleen als de daggrafiek stijgt", "niet als de markt daalt"). Werkt er een duidelijk beter, dan verschijnt een voorstel; aanzetten doe jij in `config/daytrader.json` onder `"regels"` (bijv. `{"dagtrend_filter": true}`). De bot past zijn regels nooit zelf aan, en de remmen zijn via dat bestand niet te versoepelen.
 
 De regels zijn getest op de 5-minutenkoersen van de afgelopen ~60 beursdagen (`backtest/daytrade/RAPPORT.md`; opnieuw via Actions → daytrade → `test`). Dat is te kort om iets te bewijzen; daarom oefent hij eerst in zijn eigen boekhouding. Daarna kan hij naar een oefenaccount bij een broker (Alpaca paper trading). De test en het echte oefenen gebruiken dezelfde rekenkern (`daytrader.DayEngine`), zodat ze niet van elkaar kunnen afwijken.
 

@@ -70,6 +70,8 @@ def baselines(data: dict[str, list[Bar5]], first_day: str, start: float = 10_000
 
 VARIANTEN = {
     "basis": {},
+    "alleen als de daggrafiek van het aandeel stijgt": {"dagtrend_filter": True},
+    "niet als de daggrafiek van de markt daalt": {"markt_trend_filter": True},
     "zonder winstdoel (alleen stop of einde dag)": {"use_target": False},
     "zonder marktfilter": {"market_filter": False},
     "openingsrange 15 minuten": {"or_min": 15},
@@ -77,11 +79,29 @@ VARIANTEN = {
 }
 
 
-def run(out_dir: Path = Path("backtest/daytrade"), data: dict[str, list[Bar5]] | None = None) -> dict:
-    data = data if data is not None else download()
+def download_daily(tickers=TICKERS) -> dict:
+    """Dagkoersen van ongeveer een jaar extra (voor de daggrafiek: 50- en 200-daags gemiddelde)."""
+    from .data import YahooProvider
+    from .universe import BY_TICKER
+    yp = YahooProvider()
+    out = {}
+    for tk in tickers:
+        try:
+            out[tk] = yp.history(BY_TICKER[tk], 330)
+        except Exception:  # noqa: BLE001 - zonder daggrafiek telt dit aandeel als 'onbekend'
+            continue
+    return out
+
+
+def run(out_dir: Path = Path("backtest/daytrade"), data: dict[str, list[Bar5]] | None = None,
+        daily: dict | None = None, base: Params | None = None) -> dict:
+    from .daytrade_leren import leer, samenvatting
+    if data is None:
+        data = download()
+        daily = download_daily() if daily is None else daily
     out_dir.mkdir(parents=True, exist_ok=True)
-    base = Params()
-    res = {naam: backtest(data, variant(base, **kw)) for naam, kw in VARIANTEN.items()}
+    base = base or Params()
+    res = {naam: backtest(data, variant(base, **kw), daily=daily) for naam, kw in VARIANTEN.items()}
     b = res["basis"]
     first = b["curve"][0][0] if b["curve"] else ""
     last = b["curve"][-1][0] if b["curve"] else ""
@@ -89,7 +109,12 @@ def run(out_dir: Path = Path("backtest/daytrade"), data: dict[str, list[Bar5]] |
     summary = {"gemaakt": datetime.now(timezone.utc).isoformat(timespec="seconds"), "van": first, "tot": last,
                "aandelen": sorted(data), "vergelijk": bl,
                "varianten": {k: {"stats": v["stats"], "eind": v["eind"]} for k, v in res.items()},
-               "basis_dagen": b["dagen"], "basis_curve": b["curve"]}
+               "basis_dagen": b["dagen"], "basis_curve": b["curve"],
+               "regels": {k: v for k, v in b["params"].items() if k in ("dagtrend_filter", "markt_trend_filter")}}
+    geleerd = leer(b["trades"])
+    summary["leren"] = geleerd
+    summary["lessen"] = samenvatting(geleerd, "Test op oude koersen")
+    summary["voorstel"] = voorstel(summary)
     (out_dir / "resultaat.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
     with (out_dir / "trades.csv").open("w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
@@ -99,6 +124,27 @@ def run(out_dir: Path = Path("backtest/daytrade"), data: dict[str, list[Bar5]] |
             w.writerow([t[c] for c in cols])
     (out_dir / "RAPPORT.md").write_text(rapport(summary), encoding="utf-8")
     return summary
+
+
+def voorstel(s: dict) -> dict | None:
+    """Werkt een regel uit de grafiekanalyse duidelijk beter dan de huidige regels? Dan een voorstel (jij beslist).
+    Duidelijk = hoger rendement, hogere gemiddelde R, niet veel diepere daling, en nog genoeg trades."""
+    v = s["varianten"]
+    b = v["basis"]["stats"]
+    beste = None
+    for naam in ("alleen als de daggrafiek van het aandeel stijgt", "niet als de daggrafiek van de markt daalt"):
+        x = (v.get(naam) or {}).get("stats")
+        if not x or not x["trades"] or x["gem_r"] is None or b["gem_r"] is None:
+            continue
+        if (x["trades"] >= max(15, b["trades"] * 0.5) and x["gem_r"] >= b["gem_r"] + 0.1
+                and x["rendement"] > b["rendement"] and x["max_daling"] >= b["max_daling"] - 0.01):
+            if not beste or x["gem_r"] > beste[1]["gem_r"]:
+                beste = (naam, x)
+    if not beste:
+        return None
+    return {"naam": beste[0], "gem_r": beste[1]["gem_r"], "rendement": beste[1]["rendement"], "trades": beste[1]["trades"],
+            "tekst": f"Op de oude koersen werkte '{beste[0]}' beter dan de huidige regels. Dat is nog geen bewijs "
+                     "(korte periode). Wil je het proberen? Zeg het, dan zet ik het aan; de bot doet dat nooit zelf."}
 
 
 def _p(x) -> str:
@@ -129,6 +175,8 @@ def rapport(s: dict) -> str:
           f"- Winstdoel gehaald: {b['redenen'].get('winstdoel', 0)}",
           f"- Verkocht aan het einde van de dag: {b['redenen'].get('einde van de dag', 0)}",
           f"- Dagen met minstens één trade: {b['dagen_met_trade']} van {b['dagen']}", "",
+          "## Wat leert hij van de grafieken?", ""] + [f"- {z}" for z in s.get("lessen", [])] + (
+          ["", f"**Voorstel:** {s['voorstel']['tekst']}"] if s.get("voorstel") else []) + ["",
           "Gem. R: gemiddelde winst of verlies per trade, gemeten in 'risico-eenheden' (1 R = het bedrag dat hij "
           "verliest als de stop-loss geraakt wordt). Boven 0 betekent: de winsten wogen zwaarder dan de verliezen.", ""]
     return "\n".join(L)

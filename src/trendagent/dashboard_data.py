@@ -190,12 +190,23 @@ def build(state_dir: Path, reports_dir: Path) -> dict[str, list[dict]]:
                                     for i, t in enumerate(patronen.samenvatting(prow), 1)]
     out["broker"] = broker_rows(state_dir)
     out["daytrader"] = daytrader_rows(state_dir)
+    from . import daytrade_overzicht as dto
+    dt_st, _, _ = dto.load_all(state_dir)
 
     # Per week: orders en wat de bots leerden; per bot: klaar voor echt geld of nog niet
     from . import weekoverzicht
     odir = state_dir.parent / "onderzoek" if state_dir.name == "state" else Path("onderzoek")
     out["weken"] = weekoverzicht.weken(books, out["trades"], _load(state_dir / "broker.json"), onderzoek, odir)
     out["gereed"] = weekoverzicht.gereed(books, info)
+    if dt_st:
+        out["gereed"].append(dto.gereed_row(dt_st))
+        out["klaar"] = out.get("klaar", []) + dto.klaar_rows(dt_st)
+        for w in out["weken"]:
+            if w.get("soort") == "week":
+                zin = dto.week_zin(dt_st, w["week"])
+                if zin:
+                    w["geleerd"] = (w.get("geleerd") + "\n" if w.get("geleerd") else "") + zin
+        out["weken"].append(dto.doel_row(dt_st))
 
     # Controles in gewone taal (vraag, stand, uitleg, technisch detail)
     from . import controles
@@ -203,7 +214,7 @@ def build(state_dir: Path, reports_dir: Path) -> dict[str, list[dict]]:
     live = _load(state_dir / "broker_live.json")
     if live and live.get("tijd", "") > bv.get("tijd", ""):
         bv = live
-    out["checks"] = controles.rows(health, bv, out["broker"])
+    out["checks"] = controles.rows(health, bv, out["broker"]) + dto.checks(dt_st)
 
     # Wanneer is wat ververst (voor de tijd bovenaan het dashboard)
     from datetime import datetime, timezone
@@ -259,6 +270,10 @@ def daytrader_rows(state_dir: Path) -> list[dict]:
     for d in dagen[-60:]:
         rows.append({"id": "d-" + d["dag"], "soort": "dag", "dag": d["dag"], "resultaat": d["resultaat"],
                      "waarde": d["eind"], "trades": d["trades"], "daglimiet": d.get("daglimiet", False)})
+    from . import daytrade_overzicht as dto
+    _, test, cfg = dto.load_all(state_dir)
+    rows[0]["regels"] = "; ".join(dto.actieve_regels(cfg)) or "basisregels"
+    rows += dto.extra_rows(st, test, cfg)
     return rows
 
 

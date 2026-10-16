@@ -589,7 +589,7 @@
     <div class="tx-top">
       <div>
         <h1>Trend-agent Dashboard</h1>
-        <p>Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies.</p>
+        <p>Drie oefenbots met nepgeld en een oefenaccount. Geen beleggingsadvies.</p>
       </div>
       <div class="vv-wrap">
         <button class="tx-chipday vv-btn" id="ververst" type="button" aria-expanded="false" data-source="ververst">Ververst —</button>
@@ -1059,9 +1059,9 @@ dash.calc('tickers', {
 
 dash.calc('begin_hier', {
   title: 'Begin hier: wat doen je bots?',
-  description: 'Per bot (investeerder, trend-agent en het oefenaccount bij Trading 212): wat hij nu doet, wat hij als laatste deed en wat er straks gebeurt. Gemaakt uit de stand, de trades, de korte analyse, de posities en het oefenaccount.',
-  inputs: ['stand', 'trades', 'oogopslag', 'posities', 'broker'],
-  fn: (stand, trades, oogopslag, posities, broker) => {
+  description: 'Per bot (investeerder, trend-agent, het oefenaccount bij Trading 212 en de daytrader): wat hij nu doet, wat hij als laatste deed en wat er straks gebeurt. Gemaakt uit de stand, de trades, de korte analyse, de posities, het oefenaccount en de daytrader.',
+  inputs: ['stand', 'trades', 'oogopslag', 'posities', 'broker', 'daytrader'],
+  fn: (stand, trades, oogopslag, posities, broker, daytrader) => {
     const M = ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
     const dag = (iso) => { const d = new Date(String(iso).slice(0, 10) + 'T00:00:00Z'); return d.getUTCDate() + ' ' + M[d.getUTCMonth()]; };
     const eur = (v) => (v < 0 ? '−' : '+') + '€' + Math.abs(v).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -1112,6 +1112,23 @@ dash.calc('begin_hier', {
         nu: fout ? 'De koppeling met Trading 212 gaf een fout: ' + bs.reden : 'Volgt de trend-agent bij Trading 212 met nepgeld: ' + gelijk + ' van ' + pos.length + ' aandelen staan gelijk.',
         laatst: ords.length ? dag(ords[0].tijd) + ': ' + ords.filter((o) => o.tijd === ords[0].tijd).map((o) => (o.aantal == null ? (o.actie || 'order') + ' geweigerd' + (o.reden ? ' (' + o.reden.replace(/\.$/, '') + ')' : '') : (o.aantal > 0 ? 'koop ' : 'verkoop ') + Math.abs(o.aantal) + ' ' + ((pos.find((p) => p.ticker === o.ticker) || {}).naam || o.ticker))).join(', ') + '.' : 'Nog geen orders.',
         straks: onderweg.length ? onderweg.map((p) => p.naam).join(' en ') + ' worden gekocht zodra de beurs opengaat.' : 'Doet na elke ronde van de trend-agent hetzelfde. Elk uur wordt de stand bijgewerkt.' });
+    }
+    // Daytrader
+    const dtr = (daytrader || []).filter((r) => !r.leeg);
+    const ds = dtr.find((r) => r.soort === 'stand');
+    if (ds) {
+      const usd = (v) => (v < 0 ? '−' : '+') + '$' + Math.abs(v).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      const open = dtr.filter((r) => r.soort === 'positie'), tr = dtr.filter((r) => r.soort === 'trade');
+      const fout = ds.status === 'fout';
+      const dag1 = tr.length ? tr[0].dag : '';
+      const zelfde = tr.filter((t) => t.dag === dag1);
+      out.push({ id: 'daytrader', bot: 'Daytrader', status: fout ? 'Fout' : open.length ? open.length + ' open' : ds.aan === false ? 'Uit' : 'Kijkt mee',
+        kleur: fout ? 'slecht' : open.length ? 'letop' : 'neutraal',
+        kort: open.length ? 'Heeft nu ' + open.map((p) => p.ticker).join(' en ') + '; verkoopt alles voor het slot.' : 'Koopt alleen bij een sterke uitbraak in de ochtend (Amerikaanse beurs).',
+        stand: usd(ds.sinds_start) + ' sinds de start',
+        nu: fout ? 'De laatste ronde liep vast; de volgende probeert het opnieuw.' : open.length ? 'Heeft ' + open.map((p) => p.aantal + ' ' + p.ticker).join(' en ') + ' gekocht, met een stop-loss en een winstdoel.' : 'Oefent met nepdollars op de Amerikaanse beurs en kijkt elk kwartier. Bij elke trade legt hij de daggrafiek vast om van te leren.',
+        laatst: zelfde.length ? dag(dag1) + ': ' + zelfde.length + (zelfde.length === 1 ? ' trade' : ' trades') + ', samen ' + usd(zelfde.reduce((a, t) => a + t.resultaat, 0)) + '.' : 'Nog geen trades.',
+        straks: 'Elke beursdag tussen 15:30 en 22:00 (Nederlandse tijd) elk kwartier een ronde; om 21:45 verkoopt hij alles.' });
     }
     return out;
   },
@@ -1780,7 +1797,7 @@ dash.calc('onderzoek_verschil', {
     const b = dash.data('begin_hier');
     if (b.status === 'error') { failed(list); return; }
     if (b.status !== 'ok') return;
-    const KLEUR = { 'Trend-agent': '#e8a33a', 'Investeerder': '#3b6fd8', 'Oefenaccount': '#2aa876' };
+    const KLEUR = { 'Trend-agent': '#e8a33a', 'Investeerder': '#3b6fd8', 'Oefenaccount': '#2aa876', 'Daytrader': '#9b4dca' };
     list.replaceChildren(...b.data.map((r) => {
       const w = 'id=' + r.id;
       const li = el('li', { class: 'bh-bot', id: 'bh-' + r.id });
@@ -2443,7 +2460,7 @@ dash.calc('onderzoek_verschil', {
 // Telefoon: 'Wat doen ze?' in één regel per bot, en de koersgrafiek pas tonen als je op een aandeel tikt
 (() => {
   const { el } = window.tx;
-  const KLEUR = { 'Trend-agent': '#e8a33a', 'Investeerder': '#3b6fd8', 'Oefenaccount': '#2aa876' };
+  const KLEUR = { 'Trend-agent': '#e8a33a', 'Investeerder': '#3b6fd8', 'Oefenaccount': '#2aa876', 'Daytrader': '#9b4dca' };
   const box = document.getElementById('m-bh');
   dash.onData(() => {
     const b = dash.data('begin_hier');
@@ -2672,7 +2689,7 @@ dash.calc('onderzoek_verschil', {
     });
     right.append(rs);
     // klaar voor echt geld
-    for (const bot of ['Trend-agent', 'Investeerder']) {
+    for (const bot of ['Trend-agent', 'Investeerder', 'Daytrader']) {
       const ks = klaar.filter((k) => k.bot === bot);
       if (!ks.length) continue;
       const ok = ks.filter((k) => k.stand === 'ok').length;
@@ -2824,7 +2841,7 @@ dash.calc('onderzoek_verschil', {
     const b = el('button', { class: 'gr-item ' + g.status, type: 'button', 'data-source': 'gereed', 'data-field': 'status', 'data-where': 'id=' + g.id });
     const top = el('div', { class: 'gr-top' });
     const nm = el('div', { class: 'gr-nm' }); nm.append(el('span', { class: 'n' }, g.bot));
-    nm.append(el('span', { class: 'gr-rol' }, { trend: 'korte trends', investeerder: 'lange termijn', oefenaccount: 'Trading 212, volgt de trend-agent' }[g.id] || ''));
+    nm.append(el('span', { class: 'gr-rol' }, { trend: 'korte trends', investeerder: 'lange termijn', oefenaccount: 'Trading 212, volgt de trend-agent', daytrader: 'koopt en verkoopt op dezelfde dag' }[g.id] || ''));
     top.append(nm, el('span', { class: 'gr-st ' + g.status }, ST[g.status]));
     const bh = el('div', { class: 'gr-bh' }); bh.append(el('span', {}, 'Oefentijd'), el('b', {}, g.dagen + ' / ' + g.nodig + ' dagen'));
     const bar = el('div', { class: 'gr-bar', role: 'img', 'aria-label': g.dagen + ' van ' + g.nodig + ' oefendagen' }); const f = el('span'); f.style.width = Math.max(g.voortgang * 100, 2) + '%'; bar.append(f);
@@ -2859,7 +2876,7 @@ dash.calc('onderzoek_verschil', {
     const rk = document.getElementById('gr-risico');
     const hh = el('div', { class: 'gr-head' }); hh.append(el('h2', {}, 'Klaar voor echt geld?'), el('small', {}, 'Eerst bewijzen, dan pas echt geld. Jij beslist altijd.'));
     const l2 = el('div', { class: 'gr-list' }); rows.forEach((r) => l2.append(item(r, { lang: true, geenKlik: true })));
-    rk.replaceChildren(hh, l2, el('p', { class: 'gr-uitleg' }, 'De balk is de oefentijd (63 handelsdagen, ongeveer 3 maanden). Alle eisen per bot staan hieronder. "Klaar" betekent nooit dat de bot vanzelf met echt geld gaat handelen: dat doe jij, met een klein bedrag en jouw ja per order.'));
+    rk.replaceChildren(hh, l2, el('p', { class: 'gr-uitleg' }, 'De balk is de oefentijd (63 handelsdagen, ongeveer 3 maanden; voor de daytrader 40 beursdagen). Alle eisen per bot staan hieronder. "Klaar" betekent nooit dat de bot vanzelf met echt geld gaat handelen: dat doe jij, met een klein bedrag en jouw ja per order.'));
     const br = rows.find((r) => r.id === 'oefenaccount');
     const bx = document.getElementById('gr-broker');
     if (br) { const hb = el('div', { class: 'gr-head' }); hb.append(el('h2', {}, 'Klaar voor echt geld?')); const l3 = el('div', { class: 'gr-list' }); l3.append(item(br, { lang: true })); bx.replaceChildren(hb, l3); }
@@ -2869,7 +2886,7 @@ dash.calc('onderzoek_verschil', {
   // ---------- Weekoverzicht ----------
   const lijst = (v, sep) => (Array.isArray(v) ? v : v == null || v === '' ? [] : String(v).split(sep).filter(Boolean));
   let gekozen = 'plan';
-  const icoon = (t) => (/kocht/.test(t) ? '🛒' : /sloot|trade/.test(t) && /winst/.test(t) ? '✓' : /markt/.test(t) ? '📈' : /Oefenaccount/.test(t) ? '🏦' : /Onderzoek/.test(t) ? '🔬' : /oude trades/.test(t) ? '💡' : /afgesloten trades die nodig/.test(t) ? '⏳' : '•');
+  const icoon = (t) => (/^Daytrader/.test(t) ? '⚡' : /kocht/.test(t) ? '🛒' : /sloot|trade/.test(t) && /winst/.test(t) ? '✓' : /markt/.test(t) ? '📈' : /Oefenaccount/.test(t) ? '🏦' : /Onderzoek/.test(t) ? '🔬' : /oude trades/.test(t) ? '💡' : /afgesloten trades die nodig/.test(t) ? '⏳' : '•');
   function leerplan(doelen) {
     const left = el('div', { class: 'ap-col' }), right = el('div', { class: 'ap-col' });
     const klaar = doelen.filter((d) => d.status === 'klaar').length;
@@ -3326,6 +3343,25 @@ dash.calc('onderzoek_verschil', {
 .dt-log { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: 13px; color: var(--color-fg-muted); }
 .dt-regels { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 4px; font-size: 14px; }
 .dt-pos .s b { color: var(--color-fg); font-weight: normal; }
+.dt-lessen { list-style: none; margin: 4px 0 8px; padding: 0; display: grid; gap: 8px; font-size: 14px; line-height: 1.45; }
+.dt-lessen li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; align-items: start; }
+.dt-bron { font-size: 11px; font-weight: var(--cds-font-weight-medium); padding: 2px 8px; border-radius: 999px; background: var(--tx-soft); color: var(--color-fg-muted); margin-top: 1px; }
+.dt-bron.oefenen { background: color-mix(in srgb, var(--tx-up) 14%, transparent); color: var(--tx-up); }
+.dt-voorstel { display: grid; gap: 2px; padding: 10px 12px; border-radius: 12px; background: color-mix(in srgb, var(--color-warn) 12%, transparent); font-size: 14px; margin-bottom: 8px; }
+.dt-sit { border-top: 1px solid var(--color-border-line); padding-top: 8px; margin-top: 4px; }
+.dt-sit h4 { margin: 4px 0 8px; font-size: 14px; font-weight: var(--cds-font-weight-medium); }
+.dt-kies { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.dt-kies select { font: inherit; font-size: 14px; padding: 6px 10px; border-radius: 10px; border: 1px solid var(--color-border-line); background: var(--color-panel); color: var(--color-fg); max-width: 100%; }
+.dt-tog { display: inline-flex; border: 1px solid var(--color-border-line); border-radius: 999px; overflow: hidden; }
+.dt-tog button { all: unset; cursor: pointer; font-size: 13px; padding: 6px 12px; }
+.dt-tog button[aria-pressed="true"] { background: var(--tx-soft); color: var(--tx-accent); font-weight: var(--cds-font-weight-medium); }
+.dt-tbl { width: 100%; border-collapse: collapse; font-size: 14px; }
+.dt-tbl th { text-align: left; font-weight: normal; color: var(--color-fg-muted); font-size: 12px; padding: 4px 6px; border-bottom: 1px solid var(--color-border-line); }
+.dt-tbl td { padding: 7px 6px; border-bottom: 1px solid var(--color-border-line); }
+.dt-tbl .num { text-align: right; font-variant-numeric: tabular-nums; }
+.dt-tbl .up { color: var(--tx-up); } .dt-tbl .down { color: var(--tx-down); }
+.ap-ico.grafiek { background: color-mix(in srgb, #9b4dca 14%, transparent); font-size: 16px; }
+.ap-ico.grijs { background: var(--tx-soft); color: var(--color-fg-muted); }
 </style>
 
 <script>
@@ -3446,6 +3482,62 @@ dash.calc('onderzoek_verschil', {
     if (laatste !== eerste) svg.append('text').attr('class', 'as').attr('x', w - pad.r).attr('y', h - 4).attr('text-anchor', 'end').text(D(laatste, kortF));
   }
 
+  let kenmerk = 'Daggrafiek van het aandeel', bron = '';
+  function leren(left, right, rows, st) {
+    const lessen = rows.filter((r) => r.soort === 'les'), groepen = rows.filter((r) => r.soort === 'groep');
+    const varianten = rows.filter((r) => r.soort === 'variant'), vs = rows.find((r) => r.soort === 'voorstel');
+    const onderzoek = rows.find((r) => r.soort === 'onderzoek');
+    // Wat leert hij?
+    const ws = sec('Wat leert hij van de grafieken?', st.regels ? 'nu: ' + st.regels : '');
+    ws.append(el('p', { class: 'tx-note', style: 'margin:0 0 8px' }, 'Bij elke trade legt hij vast hoe de daggrafiek eruitzag (trend, plek in het bereik van 3 maanden, de markt) en hoe het aandeel die ochtend bewoog. Zo ziet hij in welke situaties daytraden werkt. Hij past zijn regels nooit zelf aan: dat beslis jij.'));
+    if (vs) { const v = el('div', { class: 'dt-voorstel' }); v.append(el('b', {}, vs.aan ? 'Staat aan: ' + vs.naam : 'Voorstel'), el('span', {}, vs.aan ? 'Deze regel uit de grafiekanalyse gebruikt hij nu.' : vs.tekst)); ws.append(v); }
+    const ul = el('ul', { class: 'dt-lessen' });
+    lessen.forEach((l) => { const li = el('li', { 'data-source': 'daytrader', 'data-field': 'tekst', 'data-where': 'id=' + encodeURIComponent(l.id) }); li.append(el('span', { class: 'dt-bron ' + l.bron }, l.bron === 'test' ? 'Test' : 'Oefenen'), document.createTextNode(l.tekst)); ul.append(li); });
+    ws.append(ul);
+    // per situatie
+    if (groepen.length) {
+      const bronnen = [...new Set(groepen.map((g) => g.bron))];
+      const nOef = groepen.filter((g) => g.bron === 'oefenen' && g.kenmerk === kenmerk).reduce((a, g) => a + g.n, 0);
+      if (!bron || !bronnen.includes(bron)) bron = nOef >= 20 || !bronnen.includes('test') ? 'oefenen' : 'test';
+      const kenmerken = [...new Set(groepen.map((g) => g.kenmerk))];
+      if (!kenmerken.includes(kenmerk)) kenmerk = kenmerken[0];
+      const ps = el('div', { class: 'dt-sit' });
+      const kies = el('div', { class: 'dt-kies' });
+      const sel = el('select', { 'aria-label': 'Kenmerk' }); kenmerken.forEach((k) => { const o = el('option', { value: k }, k); if (k === kenmerk) o.selected = true; sel.append(o); });
+      sel.addEventListener('change', () => { kenmerk = sel.value; draw(); });
+      const tg = el('div', { class: 'dt-tog', role: 'group', 'aria-label': 'Bron' });
+      [['test', 'Test'], ['oefenen', 'Oefenen']].filter(([k]) => bronnen.includes(k)).forEach(([k, t]) => { const b = el('button', { type: 'button', 'aria-pressed': String(k === bron) }, t); b.addEventListener('click', () => { bron = k; draw(); }); tg.append(b); });
+      kies.append(sel, tg);
+      const gs = groepen.filter((g) => g.bron === bron && g.kenmerk === kenmerk).sort((a, b) => b.n - a.n);
+      const tbl = el('table', { class: 'tx-keep dt-tbl', 'data-source': 'daytrader', 'data-row-key': 'id' });
+      const th = el('thead'); const tr = el('tr');
+      [['groep', 'Situatie'], ['n', 'Trades'], ['winst_pct', 'Winst'], ['gem_r', 'Gem. R']].forEach(([f, t]) => tr.append(el('th', { 'data-field': f, class: f === 'groep' ? '' : 'num' }, t)));
+      th.append(tr); const tb = el('tbody');
+      gs.forEach((g) => { const r = el('tr', { 'data-key': g.id }); r.append(el('td', {}, g.groep), el('td', { class: 'num' }, String(g.n)), el('td', { class: 'num' }, g.winst_pct == null ? '–' : Math.round(g.winst_pct * 100) + '%'), el('td', { class: 'num ' + ud(g.gem_r || 0) }, g.gem_r == null ? '–' : (g.gem_r > 0 ? '+' : g.gem_r < 0 ? '−' : '') + Math.abs(g.gem_r).toFixed(2).replace('.', ','))); tb.append(r); });
+      tbl.append(th, tb);
+      ps.append(el('h4', {}, 'Per situatie'), kies, tbl, el('p', { class: 'tx-note', style: 'margin:6px 0 0' }, 'Gem. R: gemiddelde winst of verlies per trade in risico-eenheden (1 R = het verlies als de stop-loss geraakt wordt). Kleine groepen zeggen weinig.'));
+      ws.append(ps);
+    }
+    left.append(ws);
+    // onderzoek: regels getest
+    if (varianten.length) {
+      const os = sec('Onderzoek: welke regels werken?', onderzoek ? 'koersen ' + D(onderzoek.van, kortF) + ' – ' + D(onderzoek.tot, kortF) : '');
+      const basis = varianten.find((v) => v.naam === 'basis');
+      varianten.forEach((v) => {
+        const r = el('div', { class: 'ap-row dt-var', 'data-source': 'daytrader', 'data-where': 'id=' + encodeURIComponent(v.id) });
+        r.append(el('span', { class: 'ap-ico ' + (v.uit_grafiek ? 'grafiek' : v.huidig ? 'koop' : 'grijs'), 'aria-hidden': 'true' }, v.uit_grafiek ? '📈' : v.huidig ? '✓' : '·'));
+        const mid = el('div', { style: 'min-width:0' });
+        mid.append(el('div', { class: 'n', style: 'white-space:normal' }, v.naam === 'basis' ? 'Huidige regels' : v.naam), el('div', { class: 's' }, (v.trades || 0) + ' trades · ' + (v.winst_pct == null ? '–' : Math.round(v.winst_pct * 100) + '% winst') + ' · grootste daling ' + pctF(v.max_daling || 0) + (v.huidig ? ' · gebruikt hij nu' : '')));
+        const rt = el('div', { class: 'r' });
+        rt.append(el('span', { class: 'v ' + ud(v.rendement || 0), 'data-source': 'daytrader', 'data-field': 'rendement', 'data-where': 'id=' + encodeURIComponent(v.id) }, pctF(v.rendement || 0)));
+        if (basis && v !== basis && v.gem_r != null && basis.gem_r != null) rt.append(el('span', { class: 'c ' + ud(v.gem_r - basis.gem_r) }, (v.gem_r - basis.gem_r >= 0 ? '+' : '−') + Math.abs(v.gem_r - basis.gem_r).toFixed(2).replace('.', ',') + ' R'));
+        r.append(mid, rt); os.append(r);
+      });
+      os.append(el('p', { class: 'tx-note', style: 'margin:8px 0' }, 'Elke zaterdag opnieuw getest op de laatste ~60 beursdagen. 📈 = regel uit de grafiekanalyse. Een korte periode bewijst weinig; een regel gaat pas aan als jij dat zegt.'));
+      right.insertBefore(os, right.firstChild ? right.firstChild.nextSibling : null);
+    }
+  }
+
   function draw() {
     const box = document.getElementById('dt-app');
     const s = dash.data('daytrader');
@@ -3490,10 +3582,10 @@ dash.calc('onderzoek_verschil', {
     ds.append(grafiek);
     if (st.trades_totaal) ds.append(el('p', { class: 'tx-note', style: 'margin:0 0 6px' }, st.trades_totaal + ' trades, waarvan ' + Math.round((st.winst_pct || 0) * 100) + '% met winst.'));
     // trades
-    const ts = sec('Trades', trades.length ? 'laatste ' + Math.min(trades.length, 20) : '');
+    const ts = sec('Trades', trades.length ? 'laatste ' + Math.min(trades.length, 10) : '');
     if (!trades.length) ts.append(el('p', { class: 'ap-empty' }, 'Nog geen trades.'));
     let lastDay = '';
-    trades.slice(0, 20).forEach((t) => {
+    trades.slice(0, 10).forEach((t) => {
       if (t.dag !== lastDay) { ts.append(el('div', { class: 'ap-day' }, D(t.dag, dagF))); lastDay = t.dag; }
       const r = el('div', { class: 'ap-row' });
       r.append(el('span', { class: 'ap-ico ' + (t.resultaat >= 0 ? 'koop' : 'verkoop'), 'aria-hidden': 'true' }, t.resultaat >= 0 ? '▲' : '▼'));
@@ -3521,6 +3613,7 @@ dash.calc('onderzoek_verschil', {
       'Kloppen de koersen niet of zijn ze te oud, dan koopt hij niets.'].forEach((t) => ol.append(el('li', {}, t)));
     rg.append(ol, el('p', { class: 'tx-note', style: 'margin:8px 0 0' }, 'Een test op de koersen van de laatste 2 maanden was licht positief. Dat is te kort om iets te bewijzen; daarom oefent hij nu met nepgeld.'));
     right.append(rg);
+    leren(left, right, rows, st);
     box.replaceChildren(left, right);
     chart(grafiek, dagen);
   }

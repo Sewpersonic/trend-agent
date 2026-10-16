@@ -1,5 +1,6 @@
 # Daytrade-bot (alleen nepgeld, eigen boekhouding in dollars).
 # Draait elk kwartier tijdens de Amerikaanse beurs (15:30-22:00 Nederlandse tijd); koopt en verkoopt op dezelfde dag.
+# Elke zaterdag ochtend vanzelf: het onderzoek (test), ook van de regels uit de grafiekanalyse.
 # Met de hand (Actions -> daytrade -> Run workflow):
 #   test      = de regels naspelen op de 5-minutenkoersen van de afgelopen ~60 beursdagen (backtest/daytrade/)
 #   bot uit   = hij koopt niets meer (wat open staat wordt nog netjes verkocht)
@@ -11,6 +12,8 @@ on:
   schedule:
     # 14:03-20:48 UTC: dekt 10:00-15:45 New Yorkse tijd in zomer- en wintertijd; de bot kijkt zelf of de beurs open is.
     - cron: "3,18,33,48 14-20 * * 1-5"
+    # Zaterdag: onderzoek (de regels en de regels uit de grafiekanalyse opnieuw testen op de laatste ~60 beursdagen).
+    - cron: "41 6 * * 6"
   workflow_dispatch:
     inputs:
       actie:
@@ -44,6 +47,8 @@ jobs:
           if os.environ.get("GITHUB_EVENT_NAME") != "schedule":
               print("ja=true"); raise SystemExit
           ny = datetime.now(ZoneInfo("America/New_York"))
+          if ny.weekday() == 5:
+              print("ja=true"); print("test=true"); raise SystemExit
           open_ = ny.weekday() < 5 and (10, 0) <= (ny.hour, ny.minute) <= (16, 30)
           try:
               v = json.load(open("state/daytrader.json")).get("vandaag") or {}
@@ -72,12 +77,13 @@ jobs:
           print("aan =", cfg["aan"])
           PY
       - name: Ronde
-        if: steps.nodig.outputs.ja == 'true' && (github.event_name == 'schedule' || github.event.inputs.actie == 'ronde')
+        if: steps.nodig.outputs.ja == 'true' && steps.nodig.outputs.test != 'true' && (github.event_name == 'schedule' || github.event.inputs.actie == 'ronde')
         run: python -m trendagent daytrade
       - name: Test op 5-minutenkoersen
-        if: github.event.inputs.actie == 'test'
+        if: github.event.inputs.actie == 'test' || steps.nodig.outputs.test == 'true'
         run: |
           python -m trendagent daytrade-test
+          python -c "from pathlib import Path; from trendagent.dashboard_data import write_daytrader; write_daytrader(Path('state'), Path('dashboard'))"
           cat backtest/daytrade/RAPPORT.md >> "$GITHUB_STEP_SUMMARY"
       - name: Opslaan
         if: always() && steps.nodig.outputs.ja == 'true'
