@@ -81,4 +81,5 @@ jobs:
           cat backtest/daytrade/RAPPORT.md >> "$GITHUB_STEP_SUMMARY"
       - name: Opslaan
         if: always() && steps.nodig.outputs.ja == 'true'
-        run: bash scripts/opslaan.sh "Daytrade-bot: ${{ github.event.inputs.actie || 'ronde' }}" state/daytrader.json state/daytrader_audit.jsonl dashboard/daytrader.json config/daytrader.json backtest/daytrade/
+        run: |
+          bash scripts/opslaan.sh "Daytrade-bot - ${{ github.event.inputs.actie || 'ronde' }}" state/daytrader.json state/daytrader_audit.jsonl dashboard/daytrader.json config/daytrader.json backtest/daytrade/
