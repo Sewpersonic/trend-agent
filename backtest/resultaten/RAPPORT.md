@@ -1,12 +1,12 @@
 # Backtest trend-agent
 
-Periode **2021-10-15 t/m 2026-10-15** (ongeveer 5 jaar), startkapitaal €10.000 nepgeld, 52 instrumenten met koersdata. Zelfde regels, kosten en slippage als bij het dagelijks oefenen.
+Periode **2021-10-16 t/m 2026-10-16** (ongeveer 5 jaar), startkapitaal €10.000 nepgeld, 52 instrumenten met koersdata. Zelfde regels, kosten en slippage als bij het dagelijks oefenen.
 
 > Dit is geen voorspelling. Het laat zien hoe deze regels het in het verleden hadden gedaan.
 
 ## In het kort
 
-- Over de hele periode deed de trend-agent het slechter dan gewoon de wereld-ETF vasthouden (+6,7% tegen +78,3%).
+- Over de hele periode deed de trend-agent het slechter dan gewoon de wereld-ETF vasthouden (+6,6% tegen +76,6%).
 - Zijn grootste daling was -4,5%, tegen -21,6% voor de ETF.
 - In 53% van alle periodes van 4 weken stond de trend-agent aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -2,7%, het beste +2,4%.
 
@@ -14,9 +14,9 @@ Periode **2021-10-15 t/m 2026-10-15** (ongeveer 5 jaar), startkapitaal €10.000
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Trend-agent | +6,7% | +1,3% | -4,5% | 0,34 | €10.664 |
-| MSCI World-ETF (IWDA) | +78,3% | +12,3% | -21,6% | 0,74 | €17.829 |
-| S&P 500-ETF (SPY, in euro) | +91,3% | +13,9% | -23,0% | 0,65 | €19.127 |
+| Trend-agent | +6,6% | +1,3% | -4,5% | 0,34 | €10.662 |
+| MSCI World-ETF (IWDA) | +76,6% | +12,0% | -21,6% | 0,73 | €17.659 |
+| S&P 500-ETF (SPY, in euro) | +88,7% | +13,5% | -23,0% | 0,64 | €18.867 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
 
@@ -29,7 +29,7 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 | 2023 | +2,2% | +19,9% | +21,5% |
 | 2024 | +4,2% | +27,2% | +32,8% |
 | 2025 | +2,0% | +7,1% | +4,3% |
-| 2026 | +1,1% | +18,2% | +19,5% |
+| 2026 | +1,1% | +17,1% | +17,8% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 
