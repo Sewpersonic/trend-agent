@@ -929,8 +929,8 @@
     </section>
   </main>
   <dialog class="tx-order" id="order-dlg" aria-labelledby="order-h">
-    <form method="dialog" class="tx-order-in">
-      <div class="tx-order-head"><h2 id="order-h">Kopen of verkopen</h2><button class="m-close" value="sluit" aria-label="Sluiten">✕</button></div>
+    <div class="tx-order-in">
+      <div class="tx-order-head"><h2 id="order-h">Kopen of verkopen</h2><button type="button" class="m-close" id="order-sluit" aria-label="Sluiten">✕</button></div>
       <p class="tx-note" style="margin:0">In het oefenaccount bij Trading 212, met nepgeld. De order zelf geef je op GitHub: daar staat je sleutel veilig, het dashboard heeft die bewust niet.</p>
       <div class="tx-order-side" role="radiogroup" aria-label="Kopen of verkopen">
         <label><input type="radio" name="kant" value="kopen" checked> Kopen</label>
@@ -941,7 +941,7 @@
       <ol class="tx-order-steps" id="order-steps"></ol>
       <a class="tx-order-go" id="order-go" href="https://github.com/Sewpersonic/trend-agent/actions/workflows/broker.yml" target="_blank" rel="noopener">Naar GitHub →</a>
       <p class="tx-note" style="margin:0">Regels: hooguit €3.000 per order, nooit meer verkopen dan er staat, geen crypto, en geen aankopen als de kill switch aan staat. De bot draait je order niet terug.</p>
-    </form>
+    </div>
   </dialog>
 </div>
 
@@ -2413,6 +2413,9 @@ dash.calc('onderzoek_verschil', {
 (() => {
   const AANDELEN = [{"t": "ADYEN", "n": "Adyen"}, {"t": "AD", "n": "Ahold Delhaize"}, {"t": "AIR", "n": "Airbus"}, {"t": "ALV", "n": "Allianz"}, {"t": "GOOGL", "n": "Alphabet"}, {"t": "AMZN", "n": "Amazon"}, {"t": "AMD", "n": "AMD"}, {"t": "AAPL", "n": "Apple"}, {"t": "ANET", "n": "Arista Networks"}, {"t": "ASM", "n": "ASM International"}, {"t": "ASML", "n": "ASML"}, {"t": "BESI", "n": "BE Semiconductor"}, {"t": "BNP", "n": "BNP Paribas"}, {"t": "AVGO", "n": "Broadcom"}, {"t": "COST", "n": "Costco"}, {"t": "CRWD", "n": "CrowdStrike"}, {"t": "DTE", "n": "Deutsche Telekom"}, {"t": "LLY", "n": "Eli Lilly"}, {"t": "XOM", "n": "ExxonMobil"}, {"t": "HEIA", "n": "Heineken"}, {"t": "IFX", "n": "Infineon"}, {"t": "INGA", "n": "ING"}, {"t": "IWDA", "n": "iShares MSCI World"}, {"t": "JPM", "n": "JPMorgan Chase"}, {"t": "OR", "n": "L'Oreal"}, {"t": "MC", "n": "LVMH"}, {"t": "META", "n": "Meta Platforms"}, {"t": "MU", "n": "Micron"}, {"t": "MSFT", "n": "Microsoft"}, {"t": "NFLX", "n": "Netflix"}, {"t": "NVDA", "n": "Nvidia"}, {"t": "ORCL", "n": "Oracle"}, {"t": "PLTR", "n": "Palantir"}, {"t": "PANW", "n": "Palo Alto Networks"}, {"t": "PRX", "n": "Prosus"}, {"t": "RHM", "n": "Rheinmetall"}, {"t": "CRM", "n": "Salesforce"}, {"t": "SAP", "n": "SAP"}, {"t": "SU", "n": "Schneider Electric"}, {"t": "SHELL", "n": "Shell"}, {"t": "SIE", "n": "Siemens"}, {"t": "TSLA", "n": "Tesla"}, {"t": "TTE", "n": "TotalEnergies"}, {"t": "V", "n": "Visa"}, {"t": "WKL", "n": "Wolters Kluwer"}];
   const dlg = document.getElementById('order-dlg');
+  // Geen formulier-element (het dashboard haalt dat weg): sluiten met de knop, Escape of een tik naast het venster.
+  document.getElementById('order-sluit').addEventListener('click', () => dlg.close());
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
   const sel = document.getElementById('order-aandeel'), aantal = document.getElementById('order-aantal'), steps = document.getElementById('order-steps');
   sel.replaceChildren(...AANDELEN.map((a) => new Option(a.n + ' (' + a.t + ')', a.t)));
   window.tx.addAandelen = (extra) => {
@@ -3343,6 +3346,9 @@ dash.calc('onderzoek_verschil', {
 .dt-log { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: 13px; color: var(--color-fg-muted); }
 .dt-regels { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 4px; font-size: 14px; }
 .dt-pos .s b { color: var(--color-fg); font-weight: normal; }
+.tx-order .m-close { all: unset; box-sizing: border-box; cursor: pointer; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; font-size: 18px; color: var(--color-fg-muted); }
+.tx-order .m-close:hover { background: var(--tx-soft); }
+.tx-order .m-close:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
 .dt-lessen { list-style: none; margin: 4px 0 8px; padding: 0; display: grid; gap: 8px; font-size: 14px; line-height: 1.45; }
 .dt-lessen li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; align-items: start; }
 .dt-bron { font-size: 11px; font-weight: var(--cds-font-weight-medium); padding: 2px 8px; border-radius: 999px; background: var(--tx-soft); color: var(--color-fg-muted); margin-top: 1px; }
