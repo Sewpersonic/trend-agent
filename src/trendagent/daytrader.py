@@ -169,40 +169,69 @@ def size(equity: float, entry: float, stop: float, p: Params) -> int:
     return int(math.floor(q))
 
 
-def simulate_day(day_bars: dict[str, list[Bar5]], avg_or_vol: dict[str, float], equity: float,
-                 p: Params = Params()) -> DayResult:
-    """Speelt één beursdag na zoals de bot hem live zou doen: alleen op kijkmomenten beslissen, met
-    alleen de blokken die op dat moment al afgesloten zijn; vullen tegen de opening van het volgende blok."""
-    any_bars = next((b for b in day_bars.values() if b), None)
-    res = DayResult(dag="", begin=equity, eind=equity)
-    if not any_bars:
-        return res
-    day = any_bars[0].t.date()
-    res.dag = day.isoformat()
-    open_: dict[str, Pos] = {}
-    traded: set[str] = set()
-    realized = 0.0
-    idx = {t: {b.t.replace(tzinfo=None): b for b in bs} for t, bs in day_bars.items()}
-    ors = {t: or_stats(bs, p) for t, bs in day_bars.items()}
-    mkt = day_bars.get(p.market) or []
-    mkt_open = mkt[0].o if mkt else None
-    times = check_times(day, p)
+class DayEngine:
+    """Eén beursdag van de daytrade-bot, stap voor stap (één stap = één kijkmoment).
 
-    def close_pos(pos: Pos, price: float, when: datetime, why: str) -> None:
-        nonlocal realized
-        fill = price * (1 - p.slippage)
+    De test op oude koersen roept step() aan voor elk kijkmoment van de dag; het echte oefenen roept step() aan
+    bij elke ronde (elk kwartier) en bewaart de stand tussendoor met to_dict()/from_dict().
+    """
+
+    def __init__(self, day: date, equity: float, p: Params = Params()):
+        self.day, self.p = day, p
+        self.res = DayResult(dag=day.isoformat(), begin=equity, eind=equity)
+        self.open: dict[str, Pos] = {}
+        self.traded: set[str] = set()
+        self.realized = 0.0
+        self.prev: datetime | None = None
+        self.klaar = False
+
+    # ---------- bewaren tussen rondes ----------
+    def to_dict(self) -> dict:
+        return {"dag": self.res.dag, "begin": self.res.begin, "realized": self.realized, "klaar": self.klaar,
+                "prev": self.prev.isoformat() if self.prev else None, "traded": sorted(self.traded),
+                "notities": self.res.notities, "trades": [asdict(t) for t in self.res.trades],
+                "open": {k: {**asdict(v), "t_in": v.t_in.isoformat()} for k, v in self.open.items()}}
+
+    @classmethod
+    def from_dict(cls, d: dict, p: Params = Params()) -> "DayEngine":
+        e = cls(date.fromisoformat(d["dag"]), float(d["begin"]), p)
+        e.realized = float(d.get("realized", 0.0))
+        e.klaar = bool(d.get("klaar"))
+        e.prev = datetime.fromisoformat(d["prev"]) if d.get("prev") else None
+        e.traded = set(d.get("traded", []))
+        e.res.notities = list(d.get("notities", []))
+        e.res.trades = [DayTrade(**t) for t in d.get("trades", [])]
+        e.open = {k: Pos(**{**v, "t_in": datetime.fromisoformat(v["t_in"])}) for k, v in d.get("open", {}).items()}
+        e.res.eind = e.res.begin + e.realized
+        return e
+
+    def _close(self, pos: Pos, price: float, when: datetime, why: str) -> None:
+        fill = price * (1 - self.p.slippage)
         pnl = (fill - pos.entry) * pos.qty
-        realized += pnl
-        res.trades.append(DayTrade(res.dag, pos.ticker, pos.qty, round(pos.entry, 4), round(fill, 4),
-                                   pos.t_in.strftime("%H:%M"), when.strftime("%H:%M"), why, round(pnl, 2),
-                                   round(pnl / pos.risk, 3) if pos.risk else 0.0))
+        self.realized += pnl
+        self.res.trades.append(DayTrade(self.res.dag, pos.ticker, pos.qty, round(pos.entry, 4), round(fill, 4),
+                                        pos.t_in.strftime("%H:%M"), when.strftime("%H:%M"), why, round(pnl, 2),
+                                        round(pnl / pos.risk, 3) if pos.risk else 0.0))
+        del self.open[pos.ticker]
+        self.res.eind = self.res.begin + self.realized
 
-    prev = None
-    for k, t in enumerate(times):
+    def step(self, t: datetime, day_bars: dict[str, list[Bar5]], avg_or_vol: dict[str, float],
+             fill_at=None, allow_entries: bool = True) -> list[str]:
+        """Kijkmoment t (New Yorkse tijd, zonder tijdzone). Gebruikt alleen blokken die vóór t begonnen.
+        fill_at(ticker, t) -> prijs waartegen nu gekocht/verkocht wordt (test: opening van het blok op t).
+        Geeft een lijst met wat er gebeurde, in gewone woorden."""
+        p, day, log = self.p, self.day, []
+        if self.klaar:
+            return log
+        idx = {tk: {b.t.replace(tzinfo=None): b for b in bs} for tk, bs in day_bars.items()}
+        if fill_at is None:
+            def fill_at(tk, when):
+                b = idx.get(tk, {}).get(when)
+                return b.o if b else _last_close(day_bars.get(tk, []), when)
         # 1. Blokken sinds het vorige kijkmoment: stop of winstdoel geraakt?
-        span_start = prev or (datetime.combine(day, OPEN))
-        for tk in list(open_):
-            pos = open_[tk]
+        span_start = self.prev or datetime.combine(day, OPEN)
+        for tk in list(self.open):
+            pos = self.open[tk]
             m = span_start
             while m < t:
                 b = idx.get(tk, {}).get(m)
@@ -210,66 +239,84 @@ def simulate_day(day_bars: dict[str, list[Bar5]], avg_or_vol: dict[str, float], 
                 if not b or b.t.replace(tzinfo=None) < pos.t_in:
                     continue
                 if b.l <= pos.stop:
-                    close_pos(pos, min(b.o, pos.stop), b.t, "stop-loss")
-                    del open_[tk]
+                    self._close(pos, min(b.o, pos.stop), b.t, "stop-loss")
+                    log.append(f"{tk}: stop-loss geraakt")
                     break
                 if pos.target and b.h >= pos.target:
-                    close_pos(pos, max(b.o, pos.target), b.t, "winstdoel")
-                    del open_[tk]
+                    self._close(pos, max(b.o, pos.target), b.t, "winstdoel")
+                    log.append(f"{tk}: winstdoel gehaald")
                     break
-        prev = t
-        # 2. Eind van de dag: alles verkopen tegen de opening van het volgende blok.
+        self.prev = t
+        # 2. Eind van de dag: alles verkopen.
         if t.time() >= p.exit_at:
-            for tk in list(open_):
-                b = idx.get(tk, {}).get(t)
-                last = b.o if b else _last_close(day_bars[tk], t)
-                if last is not None:
-                    close_pos(open_[tk], last, t, "einde van de dag")
-                del open_[tk]
-            break
+            for tk in list(self.open):
+                prijs = fill_at(tk, t)
+                if prijs is None:
+                    prijs = self.open[tk].entry
+                self._close(self.open[tk], prijs, t, "einde van de dag")
+                log.append(f"{tk}: verkocht aan het einde van de dag")
+            self.klaar = True
+            return log
         # 3. Kopen?
-        if t.time() > p.entry_until or len(res.trades) + len(open_) >= p.max_trades:
-            continue
-        unreal = sum(((_last_close(day_bars[x.ticker], t) or x.entry) - x.entry) * x.qty for x in open_.values())
-        if (realized + unreal) / equity <= p.day_stop:
-            if "daglimiet" not in res.notities:
-                res.notities.append("daglimiet")
-            continue
+        if not allow_entries or t.time() > p.entry_until or len(self.res.trades) + len(self.open) >= p.max_trades:
+            return log
+        unreal = sum(((_last_close(day_bars.get(x.ticker, []), t) or x.entry) - x.entry) * x.qty for x in self.open.values())
+        if (self.realized + unreal) / self.res.begin <= p.day_stop:
+            if "daglimiet" not in self.res.notities:
+                self.res.notities.append("daglimiet")
+                log.append("daglimiet bereikt: vandaag niets meer kopen")
+            return log
+        mkt = day_bars.get(p.market) or []
         m_done = [b for b in mkt if b.t.replace(tzinfo=None) < t]
-        market_ok = (not p.market_filter) or (bool(m_done) and mkt_open is not None and m_done[-1].c > mkt_open)
+        market_ok = (not p.market_filter) or (bool(m_done) and m_done[-1].c > mkt[0].o)
         kandidaten = []
         for tk, bs in day_bars.items():
-            if tk in open_ or tk in traded or not ors.get(tk):
+            if tk in self.open or tk in self.traded:
                 continue
+            o = or_stats(bs, p)
             done = [b for b in bs if b.t.replace(tzinfo=None) < t]
-            if not done:
+            if not o or not done:
                 continue
-            ok, _, score = entry_signal(tk, done, ors[tk], avg_or_vol.get(tk), market_ok, p)
+            ok, why, score = entry_signal(tk, done, o, avg_or_vol.get(tk), market_ok, p)
             if ok:
-                kandidaten.append((score, tk))
-        for score, tk in sorted(kandidaten, reverse=True):
-            if len(open_) >= p.max_open or len(res.trades) + len(open_) >= p.max_trades:
+                kandidaten.append((score, tk, o, why))
+        for score, tk, o, why in sorted(kandidaten, key=lambda x: -x[0]):
+            if len(self.open) >= p.max_open or len(self.res.trades) + len(self.open) >= p.max_trades:
                 break
-            nb = idx.get(tk, {}).get(t)
-            if not nb:
+            prijs = fill_at(tk, t)
+            if not prijs:
                 continue
-            entry = nb.o * (1 + p.slippage)
-            top, bodem, _ = ors[tk]
-            stop = max(bodem, entry * (1 - p.max_risk_pct))
+            entry = prijs * (1 + p.slippage)
+            stop = max(o[1], entry * (1 - p.max_risk_pct))
             if stop >= entry:
                 continue
-            q = size(equity + realized, entry, stop, p)
+            q = size(self.res.begin + self.realized, entry, stop, p)
             if q < 1:
                 continue
             target = entry + p.target_r * (entry - stop) if p.use_target else None
-            open_[tk] = Pos(tk, q, entry, stop, target, t, (entry - stop) * q)
-            traded.add(tk)
-    for tk in list(open_):  # vangnet: data hield eerder op
-        last = _last_close(day_bars[tk], datetime.combine(day, CLOSE))
-        if last is not None:
-            close_pos(open_[tk], last, datetime.combine(day, CLOSE), "einde van de dag")
-    res.eind = equity + realized
-    return res
+            self.open[tk] = Pos(tk, q, entry, stop, target, t, (entry - stop) * q)
+            self.traded.add(tk)
+            log.append(f"{tk}: gekocht ({q} stuks, {why})")
+        return log
+
+
+def simulate_day(day_bars: dict[str, list[Bar5]], avg_or_vol: dict[str, float], equity: float,
+                 p: Params = Params()) -> DayResult:
+    """Speelt één beursdag na zoals de bot hem live zou doen: alleen op kijkmomenten beslissen, met
+    alleen de blokken die op dat moment al afgesloten zijn; vullen tegen de opening van het volgende blok."""
+    any_bars = next((b for b in day_bars.values() if b), None)
+    if not any_bars:
+        return DayResult(dag="", begin=equity, eind=equity)
+    day = any_bars[0].t.date()
+    e = DayEngine(day, equity, p)
+    for t in check_times(day, p):
+        e.step(t, day_bars, avg_or_vol)
+        if e.klaar:
+            break
+    for tk in list(e.open):  # vangnet: de data hield eerder op
+        last = _last_close(day_bars.get(tk, []), datetime.combine(day, CLOSE))
+        e._close(e.open[tk], last if last is not None else e.open[tk].entry, datetime.combine(day, CLOSE), "einde van de dag")
+    return e.res
 
 
 def _last_close(bars: list[Bar5], before: datetime) -> float | None:

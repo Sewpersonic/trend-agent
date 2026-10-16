@@ -19,7 +19,9 @@ WAT = {
     "tests": "Controle van de code",
     "diagnose": "Test van de koersbron",
     "broker": "Oefenaccount Trading 212",
+    "daytrade": "Daytrade-bot (elk kwartier)",
 }
+PER_WORKFLOW = {"daytrade": 4}   # draait 28 keer per dag: alleen de laatste paar tonen
 
 STAP = {
     "Trend-agent": "De trend-agent liep vast.",
@@ -33,6 +35,8 @@ STAP = {
     "Controle oefenaccount": "Het oefenaccount van Trading 212 gaf een fout of een order lukte niet. De bots zelf draaiden gewoon door. Zie het tabblad Oefenaccount.",
     "Volglijst": "De volglijst (extra beleggingen bekijken) lukte niet. De bots draaiden gewoon door.",
     "Volglijst (alleen kijken)": "De volglijst (extra beleggingen bekijken) lukte niet. Het oefenaccount werkte gewoon.",
+    "Ronde": "De daytrade-bot liep vast in deze ronde. Hij heeft daarom niets gekocht; de volgende ronde probeert het opnieuw.",
+    "Test op 5-minutenkoersen": "De test van de daytrade-bot lukte niet (meestal koersen downloaden).",
     "pip install -e .": "Installeren van de software lukte niet (meestal tijdelijk bij GitHub).",
 }
 
@@ -41,7 +45,7 @@ def _gh(args: list[str]) -> str:
     return subprocess.run(["gh", *args], check=True, capture_output=True, text=True, timeout=60).stdout
 
 
-def collect(limit: int = 100, per_workflow: int = 12) -> list[dict]:
+def collect(limit: int = 200, per_workflow: int = 12) -> list[dict]:
     runs = json.loads(_gh(["run", "list", "-L", str(limit), "--json",
                            "databaseId,workflowName,status,conclusion,createdAt,updatedAt,event,displayTitle,url"]))
     out: list[dict] = []
@@ -51,7 +55,7 @@ def collect(limit: int = 100, per_workflow: int = 12) -> list[dict]:
         if naam == "status":
             continue  # het ophalen zelf niet tonen
         seen[naam] = seen.get(naam, 0) + 1
-        if seen[naam] > per_workflow:
+        if seen[naam] > PER_WORKFLOW.get(naam, per_workflow):
             continue  # niet laten overspoelen door veel code-controles
         uitkomst = {"success": "goed", "failure": "fout", "cancelled": "geannuleerd", "skipped": "overgeslagen",
                     "timed_out": "fout"}.get(r.get("conclusion") or "", "bezig" if r.get("status") != "completed" else "onbekend")

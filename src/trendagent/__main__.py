@@ -9,6 +9,7 @@
   python -m trendagent backtest --simulated   idem op verzonnen koersen (zonder internet)
   python -m trendagent invest            één ronde van de investeerder
   python -m trendagent onderzoek         varianten testen + leerrapport (schrijft alleen naar onderzoek/)
+  python -m trendagent daytrade          één ronde van de daytrade-bot (nepgeld, elk kwartier tijdens de VS-beurs)
   python -m trendagent daytrade-test     daytrade-bot testen op 5-minutenkoersen (~60 beursdagen)
   python -m trendagent health --check    controle na de dagelijkse ronde; foutcode als er iets mis is
 """
@@ -66,6 +67,7 @@ def main(argv: list[str] | None = None) -> int:
     br.add_argument("--live", action="store_true", help="alleen kijken voor het dashboard; schrijft state/broker_live.json, verandert niets anders")
     vl = sub.add_parser("volglijst", help="extra beleggingen bekijken (alleen kijken, nooit kopen); schrijft dashboard/volglijst.json")
     vl.add_argument("--simulated", action="store_true")
+    sub.add_parser("daytrade", help="één ronde van de daytrade-bot (elk kwartier tijdens de Amerikaanse beurs)")
     sub.add_parser("daytrade-test", help="daytrade-bot testen op de 5-minutenkoersen van de afgelopen ~60 beursdagen")
     hc = sub.add_parser("health", help="gezondheid van de laatste rondes tonen")
     hc.add_argument("--check", action="store_true", help="foutcode 1 als er iets mis is")
@@ -74,6 +76,16 @@ def main(argv: list[str] | None = None) -> int:
     s = load_settings()
     ks = KillSwitch(s.state_dir / "kill_switch.json")
 
+    if args.cmd == "daytrade":
+        from . import daytrade_live
+        from .dashboard_data import write_daytrader
+        st = daytrade_live.run(s.state_dir)
+        lr = st.get("laatste_ronde", {})
+        print(f"Daytrade-bot {lr.get('ny', '')} (New York): {lr.get('status')}")
+        for regel in lr.get("log", []):
+            print("  " + regel)
+        write_daytrader(s.state_dir, Path("dashboard"))
+        return 0 if lr.get("status") != "fout" else 1
     if args.cmd == "daytrade-test":
         from .daytrade_test import run as _dtt
         r = _dtt()

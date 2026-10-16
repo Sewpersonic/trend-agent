@@ -1,14 +1,22 @@
-# Daytrade-bot (alleen nepgeld). Nu nog alleen de test op oude koersen per 5 minuten.
-#   test = de regels naspelen op de afgelopen ~60 beursdagen; resultaten in backtest/daytrade/
+# Daytrade-bot (alleen nepgeld, eigen boekhouding in dollars).
+# Draait elk kwartier tijdens de Amerikaanse beurs (15:30-22:00 Nederlandse tijd); koopt en verkoopt op dezelfde dag.
+# Met de hand (Actions -> daytrade -> Run workflow):
+#   test      = de regels naspelen op de 5-minutenkoersen van de afgelopen ~60 beursdagen (backtest/daytrade/)
+#   bot uit   = hij koopt niets meer (wat open staat wordt nog netjes verkocht)
+#   bot aan   = weer normaal handelen
+#   ronde     = nu meteen een ronde draaien
 name: daytrade
 
 on:
+  schedule:
+    # 14:03-20:48 UTC: dekt 10:00-15:45 New Yorkse tijd in zomer- en wintertijd; de bot kijkt zelf of de beurs open is.
+    - cron: "3,18,33,48 14-20 * * 1-5"
   workflow_dispatch:
     inputs:
       actie:
         description: "Wat wil je doen?"
         type: choice
-        options: ["test"]
+        options: ["test", "ronde", "bot uit", "bot aan"]
         default: "test"
 
 permissions:
@@ -21,18 +29,56 @@ concurrency:
 jobs:
   daytrade:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 10
     env:
       PAPER_TRADING: "true"
     steps:
       - uses: actions/checkout@v5
+      - name: Is er iets te doen?
+        id: nodig
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          if os.environ.get("GITHUB_EVENT_NAME") != "schedule":
+              print("ja=true"); raise SystemExit
+          ny = datetime.now(ZoneInfo("America/New_York"))
+          open_ = ny.weekday() < 5 and (10, 0) <= (ny.hour, ny.minute) <= (16, 30)
+          try:
+              v = json.load(open("state/daytrader.json")).get("vandaag") or {}
+              half = v.get("dag") and not v.get("klaar")
+          except Exception:
+              half = False
+          print("ja=" + ("true" if open_ or half else "false"))
+          PY
       - uses: actions/setup-python@v6
+        if: steps.nodig.outputs.ja == 'true'
         with:
           python-version: "3.12"
-      - run: pip install -e .
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - if: steps.nodig.outputs.ja == 'true'
+        run: pip install -e .
+      - name: Bot aan of uit zetten
+        if: github.event.inputs.actie == 'bot uit' || github.event.inputs.actie == 'bot aan'
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          p = pathlib.Path("config/daytrader.json")
+          cfg = json.loads(p.read_text()) if p.exists() else {}
+          cfg["aan"] = "${{ github.event.inputs.actie }}" == "bot aan"
+          p.write_text(json.dumps(cfg, ensure_ascii=False, indent=2) + "\n")
+          print("aan =", cfg["aan"])
+          PY
+      - name: Ronde
+        if: steps.nodig.outputs.ja == 'true' && (github.event_name == 'schedule' || github.event.inputs.actie == 'ronde')
+        run: python -m trendagent daytrade
       - name: Test op 5-minutenkoersen
+        if: github.event.inputs.actie == 'test'
         run: |
           python -m trendagent daytrade-test
           cat backtest/daytrade/RAPPORT.md >> "$GITHUB_STEP_SUMMARY"
-      - name: Resultaten opslaan
-        run: bash scripts/opslaan.sh "Daytrade-test $(date -u +%F)" backtest/daytrade/
+      - name: Opslaan
+        if: always() && steps.nodig.outputs.ja == 'true'
+        run: bash scripts/opslaan.sh "Daytrade-bot: ${{ github.event.inputs.actie || 'ronde' }}" state/daytrader.json state/daytrader_audit.jsonl dashboard/daytrader.json config/daytrader.json backtest/daytrade/

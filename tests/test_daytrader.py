@@ -87,5 +87,68 @@ class DaytraderTest(unittest.TestCase):
         self.assertIn("spy_vasthouden", baselines(self.data, self.days[0].isoformat()))
 
 
+class LiveTest(unittest.TestCase):
+    """Het echte oefenen (elk kwartier een ronde) moet hetzelfde doen als de test op oude koersen."""
+
+    def setUp(self):
+        base = DaytraderTest()
+        base.setUp()
+        self.data, self.days = base.data, base.days
+
+    def provider_at(self, now_ny):
+        def prov(tks, period):
+            out = {}
+            for tk, bs in self.data.items():
+                # alleen blokken die op dit moment bestaan (het lopende blok telt mee, zoals bij Yahoo)
+                out[tk] = [b for b in bs if b.t <= now_ny - timedelta(minutes=1)]
+            return out
+        return prov
+
+    def test_live_matches_backtest(self):
+        import tempfile
+        from pathlib import Path
+        from trendagent import daytrade_live as dl
+        last = self.days[-1]
+        with tempfile.TemporaryDirectory() as d:
+            sd = Path(d)
+            cfg = sd / "cfg.json"
+            cfg.write_text('{"aan": true}')
+            t = datetime.combine(last, dt.OPEN) - timedelta(minutes=10)
+            while t <= datetime.combine(last, dt.CLOSE) + timedelta(minutes=20):
+                now_utc = t.replace(tzinfo=dt.NY).astimezone(__import__("datetime").timezone.utc)
+                st = dl.run(sd, cfg, now=now_utc, provider=self.provider_at(t))
+                self.assertNotEqual(st["laatste_ronde"]["status"], "fout", st["laatste_ronde"])
+                t += timedelta(minutes=15)
+            live = [(x["ticker"], x["t_in"], x["reden"]) for x in st["trades"]]
+            self.assertTrue(live)
+            self.assertTrue(st["vandaag"]["klaar"])
+            self.assertEqual(st["vandaag"]["open"], {})
+            from trendagent.dashboard_data import daytrader_rows
+            rows = daytrader_rows(sd)
+            stand = rows[0]
+            self.assertEqual(stand["soort"], "stand")
+            self.assertAlmostEqual(stand["waarde"], 10000 + sum(x["resultaat"] for x in st["trades"]), places=1)
+            self.assertTrue(any(r["soort"] == "trade" for r in rows))
+            self.assertTrue(any(r["soort"] == "dag" for r in rows))
+        bt = dt.backtest(self.data, dt.Params(rvol_days=10))
+        self.assertEqual(live, [(x["ticker"], x["t_in"], x["reden"]) for x in bt["trades"]])
+
+    def test_kill_switch_blocks_buying(self):
+        import tempfile, json
+        from pathlib import Path
+        from trendagent import daytrade_live as dl
+        last = self.days[-1]
+        with tempfile.TemporaryDirectory() as d:
+            sd = Path(d)
+            (sd / "kill_switch.json").write_text(json.dumps({"active": True, "by": "human", "reason": "test"}))
+            cfg = sd / "cfg.json"
+            cfg.write_text("{}")
+            t = datetime.combine(last, dt.OPEN) + timedelta(minutes=33)
+            while t <= datetime.combine(last, dt.CLOSE):
+                st = dl.run(sd, cfg, now=t.replace(tzinfo=dt.NY), provider=self.provider_at(t))
+                t += timedelta(minutes=15)
+            self.assertEqual(st["trades"], [])
+
+
 if __name__ == "__main__":
     unittest.main()

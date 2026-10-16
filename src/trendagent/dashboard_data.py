@@ -189,6 +189,7 @@ def build(state_dir: Path, reports_dir: Path) -> dict[str, list[dict]]:
     out["patronen_samenvatting"] = [{"id": f"s{i}", "nr": i, "tekst": t}
                                     for i, t in enumerate(patronen.samenvatting(prow), 1)]
     out["broker"] = broker_rows(state_dir)
+    out["daytrader"] = daytrader_rows(state_dir)
 
     # Per week: orders en wat de bots leerden; per bot: klaar voor echt geld of nog niet
     from . import weekoverzicht
@@ -213,8 +214,60 @@ def build(state_dir: Path, reports_dir: Path) -> dict[str, list[dict]]:
         {"id": "bots", "wat": "Laatste ronde van de bots", "tijd": bots},
         {"id": "oefenaccount", "wat": "Stand oefenaccount", "tijd": str(bv.get("tijd") or "")},
         {"id": "handelsdag", "wat": "Laatste handelsdag", "tijd": max((r["dag"] for r in out["stand"] if r.get("dag")), default="")},
-    ] + ([{"id": "volglijst", "wat": "Volglijst", "tijd": vl[0].get("gemaakt", "")}] if vl and vl[0].get("gemaakt") else [])
+    ] + ([{"id": "daytrader", "wat": "Daytrade-bot", "tijd": str((_load(state_dir / "daytrader.json").get("laatste_ronde") or {}).get("tijd") or "")}]
+         if (state_dir / "daytrader.json").exists() else []) + ([{"id": "volglijst", "wat": "Volglijst", "tijd": vl[0].get("gemaakt", "")}] if vl and vl[0].get("gemaakt") else [])
     return out
+
+
+def daytrader_rows(state_dir: Path) -> list[dict]:
+    """Daytrade-bot: stand, open posities, trades, dagresultaten en de laatste rondes (in dollars, nepgeld).
+    Lijsten staan als tekst in een rij (het dashboard leest geen lijsten in een rij)."""
+    st = _load(state_dir / "daytrader.json")
+    if not st:
+        return []
+    v = st.get("vandaag") or {}
+    lr = st.get("laatste_ronde") or {}
+    open_nu = (st.get("open_nu") or []) if v and not v.get("klaar") else []
+    unreal = sum(((o.get("koers") or o["entry"]) - o["entry"]) * o["qty"] for o in open_nu)
+    vandaag_trades = v.get("trades", []) if v else []
+    gesloten = list(st.get("trades", []))
+    if v and not v.get("klaar"):
+        gesloten += vandaag_trades
+    realized_vandaag = sum(t["resultaat"] for t in vandaag_trades) if v else 0.0
+    equity = float(st.get("equity", 10000.0)) + (0.0 if v.get("klaar") else realized_vandaag)
+    start = float(st.get("start", 10000.0))
+    wins = [t for t in gesloten if t["resultaat"] > 0]
+    dagen = st.get("dagen", [])
+    rows = [{"id": "stand", "soort": "stand", "waarde": round(equity + unreal, 2), "start": start,
+             "sinds_start": round(equity + unreal - start, 2), "vandaag": round(realized_vandaag + unreal, 2),
+             "vandaag_dag": v.get("dag", ""), "status": lr.get("status", ""), "tijd": lr.get("tijd", ""), "ny": lr.get("ny", ""),
+             "open": len(open_nu), "trades_vandaag": len(vandaag_trades) + len(open_nu),
+             "daglimiet": "daglimiet" in (v.get("notities") or []), "aan": bool(_load(Path("config/daytrader.json")).get("aan", True)),
+             "dagen_geoefend": len(dagen), "trades_totaal": len(gesloten),
+             "winst_pct": round(len(wins) / len(gesloten), 3) if gesloten else None,
+             "log": "\n".join(lr.get("log", [])[-12:])}]
+    for o in open_nu:
+        k = o.get("koers") or o["entry"]
+        rows.append({"id": "open-" + o["ticker"], "soort": "positie", "ticker": o["ticker"], "aantal": o["qty"],
+                     "instap": round(o["entry"], 2), "koers": round(k, 2), "stop": round(o["stop"], 2),
+                     "doel": round(o["target"], 2) if o.get("target") else None, "t_in": o["t_in"],
+                     "resultaat": round((k - o["entry"]) * o["qty"], 2)})
+    for i, t in enumerate(reversed(gesloten[-40:])):
+        rows.append({"id": f"t-{t['dag']}-{t['ticker']}-{t['t_in']}", "soort": "trade", "dag": t["dag"], "ticker": t["ticker"],
+                     "aantal": t["qty"], "instap": round(t["instap"], 2), "uitstap": round(t["uitstap"], 2),
+                     "t_in": t["t_in"], "t_uit": t["t_uit"], "reden": t["reden"], "resultaat": t["resultaat"], "r": t["r"]})
+    for d in dagen[-60:]:
+        rows.append({"id": "d-" + d["dag"], "soort": "dag", "dag": d["dag"], "resultaat": d["resultaat"],
+                     "waarde": d["eind"], "trades": d["trades"], "daglimiet": d.get("daglimiet", False)})
+    return rows
+
+
+def write_daytrader(state_dir: Path, out_dir: Path) -> Path:
+    rows = daytrader_rows(state_dir) or [{"id": "leeg", "leeg": True, "reden": EMPTY["daytrader"]}]
+    out_dir.mkdir(parents=True, exist_ok=True)
+    p = out_dir / "daytrader.json"
+    p.write_text(json.dumps(rows, ensure_ascii=False), encoding="utf-8")
+    return p
 
 
 def _load_list(path: Path) -> list:
@@ -369,6 +422,7 @@ EMPTY = {
     "gereed": "Nog geen gegevens over klaar voor echt geld.",
     "volglijst": "De volglijst is nog niet bekeken; dat gebeurt elke werkdag in de oefenronde.",
     "broker": "Het oefenaccount van Trading 212 is nog niet gekoppeld.",
+    "daytrader": "De daytrade-bot heeft nog geen ronde gedraaid. Hij kijkt elk kwartier tijdens de Amerikaanse beurs (15:30-22:00).",
 }
 
 
