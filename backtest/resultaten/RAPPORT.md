@@ -16,7 +16,7 @@ Periode **2021-10-16 t/m 2026-10-16** (ongeveer 5 jaar), startkapitaal €10.000
 | --- | --- | --- | --- | --- | --- |
 | Trend-agent | +6,6% | +1,3% | -4,5% | 0,34 | €10.661 |
 | MSCI World-ETF (IWDA) | +76,6% | +12,0% | -21,6% | 0,73 | €17.659 |
-| S&P 500-ETF (SPY, in euro) | +88,6% | +13,5% | -23,0% | 0,64 | €18.856 |
+| S&P 500-ETF (SPY, in euro) | +88,4% | +13,5% | -23,0% | 0,64 | €18.844 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
 
@@ -29,7 +29,7 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 | 2023 | +2,2% | +19,9% | +21,5% |
 | 2024 | +4,2% | +27,2% | +32,8% |
 | 2025 | +2,0% | +7,1% | +4,3% |
-| 2026 | +1,1% | +17,1% | +17,8% |
+| 2026 | +1,1% | +17,1% | +17,7% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 
@@ -39,7 +39,7 @@ Dit beantwoordt de vraag "wat kan er in een paar weken gebeuren?": elk mogelijk 
 | --- | --- | --- | --- | --- | --- |
 | Trend-agent | 53% | +0,0% | -1,1% | -2,7% | +2,4% |
 | MSCI World-ETF (IWDA) | 63% | +1,1% | -5,2% | -14,0% | +12,3% |
-| S&P 500-ETF (SPY, in euro) | 65% | +1,0% | -5,4% | -13,0% | +13,4% |
+| S&P 500-ETF (SPY, in euro) | 64% | +1,0% | -5,4% | -13,0% | +13,4% |
 
 ## Trades
 
