@@ -6,7 +6,7 @@ Periode **2021-10-18 t/m 2026-10-16** (ongeveer 5 jaar), startkapitaal €10.000
 
 ## In het kort
 
-- Over de hele periode deed de investeerder het beter dan gewoon de wereld-ETF vasthouden (+150,9% tegen +76,6%).
+- Over de hele periode deed de investeerder het beter dan gewoon de wereld-ETF vasthouden (+150,4% tegen +76,6%).
 - Zijn grootste daling was -21,2%, tegen -21,6% voor de ETF.
 - In 61% van alle periodes van 4 weken stond de investeerder aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -13,4%, het beste +16,3%.
 
@@ -14,9 +14,9 @@ Periode **2021-10-18 t/m 2026-10-16** (ongeveer 5 jaar), startkapitaal €10.000
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Investeerder | +150,9% | +20,2% | -21,2% | 1,16 | €25.049 |
+| Investeerder | +150,4% | +20,2% | -21,2% | 1,16 | €25.005 |
 | MSCI World-ETF (IWDA) | +76,6% | +12,1% | -21,6% | 0,86 | €17.655 |
-| S&P 500-ETF (SPY, in euro) | +88,1% | +13,5% | -23,0% | 0,76 | €18.812 |
+| S&P 500-ETF (SPY, in euro) | +88,1% | +13,5% | -23,0% | 0,75 | €18.809 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
 
@@ -28,8 +28,8 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 | 2022 | -11,5% | -13,5% | -13,1% |
 | 2023 | +30,1% | +19,9% | +21,5% |
 | 2024 | +52,1% | +27,2% | +32,8% |
-| 2025 | +11,7% | +7,1% | +4,3% |
-| 2026 | +27,2% | +17,1% | +17,8% |
+| 2025 | +11,6% | +7,1% | +4,3% |
+| 2026 | +27,1% | +17,1% | +17,8% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 
@@ -43,9 +43,9 @@ Dit beantwoordt de vraag "wat kan er in een paar weken gebeuren?": elk mogelijk 
 
 ## Trades
 
-- Aankopen: 139, afgesloten: 149, waarvan winst: 67%
-- Gemiddelde winst: €136, gemiddeld verlies: €-104, profit factor: 2,67
-- Gemiddeld vastgehouden: 65 dagen; totale kosten: €290
+- Aankopen: 138, afgesloten: 149, waarvan winst: 67%
+- Gemiddelde winst: €136, gemiddeld verlies: €-105, profit factor: 2,66
+- Gemiddeld vastgehouden: 65 dagen; totale kosten: €289
 - Kill switch aangegaan: 0 keer
 
 ## Belangrijke kanttekeningen
