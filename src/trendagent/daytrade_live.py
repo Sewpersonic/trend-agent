@@ -169,6 +169,18 @@ def run(state_dir: Path, config_path: Path = Path("config/daytrader.json"), now:
             log += [f"{t:%H:%M} {x}" for x in stap]
             if e.klaar:
                 break
+        if due and not any("gekocht" in x for x in log):
+            t_last = due[-1]
+            if e.klaar:
+                pass
+            elif kill or not aan:
+                log.append("Niets gekocht: de bot mag nu alleen verkopen.")
+            elif t_last.time() > p.entry_until:
+                log.append(f"Na {p.entry_until:%H:%M} (New York) koopt hij niets meer; wat open staat volgt hij tot {p.exit_at:%H:%M}.")
+            elif len(e.res.trades) + len(e.open) >= p.max_trades:
+                log.append(f"Vandaag al {p.max_trades} aankopen gedaan: het maximum.")
+            elif vers:
+                log.append("Bekeken: geen aandeel voldeed nu aan alle regels.")
         if kill:
             ronde["status"] = "alleen verkopen (kill switch aan)"
         elif not aan:
