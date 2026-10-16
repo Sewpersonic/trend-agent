@@ -1,5 +1,5 @@
 {
- "tijd": "2026-10-15T20:18:10+00:00",
+ "tijd": "2026-10-16T12:19:25+00:00",
  "status": "alleen kijken",
  "reden": "Alleen gecontroleerd: geen orders geplaatst.",
  "orders": [],
@@ -12,20 +12,62 @@
  "account": {
   "id": 51866998,
   "currency": "EUR",
-  "totalValue": 4998.74,
+  "totalValue": 5007.21,
   "cash": {
-   "availableToTrade": 3459.51,
-   "reservedForOrders": 1058.2,
+   "availableToTrade": 3516.29,
+   "reservedForOrders": 0,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 481.04,
-   "totalCost": 481.57,
+   "currentValue": 1490.92,
+   "totalCost": 1482.99,
    "realizedProfitLoss": 0,
-   "unrealizedProfitLoss": -0.53
+   "unrealizedProfitLoss": 7.93
   }
  },
  "posities": [
+  {
+   "instrument": {
+    "ticker": "SAPd_EQ",
+    "name": "SAP",
+    "isin": "DE0007164600",
+    "currency": "EUR"
+   },
+   "createdAt": "2026-10-16T10:00:06.164+03:00",
+   "quantity": 2.0,
+   "quantityAvailableForTrading": 2.0,
+   "quantityInPies": 0,
+   "currentPrice": 201.87,
+   "averagePricePaid": 200.8,
+   "walletImpact": {
+    "currency": "EUR",
+    "totalCost": 401.6,
+    "currentValue": 403.74,
+    "unrealizedProfitLoss": 2.14,
+    "fxImpact": null
+   }
+  },
+  {
+   "instrument": {
+    "ticker": "SHELLa_EQ",
+    "name": "Shell",
+    "isin": "GB00BP6MXD84",
+    "currency": "EUR"
+   },
+   "createdAt": "2026-10-16T10:00:19.278+03:00",
+   "quantity": 13.0,
+   "quantityAvailableForTrading": 13.0,
+   "quantityInPies": 0,
+   "currentPrice": 46.627,
+   "averagePricePaid": 46.14,
+   "walletImpact": {
+    "currency": "EUR",
+    "totalCost": 599.82,
+    "currentValue": 606.15,
+    "unrealizedProfitLoss": 6.33,
+    "fxImpact": null
+   }
+  },
   {
    "instrument": {
     "ticker": "MSFT_US_EQ",
@@ -37,38 +79,23 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 538.65,
+   "currentPrice": 541.18,
    "averagePricePaid": 539.52,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 481.57,
-    "currentValue": 480.34,
-    "unrealizedProfitLoss": -1.23,
-    "fxImpact": -0.45
+    "currentValue": 481.03,
+    "unrealizedProfitLoss": -0.54,
+    "fxImpact": -2.02
    }
   }
  ],
- "open_orders": [
-  {
-   "ticker": "SHELLa_EQ",
-   "quantity": 13.0,
-   "status": "NEW"
-  },
-  {
-   "ticker": "SAPd_EQ",
-   "quantity": 2.0,
-   "status": "NEW"
-  }
- ],
+ "open_orders": [],
  "koppeling": {
   "SHELL.AS": "SHELLa_EQ",
   "SAP.DE": "SAPd_EQ",
   "MSFT": "MSFT_US_EQ"
  },
  "handmatig": {},
- "plan": [],
- "wacht_op": [
-  "SHELLa_EQ",
-  "SAPd_EQ"
- ]
+ "plan": []
 }
