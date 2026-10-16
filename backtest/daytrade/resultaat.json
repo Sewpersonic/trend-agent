@@ -1,0 +1,624 @@
+{
+ "gemaakt": "2026-10-16T18:33:46+00:00",
+ "van": "2026-08-07",
+ "tot": "2026-10-15",
+ "aandelen": [
+  "AAPL",
+  "AMD",
+  "AMZN",
+  "ANET",
+  "AVGO",
+  "COST",
+  "CRM",
+  "CRWD",
+  "GLD",
+  "GOOGL",
+  "JPM",
+  "LLY",
+  "META",
+  "MSFT",
+  "MU",
+  "NFLX",
+  "NVDA",
+  "ORCL",
+  "PANW",
+  "PLTR",
+  "QQQ",
+  "SMH",
+  "SPY",
+  "TSLA",
+  "V",
+  "XLE",
+  "XOM"
+ ],
+ "vergelijk": {
+  "spy_vasthouden": 0.0009,
+  "spy_elke_dag_in_en_uit": -0.0548
+ },
+ "varianten": {
+  "basis": {
+   "stats": {
+    "trades": 38,
+    "dagen": 49,
+    "dagen_met_trade": 22,
+    "winst_pct": 0.632,
+    "gem_r": 0.15,
+    "rendement": 0.0227,
+    "max_daling": -0.0085,
+    "profit_factor": 2.35,
+    "redenen": {
+     "stop-loss": 1,
+     "winstdoel": 1,
+     "einde van de dag": 36
+    }
+   },
+   "eind": 10227.07
+  },
+  "zonder winstdoel (alleen stop of einde dag)": {
+   "stats": {
+    "trades": 37,
+    "dagen": 49,
+    "dagen_met_trade": 22,
+    "winst_pct": 0.622,
+    "gem_r": 0.157,
+    "rendement": 0.0226,
+    "max_daling": -0.0085,
+    "profit_factor": 2.34,
+    "redenen": {
+     "stop-loss": 1,
+     "winstdoel": 0,
+     "einde van de dag": 36
+    }
+   },
+   "eind": 10226.38
+  },
+  "zonder marktfilter": {
+   "stats": {
+    "trades": 59,
+    "dagen": 49,
+    "dagen_met_trade": 34,
+    "winst_pct": 0.508,
+    "gem_r": 0.017,
+    "rendement": 0.005,
+    "max_daling": -0.0214,
+    "profit_factor": 1.11,
+    "redenen": {
+     "stop-loss": 5,
+     "winstdoel": 1,
+     "einde van de dag": 53
+    }
+   },
+   "eind": 10049.63
+  },
+  "openingsrange 15 minuten": {
+   "stats": {
+    "trades": 52,
+    "dagen": 49,
+    "dagen_met_trade": 27,
+    "winst_pct": 0.519,
+    "gem_r": -0.016,
+    "rendement": 0.0206,
+    "max_daling": -0.0132,
+    "profit_factor": 1.59,
+    "redenen": {
+     "stop-loss": 10,
+     "winstdoel": 3,
+     "einde van de dag": 39
+    }
+   },
+   "eind": 10205.78
+  },
+  "minder streng op volume (1,0x)": {
+   "stats": {
+    "trades": 56,
+    "dagen": 49,
+    "dagen_met_trade": 29,
+    "winst_pct": 0.518,
+    "gem_r": 0.028,
+    "rendement": 0.0072,
+    "max_daling": -0.0147,
+    "profit_factor": 1.2,
+    "redenen": {
+     "stop-loss": 4,
+     "winstdoel": 1,
+     "einde van de dag": 51
+    }
+   },
+   "eind": 10072.28
+  }
+ },
+ "basis_dagen": [
+  {
+   "dag": "2026-08-07",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-08-10",
+   "resultaat": -14.06,
+   "trades": 2,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-08-11",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-08-12",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-08-13",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-08-14",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-08-17",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-08-18",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-08-19",
+   "resultaat": 7.74,
+   "trades": 2,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-08-20",
+   "resultaat": -37.15,
+   "trades": 2,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-08-21",
+   "resultaat": 0.94,
+   "trades": 2,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-08-24",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-08-25",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-08-26",
+   "resultaat": -34.34,
+   "trades": 1,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-08-27",
+   "resultaat": 15.56,
+   "trades": 2,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-08-28",
+   "resultaat": -15.86,
+   "trades": 2,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-08-31",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-01",
+   "resultaat": 11.55,
+   "trades": 1,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-02",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-03",
+   "resultaat": 1.47,
+   "trades": 2,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-04",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-08",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-09",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-10",
+   "resultaat": 8.23,
+   "trades": 2,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-11",
+   "resultaat": -29.19,
+   "trades": 2,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-14",
+   "resultaat": 25.21,
+   "trades": 2,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-15",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-16",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-17",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-18",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-21",
+   "resultaat": 26.26,
+   "trades": 1,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-22",
+   "resultaat": 24.33,
+   "trades": 1,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-23",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-24",
+   "resultaat": 33.83,
+   "trades": 1,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-25",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-28",
+   "resultaat": -7.53,
+   "trades": 1,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-29",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-09-30",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-10-01",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-10-02",
+   "resultaat": 5.79,
+   "trades": 2,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-10-05",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-10-06",
+   "resultaat": 35.34,
+   "trades": 2,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-10-07",
+   "resultaat": 21.19,
+   "trades": 2,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-10-08",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-10-09",
+   "resultaat": 28.67,
+   "trades": 2,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-10-12",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-10-13",
+   "resultaat": 2.39,
+   "trades": 1,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-10-14",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-10-15",
+   "resultaat": 116.69,
+   "trades": 3,
+   "daglimiet": false
+  }
+ ],
+ "basis_curve": [
+  [
+   "2026-08-07",
+   10000.0
+  ],
+  [
+   "2026-08-10",
+   9985.94
+  ],
+  [
+   "2026-08-11",
+   9985.94
+  ],
+  [
+   "2026-08-12",
+   9985.94
+  ],
+  [
+   "2026-08-13",
+   9985.94
+  ],
+  [
+   "2026-08-14",
+   9985.94
+  ],
+  [
+   "2026-08-17",
+   9985.94
+  ],
+  [
+   "2026-08-18",
+   9985.94
+  ],
+  [
+   "2026-08-19",
+   9993.68
+  ],
+  [
+   "2026-08-20",
+   9956.53
+  ],
+  [
+   "2026-08-21",
+   9957.47
+  ],
+  [
+   "2026-08-24",
+   9957.47
+  ],
+  [
+   "2026-08-25",
+   9957.47
+  ],
+  [
+   "2026-08-26",
+   9923.13
+  ],
+  [
+   "2026-08-27",
+   9938.69
+  ],
+  [
+   "2026-08-28",
+   9922.83
+  ],
+  [
+   "2026-08-31",
+   9922.83
+  ],
+  [
+   "2026-09-01",
+   9934.39
+  ],
+  [
+   "2026-09-02",
+   9934.39
+  ],
+  [
+   "2026-09-03",
+   9935.86
+  ],
+  [
+   "2026-09-04",
+   9935.86
+  ],
+  [
+   "2026-09-08",
+   9935.86
+  ],
+  [
+   "2026-09-09",
+   9935.86
+  ],
+  [
+   "2026-09-10",
+   9944.09
+  ],
+  [
+   "2026-09-11",
+   9914.9
+  ],
+  [
+   "2026-09-14",
+   9940.11
+  ],
+  [
+   "2026-09-15",
+   9940.11
+  ],
+  [
+   "2026-09-16",
+   9940.11
+  ],
+  [
+   "2026-09-17",
+   9940.11
+  ],
+  [
+   "2026-09-18",
+   9940.11
+  ],
+  [
+   "2026-09-21",
+   9966.37
+  ],
+  [
+   "2026-09-22",
+   9990.7
+  ],
+  [
+   "2026-09-23",
+   9990.7
+  ],
+  [
+   "2026-09-24",
+   10024.54
+  ],
+  [
+   "2026-09-25",
+   10024.54
+  ],
+  [
+   "2026-09-28",
+   10017.0
+  ],
+  [
+   "2026-09-29",
+   10017.0
+  ],
+  [
+   "2026-09-30",
+   10017.0
+  ],
+  [
+   "2026-10-01",
+   10017.0
+  ],
+  [
+   "2026-10-02",
+   10022.79
+  ],
+  [
+   "2026-10-05",
+   10022.79
+  ],
+  [
+   "2026-10-06",
+   10058.13
+  ],
+  [
+   "2026-10-07",
+   10079.32
+  ],
+  [
+   "2026-10-08",
+   10079.32
+  ],
+  [
+   "2026-10-09",
+   10107.99
+  ],
+  [
+   "2026-10-12",
+   10107.99
+  ],
+  [
+   "2026-10-13",
+   10110.38
+  ],
+  [
+   "2026-10-14",
+   10110.38
+  ],
+  [
+   "2026-10-15",
+   10227.07
+  ]
+ ]
+}
