@@ -1,7 +1,7 @@
 {
- "gemaakt": "2026-10-16T19:38:56+00:00",
+ "gemaakt": "2026-10-17T11:11:57+00:00",
  "van": "2026-08-07",
- "tot": "2026-10-15",
+ "tot": "2026-10-16",
  "aandelen": [
   "AAPL",
   "AMD",
@@ -32,14 +32,14 @@
   "XOM"
  ],
  "vergelijk": {
-  "spy_vasthouden": 0.0009,
-  "spy_elke_dag_in_en_uit": -0.0548
+  "spy_vasthouden": -0.01,
+  "spy_elke_dag_in_en_uit": -0.0694
  },
  "varianten": {
   "basis": {
    "stats": {
     "trades": 38,
-    "dagen": 49,
+    "dagen": 50,
     "dagen_met_trade": 22,
     "winst_pct": 0.632,
     "gem_r": 0.15,
@@ -57,7 +57,7 @@
   "alleen als de daggrafiek van het aandeel stijgt": {
    "stats": {
     "trades": 31,
-    "dagen": 49,
+    "dagen": 50,
     "dagen_met_trade": 20,
     "winst_pct": 0.484,
     "gem_r": -0.054,
@@ -75,7 +75,7 @@
   "niet als de daggrafiek van de markt daalt": {
    "stats": {
     "trades": 38,
-    "dagen": 49,
+    "dagen": 50,
     "dagen_met_trade": 22,
     "winst_pct": 0.632,
     "gem_r": 0.15,
@@ -93,7 +93,7 @@
   "zonder winstdoel (alleen stop of einde dag)": {
    "stats": {
     "trades": 37,
-    "dagen": 49,
+    "dagen": 50,
     "dagen_met_trade": 22,
     "winst_pct": 0.622,
     "gem_r": 0.157,
@@ -110,26 +110,26 @@
   },
   "zonder marktfilter": {
    "stats": {
-    "trades": 59,
-    "dagen": 49,
-    "dagen_met_trade": 34,
-    "winst_pct": 0.508,
-    "gem_r": 0.017,
-    "rendement": 0.005,
+    "trades": 62,
+    "dagen": 50,
+    "dagen_met_trade": 35,
+    "winst_pct": 0.484,
+    "gem_r": -0.034,
+    "rendement": -0.0037,
     "max_daling": -0.0214,
-    "profit_factor": 1.11,
+    "profit_factor": 0.93,
     "redenen": {
-     "stop-loss": 5,
+     "stop-loss": 8,
      "winstdoel": 1,
      "einde van de dag": 53
     }
    },
-   "eind": 10049.63
+   "eind": 9963.36
   },
   "openingsrange 15 minuten": {
    "stats": {
     "trades": 52,
-    "dagen": 49,
+    "dagen": 50,
     "dagen_met_trade": 27,
     "winst_pct": 0.519,
     "gem_r": -0.016,
@@ -147,7 +147,7 @@
   "minder streng op volume (1,0x)": {
    "stats": {
     "trades": 56,
-    "dagen": 49,
+    "dagen": 50,
     "dagen_met_trade": 29,
     "winst_pct": 0.518,
     "gem_r": 0.028,
@@ -457,6 +457,12 @@
    "resultaat": 116.69,
    "trades": 3,
    "daglimiet": false
+  },
+  {
+   "dag": "2026-10-16",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
   }
  ],
  "basis_curve": [
@@ -654,6 +660,10 @@
   ],
   [
    "2026-10-15",
+   10227.07
+  ],
+  [
+   "2026-10-16",
    10227.07
   ]
  ],
