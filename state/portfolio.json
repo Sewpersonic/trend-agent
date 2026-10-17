@@ -6,12 +6,12 @@
       "currency": "EUR",
       "qty": 13,
       "entry_price": 45.05751734733581,
-      "stop": 43.77107320513044,
-      "highest_close": 46.470001220703125,
+      "stop": 44.18785640171596,
+      "highest_close": 46.88999938964844,
       "opened": "2026-10-10",
       "entry_fx": 1.0,
       "risk_eur": 24.67,
-      "last_checked": "2026-10-15",
+      "last_checked": "2026-10-16",
       "entry_reason": "",
       "entry_context": {},
       "version": ""
@@ -21,12 +21,12 @@
       "currency": "EUR",
       "qty": 2,
       "entry_price": 191.5557367172241,
-      "stop": 184.62141963413785,
+      "stop": 185.1271307809012,
       "highest_close": 201.6999969482422,
       "opened": "2026-10-10",
       "entry_fx": 1.0,
       "risk_eur": 22.45,
-      "last_checked": "2026-10-15",
+      "last_checked": "2026-10-16",
       "entry_reason": "",
       "entry_context": {},
       "version": ""
@@ -41,7 +41,7 @@
       "opened": "2026-10-10",
       "entry_fx": 0.8923999798299032,
       "risk_eur": 23.7,
-      "last_checked": "2026-10-15",
+      "last_checked": "2026-10-16",
       "entry_reason": "",
       "entry_context": {},
       "version": ""
@@ -126,6 +126,11 @@
       "day": "2026-10-15",
       "equity": 10038.89,
       "bench": 130.82
+    },
+    {
+      "day": "2026-10-16",
+      "equity": 10028.47,
+      "bench": 130.45
     }
   ],
   "consecutive_losses": 0,
