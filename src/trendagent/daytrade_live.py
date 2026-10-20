@@ -140,8 +140,11 @@ def run(state_dir: Path, config_path: Path = Path("config/daytrader.json"), now:
 
     try:
         v = st.get("vandaag")
-        open_day = v and v.get("dag") != today.isoformat() and not v.get("klaar")
         in_session = today.weekday() < 5 and OPEN <= ny.time() < time_plus(CLOSE, 30)
+        # Een dag die nog openstaat afsluiten: een eerdere dag, of vandaag als de beurs al dicht is
+        # (bijvoorbeeld omdat de laatste ronde van GitHub pas na sluitingstijd kwam).
+        open_day = bool(v and not v.get("klaar") and (v.get("dag") != today.isoformat()
+                                                      or ny.time() >= time_plus(CLOSE, 30)))
         if not open_day and not in_session:
             ronde["status"] = "beurs dicht"
             return _save(path, st, ronde)
@@ -168,8 +171,8 @@ def run(state_dir: Path, config_path: Path = Path("config/daytrader.json"), now:
                 e._close(e.open[tk], e.open[tk].entry, datetime.combine(d, CLOSE), "einde van de dag (geen koers)")
             e.klaar = True
             _finish_day(st, e)
-            log.append(f"{d}: dag afgesloten na gemiste rondes")
-            st["vandaag"] = None
+            log.append(f"{d}: dag afgesloten (de laatste ronde kwam na sluitingstijd)")
+            st["vandaag"] = {**e.to_dict(), "klaar": True}
             if not in_session:
                 return _save(path, st, ronde)
 

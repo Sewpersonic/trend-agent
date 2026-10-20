@@ -173,6 +173,26 @@ class LiveTest(unittest.TestCase):
             self.assertEqual(st["vandaag"]["open"], {})
             self.assertTrue(all(x["t_uit"] < "14:00" for x in st["trades"]), st["trades"])
 
+    def test_late_last_round_closes_same_day(self):
+        """Laatste ronde om 15:37 (positie open), daarna pas weer om 19:05: de dag moet dan dicht."""
+        import tempfile
+        from pathlib import Path
+
+        from trendagent import daytrade_live as dl
+        last = self.days[-1]
+        with tempfile.TemporaryDirectory() as d:
+            sd = Path(d)
+            cfg = sd / "cfg.json"
+            cfg.write_text("{}")
+            for hm in ((10, 33), (15, 37), (19, 5)):
+                t = datetime.combine(last, dt.time(*hm))
+                st = dl.run(sd, cfg, now=t.replace(tzinfo=dt.NY), provider=self.provider_at(t))
+            self.assertTrue(st["vandaag"]["klaar"])
+            self.assertEqual(st["vandaag"]["open"], {})
+            self.assertTrue(st["trades"])
+            self.assertLessEqual(st["trades"][-1]["t_uit"], "15:45")
+            self.assertEqual(len(st["dagen"]), 1)
+
 
 if __name__ == "__main__":
     unittest.main()
