@@ -1,6 +1,6 @@
 {
  "start": 10000.0,
- "equity": 10000.0,
+ "equity": 9994.51,
  "dagen": [
   {
    "dag": "2026-10-16",
@@ -9,29 +9,66 @@
    "resultaat": 0.0,
    "trades": 0,
    "daglimiet": false
+  },
+  {
+   "dag": "2026-10-19",
+   "begin": 10000.0,
+   "eind": 9994.51,
+   "resultaat": -5.49,
+   "trades": 1,
+   "daglimiet": false
   }
  ],
- "trades": [],
+ "trades": [
+  {
+   "dag": "2026-10-19",
+   "ticker": "QQQ",
+   "qty": 3,
+   "instap": 722.0504,
+   "uitstap": 720.2197,
+   "t_in": "11:00",
+   "t_uit": "15:45",
+   "reden": "einde van de dag",
+   "resultaat": -5.49,
+   "r": -0.388,
+   "ctx": {
+    "tijd": "11:00",
+    "rvol": 2.03,
+    "or_breedte": 0.004,
+    "boven_range": 0.0013,
+    "markt_vandaag": 0.0012,
+    "dag_tot_nu": 0.0022,
+    "gap": 0.0138,
+    "dagtrend": "zijwaarts",
+    "plek": "midden in het bereik",
+    "terugval": false,
+    "boven_sma50": false,
+    "markt_dagtrend": "zijwaarts"
+   }
+  }
+ ],
  "vandaag": {
   "dag": "2026-10-19",
   "begin": 10000.0,
-  "realized": 0.0,
-  "klaar": false,
-  "prev": "2026-10-19T15:30:00",
+  "realized": -5.4920787048339434,
+  "klaar": true,
+  "prev": "2026-10-19T15:45:00",
   "traded": [
    "QQQ"
   ],
   "notities": [],
-  "trades": [],
-  "open": {
-   "QQQ": {
+  "trades": [
+   {
+    "dag": "2026-10-19",
     "ticker": "QQQ",
     "qty": 3,
-    "entry": 722.0504199829102,
-    "stop": 717.3350219726562,
-    "target": 731.481216003418,
-    "t_in": "2026-10-19T11:00:00",
-    "risk": 14.146194030761762,
+    "instap": 722.0504,
+    "uitstap": 720.2197,
+    "t_in": "11:00",
+    "t_uit": "15:45",
+    "reden": "einde van de dag",
+    "resultaat": -5.49,
+    "r": -0.388,
     "ctx": {
      "tijd": "11:00",
      "rvol": 2.03,
@@ -47,7 +84,8 @@
      "markt_dagtrend": "zijwaarts"
     }
    }
-  }
+  ],
+  "open": {}
  },
  "gem_vol": {
   "AAPL": 6967289.3,
@@ -105,10 +143,13 @@
   }
  ],
  "laatste_ronde": {
-  "tijd": "2026-10-19T23:06:12+00:00",
-  "ny": "2026-10-19 19:06",
-  "status": "beurs dicht",
-  "log": []
+  "tijd": "2026-10-20T09:31:17+00:00",
+  "ny": "2026-10-20 05:31",
+  "status": "ok",
+  "log": [
+   "QQQ: verkocht aan het einde van de dag",
+   "2026-10-19: dag afgesloten (de laatste ronde kwam na sluitingstijd)"
+  ]
  },
  "rondes": [
   {
@@ -132,6 +173,15 @@
    "status": "ok",
    "log": [
     "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-10-20T09:31:17+00:00",
+   "ny": "2026-10-20 05:31",
+   "status": "ok",
+   "log": [
+    "QQQ: verkocht aan het einde van de dag",
+    "2026-10-19: dag afgesloten (de laatste ronde kwam na sluitingstijd)"
    ]
   }
  ],
