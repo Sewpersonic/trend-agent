@@ -17,6 +17,14 @@
    "resultaat": -5.49,
    "trades": 1,
    "daglimiet": false
+  },
+  {
+   "dag": "2026-10-20",
+   "begin": 9994.51,
+   "eind": 9994.51,
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
   }
  ],
  "trades": [
@@ -51,8 +59,8 @@
   "dag": "2026-10-20",
   "begin": 9994.51,
   "realized": 0.0,
-  "klaar": false,
-  "prev": "2026-10-20T14:15:00",
+  "klaar": true,
+  "prev": "2026-10-20T15:45:00",
   "traded": [],
   "notities": [],
   "trades": [],
@@ -90,11 +98,11 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-10-20T18:18:23+00:00",
-  "ny": "2026-10-20 14:18",
+  "tijd": "2026-10-20T21:41:57+00:00",
+  "ny": "2026-10-20 17:41",
   "status": "ok",
   "log": [
-   "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   "2026-10-20: dag afgesloten (de laatste ronde kwam na sluitingstijd)"
   ]
  },
  "rondes": [
@@ -136,6 +144,14 @@
    "status": "ok",
    "log": [
     "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-10-20T21:41:57+00:00",
+   "ny": "2026-10-20 17:41",
+   "status": "ok",
+   "log": [
+    "2026-10-20: dag afgesloten (de laatste ronde kwam na sluitingstijd)"
    ]
   }
  ],
