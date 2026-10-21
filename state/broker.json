@@ -1,5 +1,5 @@
 {
- "tijd": "2026-10-21T16:26:40+00:00",
+ "tijd": "2026-10-21T17:26:22+00:00",
  "status": "alleen kijken",
  "reden": "Alleen gecontroleerd: geen orders geplaatst.",
  "orders": [],
@@ -12,17 +12,17 @@
  "account": {
   "id": 51866998,
   "currency": "EUR",
-  "totalValue": 5016.13,
+  "totalValue": 5016.69,
   "cash": {
    "availableToTrade": 3516.29,
    "reservedForOrders": 0,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 1499.84,
+   "currentValue": 1500.4,
    "totalCost": 1482.99,
    "realizedProfitLoss": 0,
-   "unrealizedProfitLoss": 16.85
+   "unrealizedProfitLoss": 17.41
   }
  },
  "posities": [
@@ -79,14 +79,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 531.71,
+   "currentPrice": 532.77,
    "averagePricePaid": 539.52,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 481.57,
-    "currentValue": 473.61,
-    "unrealizedProfitLoss": -7.96,
-    "fxImpact": -1.0
+    "currentValue": 474.18,
+    "unrealizedProfitLoss": -7.39,
+    "fxImpact": -1.38
    }
   }
  ],
