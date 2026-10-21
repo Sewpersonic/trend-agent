@@ -60,7 +60,7 @@
   "begin": 9994.51,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-10-21T10:15:00",
+  "prev": "2026-10-21T14:15:00",
   "traded": [],
   "notities": [],
   "trades": [],
@@ -98,11 +98,11 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-10-21T14:18:28+00:00",
-  "ny": "2026-10-21 10:18",
+  "tijd": "2026-10-21T18:21:22+00:00",
+  "ny": "2026-10-21 14:21",
   "status": "ok",
   "log": [
-   "Bekeken: geen aandeel voldeed nu aan alle regels."
+   "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
   ]
  },
  "rondes": [
@@ -160,6 +160,14 @@
    "status": "ok",
    "log": [
     "Bekeken: geen aandeel voldeed nu aan alle regels."
+   ]
+  },
+  {
+   "tijd": "2026-10-21T18:21:22+00:00",
+   "ny": "2026-10-21 14:21",
+   "status": "ok",
+   "log": [
+    "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
    ]
   }
  ],
