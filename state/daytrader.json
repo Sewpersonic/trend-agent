@@ -68,7 +68,7 @@
   "begin": 9994.51,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-10-22T11:15:00",
+  "prev": "2026-10-22T12:15:00",
   "traded": [],
   "notities": [],
   "trades": [],
@@ -106,8 +106,8 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-10-22T15:26:59+00:00",
-  "ny": "2026-10-22 11:26",
+  "tijd": "2026-10-22T16:26:39+00:00",
+  "ny": "2026-10-22 12:26",
   "status": "ok",
   "log": [
    "Bekeken: geen aandeel voldeed nu aan alle regels."
@@ -197,6 +197,14 @@
   {
    "tijd": "2026-10-22T15:26:59+00:00",
    "ny": "2026-10-22 11:26",
+   "status": "ok",
+   "log": [
+    "Bekeken: geen aandeel voldeed nu aan alle regels."
+   ]
+  },
+  {
+   "tijd": "2026-10-22T16:26:39+00:00",
+   "ny": "2026-10-22 12:26",
    "status": "ok",
    "log": [
     "Bekeken: geen aandeel voldeed nu aan alle regels."
