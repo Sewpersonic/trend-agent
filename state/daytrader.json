@@ -106,12 +106,10 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-10-21T21:53:07+00:00",
-  "ny": "2026-10-21 17:53",
-  "status": "ok",
-  "log": [
-   "2026-10-21: dag afgesloten (de laatste ronde kwam na sluitingstijd)"
-  ]
+  "tijd": "2026-10-22T13:27:06+00:00",
+  "ny": "2026-10-22 09:27",
+  "status": "beurs dicht",
+  "log": []
  },
  "rondes": [
   {
