@@ -189,6 +189,7 @@ class DayEngine:
         self.realized = 0.0
         self.prev: datetime | None = None
         self.klaar = False
+        self.redenen: dict[str, int] = {}   # waarom aandelen bij het laatste kijkmoment niet gekocht werden
 
     # ---------- bewaren tussen rondes ----------
     def to_dict(self) -> dict:
@@ -272,6 +273,7 @@ class DayEngine:
                 log.append("daglimiet bereikt: vandaag niets meer kopen")
             return log
         context = context or {}
+        self.redenen = {}
         mkt = day_bars.get(p.market) or []
         m_done = [b for b in mkt if b.t.replace(tzinfo=None) < t]
         market_ok = (not p.market_filter) or (bool(m_done) and m_done[-1].c > mkt[0].o)
@@ -290,6 +292,8 @@ class DayEngine:
             ok, why, score = entry_signal(tk, done, o, avg_or_vol.get(tk), market_ok, p)
             if ok:
                 kandidaten.append((score, tk, o, why))
+            else:
+                self.redenen[why] = self.redenen.get(why, 0) + 1
         for _score, tk, o, why in sorted(kandidaten, key=lambda x: -x[0]):
             if len(self.open) >= p.max_open or len(self.res.trades) + len(self.open) >= p.max_trades:
                 break

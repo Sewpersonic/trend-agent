@@ -251,7 +251,9 @@ def run(state_dir: Path, config_path: Path = Path("config/daytrader.json"), now:
             elif len(e.res.trades) + len(e.open) >= p.max_trades:
                 log.append(f"Vandaag al {p.max_trades} aankopen gedaan: het maximum.")
             elif vers:
-                log.append("Bekeken: geen aandeel voldeed nu aan alle regels.")
+                top = sorted(e.redenen.items(), key=lambda x: -x[1])[:3]
+                waarom = "; ".join(f"{k} ({n}x)" for k, n in top)
+                log.append("Bekeken: geen aandeel voldeed nu aan alle regels." + (f" Meestal: {waarom}." if waarom else ""))
         if kill:
             ronde["status"] = "alleen verkopen (kill switch aan)"
         elif not aan:
