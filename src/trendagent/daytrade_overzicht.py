@@ -178,7 +178,7 @@ def checks(st: dict, now: datetime | None = None) -> list[dict]:
         oud = None
     if oud is not None and oud > 80:
         add("bijgewerkt", "Draait hij nog?", "letop",
-            f"De laatste ronde is {oud / 24:.0f} dagen geleden. Op beursdagen hoort hij elk uurr te draaien.")
+            f"De laatste ronde is {oud / 24:.0f} dagen geleden. Op beursdagen hoort hij elk uur te draaien.")
     uit = st.get("uitgesloten") or {}
     if uit:
         add("verdacht", "Zitten er rare koerssprongen in?", "letop",
