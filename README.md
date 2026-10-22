@@ -51,7 +51,7 @@ accepteert, gaat de pagina in delen online: `python scripts/pagina_splitsen.py` 
 | --- | --- | --- |
 | Werkdagen ± 00:17 | `practice` | De ronde van beide bots met de slotkoersen van die dag, daarna het oefenaccount gelijkzetten, rapporten en dashboardcijfers maken, opslaan, en de gezondheidscontrole. |
 | Werkdagen elk uur rond :25 | `broker` (gestart door een geplande taak van Claude) | Alleen kijken in het oefenaccount (geen orders) en de volglijst bijwerken, voor een verse stand op het dashboard. |
-| Werkdagen elk kwartier tijdens de Amerikaanse beurs | `daytrade` | Eén ronde van de daytrade-bot. Buiten beurstijd stopt de run meteen. |
+| Werkdagen elk uur van 15:25 tot 22:25 (gestart door de uurlijkse taak van Claude; het schema van GitHub zelf komt vaak uren te laat) | `daytrade` | Eén ronde van de daytrade-bot. Buiten beurstijd stopt de run meteen. |
 | Zaterdag ± 08:41 | `daytrade` | Onderzoek van de daytrade-bot: regels (ook uit de grafiekanalyse) opnieuw testen en lessen bijwerken. |
 | Na elke run | `status` | Zet de lijst van de laatste GitHub-runs en open voorstellen klaar voor het dashboard. |
 | Zaterdag ± 07:17 | `onderzoek` | Test varianten van de regels op 5 jaar koersen en zet een voorstel klaar als er een bewezen betere is. |

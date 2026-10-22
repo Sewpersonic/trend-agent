@@ -896,7 +896,7 @@
 
     <!-- DAYTRADER -->
     <section class="tx-page" id="pg-daytrader" role="tabpanel" aria-labelledby="daytrader" hidden>
-      <p class="tx-what" style="padding:0">De daytrade-bot oefent met nepdollars op de Amerikaanse beurs (meestal 15:30-22:00 Nederlandse tijd). Hij kijkt elk kwartier, koopt alleen een aandeel dat 's ochtends sterk uitbreekt, en verkoopt alles nog dezelfde dag. Nooit iets 's nachts vasthouden.</p>
+      <p class="tx-what" style="padding:0">De daytrade-bot oefent met nepdollars op de Amerikaanse beurs (meestal 15:30-22:00 Nederlandse tijd). Hij kijkt elk uur (rond :25), koopt alleen een aandeel dat 's ochtends sterk uitbreekt, en verkoopt alles nog dezelfde dag. Nooit iets 's nachts vasthouden.</p>
       <div class="ap" id="dt-app" data-source="daytrader"></div>
     </section>
 
@@ -1126,9 +1126,9 @@ dash.calc('begin_hier', {
         kleur: fout ? 'slecht' : open.length ? 'letop' : 'neutraal',
         kort: open.length ? 'Heeft nu ' + open.map((p) => p.ticker).join(' en ') + '; verkoopt alles voor het slot.' : 'Koopt alleen bij een sterke uitbraak in de ochtend (Amerikaanse beurs).',
         stand: usd(ds.sinds_start) + ' sinds de start',
-        nu: fout ? 'De laatste ronde liep vast; de volgende probeert het opnieuw.' : open.length ? 'Heeft ' + open.map((p) => p.aantal + ' ' + p.ticker).join(' en ') + ' gekocht, met een stop-loss en een winstdoel.' : 'Oefent met nepdollars op de Amerikaanse beurs en kijkt elk kwartier. Bij elke trade legt hij de daggrafiek vast om van te leren.',
+        nu: fout ? 'De laatste ronde liep vast; de volgende probeert het opnieuw.' : open.length ? 'Heeft ' + open.map((p) => p.aantal + ' ' + p.ticker).join(' en ') + ' gekocht, met een stop-loss en een winstdoel.' : 'Oefent met nepdollars op de Amerikaanse beurs en kijkt elk uur. Bij elke trade legt hij de daggrafiek vast om van te leren.',
         laatst: zelfde.length ? dag(dag1) + ': ' + zelfde.length + (zelfde.length === 1 ? ' trade' : ' trades') + ', samen ' + usd(zelfde.reduce((a, t) => a + t.resultaat, 0)) + '.' : 'Nog geen trades.',
-        straks: 'Elke beursdag tussen 15:30 en 22:00 (Nederlandse tijd) elk kwartier een ronde; om 21:45 verkoopt hij alles.' });
+        straks: 'Elke beursdag van 15:25 tot 22:25 (Nederlandse tijd) elk uur een ronde; om 21:45 verkoopt hij alles.' });
     }
     return out;
   },
@@ -3460,7 +3460,7 @@ dash.calc('onderzoek_verschil', {
     if (s === 'beurs dicht') return ['', 'Beurs dicht'];
     if (s === 'klaar voor vandaag') return ['ok', 'Klaar voor vandaag'];
     if (s === 'wacht op de openingsrange') return ['ok', 'Wacht op ' + nlTijd('10:00') + ' (eerste half uur)'];
-    return ['ok', '✓ Kijkt elk kwartier'];
+    return ['ok', '✓ Kijkt elk uur'];
   }
 
   function chart(wrap, dagen) {

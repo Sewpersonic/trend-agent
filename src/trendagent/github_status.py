@@ -19,7 +19,7 @@ WAT = {
     "tests": "Controle van de code",
     "diagnose": "Test van de koersbron",
     "broker": "Oefenaccount Trading 212",
-    "daytrade": "Daytrade-bot (elk kwartier)",
+    "daytrade": "Daytrade-bot",
 }
 PER_WORKFLOW = {"daytrade": 4}   # draait 28 keer per dag: alleen de laatste paar tonen
 

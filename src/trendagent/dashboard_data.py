@@ -437,7 +437,7 @@ EMPTY = {
     "gereed": "Nog geen gegevens over klaar voor echt geld.",
     "volglijst": "De volglijst is nog niet bekeken; dat gebeurt elke werkdag in de oefenronde.",
     "broker": "Het oefenaccount van Trading 212 is nog niet gekoppeld.",
-    "daytrader": "De daytrade-bot heeft nog geen ronde gedraaid. Hij kijkt elk kwartier tijdens de Amerikaanse beurs (15:30-22:00).",
+    "daytrader": "De daytrade-bot heeft nog geen ronde gedraaid. Hij kijkt elk uur tijdens de Amerikaanse beurs (15:30-22:00).",
 }
 
 
