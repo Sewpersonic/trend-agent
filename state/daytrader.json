@@ -1,6 +1,6 @@
 {
  "start": 10000.0,
- "equity": 9994.51,
+ "equity": 9965.29,
  "dagen": [
   {
    "dag": "2026-10-16",
@@ -41,6 +41,14 @@
    "resultaat": 0.0,
    "trades": 0,
    "daglimiet": false
+  },
+  {
+   "dag": "2026-10-23",
+   "begin": 9994.51,
+   "eind": 9965.29,
+   "resultaat": -29.22,
+   "trades": 2,
+   "daglimiet": false
   }
  ],
  "trades": [
@@ -69,29 +77,83 @@
     "boven_sma50": false,
     "markt_dagtrend": "zijwaarts"
    }
+  },
+  {
+   "dag": "2026-10-23",
+   "ticker": "GOOGL",
+   "qty": 7,
+   "instap": 323.1415,
+   "uitstap": 320.0899,
+   "t_in": "10:15",
+   "t_uit": "15:45",
+   "reden": "einde van de dag",
+   "resultaat": -21.36,
+   "r": -1.031,
+   "ctx": {
+    "tijd": "10:15",
+    "rvol": 1.39,
+    "or_breedte": 0.0105,
+    "boven_range": 0.001,
+    "markt_vandaag": 0.0005,
+    "dag_tot_nu": 0.0095,
+    "gap": -0.0103,
+    "dagtrend": "zijwaarts",
+    "plek": "onderaan het bereik",
+    "terugval": false,
+    "boven_sma50": false,
+    "markt_dagtrend": "zijwaarts"
+   }
+  },
+  {
+   "dag": "2026-10-23",
+   "ticker": "XLE",
+   "qty": 35,
+   "instap": 69.5197,
+   "uitstap": 69.2953,
+   "t_in": "11:15",
+   "t_uit": "15:45",
+   "reden": "einde van de dag",
+   "resultaat": -7.85,
+   "r": -0.161,
+   "ctx": {
+    "tijd": "11:15",
+    "rvol": 1.28,
+    "or_breedte": 0.0175,
+    "boven_range": 0.0063,
+    "markt_vandaag": 0.003,
+    "dag_tot_nu": 0.0195,
+    "gap": 0.0075,
+    "dagtrend": "stijgend",
+    "plek": "midden in het bereik",
+    "terugval": false,
+    "boven_sma50": true,
+    "markt_dagtrend": "zijwaarts"
+   }
   }
  ],
  "vandaag": {
   "dag": "2026-10-23",
   "begin": 9994.51,
-  "realized": 0.0,
-  "klaar": false,
-  "prev": "2026-10-23T15:15:00",
+  "realized": -29.215601760863734,
+  "klaar": true,
+  "prev": "2026-10-23T15:45:00",
   "traded": [
    "GOOGL",
    "XLE"
   ],
   "notities": [],
-  "trades": [],
-  "open": {
-   "GOOGL": {
+  "trades": [
+   {
+    "dag": "2026-10-23",
     "ticker": "GOOGL",
     "qty": 7,
-    "entry": 323.14150099182126,
-    "stop": 320.1805114746094,
-    "target": 329.06348002624503,
-    "t_in": "2026-10-23T10:15:00",
-    "risk": 20.726926620483198,
+    "instap": 323.1415,
+    "uitstap": 320.0899,
+    "t_in": "10:15",
+    "t_uit": "15:45",
+    "reden": "einde van de dag",
+    "resultaat": -21.36,
+    "r": -1.031,
     "ctx": {
      "tijd": "10:15",
      "rvol": 1.39,
@@ -107,14 +169,17 @@
      "markt_dagtrend": "zijwaarts"
     }
    },
-   "XLE": {
+   {
+    "dag": "2026-10-23",
     "ticker": "XLE",
     "qty": 35,
-    "entry": 69.51974311065673,
-    "stop": 68.12934824844359,
-    "target": 72.30053283508302,
-    "t_in": "2026-10-23T11:15:00",
-    "risk": 48.66382017745998,
+    "instap": 69.5197,
+    "uitstap": 69.2953,
+    "t_in": "11:15",
+    "t_uit": "15:45",
+    "reden": "einde van de dag",
+    "resultaat": -7.85,
+    "r": -0.161,
     "ctx": {
      "tijd": "11:15",
      "rvol": 1.28,
@@ -130,7 +195,8 @@
      "markt_dagtrend": "zijwaarts"
     }
    }
-  }
+  ],
+  "open": {}
  },
  "gem_vol": {
   "MSFT": 3012528.8,
@@ -161,62 +227,16 @@
   "GLD": 1231588.4
  },
  "uitgesloten": {},
- "open_nu": [
-  {
-   "ticker": "GOOGL",
-   "qty": 7,
-   "entry": 323.14150099182126,
-   "stop": 320.1805114746094,
-   "target": 329.06348002624503,
-   "risk": 20.726926620483198,
-   "ctx": {
-    "tijd": "10:15",
-    "rvol": 1.39,
-    "or_breedte": 0.0105,
-    "boven_range": 0.001,
-    "markt_vandaag": 0.0005,
-    "dag_tot_nu": 0.0095,
-    "gap": -0.0103,
-    "dagtrend": "zijwaarts",
-    "plek": "onderaan het bereik",
-    "terugval": false,
-    "boven_sma50": false,
-    "markt_dagtrend": "zijwaarts"
-   },
-   "t_in": "10:15",
-   "koers": 321.239990234375
-  },
-  {
-   "ticker": "XLE",
-   "qty": 35,
-   "entry": 69.51974311065673,
-   "stop": 68.12934824844359,
-   "target": 72.30053283508302,
-   "risk": 48.66382017745998,
-   "ctx": {
-    "tijd": "11:15",
-    "rvol": 1.28,
-    "or_breedte": 0.0175,
-    "boven_range": 0.0063,
-    "markt_vandaag": 0.003,
-    "dag_tot_nu": 0.0195,
-    "gap": 0.0075,
-    "dagtrend": "stijgend",
-    "plek": "midden in het bereik",
-    "terugval": false,
-    "boven_sma50": true,
-    "markt_dagtrend": "zijwaarts"
-   },
-   "t_in": "11:15",
-   "koers": 69.32499694824219
-  }
- ],
+ "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-10-23T19:26:32+00:00",
-  "ny": "2026-10-23 15:26",
+  "tijd": "2026-10-23T20:27:02+00:00",
+  "ny": "2026-10-23 16:27",
   "status": "ok",
   "log": [
-   "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   "Koersen niet vers (laatste blok 15:55): niets kopen deze ronde.",
+   "15:45 GOOGL: verkocht aan het einde van de dag",
+   "15:45 XLE: verkocht aan het einde van de dag",
+   "Dag klaar: 2 trades, resultaat -29.22 dollar."
   ]
  },
  "rondes": [
@@ -411,6 +431,17 @@
    "status": "ok",
    "log": [
     "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-10-23T20:27:02+00:00",
+   "ny": "2026-10-23 16:27",
+   "status": "ok",
+   "log": [
+    "Koersen niet vers (laatste blok 15:55): niets kopen deze ronde.",
+    "15:45 GOOGL: verkocht aan het einde van de dag",
+    "15:45 XLE: verkocht aan het einde van de dag",
+    "Dag klaar: 2 trades, resultaat -29.22 dollar."
    ]
   }
  ],
