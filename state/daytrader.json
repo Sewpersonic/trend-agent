@@ -76,7 +76,7 @@
   "begin": 9994.51,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-10-23T14:15:00",
+  "prev": "2026-10-23T15:15:00",
   "traded": [
    "GOOGL",
    "XLE"
@@ -184,7 +184,7 @@
     "markt_dagtrend": "zijwaarts"
    },
    "t_in": "10:15",
-   "koers": 322.010009765625
+   "koers": 321.239990234375
   },
   {
    "ticker": "XLE",
@@ -208,12 +208,12 @@
     "markt_dagtrend": "zijwaarts"
    },
    "t_in": "11:15",
-   "koers": 69.26499938964844
+   "koers": 69.32499694824219
   }
  ],
  "laatste_ronde": {
-  "tijd": "2026-10-23T18:26:20+00:00",
-  "ny": "2026-10-23 14:26",
+  "tijd": "2026-10-23T19:26:32+00:00",
+  "ny": "2026-10-23 15:26",
   "status": "ok",
   "log": [
    "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
@@ -400,6 +400,14 @@
   {
    "tijd": "2026-10-23T18:26:20+00:00",
    "ny": "2026-10-23 14:26",
+   "status": "ok",
+   "log": [
+    "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-10-23T19:26:32+00:00",
+   "ny": "2026-10-23 15:26",
    "status": "ok",
    "log": [
     "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
