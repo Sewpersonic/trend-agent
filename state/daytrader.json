@@ -76,7 +76,7 @@
   "begin": 9994.51,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-10-23T11:15:00",
+  "prev": "2026-10-23T12:15:00",
   "traded": [
    "GOOGL",
    "XLE"
@@ -184,7 +184,7 @@
     "markt_dagtrend": "zijwaarts"
    },
    "t_in": "10:15",
-   "koers": 323.739990234375
+   "koers": 322.9100036621094
   },
   {
    "ticker": "XLE",
@@ -208,15 +208,15 @@
     "markt_dagtrend": "zijwaarts"
    },
    "t_in": "11:15",
-   "koers": 69.48500061035156
+   "koers": 69.66500091552734
   }
  ],
  "laatste_ronde": {
-  "tijd": "2026-10-23T15:26:57+00:00",
-  "ny": "2026-10-23 11:26",
+  "tijd": "2026-10-23T16:27:02+00:00",
+  "ny": "2026-10-23 12:27",
   "status": "ok",
   "log": [
-   "11:15 XLE: gekocht (35 stuks, uitbraak boven 68.97 met 1.3x volume)"
+   "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: te weinig volume (0.7x normaal) (6x); te weinig volume (0.8x normaal) (5x); te weinig volume (0.9x normaal) (4x)."
   ]
  },
  "rondes": [
@@ -371,6 +371,14 @@
    "status": "ok",
    "log": [
     "11:15 XLE: gekocht (35 stuks, uitbraak boven 68.97 met 1.3x volume)"
+   ]
+  },
+  {
+   "tijd": "2026-10-23T16:27:02+00:00",
+   "ny": "2026-10-23 12:27",
+   "status": "ok",
+   "log": [
+    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: te weinig volume (0.7x normaal) (6x); te weinig volume (0.8x normaal) (5x); te weinig volume (0.9x normaal) (4x)."
    ]
   }
  ],
