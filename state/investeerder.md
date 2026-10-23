@@ -1,38 +1,38 @@
-# Investeerder 2026-10-21
+# Investeerder 2026-10-22
 
 _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 
 **Status:** OK  
-**Waarde:** €9,722.12  
+**Waarde:** €9,506.49  
 **Marktregime:** stijgend-laag  
 **Strategieversie:** investeerder-1.0-c2474a  
 **Koersbronnen:** 0 bevestigd door 2 bronnen, 52 uit 1 bron, 0 afwijkend; wisselkoers bevestigd  
-**Sinds start:** -2.78%  
+**Sinds start:** -4.94%  
 
 ## Verdeling
 
 | Instrument | Aandeel |
 | --- | --- |
-| iShares MSCI World (IWDA.AS) | 61.4% |
-| Halfgeleider-ETF (SMH) | 5.8% |
-| ASML (ASML.AS) | 5.7% |
-| AMD (AMD) | 5.7% |
-| Micron (MU) | 5.7% |
-| Infineon (IFX.DE) | 5.6% |
-| Bitcoin (BTC-USD) | 5.1% |
-| Ethereum (ETH-USD) | 5.0% |
+| iShares MSCI World (IWDA.AS) | 62.2% |
+| ASML (ASML.AS) | 5.6% |
+| Halfgeleider-ETF (SMH) | 5.5% |
+| Micron (MU) | 5.4% |
+| AMD (AMD) | 5.4% |
+| Infineon (IFX.DE) | 5.3% |
+| Bitcoin (BTC-USD) | 5.3% |
+| Ethereum (ETH-USD) | 5.2% |
 | Kas | 0.0% |
 
 ## Analyse van vandaag
 
 **Wat de bot zag**
 
-- **Markt (IWDA.AS):** koers 131,17, 8,6% boven het 200-daags gemiddelde (120,83); de afgelopen maand +1,4%. Trend: **stijgend**.
+- **Markt (IWDA.AS):** koers 129,93, 7,5% boven het 200-daags gemiddelde (120,91); de afgelopen maand +0,6%. Trend: **stijgend**.
 - **Beweeglijkheid:** 8% op jaarbasis, tegen normaal 10% het afgelopen jaar: **laag**.
-- **Breedte:** 33 van de 50 instrumenten staan boven hun 200-daags gemiddelde (66%; EU 12 van 23, US 21 van 27).
-- **Sterkste momentum nu (12 maanden, zonder laatste maand):** Micron +431%, AMD +159%, CrowdStrike +99%, Palo Alto Networks +77%, Halfgeleider-ETF +75%.
-- **BTC-USD:** 14,2% boven het 200-daags gemiddelde (mag in de mix).
-- **ETH-USD:** 13,7% boven het 200-daags gemiddelde (mag in de mix).
+- **Breedte:** 32 van de 50 instrumenten staan boven hun 200-daags gemiddelde (64%; EU 11 van 23, US 21 van 27).
+- **Sterkste momentum nu (12 maanden, zonder laatste maand):** Micron +430%, AMD +158%, CrowdStrike +108%, Palo Alto Networks +83%, Halfgeleider-ETF +75%.
+- **BTC-USD:** 15,5% boven het 200-daags gemiddelde (mag in de mix).
+- **ETH-USD:** 14,7% boven het 200-daags gemiddelde (mag in de mix).
 
 **Wat de bot eruit haalt**
 
@@ -43,17 +43,17 @@ _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 
 | Instrument | Waarde | Ingelegd | Resultaat |
 | --- | --- | --- | --- |
-| IFX.DE | €540,52 | €600,00 | -€59,48 (-9,9%) |
-| MU | €550,20 | €600,00 | -€49,80 (-8,3%) |
-| AMD | €553,99 | €600,00 | -€46,01 (-7,7%) |
-| ASML.AS | €558,48 | €600,00 | -€41,52 (-6,9%) |
-| SMH | €560,88 | €600,00 | -€39,12 (-6,5%) |
-| IWDA.AS | €5.971,24 | €6.000,00 | -€28,76 (-0,5%) |
-| ETH-USD | €489,29 | €500,00 | -€10,71 (-2,1%) |
-| BTC-USD | €497,52 | €500,00 | -€2,48 (-0,5%) |
+| IFX.DE | €507,92 | €600,00 | -€92,08 (-15,3%) |
+| AMD | €509,23 | €600,00 | -€90,77 (-15,1%) |
+| IWDA.AS | €5.914,79 | €6.000,00 | -€85,21 (-1,4%) |
+| MU | €516,40 | €600,00 | -€83,60 (-13,9%) |
+| SMH | €527,61 | €600,00 | -€72,39 (-12,1%) |
+| ASML.AS | €531,94 | €600,00 | -€68,06 (-11,3%) |
+| ETH-USD | €494,38 | €500,00 | -€5,62 (-1,1%) |
+| BTC-USD | €504,23 | €500,00 | €4,23 (+0,9%) |
 
-Totaal op de beleggingen: -€277,88 (inclusief aankoopkosten).
-Daling vanaf de hoogste waarde ooit: -2,78% (top €10.000,00). De investeerder heeft geen stop-loss: hij houdt een spreiding vast en herverdeelt maandelijks.
+Totaal op de beleggingen: -€493,50 (inclusief aankoopkosten).
+Daling vanaf de hoogste waarde ooit: -4,94% (top €10.000,00). De investeerder heeft geen stop-loss: hij houdt een spreiding vast en herverdeelt maandelijks.
 
 ## Vandaag gedaan
 
@@ -65,9 +65,9 @@ Daling vanaf de hoogste waarde ooit: -2,78% (top €10.000,00). De investeerder 
 
 | Eis | Stand | Nu |
 | --- | --- | --- |
-| Oefentijd | ⏳ | 7 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -1,81% |
-| Daling niet veel dieper dan de ETF | ✅ | bot -3,96%, ETF -1,37% |
+| Oefentijd | ⏳ | 8 van 63 handelsdagen (ongeveer 3 maanden) |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -3,04% |
+| Daling niet veel dieper dan de ETF | ✅ | bot -4,94%, ETF -1,76% |
 
 <details><summary>Zo analyseert de investeerder (klik om te openen)</summary>
 
