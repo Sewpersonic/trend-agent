@@ -8,13 +8,13 @@ Belangrijk: dit zijn maar ongeveer 2 maanden. Dat is te kort om iets te bewijzen
 
 | Variant | Rendement | Trades | Winst-% | Gem. R | Grootste daling |
 |---|---|---|---|---|---|
-| basis | +2,5% | 37 | 65% | 0,165 | -0,8% |
-| alleen als de daggrafiek van het aandeel stijgt | +0,3% | 31 | 48% | -0,062 | -1,0% |
-| niet als de daggrafiek van de markt daalt | +2,5% | 37 | 65% | 0,165 | -0,8% |
-| zonder winstdoel (alleen stop of einde dag) | +2,5% | 36 | 64% | 0,172 | -0,8% |
-| zonder marktfilter | -0,5% | 62 | 48% | -0,038 | -2,0% |
-| openingsrange 15 minuten | +0,4% | 58 | 47% | -0,104 | -1,8% |
-| minder streng op volume (1,0x) | +2,1% | 58 | 53% | 0,076 | -1,4% |
+| basis | +2,5% | 37 | 68% | 0,166 | -0,8% |
+| alleen als de daggrafiek van het aandeel stijgt | +0,3% | 31 | 48% | -0,061 | -1,0% |
+| niet als de daggrafiek van de markt daalt | +2,5% | 37 | 68% | 0,166 | -0,8% |
+| zonder winstdoel (alleen stop of einde dag) | +2,5% | 36 | 67% | 0,174 | -0,8% |
+| zonder marktfilter | -0,5% | 62 | 50% | -0,038 | -2,0% |
+| openingsrange 15 minuten | +0,5% | 58 | 48% | -0,096 | -1,8% |
+| minder streng op volume (1,0x) | +2,4% | 56 | 57% | 0,091 | -1,2% |
 
 ## Ter vergelijking
 
@@ -34,8 +34,8 @@ Uit 69 uitbraken in de koersgeschiedenis (ook die de bot niet kocht). Toets op 9
 
 ## Wat leert hij van de grafieken?
 
-- Test op oude koersen: 37 trades, 65% met winst, gemiddeld +0,17 R per trade.
+- Test op oude koersen: 37 trades, 68% met winst, gemiddeld +0,17 R per trade.
 - Tijdstip van kopen (New York): bij '10:00-10:59' ging het duidelijk beter dan anders (25 trades, gemiddeld +0,30 R, +0,43 R verschil met de rest). Misschien een kans om op te letten.
-- Tijdstip van kopen (New York): bij '11:00-11:59' ging het duidelijk slechter dan anders (11 trades, gemiddeld −0,12 R, −0,41 R verschil met de rest). Misschien een situatie om over te slaan.
+- Tijdstip van kopen (New York): bij '11:00-11:59' ging het duidelijk slechter dan anders (11 trades, gemiddeld −0,12 R, −0,40 R verschil met de rest). Misschien een situatie om over te slaan.
 
 Gem. R: gemiddelde winst of verlies per trade, gemeten in 'risico-eenheden' (1 R = het bedrag dat hij verliest als de stop-loss geraakt wordt). Boven 0 betekent: de winsten wogen zwaarder dan de verliezen.
