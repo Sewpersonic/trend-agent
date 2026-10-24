@@ -138,9 +138,9 @@ def _r(v: float) -> str:
 
 def les_tekst(kenmerk: str, groep: str, st: dict, diff: float) -> str:
     beter = diff > 0
-    return (f"{kenmerk}: bij '{groep}' ging het {'duidelijk beter' if beter else 'duidelijk slechter'} dan anders "
-            f"({st['n']} trades, gemiddeld {_r(st['gem_r'])}, {_r(diff)} verschil met de rest). "
-            + ("Misschien een kans om op te letten." if beter else "Misschien een situatie om over te slaan."))
+    # Kort en gewoon: eerst de situatie, dan beter/slechter, cijfers tussen haakjes.
+    return (f"{'Beter' if beter else 'Slechter'}: {kenmerk[:1].lower() + kenmerk[1:]} {groep} "
+            f"({st['n']} trades, gemiddeld {_r(st['gem_r'])} per trade).")
 
 
 def samenvatting(leer_uit: dict, bron: str) -> list[str]:

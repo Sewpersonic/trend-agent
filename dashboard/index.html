@@ -3349,6 +3349,15 @@ dash.calc('onderzoek_verschil', {
 .tx-order .m-close { all: unset; box-sizing: border-box; cursor: pointer; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; font-size: 18px; color: var(--color-fg-muted); }
 .tx-order .m-close:hover { background: var(--tx-soft); }
 .tx-order .m-close:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
+.dt-kort { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.dt-kort li { display: grid; gap: 1px; padding-left: 12px; border-left: 3px solid var(--color-fg-muted); font-size: 15px; line-height: 1.4; }
+.dt-kort li b { font-size: 13px; color: var(--color-fg-muted); font-weight: 600; }
+.dt-kort li.goed { border-color: var(--tx-up); } .dt-kort li.slecht { border-color: var(--tx-down); } .dt-kort li.letop { border-color: var(--color-warn); }
+.dt-antwoord { margin: 0 0 8px; font-size: 15px; font-weight: 600; }
+.dt-antwoord.goed { color: var(--tx-up); }
+.dt-meer { margin-top: 8px; font-size: 14px; }
+.dt-meer > summary { cursor: pointer; color: var(--color-fg-muted); font-weight: 600; padding: 4px 0; }
+.dt-meer > p { margin: 6px 0; color: var(--color-fg-muted); line-height: 1.45; }
 .dt-ind { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 7px; border-radius: 999px; white-space: nowrap; }
 .dt-ind.goed { color: var(--tx-up); background: color-mix(in srgb, currentColor 12%, transparent); }
 .dt-ind.mid { color: var(--color-fg-muted); background: color-mix(in srgb, currentColor 12%, transparent); }
@@ -3506,14 +3515,60 @@ dash.calc('onderzoek_verschil', {
     if (!x.indicatie || !IND[x.indicatie]) return null;
     return el('span', { class: 'dt-ind ' + IND[x.indicatie][0], title: x.indicatie_tekst || '' }, IND[x.indicatie][1]);
   }
-  let kenmerk = 'Daggrafiek van het aandeel', bron = '';
+  // 'Vandaag' alleen als het ook echt vandaag is (New Yorkse datum); anders de naam van die beursdag
+  function dagNaam(iso) {
+    const vandaag = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York' }).format(new Date());
+    if (!iso || iso === vandaag) return 'Vandaag';
+    const n = D(iso, new Intl.DateTimeFormat('nl-NL', { weekday: 'long' }));
+    return n.charAt(0).toUpperCase() + n.slice(1);
+  }
+  // Eerstvolgende moment dat hij kan kopen (Nederlandse tijd), in gewone woorden
+  function volgendeKans() {
+    const nu = new Date();
+    const nl = new Date(nu.toLocaleString('en-US', { timeZone: 'Europe/Amsterdam' }));
+    const hm = String(nl.getHours()).padStart(2, '0') + ':' + String(nl.getMinutes()).padStart(2, '0');
+    const wd = nl.getDay();
+    if (wd >= 1 && wd <= 5 && hm < nlTijd('12:30')) return 'vandaag';
+    const d = new Date(nl); do { d.setDate(d.getDate() + 1); } while (d.getDay() === 0 || d.getDay() === 6);
+    return (d.getDay() === (wd + 1) % 7 ? 'morgen (' : '') + new Intl.DateTimeFormat('nl-NL', { weekday: 'long' }).format(d) + (d.getDay() === (wd + 1) % 7 ? ')' : '');
+  }
+  // Vier vragen, vier korte antwoorden: snel snappen hoe het gaat
+  function kort(rows, st, pos) {
+    const kl = rows.find((r) => r.soort === 'kernles');
+    const vs = rows.find((r) => r.soort === 'voorstel');
+    const ir = rows.find((r) => r.soort === 'indicatie');
+    const w = st.sinds_start || 0, n = st.trades_totaal || 0;
+    const hoe = Math.abs(w) < 0.005 ? ['mid', 'Nog gelijk: ' + usd.format(st.waarde) + '.']
+      : w > 0 ? ['goed', 'In de plus: ' + sUsd(w) + ' sinds de start (' + pctF(w / st.start) + ').']
+      : ['slecht', (w / st.start > -0.01 ? 'Klein verlies: ' : 'Verlies: ') + sUsd(w) + ' sinds de start (' + pctF(w / st.start) + ').'];
+    hoe[1] += ' ' + n + (n === 1 ? ' trade' : ' trades') + ' in ' + st.dagen_geoefend + (st.dagen_geoefend === 1 ? ' beursdag.' : ' beursdagen.');
+    const nu = st.aan === false ? ['mid', 'Hij staat uit en koopt niets.']
+      : pos.length ? ['goed', 'Heeft nu ' + pos.map((p) => p.ticker).join(' en ') + ' gekocht. Om ' + nlTijd('15:45') + ' verkoopt hij alles.']
+      : ['mid', 'Niets open. Volgende kans om te kopen: ' + volgendeKans() + ' tussen ' + nlTijd('10:00') + ' en ' + nlTijd('12:30') + '.'];
+    let les = 'Nog niets duidelijks: daar zijn meer trades voor nodig.';
+    if (kl) {
+      const m = /^Tijdstip/.test(kl.kenmerk) && /^(\d\d:\d\d)-(\d\d):(\d\d)$/.exec(kl.groep);
+      les = m ? 'Kopen tussen ' + nlTijd(m[1]) + ' en ' + nlTijd(String(+m[2] + (m[3] === '59' ? 1 : 0)).padStart(2, '0') + ':' + (m[3] === '59' ? '00' : m[3])) + ' (Nederlandse tijd) ging ' + (kl.beter ? 'beter' : 'slechter') + ' dan later of eerder (' + kl.n + ' trades in de test).'
+        : kl.tekst;
+    }
+    if (ir && !ir.werkt) les += ' Het nieuwe label (gunstig/ongunstig) is nog niet bewezen.';
+    const doen = vs && !vs.aan ? ['letop', 'Ja: er ligt een voorstel voor een nieuwe regel (zie "Wat leert hij").'] : ['goed', 'Nee. Hij handelt zelf; zijn regels veranderen alleen als jij dat zegt.'];
+    const box = sec('In het kort');
+    const ul = el('ul', { class: 'dt-kort' });
+    [['Hoe gaat het?', hoe], ['Wat doet hij nu?', nu], ['Wat heeft hij geleerd?', ['mid', les]], ['Moet jij iets doen?', doen]].forEach(([v, [k, t]]) => {
+      const li = el('li', { class: k }); li.append(el('b', {}, v), el('span', {}, t)); ul.append(li);
+    });
+    box.append(ul);
+    return box;
+  }
+  let kenmerk = 'Daggrafiek van het aandeel', bron = '', sitOpen = false;
   function leren(left, right, rows, st) {
     const lessen = rows.filter((r) => r.soort === 'les'), groepen = rows.filter((r) => r.soort === 'groep');
     const varianten = rows.filter((r) => r.soort === 'variant'), vs = rows.find((r) => r.soort === 'voorstel');
     const onderzoek = rows.find((r) => r.soort === 'onderzoek');
     // Wat leert hij?
     const ws = sec('Wat leert hij van de grafieken?', st.regels ? 'nu: ' + st.regels : '');
-    ws.append(el('p', { class: 'tx-note', style: 'margin:0 0 8px' }, 'Bij elke trade legt hij vast hoe de daggrafiek eruitzag (trend, plek in het bereik van 3 maanden, de markt) en hoe het aandeel die ochtend bewoog. Zo ziet hij in welke situaties daytraden werkt. Hij past zijn regels nooit zelf aan: dat beslis jij.'));
+    ws.append(el('p', { class: 'tx-note', style: 'margin:0 0 8px' }, 'Bij elke trade onthoudt hij hoe de grafiek eruitzag. Zo ziet hij wanneer het goed of slecht gaat.'));
     if (vs) { const v = el('div', { class: 'dt-voorstel' }); v.append(el('b', {}, vs.aan ? 'Staat aan: ' + vs.naam : 'Voorstel'), el('span', {}, vs.aan ? 'Deze regel uit de grafiekanalyse gebruikt hij nu.' : vs.tekst)); ws.append(v); }
     const ul = el('ul', { class: 'dt-lessen' });
     lessen.forEach((l) => { const li = el('li', { 'data-source': 'daytrader', 'data-field': 'tekst', 'data-where': 'id=' + encodeURIComponent(l.id) }); li.append(el('span', { class: 'dt-bron ' + l.bron }, l.bron === 'test' ? 'Test' : 'Oefenen'), document.createTextNode(l.tekst)); ul.append(li); });
@@ -3522,8 +3577,8 @@ dash.calc('onderzoek_verschil', {
     const ir = rows.find((r) => r.soort === 'indicatie');
     if (ir) {
       const ib = el('div', { class: 'dt-indbox', 'data-source': 'daytrader', 'data-where': 'id=indicatie' });
-      ib.append(el('h4', {}, 'Indicatie per kans'),
-        el('p', { class: 'tx-note', style: 'margin:0 0 8px' }, 'Geen voorspelling, maar een ervaringsgetal. Bij elke kans kijkt hij hoe ' + ir.uitbraken + ' vergelijkbare uitbraken in de koersgeschiedenis afliepen (ook die hij zelf niet kocht) en geeft hij een label: gunstig, gemiddeld of ongunstig.'));
+      ib.append(el('h4', {}, 'Label per kans: gunstig of ongunstig?'),
+        el('p', { class: 'dt-antwoord ' + (ir.werkt ? 'goed' : 'mid') }, ir.werkt ? '✓ Het label werkt: gunstige kansen gingen echt beter dan ongunstige.' : 'Nog niet bewezen. Er zijn te weinig voorbeelden; elke week komen er meer bij.'));
       const rij = el('div', { class: 'dt-indrij' });
       ['gunstig', 'gemiddeld', 'ongunstig'].forEach((k) => {
         const n = ir[k + '_n'], r = ir[k + '_r'];
@@ -3532,7 +3587,12 @@ dash.calc('onderzoek_verschil', {
           el('span', { class: 's' }, n ? n + ' uitbraken · ' + Math.round((ir[k + '_winst'] || 0) * 100) + '% goed' : 'geen'));
         rij.append(c);
       });
-      ib.append(rij, el('p', { class: 'tx-note', style: 'margin:8px 0 0', 'data-field': 'zin' }, ir.zin + (ir.aan ? ' Hij slaat ongunstige kansen nu over.' : ' Hij koopt nog gewoon volgens zijn regels; ongunstige kansen overslaan gaat pas aan als jij dat zegt.')));
+      const uitleg = el('details', { class: 'dt-meer' });
+      uitleg.append(el('summary', {}, 'Hoe werkt dit?'),
+        el('p', {}, 'Geen voorspelling, maar ervaring: bij elke kans kijkt hij hoe ' + ir.uitbraken + ' vergelijkbare momenten eerder afliepen (ook die hij niet kocht). De vakjes laten zien hoe dat uitpakte op dagen die hij nog niet kende.'),
+        el('p', { 'data-field': 'zin' }, ir.zin),
+        el('p', {}, ir.aan ? 'Hij slaat ongunstige kansen nu over.' : 'Hij koopt nog gewoon volgens zijn regels. Ongunstige kansen overslaan gaat pas aan als jij dat zegt.'));
+      ib.append(rij, uitleg);
       ws.append(ib);
     }
     // per situatie
@@ -3542,7 +3602,8 @@ dash.calc('onderzoek_verschil', {
       if (!bron || !bronnen.includes(bron)) bron = nOef >= 20 || !bronnen.includes('test') ? 'oefenen' : 'test';
       const kenmerken = [...new Set(groepen.map((g) => g.kenmerk))];
       if (!kenmerken.includes(kenmerk)) kenmerk = kenmerken[0];
-      const ps = el('div', { class: 'dt-sit' });
+      const ps = el('details', { class: 'dt-sit dt-meer' }); if (sitOpen) ps.open = true;
+      ps.addEventListener('toggle', () => { sitOpen = ps.open; });
       const kies = el('div', { class: 'dt-kies' });
       const sel = el('select', { 'aria-label': 'Kenmerk' }); kenmerken.forEach((k) => { const o = el('option', { value: k }, k); if (k === kenmerk) o.selected = true; sel.append(o); });
       sel.addEventListener('change', () => { kenmerk = sel.value; draw(); });
@@ -3556,7 +3617,7 @@ dash.calc('onderzoek_verschil', {
       th.append(tr); const tb = el('tbody');
       gs.forEach((g) => { const r = el('tr', { 'data-key': g.id }); r.append(el('td', {}, g.groep), el('td', { class: 'num' }, String(g.n)), el('td', { class: 'num' }, g.winst_pct == null ? '–' : Math.round(g.winst_pct * 100) + '%'), el('td', { class: 'num ' + ud(g.gem_r || 0) }, g.gem_r == null ? '–' : (g.gem_r > 0 ? '+' : g.gem_r < 0 ? '−' : '') + Math.abs(g.gem_r).toFixed(2).replace('.', ','))); tb.append(r); });
       tbl.append(th, tb);
-      ps.append(el('h4', {}, 'Per situatie'), kies, tbl, el('p', { class: 'tx-note', style: 'margin:6px 0 0' }, 'Gem. R: gemiddelde winst of verlies per trade in risico-eenheden (1 R = het verlies als de stop-loss geraakt wordt). Kleine groepen zeggen weinig.'));
+      ps.append(el('summary', {}, 'Alle cijfers per situatie'), kies, tbl, el('p', { class: 'tx-note', style: 'margin:6px 0 0' }, 'Gem. R: gemiddelde winst of verlies per trade in risico-eenheden (1 R = het verlies als de stop-loss geraakt wordt). Kleine groepen zeggen weinig.'));
       ws.append(ps);
     }
     left.append(ws);
@@ -3564,6 +3625,10 @@ dash.calc('onderzoek_verschil', {
     if (varianten.length) {
       const os = sec('Onderzoek: welke regels werken?', onderzoek ? 'koersen ' + D(onderzoek.van, kortF) + ' – ' + D(onderzoek.tot, kortF) : '');
       const basis = varianten.find((v) => v.naam === 'basis');
+      const beste = varianten.reduce((a, v) => ((v.rendement || 0) > (a.rendement || 0) ? v : a), basis || varianten[0]);
+      os.append(el('p', { class: 'dt-antwoord ' + (beste === basis || !basis || (beste.rendement || 0) - (basis.rendement || 0) < 0.005 ? 'goed' : 'mid') },
+        !basis || beste === basis || (beste.rendement || 0) - (basis.rendement || 0) < 0.005 ? 'Zijn huidige regels doen het hier het best (' + pctF((basis || beste).rendement || 0) + ' in de test).'
+          : 'Dit deed het beter: "' + beste.naam + '" (' + pctF(beste.rendement || 0) + ' tegen ' + pctF(basis.rendement || 0) + '). Te kort getest om zeker te zijn.'));
       varianten.forEach((v) => {
         const r = el('div', { class: 'ap-row dt-var', 'data-source': 'daytrader', 'data-where': 'id=' + encodeURIComponent(v.id) });
         r.append(el('span', { class: 'ap-ico ' + (v.uit_grafiek ? 'grafiek' : v.huidig ? 'koop' : 'grijs'), 'aria-hidden': 'true' }, v.uit_grafiek ? '📈' : v.huidig ? '✓' : '·'));
@@ -3598,14 +3663,14 @@ dash.calc('onderzoek_verschil', {
     const [kl, tekst] = statusTekst(st);
     const chips = el('div', { class: 'ap-chips' });
     chips.append(el('span', { class: 'ap-chip ' + kl, 'data-source': 'daytrader', 'data-field': 'status', 'data-where': 'id=stand' }, tekst),
-      el('span', { class: 'ap-chip' }, 'Vandaag ' + sUsd(st.vandaag)),
-      el('span', { class: 'ap-chip' }, st.trades_vandaag + (st.trades_vandaag === 1 ? ' trade' : ' trades') + ' vandaag'));
+      el('span', { class: 'ap-chip' }, dagNaam(st.vandaag_dag) + ' ' + sUsd(st.vandaag)),
+      el('span', { class: 'ap-chip' }, st.trades_vandaag + (st.trades_vandaag === 1 ? ' trade' : ' trades') + ' ' + dagNaam(st.vandaag_dag).toLowerCase()));
     if (st.daglimiet) chips.append(el('span', { class: 'ap-chip bad' }, 'Daglimiet bereikt: koopt vandaag niets meer'));
     hero.append(lbl, big, chg, el('span', { class: 'ap-chip', style: 'width:max-content;border:0;background:none;padding:0;color:var(--color-fg-muted)' }, 'sinds de start met ' + usd.format(st.start) + ' · ' + st.dagen_geoefend + (st.dagen_geoefend === 1 ? ' beursdag' : ' beursdagen') + ' geoefend'), chips);
-    left.append(hero);
+    left.append(hero, kort(rows, st, pos));
     // open posities
     const ps = sec('Nu open', pos.length ? pos.length + (pos.length === 1 ? ' aandeel' : ' aandelen') : 'niets');
-    if (!pos.length) ps.append(el('p', { class: 'ap-empty' }, 'Er staat niets open. Hij koopt alleen tussen ' + nlTijd('10:00') + ' en ' + nlTijd('12:30') + ' (Nederlandse tijd) en verkoopt alles om ' + nlTijd('15:45') + '.'));
+    if (!pos.length) ps.append(el('p', { class: 'ap-empty' }, 'Niets. Hij koopt alleen tussen ' + nlTijd('10:00') + ' en ' + nlTijd('12:30') + ' en verkoopt alles om ' + nlTijd('15:45') + ' (Nederlandse tijd).'));
     pos.forEach((p) => {
       const r = el('div', { class: 'ap-row dt-pos' });
       const mid = el('div', { style: 'min-width:0' });

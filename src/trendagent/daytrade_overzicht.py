@@ -9,7 +9,7 @@ import json
 from datetime import date, datetime, timezone
 from pathlib import Path
 
-from .daytrade_leren import leer, samenvatting
+from .daytrade_leren import leer, les_tekst, samenvatting
 
 MIN_DAGEN = 40          # ongeveer 2 maanden oefenen
 MIN_TRADES = 30
@@ -53,7 +53,15 @@ def extra_rows(st: dict, test: dict, cfg: dict) -> list[dict]:
     oefen = leer(alle_trades(st))
     for i, z in enumerate(samenvatting(oefen, "Oefenen met echte koersen")):
         rows.append({"id": f"les-oefenen-{i}", "soort": "les", "bron": "oefenen", "tekst": z})
-    for i, z in enumerate(test.get("lessen") or []):
+    leren = test.get("leren") or {}
+    for les in leren.get("lessen") or []:   # tekst opnieuw maken, zodat oude onderzoeken ook de nieuwe korte zinnen tonen
+        if {"kenmerk", "groep", "n", "gem_r", "verschil_r"} <= set(les):
+            les["tekst"] = les_tekst(les["kenmerk"], les["groep"], les, les["verschil_r"])
+    if leren.get("lessen"):   # de belangrijkste les los, voor 'In het kort'
+        k = leren["lessen"][0]
+        rows.append({"id": "kernles", "soort": "kernles", "kenmerk": k["kenmerk"], "groep": k["groep"],
+                     "beter": k.get("soort") == "beter", "n": k["n"], "tekst": k["tekst"]})
+    for i, z in enumerate(samenvatting(leren, "Test op oude koersen") if leren else test.get("lessen") or []):
         rows.append({"id": f"les-test-{i}", "soort": "les", "bron": "test", "tekst": z})
     for bron, uit in (("oefenen", oefen), ("test", test.get("leren") or {})):
         for kenmerk, groepen in (uit.get("groepen") or {}).items():
