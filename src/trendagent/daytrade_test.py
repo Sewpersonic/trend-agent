@@ -115,6 +115,14 @@ def run(out_dir: Path = Path("backtest/daytrade"), data: dict[str, list[Bar5]] |
     summary["leren"] = geleerd
     summary["lessen"] = samenvatting(geleerd, "Test op oude koersen")
     summary["voorstel"] = voorstel(summary)
+    # Indicatie per kans: alle uitbraken uit de koersgeschiedenis, met hoe ze afliepen
+    from .daytrade_indicatie import tabel, toets, uitbraken, zin
+    events = uitbraken(data, base, daily)
+    ts = toets(events)
+    summary["indicatie"] = {"uitbraken": len(events), "toets": ts, "zin": zin(ts)}
+    (out_dir / "indicatie.json").write_text(json.dumps({"gemaakt": summary["gemaakt"], "uitbraken": len(events),
+                                                        "tabel": tabel(events), "toets": ts, "zin": zin(ts)},
+                                                       ensure_ascii=False, indent=1), encoding="utf-8")
     (out_dir / "resultaat.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
     with (out_dir / "trades.csv").open("w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
@@ -175,6 +183,9 @@ def rapport(s: dict) -> str:
           f"- Winstdoel gehaald: {b['redenen'].get('winstdoel', 0)}",
           f"- Verkocht aan het einde van de dag: {b['redenen'].get('einde van de dag', 0)}",
           f"- Dagen met minstens één trade: {b['dagen_met_trade']} van {b['dagen']}", "",
+          "## Indicatie per kans", "",
+          f"Uit {(s.get('indicatie') or {}).get('uitbraken', 0)} uitbraken in de koersgeschiedenis (ook die de bot niet kocht). "
+          + (s.get("indicatie") or {}).get("zin", ""), "",
           "## Wat leert hij van de grafieken?", ""] + [f"- {z}" for z in s.get("lessen", [])] + (
           ["", f"**Voorstel:** {s['voorstel']['tekst']}"] if s.get("voorstel") else []) + ["",
           "Gem. R: gemiddelde winst of verlies per trade, gemeten in 'risico-eenheden' (1 R = het bedrag dat hij "

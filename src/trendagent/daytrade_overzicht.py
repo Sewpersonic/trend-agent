@@ -16,7 +16,8 @@ MIN_TRADES = 30
 MAX_DALING = -0.05
 
 REGEL_NAMEN = {"dagtrend_filter": "alleen als de daggrafiek van het aandeel stijgt",
-               "markt_trend_filter": "niet als de daggrafiek van de markt daalt"}
+               "markt_trend_filter": "niet als de daggrafiek van de markt daalt",
+               "indicatie_filter": "geen kansen met een ongunstige indicatie"}
 
 
 def _load(path: Path) -> dict:
@@ -72,6 +73,15 @@ def extra_rows(st: dict, test: dict, cfg: dict) -> list[dict]:
         v = test["voorstel"]
         rows.append({"id": "voorstel", "soort": "voorstel", "naam": v["naam"], "tekst": v["tekst"],
                      "aan": v["naam"] in aan})
+    ind = test.get("indicatie") or {}
+    if ind:
+        ts = ind.get("toets") or {}
+        rij = {"id": "indicatie", "soort": "indicatie", "uitbraken": ind.get("uitbraken", 0), "zin": ind.get("zin", ""),
+               "werkt": bool(ts.get("werkt")), "test_dagen": ts.get("test_dagen"), "aan": "indicatie_filter" in
+               {k for k, v in (cfg.get("regels") or {}).items() if v is True}}
+        for k, x in (ts.get("per_oordeel") or {}).items():
+            rij[f"{k}_n"], rij[f"{k}_r"], rij[f"{k}_winst"] = x["n"], x["gem_r"], x["winst_pct"]
+        rows.append(rij)
     if test:
         rows.append({"id": "onderzoek", "soort": "onderzoek", "van": test.get("van", ""), "tot": test.get("tot", ""),
                      "gemaakt": test.get("gemaakt", "")})

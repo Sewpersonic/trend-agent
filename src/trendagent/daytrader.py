@@ -63,6 +63,7 @@ class Params:
     # Regels uit de grafiekanalyse (standaard uit; alleen aan na onderzoek en jouw ja):
     dagtrend_filter: bool = False      # alleen kopen als de daggrafiek van het aandeel stijgt (slot > 50d > 200d)
     markt_trend_filter: bool = False   # niet kopen als de daggrafiek van de markt (SPY) daalt
+    indicatie_filter: bool = False     # geen uitbraken kopen met een ongunstige indicatie (daytrade_indicatie)
 
 
 @dataclass
@@ -222,7 +223,7 @@ class DayEngine:
         self.res.eind = self.res.begin + self.realized
 
     def step(self, t: datetime, day_bars: dict[str, list[Bar5]], avg_or_vol: dict[str, float],
-             fill_at=None, allow_entries: bool = True, context: dict | None = None) -> list[str]:
+             fill_at=None, allow_entries: bool = True, context: dict | None = None, beoordeel=None) -> list[str]:
         """Kijkmoment t (New Yorkse tijd, zonder tijdzone). Gebruikt alleen blokken die vóór t begonnen.
         fill_at(ticker, t) -> prijs waartegen nu gekocht/verkocht wordt (test: opening van het blok op t).
         Geeft een lijst met wat er gebeurde, in gewone woorden."""
@@ -309,9 +310,18 @@ class DayEngine:
                 continue
             target = entry + p.target_r * (entry - stop) if p.use_target else None
             ctx = entry_context(tk, day_bars, t, o, avg_or_vol.get(tk), context, p)
+            ind = beoordeel(ctx) if beoordeel else None
+            if ind:
+                ctx["indicatie"] = ind.get("oordeel")
+                ctx["indicatie_tekst"] = ind.get("tekst")
+            if p.indicatie_filter and ind and ind.get("oordeel") == "ongunstig":
+                self.traded.add(tk)   # vandaag niet opnieuw proberen
+                self.redenen["indicatie ongunstig"] = self.redenen.get("indicatie ongunstig", 0) + 1
+                log.append(f"{tk}: niet gekocht, indicatie ongunstig ({ind.get('tekst', '')})")
+                continue
             self.open[tk] = Pos(tk, q, entry, stop, target, t, (entry - stop) * q, ctx)
             self.traded.add(tk)
-            log.append(f"{tk}: gekocht ({q} stuks, {why})")
+            log.append(f"{tk}: gekocht ({q} stuks, {why})" + (f". Indicatie: {ind['tekst']}" if ind else ""))
         return log
 
 

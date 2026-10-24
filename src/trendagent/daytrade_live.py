@@ -89,13 +89,22 @@ def fetch_daily(tks: list[str]) -> dict:
 
 # Regels die jij in config/daytrader.json onder "regels" mag aan- of uitzetten (na het onderzoek). Alles erbuiten
 # wordt genegeerd: de remmen (risico, daglimiet, aantal trades) zijn niet via dit bestand te versoepelen.
-REGELS = {"dagtrend_filter": bool, "markt_trend_filter": bool}
+REGELS = {"dagtrend_filter": bool, "markt_trend_filter": bool, "indicatie_filter": bool}
 
 
 def params_from(cfg: dict, base: Params = Params()) -> Params:
     from dataclasses import replace
     kies = {k: bool(v) for k, v in (cfg.get("regels") or {}).items() if k in REGELS and isinstance(v, bool)}
     return replace(base, **kies) if kies else base
+
+
+def beoordelaar(pad: Path):
+    """Functie die bij een kans de indicatie geeft (uit het laatste onderzoek), of None als die er nog niet is."""
+    from .daytrade_indicatie import indicatie
+    t = load(pad).get("tabel")
+    if not t:
+        return None
+    return lambda ctx: indicatie(ctx, t)
 
 
 def suspicious(bars: list[Bar5]) -> str | None:
@@ -119,7 +128,8 @@ def load(path: Path) -> dict:
 
 
 def run(state_dir: Path, config_path: Path = Path("config/daytrader.json"), now: datetime | None = None,
-        provider=None, p: Params | None = None, daily_provider=None) -> dict:
+        provider=None, p: Params | None = None, daily_provider=None,
+        indicatie_pad: Path = Path("backtest/daytrade/indicatie.json")) -> dict:
     """Eén ronde. provider(tickers, period) -> {ticker: [Bar5]} (standaard Yahoo; in tests verzonnen koersen).
     daily_provider(tickers) -> {ticker: [Bar]}: dagkoersen voor de daggrafiek (één keer per dag)."""
     from .core.kill_switch import KillSwitch
@@ -222,12 +232,13 @@ def run(state_dir: Path, config_path: Path = Path("config/daytrader.json"), now:
             bs = bars.get(tk) or []
             return bs[-1].c if bs else None
 
+        beoordeel = beoordelaar(indicatie_pad)
         for i, t in enumerate(due):
             laatste = i == len(due) - 1
             mag_kopen = (laatste and aan and not kill and vers and (ny - t) <= timedelta(minutes=14)
                          and not st.get("geen_context"))
             stap = e.step(t, live_bars if mag_kopen else bars, avg, fill_at=live_price if laatste else None,
-                          allow_entries=mag_kopen, context=st.get("dagcontext") or {})
+                          allow_entries=mag_kopen, context=st.get("dagcontext") or {}, beoordeel=beoordeel)
             log += [f"{t:%H:%M} {x}" for x in stap]
             if e.klaar:
                 break

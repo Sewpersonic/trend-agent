@@ -19,7 +19,7 @@ from __future__ import annotations
 import argparse
 import json as _json
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from .agent import TrendAgent
@@ -304,7 +304,12 @@ def _market_day(args):
     """Simulatie: vandaag. Echt: de handelsdag waarvan de slotkoersen nu binnen horen te zijn."""
     now = datetime.now(timezone.utc)
     if getattr(args, "simulated", False):
-        return now.date()
+        # Verzonnen koersen bestaan alleen op werkdagen: in het weekend de vrijdag ervoor
+        # (anders zien de controles 'koers niet bijgewerkt' en faalt een proef op zaterdag).
+        d = now.date()
+        while d.weekday() >= 5:
+            d -= timedelta(days=1)
+        return d
     from .features import expected_market_day
     return expected_market_day(now)
 

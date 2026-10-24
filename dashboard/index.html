@@ -3349,6 +3349,18 @@ dash.calc('onderzoek_verschil', {
 .tx-order .m-close { all: unset; box-sizing: border-box; cursor: pointer; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; font-size: 18px; color: var(--color-fg-muted); }
 .tx-order .m-close:hover { background: var(--tx-soft); }
 .tx-order .m-close:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
+.dt-ind { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 7px; border-radius: 999px; white-space: nowrap; }
+.dt-ind.goed { color: var(--tx-up); background: color-mix(in srgb, currentColor 12%, transparent); }
+.dt-ind.mid { color: var(--color-fg-muted); background: color-mix(in srgb, currentColor 12%, transparent); }
+.dt-ind.slecht { color: var(--tx-down); background: color-mix(in srgb, currentColor 12%, transparent); }
+.dt-indbox { margin: 10px 0 12px; }
+.dt-indbox h4 { margin: 0 0 4px; }
+.dt-indrij { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.dt-indkaart { display: grid; gap: 2px; padding: 8px 10px; border: 1px solid var(--color-border-line); border-radius: 10px; min-width: 0; }
+.dt-indkaart b { font-size: 13px; }
+.dt-indkaart.goed b { color: var(--tx-up); } .dt-indkaart.slecht b { color: var(--tx-down); }
+.dt-indkaart .v { font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.dt-indkaart .s { font-size: 12px; color: var(--color-fg-muted); }
 .dt-lessen { list-style: none; margin: 4px 0 8px; padding: 0; display: grid; gap: 8px; font-size: 14px; line-height: 1.45; }
 .dt-lessen li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; align-items: start; }
 .dt-bron { font-size: 11px; font-weight: var(--cds-font-weight-medium); padding: 2px 8px; border-radius: 999px; background: var(--tx-soft); color: var(--color-fg-muted); margin-top: 1px; }
@@ -3488,6 +3500,12 @@ dash.calc('onderzoek_verschil', {
     if (laatste !== eerste) svg.append('text').attr('class', 'as').attr('x', w - pad.r).attr('y', h - 4).attr('text-anchor', 'end').text(D(laatste, kortF));
   }
 
+  const IND = { gunstig: ['goed', '▲ gunstig'], gemiddeld: ['mid', '● gemiddeld'], ongunstig: ['slecht', '▼ ongunstig'] };
+  // Indicatie-label bij een kans: hoe liepen vergelijkbare uitbraken eerder af? (geen voorspelling)
+  function indLabel(x) {
+    if (!x.indicatie || !IND[x.indicatie]) return null;
+    return el('span', { class: 'dt-ind ' + IND[x.indicatie][0], title: x.indicatie_tekst || '' }, IND[x.indicatie][1]);
+  }
   let kenmerk = 'Daggrafiek van het aandeel', bron = '';
   function leren(left, right, rows, st) {
     const lessen = rows.filter((r) => r.soort === 'les'), groepen = rows.filter((r) => r.soort === 'groep');
@@ -3500,6 +3518,23 @@ dash.calc('onderzoek_verschil', {
     const ul = el('ul', { class: 'dt-lessen' });
     lessen.forEach((l) => { const li = el('li', { 'data-source': 'daytrader', 'data-field': 'tekst', 'data-where': 'id=' + encodeURIComponent(l.id) }); li.append(el('span', { class: 'dt-bron ' + l.bron }, l.bron === 'test' ? 'Test' : 'Oefenen'), document.createTextNode(l.tekst)); ul.append(li); });
     ws.append(ul);
+    // indicatie per kans
+    const ir = rows.find((r) => r.soort === 'indicatie');
+    if (ir) {
+      const ib = el('div', { class: 'dt-indbox', 'data-source': 'daytrader', 'data-where': 'id=indicatie' });
+      ib.append(el('h4', {}, 'Indicatie per kans'),
+        el('p', { class: 'tx-note', style: 'margin:0 0 8px' }, 'Geen voorspelling, maar een ervaringsgetal. Bij elke kans kijkt hij hoe ' + ir.uitbraken + ' vergelijkbare uitbraken in de koersgeschiedenis afliepen (ook die hij zelf niet kocht) en geeft hij een label: gunstig, gemiddeld of ongunstig.'));
+      const rij = el('div', { class: 'dt-indrij' });
+      ['gunstig', 'gemiddeld', 'ongunstig'].forEach((k) => {
+        const n = ir[k + '_n'], r = ir[k + '_r'];
+        const c = el('div', { class: 'dt-indkaart ' + IND[k][0] });
+        c.append(el('b', {}, IND[k][1]), el('span', { class: 'v ' + (r == null ? '' : ud(r)) }, r == null ? '–' : (r > 0 ? '+' : r < 0 ? '−' : '') + Math.abs(r).toFixed(2).replace('.', ',') + ' R'),
+          el('span', { class: 's' }, n ? n + ' uitbraken · ' + Math.round((ir[k + '_winst'] || 0) * 100) + '% goed' : 'geen'));
+        rij.append(c);
+      });
+      ib.append(rij, el('p', { class: 'tx-note', style: 'margin:8px 0 0', 'data-field': 'zin' }, ir.zin + (ir.aan ? ' Hij slaat ongunstige kansen nu over.' : ' Hij koopt nog gewoon volgens zijn regels; ongunstige kansen overslaan gaat pas aan als jij dat zegt.')));
+      ws.append(ib);
+    }
     // per situatie
     if (groepen.length) {
       const bronnen = [...new Set(groepen.map((g) => g.bron))];
@@ -3577,6 +3612,7 @@ dash.calc('onderzoek_verschil', {
       mid.append(el('div', { class: 'n' }, p.ticker + ' · ' + p.aantal + ' stuks'));
       const sub = el('div', { class: 's' }); sub.append(document.createTextNode('gekocht ' + nlTijd(p.t_in) + ' voor ' + usd.format(p.instap) + ' · stop '), el('b', {}, usd.format(p.stop)), document.createTextNode(p.doel ? ' · doel ' + usd.format(p.doel) : ''));
       mid.append(sub);
+      const pl = indLabel(p); if (pl) { pl.textContent = 'indicatie ' + pl.textContent; mid.append(el('div', { class: 's' }, pl)); }
       const rt = el('div', { class: 'r' }); rt.append(el('span', { class: 'v' }, usd.format(p.koers)), el('span', { class: 'c ' + ud(p.resultaat), 'data-source': 'daytrader', 'data-field': 'resultaat', 'data-where': W(p) }, sUsd(p.resultaat)));
       r.append(coin(p.ticker, 40), mid, rt); ps.append(r);
     });
@@ -3597,6 +3633,7 @@ dash.calc('onderzoek_verschil', {
       r.append(el('span', { class: 'ap-ico ' + (t.resultaat >= 0 ? 'koop' : 'verkoop'), 'aria-hidden': 'true' }, t.resultaat >= 0 ? '▲' : '▼'));
       const mid = el('div', { style: 'min-width:0' });
       mid.append(el('div', { class: 'n' }, t.aantal + ' ' + t.ticker), el('div', { class: 's' }, nlTijd(t.t_in) + ' gekocht · ' + nlTijd(t.t_uit) + ' verkocht · ' + t.reden));
+      const tl = indLabel(t); if (tl) mid.lastChild.append(document.createTextNode(' · '), tl);
       const rt = el('div', { class: 'r' }); rt.append(el('span', { class: 'v ' + ud(t.resultaat), 'data-source': 'daytrader', 'data-field': 'resultaat', 'data-where': W(t) }, sUsd(t.resultaat)), el('span', { class: 'c' }, usd.format(t.instap) + ' → ' + usd.format(t.uitstap)));
       r.append(mid, rt); ts.append(r);
     });
