@@ -1,7 +1,7 @@
 {
- "gemaakt": "2026-10-17T11:11:57+00:00",
- "van": "2026-08-07",
- "tot": "2026-10-16",
+ "gemaakt": "2026-10-24T11:38:42+00:00",
+ "van": "2026-08-14",
+ "tot": "2026-10-23",
  "aandelen": [
   "AAPL",
   "AMD",
@@ -32,27 +32,27 @@
   "XOM"
  ],
  "vergelijk": {
-  "spy_vasthouden": -0.01,
-  "spy_elke_dag_in_en_uit": -0.0694
+  "spy_vasthouden": -0.0239,
+  "spy_elke_dag_in_en_uit": -0.0668
  },
  "varianten": {
   "basis": {
    "stats": {
-    "trades": 38,
+    "trades": 37,
     "dagen": 50,
     "dagen_met_trade": 22,
-    "winst_pct": 0.632,
-    "gem_r": 0.15,
-    "rendement": 0.0227,
-    "max_daling": -0.0085,
-    "profit_factor": 2.35,
+    "winst_pct": 0.649,
+    "gem_r": 0.165,
+    "rendement": 0.0247,
+    "max_daling": -0.0079,
+    "profit_factor": 2.81,
     "redenen": {
      "stop-loss": 1,
      "winstdoel": 1,
-     "einde van de dag": 36
+     "einde van de dag": 35
     }
    },
-   "eind": 10227.07
+   "eind": 10247.45
   },
   "alleen als de daggrafiek van het aandeel stijgt": {
    "stats": {
@@ -60,140 +60,110 @@
     "dagen": 50,
     "dagen_met_trade": 20,
     "winst_pct": 0.484,
-    "gem_r": -0.054,
-    "rendement": 0.0038,
-    "max_daling": -0.01,
-    "profit_factor": 1.21,
+    "gem_r": -0.062,
+    "rendement": 0.0026,
+    "max_daling": -0.0101,
+    "profit_factor": 1.14,
     "redenen": {
      "stop-loss": 3,
      "winstdoel": 0,
      "einde van de dag": 28
     }
    },
-   "eind": 10037.68
+   "eind": 10025.84
   },
   "niet als de daggrafiek van de markt daalt": {
-   "stats": {
-    "trades": 38,
-    "dagen": 50,
-    "dagen_met_trade": 22,
-    "winst_pct": 0.632,
-    "gem_r": 0.15,
-    "rendement": 0.0227,
-    "max_daling": -0.0085,
-    "profit_factor": 2.35,
-    "redenen": {
-     "stop-loss": 1,
-     "winstdoel": 1,
-     "einde van de dag": 36
-    }
-   },
-   "eind": 10227.07
-  },
-  "zonder winstdoel (alleen stop of einde dag)": {
    "stats": {
     "trades": 37,
     "dagen": 50,
     "dagen_met_trade": 22,
-    "winst_pct": 0.622,
-    "gem_r": 0.157,
-    "rendement": 0.0226,
-    "max_daling": -0.0085,
-    "profit_factor": 2.34,
+    "winst_pct": 0.649,
+    "gem_r": 0.165,
+    "rendement": 0.0247,
+    "max_daling": -0.0079,
+    "profit_factor": 2.81,
+    "redenen": {
+     "stop-loss": 1,
+     "winstdoel": 1,
+     "einde van de dag": 35
+    }
+   },
+   "eind": 10247.45
+  },
+  "zonder winstdoel (alleen stop of einde dag)": {
+   "stats": {
+    "trades": 36,
+    "dagen": 50,
+    "dagen_met_trade": 22,
+    "winst_pct": 0.639,
+    "gem_r": 0.172,
+    "rendement": 0.0247,
+    "max_daling": -0.0079,
+    "profit_factor": 2.81,
     "redenen": {
      "stop-loss": 1,
      "winstdoel": 0,
-     "einde van de dag": 36
+     "einde van de dag": 35
     }
    },
-   "eind": 10226.38
+   "eind": 10246.76
   },
   "zonder marktfilter": {
    "stats": {
     "trades": 62,
     "dagen": 50,
-    "dagen_met_trade": 35,
+    "dagen_met_trade": 36,
     "winst_pct": 0.484,
-    "gem_r": -0.034,
-    "rendement": -0.0037,
-    "max_daling": -0.0214,
-    "profit_factor": 0.93,
+    "gem_r": -0.038,
+    "rendement": -0.0046,
+    "max_daling": -0.02,
+    "profit_factor": 0.91,
     "redenen": {
      "stop-loss": 8,
      "winstdoel": 1,
      "einde van de dag": 53
     }
    },
-   "eind": 9963.36
+   "eind": 9954.45
   },
   "openingsrange 15 minuten": {
    "stats": {
-    "trades": 52,
+    "trades": 58,
     "dagen": 50,
-    "dagen_met_trade": 27,
-    "winst_pct": 0.519,
-    "gem_r": -0.016,
-    "rendement": 0.0206,
-    "max_daling": -0.0132,
-    "profit_factor": 1.59,
+    "dagen_met_trade": 30,
+    "winst_pct": 0.466,
+    "gem_r": -0.104,
+    "rendement": 0.0036,
+    "max_daling": -0.0176,
+    "profit_factor": 1.07,
     "redenen": {
-     "stop-loss": 10,
+     "stop-loss": 14,
      "winstdoel": 3,
-     "einde van de dag": 39
+     "einde van de dag": 41
     }
    },
-   "eind": 10205.78
+   "eind": 10036.26
   },
   "minder streng op volume (1,0x)": {
    "stats": {
-    "trades": 56,
+    "trades": 58,
     "dagen": 50,
-    "dagen_met_trade": 29,
-    "winst_pct": 0.518,
-    "gem_r": 0.028,
-    "rendement": 0.0072,
-    "max_daling": -0.0147,
-    "profit_factor": 1.2,
+    "dagen_met_trade": 30,
+    "winst_pct": 0.534,
+    "gem_r": 0.076,
+    "rendement": 0.0208,
+    "max_daling": -0.0138,
+    "profit_factor": 1.63,
     "redenen": {
      "stop-loss": 4,
      "winstdoel": 1,
-     "einde van de dag": 51
+     "einde van de dag": 53
     }
    },
-   "eind": 10072.28
+   "eind": 10208.34
   }
  },
  "basis_dagen": [
-  {
-   "dag": "2026-08-07",
-   "resultaat": 0.0,
-   "trades": 0,
-   "daglimiet": false
-  },
-  {
-   "dag": "2026-08-10",
-   "resultaat": -14.06,
-   "trades": 2,
-   "daglimiet": false
-  },
-  {
-   "dag": "2026-08-11",
-   "resultaat": 0.0,
-   "trades": 0,
-   "daglimiet": false
-  },
-  {
-   "dag": "2026-08-12",
-   "resultaat": 0.0,
-   "trades": 0,
-   "daglimiet": false
-  },
-  {
-   "dag": "2026-08-13",
-   "resultaat": 0.0,
-   "trades": 0,
-   "daglimiet": false
-  },
   {
    "dag": "2026-08-14",
    "resultaat": 0.0,
@@ -463,208 +433,238 @@
    "resultaat": 0.0,
    "trades": 0,
    "daglimiet": false
+  },
+  {
+   "dag": "2026-10-19",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-10-20",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-10-21",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-10-22",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-10-23",
+   "resultaat": 6.33,
+   "trades": 1,
+   "daglimiet": false
   }
  ],
  "basis_curve": [
   [
-   "2026-08-07",
+   "2026-08-14",
    10000.0
   ],
   [
-   "2026-08-10",
-   9985.94
-  ],
-  [
-   "2026-08-11",
-   9985.94
-  ],
-  [
-   "2026-08-12",
-   9985.94
-  ],
-  [
-   "2026-08-13",
-   9985.94
-  ],
-  [
-   "2026-08-14",
-   9985.94
-  ],
-  [
    "2026-08-17",
-   9985.94
+   10000.0
   ],
   [
    "2026-08-18",
-   9985.94
+   10000.0
   ],
   [
    "2026-08-19",
-   9993.68
+   10007.74
   ],
   [
    "2026-08-20",
-   9956.53
+   9970.59
   ],
   [
    "2026-08-21",
-   9957.47
+   9971.53
   ],
   [
    "2026-08-24",
-   9957.47
+   9971.53
   ],
   [
    "2026-08-25",
-   9957.47
+   9971.53
   ],
   [
    "2026-08-26",
-   9923.13
+   9937.19
   ],
   [
    "2026-08-27",
-   9938.69
+   9952.75
   ],
   [
    "2026-08-28",
-   9922.83
+   9936.89
   ],
   [
    "2026-08-31",
-   9922.83
+   9936.89
   ],
   [
    "2026-09-01",
-   9934.39
+   9948.44
   ],
   [
    "2026-09-02",
-   9934.39
+   9948.44
   ],
   [
    "2026-09-03",
-   9935.86
+   9949.91
   ],
   [
    "2026-09-04",
-   9935.86
+   9949.91
   ],
   [
    "2026-09-08",
-   9935.86
+   9949.91
   ],
   [
    "2026-09-09",
-   9935.86
+   9949.91
   ],
   [
    "2026-09-10",
-   9944.09
+   9958.15
   ],
   [
    "2026-09-11",
-   9914.9
+   9928.95
   ],
   [
    "2026-09-14",
-   9940.11
+   9954.17
   ],
   [
    "2026-09-15",
-   9940.11
+   9954.17
   ],
   [
    "2026-09-16",
-   9940.11
+   9954.17
   ],
   [
    "2026-09-17",
-   9940.11
+   9954.17
   ],
   [
    "2026-09-18",
-   9940.11
+   9954.17
   ],
   [
    "2026-09-21",
-   9966.37
+   9980.42
   ],
   [
    "2026-09-22",
-   9990.7
+   10004.76
   ],
   [
    "2026-09-23",
-   9990.7
+   10004.76
   ],
   [
    "2026-09-24",
-   10024.54
+   10038.59
   ],
   [
    "2026-09-25",
-   10024.54
+   10038.59
   ],
   [
    "2026-09-28",
-   10017.0
+   10031.06
   ],
   [
    "2026-09-29",
-   10017.0
+   10031.06
   ],
   [
    "2026-09-30",
-   10017.0
+   10031.06
   ],
   [
    "2026-10-01",
-   10017.0
+   10031.06
   ],
   [
    "2026-10-02",
-   10022.79
+   10036.85
   ],
   [
    "2026-10-05",
-   10022.79
+   10036.85
   ],
   [
    "2026-10-06",
-   10058.13
+   10072.19
   ],
   [
    "2026-10-07",
-   10079.32
+   10093.38
   ],
   [
    "2026-10-08",
-   10079.32
+   10093.38
   ],
   [
    "2026-10-09",
-   10107.99
+   10122.04
   ],
   [
    "2026-10-12",
-   10107.99
+   10122.04
   ],
   [
    "2026-10-13",
-   10110.38
+   10124.43
   ],
   [
    "2026-10-14",
-   10110.38
+   10124.43
   ],
   [
    "2026-10-15",
-   10227.07
+   10241.12
   ],
   [
    "2026-10-16",
-   10227.07
+   10241.12
+  ],
+  [
+   "2026-10-19",
+   10241.12
+  ],
+  [
+   "2026-10-20",
+   10241.12
+  ],
+  [
+   "2026-10-21",
+   10241.12
+  ],
+  [
+   "2026-10-22",
+   10241.12
+  ],
+  [
+   "2026-10-23",
+   10247.45
   ]
  ],
  "regels": {
@@ -673,26 +673,26 @@
  },
  "leren": {
   "totaal": {
-   "n": 38,
-   "gem_r": 0.15,
-   "winst_pct": 0.632,
-   "resultaat": 227.05
+   "n": 37,
+   "gem_r": 0.165,
+   "winst_pct": 0.649,
+   "resultaat": 247.43
   },
   "groepen": {
    "Daggrafiek van het aandeel": [
     {
      "groep": "stijgende trend",
      "n": 20,
-     "gem_r": 0.056,
+     "gem_r": 0.044,
      "winst_pct": 0.55,
-     "resultaat": 50.68
+     "resultaat": 38.84
     },
     {
      "groep": "geen duidelijke richting",
-     "n": 14,
-     "gem_r": 0.319,
-     "winst_pct": 0.786,
-     "resultaat": 171.88
+     "n": 13,
+     "gem_r": 0.393,
+     "winst_pct": 0.846,
+     "resultaat": 204.1
     },
     {
      "groep": "dalende trend",
@@ -706,16 +706,16 @@
     {
      "groep": "midden in het bereik",
      "n": 25,
-     "gem_r": 0.225,
+     "gem_r": 0.215,
      "winst_pct": 0.64,
-     "resultaat": 204.4
+     "resultaat": 192.56
     },
     {
      "groep": "bij de 3-maands top",
-     "n": 10,
-     "gem_r": 0.004,
-     "winst_pct": 0.6,
-     "resultaat": 21.1
+     "n": 9,
+     "gem_r": 0.076,
+     "winst_pct": 0.667,
+     "resultaat": 53.32
     },
     {
      "groep": "onderaan het bereik",
@@ -728,33 +728,33 @@
    "Daggrafiek van de markt (SPY)": [
     {
      "groep": "markt in stijgende trend",
-     "n": 36,
-     "gem_r": 0.188,
-     "winst_pct": 0.667,
-     "resultaat": 256.24
+     "n": 34,
+     "gem_r": 0.207,
+     "winst_pct": 0.676,
+     "resultaat": 270.29
     },
     {
      "groep": "markt zonder richting",
-     "n": 2,
-     "gem_r": -0.537,
-     "winst_pct": 0.0,
-     "resultaat": -29.19
+     "n": 3,
+     "gem_r": -0.316,
+     "winst_pct": 0.333,
+     "resultaat": -22.86
     }
    ],
    "Tijdstip van kopen (New York)": [
     {
      "groep": "10:00-10:59",
      "n": 25,
-     "gem_r": 0.273,
-     "winst_pct": 0.72,
-     "resultaat": 260.87
+     "gem_r": 0.304,
+     "winst_pct": 0.76,
+     "resultaat": 299.42
     },
     {
      "groep": "11:00-11:59",
-     "n": 12,
-     "gem_r": -0.079,
-     "winst_pct": 0.5,
-     "resultaat": -26.29
+     "n": 11,
+     "gem_r": -0.121,
+     "winst_pct": 0.455,
+     "resultaat": -44.46
     },
     {
      "groep": "12:00-12:30",
@@ -767,10 +767,10 @@
    "Extra handel in het eerste half uur": [
     {
      "groep": "1,2-1,5x",
-     "n": 21,
-     "gem_r": 0.153,
-     "winst_pct": 0.667,
-     "resultaat": 129.48
+     "n": 20,
+     "gem_r": 0.18,
+     "winst_pct": 0.7,
+     "resultaat": 149.86
     },
     {
      "groep": "1,5-2,5x",
@@ -797,33 +797,33 @@
     },
     {
      "groep": "normaal (1-2%)",
-     "n": 13,
-     "gem_r": 0.141,
-     "winst_pct": 0.692,
-     "resultaat": 85.13
+     "n": 14,
+     "gem_r": 0.14,
+     "winst_pct": 0.714,
+     "resultaat": 91.46
     },
     {
      "groep": "breed (>2%)",
-     "n": 11,
-     "gem_r": 0.227,
-     "winst_pct": 0.636,
-     "resultaat": 91.96
+     "n": 9,
+     "gem_r": 0.307,
+     "winst_pct": 0.667,
+     "resultaat": 106.01
     }
    ],
    "Opening t.o.v. gisteren": [
     {
-     "groep": "lager geopend",
-     "n": 14,
-     "gem_r": 0.281,
-     "winst_pct": 0.714,
-     "resultaat": 124.65
-    },
-    {
      "groep": "hoger geopend",
      "n": 13,
-     "gem_r": 0.154,
+     "gem_r": 0.135,
      "winst_pct": 0.769,
-     "resultaat": 86.55
+     "resultaat": 74.71
+    },
+    {
+     "groep": "lager geopend",
+     "n": 13,
+     "gem_r": 0.352,
+     "winst_pct": 0.769,
+     "resultaat": 156.87
     },
     {
      "groep": "rond gisteren",
@@ -843,10 +843,10 @@
    "Markt op het moment van kopen": [
     {
      "groep": "licht hoger (<0,3%)",
-     "n": 35,
-     "gem_r": 0.15,
-     "winst_pct": 0.629,
-     "resultaat": 213.5
+     "n": 34,
+     "gem_r": 0.166,
+     "winst_pct": 0.647,
+     "resultaat": 233.88
     },
     {
      "groep": "hoger (0,3-0,8%)",
@@ -863,16 +863,27 @@
     "groep": "10:00-10:59",
     "soort": "beter",
     "n": 25,
-    "gem_r": 0.273,
-    "verschil_r": 0.359,
-    "t": 2.1,
-    "tekst": "Tijdstip van kopen (New York): bij '10:00-10:59' ging het duidelijk beter dan anders (25 trades, gemiddeld +0,27 R, +0,36 R verschil met de rest). Misschien een kans om op te letten."
+    "gem_r": 0.304,
+    "verschil_r": 0.429,
+    "t": 2.5,
+    "tekst": "Tijdstip van kopen (New York): bij '10:00-10:59' ging het duidelijk beter dan anders (25 trades, gemiddeld +0,30 R, +0,43 R verschil met de rest). Misschien een kans om op te letten."
+   },
+   {
+    "kenmerk": "Tijdstip van kopen (New York)",
+    "groep": "11:00-11:59",
+    "soort": "slechter",
+    "n": 11,
+    "gem_r": -0.121,
+    "verschil_r": -0.407,
+    "t": -2.3,
+    "tekst": "Tijdstip van kopen (New York): bij '11:00-11:59' ging het duidelijk slechter dan anders (11 trades, gemiddeld −0,12 R, −0,41 R verschil met de rest). Misschien een situatie om over te slaan."
    }
   ]
  },
  "lessen": [
-  "Test op oude koersen: 38 trades, 63% met winst, gemiddeld +0,15 R per trade.",
-  "Tijdstip van kopen (New York): bij '10:00-10:59' ging het duidelijk beter dan anders (25 trades, gemiddeld +0,27 R, +0,36 R verschil met de rest). Misschien een kans om op te letten."
+  "Test op oude koersen: 37 trades, 65% met winst, gemiddeld +0,17 R per trade.",
+  "Tijdstip van kopen (New York): bij '10:00-10:59' ging het duidelijk beter dan anders (25 trades, gemiddeld +0,30 R, +0,43 R verschil met de rest). Misschien een kans om op te letten.",
+  "Tijdstip van kopen (New York): bij '11:00-11:59' ging het duidelijk slechter dan anders (11 trades, gemiddeld −0,12 R, −0,41 R verschil met de rest). Misschien een situatie om over te slaan."
  ],
  "voorstel": null
 }
