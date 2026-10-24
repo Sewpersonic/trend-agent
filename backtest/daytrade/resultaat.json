@@ -1,5 +1,5 @@
 {
- "gemaakt": "2026-10-24T11:38:42+00:00",
+ "gemaakt": "2026-10-24T17:52:45+00:00",
  "van": "2026-08-14",
  "tot": "2026-10-23",
  "aandelen": [
@@ -885,5 +885,23 @@
   "Tijdstip van kopen (New York): bij '10:00-10:59' ging het duidelijk beter dan anders (25 trades, gemiddeld +0,30 R, +0,43 R verschil met de rest). Misschien een kans om op te letten.",
   "Tijdstip van kopen (New York): bij '11:00-11:59' ging het duidelijk slechter dan anders (11 trades, gemiddeld −0,12 R, −0,41 R verschil met de rest). Misschien een situatie om over te slaan."
  ],
- "voorstel": null
+ "voorstel": null,
+ "indicatie": {
+  "uitbraken": 69,
+  "toets": {
+   "genoeg": true,
+   "leer_dagen": 13,
+   "test_dagen": 9,
+   "vanaf": "2026-09-24",
+   "per_oordeel": {
+    "gemiddeld": {
+     "n": 32,
+     "gem_r": 0.28,
+     "winst_pct": 0.75
+    }
+   },
+   "werkt": false
+  },
+  "zin": "Toets op 9 latere dagen die de indicatie nooit zag: gunstig –, gemiddeld +0,28 R (32 uitbraken), ongunstig –. Nog geen duidelijk verschil: gebruik de indicatie voorlopig alleen als informatie."
+ }
 }

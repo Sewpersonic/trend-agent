@@ -28,6 +28,10 @@ Belangrijk: dit zijn maar ongeveer 2 maanden. Dat is te kort om iets te bewijzen
 - Verkocht aan het einde van de dag: 35
 - Dagen met minstens één trade: 22 van 50
 
+## Indicatie per kans
+
+Uit 69 uitbraken in de koersgeschiedenis (ook die de bot niet kocht). Toets op 9 latere dagen die de indicatie nooit zag: gunstig –, gemiddeld +0,28 R (32 uitbraken), ongunstig –. Nog geen duidelijk verschil: gebruik de indicatie voorlopig alleen als informatie.
+
 ## Wat leert hij van de grafieken?
 
 - Test op oude koersen: 37 trades, 65% met winst, gemiddeld +0,17 R per trade.
