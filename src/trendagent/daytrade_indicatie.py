@@ -97,6 +97,13 @@ def uitbraken(data: dict[str, list[Bar5]], p: Params = Params(), daily: dict | N
     return out
 
 
+def samenvoegen(oud: list[dict], nieuw: list[dict]) -> list[dict]:
+    """Bewaarde uitbraken plus de nieuwe (dezelfde dag en aandeel: de nieuwe telt), gesorteerd op dag."""
+    alles = {(e["dag"], e["ticker"]): e for e in oud if isinstance(e, dict) and "dag" in e and "r" in e}
+    alles.update({(e["dag"], e["ticker"]): e for e in nieuw})
+    return [alles[k] for k in sorted(alles)]
+
+
 def _gem(rs: list[float]) -> float:
     return sum(rs) / len(rs) if rs else 0.0
 

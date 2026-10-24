@@ -75,6 +75,13 @@ class IndicatieTest(unittest.TestCase):
         p = dl.params_from({"regels": {"indicatie_filter": True, "iets_anders": True}})
         self.assertTrue(p.indicatie_filter)
 
+    def test_samenvoegen_bewaart_oude_dagen(self):
+        oud = [ev("2026-07-01", 0.5), ev("2026-08-01", 0.1)]
+        nieuw = [{**ev("2026-08-01", 0.9)}, ev("2026-08-02", -1.0)]
+        uit = di.samenvoegen(oud, nieuw)
+        self.assertEqual([e["dag"] for e in uit], ["2026-07-01", "2026-08-01", "2026-08-02"])
+        self.assertEqual(uit[1]["r"], 0.9)
+
     def test_dashboard_rij(self):
         from trendagent.daytrade_overzicht import extra_rows
         evs = []

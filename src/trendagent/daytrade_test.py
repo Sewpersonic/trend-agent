@@ -116,8 +116,15 @@ def run(out_dir: Path = Path("backtest/daytrade"), data: dict[str, list[Bar5]] |
     summary["lessen"] = samenvatting(geleerd, "Test op oude koersen")
     summary["voorstel"] = voorstel(summary)
     # Indicatie per kans: alle uitbraken uit de koersgeschiedenis, met hoe ze afliepen
-    from .daytrade_indicatie import tabel, toets, uitbraken, zin
-    events = uitbraken(data, base, daily)
+    from .daytrade_indicatie import samenvoegen, tabel, toets, uitbraken, zin
+    # Yahoo geeft maar ~60 dagen 5-minutenkoersen; door eerdere uitbraken te bewaren groeit de ervaring elke week.
+    archief = out_dir / "uitbraken.json"
+    try:
+        oud = json.loads(archief.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        oud = []
+    events = samenvoegen(oud, uitbraken(data, base, daily))
+    archief.write_text(json.dumps(events, ensure_ascii=False), encoding="utf-8")
     ts = toets(events)
     summary["indicatie"] = {"uitbraken": len(events), "toets": ts, "zin": zin(ts)}
     (out_dir / "indicatie.json").write_text(json.dumps({"gemaakt": summary["gemaakt"], "uitbraken": len(events),
