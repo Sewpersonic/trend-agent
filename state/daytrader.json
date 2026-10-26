@@ -1,6 +1,6 @@
 {
  "start": 10000.0,
- "equity": 9965.29,
+ "equity": 9951.36,
  "dagen": [
   {
    "dag": "2026-10-16",
@@ -47,6 +47,14 @@
    "begin": 9994.51,
    "eind": 9965.29,
    "resultaat": -29.22,
+   "trades": 2,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-10-26",
+   "begin": 9965.29,
+   "eind": 9951.36,
+   "resultaat": -13.93,
    "trades": 2,
    "daglimiet": false
   }
@@ -129,29 +137,87 @@
     "boven_sma50": true,
     "markt_dagtrend": "zijwaarts"
    }
+  },
+  {
+   "dag": "2026-10-26",
+   "ticker": "TSLA",
+   "qty": 6,
+   "instap": 392.9644,
+   "uitstap": 391.4942,
+   "t_in": "10:30",
+   "t_uit": "15:45",
+   "reden": "einde van de dag",
+   "resultaat": -8.82,
+   "r": -0.187,
+   "ctx": {
+    "tijd": "10:30",
+    "rvol": 3.0,
+    "or_breedte": 0.0281,
+    "boven_range": 0.001,
+    "markt_vandaag": 0.0033,
+    "dag_tot_nu": 0.0295,
+    "gap": 0.0316,
+    "dagtrend": "zijwaarts",
+    "plek": "midden in het bereik",
+    "terugval": false,
+    "boven_sma50": true,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gunstig",
+    "indicatie_tekst": "Gunstig: vergelijkbare uitbraken liepen in 73% van de gevallen goed af (gemiddeld +0,25 R; alle uitbraken samen +0,14 R). Vooral: breedte van de openingsrange 'breed (>2%)'."
+   }
+  },
+  {
+   "dag": "2026-10-26",
+   "ticker": "PANW",
+   "qty": 6,
+   "instap": 391.1955,
+   "uitstap": 390.3447,
+   "t_in": "10:30",
+   "t_uit": "15:45",
+   "reden": "einde van de dag",
+   "resultaat": -5.1,
+   "r": -0.109,
+   "ctx": {
+    "tijd": "10:30",
+    "rvol": 2.51,
+    "or_breedte": 0.0265,
+    "boven_range": 0.001,
+    "markt_vandaag": 0.0033,
+    "dag_tot_nu": 0.0191,
+    "gap": 0.0092,
+    "dagtrend": "stijgend",
+    "plek": "midden in het bereik",
+    "terugval": false,
+    "boven_sma50": true,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 66% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,14 R)."
+   }
   }
  ],
  "vandaag": {
   "dag": "2026-10-26",
   "begin": 9965.29,
-  "realized": 0.0,
-  "klaar": false,
-  "prev": "2026-10-26T15:30:00",
+  "realized": -13.925960357665645,
+  "klaar": true,
+  "prev": "2026-10-26T15:45:00",
   "traded": [
    "PANW",
    "TSLA"
   ],
   "notities": [],
-  "trades": [],
-  "open": {
-   "TSLA": {
+  "trades": [
+   {
+    "dag": "2026-10-26",
     "ticker": "TSLA",
     "qty": 6,
-    "entry": 392.9643893737793,
-    "stop": 385.1051015863037,
-    "target": 408.68296494873044,
-    "t_in": "2026-10-26T10:30:00",
-    "risk": 47.15572672485348,
+    "instap": 392.9644,
+    "uitstap": 391.4942,
+    "t_in": "10:30",
+    "t_uit": "15:45",
+    "reden": "einde van de dag",
+    "resultaat": -8.82,
+    "r": -0.187,
     "ctx": {
      "tijd": "10:30",
      "rvol": 3.0,
@@ -169,14 +235,17 @@
      "indicatie_tekst": "Gunstig: vergelijkbare uitbraken liepen in 73% van de gevallen goed af (gemiddeld +0,25 R; alle uitbraken samen +0,14 R). Vooral: breedte van de openingsrange 'breed (>2%)'."
     }
    },
-   "PANW": {
+   {
+    "dag": "2026-10-26",
     "ticker": "PANW",
     "qty": 6,
-    "entry": 391.1955,
-    "stop": 383.37158999999997,
-    "target": 406.84332,
-    "t_in": "2026-10-26T10:30:00",
-    "risk": 46.94346000000007,
+    "instap": 391.1955,
+    "uitstap": 390.3447,
+    "t_in": "10:30",
+    "t_uit": "15:45",
+    "reden": "einde van de dag",
+    "resultaat": -5.1,
+    "r": -0.109,
     "ctx": {
      "tijd": "10:30",
      "rvol": 2.51,
@@ -194,7 +263,8 @@
      "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 66% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,14 R)."
     }
    }
-  }
+  ],
+  "open": {}
  },
  "gem_vol": {
   "AAPL": 6825722.7,
@@ -226,66 +296,16 @@
   "GLD": 1163874.6
  },
  "uitgesloten": {},
- "open_nu": [
-  {
-   "ticker": "TSLA",
-   "qty": 6,
-   "entry": 392.9643893737793,
-   "stop": 385.1051015863037,
-   "target": 408.68296494873044,
-   "risk": 47.15572672485348,
-   "ctx": {
-    "tijd": "10:30",
-    "rvol": 3.0,
-    "or_breedte": 0.0281,
-    "boven_range": 0.001,
-    "markt_vandaag": 0.0033,
-    "dag_tot_nu": 0.0295,
-    "gap": 0.0316,
-    "dagtrend": "zijwaarts",
-    "plek": "midden in het bereik",
-    "terugval": false,
-    "boven_sma50": true,
-    "markt_dagtrend": "zijwaarts",
-    "indicatie": "gunstig",
-    "indicatie_tekst": "Gunstig: vergelijkbare uitbraken liepen in 73% van de gevallen goed af (gemiddeld +0,25 R; alle uitbraken samen +0,14 R). Vooral: breedte van de openingsrange 'breed (>2%)'."
-   },
-   "t_in": "10:30",
-   "koers": 394.0
-  },
-  {
-   "ticker": "PANW",
-   "qty": 6,
-   "entry": 391.1955,
-   "stop": 383.37158999999997,
-   "target": 406.84332,
-   "risk": 46.94346000000007,
-   "ctx": {
-    "tijd": "10:30",
-    "rvol": 2.51,
-    "or_breedte": 0.0265,
-    "boven_range": 0.001,
-    "markt_vandaag": 0.0033,
-    "dag_tot_nu": 0.0191,
-    "gap": 0.0092,
-    "dagtrend": "stijgend",
-    "plek": "midden in het bereik",
-    "terugval": false,
-    "boven_sma50": true,
-    "markt_dagtrend": "zijwaarts",
-    "indicatie": "gemiddeld",
-    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 66% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,14 R)."
-   },
-   "t_in": "10:30",
-   "koers": 391.1000061035156
-  }
- ],
+ "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-10-26T19:43:19+00:00",
-  "ny": "2026-10-26 15:43",
+  "tijd": "2026-10-26T20:26:52+00:00",
+  "ny": "2026-10-26 16:26",
   "status": "ok",
   "log": [
-   "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   "Koersen niet vers (laatste blok 15:55): niets kopen deze ronde.",
+   "15:45 TSLA: verkocht aan het einde van de dag",
+   "15:45 PANW: verkocht aan het einde van de dag",
+   "Dag klaar: 2 trades, resultaat -13.93 dollar."
   ]
  },
  "rondes": [
@@ -548,6 +568,17 @@
    "status": "ok",
    "log": [
     "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-10-26T20:26:52+00:00",
+   "ny": "2026-10-26 16:26",
+   "status": "ok",
+   "log": [
+    "Koersen niet vers (laatste blok 15:55): niets kopen deze ronde.",
+    "15:45 TSLA: verkocht aan het einde van de dag",
+    "15:45 PANW: verkocht aan het einde van de dag",
+    "Dag klaar: 2 trades, resultaat -13.93 dollar."
    ]
   }
  ],
