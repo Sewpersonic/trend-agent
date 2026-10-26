@@ -136,7 +136,7 @@
   "begin": 9965.29,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-10-26T11:15:00",
+  "prev": "2026-10-26T12:15:00",
   "traded": [
    "PANW",
    "TSLA"
@@ -251,7 +251,7 @@
     "indicatie_tekst": "Gunstig: vergelijkbare uitbraken liepen in 73% van de gevallen goed af (gemiddeld +0,25 R; alle uitbraken samen +0,14 R). Vooral: breedte van de openingsrange 'breed (>2%)'."
    },
    "t_in": "10:30",
-   "koers": 395.70001220703125
+   "koers": 394.4513854980469
   },
   {
    "ticker": "PANW",
@@ -277,15 +277,15 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 66% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,14 R)."
    },
    "t_in": "10:30",
-   "koers": 389.9549865722656
+   "koers": 389.989990234375
   }
  ],
  "laatste_ronde": {
-  "tijd": "2026-10-26T15:28:14+00:00",
-  "ny": "2026-10-26 11:28",
+  "tijd": "2026-10-26T16:26:44+00:00",
+  "ny": "2026-10-26 12:26",
   "status": "ok",
   "log": [
-   "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: te weinig volume (0.8x normaal) (5x); te weinig volume (0.6x normaal) (5x); te weinig volume (0.7x normaal) (2x)."
+   "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: te weinig volume (0.8x normaal) (5x); te weinig volume (0.6x normaal) (5x); nog geen uitbraak (3x)."
   ]
  },
  "rondes": [
@@ -508,6 +508,14 @@
    "status": "ok",
    "log": [
     "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: te weinig volume (0.8x normaal) (5x); te weinig volume (0.6x normaal) (5x); te weinig volume (0.7x normaal) (2x)."
+   ]
+  },
+  {
+   "tijd": "2026-10-26T16:26:44+00:00",
+   "ny": "2026-10-26 12:26",
+   "status": "ok",
+   "log": [
+    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: te weinig volume (0.8x normaal) (5x); te weinig volume (0.6x normaal) (5x); nog geen uitbraak (3x)."
    ]
   }
  ],
