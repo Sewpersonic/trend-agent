@@ -298,15 +298,10 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-10-26T20:26:52+00:00",
-  "ny": "2026-10-26 16:26",
-  "status": "ok",
-  "log": [
-   "Koersen niet vers (laatste blok 15:55): niets kopen deze ronde.",
-   "15:45 TSLA: verkocht aan het einde van de dag",
-   "15:45 PANW: verkocht aan het einde van de dag",
-   "Dag klaar: 2 trades, resultaat -13.93 dollar."
-  ]
+  "tijd": "2026-10-26T21:26:32+00:00",
+  "ny": "2026-10-26 17:26",
+  "status": "beurs dicht",
+  "log": []
  },
  "rondes": [
   {
