@@ -70,7 +70,16 @@ def row(inst: Instrument, bars: list[Bar], today: date, s: Settings, t212: list[
         "trend": trend, "kandidaat": a.is_candidate, "score": a.score, "oordeel": oordeel,
         "bij_t212": None if t212 is None else bool(t212_ticker), "t212": t212_ticker or "",
         "lijn": ",".join(f"{c:.4g}" for c in closes[-60:]),
+        "_ctx": _ctx(a, bars) if a.is_candidate else None,
     }
+
+
+def _ctx(a, bars) -> dict:
+    """Situatie voor de indicatie (zelfde meetwaarden als bij de kansen van de trend-agent)."""
+    from .features import snapshot
+    from .insights import kans_context, moment
+    snap = snapshot(bars)
+    return kans_context(a, snap, moment(snap)[0])
 
 
 def build(config: Path, state_dir: Path, provider, s: Settings, today: date | None = None) -> list[dict]:
@@ -89,8 +98,14 @@ def build(config: Path, state_dir: Path, provider, s: Settings, today: date | No
             rows.append(row(inst, bars, today, s, t212))
     from datetime import datetime, timezone
     nu = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    from . import trend_indicatie as ti
+    onderzoek_ti = ti.laad(Path("onderzoek") / ti.BESTAND)
     for r in rows:
         r["gemaakt"] = nu
+        ctx = r.pop("_ctx", None)
+        ind = ti.beoordeel(ctx, onderzoek_ti) if ctx else {"oordeel": "onbekend"}
+        r["indicatie"] = "" if ind["oordeel"] == "onbekend" else ind["oordeel"]
+        r["indicatie_tekst"] = ind.get("tekst", "") if r["indicatie"] else ""
     # Eerst wat de trend-agent zou kopen (hoogste score), dan de rest op rendement over 3 maanden.
     return sorted(rows, key=lambda r: (not r.get("kandidaat"), -(r.get("score") or 0), -(r.get("kwartaal") or -9)))
 

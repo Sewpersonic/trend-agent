@@ -206,7 +206,7 @@ class TrendAgent:
             elif not rep.buys_allowed:
                 blocked = "vandaag geen aankopen (zie waarschuwingen)"
             rep.kansen = insights.opportunities(rep, pf, self._snapshots, self.s, pf.equity(prices, fx), fx,
-                                                BY_TICKER, self._costs, blocked)
+                                                BY_TICKER, self._costs, blocked, regime=self.regime)
             region_of = {t: BY_TICKER[t].region for t in bars}
             market = uitleg.market_view(bars, self.regime, region_of)
             zeef = uitleg.funnel(analyses, suspicious)

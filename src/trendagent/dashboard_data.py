@@ -115,15 +115,21 @@ def build(state_dir: Path, reports_dir: Path) -> dict[str, list[dict]]:
             rows.append(dict(t, id=f"{key}-{i}", bot=name))
     out["oogopslag"] = rows
 
-    # Kansen
+    # Kansen (met een indicatie uit het onderzoek naar eerdere koopsignalen, alleen ter informatie)
+    from . import trend_indicatie as ti
+    onderzoek_ti = ti.laad(Path("onderzoek") / ti.BESTAND)
     rows = []
     for i, k in enumerate(tr.get("kansen", []), 1):
         p = k["plan"]
-        rows.append({"nr": i, "ticker": k["ticker"], "naam": k["naam"], "moment": k["moment"],
+        ind = ti.beoordeel(k.get("ctx") or {}, onderzoek_ti) if k.get("ctx") else {"oordeel": "", "tekst": ""}
+        rows.append({"soort": "kans", "nr": i, "ticker": k["ticker"], "naam": k["naam"], "moment": k["moment"],
                      "moment_uitleg": k["moment_uitleg"], "waarom": k["uitleg"], "status": k["status"],
                      "valuta": p["valuta"], "instap": p["instap"], "stop": p["stop"], "stop_pct": p["stop_pct"],
-                     "aantal": p["aantal"], "inzet_eur": p["inzet_eur"], "max_verlies_eur": p["max_verlies_eur"]})
-    out["kansen"] = rows
+                     "aantal": p["aantal"], "inzet_eur": p["inzet_eur"], "max_verlies_eur": p["max_verlies_eur"],
+                     "indicatie": ind["oordeel"] if ind["oordeel"] != "onbekend" else "",
+                     "indicatie_tekst": ind.get("tekst", "")})
+    # één extra rij (soort 'indicatie') met de uitkomst van het onderzoek; alleen als er ook kansen zijn
+    out["kansen"] = rows + (ti_rows(onderzoek_ti) if rows else [])
 
     # Klaar voor echt geld
     rows = []
@@ -228,6 +234,21 @@ def build(state_dir: Path, reports_dir: Path) -> dict[str, list[dict]]:
     ] + ([{"id": "daytrader", "wat": "Daytrade-bot", "tijd": str((_load(state_dir / "daytrader.json").get("laatste_ronde") or {}).get("tijd") or "")}]
          if (state_dir / "daytrader.json").exists() else []) + ([{"id": "volglijst", "wat": "Volglijst", "tijd": vl[0].get("gemaakt", "")}] if vl and vl[0].get("gemaakt") else [])
     return out
+
+
+def ti_rows(uit: dict) -> list[dict]:
+    """Samenvatting van het onderzoek naar eerdere koopsignalen van de trend-agent (één rij, voor het dashboard)."""
+    if not uit:
+        return []
+    ts = uit.get("toets") or {}
+    r = {"id": "indicatie", "soort": "indicatie", "signalen": uit.get("signalen", 0), "van": uit.get("van", ""), "tot": uit.get("tot", ""),
+         "gemaakt": uit.get("gemaakt", ""), "zin": uit.get("zin", ""), "werkt": bool(ts.get("werkt")),
+         "genoeg": bool(ts.get("genoeg")), "test_dagen": ts.get("test_dagen"), "vanaf": ts.get("vanaf", "")}
+    tot = (uit.get("tabel") or {}).get("totaal") or {}
+    r["gem_r"], r["winst_pct"] = tot.get("gem_r"), tot.get("winst_pct")
+    for k, x in (ts.get("per_oordeel") or {}).items():
+        r[f"{k}_n"], r[f"{k}_r"], r[f"{k}_winst"] = x["n"], x["gem_r"], x["winst_pct"]
+    return [r]
 
 
 def daytrader_rows(state_dir: Path) -> list[dict]:

@@ -144,7 +144,7 @@ def plan(a, snap: dict, s, pf, equity: float, fx: dict, currency: str, costs) ->
 
 
 def opportunities(rep, pf, snaps: dict, s, equity: float, fx: dict, by_ticker: dict, costs,
-                  buys_blocked_reason: str | None) -> list[dict]:
+                  buys_blocked_reason: str | None, regime=None) -> list[dict]:
     out = []
     bought_today = {t.ticker for t in pf.trades if t.day == rep.day and t.side == "BUY"}
     free = s.max_positions - len(pf.positions)
@@ -170,8 +170,18 @@ def opportunities(rep, pf, snaps: dict, s, equity: float, fx: dict, by_ticker: d
             status = "niet gekocht: risicobudget of kas was op"
         out.append({"ticker": a.ticker, "naam": inst.name, "score": round(a.score, 3),
                     "uitleg": explain(a, snap, inst.name), "moment": label, "moment_uitleg": why,
-                    "status": status, "plan": p})
+                    "status": status, "plan": p, "ctx": kans_context(a, snap, label, regime)})
     return out
+
+
+def kans_context(a, snap: dict, label: str, regime=None) -> dict:
+    """De situatie bij een kans, met dezelfde meetwaarden als het onderzoek naar eerdere koopsignalen
+    (trend_indicatie.py), zodat het dashboard er een indicatie bij kan zetten."""
+    ctx = {k: snap[k] for k in ("rsi14", "afstand_sma200_pct", "atr_pct") if k in snap}
+    ctx.update({"rend_3m": round(a.ret63, 4), "volume_rel": round(a.rel_volume, 2), "moment": label})
+    if regime is not None and getattr(regime, "trend", "onbekend") != "onbekend":
+        ctx.update({"trend_regime": regime.trend, "beweeglijkheid_regime": regime.beweeglijkheid})
+    return ctx
 
 
 # ------------------------------------------------------------------ opslaan en tonen

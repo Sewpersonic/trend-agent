@@ -472,6 +472,12 @@ def _research(s, args) -> int:
     start = today - timedelta(days=round(args.years * 365.25))
     base = replace_settings(s)
 
+    # Indicatie per kans: hoe liepen eerdere koopsignalen van de trend-agent af? (alleen informatie, past niets aan)
+    from . import trend_indicatie
+    print("Onderzoek eerdere koopsignalen...")
+    ti = trend_indicatie.maak(bars, base, Path(args.out), [i.ticker for i in UNIVERSE if i.ticker in bars])
+    print(f"  {ti['signalen']} koopsignalen; {ti['zin']}")
+
     sections, rows, recommendations = [], [], []
     dash_rows, dash_lessen = [], []
     etf_ret = None

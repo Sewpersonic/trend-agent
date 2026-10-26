@@ -76,6 +76,27 @@
 .tx-pill.flat, .tx-pill.bezig { background: var(--color-fg-muted); }
 
 /* Tabellen */
+#koersverloop:not(.m-show) { display: none; }
+#coincards .tx-tile2.small { cursor: pointer; }
+#coincards .tx-tile2.small:hover { border-color: var(--tx-accent); }
+#tbl-trades tbody tr:nth-child(n+9) { display: none; }
+.k-oordelen { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0; }
+.k-oordeel { display: grid; gap: 2px; padding: 8px 10px; border-radius: 10px; background: color-mix(in srgb, var(--color-fg) 4%, transparent); min-width: 0; }
+.k-oordeel .l { font-size: 12px; color: var(--color-fg-muted); }
+.k-oordeel b.up { color: var(--tx-up); } .k-oordeel b.down { color: var(--tx-down); }
+.k-status { color: var(--color-fg-muted); font-size: 14px; }
+#kansen-ind { margin-bottom: 18px; }
+.ki-antwoord { margin: 0 0 10px; font-weight: 600; font-size: 15px; } .ki-antwoord.goed { color: var(--tx-up); }
+.ki-rij { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.ki-kaart { display: grid; gap: 2px; padding: 8px 10px; border: 1px solid var(--color-border-line); border-radius: 10px; min-width: 0; }
+.ki-kaart b { font-size: 13px; } .ki-kaart.goed b { color: var(--tx-up); } .ki-kaart.slecht b { color: var(--tx-down); }
+.ki-kaart .v { font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; } .ki-kaart .v.up { color: var(--tx-up); } .ki-kaart .v.down { color: var(--tx-down); }
+.ki-kaart .s { font-size: 12px; color: var(--color-fg-muted); }
+.vl-alles { margin: 10px auto 0; display: block; font: inherit; font-size: 14px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--color-border-line); background: var(--color-bg); color: var(--color-fg); cursor: pointer; }
+#kansen-uitleg > summary { cursor: pointer; list-style: none; }
+#kansen-uitleg > summary::-webkit-details-marker { display: none; }
+#kansen-uitleg > summary h2::before { content: '▸ '; color: var(--color-fg-muted); }
+#kansen-uitleg[open] > summary h2::before { content: '▾ '; }
 .tx-two { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr)); align-items: start; }
 .tx-tablewrap { overflow-x: auto; }
 .tx table { border-collapse: collapse; width: 100%; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
@@ -615,20 +636,20 @@
         <p class="m-hint">Tik op een aandeel om de koersgrafiek te zien.</p>
       </div>
       <div class="tx-card tx-start" id="begin-hier">
-        <h2>Begin hier: wat doen je bots?</h2>
+        <h2>Wat doen je bots?</h2>
         <ol id="begin-lijst" class="bh-list" data-source="begin_hier"></ol>
       </div>
       <div class="tx-card gr-card" id="gr-home" data-source="gereed"></div>
       <div class="tx-card tx-strip" id="strip" data-source="tickers"><div class="tx-strip-in" id="strip-in"><span class="dash-skeleton">—</span></div></div>
 
-      <div class="tx-card" id="kort-patronen">
-        <div class="tx-card-h"><h2>Wat de grafieken vandaag laten zien</h2><button class="tx-more" id="naar-patronen" type="button">Alle patronen per aandeel →</button></div>
-        <div class="tx-card-b"><div class="tx-beeld" id="pat-kort" data-source="patronen"></div></div>
+      <div class="tx-botrow">
+        <div class="tx-bots" id="botcards" data-source="stand waarde"></div>
+        <div class="tx-card tx-tile2 d-broker" id="d-broker" data-source="broker"></div>
       </div>
+      <div class="tx-page" id="coincards" data-source="tickers patronen posities"></div>
 
       <div class="tx-card" id="koersverloop">
-        <div class="tx-card-h"><h2 id="big-title">Koersverloop</h2></div>
-        <p class="tx-what">Wat zie je hier? De koers van één aandeel over de laatste maanden, met eronder hoeveel er per dag gehandeld is. Kies hieronder een aandeel en hoe ver je terug wilt kijken.</p>
+        <div class="tx-card-h"><h2 id="big-title">Koersverloop</h2><button class="tx-more" id="big-sluit" type="button">Sluiten ✕</button></div>
         <div class="tx-card-b">
           <div class="tx-controls">
             <label>Aandeel <select id="pick" aria-label="Kies een aandeel"></select></label>
@@ -644,35 +665,15 @@
         </div>
       </div>
 
-      <div class="tx-botrow">
-        <div class="tx-bots" id="botcards" data-source="stand waarde"></div>
-        <div class="tx-card tx-tile2 d-broker" id="d-broker" data-source="broker"></div>
-      </div>
-      <div class="tx-page" id="coincards" data-source="tickers patronen posities"></div>
-
       <div class="tx-two">
         <div class="tx-card" id="recent">
           <div class="tx-card-h"><h2>Recente trades</h2></div>
-        <p class="tx-what">Wat zie je hier? Alles wat de bots kochten en verkochten, het nieuwste bovenaan. Bij een verkoop zie je of het winst of verlies opleverde.</p>
+        <p class="tx-what">De 8 nieuwste aan- en verkopen. Alles staat bij Controles.</p>
           <div class="tx-tablewrap">
             <table id="tbl-trades" data-source="trades" data-row-key="id">
               <thead><tr><th data-field="dag">Datum</th><th data-field="bot">Bot</th><th data-field="soort">Soort</th><th data-field="naam">Aandeel</th><th class="num" data-field="waarde_eur">Bedrag</th><th class="num" data-field="resultaat_eur">Resultaat</th></tr></thead>
               <tbody></tbody>
             </table>
-          </div>
-        </div>
-        <div class="tx-card" id="markten">
-          <div class="tx-card-h"><h2>Markt</h2></div>
-        <p class="tx-what">Wat zie je hier? De koersen van wat de bots in bezit hebben: hoeveel ze vandaag en in 3 maanden zijn gestegen of gedaald. Kies onderaan welke bot.</p>
-          <div class="tx-tablewrap">
-            <table id="tbl-markt" data-source="tickers" data-row-key="ticker">
-              <thead><tr><th data-field="naam">Aandeel</th><th class="num" data-field="slot">Koers</th><th class="num" data-field="dag_pct">Vandaag</th><th class="num" data-field="drie_mnd_pct">3 maanden</th></tr></thead>
-              <tbody></tbody>
-            </table>
-          </div>
-          <div class="tx-tabs2" role="tablist" aria-label="Markt per bot" id="mtabs">
-            <button role="tab" aria-selected="true" data-bot="Trend-agent">Trend-agent</button>
-            <button role="tab" aria-selected="false" data-bot="Investeerder">Investeerder</button>
           </div>
         </div>
       </div>
@@ -736,12 +737,13 @@
 
     <!-- KANSEN -->
     <section class="tx-page" id="pg-kansen" role="tabpanel" aria-labelledby="kansen" hidden>
-      <p class="tx-what" style="padding:0">Elke nacht zoekt de trend-agent de aandelen met de sterkste stijgende trend. Hier zie je de 5 sterkste, wat hij ermee zou doen met zijn nepgeld en wat hij echt deed. Dit is geen advies voor echt geld.</p>
+      <p class="tx-what" style="padding:0">Elke nacht zoekt de trend-agent de 5 sterkste stijgende trends. Hier zie je wat hij ermee deed. Geen advies voor echt geld.</p>
       <div class="tx-answers" id="kansen-antwoorden" data-source="kansen_antwoord kansen posities"></div>
+      <div class="tx-card" id="kansen-ind" data-source="kansen" hidden></div>
       <div class="tx-two" id="kansen-cards" data-source="kansen"></div>
       <div class="vl" id="vl-app" data-source="volglijst"></div>
-      <div class="tx-card" id="kansen-uitleg">
-        <div class="tx-card-h"><h2>Zo lees je het stoplicht</h2></div>
+      <details class="tx-card tx-details" id="kansen-uitleg">
+        <summary class="tx-card-h"><h2>Zo lees je het instapmoment</h2></summary>
         <p class="tx-what">Bij elke kans staat of het een goed moment is om in te stappen. Dat zegt iets over hoe snel de koers de laatste dagen is gestegen.</p>
         <div class="tx-card-b">
           <div class="tx-lights">
@@ -749,9 +751,9 @@
             <div class="tx-lightcard k-neutraal"><span class="dot" aria-hidden="true"></span><b>Kan</b><span>Niets bijzonders. De koers staat iets boven zijn gewone niveau.</span></div>
             <div class="tx-lightcard k-letop"><span class="dot" aria-hidden="true"></span><b>Liever even wachten</b><span>De koers is de laatste dagen hard gestegen. Daarna zakt hij vaak eerst wat terug.</span></div>
           </div>
-          <p class="tx-note">Let op: dit stoplicht is een vuistregel die nog niet getest is. De bot gebruikt hem niet om te kopen of te verkopen.</p>
+          <p class="tx-note">Dit is een vuistregel; de bot gebruikt hem niet om te kopen of te verkopen. Het onderzoek naar eerdere koopsignalen kijkt elke zaterdag of hij klopt.</p>
         </div>
-      </div>
+      </details>
     </section>
 
     <!-- ANALYSE -->
@@ -908,7 +910,7 @@
       <div class="tx-card" id="card-github">
         <div class="tx-card-h"><h2>De laatste runs</h2>
           <label class="tx-ghfilter"><input type="checkbox" id="gh-alleenfout"> Alleen wat misging</label></div>
-        <p class="tx-what">Tijden in Nederlandse tijd. Groen is goed gegaan, rood is misgegaan. Bij rood staat waar het misging en of een latere run het weer goed deed.</p>
+        <p class="tx-what">Groen is goed gegaan, rood is misgegaan. Bij rood staat wat er misging.</p>
         <div class="tx-tablewrap">
           <table id="tbl-github" data-source="github" data-row-key="id">
             <thead><tr><th data-field="start">Wanneer</th><th data-field="wat">Wat</th><th data-field="uitkomst">Uitkomst</th><th data-field="uitleg">Wat ging er mis?</th><th data-field="link">Op GitHub</th></tr></thead>
@@ -1086,7 +1088,7 @@ dash.calc('begin_hier', {
       stand: ta ? eur(ta.sinds_start_eur) + ' sinds de start' : '',
       nu: (tpos.length ? 'Heeft ' + tpos.length + ' van 3 plekken bezet: ' + tpos.map((p) => p.naam).join(', ') + '. ' : 'Heeft nog niets in bezit. ') + kort('Trend-agent'),
       laatst: laatste('Trend-agent'),
-      straks: 'Vannacht rond 00:17 een nieuwe ronde: verkoopt als een koers onder de stop-loss of het 50-daags gemiddelde zakt, koopt de sterkste trend als er een plek vrij is.' });
+      straks: 'Vannacht rond 00:17 weer een ronde.' });
     // Investeerder
     const iv = st['Investeerder'];
     const k = kort('Investeerder');
@@ -1111,7 +1113,7 @@ dash.calc('begin_hier', {
         stand: bs.waarde == null ? '' : eur(bs.waarde - 5000) + ' sinds de start',
         nu: fout ? 'De koppeling met Trading 212 gaf een fout: ' + bs.reden : 'Volgt de trend-agent bij Trading 212 met nepgeld: ' + gelijk + ' van ' + pos.length + ' aandelen staan gelijk.',
         laatst: ords.length ? dag(ords[0].tijd) + ': ' + ords.filter((o) => o.tijd === ords[0].tijd).map((o) => (o.aantal == null ? (o.actie || 'order') + ' geweigerd' + (o.reden ? ' (' + o.reden.replace(/\.$/, '') + ')' : '') : (o.aantal > 0 ? 'koop ' : 'verkoop ') + Math.abs(o.aantal) + ' ' + ((pos.find((p) => p.ticker === o.ticker) || {}).naam || o.ticker))).join(', ') + '.' : 'Nog geen orders.',
-        straks: onderweg.length ? onderweg.map((p) => p.naam).join(' en ') + ' worden gekocht zodra de beurs opengaat.' : 'Doet na elke ronde van de trend-agent hetzelfde. Elk uur wordt de stand bijgewerkt.' });
+        straks: onderweg.length ? onderweg.map((p) => p.naam).join(' en ') + ' worden gekocht zodra de beurs opengaat.' : 'Doet na elke ronde van de trend-agent hetzelfde.' });
     }
     // Daytrader
     const dtr = (daytrader || []).filter((r) => !r.leeg);
@@ -1128,7 +1130,7 @@ dash.calc('begin_hier', {
         stand: usd(ds.sinds_start) + ' sinds de start',
         nu: fout ? 'De laatste ronde liep vast; de volgende probeert het opnieuw.' : open.length ? 'Heeft ' + open.map((p) => p.aantal + ' ' + p.ticker).join(' en ') + ' gekocht, met een stop-loss en een winstdoel.' : 'Oefent met nepdollars op de Amerikaanse beurs en kijkt elk uur. Bij elke trade legt hij de daggrafiek vast om van te leren.',
         laatst: zelfde.length ? dag(dag1) + ': ' + zelfde.length + (zelfde.length === 1 ? ' trade' : ' trades') + ', samen ' + usd(zelfde.reduce((a, t) => a + t.resultaat, 0)) + '.' : 'Nog geen trades.',
-        straks: 'Elke beursdag van 15:25 tot 22:25 (Nederlandse tijd) elk uur een ronde; om 21:45 verkoopt hij alles.' });
+        straks: 'Beursdagen 15:25-22:25 elk uur een ronde; om 21:45 verkoopt hij alles.' });
     }
     return out;
   },
@@ -1139,7 +1141,7 @@ dash.calc('kansen_antwoord', {
   description: 'Drie antwoorden in gewone taal uit de kansen en posities van de laatste ronde: welke sterke trends er zijn, wat de bot kocht en waarom, en de kans die er het beste uitspringt (nog niet in bezit, eerst een goed, dan een neutraal instapmoment). Elke regel van de uitleg staat op een eigen regel.',
   inputs: ['kansen', 'posities'],
   fn: (kansen, posities) => {
-    const rows = kansen.filter((r) => !r.leeg);
+    const rows = kansen.filter((r) => !r.leeg && r.soort !== 'indicatie');
     const pos = posities.filter((r) => !r.leeg && r.bot === 'Trend-agent');
     const e = (v) => '€' + v.toFixed(2).replace('.', ',');
     const drie = (r) => { const m = (r.waarom || '').match(/steeg ([+−-]?[\d,]+%) in 3 maanden en ([+−-]?[\d,]+%) in 1 maand/); return m ? { m3: m[1], m1: m[2] } : { m3: '?', m1: '?' }; };
@@ -1208,8 +1210,6 @@ dash.calc('uitleg_positie', {
   const lastday = document.getElementById('lastday');
   const cards = document.getElementById('coincards');
   const botcards = document.getElementById('botcards');
-  const mBody = document.querySelector('#tbl-markt tbody');
-  let mBot = 'Trend-agent';
   const W = (ticker, field, tag, text, c) => el(tag, { 'data-source': 'tickers', 'data-field': field, 'data-where': 'ticker=' + encodeURIComponent(ticker), class: c }, text);
 
   const spark = (svgBox, values, color, id) => {
@@ -1227,25 +1227,6 @@ dash.calc('uitleg_positie', {
     svgBox.append(svg.node());
   };
 
-  const drawMarkt = () => {
-    const t = dash.data('tickers');
-    if (t.status === 'error') { const tr = el('tr'); const td = el('td', { colspan: '4' }); failed(td); tr.append(td); mBody.replaceChildren(tr); return; }
-    if (t.status !== 'ok') return;
-    const rows = t.data.filter((r) => r.bot === mBot);
-    mBody.replaceChildren(...(rows.length ? rows.map((r) => {
-      const tr = el('tr', { 'data-key': r.ticker });
-      const n = el('td'); n.append(el('span', {}, r.naam + ' (' + r.ticker + ')'));
-      tr.append(n, el('td', { class: 'num' }, num2.format(r.slot) + ' ' + r.valuta),
-        el('td', { class: 'num ' + ud(r.dag_pct) }, pct(r.dag_pct) + (r.dag_pct > 0 ? ' ▲' : r.dag_pct < 0 ? ' ▼' : '')),
-        el('td', { class: 'num ' + ud(r.drie_mnd_pct) }, pct(r.drie_mnd_pct, 1)));
-      return tr;
-    }) : [(() => { const tr = el('tr'); tr.append(el('td', { colspan: '4', class: 'tx-empty' }, 'Geen posities bij deze bot.')); return tr; })()]));
-  };
-  document.querySelectorAll('#mtabs button').forEach((b) => b.addEventListener('click', () => {
-    mBot = b.dataset.bot;
-    document.querySelectorAll('#mtabs button').forEach((o) => o.setAttribute('aria-selected', String(o === b)));
-    drawMarkt();
-  }));
 
   dash.onData(() => {
     // Laatste handelsdag
@@ -1318,8 +1299,8 @@ dash.calc('uitleg_positie', {
         const sec = el('div', { class: 'tx-group', id: 'bezit-' + bot.toLowerCase().replace(/[^a-z]/g, '') });
         sec.append(el('h2', { class: 'tx-group-h' }, bot + ' bezit ' + rows.length + (rows.length === 1 ? ' belegging' : ' beleggingen')));
         sec.append(el('p', { class: 'tx-note' }, bot === 'Trend-agent'
-          ? 'Per aandeel: de koers, hoe het ging en hoeveel ruimte er nog is tot de stop-loss.'
-          : 'Per belegging: de koers en hoe het ging. De investeerder heeft geen stop-loss; hij herverdeelt maandelijks.'));
+          ? 'Klik op een aandeel voor de koersgrafiek. De stop-loss is de koers waarop hij automatisch verkoopt.'
+          : 'Klik op een belegging voor de koersgrafiek. De investeerder heeft geen stop-loss; hij herverdeelt maandelijks.'));
         const grid = el('div', { class: 'tx-cards' });
         rows.forEach((r, i) => {
           const W2 = (field, text, cl) => W(r.ticker, field, 'span', text, cl);
@@ -1360,8 +1341,18 @@ dash.calc('uitleg_positie', {
       }
       cards.replaceChildren(...secs);
     }
-    drawMarkt();
   });
+  // Klik op een aandeel: de koersgrafiek ervan verschijnt (en sluit weer met de knop)
+  const big = document.getElementById('koersverloop');
+  cards.addEventListener('click', (e) => {
+    const kaart = e.target.closest('.tx-tile2.small'); if (!kaart) return;
+    const pick = document.getElementById('pick');
+    const tk = [...pick.options].find((o) => 'kaart-' + o.value.replace(/[^A-Za-z0-9]/g, '') === kaart.id);
+    if (tk) { pick.value = tk.value; pick.dispatchEvent(new Event('change')); }
+    big.classList.add('m-show'); window.tx.draws.forEach((f) => { try { f(); } catch (er) { /* niets */ } });
+    big.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  document.getElementById('big-sluit').addEventListener('click', () => big.classList.remove('m-show'));
 })();
 </script>
 
@@ -1806,18 +1797,11 @@ dash.calc('onderzoek_verschil', {
       const nm = el('div', { class: 'bh-nm' }); nm.append(el('b', {}, r.bot), el('small', { class: /^−/.test(r.stand) ? 'down' : 'up' }, r.stand));
       h.append(dot, nm, el('span', { class: 'bh-pill k-' + r.kleur, 'data-source': 'begin_hier', 'data-field': 'status', 'data-where': w }, r.status));
       const line = (lab, field) => { const d = el('div', { class: 'bh-l' }); d.append(el('span', { class: 'bh-lab' }, lab), el('span', { 'data-source': 'begin_hier', 'data-field': field, 'data-where': w }, r[field])); return d; };
-      li.append(h, line('Nu', 'nu'), line('Laatst', 'laatst'), line('Straks', 'straks'));
+      li.append(h, line('Nu', 'kort'), line('Laatst', 'laatst'), line('Straks', 'straks'));
+      li.title = r.nu || '';
       return li;
     }));
   });
-})();
-
-// Korte samenvatting op de hoofdpagina
-(() => {
-  const { el, failed, real, emptyReason } = window.tx;
-  const box = document.getElementById('pat-kort');
-  document.getElementById('naar-patronen').addEventListener('click', () => document.getElementById('patronen').click());
-  dash.onData(() => window.tx.beeld(box, dash.data('patronen')));
 })();
 
 // Patronen in de grafieken
@@ -1919,11 +1903,40 @@ dash.calc('onderzoek_verschil', {
     }));
     const kb = document.getElementById('kansen-cards');
     const k = dash.data('kansen');
+    // Uitkomst van het onderzoek naar eerdere koopsignalen, in één blok boven de kansen
+    function indBox(ir, kansen) {
+      const box = document.getElementById('kansen-ind');
+      if (!ir) { box.replaceChildren(); box.hidden = true; return; }
+      box.hidden = false;
+      const NAAM = { gunstig: '▲ gunstig', gemiddeld: '● gemiddeld', ongunstig: '▼ ongunstig' }, KL = { gunstig: 'goed', gemiddeld: 'mid', ongunstig: 'slecht' };
+      const D = (iso) => (iso ? window.tx.dayLong(iso) : '?');
+      const R = (v) => v == null ? '–' : (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(2).replace('.', ',') + ' R';
+      const h = el('div', { class: 'tx-card-h' }); h.append(el('h2', {}, 'Eerdere koopsignalen: wat zegt het label?'));
+      const b = el('div', { class: 'tx-card-b' });
+      b.append(el('p', { class: 'ki-antwoord ' + (ir.werkt ? 'goed' : '') }, ir.werkt
+        ? '✓ Het label werkt: kansen met "gunstig" liepen in de toets duidelijk beter af dan kansen met "ongunstig".'
+        : 'Nog niet bewezen: in de toets gaf het label nog geen duidelijk verschil. Lees het als extra informatie.'));
+      const rij = el('div', { class: 'ki-rij' });
+      ['gunstig', 'gemiddeld', 'ongunstig'].forEach((x) => {
+        const c = el('div', { class: 'ki-kaart ' + KL[x] }); const n = ir[x + '_n'];
+        c.append(el('b', {}, NAAM[x]), el('span', { class: 'v ' + (ir[x + '_r'] == null ? '' : ir[x + '_r'] >= 0 ? 'up' : 'down') }, R(ir[x + '_r'])),
+          el('span', { class: 's' }, n ? n + ' signalen · ' + Math.round((ir[x + '_winst'] || 0) * 100) + '% met winst' : 'geen'));
+        rij.append(c);
+      });
+      b.append(rij);
+      const d = el('details', { class: 'tx-details' }); d.append(el('summary', {}, 'Hoe werkt dit?'));
+      d.append(el('p', { class: 'tx-note' }, 'Geen voorspelling, maar ervaring. Het onderzoek van zaterdag zocht in de koersen sinds ' + D(ir.van) + ' alle ' + ir.signalen + ' keer dat een aandeel aan de koopregels van de trend-agent voldeed, en keek hoe dat afliep met zijn gewone stop-loss. Bij elke kans hieronder staat hoe vergelijkbare signalen het deden.'),
+        el('p', { class: 'tx-note' }, 'De vakjes zijn de eerlijke toets: het label gemaakt uit de oudere jaren, gecontroleerd op de latere dagen (vanaf ' + D(ir.vanaf) + '). R = winst of verlies in "risico-eenheden": 1 R is het verlies als de stop-loss geraakt wordt.'),
+        el('p', { class: 'tx-note' }, 'De bot koopt hierdoor niet anders. Pas als de toets een duidelijk verschil laat zien, kan het een regel worden, en alleen als jij dat goedkeurt.'));
+      b.append(d);
+      box.replaceChildren(h, b);
+    }
     const MOM = { gunstig: ['Goed moment', 'goed'], neutraal: ['Kan', 'neutraal'], opgelopen: ['Liever even wachten', 'letop'], onbekend: ['Onbekend', 'neutraal'] };
     const kort = (txt) => { const m = txt.match(/steeg ([+−-]?[\d,]+%) in 3 maanden en ([+−-]?[\d,]+%) in 1 maand/); return m ? 'Steeg ' + m[1] + ' in 3 maanden en ' + m[2] + ' in de laatste maand, en zit in een stijgende trend.' : txt; };
     if (k.status === 'error') failed(kb);
     else if (k.status === 'ok') {
-      const rows = real(k.data);
+      const rows = real(k.data).filter((r) => r.soort !== 'indicatie');
+      indBox(real(k.data).find((r) => r.soort === 'indicatie'), rows);
       if (!rows.length) kb.replaceChildren(el('p', { class: 'tx-empty' }, emptyReason(k.data)));
       else kb.replaceChildren(...rows.map((r) => {
         const w = 'ticker=' + encodeURIComponent(r.ticker);
@@ -1935,21 +1948,26 @@ dash.calc('onderzoek_verschil', {
         h.append(nm, mark('kansen', 'status', w, 'span', /vandaag gekocht/.test(r.status) ? 'Gekocht' : /al in bezit/.test(r.status) ? 'Al in bezit' : 'Niet gekocht',
           'tx-pill ' + (/gekocht door/.test(r.status) ? 'win' : /al in bezit/.test(r.status) ? 'flat' : 'loss')));
         c.append(h);
-        const lbl = (t) => el('div', { class: 't-label' }, t);
-        c.append(lbl('Waarom valt hij op?'), mark('kansen', 'waarom', w, 'div', kort(r.waarom), 't-txt'));
-        c.append(lbl('Goed moment om in te stappen?'));
-        const mo = el('div', { class: 't-light k-' + mm[1] }); mo.append(mark('kansen', 'moment', w, 'span', mm[0], 'w')); c.append(mo);
-        c.append(lbl('Wat zou de bot doen?'));
+        c.append(mark('kansen', 'waarom', w, 'div', kort(r.waarom), 't-txt'));
+        // Twee korte oordelen naast elkaar: het instapmoment en hoe eerdere vergelijkbare koopsignalen afliepen
+        const oo = el('div', { class: 'k-oordelen' });
+        const mo = el('div', { class: 'k-oordeel' }); mo.append(el('span', { class: 'l' }, 'Instapmoment'));
+        const mt = el('div', { class: 't-light k-' + mm[1] }); mt.append(mark('kansen', 'moment', w, 'span', mm[0], 'w')); mo.append(mt); oo.append(mo);
+        const IND = { gunstig: ['▲ gunstig', 'up'], gemiddeld: ['● gemiddeld', ''], ongunstig: ['▼ ongunstig', 'down'] };
+        const io = el('div', { class: 'k-oordeel' }); io.append(el('span', { class: 'l' }, 'Eerdere koopsignalen'));
+        io.append(r.indicatie && IND[r.indicatie] ? mark('kansen', 'indicatie', w, 'b', IND[r.indicatie][0], IND[r.indicatie][1]) : el('span', { class: 'tx-note' }, 'nog geen onderzoek'));
+        if (r.indicatie_tekst) io.title = r.indicatie_tekst;
+        oo.append(io); c.append(oo);
+        c.append(mark('kansen', 'status', w, 'div', 'Bot: ' + r.status + '.', 't-txt k-status'));
         const plan = el('div', { class: 't-txt' });
         if (r.aantal >= 1) plan.append(document.createTextNode('Voor '), mark('kansen', 'inzet_eur', w, 'b', eur.format(r.inzet_eur)), document.createTextNode(' kopen ('),
           mark('kansen', 'aantal', w, 'span', String(r.aantal)), document.createTextNode(r.aantal === 1 ? ' aandeel). ' : ' aandelen). '),
           document.createTextNode('Gaat het mis, dan verkoopt hij automatisch en verlies je hooguit ongeveer '), mark('kansen', 'max_verlies_eur', w, 'b', eur.format(r.max_verlies_eur), 'down'), document.createTextNode('.'));
         else plan.append(document.createTextNode('Eén aandeel is te duur voor het kleine risicobudget van deze oefenrekening, dus hij zou niets kopen.'));
-        c.append(plan);
-        c.append(lbl('Wat deed de bot?'), mark('kansen', 'status', w, 'div', r.status.charAt(0).toUpperCase() + r.status.slice(1) + '.', 't-txt'));
         const d = el('details', { class: 'tx-details' }); d.append(el('summary', {}, 'Meer details'));
         const dp = el('div', { class: 'tx-zag' });
-        dp.append(el('p', { style: 'margin:0' }, r.waarom + '.'), el('p', { style: 'margin:0' }, 'Instapmoment: ' + r.moment_uitleg + '.'),
+        dp.append(plan, el('p', { style: 'margin:0' }, r.waarom + '.'), el('p', { style: 'margin:0' }, 'Instapmoment: ' + r.moment_uitleg + '.'),
+          ...(r.indicatie_tekst ? [el('p', { style: 'margin:0' }, 'Eerdere koopsignalen: ' + r.indicatie_tekst)] : []),
           el('p', { style: 'margin:0' }, 'Instap rond ' + num2.format(r.instap) + ' ' + r.valuta + ', stop-loss ' + num2.format(r.stop) + ' ' + r.valuta + ' (' + pct(r.stop_pct, 1) + ').'));
         d.append(dp); c.append(d);
         return c;
@@ -2082,8 +2100,9 @@ dash.calc('onderzoek_verschil', {
     let rows = real(s.data).filter((r) => r.soort !== 'voorstel');
     if (!rows.length) { const tr = el('tr'); tr.append(el('td', { colspan: '5', class: 'tx-empty' }, emptyReason(s.data) || 'Nog geen runs.')); body.replaceChildren(tr); return; }
     if (alleen.checked) rows = rows.filter((r) => r.uitkomst === 'fout' || r.uitkomst === 'geannuleerd');
-    if (!rows.length) { const tr = el('tr'); tr.append(el('td', { colspan: '5', class: 'tx-empty' }, 'Er ging niets mis in de getoonde runs.')); body.replaceChildren(tr); return; }
-    body.replaceChildren(...rows.map((r) => {
+    if (!rows.length) { const tr = el('tr'); tr.append(el('td', { colspan: '5', class: 'tx-empty' }, 'Er ging niets mis in de getoonde runs.')); body.replaceChildren(tr); ghMeer(0); return; }
+    ghMeer(rows.length);
+    body.replaceChildren(...rows.slice(0, ghAlles ? rows.length : 12).map((r) => {
       const w = 'id=' + encodeURIComponent(r.id);
       const m = (field, text, tag = 'span', cl) => el(tag, { 'data-source': 'github', 'data-field': field, 'data-where': w, class: cl }, text);
       const tr = el('tr', { 'data-key': r.id });
@@ -2099,6 +2118,12 @@ dash.calc('onderzoek_verschil', {
       return tr;
     }));
   };
+  // Standaard de 12 nieuwste runs; de rest met één knop
+  let ghAlles = false;
+  const meer = el('button', { type: 'button', class: 'vl-alles', style: 'margin:10px auto 14px' });
+  document.querySelector('#card-github .tx-tablewrap').after(meer);
+  function ghMeer(n) { meer.hidden = n <= 12; meer.textContent = ghAlles ? 'Minder tonen' : 'Toon alle ' + n + ' runs'; }
+  meer.addEventListener('click', () => { ghAlles = !ghAlles; draw(); });
   alleen.addEventListener('change', draw);
   dash.onData(draw);
 })();
@@ -2959,7 +2984,7 @@ dash.calc('onderzoek_verschil', {
   }
 
   // ---------- Volglijst ----------
-  let filter = 'alles'; const open = new Set();
+  let filter = 'alles', alles = false; const open = new Set();
   const mini = (vals, up) => {
     const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', '0 0 84 30'); svg.setAttribute('class', 'sp'); svg.setAttribute('aria-hidden', 'true'); svg.setAttribute('preserveAspectRatio', 'none');
     if (vals && vals.length > 1) {
@@ -2979,23 +3004,27 @@ dash.calc('onderzoek_verschil', {
     const all = real(s.data);
     const sec = el('div', { class: 'ap-sec' });
     const h = el('h3'); h.append(document.createTextNode('Volglijst · alleen kijken'), el('small', {}, all.length ? all.length + ' beleggingen' : '')); sec.append(h);
-    sec.append(el('p', { class: 'vl-intro' }, 'Extra aandelen en fondsen die de bot elke werkdag bekijkt, naast zijn eigen lijst. Hij koopt ze niet zelf. Wil je er een in het oefenaccount, tik hem aan en kies Kopen.'));
+    sec.append(el('p', { class: 'vl-intro' }, 'Extra aandelen die de bot elke werkdag bekijkt. Hij koopt ze nooit zelf, ook niet als ze bij zijn regels passen. Wil je er een in het oefenaccount? Tik hem aan en kies Kopen.'));
     if (!all.length) { sec.append(el('p', { class: 'ap-empty' }, (s.data[0] && s.data[0].reden) || 'Nog niet bekeken.')); box.replaceChildren(sec); return; }
     window.tx.addAandelen && window.tx.addAandelen(all.filter((r) => r.bij_t212 !== false && !r.fout).map((r) => ({ t: r.ticker.split('.')[0], n: r.naam })));
     const nKoop = all.filter((r) => r.kandidaat).length, nT = all.filter((r) => r.bij_t212).length;
     const chips = el('div', { class: 'vl-chips', role: 'group', 'aria-label': 'Filter' });
-    [['alles', 'Alles'], ['kopen', 'Zou hij kopen (' + nKoop + ')'], ['stijgend', 'Stijgende trend'], ['t212', 'Bij Trading 212' + (nT ? ' (' + nT + ')' : '')]].forEach(([k, t]) => {
+    [['alles', 'Alles'], ['kopen', 'Past bij zijn regels (' + nKoop + ')'], ['stijgend', 'Stijgende trend'], ['t212', 'Bij Trading 212' + (nT ? ' (' + nT + ')' : '')]].forEach(([k, t]) => {
       const b = el('button', { type: 'button', 'aria-pressed': String(filter === k) }, t); b.addEventListener('click', () => { filter = k; drawVolglijst(); }); chips.append(b);
     });
     sec.append(chips);
     const rows = all.filter((r) => filter === 'alles' || (filter === 'kopen' && r.kandidaat) || (filter === 'stijgend' && r.trend === 'stijgend') || (filter === 't212' && r.bij_t212));
     if (!rows.length) sec.append(el('p', { class: 'ap-empty' }, 'Niets in deze selectie.'));
-    rows.forEach((r) => {
+    const IND = { gunstig: ['▲ gunstig', 'var(--tx-up)'], gemiddeld: ['● gemiddeld', 'var(--color-fg-muted)'], ongunstig: ['▼ ongunstig', 'var(--tx-down)'] };
+    const MAX = 10;
+    rows.slice(0, alles ? rows.length : MAX).forEach((r) => {
       const row = el('div', { class: 'ap-row vl-row', role: 'button', tabindex: '0', 'aria-expanded': String(open.has(r.ticker)) });
       const mid = el('div', { style: 'min-width:0' });
       const n = el('div', { class: 'n' }, r.naam); n.append(el('small', {}, r.ticker)); mid.append(n);
-      const sub = r.fout ? 'geen koersen opgehaald' : (r.kandidaat ? '✓ zou hij kopen' : r.trend === 'stijgend' ? 'stijgende trend' : r.trend === 'dalend' ? 'dalende trend' : 'zijwaarts') + (r.bij_t212 === true ? ' · bij Trading 212' : r.bij_t212 === false ? ' · niet bij Trading 212' : '');
-      mid.append(el('div', { class: 's', style: r.kandidaat ? 'color:var(--tx-up)' : '' }, sub));
+      const sub = r.fout ? 'geen koersen opgehaald' : (r.kandidaat ? '✓ past bij zijn regels' : r.trend === 'stijgend' ? 'stijgende trend' : r.trend === 'dalend' ? 'dalende trend' : 'zijwaarts') + (r.bij_t212 === false ? ' · niet bij Trading 212' : '');
+      const sd = el('div', { class: 's', style: r.kandidaat ? 'color:var(--tx-up)' : '' }, sub);
+      if (r.indicatie && IND[r.indicatie]) { sd.append(document.createTextNode(' · eerder: ')); sd.append(el('b', { style: 'color:' + IND[r.indicatie][1], title: r.indicatie_tekst || '' }, IND[r.indicatie][0])); }
+      mid.append(sd);
       const rt = el('div', { class: 'r' });
       if (r.koers != null) rt.append(el('span', { class: 'v' }, num2.format(r.koers) + ' ' + (r.valuta === 'EUR' ? '€' : '$')));
       if (r.maand != null) rt.append(el('span', { class: 'c ' + ud(r.maand) }, pct(r.maand, 1) + ' mnd'));
@@ -3003,13 +3032,15 @@ dash.calc('onderzoek_verschil', {
       const more = el('div', { class: 'vl-more' + (open.has(r.ticker) ? ' open' : '') });
       const g = el('div', { class: 'g' });
       [['Week', r.week], ['Maand', r.maand], ['3 maanden', r.kwartaal]].forEach(([t, v]) => { const d = el('div'); d.append(el('span', {}, t), el('b', { class: ud(v) }, v == null ? '–' : pct(v, 1))); g.append(d); });
-      more.append(g, el('span', {}, r.oordeel || ''));
+      more.append(g, el('span', {}, (r.oordeel || '').replace('Zou de trend-agent kopen: alle regels kloppen.', 'Past bij de regels van de trend-agent (maar hij koopt alleen uit zijn eigen lijst).')));
+      if (r.indicatie_tekst) more.append(el('span', {}, 'Eerdere koopsignalen: ' + r.indicatie_tekst));
       if (r.bij_t212 !== false && !r.fout) { const kb = el('button', { class: 'tx-orderbtn', type: 'button' }, 'Kopen in oefenaccount'); kb.addEventListener('click', (e) => { e.stopPropagation(); window.tx.openOrder && window.tx.openOrder('kopen', r.ticker.split('.')[0]); }); more.append(kb); }
       const tog = () => { if (open.has(r.ticker)) open.delete(r.ticker); else open.add(r.ticker); more.classList.toggle('open'); row.setAttribute('aria-expanded', String(open.has(r.ticker))); };
       row.addEventListener('click', tog); row.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tog(); } });
       sec.append(row, more);
     });
-    sec.append(el('p', { class: 'tx-note', style: 'margin:8px 0 4px' }, 'Koersen van Yahoo (Trading 212 geeft geen koersgeschiedenis). "Zou hij kopen" = dezelfde regels als de trend-agent. Dit is geen advies voor echt geld.'));
+    if (rows.length > MAX) { const mb = el('button', { type: 'button', class: 'vl-alles' }, alles ? 'Minder tonen' : 'Toon alle ' + rows.length); mb.addEventListener('click', () => { alles = !alles; drawVolglijst(); }); sec.append(mb); }
+    sec.append(el('p', { class: 'tx-note', style: 'margin:8px 0 4px' }, '"Past bij zijn regels" = dezelfde regels als de trend-agent. "Eerder" = hoe vergelijkbare koopsignalen afliepen. Geen advies voor echt geld.'));
     box.replaceChildren(sec);
   }
 

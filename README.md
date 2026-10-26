@@ -168,6 +168,13 @@ Metadata, Orders - Execute, Orders - Read en Portfolio.
 - **Elke zaterdag** test het onderzoek varianten van de regels (ook patronen uit de grafieken, zoals "koop na een
   terugval" of "verkoop na 2 rode trendkaarsen") tegen de huidige regels: op 5 jaar koersen, met een ongezien
   deel, 5 periodes, dubbele kosten en per marktregime. Rapport: `onderzoek/LAATSTE.md`.
+- **Elke zaterdag** zoekt het onderzoek ook alle eerdere **koopsignalen** van de trend-agent op (elke keer dat een
+  aandeel aan zijn koopregels voldeed, ook zonder vrije plek) en kijkt hoe die afliepen met zijn gewone stop-loss
+  (`trend_indicatie.py`, `onderzoek/trend_indicatie.json`). Daaruit krijgt elke kans op het tabblad **Kansen** (en
+  elk aandeel op de volglijst dat bij zijn regels past) een label: gunstig, gemiddeld of ongunstig. Het label wordt
+  eerlijk getoetst (gemaakt uit de oudere jaren, gecontroleerd op de latere). Het is alleen informatie: de bot koopt
+  hierdoor niet anders. Pas als de toets een duidelijk verschil laat zien, kan het een regel worden, en alleen met
+  jouw ja. Het oefenaccount volgt de trend-agent en krijgt zo dezelfde labels.
 - **Elke week** zet het dashboard (tabblad **Weekoverzicht**) op een rij wat de bots kochten en verkochten en wat
   ze ervan leerden, zodat je per week kunt nalezen welke orders er waren en waarom.
 - **Jij beslist.** Haalt een variant alle toetsen, dan zet het onderzoek een **voorstel** (pull request) klaar

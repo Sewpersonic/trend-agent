@@ -108,12 +108,14 @@ def _gem(rs: list[float]) -> float:
     return sum(rs) / len(rs) if rs else 0.0
 
 
-def tabel(events: list[dict]) -> dict:
-    """Per kenmerk per groep: aantal, % goed afgelopen, gemiddelde R. Plus het gemiddelde van alles."""
+def tabel(events: list[dict], kenmerken: dict | None = None) -> dict:
+    """Per kenmerk per groep: aantal, % goed afgelopen, gemiddelde R. Plus het gemiddelde van alles.
+    kenmerken: naam -> functie(ctx) -> groep (standaard die van de daytrader; de trend-agent geeft zijn eigen)."""
+    kenmerken = KENMERKEN if kenmerken is None else kenmerken
     rs = [e["r"] for e in events]
     t = {"totaal": {"n": len(rs), "winst_pct": round(sum(1 for r in rs if r > 0) / len(rs), 3) if rs else None,
                     "gem_r": round(_gem(rs), 3)}, "kenmerken": {}}
-    for naam, fn in KENMERKEN.items():
+    for naam, fn in kenmerken.items():
         g: dict[str, list[float]] = {}
         for e in events:
             g.setdefault(fn(e.get("ctx") or {}), []).append(e["r"])
@@ -122,27 +124,28 @@ def tabel(events: list[dict]) -> dict:
     return t
 
 
-def indicatie(ctx: dict, t: dict) -> dict:
+def indicatie(ctx: dict, t: dict, kenmerken: dict | None = None, woord: str = "uitbraken") -> dict:
     """Indicatie voor één kans: gunstig / gemiddeld / ongunstig, met de groepen die meetellen."""
+    kenmerken = KENMERKEN if kenmerken is None else kenmerken
     tot = (t or {}).get("totaal") or {}
     if not tot.get("n"):
         return {"oordeel": "onbekend", "tekst": "Nog geen ervaringscijfers.", "score": None}
     passend = []
-    for naam, fn in KENMERKEN.items():
+    for naam, fn in kenmerken.items():
         groep = fn(ctx or {})
         g = ((t.get("kenmerken") or {}).get(naam) or {}).get(groep)
         if groep != "onbekend" and g and g["n"] >= MIN_N:
             passend.append((naam, groep, g))
     if not passend:
-        return {"oordeel": "onbekend", "tekst": "Te weinig vergelijkbare uitbraken om iets te zeggen.", "score": None}
+        return {"oordeel": "onbekend", "tekst": f"Te weinig vergelijkbare {woord} om iets te zeggen.", "score": None}
     score = sum(g["gem_r"] for _, _, g in passend) / len(passend)
     winst = sum(g["winst_pct"] for _, _, g in passend) / len(passend)
     verschil = score - tot["gem_r"]
     oordeel = "gunstig" if verschil >= DREMPEL_R else "ongunstig" if verschil <= -DREMPEL_R else "gemiddeld"
     beste = max(passend, key=lambda x: x[2]["gem_r"])
     slechtste = min(passend, key=lambda x: x[2]["gem_r"])
-    tekst = (f"{oordeel.capitalize()}: vergelijkbare uitbraken liepen in {round(winst * 100)}% van de gevallen goed af "
-             f"(gemiddeld {_r(score)}; alle uitbraken samen {_r(tot['gem_r'])}).")
+    tekst = (f"{oordeel.capitalize()}: vergelijkbare {woord} liepen in {round(winst * 100)}% van de gevallen goed af "
+             f"(gemiddeld {_r(score)}; alle {woord} samen {_r(tot['gem_r'])}).")
     if oordeel != "gemiddeld":
         x = beste if oordeel == "gunstig" else slechtste
         tekst += f" Vooral: {x[0].lower()} '{x[1]}'."
@@ -150,7 +153,7 @@ def indicatie(ctx: dict, t: dict) -> dict:
             "groepen": len(passend)}
 
 
-def toets(events: list[dict], deel: float = 0.6) -> dict:
+def toets(events: list[dict], deel: float = 0.6, kenmerken: dict | None = None) -> dict:
     """Eerlijk testen: tabel uit de eerste dagen, indicatie beoordelen op de latere dagen (die de tabel nooit zag)."""
     dagen = sorted({e["dag"] for e in events})
     if len(dagen) < 10:
@@ -158,10 +161,10 @@ def toets(events: list[dict], deel: float = 0.6) -> dict:
     grens = dagen[int(len(dagen) * deel)]
     leer = [e for e in events if e["dag"] < grens]
     test = [e for e in events if e["dag"] >= grens]
-    t = tabel(leer)
+    t = tabel(leer, kenmerken)
     per: dict[str, list[float]] = {}
     for e in test:
-        per.setdefault(indicatie(e.get("ctx") or {}, t)["oordeel"], []).append(e["r"])
+        per.setdefault(indicatie(e.get("ctx") or {}, t, kenmerken)["oordeel"], []).append(e["r"])
     uit = {k: {"n": len(v), "gem_r": round(_gem(v), 3), "winst_pct": round(sum(1 for r in v if r > 0) / len(v), 3)}
            for k, v in per.items()}
     g, o = uit.get("gunstig"), uit.get("ongunstig")
@@ -170,11 +173,11 @@ def toets(events: list[dict], deel: float = 0.6) -> dict:
             "vanaf": grens, "per_oordeel": uit, "werkt": werkt}
 
 
-def zin(toetsuitslag: dict) -> str:
+def zin(toetsuitslag: dict, woord: str = "uitbraken") -> str:
     if not toetsuitslag.get("genoeg"):
         return "Nog te weinig dagen om de indicatie eerlijk te toetsen."
     u = toetsuitslag["per_oordeel"]
-    f = lambda k: "–" if k not in u else f"{_r(u[k]['gem_r'])} ({u[k]['n']} uitbraken)"  # noqa: E731
+    f = lambda k: "–" if k not in u else f"{_r(u[k]['gem_r'])} ({u[k]['n']} {woord})"  # noqa: E731
     basis = (f"Toets op {toetsuitslag['test_dagen']} latere dagen die de indicatie nooit zag: "
              f"gunstig {f('gunstig')}, gemiddeld {f('gemiddeld')}, ongunstig {f('ongunstig')}.")
     return basis + (" De indicatie maakte dus echt verschil." if toetsuitslag["werkt"] else
