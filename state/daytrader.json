@@ -136,7 +136,7 @@
   "begin": 9965.29,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-10-26T14:15:00",
+  "prev": "2026-10-26T15:15:00",
   "traded": [
    "PANW",
    "TSLA"
@@ -251,7 +251,7 @@
     "indicatie_tekst": "Gunstig: vergelijkbare uitbraken liepen in 73% van de gevallen goed af (gemiddeld +0,25 R; alle uitbraken samen +0,14 R). Vooral: breedte van de openingsrange 'breed (>2%)'."
    },
    "t_in": "10:30",
-   "koers": 394.3949890136719
+   "koers": 393.625
   },
   {
    "ticker": "PANW",
@@ -277,12 +277,12 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 66% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,14 R)."
    },
    "t_in": "10:30",
-   "koers": 393.8900146484375
+   "koers": 391.79998779296875
   }
  ],
  "laatste_ronde": {
-  "tijd": "2026-10-26T18:26:50+00:00",
-  "ny": "2026-10-26 14:26",
+  "tijd": "2026-10-26T19:26:36+00:00",
+  "ny": "2026-10-26 15:26",
   "status": "ok",
   "log": [
    "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
@@ -529,6 +529,14 @@
   {
    "tijd": "2026-10-26T18:26:50+00:00",
    "ny": "2026-10-26 14:26",
+   "status": "ok",
+   "log": [
+    "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-10-26T19:26:36+00:00",
+   "ny": "2026-10-26 15:26",
    "status": "ok",
    "log": [
     "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
