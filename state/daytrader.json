@@ -1,6 +1,6 @@
 {
  "start": 10000.0,
- "equity": 9951.36,
+ "equity": 9965.89,
  "dagen": [
   {
    "dag": "2026-10-16",
@@ -55,6 +55,14 @@
    "begin": 9965.29,
    "eind": 9951.36,
    "resultaat": -13.93,
+   "trades": 2,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-10-27",
+   "begin": 9951.36,
+   "eind": 9965.89,
+   "resultaat": 14.53,
    "trades": 2,
    "daglimiet": false
   }
@@ -193,29 +201,87 @@
     "indicatie": "gemiddeld",
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 66% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,14 R)."
    }
+  },
+  {
+   "dag": "2026-10-27",
+   "ticker": "GOOGL",
+   "qty": 7,
+   "instap": 320.3301,
+   "uitstap": 320.3997,
+   "t_in": "11:15",
+   "t_uit": "15:45",
+   "reden": "einde van de dag",
+   "resultaat": 0.49,
+   "r": 0.02,
+   "ctx": {
+    "tijd": "11:15",
+    "rvol": 2.18,
+    "or_breedte": 0.0096,
+    "boven_range": 0.0005,
+    "markt_vandaag": 0.0025,
+    "dag_tot_nu": 0.0099,
+    "gap": 0.0006,
+    "dagtrend": "zijwaarts",
+    "plek": "onderaan het bereik",
+    "terugval": false,
+    "boven_sma50": false,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,11 R; alle uitbraken samen +0,14 R)."
+   }
+  },
+  {
+   "dag": "2026-10-27",
+   "ticker": "AMD",
+   "qty": 4,
+   "instap": 556.6582,
+   "uitstap": 560.1698,
+   "t_in": "11:15",
+   "t_uit": "15:45",
+   "reden": "einde van de dag",
+   "resultaat": 14.05,
+   "r": 0.315,
+   "ctx": {
+    "tijd": "11:15",
+    "rvol": 1.36,
+    "or_breedte": 0.0297,
+    "boven_range": 0.0006,
+    "markt_vandaag": 0.0025,
+    "dag_tot_nu": 0.0294,
+    "gap": 0.0155,
+    "dagtrend": "zijwaarts",
+    "plek": "midden in het bereik",
+    "terugval": false,
+    "boven_sma50": false,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 65% van de gevallen goed af (gemiddeld +0,13 R; alle uitbraken samen +0,14 R)."
+   }
   }
  ],
  "vandaag": {
   "dag": "2026-10-27",
   "begin": 9951.36,
-  "realized": 0.0,
-  "klaar": false,
-  "prev": "2026-10-27T15:15:00",
+  "realized": 14.533703140258922,
+  "klaar": true,
+  "prev": "2026-10-27T15:45:00",
   "traded": [
    "AMD",
    "GOOGL"
   ],
   "notities": [],
-  "trades": [],
-  "open": {
-   "GOOGL": {
+  "trades": [
+   {
+    "dag": "2026-10-27",
     "ticker": "GOOGL",
     "qty": 7,
-    "entry": 320.33009843444825,
-    "stop": 316.89849853515625,
-    "target": 327.19329823303224,
-    "t_in": "2026-10-27T11:15:00",
-    "risk": 24.02119929504397,
+    "instap": 320.3301,
+    "uitstap": 320.3997,
+    "t_in": "11:15",
+    "t_uit": "15:45",
+    "reden": "einde van de dag",
+    "resultaat": 0.49,
+    "r": 0.02,
     "ctx": {
      "tijd": "11:15",
      "rvol": 2.18,
@@ -233,14 +299,17 @@
      "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,11 R; alle uitbraken samen +0,14 R)."
     }
    },
-   "AMD": {
+   {
+    "dag": "2026-10-27",
     "ticker": "AMD",
     "qty": 4,
-    "entry": 556.6581948852539,
-    "stop": 545.5250309875488,
-    "target": 578.9245226806642,
-    "t_in": "2026-10-27T11:15:00",
-    "risk": 44.53265559082047,
+    "instap": 556.6582,
+    "uitstap": 560.1698,
+    "t_in": "11:15",
+    "t_uit": "15:45",
+    "reden": "einde van de dag",
+    "resultaat": 14.05,
+    "r": 0.315,
     "ctx": {
      "tijd": "11:15",
      "rvol": 1.36,
@@ -258,7 +327,8 @@
      "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 65% van de gevallen goed af (gemiddeld +0,13 R; alle uitbraken samen +0,14 R)."
     }
    }
-  }
+  ],
+  "open": {}
  },
  "gem_vol": {
   "AAPL": 6906655.5,
@@ -290,66 +360,16 @@
   "GLD": 1187577.5
  },
  "uitgesloten": {},
- "open_nu": [
-  {
-   "ticker": "GOOGL",
-   "qty": 7,
-   "entry": 320.33009843444825,
-   "stop": 316.89849853515625,
-   "target": 327.19329823303224,
-   "risk": 24.02119929504397,
-   "ctx": {
-    "tijd": "11:15",
-    "rvol": 2.18,
-    "or_breedte": 0.0096,
-    "boven_range": 0.0005,
-    "markt_vandaag": 0.0025,
-    "dag_tot_nu": 0.0099,
-    "gap": 0.0006,
-    "dagtrend": "zijwaarts",
-    "plek": "onderaan het bereik",
-    "terugval": false,
-    "boven_sma50": false,
-    "markt_dagtrend": "zijwaarts",
-    "indicatie": "gemiddeld",
-    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,11 R; alle uitbraken samen +0,14 R)."
-   },
-   "t_in": "11:15",
-   "koers": 323.6549987792969
-  },
-  {
-   "ticker": "AMD",
-   "qty": 4,
-   "entry": 556.6581948852539,
-   "stop": 545.5250309875488,
-   "target": 578.9245226806642,
-   "risk": 44.53265559082047,
-   "ctx": {
-    "tijd": "11:15",
-    "rvol": 1.36,
-    "or_breedte": 0.0297,
-    "boven_range": 0.0006,
-    "markt_vandaag": 0.0025,
-    "dag_tot_nu": 0.0294,
-    "gap": 0.0155,
-    "dagtrend": "zijwaarts",
-    "plek": "midden in het bereik",
-    "terugval": false,
-    "boven_sma50": false,
-    "markt_dagtrend": "zijwaarts",
-    "indicatie": "gemiddeld",
-    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 65% van de gevallen goed af (gemiddeld +0,13 R; alle uitbraken samen +0,14 R)."
-   },
-   "t_in": "11:15",
-   "koers": 559.080078125
-  }
- ],
+ "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-10-27T19:26:59+00:00",
-  "ny": "2026-10-27 15:26",
+  "tijd": "2026-10-27T20:26:32+00:00",
+  "ny": "2026-10-27 16:26",
   "status": "ok",
   "log": [
-   "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   "Koersen niet vers (laatste blok 15:55): niets kopen deze ronde.",
+   "15:45 GOOGL: verkocht aan het einde van de dag",
+   "15:45 AMD: verkocht aan het einde van de dag",
+   "Dag klaar: 2 trades, resultaat +14.53 dollar."
   ]
  },
  "rondes": [
@@ -680,6 +700,17 @@
    "status": "ok",
    "log": [
     "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-10-27T20:26:32+00:00",
+   "ny": "2026-10-27 16:26",
+   "status": "ok",
+   "log": [
+    "Koersen niet vers (laatste blok 15:55): niets kopen deze ronde.",
+    "15:45 GOOGL: verkocht aan het einde van de dag",
+    "15:45 AMD: verkocht aan het einde van de dag",
+    "Dag klaar: 2 trades, resultaat +14.53 dollar."
    ]
   }
  ],
