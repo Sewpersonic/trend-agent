@@ -1,0 +1,61 @@
+# Daytrade-bot: de koopuren (10:00-12:30 New Yorkse tijd) in één run, met een ronde op elk kijkmoment (elk kwartier),
+# precies zoals in de test op oude koersen. Alleen nepgeld; de regels van de bot veranderen hierdoor niet.
+# Na 12:30 koopt hij niets meer; verkopen (stop-loss, winstdoel, 15:45) doen de gewone rondes van workflow daytrade,
+# die alle gemiste kijkmomenten naspelen met de echte koersen.
+# Start: GitHub-schema (twee tijden, voor zomer- en wintertijd in New York) en als reserve de uurlijkse Claude-taak.
+name: daytrade-sessie
+
+on:
+  schedule:
+    - cron: "45 13 * * 1-5"   # 09:45 New York in de zomertijd
+    - cron: "45 14 * * 1-5"   # 09:45 New York in de wintertijd
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: daytrade-sessie
+  cancel-in-progress: false
+
+jobs:
+  sessie:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    env:
+      PAPER_TRADING: "true"
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Is het nu koopuren in New York?
+        id: nodig
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          ny = datetime.now(ZoneInfo("America/New_York"))
+          ok = ny.weekday() < 5 and (9, 0) <= (ny.hour, ny.minute) <= (12, 35)
+          print("ja=" + ("true" if ok else "false"))
+          PY
+      - uses: actions/checkout@v5
+        if: steps.nodig.outputs.ja == 'true'
+      - uses: actions/setup-python@v6
+        if: steps.nodig.outputs.ja == 'true'
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - if: steps.nodig.outputs.ja == 'true'
+        run: pip install -e .
+      - name: Wachten tot een lopende gewone ronde klaar is
+        if: steps.nodig.outputs.ja == 'true'
+        run: |
+          for i in $(seq 1 20); do
+            n=$(gh run list -R "$GITHUB_REPOSITORY" -w daytrade.yml -s in_progress --json databaseId --jq 'length' 2>/dev/null || echo 0)
+            [ "$n" = "0" ] && break
+            echo "Er loopt nog een gewone ronde; even wachten..."; sleep 15
+          done
+          git pull -q --rebase origin main || true
+      - name: Koopuren
+        if: steps.nodig.outputs.ja == 'true'
+        run: python -m trendagent daytrade-sessie --opslaan

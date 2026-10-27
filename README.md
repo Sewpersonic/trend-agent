@@ -51,7 +51,8 @@ accepteert, gaat de pagina in delen online: `python scripts/pagina_splitsen.py` 
 | --- | --- | --- |
 | Werkdagen ± 00:17 | `practice` | De ronde van beide bots met de slotkoersen van die dag, daarna het oefenaccount gelijkzetten, rapporten en dashboardcijfers maken, opslaan, en de gezondheidscontrole. |
 | Werkdagen elk uur rond :25 | `broker` (gestart door een geplande taak van Claude) | Alleen kijken in het oefenaccount (geen orders) en de volglijst bijwerken, voor een verse stand op het dashboard. |
-| Werkdagen elk uur van 15:25 tot 22:25 (gestart door de uurlijkse taak van Claude; het schema van GitHub zelf komt vaak uren te laat) | `daytrade` | Eén ronde van de daytrade-bot. Buiten beurstijd stopt de run meteen. |
+| Werkdagen 09:45 New Yorkse tijd (in Nederland meestal 15:45), één run tot 12:30 New Yorkse tijd | `daytrade-sessie` | De koopuren van de daytrade-bot: een ronde op elk kijkmoment (elk kwartier van 10:00 tot 12:30 New Yorkse tijd), zoals in de test. Gestart door GitHub zelf; de uurlijkse taak van Claude start hem als reserve. |
+| Werkdagen elk uur van 15:25 tot 22:25 (gestart door de uurlijkse taak van Claude; het schema van GitHub zelf komt vaak uren te laat) | `daytrade` | Eén ronde van de daytrade-bot: verkopen bewaken (gemiste kijkmomenten worden met de echte koersen nagespeeld). Loopt de sessie van de koopuren, dan slaat hij over. |
 | Zaterdag ± 08:41 | `daytrade` | Onderzoek van de daytrade-bot: regels (ook uit de grafiekanalyse) opnieuw testen en lessen bijwerken. |
 | Na elke run | `status` | Zet de lijst van de laatste GitHub-runs en open voorstellen klaar voor het dashboard. |
 | Zaterdag ± 07:17 | `onderzoek` | Test varianten van de regels op 5 jaar koersen en zet een voorstel klaar als er een bewezen betere is. |
@@ -175,6 +176,12 @@ Metadata, Orders - Execute, Orders - Read en Portfolio.
   eerlijk getoetst (gemaakt uit de oudere jaren, gecontroleerd op de latere). Het is alleen informatie: de bot koopt
   hierdoor niet anders. Pas als de toets een duidelijk verschil laat zien, kan het een regel worden, en alleen met
   jouw ja. Het oefenaccount volgt de trend-agent en krijgt zo dezelfde labels.
+- **Elke zaterdag** test het onderzoek ook of de trend-agent beter werkt met **4 of 5 plekken** in plaats van 3
+  (zelfde risico per aankoop). Nu staat het meeste geld stil zodra 3 plekken bezet zijn. Alleen als dat bewezen
+  beter is, komt er een voorstel; jij beslist.
+- **5-minutenkoersen bewaren:** het daytrade-onderzoek slaat elke week de 5-minutenkoersen op
+  (`backtest/daytrade/koersen/`, één bestand per week). Yahoo geeft er maar ~60 dagen van; met het archief kijkt
+  het onderzoek steeds verder terug (tot 250 beursdagen).
 - **Elke week** zet het dashboard (tabblad **Weekoverzicht**) op een rij wat de bots kochten en verkochten en wat
   ze ervan leerden, zodat je per week kunt nalezen welke orders er waren en waarom.
 - **Jij beslist.** Haalt een variant alle toetsen, dan zet het onderzoek een **voorstel** (pull request) klaar

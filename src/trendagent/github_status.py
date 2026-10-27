@@ -20,8 +20,9 @@ WAT = {
     "diagnose": "Test van de koersbron",
     "broker": "Oefenaccount Trading 212",
     "daytrade": "Daytrade-bot",
+    "daytrade-sessie": "Daytrade-bot: koopuren",
 }
-PER_WORKFLOW = {"daytrade": 4}   # draait 28 keer per dag: alleen de laatste paar tonen
+PER_WORKFLOW = {"daytrade": 4, "daytrade-sessie": 3}   # draait 28 keer per dag: alleen de laatste paar tonen
 
 STAP = {
     "Trend-agent": "De trend-agent liep vast.",
@@ -33,6 +34,7 @@ STAP = {
     "Onderzoek": "Het onderzoek zelf liep vast (bijvoorbeeld koersen downloaden mislukte).",
     "Oefenaccount Trading 212": "De koppeling met het oefenaccount van Trading 212 lukte niet (zie het verslag).",
     "Controle oefenaccount": "Het oefenaccount van Trading 212 gaf een fout of een order lukte niet. De bots zelf draaiden gewoon door. Zie het tabblad Oefenaccount.",
+    "Koopuren": "De sessie van de koopuren van de daytrade-bot liep vast. De gewone rondes gaan door; wat open staat wordt gewoon verkocht.",
     "Volglijst": "De volglijst (extra beleggingen bekijken) lukte niet. De bots draaiden gewoon door.",
     "Volglijst (alleen kijken)": "De volglijst (extra beleggingen bekijken) lukte niet. Het oefenaccount werkte gewoon.",
     "Ronde": "De daytrade-bot liep vast in deze ronde. Hij heeft daarom niets gekocht; de volgende ronde probeert het opnieuw.",

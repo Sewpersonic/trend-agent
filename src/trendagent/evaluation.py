@@ -63,6 +63,9 @@ TREND_VARIANTS: dict[str, dict] = {
     "koop-na-terugval": {"entry_filter": "terugval"},
     "koop-bij-nieuwe-top": {"entry_filter": "uitbraak"},
     "verkoop-na-2-rode-trendkaarsen": {"ha_exit": True},
+    # Meer tegelijk vasthouden (nu staat het meeste geld stil als 3 plekken bezet zijn); risico per aankoop blijft gelijk.
+    "4-plekken": {"max_positions": 4},
+    "5-plekken": {"max_positions": 5, "max_open_risk": 0.0125},
 }
 
 # In gewone taal: wat elke variant test.
@@ -74,6 +77,8 @@ UITLEG = {
     "koop-na-terugval": "Patroon: alleen kopen na een terugval in de laatste week (kopen in de dip).",
     "koop-bij-nieuwe-top": "Patroon: alleen kopen als het aandeel een nieuwe 3-maands top maakt (uitbraak).",
     "verkoop-na-2-rode-trendkaarsen": "Patroon: ook verkopen zodra er 2 rode trendkaarsen op rij komen.",
+    "4-plekken": "4 aandelen tegelijk in plaats van 3 (zelfde risico per aankoop).",
+    "5-plekken": "5 aandelen tegelijk in plaats van 3 (zelfde risico per aankoop).",
     "satelliet-3-aandelen": "Investeerder: 3 in plaats van 5 sterke aandelen.",
 }
 

@@ -97,6 +97,7 @@
 #kansen-uitleg > summary::-webkit-details-marker { display: none; }
 #kansen-uitleg > summary h2::before { content: '▸ '; color: var(--color-fg-muted); }
 #kansen-uitleg[open] > summary h2::before { content: '▾ '; }
+.vv-let { margin: 0 0 16px; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--color-warn); background: color-mix(in srgb, var(--color-warn) 12%, transparent); font-size: 14px; line-height: 1.45; }
 .tx-two { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr)); align-items: start; }
 .tx-tablewrap { overflow-x: auto; }
 .tx table { border-collapse: collapse; width: 100%; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
@@ -619,6 +620,8 @@
         <div class="vv-pop" id="vv-pop" hidden></div>
       </div>
     </div>
+
+    <div class="vv-let" id="vv-let" role="status" hidden></div>
 
     <!-- DASHBOARD -->
     <section class="tx-page" id="pg-dashboard" role="tabpanel" aria-labelledby="dashboard">
@@ -3456,6 +3459,15 @@ dash.calc('onderzoek_verschil', {
     const lijst = ['cijfers', 'oefenaccount', 'daytrader', 'bots', 'volglijst', 'handelsdag'].filter((k) => by[k] && by[k].tijd).map((k) => {
       const r = el('div', { class: 'vv-row', 'data-source': 'ververst', 'data-field': 'tijd', 'data-where': 'id=' + k }); r.append(el('span', {}, by[k].wat), el('b', {}, wanneer(by[k].tijd))); return r; });
     pop.replaceChildren(...lijst, el('p', {}, 'Het oefenaccount, de volglijst en de daytrader worden op werkdagen elk uur ververst (rond :25), de rest elke ochtend rond 07:41 na de nachtelijke ronde.' + (oud ? ' Let op: al meer dan een dag niet ververst.' : '')));
+    // Waarschuwing bovenaan als een geplande taak niet liep: op werkdagen hoort het oefenaccount elk uur ververst te zijn.
+    const let_ = document.getElementById('vv-let');
+    const nl = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Amsterdam' }));
+    const werkuur = nl.getDay() >= 1 && nl.getDay() <= 5 && nl.getHours() >= 11 && nl.getHours() <= 23;
+    const oefen = by.oefenaccount && by.oefenaccount.tijd ? (Date.now() - new Date(by.oefenaccount.tijd).getTime()) / 3600e3 : null;
+    const telaat = oud ? 'De cijfers op dit dashboard zijn al meer dan een dag niet bijgewerkt (laatst ' + wanneer(laatst) + ').'
+      : werkuur && oefen != null && oefen > 3 ? 'Het oefenaccount en de daytrader zijn al ' + Math.floor(oefen) + ' uur niet bijgewerkt op dit dashboard.' : '';
+    let_.hidden = !telaat;
+    if (telaat) let_.replaceChildren(el('b', {}, 'Let op: '), document.createTextNode(telaat + ' Waarschijnlijk liep een geplande taak niet. De bots zelf draaien gewoon door op GitHub; kijk op het tabblad GitHub of vraag Claude het na te lopen.'));
   }
   // Ververs-knop: haalt de nieuwste gegevens op die er zijn. Laat de bots zelf niet draaien.
   const nu = document.getElementById('vv-nu'), label = nu.querySelector('span');

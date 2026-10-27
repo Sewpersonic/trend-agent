@@ -68,6 +68,8 @@ def main(argv: list[str] | None = None) -> int:
     vl = sub.add_parser("volglijst", help="extra beleggingen bekijken (alleen kijken, nooit kopen); schrijft dashboard/volglijst.json")
     vl.add_argument("--simulated", action="store_true")
     sub.add_parser("daytrade", help="één ronde van de daytrade-bot (elk kwartier tijdens de Amerikaanse beurs)")
+    ds = sub.add_parser("daytrade-sessie", help="koopuren van de daytrade-bot: een ronde op elk kijkmoment (10:00-12:30 New York)")
+    ds.add_argument("--opslaan", action="store_true", help="na elke ronde opslaan op GitHub (alleen in de workflow)")
     sub.add_parser("daytrade-test", help="daytrade-bot testen op de 5-minutenkoersen van de afgelopen ~60 beursdagen")
     hc = sub.add_parser("health", help="gezondheid van de laatste rondes tonen")
     hc.add_argument("--check", action="store_true", help="foutcode 1 als er iets mis is")
@@ -86,6 +88,24 @@ def main(argv: list[str] | None = None) -> int:
             print("  " + regel)
         write_daytrader(s.state_dir, Path("dashboard"))
         return 0 if lr.get("status") != "fout" else 1
+    if args.cmd == "daytrade-sessie":
+        import subprocess
+
+        from .daytrade_sessie import sessie
+        from .dashboard_data import write_daytrader
+
+        def na_ronde(st):
+            lr = st.get("laatste_ronde", {})
+            print(f"Ronde {lr.get('ny', '')} (New York): {lr.get('status')}", flush=True)
+            for regel in lr.get("log", []):
+                print("  " + regel, flush=True)
+            write_daytrader(s.state_dir, Path("dashboard"))
+            if args.opslaan:
+                subprocess.run(["bash", "scripts/opslaan.sh", "Daytrade-bot - ronde (koopuren)", "state/daytrader.json",
+                                "state/daytrader_audit.jsonl", "dashboard/daytrader.json"], check=False)
+        for regel in sessie(s.state_dir, na_ronde=na_ronde):
+            print(regel)
+        return 0
     if args.cmd == "daytrade-test":
         from .daytrade_test import run as _dtt
         r = _dtt()

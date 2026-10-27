@@ -1,4 +1,5 @@
-"""Test van de daytrade-bot op de koersen per 5 minuten van de afgelopen ~60 beursdagen (meer geeft Yahoo gratis niet).
+"""Test van de daytrade-bot op de koersen per 5 minuten: de laatste ~60 beursdagen van Yahoo plus het eigen archief
+(daytrade_archief.py), dat elke week groeit.
 
 Schrijft backtest/daytrade/RAPPORT.md, resultaat.json en trades.csv. Verandert niets aan de bots.
 """
@@ -87,7 +88,7 @@ def download_daily(tickers=TICKERS) -> dict:
     out = {}
     for tk in tickers:
         try:
-            out[tk] = yp.history(BY_TICKER[tk], 330)
+            out[tk] = yp.history(BY_TICKER[tk], 600)   # ook voor oudere dagen uit het archief
         except Exception:  # noqa: BLE001 - zonder daggrafiek telt dit aandeel als 'onbekend'
             continue
     return out
@@ -97,7 +98,11 @@ def run(out_dir: Path = Path("backtest/daytrade"), data: dict[str, list[Bar5]] |
         daily: dict | None = None, base: Params | None = None) -> dict:
     from .daytrade_leren import leer, samenvatting
     if data is None:
-        data = download()
+        # Nieuwe koersen bewaren en aanvullen met het archief van eerdere weken (zo groeit de testperiode).
+        from . import daytrade_archief
+        nieuw = download()
+        daytrade_archief.bewaar(nieuw)
+        data = daytrade_archief.samen(daytrade_archief.laad(), nieuw)
         daily = download_daily() if daily is None else daily
     out_dir.mkdir(parents=True, exist_ok=True)
     base = base or Params()
