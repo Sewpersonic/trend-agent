@@ -200,7 +200,7 @@
   "begin": 9951.36,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-10-27T11:15:00",
+  "prev": "2026-10-27T12:15:00",
   "traded": [
    "AMD",
    "GOOGL"
@@ -315,7 +315,7 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,11 R; alle uitbraken samen +0,14 R)."
    },
    "t_in": "11:15",
-   "koers": 320.1700134277344
+   "koers": 322.1300048828125
   },
   {
    "ticker": "AMD",
@@ -341,16 +341,15 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 65% van de gevallen goed af (gemiddeld +0,13 R; alle uitbraken samen +0,14 R)."
    },
    "t_in": "11:15",
-   "koers": 556.3800048828125
+   "koers": 559.8049926757812
   }
  ],
  "laatste_ronde": {
-  "tijd": "2026-10-27T15:27:44+00:00",
-  "ny": "2026-10-27 11:27",
+  "tijd": "2026-10-27T16:27:19+00:00",
+  "ny": "2026-10-27 12:27",
   "status": "ok",
   "log": [
-   "11:15 GOOGL: gekocht (7 stuks, uitbraak boven 319.96 met 2.2x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,11 R; alle uitbraken samen +0,14 R).",
-   "11:15 AMD: gekocht (4 stuks, uitbraak boven 555.00 met 1.4x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 65% van de gevallen goed af (gemiddeld +0,13 R; alle uitbraken samen +0,14 R)."
+   "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: te weinig volume (0.8x normaal) (7x); te weinig volume (0.9x normaal) (4x); te weinig volume (0.7x normaal) (4x)."
   ]
  },
  "rondes": [
@@ -641,6 +640,14 @@
    "log": [
     "11:15 GOOGL: gekocht (7 stuks, uitbraak boven 319.96 met 2.2x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,11 R; alle uitbraken samen +0,14 R).",
     "11:15 AMD: gekocht (4 stuks, uitbraak boven 555.00 met 1.4x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 65% van de gevallen goed af (gemiddeld +0,13 R; alle uitbraken samen +0,14 R)."
+   ]
+  },
+  {
+   "tijd": "2026-10-27T16:27:19+00:00",
+   "ny": "2026-10-27 12:27",
+   "status": "ok",
+   "log": [
+    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: te weinig volume (0.8x normaal) (7x); te weinig volume (0.9x normaal) (4x); te weinig volume (0.7x normaal) (4x)."
    ]
   }
  ],
