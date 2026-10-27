@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "strategie": "trend",
+    "variant": "5-plekken",
+    "wijziging": {
+      "max_positions": 5,
+      "max_open_risk": 0.0125
+    },
+    "productieversie": "trend-1.1-d373c7",
+    "sharpe_holdout": 0.932,
+    "sharpe_holdout_productie": 0.574,
+    "max_daling": -0.0554,
+    "max_daling_productie": -0.0453
+  }
+]
