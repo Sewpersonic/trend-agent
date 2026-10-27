@@ -200,11 +200,65 @@
   "begin": 9951.36,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-10-27T10:15:00",
-  "traded": [],
+  "prev": "2026-10-27T11:15:00",
+  "traded": [
+   "AMD",
+   "GOOGL"
+  ],
   "notities": [],
   "trades": [],
-  "open": {}
+  "open": {
+   "GOOGL": {
+    "ticker": "GOOGL",
+    "qty": 7,
+    "entry": 320.33009843444825,
+    "stop": 316.89849853515625,
+    "target": 327.19329823303224,
+    "t_in": "2026-10-27T11:15:00",
+    "risk": 24.02119929504397,
+    "ctx": {
+     "tijd": "11:15",
+     "rvol": 2.18,
+     "or_breedte": 0.0096,
+     "boven_range": 0.0005,
+     "markt_vandaag": 0.0025,
+     "dag_tot_nu": 0.0099,
+     "gap": 0.0006,
+     "dagtrend": "zijwaarts",
+     "plek": "onderaan het bereik",
+     "terugval": false,
+     "boven_sma50": false,
+     "markt_dagtrend": "zijwaarts",
+     "indicatie": "gemiddeld",
+     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,11 R; alle uitbraken samen +0,14 R)."
+    }
+   },
+   "AMD": {
+    "ticker": "AMD",
+    "qty": 4,
+    "entry": 556.6581948852539,
+    "stop": 545.5250309875488,
+    "target": 578.9245226806642,
+    "t_in": "2026-10-27T11:15:00",
+    "risk": 44.53265559082047,
+    "ctx": {
+     "tijd": "11:15",
+     "rvol": 1.36,
+     "or_breedte": 0.0297,
+     "boven_range": 0.0006,
+     "markt_vandaag": 0.0025,
+     "dag_tot_nu": 0.0294,
+     "gap": 0.0155,
+     "dagtrend": "zijwaarts",
+     "plek": "midden in het bereik",
+     "terugval": false,
+     "boven_sma50": false,
+     "markt_dagtrend": "zijwaarts",
+     "indicatie": "gemiddeld",
+     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 65% van de gevallen goed af (gemiddeld +0,13 R; alle uitbraken samen +0,14 R)."
+    }
+   }
+  }
  },
  "gem_vol": {
   "AAPL": 6906655.5,
@@ -236,13 +290,67 @@
   "GLD": 1187577.5
  },
  "uitgesloten": {},
- "open_nu": [],
+ "open_nu": [
+  {
+   "ticker": "GOOGL",
+   "qty": 7,
+   "entry": 320.33009843444825,
+   "stop": 316.89849853515625,
+   "target": 327.19329823303224,
+   "risk": 24.02119929504397,
+   "ctx": {
+    "tijd": "11:15",
+    "rvol": 2.18,
+    "or_breedte": 0.0096,
+    "boven_range": 0.0005,
+    "markt_vandaag": 0.0025,
+    "dag_tot_nu": 0.0099,
+    "gap": 0.0006,
+    "dagtrend": "zijwaarts",
+    "plek": "onderaan het bereik",
+    "terugval": false,
+    "boven_sma50": false,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,11 R; alle uitbraken samen +0,14 R)."
+   },
+   "t_in": "11:15",
+   "koers": 320.1700134277344
+  },
+  {
+   "ticker": "AMD",
+   "qty": 4,
+   "entry": 556.6581948852539,
+   "stop": 545.5250309875488,
+   "target": 578.9245226806642,
+   "risk": 44.53265559082047,
+   "ctx": {
+    "tijd": "11:15",
+    "rvol": 1.36,
+    "or_breedte": 0.0297,
+    "boven_range": 0.0006,
+    "markt_vandaag": 0.0025,
+    "dag_tot_nu": 0.0294,
+    "gap": 0.0155,
+    "dagtrend": "zijwaarts",
+    "plek": "midden in het bereik",
+    "terugval": false,
+    "boven_sma50": false,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 65% van de gevallen goed af (gemiddeld +0,13 R; alle uitbraken samen +0,14 R)."
+   },
+   "t_in": "11:15",
+   "koers": 556.3800048828125
+  }
+ ],
  "laatste_ronde": {
-  "tijd": "2026-10-27T14:30:44+00:00",
-  "ny": "2026-10-27 10:30",
+  "tijd": "2026-10-27T15:27:44+00:00",
+  "ny": "2026-10-27 11:27",
   "status": "ok",
   "log": [
-   "Bekeken: geen aandeel voldeed nu aan alle regels."
+   "11:15 GOOGL: gekocht (7 stuks, uitbraak boven 319.96 met 2.2x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,11 R; alle uitbraken samen +0,14 R).",
+   "11:15 AMD: gekocht (4 stuks, uitbraak boven 555.00 met 1.4x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 65% van de gevallen goed af (gemiddeld +0,13 R; alle uitbraken samen +0,14 R)."
   ]
  },
  "rondes": [
@@ -524,6 +632,15 @@
    "status": "ok",
    "log": [
     "Bekeken: geen aandeel voldeed nu aan alle regels."
+   ]
+  },
+  {
+   "tijd": "2026-10-27T15:27:44+00:00",
+   "ny": "2026-10-27 11:27",
+   "status": "ok",
+   "log": [
+    "11:15 GOOGL: gekocht (7 stuks, uitbraak boven 319.96 met 2.2x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,11 R; alle uitbraken samen +0,14 R).",
+    "11:15 AMD: gekocht (4 stuks, uitbraak boven 555.00 met 1.4x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 65% van de gevallen goed af (gemiddeld +0,13 R; alle uitbraken samen +0,14 R)."
    ]
   }
  ],
