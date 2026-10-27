@@ -30,3 +30,4 @@
 {"tijd": "2026-10-26T19:26:36+00:00", "ny": "2026-10-26 15:26", "status": "ok", "log": ["Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."]}
 {"tijd": "2026-10-26T19:43:19+00:00", "ny": "2026-10-26 15:43", "status": "ok", "log": ["Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."]}
 {"tijd": "2026-10-26T20:26:52+00:00", "ny": "2026-10-26 16:26", "status": "ok", "log": ["Koersen niet vers (laatste blok 15:55): niets kopen deze ronde.", "15:45 TSLA: verkocht aan het einde van de dag", "15:45 PANW: verkocht aan het einde van de dag", "Dag klaar: 2 trades, resultaat -13.93 dollar."]}
+{"tijd": "2026-10-27T14:30:44+00:00", "ny": "2026-10-27 10:30", "status": "ok", "log": ["Bekeken: geen aandeel voldeed nu aan alle regels."]}
