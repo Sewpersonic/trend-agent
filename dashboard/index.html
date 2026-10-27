@@ -3467,7 +3467,7 @@ dash.calc('onderzoek_verschil', {
     const telaat = oud ? 'De cijfers op dit dashboard zijn al meer dan een dag niet bijgewerkt (laatst ' + wanneer(laatst) + ').'
       : werkuur && oefen != null && oefen > 3 ? 'Het oefenaccount en de daytrader zijn al ' + Math.floor(oefen) + ' uur niet bijgewerkt op dit dashboard.' : '';
     let_.hidden = !telaat;
-    if (telaat) let_.replaceChildren(el('b', {}, 'Let op: '), document.createTextNode(telaat + ' Waarschijnlijk liep een geplande taak niet. De bots zelf draaien gewoon door op GitHub; kijk op het tabblad GitHub of vraag Claude het na te lopen.'));
+    if (telaat) let_.replaceChildren(el('b', {}, 'Let op. '), document.createTextNode(telaat + ' Waarschijnlijk liep een geplande taak niet. De bots zelf draaien gewoon door op GitHub; kijk op het tabblad GitHub of vraag Claude het na te lopen.'));
   }
   // Ververs-knop: haalt de nieuwste gegevens op die er zijn. Laat de bots zelf niet draaien.
   const nu = document.getElementById('vv-nu'), label = nu.querySelector('span');
