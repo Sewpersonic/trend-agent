@@ -68,7 +68,8 @@ def main(argv: list[str] | None = None) -> int:
     vl = sub.add_parser("volglijst", help="extra beleggingen bekijken (alleen kijken, nooit kopen); schrijft dashboard/volglijst.json")
     vl.add_argument("--simulated", action="store_true")
     sub.add_parser("daytrade", help="één ronde van de daytrade-bot (elk kwartier tijdens de Amerikaanse beurs)")
-    ds = sub.add_parser("daytrade-sessie", help="koopuren van de daytrade-bot: een ronde op elk kijkmoment (10:00-12:30 New York)")
+    ds = sub.add_parser("daytrade-sessie", help="beursdag van de daytrade-bot: elk kwartier een ronde (koop- of middagdeel)")
+    ds.add_argument("--deel", choices=["koop", "middag"], default="koop")
     ds.add_argument("--opslaan", action="store_true", help="na elke ronde opslaan op GitHub (alleen in de workflow)")
     sub.add_parser("daytrade-test", help="daytrade-bot testen op de 5-minutenkoersen van de afgelopen ~60 beursdagen")
     hc = sub.add_parser("health", help="gezondheid van de laatste rondes tonen")
@@ -101,10 +102,19 @@ def main(argv: list[str] | None = None) -> int:
                 print("  " + regel, flush=True)
             write_daytrader(s.state_dir, Path("dashboard"))
             if args.opslaan:
-                subprocess.run(["bash", "scripts/opslaan.sh", "Daytrade-bot - ronde (koopuren)", "state/daytrader.json",
+                subprocess.run(["bash", "scripts/opslaan.sh", f"Daytrade-bot - ronde ({args.deel}deel)", "state/daytrader.json",
                                 "state/daytrader_audit.jsonl", "dashboard/daytrader.json"], check=False)
-        for regel in sessie(s.state_dir, na_ronde=na_ronde):
+        regels = sessie(s.state_dir, deel=args.deel, na_ronde=na_ronde)
+        for regel in regels:
             print(regel)
+        # Na het koopdeel het middagdeel laten starten (de workflow leest dit), tenzij er niets te doen was.
+        import os
+        st = _json.loads((s.state_dir / "daytrader.json").read_text(encoding="utf-8")) if (s.state_dir / "daytrader.json").exists() else {}
+        verder = (args.deel == "koop" and regels and not regels[0].startswith(("Te vroeg", "Het koopdeel is vandaag al", "Weekend"))
+                  and not (st.get("vandaag") or {}).get("klaar"))
+        if os.environ.get("GITHUB_OUTPUT"):
+            with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
+                f.write(f"middag={'true' if verder else 'false'}\n")
         return 0
     if args.cmd == "daytrade-test":
         from .daytrade_test import run as _dtt

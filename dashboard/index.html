@@ -902,7 +902,7 @@
 
     <!-- DAYTRADER -->
     <section class="tx-page" id="pg-daytrader" role="tabpanel" aria-labelledby="daytrader" hidden>
-      <p class="tx-what" style="padding:0">De daytrade-bot oefent met nepdollars op de Amerikaanse beurs (meestal 15:30-22:00 Nederlandse tijd). In de koopuren (15:00-17:30) kijkt hij elk kwartier, daarna elk uur. Hij koopt alleen een aandeel dat 's ochtends sterk uitbreekt, en verkoopt alles nog dezelfde dag. Nooit iets 's nachts vasthouden.</p>
+      <p class="tx-what" style="padding:0">De daytrade-bot oefent met nepdollars op de Amerikaanse beurs (meestal 15:30-22:00 Nederlandse tijd). Op beursdagen is hij de hele dag aanwezig en kijkt hij elk kwartier, net als een handelaar: tot 12:30 New Yorkse tijd om te kopen, daarna om zijn posities te bewaken. Hij koopt alleen een aandeel dat 's ochtends sterk uitbreekt, en verkoopt alles nog dezelfde dag. Nooit iets 's nachts vasthouden.</p>
       <div class="ap" id="dt-app" data-source="daytrader"></div>
     </section>
 
@@ -3852,13 +3852,13 @@ svg.focus .sn { opacity: .35; } svg.focus .sn.aan { opacity: 1; }
     yahoo: { k: 0, y: 50, type: 'bron', t: 'Dagkoersen', d: 'Slotkoersen van elke handelsdag van Yahoo, normaal gecontroleerd bij Stooq; de euro/dollar-koers bij de ECB. Wijken bronnen te veel af, dan handelt de bot dat aandeel die dag niet.' },
     vijfmin: { k: 0, y: 190, type: 'bron', t: '5-minutenkoersen', d: 'Koersen per 5 minuten voor de daytrader. Yahoo geeft er maar ~60 dagen van; elke week worden ze bewaard, zodat het onderzoek steeds verder terug kan kijken.' },
     t212: { k: 0, y: 330, type: 'bron', t: 'Trading 212', d: 'Het oefenaccount bij Trading 212, met nepgeld. De sleutel staat alleen in GitHub; dit dashboard heeft er geen.' },
-    cron: { k: 1, y: 50, type: 'start', t: 'GitHub', d: 'GitHub start de nachtronde, de koopuren van de daytrader en het zaterdagonderzoek. Soms komt zo’n start te laat; daarom is er een reserve via Claude.' },
-    uur: { k: 1, y: 190, type: 'start', t: 'Claude-taak elk uur', d: 'Op werkdagen elk uur: kijkt in het oefenaccount, start als reserve de koopuren van de daytrader en de gewone daytrade-ronde, en zet de verse cijfers op dit dashboard.' },
+    cron: { k: 1, y: 50, type: 'start', t: 'GitHub', d: 'GitHub start de nachtronde, de beursdag van de daytrader (drie keer ruim vóór de opening, omdat een start soms uren te laat komt) en het zaterdagonderzoek. De uurtaak van Claude is de reserve.' },
+    uur: { k: 1, y: 190, type: 'start', t: 'Claude-taak elk uur', d: 'Op werkdagen elk uur: kijkt in het oefenaccount, start als reserve de beursdag van de daytrader en zet de verse cijfers op dit dashboard.' },
     ochtend: { k: 1, y: 330, type: 'start', t: 'Claude-taak 07:41', d: 'Kopieert elke ochtend alle onderdelen van het dashboard van GitHub naar deze pagina.' },
     trend: { k: 2, y: 30, type: 'bot', t: 'Trend-agent', d: 'Koopt elke nacht de sterkste stijgende trends, met een stop-loss op elke positie.' },
     invest: { k: 2, y: 130, type: 'bot', t: 'Investeerder', d: 'Belegt voor de lange termijn in een vaste verdeling en herverdeelt één keer per maand.' },
     oefen: { k: 2, y: 230, type: 'bot', t: 'Oefenaccount', d: 'Doet bij Trading 212 na wat de trend-agent doet, met marktorders bij de opening.' },
-    day: { k: 2, y: 330, type: 'bot', t: 'Daytrader', d: 'Koopt een aandeel dat in de ochtend sterk uitbreekt en verkoopt alles voor het slot. In de koopuren kijkt hij elk kwartier, daarna elk uur.' },
+    day: { k: 2, y: 330, type: 'bot', t: 'Daytrader', d: 'Koopt een aandeel dat in de ochtend sterk uitbreekt en verkoopt alles voor het slot. Op beursdagen is hij de hele dag aanwezig en kijkt hij elk kwartier: tot 12:30 New Yorkse tijd om te kopen, daarna om zijn posities te bewaken.' },
     rem: { k: 2, y: 420, type: 'bot', t: 'Remmen', d: 'De noodrem (kill switch) en de grenzen per dag en vanaf de top. Gaat hij aan, dan koopt de trend-agent niets nieuws; stop-losses blijven werken.' },
     onderz: { k: 3, y: 30, type: 'onderzoek', t: 'Weekonderzoek', d: 'Test elke zaterdag varianten van de regels op 5 jaar koersen. Een bewezen betere regel wordt een voorstel voor jou.' },
     labelT: { k: 3, y: 130, type: 'onderzoek', t: 'Label koopsignalen', d: 'Geeft elke kans van de trend-agent een label (gunstig, gemiddeld, ongunstig) uit eerdere koopsignalen. Alleen informatie.' },

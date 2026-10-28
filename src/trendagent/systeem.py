@@ -194,7 +194,15 @@ def rows(state: Path = Path("state"), dash: Path = Path("dashboard"), root: Path
             k.knelpunt("day", "letop", "De koopuren van de daytrader liepen niet goed",
                        f"Vandaag {len(koop)} rondes tussen 10:00 en 12:30 New York (verwacht 11). Hij heeft dan "
                        f"uitbraken kunnen missen.",
-                       "De koopsessie start via GitHub en als reserve via de uurtaak van Claude. Kijk op het tabblad GitHub.")
+                       "De beursdag start via drie vroege GitHub-starts en de uurtaak van Claude. Kijk op het tabblad GitHub.")
+        middag = [r for r in dts.get("rondes", []) if str(r.get("ny", "")).startswith(vandaag)
+                  and "12:45" <= str(r.get("ny", ""))[11:16] <= "15:50"]
+        if werkdag and (ny.hour, ny.minute) >= (15, 55) and len(koop) >= 8 and len(middag) < 8 \
+                and not (dts.get("vandaag") or {}).get("dag") != vandaag:
+            k.knelpunt("day", "letop", "De middag van de daytrader werd niet elk kwartier bewaakt",
+                       f"Vandaag {len(middag)} rondes tussen 12:45 en 15:45 New York (verwacht 13). Verkopen gaat wel goed "
+                       "(gemiste momenten worden nagespeeld), maar het dashboard liep achter.",
+                       "Het koopdeel start het middagdeel zelf; kijk op het tabblad GitHub of dat lukte.")
         if any(r.get("status") == "fout" for r in dts.get("rondes", [])[-6:]):
             k.knelpunt("day", "fout", "Een ronde van de daytrader liep vast",
                        "Een van de laatste rondes eindigde met een fout. Hij heeft dan niets gekocht.",

@@ -1,40 +1,58 @@
-# Daytrade-bot: de koopuren (10:00-12:30 New Yorkse tijd) in één run, met een ronde op elk kijkmoment (elk kwartier),
-# precies zoals in de test op oude koersen. Alleen nepgeld; de regels van de bot veranderen hierdoor niet.
-# Na 12:30 koopt hij niets meer; verkopen (stop-loss, winstdoel, 15:45) doen de gewone rondes van workflow daytrade,
-# die alle gemiste kijkmomenten naspelen met de echte koersen.
-# Start: GitHub-schema (twee tijden, voor zomer- en wintertijd in New York) en als reserve de uurlijkse Claude-taak.
+# Daytrade-bot: de beursdag zoals een mens die handelt (alleen nepgeld; de regels van de bot veranderen niet).
+#   koop    start vóór de opening, wacht tot 10:00 New Yorkse tijd en doet tot 12:30 elk kwartier een ronde (kopen);
+#   middag  daarna elk kwartier zijn posities bewaken tot hij om 15:45 alles verkoopt. Het koopdeel start dit zelf.
+# Starten: drie vroege GitHub-schema's (het schema van GitHub komt soms uren te laat, daarom ruim vooraf) en de
+# uurlijkse taak van Claude. Een run die te vroeg komt wacht (hooguit ruim 3 uur); een tweede start doet niets.
 name: daytrade-sessie
 
 on:
   schedule:
-    - cron: "45 13 * * 1-5"   # 09:45 New York in de zomertijd
-    - cron: "45 14 * * 1-5"   # 09:45 New York in de wintertijd
+    - cron: "30 10 * * 1-5"   # ruim voor de opening (zomer- en wintertijd)
+    - cron: "30 11 * * 1-5"
+    - cron: "30 12 * * 1-5"
   workflow_dispatch:
+    inputs:
+      deel:
+        description: "Welk deel van de beursdag?"
+        type: choice
+        options: ["koop", "middag"]
+        default: "koop"
 
 permissions:
   contents: write
-  actions: read
-
-concurrency:
-  group: daytrade-sessie
-  cancel-in-progress: false
+  actions: write
 
 jobs:
   sessie:
     runs-on: ubuntu-latest
-    timeout-minutes: 240
+    timeout-minutes: 350
     env:
       PAPER_TRADING: "true"
       GH_TOKEN: ${{ github.token }}
+      DEEL: ${{ github.event.inputs.deel || 'koop' }}
     steps:
-      - name: Is het nu koopuren in New York?
+      - name: Is er iets te doen?
         id: nodig
         run: |
           python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os, subprocess
           from datetime import datetime
           from zoneinfo import ZoneInfo
           ny = datetime.now(ZoneInfo("America/New_York"))
-          ok = ny.weekday() < 5 and (9, 0) <= (ny.hour, ny.minute) <= (12, 35)
+          ok = ny.weekday() < 5 and (6, 30) <= (ny.hour, ny.minute) <= (15, 50)
+          if ok and os.environ.get("DEEL", "koop") == "koop":
+              # Loopt er al een eerder gestarte sessie? Dan doet deze run niets (geen dubbele rondes).
+              # (Het middagdeel wordt door het koopdeel zelf gestart en slaat deze controle over.)
+              try:
+                  runs = json.loads(subprocess.run(
+                      ["gh", "run", "list", "-R", os.environ["GITHUB_REPOSITORY"], "-w", "daytrade-sessie.yml",
+                       "-s", "in_progress", "--json", "databaseId,displayTitle", "-L", "20"],
+                      capture_output=True, text=True, timeout=30).stdout or "[]")
+              except Exception:
+                  runs = []
+              eigen = int(os.environ["GITHUB_RUN_ID"])
+              if any(r["databaseId"] < eigen for r in runs):
+                  ok = False
           print("ja=" + ("true" if ok else "false"))
           PY
       - uses: actions/checkout@v5
@@ -56,6 +74,10 @@ jobs:
             echo "Er loopt nog een gewone ronde; even wachten..."; sleep 15
           done
           git pull -q --rebase origin main || true
-      - name: Koopuren
+      - name: Beursdag
+        id: sessie
         if: steps.nodig.outputs.ja == 'true'
-        run: python -m trendagent daytrade-sessie --opslaan
+        run: python -m trendagent daytrade-sessie --deel "$DEEL" --opslaan
+      - name: Middagdeel starten
+        if: steps.sessie.outputs.middag == 'true'
+        run: gh workflow run daytrade-sessie.yml -R "$GITHUB_REPOSITORY" -f deel=middag
