@@ -38,6 +38,7 @@ telefoon (daar met een menu linksboven en een opbouw zoals een beurs-app).
 | **GitHub** | Welke runs op GitHub goed gingen en welke niet, en waarom, in gewone taal. |
 | **Oefenaccount** | De stand bij Trading 212, of het gelijkloopt met de trend-agent, de orders, en knoppen om te kopen en verkopen. |
 | **Daytrader** | De daytrade-bot: waarde, wat er nu open staat (met stop en doel), resultaat per beursdag, alle trades en wat hij in de laatste ronde deed. |
+| **Systeem** | De systeemkaart: hoe de bots samenwerken (bronnen, starters, bots, onderzoek, opslag, jij) en de knelpunten van nu. Na elke run op GitHub opnieuw berekend uit de bestanden van de bots (`systeem.py`); klopt er iets niet, dan wordt het vanzelf een knelpunt met uitleg. |
 
 Bijwerken: elke werkdag rond 07:41 alles, en tijdens beurstijden elk uur (rond :25) het oefenaccount en het
 GitHub-overzicht. Dat doen twee geplande taken van Claude die de bestanden uit `dashboard/` naar de pagina

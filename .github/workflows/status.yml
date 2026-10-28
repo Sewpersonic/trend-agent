@@ -1,9 +1,10 @@
-# Zet na elke run de lijst van de laatste GitHub-runs (goed of fout) klaar voor het dashboard (tabblad GitHub).
+# Zet na elke run de lijst van de laatste GitHub-runs (goed of fout) klaar voor het dashboard (tabblad GitHub),
+# en werkt de systeemkaart bij (tabblad Systeem): waar het nu knelt, berekend uit de bestanden van de bots.
 name: status
 
 on:
   workflow_run:
-    workflows: [practice, onderzoek, backtest, tests, diagnose, broker]
+    workflows: [practice, onderzoek, backtest, tests, diagnose, broker, daytrade, daytrade-sessie]
     types: [completed]
   schedule:
     - cron: "23 5 * * *"
@@ -31,5 +32,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
         run: PYTHONPATH=src python -m trendagent.github_status
-      - name: Alleen dashboard/github.json opslaan
-        run: bash scripts/opslaan.sh "GitHub-status voor het dashboard" dashboard/github.json
+      - name: Systeemkaart bijwerken
+        run: |
+          git pull -q --rebase origin main || true
+          PYTHONPATH=src python -m trendagent.systeem
+      - name: Alleen dashboard/github.json en systeem.json opslaan
+        run: bash scripts/opslaan.sh "GitHub-status en systeemkaart voor het dashboard" dashboard/github.json dashboard/systeem.json

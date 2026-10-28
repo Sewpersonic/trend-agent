@@ -130,6 +130,8 @@ def build(state_dir: Path, reports_dir: Path) -> dict[str, list[dict]]:
                      "indicatie_tekst": ind.get("tekst", "")})
     # één extra rij (soort 'indicatie') met de uitkomst van het onderzoek; alleen als er ook kansen zijn
     out["kansen"] = rows + (ti_rows(onderzoek_ti) if rows else [])
+    from . import systeem
+    out["systeem"] = systeem.rows(state_dir)
 
     # Klaar voor echt geld
     rows = []
@@ -462,6 +464,7 @@ EMPTY = {
     "gereed": "Nog geen gegevens over klaar voor echt geld.",
     "volglijst": "De volglijst is nog niet bekeken; dat gebeurt elke werkdag in de oefenronde.",
     "broker": "Het oefenaccount van Trading 212 is nog niet gekoppeld.",
+    "systeem": "De systeemkaart verschijnt na de volgende run op GitHub.",
     "daytrader": "De daytrade-bot heeft nog geen ronde gedraaid. Hij kijkt elk uur tijdens de Amerikaanse beurs (15:30-22:00).",
 }
 
