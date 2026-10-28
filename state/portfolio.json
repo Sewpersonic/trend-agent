@@ -11,7 +11,7 @@
       "opened": "2026-10-10",
       "entry_fx": 1.0,
       "risk_eur": 24.67,
-      "last_checked": "2026-10-26",
+      "last_checked": "2026-10-27",
       "entry_reason": "",
       "entry_context": {},
       "version": ""
@@ -26,7 +26,7 @@
       "opened": "2026-10-10",
       "entry_fx": 1.0,
       "risk_eur": 22.45,
-      "last_checked": "2026-10-26",
+      "last_checked": "2026-10-27",
       "entry_reason": "",
       "entry_context": {},
       "version": ""
@@ -41,7 +41,7 @@
       "opened": "2026-10-10",
       "entry_fx": 0.8923999798299032,
       "risk_eur": 23.7,
-      "last_checked": "2026-10-26",
+      "last_checked": "2026-10-27",
       "entry_reason": "",
       "entry_context": {},
       "version": ""
@@ -161,6 +161,11 @@
       "day": "2026-10-26",
       "equity": 10076.18,
       "bench": 130.55
+    },
+    {
+      "day": "2026-10-27",
+      "equity": 10067.25,
+      "bench": 131.66
     }
   ],
   "consecutive_losses": 0,
