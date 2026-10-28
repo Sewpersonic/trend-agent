@@ -302,12 +302,10 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-10-28T19:19:12+00:00",
-  "ny": "2026-10-28 15:19",
+  "tijd": "2026-10-28T19:28:48+00:00",
+  "ny": "2026-10-28 15:28",
   "status": "ok",
-  "log": [
-   "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-  ]
+  "log": []
  },
  "rondes": [
   {
@@ -761,6 +759,12 @@
    "log": [
     "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
    ]
+  },
+  {
+   "tijd": "2026-10-28T19:28:48+00:00",
+   "ny": "2026-10-28 15:28",
+   "status": "ok",
+   "log": []
   }
  ],
  "dagcontext": {
