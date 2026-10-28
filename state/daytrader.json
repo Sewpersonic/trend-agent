@@ -310,13 +310,10 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-10-28T20:27:01+00:00",
-  "ny": "2026-10-28 16:27",
-  "status": "ok",
-  "log": [
-   "Koersen niet vers (laatste blok 15:55): niets kopen deze ronde.",
-   "Dag klaar: 0 trades, resultaat +0.00 dollar."
-  ]
+  "tijd": "2026-10-28T21:27:07+00:00",
+  "ny": "2026-10-28 17:27",
+  "status": "beurs dicht",
+  "log": []
  },
  "rondes": [
   {
