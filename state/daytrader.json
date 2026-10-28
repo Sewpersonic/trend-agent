@@ -264,7 +264,7 @@
   "begin": 9965.89,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-10-28T12:00:00",
+  "prev": "2026-10-28T12:15:00",
   "traded": [],
   "notities": [],
   "trades": [],
@@ -302,11 +302,11 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-10-28T16:01:30+00:00",
-  "ny": "2026-10-28 12:01",
+  "tijd": "2026-10-28T16:16:30+00:00",
+  "ny": "2026-10-28 12:16",
   "status": "ok",
   "log": [
-   "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."
+   "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (5x); te weinig volume (0.7x normaal) (5x); te weinig volume (0.8x normaal) (4x)."
   ]
  },
  "rondes": [
@@ -720,6 +720,14 @@
    "status": "ok",
    "log": [
     "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."
+   ]
+  },
+  {
+   "tijd": "2026-10-28T16:16:30+00:00",
+   "ny": "2026-10-28 12:16",
+   "status": "ok",
+   "log": [
+    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (5x); te weinig volume (0.7x normaal) (5x); te weinig volume (0.8x normaal) (4x)."
    ]
   }
  ],
