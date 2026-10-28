@@ -264,7 +264,7 @@
   "begin": 9965.89,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-10-28T14:15:00",
+  "prev": "2026-10-28T15:15:00",
   "traded": [],
   "notities": [],
   "trades": [],
@@ -302,8 +302,8 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-10-28T18:26:48+00:00",
-  "ny": "2026-10-28 14:26",
+  "tijd": "2026-10-28T19:19:12+00:00",
+  "ny": "2026-10-28 15:19",
   "status": "ok",
   "log": [
    "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
@@ -749,6 +749,14 @@
   {
    "tijd": "2026-10-28T18:26:48+00:00",
    "ny": "2026-10-28 14:26",
+   "status": "ok",
+   "log": [
+    "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-10-28T19:19:12+00:00",
+   "ny": "2026-10-28 15:19",
    "status": "ok",
    "log": [
     "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
