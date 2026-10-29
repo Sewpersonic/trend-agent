@@ -56,3 +56,4 @@
 {"tijd": "2026-10-29T14:01:30+00:00", "ny": "2026-10-29 10:01", "status": "ok", "log": ["Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."]}
 {"tijd": "2026-10-29T14:16:30+00:00", "ny": "2026-10-29 10:16", "status": "ok", "log": ["Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."]}
 {"tijd": "2026-10-29T14:31:30+00:00", "ny": "2026-10-29 10:31", "status": "ok", "log": ["Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (10x); te weinig volume (0.8x normaal) (4x); openingsrange te wild (4x)."]}
+{"tijd": "2026-10-29T14:46:30+00:00", "ny": "2026-10-29 10:46", "status": "ok", "log": ["10:45 SPY: gekocht (3 stuks, uitbraak boven 769.41 met 1.3x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 57% van de gevallen goed af (gemiddeld +0,06 R; alle uitbraken samen +0,10 R)."]}

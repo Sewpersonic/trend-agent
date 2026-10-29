@@ -272,11 +272,39 @@
   "begin": 9965.89,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-10-29T10:30:00",
-  "traded": [],
+  "prev": "2026-10-29T10:45:00",
+  "traded": [
+   "SPY"
+  ],
   "notities": [],
   "trades": [],
-  "open": {}
+  "open": {
+   "SPY": {
+    "ticker": "SPY",
+    "qty": 3,
+    "entry": 769.7246968688964,
+    "stop": 767.2653198242188,
+    "target": 774.6434509582518,
+    "t_in": "2026-10-29T10:45:00",
+    "risk": 7.378131134033083,
+    "ctx": {
+     "tijd": "10:45",
+     "rvol": 1.29,
+     "or_breedte": 0.0028,
+     "boven_range": 0.0003,
+     "markt_vandaag": 0.0011,
+     "dag_tot_nu": 0.0011,
+     "gap": -0.0046,
+     "dagtrend": "stijgend",
+     "plek": "midden in het bereik",
+     "terugval": false,
+     "boven_sma50": true,
+     "markt_dagtrend": "stijgend",
+     "indicatie": "gemiddeld",
+     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 57% van de gevallen goed af (gemiddeld +0,06 R; alle uitbraken samen +0,10 R)."
+    }
+   }
+  }
  },
  "gem_vol": {
   "AAPL": 6014593.6,
@@ -308,22 +336,43 @@
   "GLD": 1012083.4
  },
  "uitgesloten": {},
- "open_nu": [],
+ "open_nu": [
+  {
+   "ticker": "SPY",
+   "qty": 3,
+   "entry": 769.7246968688964,
+   "stop": 767.2653198242188,
+   "target": 774.6434509582518,
+   "risk": 7.378131134033083,
+   "ctx": {
+    "tijd": "10:45",
+    "rvol": 1.29,
+    "or_breedte": 0.0028,
+    "boven_range": 0.0003,
+    "markt_vandaag": 0.0011,
+    "dag_tot_nu": 0.0011,
+    "gap": -0.0046,
+    "dagtrend": "stijgend",
+    "plek": "midden in het bereik",
+    "terugval": false,
+    "boven_sma50": true,
+    "markt_dagtrend": "stijgend",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 57% van de gevallen goed af (gemiddeld +0,06 R; alle uitbraken samen +0,10 R)."
+   },
+   "t_in": "10:45",
+   "koers": 769.3400268554688
+  }
+ ],
  "laatste_ronde": {
-  "tijd": "2026-10-29T14:31:30+00:00",
-  "ny": "2026-10-29 10:31",
+  "tijd": "2026-10-29T14:46:30+00:00",
+  "ny": "2026-10-29 10:46",
   "status": "ok",
   "log": [
-   "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (10x); te weinig volume (0.8x normaal) (4x); openingsrange te wild (4x)."
+   "10:45 SPY: gekocht (3 stuks, uitbraak boven 769.41 met 1.3x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 57% van de gevallen goed af (gemiddeld +0,06 R; alle uitbraken samen +0,10 R)."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-10-16T18:40:04+00:00",
-   "ny": "2026-10-16 14:40",
-   "status": "ok",
-   "log": []
-  },
   {
    "tijd": "2026-10-19T15:05:14+00:00",
    "ny": "2026-10-19 11:05",
@@ -807,6 +856,14 @@
    "status": "ok",
    "log": [
     "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (10x); te weinig volume (0.8x normaal) (4x); openingsrange te wild (4x)."
+   ]
+  },
+  {
+   "tijd": "2026-10-29T14:46:30+00:00",
+   "ny": "2026-10-29 10:46",
+   "status": "ok",
+   "log": [
+    "10:45 SPY: gekocht (3 stuks, uitbraak boven 769.41 met 1.3x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 57% van de gevallen goed af (gemiddeld +0,06 R; alle uitbraken samen +0,10 R)."
    ]
   }
  ],
