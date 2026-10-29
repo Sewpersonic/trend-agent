@@ -6,7 +6,7 @@ Periode **2021-10-29 t/m 2026-10-29** (ongeveer 5 jaar), startkapitaal €10.000
 
 ## In het kort
 
-- Over de hele periode deed de investeerder (alleen etf's) het beter dan gewoon de wereld-ETF vasthouden (+99,3% tegen +74,1%).
+- Over de hele periode deed de investeerder (alleen etf's) het beter dan gewoon de wereld-ETF vasthouden (+95,9% tegen +73,6%).
 - Zijn grootste daling was -19,4%, tegen -21,6% voor de ETF.
 - In 64% van alle periodes van 4 weken stond de investeerder (alleen etf's) aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -10,7%, het beste +11,2%.
 
@@ -14,9 +14,9 @@ Periode **2021-10-29 t/m 2026-10-29** (ongeveer 5 jaar), startkapitaal €10.000
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Investeerder (alleen ETF's) | +99,3% | +14,8% | -19,4% | 1,07 | €19.906 |
-| MSCI World-ETF (IWDA) | +74,1% | +11,7% | -21,6% | 0,84 | €17.408 |
-| S&P 500-ETF (SPY, in euro) | +88,7% | +13,5% | -23,0% | 0,76 | €18.867 |
+| Investeerder (alleen ETF's) | +95,9% | +14,4% | -19,4% | 1,05 | €19.563 |
+| MSCI World-ETF (IWDA) | +73,6% | +11,7% | -21,6% | 0,84 | €17.362 |
+| S&P 500-ETF (SPY, in euro) | +87,1% | +13,4% | -23,0% | 0,75 | €18.711 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
 
@@ -24,12 +24,12 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 
 | Jaar | Investeerder (alleen ETF's) | MSCI World-ETF (IWDA) | S&P 500-ETF (SPY, in euro) |
 | --- | --- | --- | --- |
-| 2021 | +2,9% | +4,3% | +7,1% |
-| 2022 | -7,4% | -13,5% | -13,1% |
-| 2023 | +19,6% | +19,9% | +21,5% |
+| 2021 | +2,2% | +4,3% | +7,1% |
+| 2022 | -7,5% | -13,5% | -13,1% |
+| 2023 | +19,2% | +19,9% | +21,5% |
 | 2024 | +35,2% | +27,2% | +32,8% |
 | 2025 | +7,9% | +7,1% | +4,3% |
-| 2026 | +20,0% | +18,2% | +20,4% |
+| 2026 | +19,2% | +17,9% | +19,4% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 
@@ -37,15 +37,15 @@ Dit beantwoordt de vraag "wat kan er in een paar weken gebeuren?": elk mogelijk 
 
 | | Hoger geëindigd | Normaal (mediaan) | Slecht (1 op 20) | Slechtste | Beste |
 | --- | --- | --- | --- | --- | --- |
-| Investeerder (alleen ETF's) | 64% | +1,3% | -5,5% | -10,7% | +11,2% |
+| Investeerder (alleen ETF's) | 64% | +1,2% | -5,5% | -10,7% | +11,2% |
 | MSCI World-ETF (IWDA) | 66% | +1,3% | -6,0% | -12,4% | +13,6% |
 | S&P 500-ETF (SPY, in euro) | 65% | +1,3% | -6,6% | -14,9% | +17,9% |
 
 ## Trades
 
-- Aankopen: 60, afgesloten: 65, waarvan winst: 69%
-- Gemiddelde winst: €122, gemiddeld verlies: €-60, profit factor: 4,57
-- Gemiddeld vastgehouden: 77 dagen; totale kosten: €128
+- Aankopen: 59, afgesloten: 65, waarvan winst: 66%
+- Gemiddelde winst: €125, gemiddeld verlies: €-56, profit factor: 4,4
+- Gemiddeld vastgehouden: 80 dagen; totale kosten: €129
 - Kill switch aangegaan: 0 keer
 
 ## Belangrijke kanttekeningen
