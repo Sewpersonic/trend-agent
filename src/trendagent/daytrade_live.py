@@ -89,12 +89,15 @@ def fetch_daily(tks: list[str]) -> dict:
 
 # Regels die jij in config/daytrader.json onder "regels" mag aan- of uitzetten (na het onderzoek). Alles erbuiten
 # wordt genegeerd: de remmen (risico, daglimiet, aantal trades) zijn niet via dit bestand te versoepelen.
-REGELS = {"dagtrend_filter": bool, "markt_trend_filter": bool, "indicatie_filter": bool}
+REGELS = {"dagtrend_filter": bool, "markt_trend_filter": bool, "indicatie_filter": bool, "kopen_tot_11": bool}
 
 
 def params_from(cfg: dict, base: Params = Params()) -> Params:
+    """Regels die de gebruiker aanzet in config/daytrader.json onder "regels" (alleen deze, alleen true/false)."""
     from dataclasses import replace
     kies = {k: bool(v) for k, v in (cfg.get("regels") or {}).items() if k in REGELS and isinstance(v, bool)}
+    if kies.pop("kopen_tot_11", False):
+        kies["entry_until"] = time(11, 0)    # alleen kopen tot 11:00 New Yorkse tijd (uit het onderzoek)
     return replace(base, **kies) if kies else base
 
 

@@ -17,7 +17,8 @@ MAX_DALING = -0.05
 
 REGEL_NAMEN = {"dagtrend_filter": "alleen als de daggrafiek van het aandeel stijgt",
                "markt_trend_filter": "niet als de daggrafiek van de markt daalt",
-               "indicatie_filter": "geen kansen met een ongunstige indicatie"}
+               "indicatie_filter": "geen kansen met een ongunstige indicatie",
+               "kopen_tot_11": "alleen kopen tot 11:00"}
 
 
 def _load(path: Path) -> dict:
@@ -76,7 +77,7 @@ def extra_rows(st: dict, test: dict, cfg: dict) -> list[dict]:
                      "trades": s.get("trades"), "winst_pct": s.get("winst_pct"), "gem_r": s.get("gem_r"),
                      "max_daling": s.get("max_daling"),
                      "huidig": (naam == "basis" and not aan) or naam in aan,
-                     "uit_grafiek": naam in REGEL_NAMEN.values()})
+                     "uit_grafiek": naam in (REGEL_NAMEN["dagtrend_filter"], REGEL_NAMEN["markt_trend_filter"])})
     if test.get("voorstel"):
         v = test["voorstel"]
         rows.append({"id": "voorstel", "soort": "voorstel", "naam": v["naam"], "tekst": v["tekst"],

@@ -3,7 +3,6 @@
   "trend": {
     "max_positions": 5,
     "max_open_risk": 0.0125,
-    "max_per_sector": 2,
     "max_rsi_entry": 75.0
   },
   "investeerder": {}

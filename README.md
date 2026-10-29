@@ -73,7 +73,7 @@ wat er misging en of een latere run het weer goed deed.
    beweeglijkheid.
 3. **Verkopen** als de stop-loss wordt geraakt of de koers onder het 50-daags gemiddelde zakt. Gaat het goed,
    dan schuift de stop mee omhoog.
-4. **Kopen**: de sterkste trends, maximaal 5 posities (sinds 29 okt 2026, voorstel van het onderzoek), en **gespreid**: hooguit 2 uit dezelfde sector (energie, chips, software, ...; zie `SECTOR` in `universe.py`). Hij koopt helemaal zelf, elke nacht; het oefenaccount doet het daarna vanzelf na.
+4. **Kopen**: de sterkste trends, maximaal 5 posities, en niet als een aandeel net heel hard steeg (RSI boven 75). Beide uit het onderzoek, overgenomen op 29 okt 2026. Een grens per sector (`max_per_sector`) bestaat ook, maar staat uit: in de test van 5 jaar werkte die slechter. Hij koopt helemaal zelf, elke nacht; het oefenaccount doet het daarna vanzelf na.
 5. **Kosten meetellen**: 0,05% slippage plus 0,05% kosten (minimaal €1) per order.
 
 ### Ingebouwde remmen

@@ -91,6 +91,14 @@ class SessieTest(unittest.TestCase):
         self.assertEqual(rondes, [])
         self.assertIn("Te vroeg", regels[0])
 
+    def test_kopen_tot_11_verkort_het_koopdeel(self):
+        from trendagent.daytrade_live import params_from
+        p = params_from({"regels": {"kopen_tot_11": True}}, dt.Params(rvol_days=10))
+        last = self.days[-1]
+        self.assertEqual(momenten(last, p, "koop")[-1].strftime("%H:%M"), "11:01")
+        self.assertEqual(momenten(last, p, "middag")[0].strftime("%H:%M"), "11:16")
+        self.assertEqual(params_from({"regels": {"kopen_tot_11": "ja"}}).entry_until, dt.Params().entry_until)
+
 
 if __name__ == "__main__":
     unittest.main()
