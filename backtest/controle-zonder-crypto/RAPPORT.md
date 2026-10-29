@@ -6,7 +6,7 @@ Periode **2021-10-29 t/m 2026-10-29** (ongeveer 5 jaar), startkapitaal €10.000
 
 ## In het kort
 
-- Over de hele periode deed de investeerder (zonder crypto) het beter dan gewoon de wereld-ETF vasthouden (+152,8% tegen +73,6%).
+- Over de hele periode deed de investeerder (zonder crypto) het beter dan gewoon de wereld-ETF vasthouden (+152,5% tegen +73,6%).
 - Zijn grootste daling was -21,4%, tegen -21,6% voor de ETF.
 - In 62% van alle periodes van 4 weken stond de investeerder (zonder crypto) aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -13,2%, het beste +16,9%.
 
@@ -14,9 +14,9 @@ Periode **2021-10-29 t/m 2026-10-29** (ongeveer 5 jaar), startkapitaal €10.000
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Investeerder (zonder crypto) | +152,8% | +20,4% | -21,4% | 1,15 | €25.245 |
+| Investeerder (zonder crypto) | +152,5% | +20,4% | -21,4% | 1,15 | €25.219 |
 | MSCI World-ETF (IWDA) | +73,6% | +11,7% | -21,6% | 0,84 | €17.362 |
-| S&P 500-ETF (SPY, in euro) | +87,1% | +13,4% | -23,0% | 0,75 | €18.711 |
+| S&P 500-ETF (SPY, in euro) | +87,1% | +13,3% | -23,0% | 0,75 | €18.707 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
 
@@ -26,10 +26,10 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 | --- | --- | --- | --- |
 | 2021 | -1,0% | +4,3% | +7,1% |
 | 2022 | -12,1% | -13,5% | -13,1% |
-| 2023 | +29,8% | +19,9% | +21,5% |
+| 2023 | +29,9% | +19,9% | +21,5% |
 | 2024 | +47,6% | +27,2% | +32,8% |
-| 2025 | +14,7% | +7,1% | +4,3% |
-| 2026 | +32,2% | +17,9% | +19,4% |
+| 2025 | +14,6% | +7,1% | +4,3% |
+| 2026 | +32,1% | +17,9% | +19,4% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 
@@ -43,9 +43,9 @@ Dit beantwoordt de vraag "wat kan er in een paar weken gebeuren?": elk mogelijk 
 
 ## Trades
 
-- Aankopen: 130, afgesloten: 133, waarvan winst: 65%
-- Gemiddelde winst: €140, gemiddeld verlies: €-94, profit factor: 2,73
-- Gemiddeld vastgehouden: 59 dagen; totale kosten: €266
+- Aankopen: 128, afgesloten: 131, waarvan winst: 66%
+- Gemiddelde winst: €140, gemiddeld verlies: €-98, profit factor: 2,72
+- Gemiddeld vastgehouden: 60 dagen; totale kosten: €262
 - Kill switch aangegaan: 0 keer
 
 ## Belangrijke kanttekeningen
