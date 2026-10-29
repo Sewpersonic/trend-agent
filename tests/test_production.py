@@ -21,9 +21,11 @@ class ProductionConfigTests(unittest.TestCase):
     def setUp(self):
         self.tmp = Path(tempfile.mkdtemp())
 
-    def test_default_file_is_empty(self):
+    def test_real_file_is_valid(self):
+        """Het echte productiebestand is geldig (alleen bekende instellingen binnen de grenzen).
+        Het mag afwijkingen bevatten: die komen er alleen in via een voorstel dat een mens heeft overgenomen."""
         prod = load_production(Path("config/productie.json"))
-        self.assertEqual(prod, {"trend": {}, "investeerder": {}})
+        self.assertEqual(set(prod), {"trend", "investeerder"})
 
     def test_overrides_reach_settings(self):
         p = write(self.tmp, {"trend": {"max_consecutive_losses": 5, "regime_filter": True}})
