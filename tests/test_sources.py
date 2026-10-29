@@ -52,12 +52,12 @@ class StooqTests(unittest.TestCase):
 
     def test_parse_csv(self):
         text = "Date,Open,High,Low,Close,Volume\n2026-10-08,10,11,9,10.5,1000\n2026-10-09,10.5,12,10,11.5,1200\n"
-        src = StooqSource(fetch=lambda url: text)
+        src = StooqSource(fetch=lambda url: text, apikey="x")
         bars = src.history(BY_TICKER["AAPL"], 10)
         self.assertEqual(bars[-1].close, 11.5)
 
     def test_error_text_is_refused(self):
-        src = StooqSource(fetch=lambda url: "Exceeded the daily hits limit")
+        src = StooqSource(fetch=lambda url: "Exceeded the daily hits limit", apikey="x")
         with self.assertRaises(DataError):
             src.history(BY_TICKER["AAPL"], 10)
 
@@ -160,3 +160,30 @@ class UnfinishedDayTests(unittest.TestCase):
         from trendagent.data import Bar, drop_unfinished
         bars = [Bar(date(2026, 10, 13), 1, 2, 1, 1.5, 10), Bar(date(2026, 10, 15), 1, 2, 1, 1.6, 3)]
         self.assertEqual([b.day for b in drop_unfinished(bars, date(2026, 10, 14))], [date(2026, 10, 13)])
+
+
+class StooqSleutelTest(__import__("unittest").TestCase):
+    def test_zonder_sleutel_geen_verzoek_en_duidelijke_status(self):
+        from trendagent.sources import GeenSleutel, MultiSourceProvider, StooqSource
+        from trendagent.universe import UNIVERSE
+        gevraagd = []
+        src = StooqSource(fetch=lambda url: gevraagd.append(url) or "", apikey="")
+        with self.assertRaises(GeenSleutel):
+            src.history(UNIVERSE[0], 10)
+        self.assertEqual(gevraagd, [])
+        met = StooqSource(fetch=lambda url: gevraagd.append(url) or "Date,Open,High,Low,Close,Volume\n", apikey="geheim")
+        try:
+            met.history(UNIVERSE[0], 10)
+        except Exception:
+            pass
+        self.assertIn("apikey=geheim", gevraagd[-1])
+
+        class Hoofd:
+            def history(self, inst, days):
+                from trendagent.data import SimulatedProvider
+                from datetime import date
+                return SimulatedProvider(end=date(2026, 10, 23)).history(inst, days)
+        m = MultiSourceProvider(primary=Hoofd(), secondary=StooqSource(apikey=""), fx_check=None)
+        m.history(UNIVERSE[0], 50)
+        self.assertTrue(m.secondary_off)
+        self.assertEqual(m.summary()["tweede_bron"], "geen sleutel")

@@ -12,6 +12,8 @@ jobs:
   yahoo:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      STOOQ_APIKEY: ${{ secrets.STOOQ_APIKEY }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6

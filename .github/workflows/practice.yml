@@ -34,6 +34,7 @@ jobs:
     timeout-minutes: 15
     env:
       PAPER_TRADING: "true"
+      STOOQ_APIKEY: ${{ secrets.STOOQ_APIKEY }}   # gratis sleutel voor de controlebron; leeg = Stooq overslaan
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6

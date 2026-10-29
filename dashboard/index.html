@@ -3792,7 +3792,8 @@ dash.calc('onderzoek_verschil', {
 .sys-chip.tijd { color: var(--color-fg-muted); }
 .sys-kaart { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 12px; display: grid; grid-template-columns: minmax(0, 1fr) 290px; min-width: 0; }
 .sys-svg { overflow-x: auto; padding: 12px 6px 6px; border-right: 1px solid var(--color-border-line); min-width: 0; }
-.sys-svg svg { display: block; width: 100%; min-width: 860px; height: auto; }
+.sys-svg svg { display: block; width: 100%; height: auto; }
+.sys-svg { overflow: visible; }
 .sys-leg { display: flex; flex-wrap: wrap; gap: 6px 14px; padding: 4px 12px 10px; font-size: 12px; color: var(--color-fg-muted); }
 .sys-leg span { display: inline-flex; align-items: center; gap: 6px; }
 .sys-leg i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
@@ -3837,7 +3838,9 @@ svg.focus .sn { opacity: .35; } svg.focus .sn.aan { opacity: 1; }
 .sk button { justify-self: start; font: inherit; font-size: 13px; color: var(--tx-accent); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 .sys-goed { background: var(--color-panel); border: 1px solid var(--color-ok); border-radius: 10px; padding: 14px 16px; font-size: 15px; }
 @media (max-width: 640px) { .sys-kop { order: -2; } .sys-lijst { order: -1; } }
-@media (max-width: 900px) { .sys-kaart { grid-template-columns: minmax(0, 1fr); } .sys-svg { border-right: 0; border-bottom: 1px solid var(--color-border-line); } }
+@media (max-width: 1300px) { .sys-kaart { grid-template-columns: minmax(0, 1fr); } .sys-svg { border-right: 0; border-bottom: 1px solid var(--color-border-line); } }
+svg.staand .se { opacity: .22; } svg.staand.focus .se.aan { opacity: 1; }
+svg.staand .sn text { font-size: 14px; } svg.staand .sn text.sub { font-size: 12px; }
 </style>
 
 <script>
@@ -3878,7 +3881,7 @@ svg.focus .sn { opacity: .35; } svg.focus .sn.aan { opacity: 1; }
   const kleur = (type) => dash.colors[TYPE[type][1] % dash.colors.length];
   const mk = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const [a, v] of Object.entries(attrs || {})) e.setAttribute(a, v); if (parent) parent.appendChild(e); return e; };
   const uur = new Intl.DateTimeFormat('nl-NL', { timeZone: 'Europe/Amsterdam', weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
-  let gekozen = null;
+  let gekozen = null, laatsteStand = null;
 
   function draw() {
     const box = document.getElementById('sys-app');
@@ -3916,16 +3919,35 @@ svg.focus .sn { opacity: .35; } svg.focus .sn.aan { opacity: 1; }
     // kaart
     const kaart = el('div', { class: 'sys-kaart' });
     const svgBox = el('div', { class: 'sys-svg' });
-    const svg = mk('svg', { viewBox: '0 0 1140 480', role: 'img', 'aria-label': 'Schema van de bots: bronnen, starters, bots, onderzoek, opslag en jij' });
+    // Liggend (computer, iPad) of staand (telefoon): zo past de hele kaart altijd in beeld, zonder schuiven.
+    const staand = window.matchMedia('(max-width: 640px)').matches;
+    laatsteStand = staand;
+    const SW = 196, RIJ = 64, KOP = 26;
+    const vpos = {}; let vy = 8;
+    KOL.forEach((k, li) => {
+      const ids = Object.keys(N).filter((id) => N[id].k === li).sort((a, b) => N[a].y - N[b].y);
+      ids.forEach((id, i) => { vpos[id] = { x: 8 + (i % 2) * (SW + 12), y: vy + KOP + Math.floor(i / 2) * RIJ }; });
+      k.vy = vy; vy += KOP + Math.ceil(ids.length / 2) * RIJ + 10;
+    });
+    const svg = mk('svg', { viewBox: staand ? `0 0 420 ${vy}` : '0 0 1160 480', role: 'img', 'aria-label': 'Schema van de bots: bronnen, starters, bots, onderzoek, opslag en jij' });
+    svg.classList.toggle('staand', staand);
     const defs = mk('defs', {}, svg); const m = mk('marker', { id: 'sys-pijl', viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse' }, defs);
     mk('path', { d: 'M0,0 L10,5 L0,10 z', fill: 'var(--color-fg-muted)' }, m);
-    KOL.forEach((k, i) => { mk('text', { x: k.x, y: 16, class: 'sys-kol' }, svg).textContent = k.t; if (i) mk('line', { x1: k.x - 15, x2: k.x - 15, y1: 24, y2: 466, class: 'sys-rand' }, svg); });
+    KOL.forEach((k, i) => {
+      if (staand) { mk('text', { x: 8, y: k.vy + 16, class: 'sys-kol' }, svg).textContent = k.t; if (i) mk('line', { x1: 8, x2: 412, y1: k.vy, y2: k.vy, class: 'sys-rand' }, svg); }
+      else { mk('text', { x: k.x, y: 16, class: 'sys-kol' }, svg).textContent = k.t; if (i) mk('line', { x1: k.x - 15, x2: k.x - 15, y1: 24, y2: 466, class: 'sys-rand' }, svg); }
+    });
     const eg = mk('g', {}, svg), ng = mk('g', {}, svg);
-    const pos = (id) => ({ x: KOL[N[id].k].x, y: N[id].y });
+    const BW = staand ? SW : W;
+    const pos = (id) => (staand ? vpos[id] : { x: KOL[N[id].k].x, y: N[id].y });
     const edges = [];
     E.forEach(([a, b, soort = 'data', twee]) => {
       const A = pos(a), B = pos(b); let d;
-      if (N[a].k === N[b].k) { const x1 = A.x + W, y1 = A.y + H / 2, x2 = B.x + W, y2 = B.y + H / 2, c = x1 + 22; d = `M${x1},${y1} C${c},${y1} ${c},${y2} ${x2 + 2},${y2}`; }
+      if (staand) {   // van onder naar boven tussen de banen; binnen een baan langs de zijkant
+        if (N[a].k === N[b].k) { const x1 = A.x + BW / 2, y1 = A.y + H, x2 = B.x + BW / 2, y2 = B.y; d = `M${x1},${y1} C${x1},${y1 + 14} ${x2},${y2 - 14} ${x2},${y2 - 2}`; }
+        else if (N[a].k < N[b].k) { const x1 = A.x + BW / 2, y1 = A.y + H, x2 = B.x + BW / 2, y2 = B.y - 2, mm = (y1 + y2) / 2; d = `M${x1},${y1} C${x1},${mm} ${x2},${mm} ${x2},${y2}`; }
+        else { const x1 = A.x + BW / 2, y1 = A.y, x2 = B.x + BW / 2, y2 = B.y + H + 2, mm = (y1 + y2) / 2; d = `M${x1},${y1} C${x1},${mm} ${x2},${mm} ${x2},${y2}`; }
+      } else if (N[a].k === N[b].k) { const x1 = A.x + W, y1 = A.y + H / 2, x2 = B.x + W, y2 = B.y + H / 2, c = x1 + 22; d = `M${x1},${y1} C${c},${y1} ${c},${y2} ${x2 + 2},${y2}`; }
       else if (N[a].k < N[b].k) { const x1 = A.x + W, y1 = A.y + H / 2, x2 = B.x - 2, y2 = B.y + H / 2, mm = (x1 + x2) / 2; d = `M${x1},${y1} C${mm},${y1} ${mm},${y2} ${x2},${y2}`; }
       else { const x1 = A.x, y1 = A.y + H / 2 + 8, x2 = B.x + W + 2, y2 = B.y + H / 2 + 8, mm = (x1 + x2) / 2; d = `M${x1},${y1} C${mm},${y1 + 30} ${mm},${y2 + 30} ${x2},${y2}`; }
       const p = mk('path', { d, class: 'se ' + soort, 'marker-end': 'url(#sys-pijl)' }, eg);
@@ -3937,14 +3959,14 @@ svg.focus .sn { opacity: .35; } svg.focus .sn.aan { opacity: 1; }
     Object.entries(N).forEach(([id, n]) => {
       const { x, y } = pos(id); const l = live[id] || {};
       const g = mk('g', { class: 'sn ' + (l.stand || 'goed'), tabindex: '0', role: 'button', 'aria-label': n.t + ': ' + (l.sub || '') + (l.stand && l.stand !== 'goed' ? ' (' + (l.stand === 'fout' ? 'fout' : 'let op') + ')' : '') }, ng);
-      mk('rect', { x, y, width: W, height: H, rx: 6, class: 'box' }, g);
+      mk('rect', { x, y, width: BW, height: H, rx: 6, class: 'box' }, g);
       mk('rect', { x, y, width: 5, height: H, rx: 2, fill: kleur(n.type) }, g);
       mk('text', { x: x + 14, y: y + 21 }, g).textContent = n.t;
       const sub = mk('text', { x: x + 14, y: y + 38, class: 'sub' }, g); sub.textContent = l.sub || '';
-      if (sub.getComputedTextLength && sub.textContent.length > 30) sub.textContent = sub.textContent.slice(0, 29) + '…';
+      if (sub.getComputedTextLength && sub.textContent.length > (staand ? 27 : 30)) sub.textContent = sub.textContent.slice(0, staand ? 26 : 29) + '…';
       (perNode[id] || []).slice(0, 3).forEach((k, i) => {
         const b = mk('g', { class: 'sb ' + (k.ernst === 'fout' ? 'fout' : k.ernst === 'mens' ? 'mens' : '') }, g);
-        mk('circle', { cx: x + W - 4 - i * 22, cy: y, r: 10 }, b); mk('text', { x: x + W - 4 - i * 22, y: y + 0.5 }, b).textContent = nr.get(k.id);
+        mk('circle', { cx: x + BW - 4 - i * 22, cy: y, r: 10 }, b); mk('text', { x: x + BW - 4 - i * 22, y: y + 0.5 }, b).textContent = nr.get(k.id);
       });
       g.addEventListener('click', () => kies(id)); g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); kies(id); } });
       nodeEls[id] = g;
@@ -4005,5 +4027,7 @@ svg.focus .sn { opacity: .35; } svg.focus .sn.aan { opacity: 1; }
   }
   const veilig = () => { try { draw(); } catch (e) { console.log('ERR systeem', e.message); } };
   dash.onData(veilig);
+  // Draait het scherm (telefoon of iPad gekanteld), dan de kaart opnieuw opbouwen in de juiste stand.
+  window.matchMedia('(max-width: 640px)').addEventListener('change', (e) => { if (e.matches !== laatsteStand) veilig(); });
 })();
 </script>

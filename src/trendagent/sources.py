@@ -66,19 +66,30 @@ def stooq_symbol(ticker: str) -> str | None:
     return {"de": f"{base}.de", "as": f"{base}.nl", "pa": f"{base}.fr"}.get(market)
 
 
+class GeenSleutel(DataError):
+    """De controlebron heeft een (gratis) sleutel nodig die nog niet in GitHub staat."""
+
+
 class StooqSource:
+    """Stooq vraagt sinds maart 2026 een gratis sleutel (apikey). Die staat als GitHub-secret STOOQ_APIKEY,
+    nooit in de code of de chat. Zonder sleutel wordt Stooq overgeslagen (geen nutteloze verzoeken)."""
     name = "stooq"
     URL = "https://stooq.com/q/d/l/?s={symbol}&i=d"
 
-    def __init__(self, fetch=None):
+    def __init__(self, fetch=None, apikey: str | None = None):
+        import os
         # Controlebron: kort wachten en niet herhalen, zodat een trage Stooq de ronde niet ophoudt.
         self.fetch = fetch or (lambda url: http_get(url, timeout=10.0, tries=1))
+        self.apikey = (apikey if apikey is not None else os.environ.get("STOOQ_APIKEY", "")).strip()
 
     def history(self, instrument: Instrument, days: int) -> list[Bar]:
+        if not self.apikey:
+            raise GeenSleutel("Stooq heeft een sleutel nodig (GitHub-secret STOOQ_APIKEY ontbreekt)")
         symbol = stooq_symbol(instrument.ticker)
         if symbol is None:
             raise DataError(f"{instrument.ticker}: niet bij Stooq")
-        text = self.fetch(self.URL.format(symbol=symbol))
+        from urllib.parse import quote
+        text = self.fetch(self.URL.format(symbol=symbol) + "&apikey=" + quote(self.apikey))
         return self.parse(text, instrument.ticker)[-days:]
 
     @staticmethod
@@ -142,6 +153,7 @@ class MultiSourceProvider:
         self.secondary_failures = 0
         self.secondary_off = False
         self.secondary_error = ""
+        self.secondary_geen_sleutel = False
 
     def history(self, instrument: Instrument, days: int) -> list[Bar]:
         t = instrument.ticker
@@ -154,8 +166,12 @@ class MultiSourceProvider:
             try:
                 second = self.secondary.history(instrument, days)
                 self.secondary_failures = 0
-            except DataError as exc:
+            except GeenSleutel as exc:
                 self.secondary_error = str(exc)[:160]
+                self.secondary_off = True
+                self.secondary_geen_sleutel = True
+            except DataError as exc:
+                self.secondary_error = str(exc).replace(getattr(self.secondary, "apikey", "") or "\0", "***")[:160]
                 self.secondary_failures += 1
                 if self.secondary_failures >= MAX_SECONDARY_FAILURES:
                     self.secondary_off = True
@@ -205,6 +221,7 @@ class MultiSourceProvider:
             key = c["status"].split(" (")[0] if c["status"].startswith("1 bron") else c["status"]
             counts[key] = counts.get(key, 0) + 1
         return {"koersen": counts, "wisselkoers": self.fx_status,
-                "tweede_bron": "overgeslagen na herhaalde fouten" if self.secondary_off else "actief",
+                "tweede_bron": ("geen sleutel" if self.secondary_geen_sleutel else
+                                "overgeslagen na herhaalde fouten" if self.secondary_off else "actief"),
                 "fout_tweede_bron": self.secondary_error,
                 "afwijkend": sorted(t for t, c in self.checks.items() if c["status"] == "afwijking")}
