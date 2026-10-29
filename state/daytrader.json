@@ -272,7 +272,7 @@
   "begin": 9965.89,
   "realized": -8.529029113769411,
   "klaar": false,
-  "prev": "2026-10-29T15:00:00",
+  "prev": "2026-10-29T15:15:00",
   "traded": [
    "SPY"
   ],
@@ -341,22 +341,14 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-10-29T19:01:30+00:00",
-  "ny": "2026-10-29 15:01",
+  "tijd": "2026-10-29T19:16:30+00:00",
+  "ny": "2026-10-29 15:16",
   "status": "ok",
   "log": [
    "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-10-23T15:26:57+00:00",
-   "ny": "2026-10-23 11:26",
-   "status": "ok",
-   "log": [
-    "11:15 XLE: gekocht (35 stuks, uitbraak boven 68.97 met 1.3x volume)"
-   ]
-  },
   {
    "tijd": "2026-10-23T16:27:02+00:00",
    "ny": "2026-10-23 12:27",
@@ -835,6 +827,14 @@
   {
    "tijd": "2026-10-29T19:01:30+00:00",
    "ny": "2026-10-29 15:01",
+   "status": "ok",
+   "log": [
+    "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-10-29T19:16:30+00:00",
+   "ny": "2026-10-29 15:16",
    "status": "ok",
    "log": [
     "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
