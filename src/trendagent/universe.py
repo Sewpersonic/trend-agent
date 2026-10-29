@@ -77,3 +77,24 @@ def select(tickers: tuple[str, ...] = ()) -> tuple[Instrument, ...]:
     if unknown:
         raise ValueError(f"Onbekende tickers (niet in het universum): {unknown}")
     return tuple(BY_TICKER[t] for t in tickers)
+
+
+# Sector per belegging, om te spreiden (de trend-agent koopt niet te veel uit dezelfde hoek).
+SECTOR: dict[str, str] = {
+    **dict.fromkeys(["AAPL", "MSFT", "GOOGL", "META", "ORCL", "CRM", "PLTR", "CRWD", "PANW", "SAP.DE", "PRX.AS",
+                     "QQQ"], "Software en internet"),
+    **dict.fromkeys(["NVDA", "AVGO", "AMD", "MU", "ANET", "SMH", "ASML.AS", "ASM.AS", "BESI.AS", "IFX.DE"], "Chips"),
+    **dict.fromkeys(["AMZN", "TSLA", "COST", "AD.AS", "HEIA.AS", "MC.PA", "OR.PA"], "Consument"),
+    **dict.fromkeys(["JPM", "V", "INGA.AS", "ALV.DE", "BNP.PA", "ADYEN.AS"], "Financieel"),
+    **dict.fromkeys(["XOM", "XLE", "SHELL.AS", "TTE.PA"], "Energie"),
+    **dict.fromkeys(["LLY"], "Zorg"),
+    **dict.fromkeys(["SIE.DE", "RHM.DE", "SU.PA", "AIR.PA"], "Industrie en defensie"),
+    **dict.fromkeys(["DTE.DE", "NFLX"], "Telecom en media"),
+    **dict.fromkeys(["WKL.AS"], "Zakelijke diensten"),
+    **dict.fromkeys(["SPY", "IWDA.AS"], "Brede markt"),
+    **dict.fromkeys(["GLD"], "Goud"),
+}
+
+
+def sector(ticker: str) -> str:
+    return SECTOR.get(ticker, "Overig")

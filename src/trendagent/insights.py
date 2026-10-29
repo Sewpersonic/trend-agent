@@ -143,6 +143,11 @@ def plan(a, snap: dict, s, pf, equity: float, fx: dict, currency: str, costs) ->
     return out
 
 
+def _sector(ticker: str) -> str:
+    from .universe import sector
+    return sector(ticker)
+
+
 def opportunities(rep, pf, snaps: dict, s, equity: float, fx: dict, by_ticker: dict, costs,
                   buys_blocked_reason: str | None, regime=None) -> list[dict]:
     out = []
@@ -162,6 +167,8 @@ def opportunities(rep, pf, snaps: dict, s, equity: float, fx: dict, by_ticker: d
             status = f"niet gekocht: {buys_blocked_reason}"
         elif rsi is not None and rsi > s.max_rsi_entry:
             status = f"niet gekocht: RSI {rsi:.0f} boven de grens {s.max_rsi_entry:.0f}"
+        elif getattr(s, "max_per_sector", 0) and sum(1 for t in pf.positions if _sector(t) == _sector(a.ticker)) >= s.max_per_sector:
+            status = f"niet gekocht: al {s.max_per_sector} in de sector {_sector(a.ticker).lower()} (spreiden)"
         elif p["aantal"] < 1:
             status = "niet gekocht: één stuk is te duur voor het risicobudget van deze kleine oefenrekening"
         elif free <= 0:

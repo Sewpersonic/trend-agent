@@ -95,6 +95,23 @@ class AgentTests(unittest.TestCase):
         self.assertTrue((s.state_dir / "report.md").exists())
         self.assertEqual(rep.status, "OK")
 
+    def test_spreidt_over_sectoren(self):
+        """Microsoft en SAP zijn allebei software: met hooguit 1 per sector koopt hij er maar één van."""
+        from trendagent.universe import sector
+        tk = ("MSFT", "SAP.DE", "NVDA", "SPY")
+        drift = {"MSFT": 0.004, "SAP.DE": 0.0035, "NVDA": 0.003, "SPY": 0.002}
+        uit = {}
+        for grens in (1, 0):
+            s = settings(max_positions=4, max_open_risk=0.02, max_per_sector=grens, starting_cash_eur=200_000,
+                         tickers_override=tk)
+            rep = TrendAgent(s, SimulatedProvider(TODAY, drifts=drift)).run(TODAY)
+            pf = Portfolio.load(s.state_dir / "portfolio.json", s.starting_cash_eur)
+            uit[grens] = ([sector(t) for t in pf.positions], rep.actions)
+        secs, acties = uit[1]
+        self.assertEqual(len(secs), len(set(secs)), acties)
+        self.assertTrue(any("spreiden" in a for a in acties), acties)
+        self.assertEqual(uit[0][0].count("Software en internet"), 2, uit[0][1])
+
     def test_never_buys_same_ticker_twice(self):
         s = settings()
         agent = TrendAgent(s, SimulatedProvider(TODAY, drifts=UP))

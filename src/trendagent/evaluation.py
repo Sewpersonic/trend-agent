@@ -66,6 +66,8 @@ TREND_VARIANTS: dict[str, dict] = {
     # Meer tegelijk vasthouden (nu staat het meeste geld stil als 3 plekken bezet zijn); risico per aankoop blijft gelijk.
     "4-plekken": {"max_positions": 4},
     "5-plekken": {"max_positions": 5, "max_open_risk": 0.0125},
+    # Spreiden over sectoren (aangezet op verzoek van de gebruiker): toetsen of het zonder grens beter was.
+    "zonder-sectorgrens": {"max_per_sector": 0},
 }
 
 # In gewone taal: wat elke variant test.
@@ -79,6 +81,7 @@ UITLEG = {
     "verkoop-na-2-rode-trendkaarsen": "Patroon: ook verkopen zodra er 2 rode trendkaarsen op rij komen.",
     "4-plekken": "4 aandelen tegelijk in plaats van 3 (zelfde risico per aankoop).",
     "5-plekken": "5 aandelen tegelijk in plaats van 3 (zelfde risico per aankoop).",
+    "zonder-sectorgrens": "Geen grens per sector (zoveel energie- of chipaandelen als de trend aangeeft).",
     "satelliet-3-aandelen": "Investeerder: 3 in plaats van 5 sterke aandelen.",
 }
 

@@ -291,6 +291,14 @@ class TrendAgent:
             if rsi_now is not None and rsi_now > self.s.max_rsi_entry:
                 rep.actions.append(f"{a.ticker}: overgeslagen (RSI {rsi_now:.0f} boven {self.s.max_rsi_entry:.0f})")
                 continue
+            grens = getattr(self.s, "max_per_sector", 0)
+            if grens:
+                from .universe import sector
+                sec = sector(a.ticker)
+                zelfde = sum(1 for t in pf.positions if sector(t) == sec)
+                if zelfde >= grens:
+                    rep.actions.append(f"{a.ticker}: overgeslagen (al {zelfde} in sector {sec}; spreiden)")
+                    continue
             why_not = self._pattern_blocks(a.ticker)
             if why_not:
                 rep.actions.append(f"{a.ticker}: overgeslagen ({why_not})")

@@ -46,6 +46,7 @@ class Settings:
     max_open_risk: float = 0.01           # max opgeteld risico van alle open posities
     max_positions: int = 3
     max_position_weight: float = 0.25     # max 25% van het vermogen in één positie
+    max_per_sector: int = 0               # spreiden: hooguit zoveel posities uit dezelfde sector (0 = geen grens)
     daily_loss_limit: float = 0.01        # -1% op één dag  -> kill switch
     max_drawdown: float = 0.05            # -5% vanaf de top -> kill switch
     max_consecutive_losses: int = 3       # daarna geen nieuwe aankopen

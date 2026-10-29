@@ -67,13 +67,13 @@ wat er misging en of een latere run het weer goed deed.
 ## De trend-agent
 
 1. **Koersen ophalen** van ongeveer 50 grote aandelen en ETF's in Amerika en Europa (zie
-   `src/trendagent/universe.py`), bij twee bronnen (zie *Koersen*).
+   `src/trendagent/universe.py`), bij Yahoo (zie *Koersen*).
 2. **Trending bepalen** met vaste regels: slot boven het 50-daags gemiddelde en dat boven het 200-daagse,
    gestegen over 1 en 3 maanden, genoeg handel, geen verdachte sprong. Rangschikken op rendement gedeeld door
    beweeglijkheid.
 3. **Verkopen** als de stop-loss wordt geraakt of de koers onder het 50-daags gemiddelde zakt. Gaat het goed,
    dan schuift de stop mee omhoog.
-4. **Kopen**: de sterkste trends, maximaal 3 posities.
+4. **Kopen**: de sterkste trends, maximaal 5 posities (sinds 29 okt 2026, voorstel van het onderzoek), en **gespreid**: hooguit 2 uit dezelfde sector (energie, chips, software, ...; zie `SECTOR` in `universe.py`). Hij koopt helemaal zelf, elke nacht; het oefenaccount doet het daarna vanzelf na.
 5. **Kosten meetellen**: 0,05% slippage plus 0,05% kosten (minimaal €1) per order.
 
 ### Ingebouwde remmen
