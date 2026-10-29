@@ -629,8 +629,6 @@
       <div class="m-home" id="m-home">
         <p class="m-sub">Mijn bots</p>
         <div class="m-favs" id="m-favs"></div>
-        <p class="m-sub">Klaar voor echt geld?</p>
-        <div class="gr-list" id="m-gr" data-source="gereed"></div>
         <p class="m-sub">Wat doen ze?</p>
         <div class="m-bh" id="m-bh" data-source="begin_hier"></div>
         <div class="m-tabs" role="tablist" aria-label="Kies bot" id="m-tabs">
@@ -643,7 +641,6 @@
         <h2>Wat doen je bots?</h2>
         <ol id="begin-lijst" class="bh-list" data-source="begin_hier"></ol>
       </div>
-      <div class="tx-card gr-card" id="gr-home" data-source="gereed"></div>
       <div class="tx-card tx-strip" id="strip" data-source="tickers"><div class="tx-strip-in" id="strip-in"><span class="dash-skeleton">—</span></div></div>
 
       <div class="tx-botrow">
@@ -741,7 +738,6 @@
 
     <!-- KANSEN -->
     <section class="tx-page" id="pg-kansen" role="tabpanel" aria-labelledby="kansen" hidden>
-      <p class="tx-what" style="padding:0">Elke nacht zoekt de trend-agent de 5 sterkste stijgende trends. Hier zie je wat hij ermee deed. Geen advies voor echt geld.</p>
       <div class="tx-answers" id="kansen-antwoorden" data-source="kansen_antwoord kansen posities"></div>
       <div class="tx-card" id="kansen-ind" data-source="kansen" hidden></div>
       <div class="tx-two" id="kansen-cards" data-source="kansen"></div>
@@ -771,7 +767,6 @@
     <!-- ONDERZOEK -->
     <section class="tx-page" id="pg-onderzoek" role="tabpanel" aria-labelledby="onderzoek" hidden>
       <div class="tx-top" style="align-items:flex-start">
-        <p class="tx-what" style="padding:0">Elke zaterdag test de bot zijn regels op 10 jaar echte koersen, alsof hij toen al met €10.000 nepgeld begon. Zo zie je of hij op lange termijn winst maakt, en of een nieuwe regel beter zou werken.</p>
         <span class="tx-chipday" id="ond-dag" data-source="onderzoek">—</span>
       </div>
       <div class="ap" id="od-app" data-source="onderzoek onderzoek_samenvatting github"></div>
@@ -866,7 +861,6 @@
 
     <!-- OEFENACCOUNT TRADING 212 -->
     <section class="tx-page" id="pg-broker" role="tabpanel" aria-labelledby="broker" hidden>
-      <p class="tx-what" style="padding:0">De trend-agent oefent ook bij een echte broker: het oefenaccount (demo) van Trading 212, met nepgeld. Elke avond zet de bot dat account gelijk met wat hij volgens zijn eigen boekhouding bezit. Zo zie je of het bij een echte broker net zo gaat.</p>
       <div class="m-broker" id="m-broker"></div>
       <div class="ap" id="br-app" data-source="broker"></div>
       <div class="gr-big gr-one" id="gr-broker" data-source="gereed"></div>
@@ -902,19 +896,16 @@
 
     <!-- DAYTRADER -->
     <section class="tx-page" id="pg-daytrader" role="tabpanel" aria-labelledby="daytrader" hidden>
-      <p class="tx-what" style="padding:0">De daytrade-bot oefent met nepdollars op de Amerikaanse beurs (meestal 15:30-22:00 Nederlandse tijd). Op beursdagen is hij de hele dag aanwezig en kijkt hij elk kwartier, net als een handelaar: tot 12:30 New Yorkse tijd om te kopen, daarna om zijn posities te bewaken. Hij koopt alleen een aandeel dat 's ochtends sterk uitbreekt, en verkoopt alles nog dezelfde dag. Nooit iets 's nachts vasthouden.</p>
       <div class="ap" id="dt-app" data-source="daytrader"></div>
     </section>
 
     <!-- SYSTEEM -->
     <section class="tx-page" id="pg-systeem" role="tabpanel" aria-labelledby="systeem" hidden>
-      <p class="tx-what" style="padding:0">Hoe je bots samenwerken: van links naar rechts de koersbronnen, wat de bots start, de bots, het onderzoek, en waar alles terechtkomt. Na elke run op GitHub wordt opnieuw berekend of alles klopt; wat niet klopt wordt vanzelf een knelpunt. Tik op een blok voor uitleg.</p>
       <div id="sys-app" data-source="systeem"></div>
     </section>
 
     <!-- GITHUB -->
     <section class="tx-page" id="pg-github" role="tabpanel" aria-labelledby="github" hidden>
-      <p class="tx-what" style="padding:0">GitHub draait de bots voor je: elke werkdag de dagelijkse ronde, op zaterdag het onderzoek, en na elke wijziging een controle van de code. Hier zie je welke runs goed gingen en welke niet, en waarom.</p>
       <div class="tx-answers" id="gh-antwoorden" data-source="github_antwoord"></div>
       <div class="gh-feed" id="gh-feed" data-source="github"></div>
       <div class="tx-card" id="card-github">
@@ -1072,8 +1063,9 @@ dash.calc('tickers', {
 dash.calc('begin_hier', {
   title: 'Begin hier: wat doen je bots?',
   description: 'Per bot (investeerder, trend-agent, het oefenaccount bij Trading 212 en de daytrader): wat hij nu doet, wat hij als laatste deed en wat er straks gebeurt. Gemaakt uit de stand, de trades, de korte analyse, de posities, het oefenaccount en de daytrader.',
-  inputs: ['stand', 'trades', 'oogopslag', 'posities', 'broker', 'daytrader'],
-  fn: (stand, trades, oogopslag, posities, broker, daytrader) => {
+  inputs: ['stand', 'trades', 'oogopslag', 'posities', 'broker', 'daytrader', 'systeem'],
+  fn: (stand, trades, oogopslag, posities, broker, daytrader, systeem) => {
+    const PL = +((((systeem || []).find((r) => r.id === 'n-trend') || {}).sub || '').match(/van (\d+) plekken/) || [0, 5])[1];
     const M = ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
     const dag = (iso) => { const d = new Date(String(iso).slice(0, 10) + 'T00:00:00Z'); return d.getUTCDate() + ' ' + M[d.getUTCMonth()]; };
     const eur = (v) => (v < 0 ? '−' : '+') + '€' + Math.abs(v).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -1093,10 +1085,10 @@ dash.calc('begin_hier', {
     // Trend-agent
     const ta = st['Trend-agent'];
     const tpos = posities.filter((r) => !r.leeg && r.bot === 'Trend-agent');
-    out.push({ id: 'trend', bot: 'Trend-agent', status: tpos.length >= 3 ? 'Wacht af' : 'Zoekt kansen', kleur: tpos.length >= 3 ? 'neutraal' : 'goed',
-      kort: tpos.length >= 3 ? 'Alle 3 plekken bezet. Verkoopt pas bij de stop-loss of een trendbreuk.' : (3 - tpos.length) + ' plek(ken) vrij: koopt vannacht de sterkste trend als die er is.',
+    out.push({ id: 'trend', bot: 'Trend-agent', status: tpos.length >= PL ? 'Wacht af' : 'Zoekt kansen', kleur: tpos.length >= PL ? 'neutraal' : 'goed',
+      kort: tpos.length >= PL ? 'Alle ' + PL + ' plekken bezet. Verkoopt pas bij de stop-loss of een trendbreuk.' : (PL - tpos.length === 1 ? '1 plek' : (PL - tpos.length) + ' plekken') + ' vrij: koopt vannacht de sterkste trend als die er is.',
       stand: ta ? eur(ta.sinds_start_eur) + ' sinds de start' : '',
-      nu: (tpos.length ? 'Heeft ' + tpos.length + ' van 3 plekken bezet: ' + tpos.map((p) => p.naam).join(', ') + '. ' : 'Heeft nog niets in bezit. ') + kort('Trend-agent'),
+      nu: (tpos.length ? 'Heeft ' + tpos.length + ' van ' + PL + ' plekken bezet: ' + tpos.map((p) => p.naam).join(', ') + '. ' : 'Heeft nog niets in bezit. ') + kort('Trend-agent'),
       laatst: laatste('Trend-agent'),
       straks: 'Vannacht rond 00:17 weer een ronde.' });
     // Investeerder
@@ -1138,9 +1130,9 @@ dash.calc('begin_hier', {
         kleur: fout ? 'slecht' : open.length ? 'letop' : 'neutraal',
         kort: open.length ? 'Heeft nu ' + open.map((p) => p.ticker).join(' en ') + '; verkoopt alles voor het slot.' : 'Koopt alleen bij een sterke uitbraak in de ochtend (Amerikaanse beurs).',
         stand: usd(ds.sinds_start) + ' sinds de start',
-        nu: fout ? 'De laatste ronde liep vast; de volgende probeert het opnieuw.' : open.length ? 'Heeft ' + open.map((p) => p.aantal + ' ' + p.ticker).join(' en ') + ' gekocht, met een stop-loss en een winstdoel.' : 'Oefent met nepdollars op de Amerikaanse beurs en kijkt elk uur. Bij elke trade legt hij de daggrafiek vast om van te leren.',
+        nu: fout ? 'De laatste ronde liep vast; de volgende probeert het opnieuw.' : open.length ? 'Heeft ' + open.map((p) => p.aantal + ' ' + p.ticker).join(' en ') + ' gekocht, met een stop-loss en een winstdoel.' : 'Oefent met nepdollars op de Amerikaanse beurs en kijkt elk kwartier. Bij elke trade legt hij de daggrafiek vast om van te leren.',
         laatst: zelfde.length ? dag(dag1) + ': ' + zelfde.length + (zelfde.length === 1 ? ' trade' : ' trades') + ', samen ' + usd(zelfde.reduce((a, t) => a + t.resultaat, 0)) + '.' : 'Nog geen trades.',
-        straks: 'Beursdagen 15:25-22:25 elk uur een ronde; om 21:45 verkoopt hij alles.' });
+        straks: 'Beursdagen elk kwartier: kopen tussen 10:00 en 11:00, alles verkopen om 15:45 (New Yorkse tijd).' });
     }
     return out;
   },
@@ -1172,7 +1164,7 @@ dash.calc('kansen_antwoord', {
     if (gekocht.length) {
       gekocht.forEach((r) => a2.push(r.naam + ': voor ' + e(r.inzet_eur) + ' gekocht, met een stop-loss die het verlies beperkt tot ongeveer ' + e(r.max_verlies_eur) + '.'));
     } else if (bezet) {
-      a2.push('Alle 3 plekken zijn bezet' + (pos.length ? ' door ' + pos.map((p) => p.naam).join(', ') : '') + '.');
+      a2.push('Alle plekken zijn bezet' + (pos.length ? ' door ' + pos.map((p) => p.naam).join(', ') : '') + '.');
       a2.push('Hij verkoopt pas als een koers onder zijn stop-loss zakt of onder het gemiddelde van 50 dagen. Dan komt er een plek vrij en koopt hij de sterkste kans.');
       const dichtst = pos.filter((p) => p.afstand_stop_pct != null).sort((x, y) => x.afstand_stop_pct - y.afstand_stop_pct)[0];
       if (dichtst) a2.push('Het dichtst bij de stop-loss: ' + dichtst.naam + ', nog ' + (dichtst.afstand_stop_pct * 100).toFixed(1).replace('.', ',') + '% ruimte.');
@@ -2909,8 +2901,8 @@ dash.calc('onderzoek_verschil', {
     const home = document.getElementById('gr-home');
     const h = el('h2'); h.append(document.createTextNode('Klaar voor echt geld?'), el('small', {}, klaarN ? klaarN + ' van ' + rows.length + ' klaar' : 'Nog geen enkele bot klaar · blijven oefenen'));
     const l1 = el('div', { class: 'gr-list' }); rows.forEach((r) => l1.append(item(r)));
-    home.replaceChildren(h, l1);
-    document.getElementById('m-gr').replaceChildren(...rows.map((r) => item(r)));
+    if (home) home.replaceChildren(h, l1);
+    const mg = document.getElementById('m-gr'); if (mg) mg.replaceChildren(...rows.map((r) => item(r)));
     const rk = document.getElementById('gr-risico');
     const hh = el('div', { class: 'gr-head' }); hh.append(el('h2', {}, 'Klaar voor echt geld?'), el('small', {}, 'Eerst bewijzen, dan pas echt geld. Jij beslist altijd.'));
     const l2 = el('div', { class: 'gr-list' }); rows.forEach((r) => l2.append(item(r, { lang: true, geenKlik: true })));
@@ -3784,45 +3776,195 @@ dash.calc('onderzoek_verschil', {
 })();
 </script>
 
+
 <style>
-/* Systeemkaart */
-#sys-app { display: grid; gap: 18px; }
-.sys-kop { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.sys-chip { font-size: 13px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--color-border-line); background: var(--color-panel); font-variant-numeric: tabular-nums; }
-.sys-chip.fout { border-color: var(--color-bad); color: var(--color-bad); }
-.sys-chip.letop { border-color: var(--color-warn); color: var(--color-warn); }
-.sys-chip.goed { border-color: var(--color-ok); color: var(--color-ok); }
-.sys-chip.tijd { color: var(--color-fg-muted); }
-.sys-kaart { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 12px; display: grid; grid-template-columns: minmax(0, 1fr) 290px; min-width: 0; }
-.sys-svg { overflow-x: auto; padding: 12px 6px 6px; border-right: 1px solid var(--color-border-line); min-width: 0; }
-.sys-svg svg { display: block; width: 100%; height: auto; }
-.sys-svg { overflow: visible; }
-.sys-leg { display: flex; flex-wrap: wrap; gap: 6px 14px; padding: 4px 12px 10px; font-size: 12px; color: var(--color-fg-muted); }
-.sys-leg span { display: inline-flex; align-items: center; gap: 6px; }
-.sys-leg i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
-.sys-leg i.rnd { border-radius: 50%; }
-.sn rect.box { fill: var(--color-panel); stroke: var(--color-border-line); stroke-width: 1.2; }
-.sn.letop rect.box { stroke: var(--color-warn); stroke-width: 2; }
-.sn.fout rect.box { stroke: var(--color-bad); stroke-width: 2.2; }
-.sn text { fill: var(--color-fg); font-size: 13px; font-weight: 500; }
-.sn text.sub { fill: var(--color-fg-muted); font-size: 11px; font-weight: 400; }
-.sn { cursor: pointer; }
-.sn:hover rect.box, .sn.gekozen rect.box { stroke: var(--tx-accent); stroke-width: 2.2; }
-.sn:focus { outline: none; } .sn:focus-visible rect.box { stroke: var(--tx-accent); stroke-width: 2.6; }
-.sys-kol { fill: var(--color-fg-muted); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
-.sys-rand { stroke: var(--color-border-line); stroke-dasharray: 2 4; }
-.se { fill: none; stroke: var(--color-fg-muted); stroke-width: 1.4; opacity: .5; }
-.se.start { stroke-dasharray: 5 4; }
-.se.beslis { stroke-dasharray: 1.5 3.5; stroke-width: 1.8; }
-svg.focus .se { opacity: .08; } svg.focus .se.aan { opacity: 1; stroke-width: 2.2; }
-svg.focus .sn { opacity: .35; } svg.focus .sn.aan { opacity: 1; }
-.sb circle { fill: var(--color-warn); } .sb.fout circle { fill: var(--color-bad); } .sb.mens circle { fill: var(--color-fg-muted); }
-.sb text { fill: #fff; font-size: 11px; font-weight: 600; text-anchor: middle; dominant-baseline: central; }
-.sys-info { padding: 16px; display: grid; gap: 10px; align-content: start; min-width: 0; font-size: 14px; line-height: 1.5; }
-.sys-info h3 { margin: 0; font-size: 17px; }
-.sys-info .ty { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
-.sys-info .nu { font-variant-numeric: tabular-nums; color: var(--color-fg-muted); }
-.sys-info .rel span { display: block; font-size: 12px; color: var(--color-fg-muted); }
+/* Kop per tabblad: wat is het, wat doet het, wat vond het */
+.kop { order: -5; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr) minmax(0, 1.5fr); gap: 0; background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 14px; overflow: hidden; margin-bottom: 4px; }
+.kop > div { padding: 14px 18px; display: grid; gap: 4px; align-content: start; min-width: 0; }
+.kop > div + div { border-left: 1px solid var(--color-border-line); }
+.kop .lb { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--color-fg-muted); font-weight: 600; }
+.kop p { margin: 0; font-size: 15px; line-height: 1.45; }
+.kop .vond { background: var(--tx-soft); border-left-color: transparent; position: relative; }
+.kop .vond::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--tx-accent); }
+.kop .vond.goed::before { background: var(--color-ok); } .kop .vond.letop::before { background: var(--color-warn); } .kop .vond.slecht::before { background: var(--color-bad); }
+.kop .vond b { font-size: 19px; line-height: 1.3; font-weight: 600; }
+.kop .vond small { font-size: 14px; color: var(--color-fg-muted); line-height: 1.45; }
+@media (max-width: 1000px) {
+  .kop { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .kop .vond { grid-column: 1 / -1; grid-row: 1; border-bottom: 1px solid var(--color-border-line); }
+  .kop > div + div:not(.vond) { border-left: 0; }
+  .kop > div:nth-child(2) { border-left: 1px solid var(--color-border-line) !important; }
+}
+@media (max-width: 640px) {
+  #pg-dashboard > .kop { order: 0; }
+  .kop { border-radius: 12px; }
+  .kop > div { padding: 10px 12px; }
+  .kop .vond { padding: 12px 14px; }
+  .kop .vond b { font-size: 17px; }
+  .kop p { font-size: 13px; line-height: 1.4; }
+  .kop .lb { font-size: 11px; }
+}
+</style>
+
+<script>
+// Kop bovenaan elk tabblad: in één oogopslag wat het is, wat het doet en wat het nu heeft gevonden.
+(() => {
+  const { el, real, sEur, pct } = window.tx;
+  const R = (id) => { const d = dash.data(id); return d && d.status === 'ok' ? real(d.data) : null; };
+  const usd = (v) => (v > 0 ? '+' : v < 0 ? '−' : '') + '$' + Math.abs(v).toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const p1 = (v) => pct(v, 1);
+  const kl = (v) => (v > 0 ? 'goed' : v < 0 ? 'slecht' : 'neutraal');
+  const M = ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
+  const dag = (iso) => { const d = new Date(String(iso).slice(0, 10) + 'T00:00:00Z'); return isNaN(d) ? iso : d.getUTCDate() + ' ' + M[d.getUTCMonth()]; };
+  const KOP = {
+    dashboard: { is: 'Je vier oefenbots, met nepgeld.', doet: 'Laat per bot zien wat hij bezit, wat hij nu doet en hoe hij ervoor staat.', vond: () => {
+      const st = R('stand'), br = R('broker'), dt = R('daytrader'); if (!st) return null;
+      const by = Object.fromEntries(st.map((r) => [r.bot, r]));
+      const b = (br || []).find((r) => r.soort === 'stand'), d = (dt || []).find((r) => r.soort === 'stand');
+      const res = [['Trend-agent', by['Trend-agent'] && by['Trend-agent'].sinds_start_eur, sEur], ['Investeerder', by['Investeerder'] && by['Investeerder'].sinds_start_eur, sEur],
+        ['Oefenaccount', b && b.waarde != null ? b.waarde - 5000 : null, sEur], ['Daytrader', d && d.sinds_start, usd]].filter((x) => x[1] != null);
+      const plus = res.filter((x) => x[1] > 0).length;
+      return { t: plus + ' van ' + res.length + ' bots staan in de plus', d: res.map(([n, v, f]) => n + ' ' + f(v)).join(' · '), k: plus * 2 >= res.length ? 'goed' : 'letop' };
+    } },
+    leren: { is: 'Het weekboek van je bots.', doet: 'Zet elke week het resultaat naast de wereld-ETF en houdt bij wat ze nog moeten leren.', vond: () => {
+      const w = R('weken'), g = R('gereed'); if (!w) return null;
+      const wk = w.find((r) => r.soort === 'week'); if (!wk) return null;
+      const klaar = (g || []).filter((r) => r.status === 'klaar').length, vroeg = (g || []).map((r) => r.vroegst).filter(Boolean).sort()[0];
+      return { t: wk.label.split('·')[0].trim() + ': trend ' + p1(wk.trend_pct || 0) + ', investeerder ' + p1(wk.inv_pct || 0) + (wk.etf_pct != null ? ' (ETF ' + p1(wk.etf_pct) + ')' : ''),
+        d: klaar ? klaar + ' bot(s) klaar voor echt geld.' : 'Nog geen bot klaar voor echt geld' + (vroeg ? '; op z\'n vroegst ' + dag(vroeg) + '.' : '.'), k: kl((wk.trend_pct || 0) + (wk.inv_pct || 0)) };
+    } },
+    grafieken: { is: 'Kaarsgrafieken van alles wat de bots bezitten.', doet: 'Elke dag is één kaars: groen omhoog, rood omlaag. Met de trendlijnen en de stop-loss.', vond: () => {
+      const p = R('patronen'); if (!p || !p.length) return null;
+      const up = p.filter((r) => r.trend === 'stijgend').length, dn = p.filter((r) => r.trend === 'dalend').length;
+      const best = [...p].sort((a, b) => b.maand - a.maand)[0];
+      return { t: up + ' van ' + p.length + ' grafieken stijgen' + (dn ? ', ' + dn + ' dalen' : ''), d: 'Sterkste deze maand: ' + best.naam + ' (' + p1(best.maand) + ').', k: up >= p.length / 2 ? 'goed' : 'letop' };
+    } },
+    patronen: { is: 'Opvallende patronen in de grafieken.', doet: 'Zoekt kruisingen van gemiddelden, nieuwe toppen en reeksen stijgende of dalende dagen.', vond: () => {
+      const p = R('patronen'); if (!p || !p.length) return null;
+      const met = p.filter((r) => r.patronen);
+      const eerste = met[0];
+      return { t: met.length + ' van ' + p.length + ' grafieken laten iets opvallends zien', d: eerste ? eerste.naam + ': ' + eerste.patronen + '.' : 'Geen bijzondere patronen.', k: 'neutraal' };
+    } },
+    kansen: { is: 'De sterkste stijgende trends van vannacht.', doet: 'De trend-agent zoekt uit ruim 120 aandelen de sterkste trends en koopt als er een plek vrij is.', vond: () => {
+      const a = R('kansen_antwoord'); if (!a || !a.length) return null;
+      const by = Object.fromEntries(a.map((r) => [r.id, r]));
+      const g = by.gekocht, b = by.beste;
+      return { t: (by.aantal ? by.aantal.antwoord + ' · ' : '') + (g && g.antwoord !== 'Nee' ? 'gekocht: ' + g.antwoord.replace(/^Ja, /, '') : 'niets gekocht'), d: b && b.antwoord !== '–' ? 'Springt eruit: ' + b.antwoord + '.' : '', k: g && g.kleur === 'goed' ? 'goed' : 'neutraal' };
+    } },
+    analyse: { is: 'Hoe de bots de markt vandaag zien.', doet: 'Kijkt naar de richting van de beurs, de onrust en hoeveel aandelen stijgen.', vond: () => {
+      const o = R('oogopslag'); if (!o) return null;
+      const t = (n) => o.find((r) => r.tegel === n);
+      const m = t('Markt'), on = t('Onrust');
+      if (!m) return null;
+      return { t: 'Markt: ' + m.waarde.toLowerCase() + (on ? ' · ' + on.waarde.toLowerCase() : ''), d: m.uitleg, k: m.kleur === 'goed' ? 'goed' : m.kleur === 'slecht' ? 'slecht' : 'letop' };
+    } },
+    onderzoek: { is: 'Het onderzoek van elke zaterdag.', doet: 'Test andere regels op 10 jaar koersen. Alleen een bewezen betere regel wordt een voorstel voor jou.', vond: () => {
+      const o = R('onderzoek'); if (!o || !o.length) return null;
+      const prod = Object.fromEntries(o.filter((r) => r.variant === 'productie').map((r) => [r.bot, r]));
+      const beter = o.filter((r) => r.oordeel === 'aanbevolen');
+      const etf = (o.find((r) => r.etf_totaal != null) || {}).etf_totaal;
+      const j = (o.find((r) => r.jaren) || {}).jaren || 5;
+      const d = Object.entries(prod).map(([b, r]) => b + ' ' + p1(r.totaal)).join(' · ') + (etf != null ? ' · wereld-ETF ' + p1(etf) : '') + ' (in ' + j + ' jaar)';
+      return { t: beter.length ? (beter.length === 1 ? '1 betere regel gevonden' : beter.length + ' betere regels gevonden') : 'Huidige regels blijven', d, k: beter.length ? 'goed' : 'neutraal' };
+    } },
+    risico: { is: 'Wat je hooguit kunt verliezen.', doet: 'Toont per positie de afstand tot de stop-loss, de remmen en of een bot klaar is voor echt geld.', vond: () => {
+      const p = R('posities'); if (!p) return null;
+      const t = p.filter((r) => r.bot === 'Trend-agent' && r.afstand_stop_pct != null);
+      if (!t.length) return { t: 'De trend-agent heeft niets in bezit', d: 'Geen risico op stop-losses.', k: 'neutraal' };
+      const som = t.reduce((a, r) => a + (r.bij_stop_eur || 0), 0);
+      const dichtst = [...t].sort((a, b) => a.afstand_stop_pct - b.afstand_stop_pct)[0];
+      const rem = (R('remmen') || []).some((r) => r.eenheid === 'pct' ? r.nu <= r.grens : r.nu >= r.grens);
+      return { t: 'Als alle stop-losses geraakt worden: ' + sEur(som) + ' tegenover nu', d: 'Dichtst bij de stop-loss: ' + dichtst.naam + ' (nog ' + p1(dichtst.afstand_stop_pct).replace('+', '') + '). ' + (rem ? 'Een rem staat aan.' : 'Alle remmen ruim binnen de grens.'), k: dichtst.afstand_stop_pct < 0.015 || rem ? 'letop' : 'goed' };
+    } },
+    controles: { is: 'De controles na elke ronde.', doet: 'Checkt of de ronde afliep, of alle koersen binnenkwamen en of ze kloppen.', vond: () => {
+      const c = R('checks'); if (!c || !c.length) return null;
+      const goed = c.filter((r) => r.stand === 'goed').length, mis = c.filter((r) => r.stand !== 'goed' && r.stand !== 'info');
+      return { t: goed + ' van ' + c.length + ' controles goed', d: mis.length ? 'Let op: ' + [...new Set(mis.map((r) => r.vraag.replace(/\?$/, '').toLowerCase()))].slice(0, 2).join('; ') + '.' : 'Alles in orde.', k: mis.some((r) => r.stand === 'fout') ? 'slecht' : mis.length ? 'letop' : 'goed' };
+    } },
+    github: { is: 'Waar je bots echt draaien.', doet: 'GitHub start de rondes, het onderzoek en de controles. Hier zie je wat goed ging en wat niet.', vond: () => {
+      const g = R('github'); if (!g || !g.length) return null;
+      const dag1 = Date.now() - 24 * 3600e3;
+      const r = g.filter((x) => new Date(x.start).getTime() > dag1);
+      const fout = r.filter((x) => x.uitkomst === 'fout'), bezig = r.filter((x) => x.uitkomst === 'bezig');
+      return { t: (r.length - fout.length - bezig.length) + ' van ' + r.length + ' runs goed (laatste 24 uur)', d: fout.length ? 'Mis: ' + [...new Set(fout.map((x) => x.wat))].join(', ') + '.' : bezig.length ? 'Nu bezig: ' + [...new Set(bezig.map((x) => x.wat))].join(', ') + '.' : 'Niets misgegaan.', k: fout.length ? 'letop' : 'goed' };
+    } },
+    broker: { is: 'Je oefenaccount bij Trading 212 (nepgeld).', doet: 'Doet de trend-agent na. De bewaker verkoopt overdag meteen als een koers onder de stop-loss zakt.', vond: () => {
+      const b = R('broker'); if (!b) return null;
+      const s = b.find((r) => r.soort === 'stand'); if (!s) return null;
+      const pos = b.filter((r) => r.soort === 'positie'), gelijk = pos.filter((p) => p.gelijk).length;
+      if (s.status === 'fout') return { t: 'De koppeling geeft een fout', d: s.reden || '', k: 'slecht' };
+      return { t: '€' + (s.waarde || 0).toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' · ' + sEur((s.waarde || 0) - 5000) + ' sinds de start', d: gelijk + ' van ' + pos.length + ' aandelen gelijk met de trend-agent. Orders staan ' + (s.orders_aan ? 'aan.' : 'uit.'), k: gelijk === pos.length ? 'goed' : 'letop' };
+    } },
+    daytrader: { is: 'De daytrade-bot op de Amerikaanse beurs (nepdollars).', doet: 'Koopt bij een sterke uitbraak tussen 10:00 en 11:00 New Yorkse tijd en verkoopt alles nog dezelfde dag.', vond: () => {
+      const d = R('daytrader'); if (!d) return null;
+      const s = d.find((r) => r.soort === 'stand'); if (!s) return null;
+      const open = d.filter((r) => r.soort === 'positie');
+      return { t: '$' + s.waarde.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' · ' + usd(s.sinds_start) + ' sinds de start',
+        d: s.trades_totaal + ' trades in ' + s.dagen_geoefend + ' beursdagen, ' + Math.round((s.winst_pct || 0) * 100) + '% met winst. ' + (open.length ? 'Nu open: ' + open.map((p) => p.ticker).join(', ') + '.' : 'Nu niets open.'), k: kl(s.sinds_start) };
+    } },
+    systeem: { is: 'Hoe alle bots samenwerken.', doet: 'Na elke run wordt berekend of alles klopt. Wat niet klopt wordt vanzelf een knelpunt.', vond: () => {
+      const s = R('systeem'); if (!s) return null;
+      const k = s.filter((r) => r.soort === 'knel');
+      const f = k.filter((r) => r.ernst === 'fout').length, l = k.filter((r) => r.ernst === 'letop').length;
+      const meta = s.find((r) => r.soort === 'meta');
+      const tijd = meta ? ' — berekend ' + new Intl.DateTimeFormat('nl-NL', { timeZone: 'Europe/Amsterdam', weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }).format(new Date(meta.gemaakt)) : '';
+      return { t: f ? (f === 1 ? '1 fout' : f + ' fouten') + (l ? ' en ' + l + ' om op te letten' : '') : l ? (l === 1 ? '1 punt om op te letten' : l + ' punten om op te letten') : '✓ Alles werkt zoals bedoeld',
+        d: (k.length ? k.slice(0, 2).map((r) => r.titel).join(' · ') : 'Geen knelpunten.') + tijd, k: f ? 'slecht' : l ? 'letop' : 'goed' };
+    } },
+  };
+  const tekenen = () => Object.entries(KOP).forEach(([tab, k]) => {
+    const pg = document.getElementById('pg-' + tab); if (!pg) return;
+    let box = pg.querySelector(':scope > .kop');
+    if (!box) { box = el('div', { class: 'kop' }); pg.prepend(box); }
+    let v = null; try { v = k.vond(); } catch (e) { console.log('ERR kop', tab, e.message); }
+    const c1 = el('div'); c1.append(el('span', { class: 'lb' }, 'Wat is het'), el('p', {}, k.is));
+    const c2 = el('div'); c2.append(el('span', { class: 'lb' }, 'Wat doet het'), el('p', {}, k.doet));
+    const c3 = el('div', { class: 'vond ' + ((v && v.k) || '') }); c3.append(el('span', { class: 'lb' }, 'Wat vond het'), el('b', {}, v ? v.t : '…'));
+    if (v && v.d) c3.append(el('small', {}, v.d));
+    box.replaceChildren(c1, c2, c3);
+  });
+  dash.onData(() => { try { tekenen(); } catch (e) { console.log('ERR kop', e.message); } });
+})();
+</script>
+<style>
+/* Systeemkaart: banen van links naar rechts, grote leesbare blokken */
+#sys-app { display: grid; gap: 16px; }
+.sys-status { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 2px 14px; align-items: center; background: var(--color-panel); border: 1px solid var(--color-border-line); border-left: 6px solid var(--color-ok); border-radius: 12px; padding: 14px 18px; }
+.sys-status.letop { border-left-color: var(--color-warn); } .sys-status.fout { border-left-color: var(--color-bad); }
+.sys-status .ic { grid-row: 1 / span 2; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-size: 22px; font-weight: 700; color: #fff; background: var(--color-ok); }
+.sys-status.letop .ic { background: var(--color-warn); } .sys-status.fout .ic { background: var(--color-bad); }
+.sys-status b { font-size: 20px; line-height: 1.25; }
+.sys-status small { font-size: 14px; color: var(--color-fg-muted); }
+.sys-kaart { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 12px; padding: 16px; display: grid; gap: 14px; }
+.sys-start { display: grid; grid-template-columns: auto repeat(3, minmax(0, 1fr)); gap: 10px; align-items: stretch; }
+.sys-start > .lb { align-self: center; font-size: 13px; color: var(--color-fg-muted); text-transform: uppercase; letter-spacing: .06em; padding-right: 6px; }
+.sys-banen { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+.sys-baan { display: grid; gap: 10px; align-content: start; position: relative; min-width: 0; }
+.sys-baan h3 { margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--color-fg-muted); display: flex; align-items: center; gap: 8px; min-height: 22px; }
+.sys-baan h3 i { font-style: normal; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--tx-soft); color: var(--tx-accent); font-size: 12px; font-weight: 700; letter-spacing: 0; }
+.sys-baan:not(:last-child)::after { content: '›'; position: absolute; right: -12px; top: 0; font-size: 22px; line-height: 22px; color: var(--color-fg-muted); }
+.sys-blok { all: unset; box-sizing: border-box; cursor: pointer; display: grid; gap: 3px; padding: 11px 12px 11px 15px; border-radius: 10px; border: 1px solid var(--color-border-line); background: var(--color-bg); position: relative; min-width: 0; transition: opacity .15s, border-color .15s; }
+.sys-blok::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 4px; border-radius: 0 3px 3px 0; background: var(--kl); }
+.sys-blok .t { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; min-width: 0; }
+.sys-blok .t span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sys-blok .t .st { margin-left: auto; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--color-ok); }
+.sys-blok.letop .t .st { background: var(--color-warn); } .sys-blok.fout .t .st { background: var(--color-bad); }
+.sys-blok .s { font-size: 13px; color: var(--color-fg-muted); line-height: 1.35; font-variant-numeric: tabular-nums; }
+.sys-blok.letop { border-color: var(--color-warn); background: color-mix(in srgb, var(--color-warn) 7%, var(--color-panel)); }
+.sys-blok.fout { border-color: var(--color-bad); background: color-mix(in srgb, var(--color-bad) 7%, var(--color-panel)); }
+.sys-blok .nr { position: absolute; top: -8px; right: -6px; min-width: 20px; height: 20px; border-radius: 10px; background: var(--color-warn); color: #fff; font-size: 12px; font-weight: 700; display: grid; place-items: center; padding: 0 5px; }
+.sys-blok .nr.fout { background: var(--color-bad); } .sys-blok .nr.mens { background: var(--color-fg-muted); }
+.sys-blok:hover, .sys-blok:focus-visible { border-color: var(--tx-accent); }
+.sys-blok.gekozen { border-color: var(--tx-accent); box-shadow: 0 0 0 2px var(--tx-accent); }
+.sys-kaart.focus .sys-blok:not(.gekozen):not(.rel) { opacity: .3; }
+.sys-kaart.focus .sys-blok.rel { border-color: var(--tx-accent); }
+.sys-info { border-top: 1px solid var(--color-border-line); padding-top: 14px; display: grid; gap: 8px; font-size: 15px; line-height: 1.5; }
+.sys-info h3 { margin: 0; font-size: 18px; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; }
+.sys-info h3 small { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+.sys-info p { margin: 0; max-width: 90ch; }
+.sys-info .nu { font-variant-numeric: tabular-nums; }
+.sys-info .rel { display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 14px; }
+.sys-info .rel span { color: var(--color-fg-muted); margin-right: 6px; }
 .sys-info .kref { border-left: 3px solid var(--color-warn); padding: 6px 10px; border-radius: 0 6px 6px 0; background: color-mix(in srgb, var(--color-warn) 10%, transparent); }
 .sys-info .kref.fout { border-color: var(--color-bad); background: color-mix(in srgb, var(--color-bad) 10%, transparent); }
 .sys-info .kref.mens { border-color: var(--color-fg-muted); background: color-mix(in srgb, var(--color-fg) 5%, transparent); }
@@ -3839,52 +3981,75 @@ svg.focus .sn { opacity: .35; } svg.focus .sn.aan { opacity: 1; }
 .sk p { margin: 0; font-size: 14px; line-height: 1.5; }
 .sk .op { color: var(--color-fg-muted); } .sk .op b { color: var(--color-fg); }
 .sk button { justify-self: start; font: inherit; font-size: 13px; color: var(--tx-accent); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
-.sys-goed { background: var(--color-panel); border: 1px solid var(--color-ok); border-radius: 10px; padding: 14px 16px; font-size: 15px; }
-@media (max-width: 640px) { .sys-kop { order: -2; } .sys-lijst { order: -1; } }
-@media (max-width: 1300px) { .sys-kaart { grid-template-columns: minmax(0, 1fr); } .sys-svg { border-right: 0; border-bottom: 1px solid var(--color-border-line); } }
-svg.staand .se { opacity: .22; } svg.staand.focus .se.aan { opacity: 1; }
-svg.staand .sn text { font-size: 14px; } svg.staand .sn text.sub { font-size: 12px; }
+@media (max-width: 1180px) {
+  .sys-banen { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 22px; }
+  .sys-baan:nth-child(3)::after { display: none; }
+}
+@media (max-width: 760px) {
+  .sys-banen { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sys-baan::after { display: none; }
+  .sys-start { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .sys-start > .lb { grid-column: 1 / -1; }
+}
+@media (max-width: 520px) {
+  .sys-banen { grid-template-columns: minmax(0, 1fr); row-gap: 18px; }
+  .sys-start { grid-template-columns: minmax(0, 1fr); }
+  .sys-baan:not(:last-child)::after { display: block; content: '↓'; position: static; text-align: center; font-size: 18px; line-height: 1; margin-top: -2px; }
+  .sys-kaart { padding: 12px; }
+  .sys-status b { font-size: 18px; }
+  .sys-baan { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+  .sys-baan h3, .sys-baan::after { grid-column: 1 / -1; }
+  .sys-start { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+  .sys-start > .lb { grid-column: 1 / -1; }
+  .sys-blok { padding: 9px 9px 9px 13px; }
+  .sys-blok .t { font-size: 14px; } .sys-blok .s { font-size: 12px; }
+}
 </style>
 
 <script>
-// Systeemkaart: vaste opbouw (blokken en lijnen), live stand en knelpunten uit dashboard/systeem.json
+// Systeemkaart: vaste opbouw (banen en blokken), live stand en knelpunten uit dashboard/systeem.json
 (() => {
   const { el } = window.tx;
-  const NS = 'http://www.w3.org/2000/svg';
-  const W = 200, H = 50;
-  const KOL = [{ x: 14, t: 'Bronnen' }, { x: 240, t: 'Starters' }, { x: 466, t: 'Bots' }, { x: 692, t: 'Onderzoek' }, { x: 926, t: 'Opslag en jij' }];
-  const TYPE = { bron: ['Bron', 0], start: ['Starter', 1], bot: ['Bot', 2], onderzoek: ['Onderzoek', 3], opslag: ['Opslag en scherm', 4], jij: ['Jij', 5] };
+  const BANEN = [
+    { t: 'Koersen komen binnen', ids: ['yahoo', 'vijfmin', 't212'] },
+    { t: 'Bots beslissen', ids: ['trend', 'invest', 'day', 'rem'] },
+    { t: 'Uitvoeren en bewaken', ids: ['oefen', 'bewaker'] },
+    { t: 'Leren', ids: ['onderz', 'labelT', 'onderzD', 'labelD'] },
+    { t: 'Bewaren en jij', ids: ['repo', 'dash', 'jij'] },
+  ];
+  const STARTERS = ['cron', 'uur', 'ochtend'];
+  const TYPE = { bron: ['Bron', 0], start: ['Starter', 1], bot: ['Bot', 2], onderzoek: ['Leren', 3], opslag: ['Opslag en scherm', 4], jij: ['Jij', 5] };
   const N = {
-    yahoo: { k: 0, y: 50, type: 'bron', t: 'Dagkoersen', d: 'Slotkoersen van elke handelsdag van Yahoo, normaal gecontroleerd bij Stooq; de euro/dollar-koers bij de ECB. Wijken bronnen te veel af, dan handelt de bot dat aandeel die dag niet.' },
-    vijfmin: { k: 0, y: 190, type: 'bron', t: '5-minutenkoersen', d: 'Koersen per 5 minuten voor de daytrader. Yahoo geeft er maar ~60 dagen van; elke week worden ze bewaard, zodat het onderzoek steeds verder terug kan kijken.' },
-    t212: { k: 0, y: 330, type: 'bron', t: 'Trading 212', d: 'Het oefenaccount bij Trading 212, met nepgeld. De sleutel staat alleen in GitHub; dit dashboard heeft er geen.' },
-    cron: { k: 1, y: 50, type: 'start', t: 'GitHub', d: 'GitHub start de nachtronde, de beursdag van de daytrader (drie keer ruim vóór de opening, omdat een start soms uren te laat komt) en het zaterdagonderzoek. De uurtaak van Claude is de reserve.' },
-    uur: { k: 1, y: 190, type: 'start', t: 'Claude-taak elk uur', d: 'Op werkdagen elk uur: kijkt in het oefenaccount, start als reserve de beursdag van de daytrader en zet de verse cijfers op dit dashboard.' },
-    ochtend: { k: 1, y: 330, type: 'start', t: 'Claude-taak 07:41', d: 'Kopieert elke ochtend alle onderdelen van het dashboard van GitHub naar deze pagina.' },
-    trend: { k: 2, y: 30, type: 'bot', t: 'Trend-agent', d: 'Koopt elke nacht de sterkste stijgende trends, met een stop-loss op elke positie.' },
-    invest: { k: 2, y: 130, type: 'bot', t: 'Investeerder', d: 'Belegt voor de lange termijn in een vaste verdeling en herverdeelt één keer per maand.' },
-    oefen: { k: 2, y: 230, type: 'bot', t: 'Oefenaccount', d: 'Doet bij Trading 212 na wat de trend-agent doet, met marktorders bij de opening.' },
-    day: { k: 2, y: 330, type: 'bot', t: 'Daytrader', d: 'Koopt een aandeel dat in de ochtend sterk uitbreekt en verkoopt alles voor het slot. Op beursdagen is hij de hele dag aanwezig en kijkt hij elk kwartier: tot 12:30 New Yorkse tijd om te kopen, daarna om zijn posities te bewaken.' },
-    rem: { k: 2, y: 420, type: 'bot', t: 'Remmen', d: 'De noodrem (kill switch) en de grenzen per dag en vanaf de top. Gaat hij aan, dan koopt de trend-agent niets nieuws; stop-losses blijven werken.' },
-    onderz: { k: 3, y: 30, type: 'onderzoek', t: 'Weekonderzoek', d: 'Test elke zaterdag varianten van de regels op 10 jaar koersen, met ruim 120 aandelen. Een bewezen betere regel wordt een voorstel voor jou.' },
-    labelT: { k: 3, y: 130, type: 'onderzoek', t: 'Label koopsignalen', d: 'Geeft elke kans van de trend-agent een label (gunstig, gemiddeld, ongunstig) uit eerdere koopsignalen. Alleen informatie.' },
-    onderzD: { k: 3, y: 260, type: 'onderzoek', t: 'Daytrade-onderzoek', d: 'Speelt elke zaterdag de regels van de daytrader na op de 5-minutenkoersen en bewaart koersen en uitbraken.' },
-    labelD: { k: 3, y: 360, type: 'onderzoek', t: 'Label uitbraken', d: 'Geeft bij elke kans van de daytrader een label uit eerdere uitbraken. Alleen informatie.' },
-    repo: { k: 4, y: 40, type: 'opslag', t: 'GitHub-opslag', d: 'Alle stand, trades, rapporten en onderzoek staan in je repository.' },
-    dash: { k: 4, y: 175, type: 'opslag', t: 'Dashboard', d: 'Deze pagina. Leest de cijfers die de Claude-taken uploaden; heeft zelf geen sleutels.' },
-    jij: { k: 4, y: 320, type: 'jij', t: 'Jij', d: 'Jij beslist: voorstellen overnemen of niet, regels aanzetten, de noodrem en handmatige orders. De bots veranderen hun eigen regels nooit.' },
+    yahoo: { type: 'bron', t: 'Dagkoersen', d: 'Slotkoersen van elke handelsdag van Yahoo, en de euro/dollar-koers bij de ECB. Elke koers wordt gecontroleerd op rare sprongen en oude cijfers; klopt iets niet, dan handelt de bot dat aandeel die dag niet.' },
+    vijfmin: { type: 'bron', t: '5-minutenkoersen', d: 'Koersen per 5 minuten voor de daytrader. Yahoo geeft er maar ~60 dagen van; elke dag worden ze bewaard, zodat het onderzoek steeds verder terug kan kijken.' },
+    t212: { type: 'bron', t: 'Trading 212', d: 'Het oefenaccount bij Trading 212, met nepgeld. Geeft ook een tweede koers voor de bewaker. De sleutel staat alleen in GitHub; dit dashboard heeft er geen.' },
+    cron: { type: 'start', t: 'GitHub-schema', d: 'GitHub start de nachtronde, de beursdag van de daytrader, de bewaker en het zaterdagonderzoek. Een start komt soms uren te laat; daarom is de uurtaak van Claude de reserve.' },
+    uur: { type: 'start', t: 'Claude elk uur', d: 'Op werkdagen elk uur: kijkt in het oefenaccount, start als reserve de daytrader en de bewaker, en zet verse cijfers op dit dashboard.' },
+    ochtend: { type: 'start', t: 'Claude 07:41', d: 'Kopieert elke ochtend alle onderdelen van het dashboard van GitHub naar deze pagina.' },
+    trend: { type: 'bot', t: 'Trend-agent', d: 'Koopt elke nacht de sterkste stijgende trends (uit ruim 120 aandelen), hooguit 5 tegelijk, met een stop-loss op elke positie.' },
+    invest: { type: 'bot', t: 'Investeerder', d: 'Belegt voor de lange termijn in een vaste verdeling en herverdeelt één keer per maand. Bewust zonder stop-loss.' },
+    day: { type: 'bot', t: 'Daytrader', d: 'Koopt een Amerikaans aandeel dat in de ochtend sterk uitbreekt en verkoopt alles voor het slot. Kijkt op beursdagen elk kwartier: tot 11:00 New Yorkse tijd om te kopen, daarna om te bewaken.' },
+    rem: { type: 'bot', t: 'Remmen', d: 'De noodrem (kill switch) en de grenzen per dag en vanaf de top. Gaat hij aan, dan koopt niemand iets nieuws; stop-losses blijven werken.' },
+    oefen: { type: 'bot', t: 'Oefenaccount', d: 'Doet bij Trading 212 na wat de trend-agent doet, met marktorders bij de opening. Alleen nepgeld.' },
+    bewaker: { type: 'bot', t: 'Bewaker', d: 'Kijkt op werkdagen van 09:00 tot 22:00 elk kwartier naar de stop-losses van het oefenaccount. Geven Trading 212 én Yahoo allebei een koers onder de stop-loss, dan verkoopt hij meteen. Hij koopt nooit.' },
+    onderz: { type: 'onderzoek', t: 'Weekonderzoek', d: 'Test elke zaterdag andere regels op 10 jaar koersen. Een bewezen betere regel wordt een voorstel voor jou.' },
+    labelT: { type: 'onderzoek', t: 'Label koopsignalen', d: 'Geeft elke kans van de trend-agent een label (gunstig, gemiddeld, ongunstig) uit eerdere koopsignalen. Alleen informatie.' },
+    onderzD: { type: 'onderzoek', t: 'Daytrade-onderzoek', d: 'Speelt elke zaterdag de regels van de daytrader na op de bewaarde 5-minutenkoersen.' },
+    labelD: { type: 'onderzoek', t: 'Label uitbraken', d: 'Geeft bij elke kans van de daytrader een label uit eerdere uitbraken. Alleen informatie.' },
+    repo: { type: 'opslag', t: 'GitHub-opslag', d: 'Alle stand, trades, rapporten en onderzoek staan in je repository.' },
+    dash: { type: 'opslag', t: 'Dashboard', d: 'Deze pagina. Leest de cijfers die de Claude-taken uploaden; heeft zelf geen sleutels.' },
+    jij: { type: 'jij', t: 'Jij', d: 'Jij beslist: voorstellen overnemen of niet, regels aanzetten, de noodrem en handmatige orders. De bots veranderen hun eigen regels nooit.' },
   };
   const E = [
-    ['yahoo', 'trend'], ['yahoo', 'invest'], ['yahoo', 'onderz'], ['yahoo', 'labelT'], ['vijfmin', 'day'], ['vijfmin', 'onderzD'],
-    ['t212', 'oefen', 'data', true], ['cron', 'trend', 'start'], ['cron', 'invest', 'start'], ['cron', 'onderz', 'start'], ['cron', 'onderzD', 'start'], ['cron', 'day', 'start'],
-    ['uur', 'oefen', 'start'], ['uur', 'day', 'start'], ['uur', 'dash', 'start'], ['ochtend', 'dash', 'start'], ['trend', 'oefen'], ['rem', 'trend'], ['rem', 'day'],
-    ['trend', 'repo'], ['invest', 'repo'], ['oefen', 'repo'], ['day', 'repo'], ['onderz', 'repo'], ['onderz', 'labelT'], ['labelT', 'dash'], ['onderzD', 'labelD'], ['labelD', 'day'],
-    ['repo', 'dash'], ['dash', 'jij'], ['onderz', 'jij', 'beslis'], ['jij', 'trend', 'beslis'], ['jij', 'oefen', 'beslis'], ['jij', 'day', 'beslis'],
+    ['yahoo', 'trend'], ['yahoo', 'invest'], ['yahoo', 'onderz'], ['yahoo', 'labelT'], ['yahoo', 'bewaker'], ['vijfmin', 'day'], ['vijfmin', 'onderzD'],
+    ['t212', 'oefen'], ['t212', 'bewaker'], ['cron', 'trend'], ['cron', 'invest'], ['cron', 'onderz'], ['cron', 'onderzD'], ['cron', 'day'], ['cron', 'bewaker'],
+    ['uur', 'oefen'], ['uur', 'day'], ['uur', 'bewaker'], ['uur', 'dash'], ['ochtend', 'dash'], ['trend', 'oefen'], ['trend', 'bewaker'], ['bewaker', 'oefen'], ['rem', 'trend'], ['rem', 'day'], ['rem', 'bewaker'],
+    ['trend', 'repo'], ['invest', 'repo'], ['oefen', 'repo'], ['bewaker', 'repo'], ['day', 'repo'], ['onderz', 'repo'], ['onderz', 'labelT'], ['labelT', 'dash'], ['onderzD', 'labelD'], ['labelD', 'day'],
+    ['repo', 'dash'], ['dash', 'jij'], ['onderz', 'jij'], ['jij', 'trend'], ['jij', 'oefen'], ['jij', 'day'], ['jij', 'rem'],
   ];
   const kleur = (type) => dash.colors[TYPE[type][1] % dash.colors.length];
-  const mk = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const [a, v] of Object.entries(attrs || {})) e.setAttribute(a, v); if (parent) parent.appendChild(e); return e; };
   const uur = new Intl.DateTimeFormat('nl-NL', { timeZone: 'Europe/Amsterdam', weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
-  let gekozen = null, laatsteStand = null;
+  let gekozen = null;
 
   function draw() {
     const box = document.getElementById('sys-app');
@@ -3910,127 +4075,83 @@ svg.staand .sn text { font-size: 14px; } svg.staand .sn text.sub { font-size: 12
     const perNode = {};
     knel.forEach((k) => (perNode[k.node] = perNode[k.node] || []).push(k));
 
-    // kop
-    const kop = el('div', { class: 'sys-kop' });
+    // status in één zin
     const nF = knel.filter((k) => k.ernst === 'fout').length, nL = knel.filter((k) => k.ernst === 'letop').length, nM = knel.filter((k) => k.ernst === 'mens').length;
-    if (nF) kop.append(el('span', { class: 'sys-chip fout' }, nF + (nF === 1 ? ' fout' : ' fouten')));
-    if (nL) kop.append(el('span', { class: 'sys-chip letop' }, nL + ' let op'));
-    if (nM) kop.append(el('span', { class: 'sys-chip' }, nM + ' wacht op jou'));
-    if (!nF && !nL) kop.append(el('span', { class: 'sys-chip goed' }, '✓ alles werkt'));
-    kop.append(el('span', { class: 'sys-chip tijd', 'data-source': 'systeem', 'data-field': 'gemaakt', 'data-where': 'id=meta' }, 'berekend ' + uur.format(new Date(meta.gemaakt))));
+    const ernst = nF ? 'fout' : nL ? 'letop' : 'goed';
+    const status = el('div', { class: 'sys-status ' + ernst });
+    const titel = nF ? (nF === 1 ? '1 fout' : nF + ' fouten') + (nL ? ' en ' + nL + ' om op te letten' : '') : nL ? (nL === 1 ? '1 punt om op te letten' : nL + ' punten om op te letten') : 'Alles werkt zoals bedoeld';
+    const sub = (knel.length ? knel.filter((k) => k.ernst !== 'mens').slice(0, 2).map((k) => k.titel).join(' · ') + (nM ? (nF || nL ? ' · ' : '') + nM + ' wacht op jou' : '') : 'Geen knelpunten.') + ' — berekend ' + uur.format(new Date(meta.gemaakt));
+    status.append(el('span', { class: 'ic', 'aria-hidden': 'true' }, ernst === 'goed' ? '✓' : '!'), el('b', {}, titel), el('small', { 'data-source': 'systeem', 'data-field': 'gemaakt', 'data-where': 'id=meta' }, sub));
 
     // kaart
     const kaart = el('div', { class: 'sys-kaart' });
-    const svgBox = el('div', { class: 'sys-svg' });
-    // Liggend (computer, iPad) of staand (telefoon): zo past de hele kaart altijd in beeld, zonder schuiven.
-    const staand = window.matchMedia('(max-width: 640px)').matches;
-    laatsteStand = staand;
-    const SW = 196, RIJ = 64, KOP = 26;
-    const vpos = {}; let vy = 8;
-    KOL.forEach((k, li) => {
-      const ids = Object.keys(N).filter((id) => N[id].k === li).sort((a, b) => N[a].y - N[b].y);
-      ids.forEach((id, i) => { vpos[id] = { x: 8 + (i % 2) * (SW + 12), y: vy + KOP + Math.floor(i / 2) * RIJ }; });
-      k.vy = vy; vy += KOP + Math.ceil(ids.length / 2) * RIJ + 10;
+    const blokken = {};
+    const blok = (id) => {
+      const n = N[id], l = live[id] || {}, ks = perNode[id] || [];
+      const b = el('button', { type: 'button', class: 'sys-blok ' + (l.stand || 'goed'), 'aria-label': n.t + ': ' + (l.sub || '') });
+      b.style.setProperty('--kl', kleur(n.type));
+      const t = el('div', { class: 't' }); t.append(el('span', {}, n.t), el('i', { class: 'st', 'aria-hidden': 'true' }));
+      b.append(t, el('div', { class: 's', 'data-source': 'systeem', 'data-field': 'sub', 'data-where': 'id=n-' + id }, l.sub || ''));
+      if (ks.length) b.append(el('span', { class: 'nr ' + (ks.some((k) => k.ernst === 'fout') ? 'fout' : ks.every((k) => k.ernst === 'mens') ? 'mens' : '') }, ks.map((k) => nr.get(k.id)).join(',')));
+      b.addEventListener('click', () => kies(id));
+      blokken[id] = b; return b;
+    };
+    const start = el('div', { class: 'sys-start' });
+    start.append(el('span', { class: 'lb' }, 'Zet alles aan'), ...STARTERS.map(blok));
+    const banen = el('div', { class: 'sys-banen' });
+    BANEN.forEach((bn, i) => {
+      const d = el('div', { class: 'sys-baan' });
+      const h = el('h3'); h.append(el('i', {}, String(i + 1)), document.createTextNode(bn.t));
+      d.append(h, ...bn.ids.map(blok));
+      banen.append(d);
     });
-    const svg = mk('svg', { viewBox: staand ? `0 0 420 ${vy}` : '0 0 1160 480', role: 'img', 'aria-label': 'Schema van de bots: bronnen, starters, bots, onderzoek, opslag en jij' });
-    svg.classList.toggle('staand', staand);
-    const defs = mk('defs', {}, svg); const m = mk('marker', { id: 'sys-pijl', viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse' }, defs);
-    mk('path', { d: 'M0,0 L10,5 L0,10 z', fill: 'var(--color-fg-muted)' }, m);
-    KOL.forEach((k, i) => {
-      if (staand) { mk('text', { x: 8, y: k.vy + 16, class: 'sys-kol' }, svg).textContent = k.t; if (i) mk('line', { x1: 8, x2: 412, y1: k.vy, y2: k.vy, class: 'sys-rand' }, svg); }
-      else { mk('text', { x: k.x, y: 16, class: 'sys-kol' }, svg).textContent = k.t; if (i) mk('line', { x1: k.x - 15, x2: k.x - 15, y1: 24, y2: 466, class: 'sys-rand' }, svg); }
-    });
-    const eg = mk('g', {}, svg), ng = mk('g', {}, svg);
-    const BW = staand ? SW : W;
-    const pos = (id) => (staand ? vpos[id] : { x: KOL[N[id].k].x, y: N[id].y });
-    const edges = [];
-    E.forEach(([a, b, soort = 'data', twee]) => {
-      const A = pos(a), B = pos(b); let d;
-      if (staand) {   // van onder naar boven tussen de banen; binnen een baan langs de zijkant
-        if (N[a].k === N[b].k) { const x1 = A.x + BW / 2, y1 = A.y + H, x2 = B.x + BW / 2, y2 = B.y; d = `M${x1},${y1} C${x1},${y1 + 14} ${x2},${y2 - 14} ${x2},${y2 - 2}`; }
-        else if (N[a].k < N[b].k) { const x1 = A.x + BW / 2, y1 = A.y + H, x2 = B.x + BW / 2, y2 = B.y - 2, mm = (y1 + y2) / 2; d = `M${x1},${y1} C${x1},${mm} ${x2},${mm} ${x2},${y2}`; }
-        else { const x1 = A.x + BW / 2, y1 = A.y, x2 = B.x + BW / 2, y2 = B.y + H + 2, mm = (y1 + y2) / 2; d = `M${x1},${y1} C${x1},${mm} ${x2},${mm} ${x2},${y2}`; }
-      } else if (N[a].k === N[b].k) { const x1 = A.x + W, y1 = A.y + H / 2, x2 = B.x + W, y2 = B.y + H / 2, c = x1 + 22; d = `M${x1},${y1} C${c},${y1} ${c},${y2} ${x2 + 2},${y2}`; }
-      else if (N[a].k < N[b].k) { const x1 = A.x + W, y1 = A.y + H / 2, x2 = B.x - 2, y2 = B.y + H / 2, mm = (x1 + x2) / 2; d = `M${x1},${y1} C${mm},${y1} ${mm},${y2} ${x2},${y2}`; }
-      else { const x1 = A.x, y1 = A.y + H / 2 + 8, x2 = B.x + W + 2, y2 = B.y + H / 2 + 8, mm = (x1 + x2) / 2; d = `M${x1},${y1} C${mm},${y1 + 30} ${mm},${y2 + 30} ${x2},${y2}`; }
-      const p = mk('path', { d, class: 'se ' + soort, 'marker-end': 'url(#sys-pijl)' }, eg);
-      if (soort === 'start') p.style.stroke = kleur('start'); if (soort === 'beslis') p.style.stroke = kleur('jij');
-      if (twee) p.setAttribute('marker-start', 'url(#sys-pijl)');
-      p.dataset.a = a; p.dataset.b = b; edges.push(p);
-    });
-    const nodeEls = {};
-    Object.entries(N).forEach(([id, n]) => {
-      const { x, y } = pos(id); const l = live[id] || {};
-      const g = mk('g', { class: 'sn ' + (l.stand || 'goed'), tabindex: '0', role: 'button', 'aria-label': n.t + ': ' + (l.sub || '') + (l.stand && l.stand !== 'goed' ? ' (' + (l.stand === 'fout' ? 'fout' : 'let op') + ')' : '') }, ng);
-      mk('rect', { x, y, width: BW, height: H, rx: 6, class: 'box' }, g);
-      mk('rect', { x, y, width: 5, height: H, rx: 2, fill: kleur(n.type) }, g);
-      mk('text', { x: x + 14, y: y + 21 }, g).textContent = n.t;
-      const sub = mk('text', { x: x + 14, y: y + 38, class: 'sub' }, g); sub.textContent = l.sub || '';
-      if (sub.getComputedTextLength && sub.textContent.length > (staand ? 27 : 30)) sub.textContent = sub.textContent.slice(0, staand ? 26 : 29) + '…';
-      (perNode[id] || []).slice(0, 3).forEach((k, i) => {
-        const b = mk('g', { class: 'sb ' + (k.ernst === 'fout' ? 'fout' : k.ernst === 'mens' ? 'mens' : '') }, g);
-        mk('circle', { cx: x + BW - 4 - i * 22, cy: y, r: 10 }, b); mk('text', { x: x + BW - 4 - i * 22, y: y + 0.5 }, b).textContent = nr.get(k.id);
-      });
-      g.addEventListener('click', () => kies(id)); g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); kies(id); } });
-      nodeEls[id] = g;
-    });
-    svgBox.append(svg);
-    const leg = el('div', { class: 'sys-leg' });
-    Object.entries(TYPE).forEach(([k, [t]]) => { const sp = el('span'); const i = el('i'); i.style.background = kleur(k); sp.append(i, document.createTextNode(t.toLowerCase())); leg.append(sp); });
-    [['var(--color-warn)', 'let op'], ['var(--color-bad)', 'fout']].forEach(([c, t]) => { const sp = el('span'); const i = el('i', { class: 'rnd' }); i.style.background = c; sp.append(i, document.createTextNode(t)); leg.append(sp); });
-    svgBox.append(leg);
-    const info = el('aside', { class: 'sys-info', 'aria-live': 'polite' });
-    kaart.append(svgBox, info);
+    const info = el('div', { class: 'sys-info', 'aria-live': 'polite' });
+    kaart.append(start, banen, info);
 
     function kies(id) {
       if (gekozen === id) id = null;
       gekozen = id;
-      Object.entries(nodeEls).forEach(([k, g]) => { g.classList.toggle('gekozen', k === id); g.classList.remove('aan'); });
-      edges.forEach((e) => e.classList.remove('aan'));
-      svg.classList.toggle('focus', !!id);
+      kaart.classList.toggle('focus', !!id);
+      Object.entries(blokken).forEach(([k, b]) => { b.classList.toggle('gekozen', k === id); b.classList.remove('rel'); });
       if (!id) { leegInfo(); return; }
-      nodeEls[id].classList.add('aan');
       const van = [], naar = [];
-      edges.forEach((e) => {
-        if (e.dataset.a === id) { e.classList.add('aan'); nodeEls[e.dataset.b].classList.add('aan'); naar.push(N[e.dataset.b].t); }
-        if (e.dataset.b === id) { e.classList.add('aan'); nodeEls[e.dataset.a].classList.add('aan'); van.push(N[e.dataset.a].t); }
+      E.forEach(([a, b]) => {
+        if (a === id) { blokken[b].classList.add('rel'); naar.push(N[b].t); }
+        if (b === id) { blokken[a].classList.add('rel'); van.push(N[a].t); }
       });
       const n = N[id], l = live[id] || {};
-      const ty = el('span', { class: 'ty' }, TYPE[n.type][0]); ty.style.color = kleur(n.type);
+      const h = el('h3', {}, n.t); const ty = el('small', {}, TYPE[n.type][0]); ty.style.color = kleur(n.type); h.append(ty);
       const rel = el('div', { class: 'rel' });
-      if (van.length) { const d = el('div'); d.append(el('span', {}, 'krijgt van'), document.createTextNode(van.join(', '))); rel.append(d); }
-      if (naar.length) { const d = el('div'); d.append(el('span', {}, 'gaat naar'), document.createTextNode(naar.join(', '))); rel.append(d); }
-      info.replaceChildren(ty, el('h3', {}, n.t), el('div', { class: 'nu', 'data-source': 'systeem', 'data-field': 'sub', 'data-where': 'id=n-' + id }, 'Nu: ' + (l.sub || '–')), el('p', { style: 'margin:0' }, n.d), rel,
+      if (van.length) { const d = el('div'); d.append(el('span', {}, 'Krijgt van'), document.createTextNode(van.join(', '))); rel.append(d); }
+      if (naar.length) { const d = el('div'); d.append(el('span', {}, 'Gaat naar'), document.createTextNode(naar.join(', '))); rel.append(d); }
+      const nu = el('p', { class: 'nu' }); nu.append(el('b', {}, 'Nu: '), document.createTextNode(l.sub || '–'));
+      info.replaceChildren(h, nu, el('p', {}, n.d), rel,
         ...(perNode[id] || []).map((k) => el('div', { class: 'kref ' + k.ernst }, nr.get(k.id) + '. ' + k.titel)));
       if (!(perNode[id] || []).length) info.append(el('div', { class: 'stil' }, '✓ Geen knelpunt bij dit blok.'));
+      if (window.matchMedia('(max-width: 760px)').matches) info.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
     function leegInfo() {
-      info.replaceChildren(el('h3', {}, 'Tik op een blok'),
-        el('p', { class: 'stil', style: 'margin:0' }, 'Je ziet dan wat het doet, hoe het er nu voor staat en waarmee het verbonden is.'),
-        el('p', { class: 'stil', style: 'margin:0' }, 'Een oranje of rode rand betekent dat er iets niet klopt; het nummer verwijst naar het knelpunt hieronder.'));
+      info.replaceChildren(el('p', { class: 'stil' }, 'Tik op een blok: je ziet wat het doet, hoe het er nu voor staat en waarmee het verbonden is. Een gekleurd blok heeft een knelpunt; het nummer staat hieronder.'));
     }
 
     // knelpunten
     const lijst = el('section', { class: 'sys-lijst' });
-    lijst.append(el('h2', {}, 'Knelpunten nu'));
-    if (!knel.length) lijst.append(el('div', { class: 'sys-goed' }, '✓ Er is nu geen knelpunt. Alles werkt zoals bedoeld.'));
+    if (knel.length) lijst.append(el('h2', {}, 'Knelpunten nu'));
     knel.forEach((k) => {
       const c = el('article', { class: 'sk ' + k.ernst, 'data-source': 'systeem', 'data-where': 'id=' + encodeURIComponent(k.id) });
       const h = el('h3', {}, k.titel); h.append(el('small', {}, { fout: 'fout', letop: 'let op', mens: 'wacht op jou' }[k.ernst] || ''));
       const op = el('p', { class: 'op' }); op.append(el('b', {}, 'Wat kan helpen: '), document.createTextNode(k.oplos));
       const knop = el('button', { type: 'button' }, 'Laat zien op de kaart');
-      knop.addEventListener('click', () => { gekozen = null; kies(k.node); kaart.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+      knop.addEventListener('click', () => { gekozen = null; if (blokken[k.node]) { kies(k.node); kaart.scrollIntoView({ behavior: 'smooth', block: 'start' }); } });
       c.append(el('span', { class: 'nr' }, String(nr.get(k.id))), h, el('p', {}, k.wat), op, knop);
       lijst.append(c);
     });
 
-    box.replaceChildren(kop, kaart, lijst);
+    box.replaceChildren(kaart, lijst);   // de stand in één zin staat in de kop bovenaan
     const keep = gekozen; gekozen = null;
     if (keep && N[keep]) kies(keep); else leegInfo();
   }
   const veilig = () => { try { draw(); } catch (e) { console.log('ERR systeem', e.message); } };
   dash.onData(veilig);
-  // Draait het scherm (telefoon of iPad gekanteld), dan de kaart opnieuw opbouwen in de juiste stand.
-  window.matchMedia('(max-width: 640px)').addEventListener('change', (e) => { if (e.matches !== laatsteStand) veilig(); });
 })();
 </script>

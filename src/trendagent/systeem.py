@@ -194,15 +194,18 @@ def rows(state: Path = Path("state"), dash: Path = Path("dashboard"), root: Path
     bw = _load(state / "bewaker.json", {}) or {}
     bt = _tijd(bw.get("tijd"))
     if bw and bt:
-        n = k.nodes.get("oefen")
-        if n:
-            n["sub"] += f" · bewaker {_uur(bt)}"
+        verk = sum(len(h.get("verkocht", [])) for h in bw.get("geschiedenis", []) if str(h.get("tijd", ""))[:10] == bw["tijd"][:10])
+        k.node("bewaker", "fout" if bw.get("status") == "fout" else "goed",
+               f"laatst {bt.astimezone(NL):%H:%M}" + (f" · {verk} verkocht vandaag" if verk else " · alles boven de stop"))
         if bw.get("status") == "fout":
-            k.knelpunt("oefen", "letop", "De bewaker van de stop-losses gaf een fout",
+            k.knelpunt("bewaker", "letop", "De bewaker van de stop-losses gaf een fout",
                        "; ".join(bw.get("log", [])[-1:]) or "Onbekende fout.",
                        "De volgende ronde (over een kwartier) probeert het opnieuw; tot die tijd verkoopt de nachtronde.")
+    else:
+        k.node("bewaker", "goed", "start op de volgende werkdag")
     if werkdag and 10 <= nl.hour < 21 and (not bt or nu - bt > timedelta(minutes=50)):
-        k.knelpunt("oefen", "letop", "De bewaker kijkt nu niet mee",
+        k.nodes["bewaker"]["stand"] = "letop"
+        k.knelpunt("bewaker", "letop", "De bewaker kijkt nu niet mee",
                    "Overdag hoort hij elk kwartier de stop-losses te controleren" +
                    (f"; laatste ronde {_uur(bt)}." if bt else "; hij heeft nog niet gedraaid."),
                    "De uurlijkse taak van Claude start hem opnieuw. Tot die tijd verkoopt de nachtronde zoals vroeger.")
