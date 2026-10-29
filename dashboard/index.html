@@ -2897,12 +2897,6 @@ dash.calc('onderzoek_verschil', {
   function drawGereed() {
     const g = dash.data('gereed'); if (g.status !== 'ok') return;
     const rows = real(g.data); if (!rows.length) return;
-    const klaarN = rows.filter((r) => r.status === 'klaar').length;
-    const home = document.getElementById('gr-home');
-    const h = el('h2'); h.append(document.createTextNode('Klaar voor echt geld?'), el('small', {}, klaarN ? klaarN + ' van ' + rows.length + ' klaar' : 'Nog geen enkele bot klaar · blijven oefenen'));
-    const l1 = el('div', { class: 'gr-list' }); rows.forEach((r) => l1.append(item(r)));
-    if (home) home.replaceChildren(h, l1);
-    const mg = document.getElementById('m-gr'); if (mg) mg.replaceChildren(...rows.map((r) => item(r)));
     const rk = document.getElementById('gr-risico');
     const hh = el('div', { class: 'gr-head' }); hh.append(el('h2', {}, 'Klaar voor echt geld?'), el('small', {}, 'Eerst bewijzen, dan pas echt geld. Jij beslist altijd.'));
     const l2 = el('div', { class: 'gr-list' }); rows.forEach((r) => l2.append(item(r, { lang: true, geenKlik: true })));
