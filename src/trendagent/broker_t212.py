@@ -215,7 +215,8 @@ def sync(state_dir: Path, client: T212Demo, orders_aan: bool, kill_active: bool,
     positions = client.positions()
     summ = client.summary()
     instruments = _instruments(client, state_dir)
-    verslag["account"] = summ
+    # Het accountnummer bewaren we niet (de repository kan openbaar zijn); alleen de bedragen.
+    verslag["account"] = {k: v for k, v in (summ or {}).items() if k != "id"} if isinstance(summ, dict) else summ
     verslag["posities"] = positions
     filled: dict[str, float] = {}
     for p in positions:
