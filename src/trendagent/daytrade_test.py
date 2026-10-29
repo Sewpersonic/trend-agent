@@ -13,9 +13,9 @@ from datetime import datetime, time, timezone
 from pathlib import Path
 
 from .daytrader import NY, Bar5, Params, backtest, split_days, variant
-from .universe import UNIVERSE
+from .universe import DAYTRADE
 
-TICKERS = [i.ticker for i in UNIVERSE if i.region == "US"]
+TICKERS = list(DAYTRADE)   # vaste lijst; het grotere universum van de trend-agent telt hier niet
 
 
 def download(tickers=TICKERS, period: str = "60d") -> dict[str, list[Bar5]]:

@@ -33,7 +33,7 @@ FX_NAAR_EUR = {"EUR": 1.0, "USD": 0.95, "GBP": 1.2, "GBX": 0.012, "CHF": 1.05}
 
 # Yahoo-beurssuffix -> mogelijke Trading 212-tickerletter (bv. ASML.AS -> ASMLa_EQ). Wordt gecontroleerd met de
 # instrumentenlijst van Trading 212; alleen een ticker die daar echt bestaat wordt gebruikt.
-SUFFIX = {"AS": ["a"], "DE": ["d"], "PA": ["p"], "MI": ["m"], "MC": ["e"], "L": ["l"], "SW": ["z"], "BR": ["b"]}
+SUFFIX = {"AS": ["a"], "DE": ["d"], "PA": ["p"], "MI": ["m"], "MC": ["e"], "L": ["l"], "SW": ["z"], "BR": ["b"], "HE": ["h"]}
 
 
 class BrokerError(RuntimeError):

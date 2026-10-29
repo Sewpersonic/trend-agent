@@ -55,10 +55,11 @@ accepteert, gaat de pagina in delen online: `python scripts/pagina_splitsen.py` 
 | Werkdagen, ruim vóór de opening (drie GitHub-starts plus de uurtaak van Claude) | `daytrade-sessie` | De beursdag van de daytrade-bot, zoals een mens die handelt: hij wacht tot 10:00 New Yorkse tijd en kijkt dan elk kwartier, tot 12:30 om te kopen (koopdeel) en daarna tot 15:45 om zijn posities te bewaken (middagdeel, door het koopdeel zelf gestart). Een te vroege start wacht; een dubbele start doet niets. |
 | Werkdagen elk uur van 15:25 tot 22:25 (gestart door de uurlijkse taak van Claude; het schema van GitHub zelf komt vaak uren te laat) | `daytrade` | Eén ronde van de daytrade-bot: verkopen bewaken (gemiste kijkmomenten worden met de echte koersen nagespeeld). Loopt de sessie van de koopuren, dan slaat hij over. |
 | Zaterdag ± 08:41 | `daytrade` | Onderzoek van de daytrade-bot: regels (ook uit de grafiekanalyse) opnieuw testen en lessen bijwerken. |
+| Werkdagen 09:00–22:00, elk kwartier (twee GitHub-starts plus de uurtaak van Claude als reserve) | `bewaker` | **De bewaker** kijkt de hele beursdag mee: zakt een aandeel van de trend-agent onder zijn stop-loss, dan verkoopt het oefenaccount het meteen, in plaats van pas de volgende ochtend. Alleen als Trading 212 én Yahoo allebei een koers onder de stop-loss geven (twee bronnen, hooguit 2% verschil); anders doet hij niets. Hij koopt nooit en verandert geen regels. |
 | Na elke run | `status` | Zet de lijst van de laatste GitHub-runs en open voorstellen klaar voor het dashboard. |
-| Zaterdag ± 07:17 | `onderzoek` | Test varianten van de regels op 5 jaar koersen en zet een voorstel klaar als er een bewezen betere is. |
+| Zaterdag ± 07:17 | `onderzoek` | Test varianten van de regels op 10 jaar koersen en zet een voorstel klaar als er een bewezen betere is. |
 | Na elke codewijziging | `tests` | Alle tests en een controle op fouten in de code. |
-| Als de regels van de bots veranderen | `backtest` | De backtest over 5 jaar. |
+| Als de regels van de bots veranderen | `backtest` | De backtest over 10 jaar. |
 | Met de hand | `diagnose` | Test of de koersbron werkt. |
 
 Een run die misgaat wordt rood en GitHub mailt je. Op het dashboard (tabblad **GitHub**) staat in gewone taal
@@ -66,8 +67,9 @@ wat er misging en of een latere run het weer goed deed.
 
 ## De trend-agent
 
-1. **Koersen ophalen** van ongeveer 50 grote aandelen en ETF's in Amerika en Europa (zie
-   `src/trendagent/universe.py`), bij Yahoo (zie *Koersen*).
+1. **Koersen ophalen** van ruim 120 grote aandelen en ETF's in Amerika en de eurozone (zie
+   `src/trendagent/universe.py`; sinds 29 okt 2026, daarvoor ongeveer 50), bij Yahoo (zie *Koersen*). De daytrader
+   houdt zijn eigen vaste lijst van 27 Amerikaanse beleggingen.
 2. **Trending bepalen** met vaste regels: slot boven het 50-daags gemiddelde en dat boven het 200-daagse,
    gestegen over 1 en 3 maanden, genoeg handel, geen verdachte sprong. Rangschikken op rendement gedeeld door
    beweeglijkheid.

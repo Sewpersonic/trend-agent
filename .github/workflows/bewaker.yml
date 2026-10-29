@@ -1,0 +1,74 @@
+# Bewaker: de hele beursdag (09:00-22:00 Nederlandse tijd) elk kwartier de stop-losses van de trend-agent bewaken.
+# Zakt een aandeel onder zijn stop-loss (Trading 212 en Yahoo zijn het daarover eens), dan verkoopt het oefenaccount
+# het meteen in plaats van de volgende ochtend. Verder doet hij niets: geen aankopen, geen andere orders. Nepgeld.
+# Een run duurt hooguit ~5,5 uur (GitHub-grens 6 uur) en start dan zelf de volgende tot 22:00.
+# Starten: twee vroege GitHub-schema's en als reserve de uurlijkse taak van Claude. Een dubbele start doet niets.
+name: bewaker
+
+on:
+  schedule:
+    - cron: "40 6 * * 1-5"    # 07:40/08:40 Nederlandse tijd (zomer/winter): wacht tot 09:00
+    - cron: "40 7 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      vervolg:
+        description: "Voortzetting van een vorige run (niet zelf invullen)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  bewaker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    env:
+      PAPER_TRADING: "true"
+      GH_TOKEN: ${{ github.token }}
+      T212_DEMO_KEY: ${{ secrets.T212_DEMO_KEY }}
+      T212_DEMO_SECRET: ${{ secrets.T212_DEMO_SECRET }}
+    steps:
+      - name: Is er iets te doen?
+        id: nodig
+        env:
+          VERVOLG: ${{ github.event.inputs.vervolg }}
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os, subprocess
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          nl = datetime.now(ZoneInfo("Europe/Amsterdam"))
+          ok = nl.weekday() < 5 and (7, 0) <= (nl.hour, nl.minute) <= (21, 50)
+          if ok and os.environ.get("VERVOLG") != "true":
+              # Loopt er al een eerder gestarte bewaker? Dan doet deze run niets.
+              # (Een voortzetting wordt door de vorige run zelf gestart en slaat deze controle over.)
+              try:
+                  runs = json.loads(subprocess.run(
+                      ["gh", "run", "list", "-R", os.environ["GITHUB_REPOSITORY"], "-w", "bewaker.yml",
+                       "-s", "in_progress", "--json", "databaseId", "-L", "20"],
+                      capture_output=True, text=True, timeout=30).stdout or "[]")
+              except Exception:
+                  runs = []
+              if any(r["databaseId"] < int(os.environ["GITHUB_RUN_ID"]) for r in runs):
+                  ok = False
+          print("ja=" + ("true" if ok else "false"))
+          PY
+      - uses: actions/checkout@v5
+        if: steps.nodig.outputs.ja == 'true'
+      - uses: actions/setup-python@v6
+        if: steps.nodig.outputs.ja == 'true'
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - if: steps.nodig.outputs.ja == 'true'
+        run: pip install -e .
+      - name: Bewaken
+        id: bewaken
+        if: steps.nodig.outputs.ja == 'true'
+        run: python -m trendagent bewaker --sessie --opslaan
+      - name: Volgende run starten
+        if: steps.bewaken.outputs.verder == 'true'
+        run: gh workflow run bewaker.yml -R "$GITHUB_REPOSITORY" -f vervolg=true

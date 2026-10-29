@@ -26,7 +26,7 @@ concurrency:
 jobs:
   onderzoek:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 340
     env:
       PAPER_TRADING: "true"
     steps:
@@ -37,7 +37,7 @@ jobs:
       - run: pip install -e .
       - name: Onderzoek
         run: |
-          python -m trendagent onderzoek --years 5
+          python -m trendagent onderzoek --years 10
           python -m trendagent dashboard    # zodat het dashboard de nieuwe uitkomst meteen meeneemt
           cat onderzoek/LAATSTE.md >> "$GITHUB_STEP_SUMMARY"
       - name: Alleen onderzoek/ en dashboard/ opslaan

@@ -190,6 +190,23 @@ def rows(state: Path = Path("state"), dash: Path = Path("dashboard"), root: Path
     else:
         k.node("oefen", "goed", "volgt de trend-agent")
 
+    # ---------- bewaker (stop-losses van het oefenaccount, de hele beursdag elk kwartier)
+    bw = _load(state / "bewaker.json", {}) or {}
+    bt = _tijd(bw.get("tijd"))
+    if bw and bt:
+        n = k.nodes.get("oefen")
+        if n:
+            n["sub"] += f" · bewaker {_uur(bt)}"
+        if bw.get("status") == "fout":
+            k.knelpunt("oefen", "letop", "De bewaker van de stop-losses gaf een fout",
+                       "; ".join(bw.get("log", [])[-1:]) or "Onbekende fout.",
+                       "De volgende ronde (over een kwartier) probeert het opnieuw; tot die tijd verkoopt de nachtronde.")
+    if werkdag and 10 <= nl.hour < 21 and (not bt or nu - bt > timedelta(minutes=50)):
+        k.knelpunt("oefen", "letop", "De bewaker kijkt nu niet mee",
+                   "Overdag hoort hij elk kwartier de stop-losses te controleren" +
+                   (f"; laatste ronde {_uur(bt)}." if bt else "; hij heeft nog niet gedraaid."),
+                   "De uurlijkse taak van Claude start hem opnieuw. Tot die tijd verkoopt de nachtronde zoals vroeger.")
+
     dts = _load(state / "daytrader.json", {}) or {}
     if dts:
         vandaag = ny.date().isoformat()

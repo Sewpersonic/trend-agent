@@ -5,7 +5,11 @@ onbekende of zeer beweeglijke fondsen staan er bewust niet in: daar zitten
 pump-and-dumps en grote spreads.
 
 Tickers gebruiken het Yahoo Finance-formaat:
-  geen achtervoegsel = VS (USD) · .AS = Amsterdam · .DE = Xetra · .PA = Parijs (EUR)
+  geen achtervoegsel = VS (USD) · .AS = Amsterdam · .DE = Xetra · .PA = Parijs · .MC = Madrid ·
+  .MI = Milaan · .HE = Helsinki (allemaal EUR)
+
+Oktober 2026 uitgebreid van 49 naar ruim 120 (op verzoek van de eigenaar): meer keus betekent vaker een sterke trend
+om te volgen. Allemaal grote bedrijven met veel handel; de daytrader houdt zijn eigen vaste lijst (DAYTRADE).
 """
 
 from __future__ import annotations
@@ -40,6 +44,19 @@ UNIVERSE: tuple[Instrument, ...] = (
     _us("PANW", "Palo Alto Networks"), _us("ANET", "Arista Networks"),
     _us("JPM", "JPMorgan Chase"), _us("V", "Visa"), _us("LLY", "Eli Lilly"),
     _us("COST", "Costco"), _us("XOM", "ExxonMobil"),
+    # --- VS: uitbreiding oktober 2026 (grote, veel verhandelde aandelen)
+    _us("BRK-B", "Berkshire Hathaway"), _us("UNH", "UnitedHealth"), _us("JNJ", "Johnson & Johnson"),
+    _us("PG", "Procter & Gamble"), _us("HD", "Home Depot"), _us("MA", "Mastercard"),
+    _us("ABBV", "AbbVie"), _us("MRK", "Merck & Co"), _us("PEP", "PepsiCo"), _us("KO", "Coca-Cola"),
+    _us("WMT", "Walmart"), _us("BAC", "Bank of America"), _us("CVX", "Chevron"), _us("ADBE", "Adobe"),
+    _us("CSCO", "Cisco"), _us("QCOM", "Qualcomm"), _us("TXN", "Texas Instruments"),
+    _us("AMAT", "Applied Materials"), _us("LRCX", "Lam Research"), _us("KLAC", "KLA"),
+    _us("NOW", "ServiceNow"), _us("INTU", "Intuit"), _us("UBER", "Uber"), _us("GS", "Goldman Sachs"),
+    _us("MS", "Morgan Stanley"), _us("CAT", "Caterpillar"), _us("GE", "GE Aerospace"), _us("RTX", "RTX"),
+    _us("LMT", "Lockheed Martin"), _us("HON", "Honeywell"), _us("UNP", "Union Pacific"),
+    _us("ISRG", "Intuitive Surgical"), _us("TMO", "Thermo Fisher"), _us("ABT", "Abbott"),
+    _us("MCD", "McDonald's"), _us("DIS", "Disney"), _us("T", "AT&T"), _us("VZ", "Verizon"),
+    _us("NEE", "NextEra Energy"), _us("LIN", "Linde"), _us("BKNG", "Booking"), _us("NKE", "Nike"),
     # --- VS: ETF's (brede markt, thema's, goud)
     _us("SPY", "S&P 500 ETF", "ETF"), _us("QQQ", "Nasdaq-100 ETF", "ETF"),
     _us("SMH", "Halfgeleider-ETF", "ETF"), _us("XLE", "Energie-ETF", "ETF"),
@@ -55,8 +72,26 @@ UNIVERSE: tuple[Instrument, ...] = (
     # --- Europa: Frankrijk
     _eu("MC.PA", "LVMH"), _eu("OR.PA", "L'Oreal"), _eu("TTE.PA", "TotalEnergies"),
     _eu("SU.PA", "Schneider Electric"), _eu("AIR.PA", "Airbus"), _eu("BNP.PA", "BNP Paribas"),
+    # --- Europa: uitbreiding oktober 2026
+    _eu("PHIA.AS", "Philips"), _eu("UNA.AS", "Unilever"), _eu("ABN.AS", "ABN AMRO"), _eu("NN.AS", "NN Group"),
+    _eu("ASRNL.AS", "ASR Nederland"), _eu("KPN.AS", "KPN"), _eu("RAND.AS", "Randstad"), _eu("UMG.AS", "Universal Music"),
+    _eu("AKZA.AS", "AkzoNobel"), _eu("MT.AS", "ArcelorMittal"), _eu("DSFIR.AS", "DSM-Firmenich"),
+    _eu("MBG.DE", "Mercedes-Benz"), _eu("BMW.DE", "BMW"), _eu("BAS.DE", "BASF"), _eu("BAYN.DE", "Bayer"),
+    _eu("MUV2.DE", "Munich Re"), _eu("DBK.DE", "Deutsche Bank"), _eu("ADS.DE", "Adidas"),
+    _eu("DB1.DE", "Deutsche Börse"), _eu("ENR.DE", "Siemens Energy"), _eu("MTX.DE", "MTU Aero Engines"),
+    _eu("SAN.PA", "Sanofi"), _eu("AI.PA", "Air Liquide"), _eu("SAF.PA", "Safran"), _eu("EL.PA", "EssilorLuxottica"),
+    _eu("RMS.PA", "Hermès"), _eu("CS.PA", "AXA"), _eu("DG.PA", "Vinci"), _eu("HO.PA", "Thales"),
+    _eu("ITX.MC", "Inditex"), _eu("SAN.MC", "Banco Santander"), _eu("IBE.MC", "Iberdrola"),
+    _eu("ISP.MI", "Intesa Sanpaolo"), _eu("UCG.MI", "UniCredit"), _eu("ENEL.MI", "Enel"), _eu("RACE.MI", "Ferrari"),
+    _eu("NOKIA.HE", "Nokia"),
     # --- Europa: ETF
     _eu("IWDA.AS", "iShares MSCI World", "ETF"),
+)
+
+# De daytrader houdt zijn eigen, vaste lijst: de Amerikaanse beleggingen waarop zijn regels getest zijn.
+DAYTRADE: tuple[str, ...] = (
+    "AAPL", "MSFT", "NVDA", "AMZN", "GOOGL", "META", "AVGO", "TSLA", "AMD", "MU", "ORCL", "CRM", "NFLX", "PLTR",
+    "CRWD", "PANW", "ANET", "JPM", "V", "LLY", "COST", "XOM", "SPY", "QQQ", "SMH", "XLE", "GLD",
 )
 
 # Crypto: alleen de twee grootste munten. Geen kleine of onbekende tokens.
@@ -91,6 +126,21 @@ SECTOR: dict[str, str] = {
     **dict.fromkeys(["SIE.DE", "RHM.DE", "SU.PA", "AIR.PA"], "Industrie en defensie"),
     **dict.fromkeys(["DTE.DE", "NFLX"], "Telecom en media"),
     **dict.fromkeys(["WKL.AS"], "Zakelijke diensten"),
+    # uitbreiding oktober 2026
+    **dict.fromkeys(["ADBE", "NOW", "INTU", "UBER", "BKNG", "CSCO", "NOKIA.HE"], "Software en internet"),
+    **dict.fromkeys(["QCOM", "TXN", "AMAT", "LRCX", "KLAC"], "Chips"),
+    **dict.fromkeys(["PG", "HD", "PEP", "KO", "WMT", "MCD", "NKE", "DIS", "UNA.AS", "MBG.DE", "BMW.DE", "ADS.DE",
+                     "RMS.PA", "EL.PA", "ITX.MC", "RACE.MI", "UMG.AS"], "Consument"),
+    **dict.fromkeys(["BRK-B", "MA", "BAC", "GS", "MS", "ABN.AS", "NN.AS", "ASRNL.AS", "MUV2.DE", "DBK.DE", "DB1.DE",
+                     "CS.PA", "SAN.MC", "ISP.MI", "UCG.MI"], "Financieel"),
+    **dict.fromkeys(["CVX"], "Energie"),
+    **dict.fromkeys(["UNH", "JNJ", "ABBV", "MRK", "ISRG", "TMO", "ABT", "PHIA.AS", "BAYN.DE", "SAN.PA"], "Zorg"),
+    **dict.fromkeys(["CAT", "GE", "RTX", "LMT", "HON", "UNP", "MTX.DE", "ENR.DE", "SAF.PA", "DG.PA", "HO.PA"],
+                    "Industrie en defensie"),
+    **dict.fromkeys(["T", "VZ", "KPN.AS"], "Telecom en media"),
+    **dict.fromkeys(["RAND.AS"], "Zakelijke diensten"),
+    **dict.fromkeys(["NEE", "IBE.MC", "ENEL.MI"], "Nutsbedrijven"),
+    **dict.fromkeys(["LIN", "AKZA.AS", "MT.AS", "DSFIR.AS", "BAS.DE", "AI.PA"], "Grondstoffen en chemie"),
     **dict.fromkeys(["SPY", "IWDA.AS"], "Brede markt"),
     **dict.fromkeys(["GLD"], "Goud"),
 }

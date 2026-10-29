@@ -771,7 +771,7 @@
     <!-- ONDERZOEK -->
     <section class="tx-page" id="pg-onderzoek" role="tabpanel" aria-labelledby="onderzoek" hidden>
       <div class="tx-top" style="align-items:flex-start">
-        <p class="tx-what" style="padding:0">Elke zaterdag test de bot zijn regels op 5 jaar echte koersen, alsof hij toen al met €10.000 nepgeld begon. Zo zie je of hij op lange termijn winst maakt, en of een nieuwe regel beter zou werken.</p>
+        <p class="tx-what" style="padding:0">Elke zaterdag test de bot zijn regels op 10 jaar echte koersen, alsof hij toen al met €10.000 nepgeld begon. Zo zie je of hij op lange termijn winst maakt, en of een nieuwe regel beter zou werken.</p>
         <span class="tx-chipday" id="ond-dag" data-source="onderzoek">—</span>
       </div>
       <div class="ap" id="od-app" data-source="onderzoek onderzoek_samenvatting github"></div>
@@ -779,7 +779,7 @@
       <div class="tx-answers" id="ond-antwoorden" data-source="onderzoek_antwoord"></div>
 
       <div class="tx-card" id="card-vergelijk">
-        <div class="tx-card-h"><h2>Wat werd €10.000 na 5 jaar?</h2></div>
+        <div class="tx-card-h"><h2>Wat werd €10.000 na 10 jaar?</h2></div>
         <p class="tx-what">Na alle kosten. De grijze balk is wat je had gehad met gewoon een wereldwijd beursfonds (wereld-ETF) kopen en vasthouden.</p>
         <div class="tx-card-b"><div id="ond-vergelijk" data-source="onderzoek"></div></div>
       </div>
@@ -1671,7 +1671,7 @@ dash.calc('trendreeks', {
 // Wekelijks onderzoek
 dash.calc('onderzoek_antwoord', {
   title: 'Onderzoek: de antwoorden',
-  description: 'Drie antwoorden in gewone taal uit het wekelijkse onderzoek: maakt elke bot winst over 5 jaar tegenover de wereld-ETF, en is er een nieuwe regel overgenomen.',
+  description: 'Drie antwoorden in gewone taal uit het wekelijkse onderzoek: maakt elke bot winst over 10 jaar tegenover de wereld-ETF, en is er een nieuwe regel overgenomen.',
   inputs: ['onderzoek'],
   fn: (onderzoek) => {
     const rows = onderzoek.filter((r) => !r.leeg);
@@ -2437,7 +2437,7 @@ dash.calc('onderzoek_verschil', {
     box.hidden = !vs.length;
     if (!vs.length) return;
     box.replaceChildren(el('b', {}, 'Er wacht een voorstel op jou'),
-      el('span', {}, 'Het onderzoek vond een regel die over 5 jaar én in de laatste jaren duidelijk beter werkte. De bot neemt hem pas over als jij op GitHub op Merge drukt. Daarna gebruikt de trend-agent hem, en het oefenaccount volgt automatisch.'),
+      el('span', {}, 'Het onderzoek vond een regel die over 10 jaar én in de laatste jaren duidelijk beter werkte. De bot neemt hem pas over als jij op GitHub op Merge drukt. Daarna gebruikt de trend-agent hem, en het oefenaccount volgt automatisch.'),
       ...vs.map((v) => { const a = el('a', { href: v.link, target: '_blank', rel: 'noopener' }, (v.titel || 'Bekijk het voorstel') + ' →'); return a; }));
   });
 })();
@@ -3225,12 +3225,13 @@ dash.calc('onderzoek_verschil', {
     if (!rows.length) { box.replaceChildren(el('p', { class: 'tx-empty' }, (O.data[0] && O.data[0].reden) || 'Het onderzoek draait elke zaterdag.')); return; }
     const prod = Object.fromEntries(rows.filter((r) => r.oordeel === 'productie').map((r) => [r.bot, r]));
     const getest = rows.filter((r) => r.oordeel !== 'productie');
+    const J = (rows.find((r) => r.jaren) || {}).jaren || 5;
     const goed = getest.filter((r) => r.oordeel === 'aanbevolen');
     const voorstel = G.status === 'ok' ? window.tx.real(G.data).filter((r) => r.soort === 'voorstel') : [];
     const left = el('div', { class: 'ap-col' }), right = el('div', { class: 'ap-col' });
     // conclusie
     const hero = el('div', { class: 'ap-hero od-hero' });
-    const lbl = el('div', { class: 'lbl' }); lbl.append(el('span', {}, 'Wekelijks onderzoek · 5 jaar koersen'), el('span', {}, D(rows[0].datum)));
+    const lbl = el('div', { class: 'lbl' }); lbl.append(el('span', {}, 'Wekelijks onderzoek · ' + J + ' jaar koersen'), el('span', {}, D(rows[0].datum)));
     const titel = voorstel.length || goed.length ? 'Er is een betere regel gevonden' : 'Huidige regels blijven';
     const zin = voorstel.length || goed.length
       ? 'Een nieuwe regel werkte bewezen beter. Hij staat als voorstel klaar op GitHub; de bot gebruikt hem pas als jij op Merge drukt.'
@@ -3243,7 +3244,7 @@ dash.calc('onderzoek_verschil', {
     voorstel.forEach((v) => { const a = el('a', { href: v.link, target: '_blank', rel: 'noopener', class: 'tx-orderbtn', style: 'justify-self:start;text-decoration:none' }, 'Bekijk het voorstel op GitHub →'); hero.append(a); });
     left.append(hero);
     // wat werd €10.000
-    const ws = sec('Wat werd €10.000 in 5 jaar?', 'na alle kosten');
+    const ws = sec('Wat werd €10.000 in ' + J + ' jaar?', 'na alle kosten');
     const bars = [];
     if (prod['Investeerder']) bars.push(['Investeerder', 'inv', prod['Investeerder']]);
     if (prod['Trend-agent']) bars.push(['Trend-agent', 'tr', prod['Trend-agent']]);
@@ -3255,7 +3256,7 @@ dash.calc('onderzoek_verschil', {
     bars.forEach(([n, k, r]) => {
       const b = el('div', { class: 'od-bar ' + k }); const h = el('div', { class: 'h' }); h.append(el('span', {}, n), el('b', {}, eur0.format(r.eindwaarde)));
       const t = el('div', { class: 't' }); const sp = el('span'); sp.style.width = (r.eindwaarde / max * 100) + '%'; t.append(sp);
-      b.append(h, t, el('small', {}, pct(r.totaal, 1) + ' in 5 jaar' + (k === 'etf' ? ' · gewoon kopen en vasthouden' : '') + (r.per_jaar != null ? ' · ' + pct(r.per_jaar, 1) + ' per jaar · grootste daling ' + pct(r.max_daling, 1) : '')));
+      b.append(h, t, el('small', {}, pct(r.totaal, 1) + ' in ' + J + ' jaar' + (k === 'etf' ? ' · gewoon kopen en vasthouden' : '') + (r.per_jaar != null ? ' · ' + pct(r.per_jaar, 1) + ' per jaar · grootste daling ' + pct(r.max_daling, 1) : '')));
       bw.append(b);
     });
     ws.append(bw, el('p', { class: 'tx-note', style: 'margin:0 0 8px' }, 'Periode ' + String(rows[0].periode || '').replace(/(\d{4})-(\d{2})-(\d{2})/g, (m, y, mo, d) => +d + '-' + +mo + '-' + y) + '. Uit het verleden, dus geen garantie voor later. De score in de toetsen is winst gedeeld door de schommelingen: hoger is beter.'));
@@ -3865,7 +3866,7 @@ svg.staand .sn text { font-size: 14px; } svg.staand .sn text.sub { font-size: 12
     oefen: { k: 2, y: 230, type: 'bot', t: 'Oefenaccount', d: 'Doet bij Trading 212 na wat de trend-agent doet, met marktorders bij de opening.' },
     day: { k: 2, y: 330, type: 'bot', t: 'Daytrader', d: 'Koopt een aandeel dat in de ochtend sterk uitbreekt en verkoopt alles voor het slot. Op beursdagen is hij de hele dag aanwezig en kijkt hij elk kwartier: tot 12:30 New Yorkse tijd om te kopen, daarna om zijn posities te bewaken.' },
     rem: { k: 2, y: 420, type: 'bot', t: 'Remmen', d: 'De noodrem (kill switch) en de grenzen per dag en vanaf de top. Gaat hij aan, dan koopt de trend-agent niets nieuws; stop-losses blijven werken.' },
-    onderz: { k: 3, y: 30, type: 'onderzoek', t: 'Weekonderzoek', d: 'Test elke zaterdag varianten van de regels op 5 jaar koersen. Een bewezen betere regel wordt een voorstel voor jou.' },
+    onderz: { k: 3, y: 30, type: 'onderzoek', t: 'Weekonderzoek', d: 'Test elke zaterdag varianten van de regels op 10 jaar koersen, met ruim 120 aandelen. Een bewezen betere regel wordt een voorstel voor jou.' },
     labelT: { k: 3, y: 130, type: 'onderzoek', t: 'Label koopsignalen', d: 'Geeft elke kans van de trend-agent een label (gunstig, gemiddeld, ongunstig) uit eerdere koopsignalen. Alleen informatie.' },
     onderzD: { k: 3, y: 260, type: 'onderzoek', t: 'Daytrade-onderzoek', d: 'Speelt elke zaterdag de regels van de daytrader na op de 5-minutenkoersen en bewaart koersen en uitbraken.' },
     labelD: { k: 3, y: 360, type: 'onderzoek', t: 'Label uitbraken', d: 'Geeft bij elke kans van de daytrader een label uit eerdere uitbraken. Alleen informatie.' },

@@ -71,6 +71,9 @@ def main(argv: list[str] | None = None) -> int:
     ds = sub.add_parser("daytrade-sessie", help="beursdag van de daytrade-bot: elk kwartier een ronde (koop- of middagdeel)")
     ds.add_argument("--deel", choices=["koop", "middag"], default="koop")
     ds.add_argument("--opslaan", action="store_true", help="na elke ronde opslaan op GitHub (alleen in de workflow)")
+    bw = sub.add_parser("bewaker", help="stop-losses bewaken in het oefenaccount (elk kwartier, 09:00-22:00)")
+    bw.add_argument("--sessie", action="store_true", help="blijven kijken tot 22:00 (in de workflow)")
+    bw.add_argument("--opslaan", action="store_true", help="na een ronde opslaan op GitHub (alleen in de workflow)")
     sub.add_parser("daytrade-archief", help="de 5-minutenkoersen van de laatste dagen bewaren (na elke beursdag)")
     sub.add_parser("daytrade-test", help="daytrade-bot testen op de 5-minutenkoersen van de afgelopen ~60 beursdagen")
     hc = sub.add_parser("health", help="gezondheid van de laatste rondes tonen")
@@ -116,6 +119,29 @@ def main(argv: list[str] | None = None) -> int:
         if os.environ.get("GITHUB_OUTPUT"):
             with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
                 f.write(f"middag={'true' if verder else 'false'}\n")
+        return 0
+    if args.cmd == "bewaker":
+        import os
+        import subprocess
+
+        from . import bewaker
+
+        def na_ronde(v):
+            for regel in v.get("log", []):
+                print("  " + regel, flush=True)
+            # Opslaan als er iets gebeurde, en verder één keer per uur (anders 50 commits per dag).
+            if args.opslaan and (v.get("verkocht") or v.get("status") != "ok" or datetime.now(timezone.utc).minute < 15):
+                subprocess.run(["bash", "scripts/opslaan.sh", "Bewaker - stop-losses gecontroleerd", "state/bewaker.json"],
+                               check=False)
+        if not args.sessie:
+            na_ronde(bewaker.ronde(s.state_dir))
+            return 0
+        regels, verder = bewaker.sessie(s.state_dir, na_ronde=na_ronde)
+        for r in regels:
+            print(r)
+        if os.environ.get("GITHUB_OUTPUT"):
+            with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
+                f.write(f"verder={'true' if verder else 'false'}\n")
         return 0
     if args.cmd == "daytrade-archief":
         from .daytrade_archief import bewaar

@@ -4,7 +4,7 @@ name: status
 
 on:
   workflow_run:
-    workflows: [practice, onderzoek, backtest, tests, diagnose, broker, daytrade, daytrade-sessie]
+    workflows: [practice, onderzoek, backtest, tests, diagnose, broker, daytrade, daytrade-sessie, bewaker]
     types: [completed]
   schedule:
     - cron: "23 5 * * *"

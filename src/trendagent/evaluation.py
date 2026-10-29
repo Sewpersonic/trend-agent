@@ -236,6 +236,7 @@ def metrics_row(r: VariantResult, days: list[date]) -> dict:
     tot = total_return(r.equity)
     return {
         "totaal": tot,
+        "jaren": round(years),
         "per_jaar": (1 + tot) ** (1 / max(years, 1e-9)) - 1 if tot > -1 else -1,
         "max_daling": max_drawdown(r.equity),
         "sharpe": sharpe(r.equity),

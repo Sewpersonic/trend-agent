@@ -37,8 +37,8 @@ MAX_STALE_MIN = 20       # laatste blok van de markt (SPY) mag hooguit zo oud zi
 
 
 def tickers() -> list[str]:
-    from .universe import UNIVERSE
-    return [i.ticker for i in UNIVERSE if i.region == "US"]
+    from .universe import DAYTRADE
+    return list(DAYTRADE)
 
 
 def fetch(tks: list[str], period: str) -> dict[str, list[Bar5]]:

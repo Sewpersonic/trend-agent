@@ -14,7 +14,7 @@ on:
     inputs:
       years:
         description: "Aantal jaren terug"
-        default: "5"
+        default: "10"
 
 permissions:
   contents: write
@@ -26,7 +26,7 @@ concurrency:
 jobs:
   backtest:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 90
     env:
       PAPER_TRADING: "true"
     steps:
@@ -37,8 +37,8 @@ jobs:
       - run: pip install -e ".[backtest]"
       - name: Backtest
         run: |
-          python -m trendagent backtest --years "${{ github.event.inputs.years || '5' }}"
-          python -m trendagent backtest --years "${{ github.event.inputs.years || '5' }}" --strategie controles
+          python -m trendagent backtest --years "${{ github.event.inputs.years || '10' }}"
+          python -m trendagent backtest --years "${{ github.event.inputs.years || '10' }}" --strategie controles
           cat backtest/*/RAPPORT.md >> "$GITHUB_STEP_SUMMARY"
       - name: Resultaten opslaan
         run: bash scripts/opslaan.sh "Backtest $(date -u +%F)" backtest/

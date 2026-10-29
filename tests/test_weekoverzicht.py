@@ -80,19 +80,19 @@ class VolglijstTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             d = Path(d)
             cfg = d / "v.json"
-            cfg.write_text(json.dumps({"items": [{"ticker": "WMT", "naam": "Walmart"}, {"ticker": "MSFT"},
-                                                  {"ticker": "PHIA.AS", "naam": "Philips"}]}))
+            cfg.write_text(json.dumps({"items": [{"ticker": "IBM", "naam": "IBM"}, {"ticker": "MSFT"},
+                                                  {"ticker": "VUSA.AS", "naam": "Vanguard S&P 500"}]}))
             (d / "t212_instrumenten.json").write_text(json.dumps({"dag": "x", "items": [
-                {"ticker": "WMT_US_EQ", "currencyCode": "USD", "shortName": "WMT", "type": "STOCK"}]}))
+                {"ticker": "IBM_US_EQ", "currencyCode": "USD", "shortName": "IBM", "type": "STOCK"}]}))
             insts = volglijst.load(cfg)
-            self.assertEqual([i.ticker for i in insts], ["WMT", "PHIA.AS"])  # MSFT zit al bij de bots
+            self.assertEqual([i.ticker for i in insts], ["IBM", "VUSA.AS"])  # MSFT zit al bij de bots
             self.assertEqual(insts[1].currency, "EUR")
             today = date(2026, 10, 15)
             rows = volglijst.build(cfg, d, SimulatedProvider(end=today), Settings(), today)
             by = {r["ticker"]: r for r in rows}
-            self.assertTrue(by["WMT"]["bij_t212"])
-            self.assertEqual(by["WMT"]["t212"], "WMT_US_EQ")
-            self.assertFalse(by["PHIA.AS"]["bij_t212"])
+            self.assertTrue(by["IBM"]["bij_t212"])
+            self.assertEqual(by["IBM"]["t212"], "IBM_US_EQ")
+            self.assertFalse(by["VUSA.AS"]["bij_t212"])
             for r in rows:
                 self.assertIn(r["trend"], ("stijgend", "dalend", "zijwaarts", "onbekend"))
                 self.assertLessEqual(len(r["lijn"].split(",")), 60)
