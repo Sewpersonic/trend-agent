@@ -1,22 +1,22 @@
 # Backtest trend-agent
 
-Periode **2021-10-29 t/m 2026-10-29** (ongeveer 5 jaar), startkapitaal €10.000 nepgeld, 52 instrumenten met koersdata. Zelfde regels, kosten en slippage als bij het dagelijks oefenen.
+Periode **2016-10-29 t/m 2026-10-29** (ongeveer 10 jaar), startkapitaal €10.000 nepgeld, 131 instrumenten met koersdata. Zelfde regels, kosten en slippage als bij het dagelijks oefenen.
 
 > Dit is geen voorspelling. Het laat zien hoe deze regels het in het verleden hadden gedaan.
 
 ## In het kort
 
-- Over de hele periode deed de trend-agent het slechter dan gewoon de wereld-ETF vasthouden (+11,8% tegen +73,6%).
-- Zijn grootste daling was -6,1%, tegen -21,6% voor de ETF.
-- In 55% van alle periodes van 4 weken stond de trend-agent aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -3,0%, het beste +3,3%.
+- Over de hele periode deed de trend-agent het slechter dan gewoon de wereld-ETF vasthouden (+13,3% tegen +236,3%).
+- Zijn grootste daling was -10,4%, tegen -33,6% voor de ETF.
+- In 54% van alle periodes van 4 weken stond de trend-agent aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -4,0%, het beste +3,2%.
 
 ## Totaal
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Trend-agent | +11,8% | +2,3% | -6,1% | 0,43 | €11.170 |
-| MSCI World-ETF (IWDA) | +73,6% | +11,7% | -21,6% | 0,71 | €17.362 |
-| S&P 500-ETF (SPY, in euro) | +87,1% | +13,4% | -23,0% | 0,63 | €18.711 |
+| Trend-agent | +13,3% | +1,3% | -10,4% | 0,25 | €11.326 |
+| MSCI World-ETF (IWDA) | +236,3% | +12,9% | -33,6% | 0,73 | €33.630 |
+| S&P 500-ETF (SPY, in euro) | +313,3% | +15,2% | -33,1% | 0,69 | €41.329 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
 
@@ -24,12 +24,17 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 
 | Jaar | Trend-agent | MSCI World-ETF (IWDA) | S&P 500-ETF (SPY, in euro) |
 | --- | --- | --- | --- |
-| 2021 | +0,3% | +4,3% | +7,1% |
-| 2022 | -4,7% | -13,5% | -13,1% |
-| 2023 | +2,6% | +19,9% | +21,5% |
-| 2024 | +6,1% | +27,2% | +32,8% |
-| 2025 | +2,9% | +7,1% | +4,3% |
-| 2026 | +4,3% | +17,9% | +19,4% |
+| 2016 | +1,7% | +7,5% | +9,0% |
+| 2017 | +0,1% | +7,5% | +7,8% |
+| 2018 | -0,5% | -4,2% | -0,4% |
+| 2019 | +2,7% | +29,6% | +34,0% |
+| 2020 | +2,7% | +6,2% | +7,8% |
+| 2021 | +2,8% | +32,5% | +39,8% |
+| 2022 | -6,9% | -13,5% | -13,1% |
+| 2023 | +5,3% | +19,9% | +21,5% |
+| 2024 | +3,1% | +27,2% | +32,8% |
+| 2025 | +1,6% | +7,1% | +4,3% |
+| 2026 | +0,5% | +17,9% | +19,5% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 
@@ -37,16 +42,16 @@ Dit beantwoordt de vraag "wat kan er in een paar weken gebeuren?": elk mogelijk 
 
 | | Hoger geëindigd | Normaal (mediaan) | Slecht (1 op 20) | Slechtste | Beste |
 | --- | --- | --- | --- | --- | --- |
-| Trend-agent | 55% | +0,1% | -1,5% | -3,0% | +3,3% |
-| MSCI World-ETF (IWDA) | 63% | +1,0% | -5,2% | -14,0% | +12,3% |
-| S&P 500-ETF (SPY, in euro) | 64% | +1,0% | -5,4% | -13,0% | +13,4% |
+| Trend-agent | 54% | +0,1% | -1,6% | -4,0% | +3,2% |
+| MSCI World-ETF (IWDA) | 65% | +1,1% | -4,8% | -27,7% | +21,1% |
+| S&P 500-ETF (SPY, in euro) | 66% | +1,2% | -5,1% | -28,7% | +22,1% |
 
 ## Trades
 
-- Aankopen: 322, afgesloten: 317, waarvan winst: 35%
-- Gemiddelde winst: €40, gemiddeld verlies: €-17, profit factor: 1,27
-- Gemiddeld vastgehouden: 26 dagen; totale kosten: €639
-- Kill switch aangegaan: 38 keer (2021-12-06: 4 verliestrades op rij; 2022-01-13: 4 verliestrades op rij; 2022-01-21: 3 verliestrades op rij; 2022-05-09: 3 verliestrades op rij; 2022-06-17: 4 verliestrades op rij; 2022-08-01: 3 verliestrades op rij …)
+- Aankopen: 625, afgesloten: 620, waarvan winst: 35%
+- Gemiddelde winst: €42, gemiddeld verlies: €-20, profit factor: 1,12
+- Gemiddeld vastgehouden: 27 dagen; totale kosten: €1.245
+- Kill switch aangegaan: 75 keer (2016-11-02: 3 verliestrades op rij; 2016-12-01: 3 verliestrades op rij; 2017-03-03: 3 verliestrades op rij; 2017-05-17: dagverlies groter dan 1%; 2017-07-24: 3 verliestrades op rij; 2017-09-20: 3 verliestrades op rij …)
 
 ## Belangrijke kanttekeningen
 
