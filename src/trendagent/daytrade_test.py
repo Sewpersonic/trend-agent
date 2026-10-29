@@ -9,7 +9,7 @@ from __future__ import annotations
 import csv
 import json
 import time as _time
-from datetime import datetime, timezone
+from datetime import datetime, time, timezone
 from pathlib import Path
 
 from .daytrader import NY, Bar5, Params, backtest, split_days, variant
@@ -77,6 +77,9 @@ VARIANTEN = {
     "zonder marktfilter": {"market_filter": False},
     "openingsrange 15 minuten": {"or_min": 15},
     "minder streng op volume (1,0x)": {"min_rvol": 1.0},
+    # Nu de minuten op GitHub gratis zijn kan hij vaker kijken; toetsen of dat iets oplevert.
+    "elke 5 minuten kijken": {"check_every": 5},
+    "alleen kopen tot 11:00": {"entry_until": time(11, 0)},
 }
 
 

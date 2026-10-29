@@ -71,6 +71,7 @@ def main(argv: list[str] | None = None) -> int:
     ds = sub.add_parser("daytrade-sessie", help="beursdag van de daytrade-bot: elk kwartier een ronde (koop- of middagdeel)")
     ds.add_argument("--deel", choices=["koop", "middag"], default="koop")
     ds.add_argument("--opslaan", action="store_true", help="na elke ronde opslaan op GitHub (alleen in de workflow)")
+    sub.add_parser("daytrade-archief", help="de 5-minutenkoersen van de laatste dagen bewaren (na elke beursdag)")
     sub.add_parser("daytrade-test", help="daytrade-bot testen op de 5-minutenkoersen van de afgelopen ~60 beursdagen")
     hc = sub.add_parser("health", help="gezondheid van de laatste rondes tonen")
     hc.add_argument("--check", action="store_true", help="foutcode 1 als er iets mis is")
@@ -115,6 +116,12 @@ def main(argv: list[str] | None = None) -> int:
         if os.environ.get("GITHUB_OUTPUT"):
             with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
                 f.write(f"middag={'true' if verder else 'false'}\n")
+        return 0
+    if args.cmd == "daytrade-archief":
+        from .daytrade_archief import bewaar
+        from .daytrade_test import download
+        gewijzigd = bewaar(download(period="5d"))
+        print(f"5-minutenkoersen bewaard: {len(gewijzigd)} weekbestand(en) bijgewerkt.")
         return 0
     if args.cmd == "daytrade-test":
         from .daytrade_test import run as _dtt

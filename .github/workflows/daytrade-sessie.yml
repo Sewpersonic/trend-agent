@@ -81,3 +81,8 @@ jobs:
       - name: Middagdeel starten
         if: steps.sessie.outputs.middag == 'true'
         run: gh workflow run daytrade-sessie.yml -R "$GITHUB_REPOSITORY" -f deel=middag
+      - name: 5-minutenkoersen van vandaag bewaren
+        if: steps.nodig.outputs.ja == 'true' && env.DEEL == 'middag'
+        run: |
+          python -m trendagent daytrade-archief || echo "Bewaren lukte niet; zaterdag probeert het onderzoek het opnieuw."
+          bash scripts/opslaan.sh "Daytrade-bot - 5-minutenkoersen bewaard" backtest/daytrade/koersen/ || true
