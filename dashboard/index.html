@@ -3929,18 +3929,35 @@ dash.calc('onderzoek_verschil', {
 .sys-status.letop .ic { background: var(--color-warn); } .sys-status.fout .ic { background: var(--color-bad); }
 .sys-status b { font-size: 20px; line-height: 1.25; }
 .sys-status small { font-size: 14px; color: var(--color-fg-muted); }
-.sys-kaart { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 12px; padding: 16px; display: grid; gap: 14px; }
-.sys-start { display: grid; grid-template-columns: auto repeat(3, minmax(0, 1fr)); gap: 10px; align-items: stretch; }
+.sys-kaart { --sys-koers: #3b6fd4; --sys-start: #d0742c; --sys-order: #2f8a4c; --sys-leer: #8e44ad; --sys-jij: #1f9a9a; background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 12px; padding: 16px; display: grid; gap: 22px; position: relative; }
+.sys-lijnen { position: absolute; left: 0; top: 0; pointer-events: none; z-index: 0; overflow: visible; }
+.sys-kaart > :not(.sys-lijnen) { position: relative; z-index: 1; }
+.sys-lijnen.boven { z-index: 2; }
+.sl { fill: none; stroke-width: 1.4; opacity: .28; transition: opacity .15s; }
+.sl.start { stroke-dasharray: 5 4; } .sl.beslis { stroke-dasharray: 2 4; stroke-width: 1.8; } .sl.opslag, .sl.toon { opacity: .16; }
+.sys-kaart.focus .sl { opacity: .05; } .sys-kaart.focus .sl.aan { opacity: 1; stroke-width: 2.4; }
+.sl-t { font-size: 11px; text-anchor: middle; dominant-baseline: middle; font-weight: 600; }
+.sl-bg { fill: var(--color-panel); stroke: var(--color-border-line); }
+.sys-leg { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--color-fg-muted); align-items: center; }
+.sys-leg .lt { font-weight: 600; }
+.sys-leg span { display: inline-flex; align-items: center; gap: 6px; }
+.sys-leg i { width: 22px; height: 0; border-top: 2px solid; display: inline-block; }
+.sys-leg i.start { border-top-style: dashed; } .sys-leg i.beslis { border-top-style: dotted; border-top-width: 3px; }
+@media (max-width: 760px) { .sl { opacity: 0; } .sys-kaart.focus .sl.aan { opacity: 1; } }
+@media (max-width: 520px) { .sys-lijnen { display: none; } .sys-leg { display: none; } }
+.sys-start { display: grid; grid-template-columns: auto repeat(3, minmax(0, 1fr)); gap: 10px 40px; align-items: stretch; }
 .sys-start > .lb { align-self: center; font-size: 13px; color: var(--color-fg-muted); text-transform: uppercase; letter-spacing: .06em; padding-right: 6px; }
-.sys-banen { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+.sys-banen { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px 52px; }
+.sys-baan { gap: 14px !important; }
+.sys-blok { background: var(--color-panel) !important; }
 .sys-baan { display: grid; gap: 10px; align-content: start; position: relative; min-width: 0; }
 .sys-baan h3 { margin: 0; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--color-fg-muted); display: flex; align-items: center; gap: 8px; min-height: 22px; }
 .sys-baan h3 i { font-style: normal; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--tx-soft); color: var(--tx-accent); font-size: 12px; font-weight: 700; letter-spacing: 0; }
-.sys-baan:not(:last-child)::after { content: '›'; position: absolute; right: -12px; top: 0; font-size: 22px; line-height: 22px; color: var(--color-fg-muted); }
+.sys-baan:not(:last-child)::after { content: '›'; position: absolute; right: -26px; top: 0; font-size: 22px; line-height: 22px; color: var(--color-fg-muted); }
 .sys-blok { all: unset; box-sizing: border-box; cursor: pointer; display: grid; gap: 3px; padding: 11px 12px 11px 15px; border-radius: 10px; border: 1px solid var(--color-border-line); background: var(--color-bg); position: relative; min-width: 0; transition: opacity .15s, border-color .15s; }
 .sys-blok::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 4px; border-radius: 0 3px 3px 0; background: var(--kl); }
 .sys-blok .t { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; min-width: 0; }
-.sys-blok .t span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sys-blok .t span { min-width: 0; overflow-wrap: anywhere; line-height: 1.25; }
 .sys-blok .t .st { margin-left: auto; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--color-ok); }
 .sys-blok.letop .t .st { background: var(--color-warn); } .sys-blok.fout .t .st { background: var(--color-bad); }
 .sys-blok .s { font-size: 13px; color: var(--color-fg-muted); line-height: 1.35; font-variant-numeric: tabular-nums; }
@@ -3957,8 +3974,10 @@ dash.calc('onderzoek_verschil', {
 .sys-info h3 small { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
 .sys-info p { margin: 0; max-width: 90ch; }
 .sys-info .nu { font-variant-numeric: tabular-nums; }
-.sys-info .rel { display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 14px; }
-.sys-info .rel span { color: var(--color-fg-muted); margin-right: 6px; }
+.sys-info .rel { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 4px 22px; font-size: 14px; }
+.sys-info .rel li { display: block; padding-left: 18px; text-indent: -18px; }
+.sys-info .rel li i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; text-indent: 0; }
+.sys-info .rel b { font-weight: 600; }
 .sys-info .kref { border-left: 3px solid var(--color-warn); padding: 6px 10px; border-radius: 0 6px 6px 0; background: color-mix(in srgb, var(--color-warn) 10%, transparent); }
 .sys-info .kref.fout { border-color: var(--color-bad); background: color-mix(in srgb, var(--color-bad) 10%, transparent); }
 .sys-info .kref.mens { border-color: var(--color-fg-muted); background: color-mix(in srgb, var(--color-fg) 5%, transparent); }
@@ -3976,7 +3995,7 @@ dash.calc('onderzoek_verschil', {
 .sk .op { color: var(--color-fg-muted); } .sk .op b { color: var(--color-fg); }
 .sk button { justify-self: start; font: inherit; font-size: 13px; color: var(--tx-accent); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 @media (max-width: 1180px) {
-  .sys-banen { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 22px; }
+  .sys-banen { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 30px; column-gap: 34px; }
   .sys-baan:nth-child(3)::after { display: none; }
 }
 @media (max-width: 760px) {
@@ -4034,13 +4053,27 @@ dash.calc('onderzoek_verschil', {
     dash: { type: 'opslag', t: 'Dashboard', d: 'Deze pagina. Leest de cijfers die de Claude-taken uploaden; heeft zelf geen sleutels.' },
     jij: { type: 'jij', t: 'Jij', d: 'Jij beslist: voorstellen overnemen of niet, regels aanzetten, de noodrem en handmatige orders. De bots veranderen hun eigen regels nooit.' },
   };
+  // Ontologie: [van, naar, soort relatie, werkwoord]
   const E = [
-    ['yahoo', 'trend'], ['yahoo', 'invest'], ['yahoo', 'onderz'], ['yahoo', 'labelT'], ['yahoo', 'bewaker'], ['vijfmin', 'day'], ['vijfmin', 'onderzD'],
-    ['t212', 'oefen'], ['t212', 'bewaker'], ['cron', 'trend'], ['cron', 'invest'], ['cron', 'onderz'], ['cron', 'onderzD'], ['cron', 'day'], ['cron', 'bewaker'],
-    ['uur', 'oefen'], ['uur', 'day'], ['uur', 'bewaker'], ['uur', 'dash'], ['ochtend', 'dash'], ['trend', 'oefen'], ['trend', 'bewaker'], ['bewaker', 'oefen'], ['rem', 'trend'], ['rem', 'day'], ['rem', 'bewaker'],
-    ['trend', 'repo'], ['invest', 'repo'], ['oefen', 'repo'], ['bewaker', 'repo'], ['day', 'repo'], ['onderz', 'repo'], ['onderz', 'labelT'], ['labelT', 'dash'], ['onderzD', 'labelD'], ['labelD', 'day'],
-    ['repo', 'dash'], ['dash', 'jij'], ['onderz', 'jij'], ['jij', 'trend'], ['jij', 'oefen'], ['jij', 'day'], ['jij', 'rem'],
+    ['yahoo', 'trend', 'koers', 'levert koersen aan'], ['yahoo', 'invest', 'koers', 'levert koersen aan'], ['yahoo', 'onderz', 'koers', 'levert koersen aan'],
+    ['yahoo', 'labelT', 'koers', 'levert koersen aan'], ['yahoo', 'bewaker', 'koers', 'levert de controlekoers aan'],
+    ['vijfmin', 'day', 'koers', 'levert koersen aan'], ['vijfmin', 'onderzD', 'koers', 'levert koersen aan'],
+    ['t212', 'oefen', 'koers', 'houdt het geld en de aandelen van'], ['t212', 'bewaker', 'koers', 'levert de live koers aan'],
+    ['cron', 'trend', 'start', 'start elke nacht'], ['cron', 'invest', 'start', 'start elke nacht'], ['cron', 'onderz', 'start', 'start op zaterdag'],
+    ['cron', 'onderzD', 'start', 'start op zaterdag'], ['cron', 'day', 'start', 'start op beursdagen'], ['cron', 'bewaker', 'start', 'start op werkdagen'],
+    ['uur', 'oefen', 'start', 'controleert elk uur'], ['uur', 'day', 'start', 'start als reserve'], ['uur', 'bewaker', 'start', 'start als reserve'],
+    ['uur', 'dash', 'toon', 'zet elk uur cijfers op'], ['ochtend', 'dash', 'toon', 'zet elke ochtend alles op'],
+    ['trend', 'oefen', 'order', 'stuurt orders naar', 'orders'], ['trend', 'bewaker', 'order', 'geeft stop-losses aan', 'stop-losses'], ['bewaker', 'oefen', 'order', 'verkoopt bij de stop-loss in', 'verkoopt'],
+    ['rem', 'trend', 'rem', 'remt'], ['rem', 'day', 'rem', 'remt'], ['rem', 'bewaker', 'rem', 'remt'],
+    ['trend', 'repo', 'opslag', 'bewaart stand en trades in'], ['invest', 'repo', 'opslag', 'bewaart stand en trades in'], ['oefen', 'repo', 'opslag', 'bewaart de stand in'],
+    ['bewaker', 'repo', 'opslag', 'bewaart zijn rondes in'], ['day', 'repo', 'opslag', 'bewaart stand en trades in'], ['onderz', 'repo', 'opslag', 'bewaart de uitkomst in'],
+    ['onderz', 'labelT', 'leer', 'maakt'], ['labelT', 'dash', 'toon', 'staat bij Kansen op'], ['onderzD', 'labelD', 'leer', 'maakt'], ['labelD', 'day', 'leer', 'geeft een label aan elke kans van', 'label'],
+    ['repo', 'dash', 'toon', 'levert de cijfers voor'], ['dash', 'jij', 'toon', 'laat alles zien aan'], ['onderz', 'jij', 'beslis', 'doet een voorstel aan'],
+    ['jij', 'trend', 'beslis', 'beslist over de regels van'], ['jij', 'oefen', 'beslis', 'zet orders aan of uit voor'], ['jij', 'day', 'beslis', 'beslist over de regels van'], ['jij', 'rem', 'beslis', 'bedient'],
   ];
+  const KORT = { koers: 'koersen', start: 'start', order: 'orders', rem: 'remt', leer: 'maakt', opslag: 'bewaart', toon: 'toont', beslis: 'beslist' };
+  const REL = { koers: ['koersen en geld', 'var(--sys-koers)'], start: ['starten', 'var(--sys-start)'], order: ['orders en stop-losses', 'var(--sys-order)'], rem: ['remmen', 'var(--color-bad)'],
+    leer: ['leren', 'var(--sys-leer)'], opslag: ['bewaren', 'var(--color-fg-muted)'], toon: ['laten zien', 'var(--color-fg-muted)'], beslis: ['jij beslist', 'var(--sys-jij)'] };
   const kleur = (type) => dash.colors[TYPE[type][1] % dash.colors.length];
   const uur = new Intl.DateTimeFormat('nl-NL', { timeZone: 'Europe/Amsterdam', weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
   let gekozen = null;
@@ -4100,24 +4133,90 @@ dash.calc('onderzoek_verschil', {
       banen.append(d);
     });
     const info = el('div', { class: 'sys-info', 'aria-live': 'polite' });
-    kaart.append(start, banen, info);
+    const NS = 'http://www.w3.org/2000/svg';
+    const mk = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs || {})) e.setAttribute(k, v); if (parent) parent.appendChild(e); return e; };
+    const laag = mk('svg', { class: 'sys-lijnen', 'aria-hidden': 'true' });
+    const boven = mk('svg', { class: 'sys-lijnen boven', 'aria-hidden': 'true' });
+    const leg = el('div', { class: 'sys-leg' });
+    leg.append(el('span', { class: 'lt' }, 'Relaties:'));
+    Object.entries(REL).forEach(([k, [t, c]]) => { const sp = el('span'); const i = el('i', { class: k }); i.style.borderColor = c; sp.append(i, document.createTextNode(t)); leg.append(sp); });
+    kaart.append(laag, start, banen, leg, info, boven);
+    const lijnen = [];
+    function tekenLijnen() {
+      const K = kaart.getBoundingClientRect();
+      if (!K.width) return;
+      [laag, boven].forEach((v) => { v.setAttribute('viewBox', `0 0 ${K.width} ${K.height}`); v.setAttribute('width', K.width); v.setAttribute('height', K.height); });
+      laag.replaceChildren(); lijnen.length = 0;
+      const defs = mk('defs', {}, laag);
+      Object.entries(REL).forEach(([k, [, c]]) => { const m = mk('marker', { id: 'sp-' + k, viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 6, markerHeight: 6, orient: 'auto-start-reverse' }, defs); mk('path', { d: 'M0,0 L10,5 L0,10 z', style: 'fill:' + c }, m); });
+      const r = (id) => { const b = blokken[id].getBoundingClientRect(); return { l: b.left - K.left, r: b.right - K.left, t: b.top - K.top, b: b.bottom - K.top, cx: (b.left + b.right) / 2 - K.left, cy: (b.top + b.bottom) / 2 - K.top, w: b.width }; };
+      const g = mk('g', {}, laag), gl = mk('g', {}, boven); gl.replaceChildren(); boven.replaceChildren(gl);
+      E.forEach(([a, b, soort, werk, kort]) => {
+        const A = r(a), B = r(b); let d;
+        const overlap = Math.min(A.r, B.r) - Math.max(A.l, B.l);
+        if (B.l > A.r + 4) { const m = (A.r + B.l) / 2; d = `M${A.r},${A.cy} C${m},${A.cy} ${m},${B.cy} ${B.l - 1},${B.cy}`; }
+        else if (B.r < A.l - 4) { const m = (A.l + B.r) / 2; d = `M${A.l},${A.cy} C${m},${A.cy} ${m},${B.cy} ${B.r + 1},${B.cy}`; }
+        else if (overlap > Math.min(A.w, B.w) * 0.6) {
+          if (Math.abs(B.t - A.b) < 40 || Math.abs(A.t - B.b) < 40) d = B.t > A.b ? `M${A.cx},${A.b} L${B.cx},${B.t - 1}` : `M${A.cx},${A.t} L${B.cx},${B.b + 1}`;
+          else { const x = Math.max(A.r, B.r) + 16; d = `M${A.r},${A.cy} C${x},${A.cy} ${x},${B.cy} ${B.r + 1},${B.cy}`; }
+        } else if (B.t > A.b) { const x = B.cx > A.cx ? B.l : B.r; d = `M${A.cx},${A.b} C${A.cx},${B.cy} ${x + (B.cx > A.cx ? -30 : 30)},${B.cy} ${x + (B.cx > A.cx ? -1 : 1)},${B.cy}`; }
+        else { d = `M${A.cx},${A.t} C${A.cx},${(A.t + B.b) / 2} ${B.cx},${(A.t + B.b) / 2} ${B.cx},${B.b + 1}`; }
+        const p = mk('path', { d, class: 'sl ' + soort, 'marker-end': 'url(#sp-' + soort + ')' }, g);
+        p.style.stroke = REL[soort][1];
+        lijnen.push({ a, b, p, werk: kort || KORT[soort], gl, soort });
+      });
+      if (gekozen) markeer(gekozen);
+    }
+    function markeer(id) {
+      lijnen.forEach((x) => x.p.classList.toggle('aan', !!id && (x.a === id || x.b === id)));
+      const gl = lijnen.length ? lijnen[0].gl : null; if (!gl) return;
+      gl.replaceChildren();
+      if (!id) return;
+      const K = kaart.getBoundingClientRect();
+      const blok = Object.values(blokken).map((e) => { const r = e.getBoundingClientRect(); return { x: r.left - K.left, y: r.top - K.top, width: r.width, height: r.height }; });
+      const bezet = [];
+      const botst = (b) => [...bezet, ...blok].some((o) => b.x < o.x + o.width + 2 && o.x < b.x + b.width + 2 && b.y < o.y + o.height && o.y < b.y + b.height);
+      const botstLabel = (b) => bezet.some((o) => b.x < o.x + o.width + 4 && o.x < b.x + b.width + 4 && b.y < o.y + o.height + 2 && o.y < b.y + b.height + 2);
+      lijnen.filter((x) => x.a === id || x.b === id).forEach((x) => {
+        const L = x.p.getTotalLength();
+        let pt = x.p.getPointAtLength(L * 0.5), t = null, bb = null;
+        let beste = null;
+        for (const f of [0.5, 0.4, 0.6, 0.3, 0.7, 0.2, 0.8, 0.12, 0.88]) {
+          pt = x.p.getPointAtLength(L * f);
+          if (t) t.remove();
+          t = mk('text', { x: pt.x, y: pt.y, class: 'sl-t' }, gl); t.textContent = x.werk; t.style.fill = REL[x.soort][1];
+          bb = t.getBBox();
+          if (!botst(bb)) { beste = null; break; }
+          if (!beste && !botstLabel(bb)) beste = { x: pt.x, y: pt.y };
+        }
+        if (beste && botst(bb)) { t.setAttribute('x', beste.x); t.setAttribute('y', beste.y); bb = t.getBBox(); }
+        bezet.push(bb);
+        const bg = mk('rect', { x: bb.x - 5, y: bb.y - 2, width: bb.width + 10, height: bb.height + 4, rx: 4, class: 'sl-bg' });
+        bg.style.stroke = REL[x.soort][1];
+        gl.insertBefore(bg, t);
+      });
+    }
+    requestAnimationFrame(tekenLijnen);
+    if (window.ResizeObserver) { const ro = new ResizeObserver(() => tekenLijnen()); ro.observe(kaart); }
 
     function kies(id) {
       if (gekozen === id) id = null;
       gekozen = id;
       kaart.classList.toggle('focus', !!id);
       Object.entries(blokken).forEach(([k, b]) => { b.classList.toggle('gekozen', k === id); b.classList.remove('rel'); });
-      if (!id) { leegInfo(); return; }
-      const van = [], naar = [];
-      E.forEach(([a, b]) => {
-        if (a === id) { blokken[b].classList.add('rel'); naar.push(N[b].t); }
-        if (b === id) { blokken[a].classList.add('rel'); van.push(N[a].t); }
+      if (!id) { markeer(null); leegInfo(); return; }
+      const zinnen = [];
+      E.forEach(([a, b, soort, werk]) => {
+        if (a === id || b === id) { blokken[a === id ? b : a].classList.add('rel'); zinnen.push([a, b, soort, werk]); }
       });
+      markeer(id);
       const n = N[id], l = live[id] || {};
       const h = el('h3', {}, n.t); const ty = el('small', {}, TYPE[n.type][0]); ty.style.color = kleur(n.type); h.append(ty);
-      const rel = el('div', { class: 'rel' });
-      if (van.length) { const d = el('div'); d.append(el('span', {}, 'Krijgt van'), document.createTextNode(van.join(', '))); rel.append(d); }
-      if (naar.length) { const d = el('div'); d.append(el('span', {}, 'Gaat naar'), document.createTextNode(naar.join(', '))); rel.append(d); }
+      const rel = el('ul', { class: 'rel' });
+      zinnen.sort((x, y) => (x[0] === id ? 0 : 1) - (y[0] === id ? 0 : 1)).forEach(([a, b, soort, werk]) => {
+        const li = el('li'); const i = el('i'); i.style.background = REL[soort][1];
+        li.append(i, el('b', {}, N[a].t), document.createTextNode(' ' + werk + ' '), el('b', {}, N[b].t)); rel.append(li);
+      });
       const nu = el('p', { class: 'nu' }); nu.append(el('b', {}, 'Nu: '), document.createTextNode(l.sub || '–'));
       info.replaceChildren(h, nu, el('p', {}, n.d), rel,
         ...(perNode[id] || []).map((k) => el('div', { class: 'kref ' + k.ernst }, nr.get(k.id) + '. ' + k.titel)));
@@ -4125,7 +4224,7 @@ dash.calc('onderzoek_verschil', {
       if (window.matchMedia('(max-width: 760px)').matches) info.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
     function leegInfo() {
-      info.replaceChildren(el('p', { class: 'stil' }, 'Tik op een blok: je ziet wat het doet, hoe het er nu voor staat en waarmee het verbonden is. Een gekleurd blok heeft een knelpunt; het nummer staat hieronder.'));
+      info.replaceChildren(el('p', { class: 'stil' }, 'Elke pijl is een relatie: wie levert wat aan wie, wie start wat, wie beslist. Tik op een blok: zijn pijlen lichten op met wat ze betekenen, en hieronder staan ze als zinnen. Een oranje of rood blok heeft een knelpunt.'));
     }
 
     // knelpunten
