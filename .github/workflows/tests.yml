@@ -5,6 +5,7 @@ on:
   push:
     paths-ignore: ["state/**", "rapporten/**", "backtest/**", "onderzoek/**", "dashboard/**"]   # de dagelijkse oefenronde hoeft geen tests te starten
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
