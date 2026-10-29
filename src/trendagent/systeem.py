@@ -88,7 +88,9 @@ def rows(state: Path = Path("state"), dash: Path = Path("dashboard"), root: Path
                        f"Bij de laatste nachtronde kwamen {tr.get('mislukt', 0)} van de {gevraagd} koersen niet binnen "
                        f"(status {tr.get('status')}). De bot koopt dan niets met die aandelen.",
                        "Meestal tijdelijk bij Yahoo. Blijft het, laat Claude de koersbron nakijken (workflow diagnose).")
-        if br.get("tweede_bron") == "geen sleutel":
+        if br.get("tweede_bron") == "uit":
+            k.nodes["yahoo"]["sub"] = f"{ok} van {gevraagd} · alleen Yahoo"
+        elif br.get("tweede_bron") == "geen sleutel":
             k.knelpunt("yahoo", "letop", "De controlebron voor koersen heeft een sleutel nodig",
                        "Stooq controleert de koersen van Yahoo, maar vraagt sinds maart 2026 een gratis sleutel. Zonder die "
                        "sleutel komt alles uit één bron; de andere controles (sprongen, oude koersen, wisselkoers bij de ECB) "

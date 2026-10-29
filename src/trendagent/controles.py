@@ -57,6 +57,10 @@ def _bot_checks(name: str, key: str, h: dict) -> list[dict]:
         add("bronnen", "Kloppen de koersen met een tweede bron?", "letop",
             f"Bij {afw} aandelen gaven de twee bronnen een andere koers. Die heeft de bot vandaag niet gekocht of verkocht.",
             ", ".join(src.get("afwijkend") or [])[:200])
+    elif tweede == "uit":
+        add("bronnen", "Kloppen de koersen met een tweede bron?", "info",
+            "Er is bewust geen tweede koersbron (jouw keuze). De koersen van Yahoo worden wel gecontroleerd op rare "
+            "sprongen en of ze vers zijn, en de wisselkoers bij de ECB. Voor echt geld is een tweede bron verstandig.")
     elif tweede != "actief" and een:
         add("bronnen", "Kloppen de koersen met een tweede bron?", "letop",
             "Dit kon vandaag niet worden gecontroleerd: de tweede koersbron (Stooq) werkte niet. De bot gebruikte alleen "

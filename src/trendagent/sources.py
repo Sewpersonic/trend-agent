@@ -144,8 +144,14 @@ class MultiSourceProvider:
     name = "yahoo+stooq+ecb"
 
     def __init__(self, primary=None, secondary=None, fx_check=None):
+        import os
         self.primary = primary or YahooProvider()
-        self.secondary = secondary if secondary is not None else StooqSource()
+        # Stooq staat uit (keuze van de gebruiker, 29 okt 2026): Stooq geeft geen sleutels meer uit. Alleen als er
+        # toch een sleutel in GitHub staat (STOOQ_APIKEY), wordt hij weer als controlebron gebruikt.
+        if secondary is None and os.environ.get("STOOQ_APIKEY", "").strip():
+            secondary = StooqSource()
+        self.secondary = secondary
+        self.secondary_uit = secondary is None
         self.fx_check = fx_check if fx_check is not None else EcbFx()
         self.checks: dict[str, dict] = {}
         self.fx_status = "onbekend"
@@ -162,7 +168,7 @@ class MultiSourceProvider:
         except DataError:
             main = None
         second = None
-        if not self.secondary_off:
+        if not self.secondary_off and self.secondary is not None:
             try:
                 second = self.secondary.history(instrument, days)
                 self.secondary_failures = 0
@@ -221,7 +227,7 @@ class MultiSourceProvider:
             key = c["status"].split(" (")[0] if c["status"].startswith("1 bron") else c["status"]
             counts[key] = counts.get(key, 0) + 1
         return {"koersen": counts, "wisselkoers": self.fx_status,
-                "tweede_bron": ("geen sleutel" if self.secondary_geen_sleutel else
+                "tweede_bron": ("uit" if self.secondary_uit else "geen sleutel" if self.secondary_geen_sleutel else
                                 "overgeslagen na herhaalde fouten" if self.secondary_off else "actief"),
                 "fout_tweede_bron": self.secondary_error,
                 "afwijkend": sorted(t for t, c in self.checks.items() if c["status"] == "afwijking")}

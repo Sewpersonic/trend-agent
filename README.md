@@ -118,7 +118,7 @@ De regels zijn getest op de 5-minutenkoersen van de afgelopen ~60 beursdagen (`b
 
 ## Koersen uit meerdere bronnen
 
-De bot haalt de koersen bij **Yahoo Finance** en controleert ze bij **Stooq** (die vraagt sinds maart 2026 een gratis sleutel: zet hem als GitHub-secret `STOOQ_APIKEY`; zonder sleutel wordt Stooq overgeslagen en meldt het tabblad Systeem dat); de euro/dollar-koers controleert
+De bot haalt de koersen bij **Yahoo Finance**. De tweede bron **Stooq** staat uit (keuze van 29 oktober 2026: Stooq geeft geen sleutels meer uit); voor echt geld is een tweede bron verstandig. Staat er toch een sleutel als GitHub-secret `STOOQ_APIKEY`, dan controleert hij weer bij Stooq; de euro/dollar-koers controleert
 hij bij de **Europese Centrale Bank**.
 
 - Wijken de bronnen meer dan 2% af, dan koopt hij dat aandeel die dag niet.

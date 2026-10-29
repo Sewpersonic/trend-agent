@@ -187,3 +187,19 @@ class StooqSleutelTest(__import__("unittest").TestCase):
         m.history(UNIVERSE[0], 50)
         self.assertTrue(m.secondary_off)
         self.assertEqual(m.summary()["tweede_bron"], "geen sleutel")
+
+
+class StooqUitTest(__import__("unittest").TestCase):
+    def test_standaard_geen_tweede_bron(self):
+        import os
+        from datetime import date
+        from unittest import mock
+
+        from trendagent.data import SimulatedProvider
+        from trendagent.sources import MultiSourceProvider
+        from trendagent.universe import UNIVERSE
+        with mock.patch.dict(os.environ, {"STOOQ_APIKEY": ""}):
+            m = MultiSourceProvider(primary=SimulatedProvider(end=date(2026, 10, 23)), fx_check=None)
+        self.assertIsNone(m.secondary)
+        self.assertTrue(m.history(UNIVERSE[0], 50))
+        self.assertEqual(m.summary()["tweede_bron"], "uit")
