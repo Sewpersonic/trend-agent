@@ -1,25 +1,25 @@
 {
  "gemaakt": "2026-10-30",
- "signalen": 2995,
- "van": "2016-08-24",
- "tot": "2026-10-21",
+ "signalen": 2997,
+ "van": "2016-08-25",
+ "tot": "2026-10-29",
  "tabel": {
   "totaal": {
-   "n": 2995,
+   "n": 2997,
    "winst_pct": 0.338,
-   "gem_r": 0.265
+   "gem_r": 0.264
   },
   "kenmerken": {
    "Instapmoment": {
     "gunstig": {
-     "n": 1727,
+     "n": 1728,
      "winst_pct": 0.308,
-     "gem_r": 0.26
+     "gem_r": 0.259
     },
     "neutraal": {
-     "n": 1144,
-     "winst_pct": 0.377,
-     "gem_r": 0.267
+     "n": 1145,
+     "winst_pct": 0.376,
+     "gem_r": 0.266
     },
     "opgelopen": {
      "n": 124,
@@ -29,31 +29,31 @@
    },
    "RSI bij instap": {
     "onder 60": {
-     "n": 1523,
+     "n": 1524,
      "winst_pct": 0.303,
-     "gem_r": 0.259
+     "gem_r": 0.258
     },
     "60-70": {
      "n": 1280,
      "winst_pct": 0.37,
-     "gem_r": 0.286
+     "gem_r": 0.285
     },
     "70-80": {
-     "n": 192,
-     "winst_pct": 0.406,
-     "gem_r": 0.176
+     "n": 193,
+     "winst_pct": 0.404,
+     "gem_r": 0.172
     }
    },
    "Markttrend": {
     "onbekend": {
      "n": 118,
      "winst_pct": 0.153,
-     "gem_r": -0.197
+     "gem_r": -0.202
     },
     "stijgend": {
-     "n": 2223,
-     "winst_pct": 0.334,
-     "gem_r": 0.231
+     "n": 2225,
+     "winst_pct": 0.333,
+     "gem_r": 0.23
     },
     "zijwaarts": {
      "n": 356,
@@ -70,12 +70,12 @@
     "onbekend": {
      "n": 118,
      "winst_pct": 0.153,
-     "gem_r": -0.197
+     "gem_r": -0.202
     },
     "laag": {
-     "n": 762,
-     "winst_pct": 0.29,
-     "gem_r": 0.106
+     "n": 764,
+     "winst_pct": 0.289,
+     "gem_r": 0.103
     },
     "normaal": {
      "n": 1539,
@@ -90,9 +90,9 @@
    },
    "Stijging 3 maanden": {
     "tot 10%": {
-     "n": 1986,
+     "n": 1987,
      "winst_pct": 0.33,
-     "gem_r": 0.279
+     "gem_r": 0.278
     },
     "10-25%": {
      "n": 810,
@@ -100,21 +100,21 @@
      "gem_r": 0.18
     },
     "meer dan 25%": {
-     "n": 199,
-     "winst_pct": 0.452,
-     "gem_r": 0.479
+     "n": 200,
+     "winst_pct": 0.45,
+     "gem_r": 0.471
     }
    },
    "Afstand tot 200-daags gemiddelde": {
     "tot 10%": {
-     "n": 1664,
+     "n": 1666,
      "winst_pct": 0.336,
-     "gem_r": 0.309
+     "gem_r": 0.308
     },
     "10-25%": {
      "n": 1138,
      "winst_pct": 0.339,
-     "gem_r": 0.202
+     "gem_r": 0.201
     },
     "meer dan 25%": {
      "n": 193,
@@ -124,36 +124,36 @@
    },
    "Beweeglijkheid aandeel": {
     "rustig": {
-     "n": 617,
-     "winst_pct": 0.352,
-     "gem_r": 0.42
+     "n": 619,
+     "winst_pct": 0.351,
+     "gem_r": 0.416
     },
     "normaal": {
-     "n": 1907,
+     "n": 1906,
      "winst_pct": 0.329,
      "gem_r": 0.196
     },
     "wild": {
-     "n": 471,
-     "winst_pct": 0.359,
-     "gem_r": 0.343
+     "n": 472,
+     "winst_pct": 0.358,
+     "gem_r": 0.34
     }
    },
    "Handel t.o.v. normaal": {
     "minder": {
-     "n": 874,
-     "winst_pct": 0.327,
-     "gem_r": 0.209
+     "n": 876,
+     "winst_pct": 0.326,
+     "gem_r": 0.207
     },
     "normaal": {
-     "n": 1523,
+     "n": 1522,
      "winst_pct": 0.345,
      "gem_r": 0.309
     },
     "meer": {
-     "n": 598,
-     "winst_pct": 0.338,
-     "gem_r": 0.236
+     "n": 599,
+     "winst_pct": 0.337,
+     "gem_r": 0.234
     }
    }
   }
@@ -161,21 +161,21 @@
  "toets": {
   "genoeg": true,
   "leer_dagen": 915,
-  "test_dagen": 610,
+  "test_dagen": 611,
   "vanaf": "2022-12-09",
   "per_oordeel": {
    "gemiddeld": {
-    "n": 1174,
-    "gem_r": 0.276,
-    "winst_pct": 0.335
+    "n": 1175,
+    "gem_r": 0.267,
+    "winst_pct": 0.334
    },
    "gunstig": {
-    "n": 31,
-    "gem_r": 1.238,
-    "winst_pct": 0.548
+    "n": 32,
+    "gem_r": 1.434,
+    "winst_pct": 0.562
    }
   },
   "werkt": false
  },
- "zin": "Toets op 610 latere dagen die de indicatie nooit zag: gunstig +1,24 R (31 koopsignalen), gemiddeld +0,28 R (1174 koopsignalen), ongunstig –. Nog geen duidelijk verschil: gebruik de indicatie voorlopig alleen als informatie."
+ "zin": "Toets op 611 latere dagen die de indicatie nooit zag: gunstig +1,43 R (32 koopsignalen), gemiddeld +0,27 R (1175 koopsignalen), ongunstig –. Nog geen duidelijk verschil: gebruik de indicatie voorlopig alleen als informatie."
 }
