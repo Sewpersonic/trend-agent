@@ -308,7 +308,7 @@
   "begin": 9957.36,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-10-30T13:15:00",
+  "prev": "2026-10-30T13:30:00",
   "traded": [],
   "notities": [],
   "trades": [],
@@ -346,23 +346,15 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-10-30T17:16:30+00:00",
-  "ny": "2026-10-30 13:16",
+  "tijd": "2026-10-30T17:31:30+00:00",
+  "ny": "2026-10-30 13:31",
   "status": "ok",
   "log": [
-   "Koersen niet vers (laatste blok 12:55): niets kopen deze ronde.",
+   "Koersen niet vers (laatste blok 13:00): niets kopen deze ronde.",
    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-10-27T17:28:26+00:00",
-   "ny": "2026-10-27 13:28",
-   "status": "ok",
-   "log": [
-    "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-10-27T18:27:57+00:00",
    "ny": "2026-10-27 14:27",
@@ -834,6 +826,15 @@
    "status": "ok",
    "log": [
     "Koersen niet vers (laatste blok 12:55): niets kopen deze ronde.",
+    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-10-30T17:31:30+00:00",
+   "ny": "2026-10-30 13:31",
+   "status": "ok",
+   "log": [
+    "Koersen niet vers (laatste blok 13:00): niets kopen deze ronde.",
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
    ]
   }
