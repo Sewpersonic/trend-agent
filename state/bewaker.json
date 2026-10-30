@@ -1,5 +1,5 @@
 {
- "tijd": "2026-10-30T19:00:30+00:00",
+ "tijd": "2026-10-30T20:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -25,9 +25,9 @@
    "t212": "MSFT_US_EQ",
    "stop": 511.5021,
    "actie": "boven de stop-loss",
-   "koers_t212": 519.2,
-   "koers_yahoo": 519.53,
-   "afstand_pct": 0.0157
+   "koers_t212": 521.91,
+   "koers_yahoo": 521.9,
+   "afstand_pct": 0.0203
   },
   {
    "ticker": "DB1.DE",
@@ -43,15 +43,15 @@
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 294.31,
-   "koers_yahoo": 294.315,
-   "afstand_pct": 0.061
+   "koers_t212": 295.3,
+   "koers_yahoo": 294.215,
+   "afstand_pct": 0.0646
   }
  ],
  "verkocht": [],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: MSFT (+1.6%)."
+  "Alles boven de stop-loss. Dichtst bij: MSFT (+2.0%)."
  ],
  "geschiedenis": [],
- "rondes_vandaag": 41
+ "rondes_vandaag": 44
 }
