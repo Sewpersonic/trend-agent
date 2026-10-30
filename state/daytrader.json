@@ -354,23 +354,12 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-10-30T19:46:30+00:00",
-  "ny": "2026-10-30 15:46",
-  "status": "ok",
-  "log": [
-   "Koersen niet vers (laatste blok 14:40): niets kopen deze ronde.",
-   "Dag klaar: 0 trades, resultaat +0.00 dollar."
-  ]
+  "tijd": "2026-10-30T20:26:32+00:00",
+  "ny": "2026-10-30 16:26",
+  "status": "klaar voor vandaag",
+  "log": []
  },
  "rondes": [
-  {
-   "tijd": "2026-10-28T15:16:30+00:00",
-   "ny": "2026-10-28 11:16",
-   "status": "ok",
-   "log": [
-    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."
-   ]
-  },
   {
    "tijd": "2026-10-28T15:31:30+00:00",
    "ny": "2026-10-28 11:31",
@@ -851,6 +840,12 @@
     "Koersen niet vers (laatste blok 14:40): niets kopen deze ronde.",
     "Dag klaar: 0 trades, resultaat +0.00 dollar."
    ]
+  },
+  {
+   "tijd": "2026-10-30T20:26:32+00:00",
+   "ny": "2026-10-30 16:26",
+   "status": "klaar voor vandaag",
+   "log": []
   }
  ],
  "dagcontext": {
