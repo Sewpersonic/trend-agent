@@ -68,6 +68,10 @@ TREND_VARIANTS: dict[str, dict] = {
     "5-plekken": {"max_positions": 5, "max_open_risk": 0.0125},
     # Spreiden over sectoren (aangezet op verzoek van de gebruiker): toetsen of het zonder grens beter was.
     "zonder-sectorgrens": {"max_per_sector": 0},
+    # Meer van het geld laten werken (okt 2026, op verzoek: de bot staat te veel stil, ~77% op de rekening).
+    "meer-per-aankoop": {"risk_per_trade": 0.005, "max_open_risk": 0.025},
+    "veel-meer-per-aankoop": {"risk_per_trade": 0.01, "max_open_risk": 0.05, "max_drawdown": 0.10},
+    "8-plekken-meer-per-aankoop": {"max_positions": 8, "risk_per_trade": 0.005, "max_open_risk": 0.04},
 }
 
 # In gewone taal: wat elke variant test.
@@ -82,6 +86,9 @@ UITLEG = {
     "4-plekken": "4 aandelen tegelijk in plaats van 3 (zelfde risico per aankoop).",
     "5-plekken": "5 aandelen tegelijk in plaats van 3 (zelfde risico per aankoop).",
     "zonder-sectorgrens": "Geen grens per sector (zoveel energie- of chipaandelen als de trend aangeeft).",
+    "meer-per-aankoop": "Twee keer zoveel inzetten per aankoop (hooguit ±€50 verlies per trade in plaats van ±€25).",
+    "veel-meer-per-aankoop": "Vier keer zoveel per aankoop (±€100 verlies per trade); noodstop pas bij 10% daling.",
+    "8-plekken-meer-per-aankoop": "8 aandelen tegelijk en twee keer zoveel per aankoop.",
     "satelliet-3-aandelen": "Investeerder: 3 in plaats van 5 sterke aandelen.",
 }
 
