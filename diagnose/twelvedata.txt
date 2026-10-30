@@ -61,10 +61,10 @@ See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace 
 /opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/yfinance/utils.py:518: Pandas4Warning: The inplace keyword in DataFrame.rename is deprecated and will be removed in a future version (PDEP-8).
 See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
   df.rename(columns={
-sleutel aanwezig: False
-tweede bron: geen
-SPY {'status': '1 bron (yahoo)'}
-MSFT {'status': '1 bron (yahoo)'}
-BRK-B {'status': '1 bron (yahoo)'}
+sleutel aanwezig: True
+tweede bron: TwelveDataSource
+SPY {'status': 'bevestigd', 'verschil': 0.0}
+MSFT {'status': 'bevestigd', 'verschil': 0.0}
+BRK-B {'status': 'bevestigd', 'verschil': 0.0013}
 SAP.DE {'status': '1 bron (yahoo)'}
-samenvatting: {'koersen': {'1 bron': 4}, 'wisselkoers': 'onbekend', 'tweede_bron': 'uit', 'fout_tweede_bron': '', 'afwijkend': []}
+samenvatting: {'koersen': {'bevestigd': 3, '1 bron': 1}, 'wisselkoers': 'onbekend', 'tweede_bron': 'actief', 'fout_tweede_bron': '', 'afwijkend': []}
