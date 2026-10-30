@@ -1,5 +1,5 @@
 {
- "tijd": "2026-10-30T16:00:30+00:00",
+ "tijd": "2026-10-30T17:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -7,51 +7,51 @@
    "t212": "SHELLa_EQ",
    "stop": 45.5968,
    "actie": "boven de stop-loss",
-   "koers_t212": 48.744,
-   "koers_yahoo": 48.68,
-   "afstand_pct": 0.069
+   "koers_t212": 48.68,
+   "koers_yahoo": 48.765,
+   "afstand_pct": 0.0695
   },
   {
    "ticker": "SAP.DE",
    "t212": "SAPd_EQ",
    "stop": 198.885,
    "actie": "boven de stop-loss",
-   "koers_t212": 212.03,
+   "koers_t212": 211.25,
    "koers_yahoo": 211.6,
-   "afstand_pct": 0.0661
+   "afstand_pct": 0.0639
   },
   {
    "ticker": "MSFT",
    "t212": "MSFT_US_EQ",
    "stop": 511.5021,
    "actie": "boven de stop-loss",
-   "koers_t212": 522.71,
-   "koers_yahoo": 522.71,
-   "afstand_pct": 0.0219
+   "koers_t212": 521.66,
+   "koers_yahoo": 521.42,
+   "afstand_pct": 0.0199
   },
   {
    "ticker": "DB1.DE",
    "t212": "DB1d_EQ",
    "stop": 302.2002,
    "actie": "boven de stop-loss",
-   "koers_t212": 321.6,
-   "koers_yahoo": 320.6,
-   "afstand_pct": 0.0642
+   "koers_t212": 320.5,
+   "koers_yahoo": 320.3,
+   "afstand_pct": 0.0606
   },
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 294.91,
-   "koers_yahoo": 294.91,
-   "afstand_pct": 0.0632
+   "koers_t212": 295.94,
+   "koers_yahoo": 295.825,
+   "afstand_pct": 0.0669
   }
  ],
  "verkocht": [],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: MSFT (+2.2%)."
+  "Alles boven de stop-loss. Dichtst bij: MSFT (+2.0%)."
  ],
  "geschiedenis": [],
- "rondes_vandaag": 29
+ "rondes_vandaag": 33
 }
