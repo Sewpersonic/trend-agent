@@ -41,10 +41,13 @@ def yahoo_koers(ticker: str) -> float | None:
 
 
 def ronde(state_dir: Path, config_path: Path = Path("config/broker.json"), client=None, yahoo=yahoo_koers,
-          nu: datetime | None = None) -> dict:
+          nu: datetime | None = None, derde=None) -> dict:
     """Eén controle. Schrijft state/bewaker.json en geeft het verslag terug."""
     from .broker_t212 import BrokerError, T212Demo, _tq
     from .core.kill_switch import KillSwitch
+    from .sources import TELLER, twelve_prijs
+    derde = derde or twelve_prijs
+    teller_voor = TELLER["verzoeken"]
     nu = nu or datetime.now(timezone.utc)
     vorig = _load(state_dir / BESTAND, {})
     verslag = {"tijd": nu.isoformat(timespec="seconds"), "status": "ok", "posities": [], "verkocht": [], "log": []}
@@ -69,17 +72,29 @@ def ronde(state_dir: Path, config_path: Path = Path("config/broker.json"), clien
                 rij["actie"] = "niet in het oefenaccount"
                 continue
             k212 = posities[t]["koers"]
+            k212 = None if k212 is None else float(k212)
             ky = yahoo(y)
             rij.update(koers_t212=k212, koers_yahoo=None if ky is None else round(ky, 4))
-            if k212 is None or ky is None:
-                rij["actie"] = "geen tweede koers: niets gedaan"
-                continue
-            k212 = float(k212)
-            if abs(k212 / ky - 1) > MAX_VERSCHIL:
-                rij["actie"] = f"bronnen verschillen {abs(k212 / ky - 1):.1%}: niets gedaan"
-                log.append(f"{y}: Trading 212 ({k212:.2f}) en Yahoo ({ky:.2f}) zijn het niet eens; voor de zekerheid niets gedaan.")
-                continue
-            koers = max(k212, ky)          # beide bronnen moeten onder de stop staan (bevestigd)
+            eens = k212 is not None and ky is not None and abs(k212 / ky - 1) <= MAX_VERSCHIL
+            if not eens:
+                # Twee bronnen niet genoeg: Twelve Data als scheidsrechter (alleen Amerikaanse aandelen).
+                kt = derde(y)
+                if kt is not None:
+                    rij["koers_twelve"] = round(kt, 4)
+                bronnen = [(n, k) for n, k in (("Trading 212", k212), ("Yahoo", ky), ("Twelve Data", kt)) if k]
+                paar = next(((a, b) for i, a in enumerate(bronnen) for b in bronnen[i + 1:]
+                             if abs(a[1] / b[1] - 1) <= MAX_VERSCHIL), None)
+                if not paar:
+                    if k212 is None or ky is None:
+                        rij["actie"] = "geen tweede koers: niets gedaan"
+                    else:
+                        rij["actie"] = f"bronnen verschillen {abs(k212 / ky - 1):.1%}: niets gedaan"
+                        log.append(f"{y}: Trading 212 ({k212:.2f}) en Yahoo ({ky:.2f}) zijn het niet eens; voor de zekerheid niets gedaan.")
+                    continue
+                koers = max(paar[0][1], paar[1][1])
+                rij["scheidsrechter"] = f"{paar[0][0]} en {paar[1][0]} eens"
+            else:
+                koers = max(k212, ky)          # beide bronnen moeten onder de stop staan (bevestigd)
             rij["afstand_pct"] = round(koers / stop - 1, 4) if stop else None
             if stop <= 0 or koers > stop:
                 rij["actie"] = "boven de stop-loss"
@@ -112,6 +127,9 @@ def ronde(state_dir: Path, config_path: Path = Path("config/broker.json"), clien
     except Exception as e:  # noqa: BLE001 - nooit half handelen: fout vastleggen, niets meer doen
         verslag["status"] = "fout"
         log.append(f"Fout: {type(e).__name__}: {e}"[:300])
+    # Verzoeken aan Twelve Data vandaag (gratis: 800 per dag, samen met de nachtronde en de daytrader).
+    zelfde_dag = str(vorig.get("tijd", ""))[:10] == verslag["tijd"][:10]
+    verslag["twelve_vandaag"] = (vorig.get("twelve_vandaag", 0) if zelfde_dag else 0) + TELLER["verzoeken"] - teller_voor
     hist = vorig.get("geschiedenis", [])
     if verslag["verkocht"] or verslag["status"] != "ok":
         hist.append({k: verslag[k] for k in ("tijd", "status", "verkocht", "log")})

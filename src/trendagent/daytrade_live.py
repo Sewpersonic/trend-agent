@@ -34,6 +34,7 @@ from .daytrader import (
 START = 10_000.0
 MAX_JUMP = 0.15          # een sprong van meer dan 15% tussen twee blokken van 5 minuten = verdacht
 MAX_STALE_MIN = 20       # laatste blok van de markt (SPY) mag hooguit zo oud zijn
+BEVESTIG_MAX = 0.015     # Yahoo en Twelve Data mogen vlak voor een aankoop hooguit zoveel verschillen
 
 
 def tickers() -> list[str]:
@@ -131,7 +132,7 @@ def load(path: Path) -> dict:
 
 
 def run(state_dir: Path, config_path: Path = Path("config/daytrader.json"), now: datetime | None = None,
-        provider=None, p: Params | None = None, daily_provider=None,
+        provider=None, p: Params | None = None, daily_provider=None, derde=None,
         indicatie_pad: Path = Path("backtest/daytrade/indicatie.json")) -> dict:
     """Eén ronde. provider(tickers, period) -> {ticker: [Bar5]} (standaard Yahoo; in tests verzonnen koersen).
     daily_provider(tickers) -> {ticker: [Bar]}: dagkoersen voor de daggrafiek (één keer per dag)."""
@@ -236,12 +237,24 @@ def run(state_dir: Path, config_path: Path = Path("config/daytrader.json"), now:
             return bs[-1].c if bs else None
 
         beoordeel = beoordelaar(indicatie_pad)
+        from .sources import TELLER, twelve_prijs
+        teller_voor = TELLER["verzoeken"]
+
+        def bevestig(tk, prijs):
+            """Vlak voor een aankoop: klopt de koers van Yahoo met Twelve Data? (NO TRADE op onbevestigde data.)"""
+            kt = (derde or twelve_prijs)(tk)
+            if kt is None:
+                return True, None          # geen derde bron (geen sleutel of limiet): zoals altijd, alleen Yahoo
+            if abs(kt / prijs - 1) > BEVESTIG_MAX:
+                return False, f"Yahoo ({prijs:.2f}) en Twelve Data ({kt:.2f}) verschillen {abs(kt / prijs - 1):.1%}"
+            return True, None
         for i, t in enumerate(due):
             laatste = i == len(due) - 1
             mag_kopen = (laatste and aan and not kill and vers and (ny - t) <= timedelta(minutes=14)
                          and not st.get("geen_context"))
             stap = e.step(t, live_bars if mag_kopen else bars, avg, fill_at=live_price if laatste else None,
-                          allow_entries=mag_kopen, context=st.get("dagcontext") or {}, beoordeel=beoordeel)
+                          allow_entries=mag_kopen, context=st.get("dagcontext") or {}, beoordeel=beoordeel,
+                          bevestig=bevestig if mag_kopen else None)
             log += [f"{t:%H:%M} {x}" for x in stap]
             if e.klaar:
                 break
@@ -278,6 +291,9 @@ def run(state_dir: Path, config_path: Path = Path("config/daytrader.json"), now:
             log.append(f"Dag klaar: {len(e.res.trades)} trades, resultaat {e.realized:+.2f} dollar.")
         else:
             st["vandaag"] = e.to_dict()
+        tv = st.get("twelve") or {}
+        st["twelve"] = {"dag": today.isoformat(), "verzoeken": (tv.get("verzoeken", 0) if tv.get("dag") == today.isoformat() else 0)
+                        + TELLER["verzoeken"] - teller_voor}
         # Huidige waarde van open posities (voor het dashboard).
         st["open_nu"] = [{**{k: v for k, v in asdict(x).items() if k != "t_in"}, "t_in": x.t_in.strftime("%H:%M"),
                           "koers": (bars.get(x.ticker) or [None])[-1].c if bars.get(x.ticker) else None}

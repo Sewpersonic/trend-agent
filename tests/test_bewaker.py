@@ -62,6 +62,18 @@ class BewakerTest(unittest.TestCase):
         bewaker.ronde(self.d, self.cfg, client=c, yahoo={"SHELL.AS": 44.0, "MSFT": 480.0}.get)
         self.assertEqual(c.geplaatst, [("SHELLa_EQ", -13)])     # MSFT heeft al een open order
 
+    def test_twelve_data_als_scheidsrechter(self):
+        # MSFT: Trading 212 zegt 480 (onder de stop van 500), Yahoo geeft niets; Twelve Data bevestigt 481 -> verkopen
+        c = FakeClient({"SHELLa_EQ": (13, 50.0), "MSFT_US_EQ": (1, 480.0)})
+        v = bewaker.ronde(self.d, self.cfg, client=c, yahoo={"SHELL.AS": 50.0}.get, derde={"MSFT": 481.0}.get)
+        self.assertEqual(c.geplaatst, [("MSFT_US_EQ", -1)])
+        rij = next(r for r in v["posities"] if r["ticker"] == "MSFT")
+        self.assertIn("Twelve Data", rij["scheidsrechter"])
+        # Twelve Data ook oneens: niets doen
+        c2 = FakeClient({"SHELLa_EQ": (13, 50.0), "MSFT_US_EQ": (1, 480.0)})
+        bewaker.ronde(self.d, self.cfg, client=c2, yahoo={"SHELL.AS": 50.0, "MSFT": 530.0}.get, derde={"MSFT": 600.0}.get)
+        self.assertEqual(c2.geplaatst, [])
+
     def test_sessie_elk_kwartier_tot_22_en_overdracht(self):
         klok = [datetime(2026, 10, 30, 7, 50, tzinfo=timezone.utc)]   # 08:50 NL (wintertijd)
         rondes = []

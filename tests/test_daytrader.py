@@ -134,6 +134,25 @@ class LiveTest(unittest.TestCase):
         bt = dt.backtest(self.data, dt.Params(rvol_days=10))
         self.assertEqual(live, [(x["ticker"], x["t_in"], x["reden"]) for x in bt["trades"]])
 
+    def test_twelve_data_oneens_dan_niet_kopen(self):
+        import tempfile
+        from pathlib import Path
+
+        from trendagent import daytrade_live as dl
+        last = self.days[-1]
+        with tempfile.TemporaryDirectory() as d:
+            sd = Path(d)
+            cfg = sd / "cfg.json"
+            cfg.write_text('{"aan": true}')
+            t = datetime.combine(last, dt.OPEN) - timedelta(minutes=10)
+            while t <= datetime.combine(last, dt.CLOSE) + timedelta(minutes=20):
+                now_utc = t.replace(tzinfo=dt.NY).astimezone(__import__("datetime").timezone.utc)
+                st = dl.run(sd, cfg, now=now_utc, provider=self.provider_at(t), derde=lambda tk: 1e6)
+                t += timedelta(minutes=15)
+            self.assertEqual(st["trades"], [])               # derde bron zegt iets heel anders: nooit kopen
+            logs = " ".join(" ".join(r.get("log", [])) for r in st.get("rondes", []))
+            self.assertIn("Twelve Data", logs)
+
     def test_kill_switch_blocks_buying(self):
         import json
         import tempfile

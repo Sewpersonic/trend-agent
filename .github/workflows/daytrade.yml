@@ -37,6 +37,7 @@ jobs:
     timeout-minutes: 10
     env:
       PAPER_TRADING: "true"
+      TWELVEDATA_KEY: ${{ secrets.TWELVEDATA_KEY }}   # derde koersbron (gratis); leeg = overslaan
     steps:
       - uses: actions/checkout@v5
       - name: Is er iets te doen?

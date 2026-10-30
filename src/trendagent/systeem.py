@@ -106,6 +106,44 @@ def rows(state: Path = Path("state"), dash: Path = Path("dashboard"), root: Path
                        "Meestal tijdelijk (bijv. de daglimiet van het gratis abonnement). Blijft het, laat Claude het "
                        "nakijken. Tot die tijd blijven de andere controles gewoon werken.")
 
+    # ---------- Twelve Data (tweede/derde bron: nachtronde, bewaker, daytrader)
+    tw_status = br.get("tweede_bron")
+    afw = br.get("afwijkend") or []
+    twee_n = (br.get("koersen") or {}).get("bevestigd", 0)
+    bwj = _load(state / "bewaker.json", {}) or {}
+    dtj = _load(state / "daytrader.json", {}) or {}
+    verz = sum([
+        int(br.get("verzoeken_tweede_bron") or 0) + int(((health.get("investeerder") or {}).get("bronnen") or {}).get("verzoeken_tweede_bron") or 0),
+        int(bwj.get("twelve_vandaag") or 0) if str(bwj.get("tijd", ""))[:10] == nu.date().isoformat() else 0,
+        int((dtj.get("twelve") or {}).get("verzoeken") or 0) if (dtj.get("twelve") or {}).get("dag") == ny.date().isoformat() else 0,
+    ])
+    if tw_status in (None, "uit"):
+        k.node("twelve", "goed", "nog niet gebruikt")
+    else:
+        k.node("twelve", "goed", f"{twee_n} koersen bevestigd · ±{verz} van 800 verzoeken")
+        if tw_status == "geen sleutel":
+            k.knelpunt("twelve", "letop", "Twelve Data accepteert de sleutel niet",
+                       "De tweede koersbron kon niet worden gebruikt: de sleutel ontbreekt of wordt geweigerd. Alles kwam "
+                       "dus uit één bron (de andere controles werkten wel).",
+                       "Kijk in GitHub onder Settings → Secrets and variables → Actions of TWELVEDATA_KEY er staat en klopt. "
+                       "Nooit in de chat.")
+        elif "overgeslagen" in str(tw_status):
+            k.knelpunt("twelve", "letop", "Twelve Data gaf herhaaldelijk een fout",
+                       "Na een paar fouten op rij is de tweede bron deze nacht overgeslagen"
+                       + (f" ({br.get('fout_tweede_bron')})." if br.get("fout_tweede_bron") else "."),
+                       "Meestal de daglimiet van het gratis abonnement (800) of een storing. Gaat vanzelf over; blijft het, "
+                       "laat Claude het nakijken.")
+        if verz > 700:
+            k.knelpunt("twelve", "letop", "Bijna aan de daglimiet van Twelve Data",
+                       f"Vandaag ±{verz} van de 800 gratis verzoeken gebruikt. Daarboven antwoordt Twelve Data niet meer "
+                       "tot morgen; dan beslissen de bots met de andere bronnen.",
+                       "Niets aan te doen voor vandaag. Gebeurt het vaker, dan vraagt de bewaker minder vaak.")
+        if afw:
+            k.knelpunt("twelve", "letop", "Bronnen waren het oneens over een koers",
+                       f"Bij {', '.join(afw[:5])} gaven Yahoo en Twelve Data meer dan 2% verschil. Die aandelen zijn die "
+                       "dag niet gekocht of verkocht (geen handel op onbevestigde koersen).",
+                       "Meestal een fout of vertraging bij één bron; de volgende dag is het meestal weer gelijk.")
+
     arch = sorted((root / "backtest/daytrade/koersen").glob("*.csv.gz"))
     if arch:
         y, w = arch[-1].name[:8].split("-W")

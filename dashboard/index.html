@@ -4083,7 +4083,7 @@ dash.calc('onderzoek_verschil', {
 (() => {
   const { el } = window.tx;
   const BANEN = [
-    { t: 'Koersen komen binnen', ids: ['yahoo', 'vijfmin', 't212'] },
+    { t: 'Koersen komen binnen', ids: ['yahoo', 'twelve', 'vijfmin', 't212'] },
     { t: 'Bots beslissen', ids: ['trend', 'invest', 'day', 'rem'] },
     { t: 'Uitvoeren en bewaken', ids: ['oefen', 'bewaker'] },
     { t: 'Leren', ids: ['onderz', 'labelT', 'onderzD', 'labelD'] },
@@ -4092,7 +4092,8 @@ dash.calc('onderzoek_verschil', {
   const STARTERS = ['cron', 'uur', 'ochtend'];
   const TYPE = { bron: ['Bron', 0], start: ['Starter', 1], bot: ['Bot', 2], onderzoek: ['Leren', 3], opslag: ['Opslag en scherm', 4], jij: ['Jij', 5] };
   const N = {
-    yahoo: { type: 'bron', t: 'Dagkoersen', d: 'Slotkoersen van elke handelsdag van Yahoo, en de euro/dollar-koers bij de ECB. Elke koers wordt gecontroleerd op rare sprongen en oude cijfers; klopt iets niet, dan handelt de bot dat aandeel die dag niet.' },
+    yahoo: { type: 'bron', t: 'Dagkoersen', d: 'Slotkoersen van elke handelsdag van Yahoo, en de euro/dollar-koers bij de ECB. Amerikaanse koersen worden vergeleken met Twelve Data; alle koersen worden gecontroleerd op rare sprongen en oude cijfers. Klopt iets niet, dan handelt de bot dat aandeel die dag niet.' },
+    twelve: { type: 'bron', t: 'Twelve Data', d: 'Tweede koersbron (gratis sleutel in GitHub, 800 verzoeken per dag, alleen Amerikaanse aandelen en ETF\'s). Controleert \'s nachts de slotkoersen van Yahoo, is scheidsrechter voor de bewaker als Trading 212 en Yahoo het oneens zijn, en controleert de koers vlak voordat de daytrader koopt. Zijn bronnen het oneens, dan wordt er niet gehandeld.' },
     vijfmin: { type: 'bron', t: '5-minutenkoersen', d: 'Koersen per 5 minuten voor de daytrader. Yahoo geeft er maar ~60 dagen van; elke dag worden ze bewaard, zodat het onderzoek steeds verder terug kan kijken.' },
     t212: { type: 'bron', t: 'Trading 212', d: 'Het oefenaccount bij Trading 212, met nepgeld. Geeft ook een tweede koers voor de bewaker. De sleutel staat alleen in GitHub; dit dashboard heeft er geen.' },
     cron: { type: 'start', t: 'GitHub-schema', d: 'GitHub start de nachtronde, de beursdag van de daytrader, de bewaker en het zaterdagonderzoek. Een start komt soms uren te laat; daarom is de uurtaak van Claude de reserve.' },
@@ -4116,6 +4117,8 @@ dash.calc('onderzoek_verschil', {
   const E = [
     ['yahoo', 'trend', 'koers', 'levert koersen aan'], ['yahoo', 'invest', 'koers', 'levert koersen aan'], ['yahoo', 'onderz', 'koers', 'levert koersen aan'],
     ['yahoo', 'labelT', 'koers', 'levert koersen aan'], ['yahoo', 'bewaker', 'koers', 'levert de controlekoers aan'],
+    ['twelve', 'yahoo', 'koers', 'controleert de slotkoersen van', 'controleert'], ['twelve', 'bewaker', 'koers', 'is scheidsrechter voor', 'scheidsrechter'],
+    ['twelve', 'day', 'koers', 'controleert de koers vóór elke aankoop van', 'controleert'],
     ['vijfmin', 'day', 'koers', 'levert koersen aan'], ['vijfmin', 'onderzD', 'koers', 'levert koersen aan'],
     ['t212', 'oefen', 'koers', 'houdt het geld en de aandelen van'], ['t212', 'bewaker', 'koers', 'levert de live koers aan'],
     ['cron', 'trend', 'start', 'start elke nacht'], ['cron', 'invest', 'start', 'start elke nacht'], ['cron', 'onderz', 'start', 'start op zaterdag'],

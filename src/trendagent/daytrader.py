@@ -223,7 +223,8 @@ class DayEngine:
         self.res.eind = self.res.begin + self.realized
 
     def step(self, t: datetime, day_bars: dict[str, list[Bar5]], avg_or_vol: dict[str, float],
-             fill_at=None, allow_entries: bool = True, context: dict | None = None, beoordeel=None) -> list[str]:
+             fill_at=None, allow_entries: bool = True, context: dict | None = None, beoordeel=None,
+             bevestig=None) -> list[str]:
         """Kijkmoment t (New Yorkse tijd, zonder tijdzone). Gebruikt alleen blokken die vóór t begonnen.
         fill_at(ticker, t) -> prijs waartegen nu gekocht/verkocht wordt (test: opening van het blok op t).
         Geeft een lijst met wat er gebeurde, in gewone woorden."""
@@ -301,6 +302,13 @@ class DayEngine:
             prijs = fill_at(tk, t)
             if not prijs:
                 continue
+            if bevestig:
+                ok_koers, waarom_niet = bevestig(tk, prijs)
+                if not ok_koers:
+                    self.traded.add(tk)
+                    self.redenen["koers niet bevestigd"] = self.redenen.get("koers niet bevestigd", 0) + 1
+                    log.append(f"{tk}: niet gekocht, {waarom_niet}")
+                    continue
             entry = prijs * (1 + p.slippage)
             stop = max(o[1], entry * (1 - p.max_risk_pct))
             if stop >= entry:

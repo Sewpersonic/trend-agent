@@ -114,6 +114,28 @@ class NietGedekt(DataError):
     """De controlebron heeft deze belegging niet (bijv. Europese aandelen in een gratis abonnement): geen fout."""
 
 
+TELLER = {"verzoeken": 0}      # verzoeken aan Twelve Data in dit proces (gratis: 800 per dag)
+PRIJS_URL = "https://api.twelvedata.com/price?symbol={s}&apikey={k}"
+
+
+def twelve_prijs(ticker: str, fetch=None, apikey: str | None = None) -> float | None:
+    """Actuele koers bij Twelve Data (derde bron voor de bewaker en de daytrader). Alleen Amerikaanse beleggingen
+    (gratis abonnement). Geen sleutel, geen dekking of een fout: None (dan beslist de rest zoals altijd)."""
+    import os
+    from .universe import BY_TICKER
+    key = (apikey if apikey is not None else os.environ.get("TWELVEDATA_KEY", "")).strip()
+    inst = BY_TICKER.get(ticker)
+    if not key or not inst or inst.region != "US":
+        return None
+    try:
+        TELLER["verzoeken"] += 1
+        d = json.loads((fetch or http_get)(PRIJS_URL.format(s=ticker.replace("-", "."), k=key)))
+        p = float(d["price"]) if "price" in d else None
+        return p if p and p > 0 else None
+    except Exception:  # noqa: BLE001 - derde bron is een hulp, nooit een reden om te stoppen
+        return None
+
+
 class TwelveDataSource:
     """Twelve Data als controlebron (gratis sleutel, GitHub-secret TWELVEDATA_KEY). Het gratis abonnement heeft alleen
     Amerikaanse aandelen en ETF's en 8 verzoeken per minuut; Europese beleggingen blijven dus bij één bron.
@@ -152,6 +174,7 @@ class TwelveDataSource:
         if rust > 0:
             self.slaap(rust)                       # gratis: hooguit 8 verzoeken per minuut
         self._laatst = self._klok()
+        TELLER["verzoeken"] += 1
         text = self.fetch(self.URL.format(s=sym, k=self.apikey))
         data = json.loads(text)
         if data.get("status") == "error":
@@ -307,4 +330,5 @@ class MultiSourceProvider:
                 "tweede_bron": ("uit" if self.secondary_uit else "geen sleutel" if self.secondary_geen_sleutel else
                                 "overgeslagen na herhaalde fouten" if self.secondary_off else "actief"),
                 "fout_tweede_bron": self.secondary_error,
+                "verzoeken_tweede_bron": TELLER["verzoeken"],
                 "afwijkend": sorted(t for t, c in self.checks.items() if c["status"] == "afwijking")}

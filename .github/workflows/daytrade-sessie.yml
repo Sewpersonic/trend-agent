@@ -28,6 +28,7 @@ jobs:
     timeout-minutes: 350
     env:
       PAPER_TRADING: "true"
+      TWELVEDATA_KEY: ${{ secrets.TWELVEDATA_KEY }}   # derde koersbron (gratis); leeg = overslaan
       GH_TOKEN: ${{ github.token }}
       DEEL: ${{ github.event.inputs.deel || 'koop' }}
     steps:
