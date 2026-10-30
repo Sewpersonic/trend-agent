@@ -575,7 +575,7 @@ def _research(s, args) -> int:
                 "bot": "Trend-agent" if kind == "trend" else "Investeerder", "variant": r.name,
                 "uitleg": evaluation.UITLEG.get(r.name, ""),
                 "patroon": r.name in ("koop-na-terugval", "koop-bij-nieuwe-top", "verkoop-na-2-rode-trendkaarsen"),
-                "totaal": round(m["totaal"], 4), "per_jaar": round(m["per_jaar"], 4),
+                "totaal": round(m["totaal"], 4), "per_jaar": round(m["per_jaar"], 4), "jaren": m["jaren"],
                 "eindwaarde": round(10000 * (1 + m["totaal"]), 2), "max_daling": round(m["max_daling"], 4),
                 "sharpe_holdout": round(m["sharpe_holdout"], 3), "trades": m["trades"],
                 "winst_pct": round(m["winst_pct"], 3) if m["winst_pct"] == m["winst_pct"] else None,
@@ -592,9 +592,9 @@ def _research(s, args) -> int:
                          "productie" if r.name == "productie" else ("AANBEVOLEN" if accepted.get(r.name) else "niet")])
         if kind == "trend":
             prod = next(r for r in results if r.name == "productie")
-            sections.append(learning.render("Trend-agent: lessen uit 5 jaar backtest (productie)", prod.trades))
+            sections.append(learning.render(f"Trend-agent: lessen uit {args.years} jaar backtest (productie)", prod.trades))
             _, _, found = learning.analyse(prod.trades)
-            dash_lessen += [{"id": f"les-{i}", "bron": "5 jaar test", "soort": f.kind, "tekst": f.text()}
+            dash_lessen += [{"id": f"les-{i}", "bron": f"{args.years} jaar test", "soort": f.kind, "tekst": f.text()}
                             for i, f in enumerate(found)]
             live_path = s.state_dir / "portfolio.json"
             if live_path.exists():

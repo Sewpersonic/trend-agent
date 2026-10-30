@@ -406,7 +406,7 @@ def onderzoek_zinnen(onderzoek: dict, books: dict) -> list[str]:
         if not prod:
             continue
         etf = prod.get("etf_totaal")
-        line = (f"{bot}: in de test over 5 jaar werd €10.000 ongeveer €{prod['eindwaarde']:,.0f} "
+        line = (f"{bot}: in de test over {prod.get('jaren') or 5} jaar werd €10.000 ongeveer €{prod['eindwaarde']:,.0f} "
                 f"({_p(prod['totaal'])}, {_p(prod['per_jaar'])} per jaar)").replace(",", ".", 1)
         if etf is not None:
             line += f"; de wereld-ETF deed {_p(etf)}" + (", de bot deed het dus beter." if prod["totaal"] > etf

@@ -150,7 +150,7 @@ def weken(books: dict, trades: list[dict], broker: dict, onderzoek: dict, onderz
             r_dag = [r for r in w["onderzoek"] if r["datum"] == dag]
             getest = [r for r in r_dag if r.get("oordeel") != "productie"]
             goed = [r for r in getest if r.get("oordeel") == "aanbevolen"]
-            lessen.append(f"Onderzoek ({dag}): {len(getest)} andere regels getest op 5 jaar koersen. " +
+            lessen.append(f"Onderzoek ({dag}): {len(getest)} andere regels getest op 10 jaar koersen. " +
                           (f"{len(goed)} werkte bewezen beter; dat staat als voorstel klaar en jij beslist."
                            if goed else "Geen enkele was bewezen beter, dus de huidige regels blijven."))
             if onderzoek.get("datum") and week_of(_day(onderzoek["datum"]) or mon)[0] == key:
@@ -223,7 +223,7 @@ def leerplan(books: dict, trades: list[dict], broker: dict, onderzoek: dict, ond
     datums = sorted({r.get("datum") for r in _onderzoek_rows(onderzoek_dir) if r.get("datum")})
     goed = [r for r in _onderzoek_rows(onderzoek_dir) if r.get("oordeel") == "aanbevolen"]
     add("onderzoek", "Uitzoeken welke regels beter werken",
-        "Elke zaterdag test de bot andere regels op 5 jaar koersen, ook patronen uit de grafieken. Alleen een regel die "
+        "Elke zaterdag test de bot andere regels op 10 jaar koersen, ook patronen uit de grafieken. Alleen een regel die "
         "alle toetsen haalt wordt voorgesteld; jij beslist.",
         f"{len(datums)} keer onderzocht, {len(goed)} betere regel{'s' if len(goed) != 1 else ''} gevonden",
         len(datums) / 12, "bezig", "Doel: 12 weken onderzoek")
@@ -238,7 +238,7 @@ def leerplan(books: dict, trades: list[dict], broker: dict, onderzoek: dict, ond
                 zin = f"Werkt kopen bij RSI {m.group(3)} (hoe snel het aandeel net steeg) echt {beter}?"
             else:
                 zin = f"Werkt kopen als de {wat[0].lower() + wat[1:]} {m.group(3)} is echt {beter}?"
-            vragen.append(zin + " In 5 jaar oude trades leek dat zo.")
+            vragen.append(zin + " In oude trades (testperiode) leek dat zo.")
     if vragen:
         add("vragen", "Vragen die hij nog moet beantwoorden",
             "Het onderzoek zag patronen in oude trades. Of die echt kloppen, moet blijken uit nieuwe trades.",
@@ -263,7 +263,7 @@ def _les(tekst: str) -> str:
     wat = wat.replace(" bij instap", "").strip()
     if not wat[:2].isupper():
         wat = wat[0].lower() + wat[1:]
-    return (f"Uit {n} oude trades (5 jaar): instappen bij {wat} {waarde} werkte "
+    return (f"Uit {n} oude trades (testperiode): instappen bij {wat} {waarde} werkte "
             f"{'beter' if soort == 'Sterkte' else 'slechter'} (gemiddeld {r} R per trade). Het onderzoek blijft dit toetsen.")
 
 

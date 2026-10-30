@@ -15,7 +15,7 @@ from pathlib import Path
 WAT = {
     "practice": "Dagelijkse ronde van de bots",
     "onderzoek": "Wekelijks onderzoek",
-    "backtest": "Backtest over 5 jaar",
+    "backtest": "Backtest over 10 jaar",
     "tests": "Controle van de code",
     "diagnose": "Test van de koersbron",
     "broker": "Oefenaccount Trading 212",
