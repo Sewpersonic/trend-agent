@@ -23,6 +23,7 @@ on:
 
 permissions:
   contents: write   # nodig om de map state/ terug te zetten
+  actions: write    # nodig om daarna de bewaker te starten
 
 concurrency:
   group: oefenronde   # eigen wachtrij: workflows kunnen elkaar nooit wegdrukken
@@ -117,6 +118,14 @@ jobs:
       - name: Resultaat opslaan in de repository
         if: always() && github.event.inputs.action != 'voorbeeld'
         run: bash scripts/opslaan.sh "Oefenronde $(date -u +%F)" state/ rapporten/ dashboard/
+
+      # De bewaker voor de komende beursdag starten (wacht zelf tot 09:00). Zo hangt hij niet af van het
+      # schema van GitHub, dat vaak uren te laat komt. Loopt er al een, dan doet de nieuwe niets.
+      - name: Bewaker voor de beursdag starten
+        if: always() && (github.event_name == 'schedule' || github.event.inputs.action == 'run')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run bewaker.yml -R "$GITHUB_REPOSITORY" || echo "Starten lukte niet; de schema's en de uurtaak zijn de reserve."
 
       # Laatste stap: maakt de run ROOD als een bot faalde of de koersdata onbetrouwbaar was.
       # GitHub stuurt je dan standaard een e-mail.

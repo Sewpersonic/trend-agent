@@ -2,12 +2,17 @@
 # Zakt een aandeel onder zijn stop-loss (Trading 212 en Yahoo zijn het daarover eens), dan verkoopt het oefenaccount
 # het meteen in plaats van de volgende ochtend. Verder doet hij niets: geen aankopen, geen andere orders. Nepgeld.
 # Een run duurt hooguit ~5,5 uur (GitHub-grens 6 uur) en start dan zelf de volgende tot 22:00.
-# Starten: twee vroege GitHub-schema's en als reserve de uurlijkse taak van Claude. Een dubbele start doet niets.
+# Starten (de schema's van GitHub komen vaak uren te laat, daarom drie routes):
+#   1. de nachtronde (practice) start de bewaker direct na afloop: die wacht tot 09:00 en draagt zo nodig over;
+#   2. vier vroege GitHub-schema's;  3. de uurlijkse taak van Claude als reserve.
+# Een dubbele start doet niets.
 name: bewaker
 
 on:
   schedule:
-    - cron: "40 6 * * 1-5"    # 07:40/08:40 Nederlandse tijd (zomer/winter): wacht tot 09:00
+    - cron: "40 4 * * 1-5"    # ruim vóór 09:00 Nederlandse tijd; een vroege run wacht en draagt over
+    - cron: "40 5 * * 1-5"
+    - cron: "40 6 * * 1-5"
     - cron: "40 7 * * 1-5"
   workflow_dispatch:
     inputs:
@@ -39,8 +44,10 @@ jobs:
           import json, os, subprocess
           from datetime import datetime
           from zoneinfo import ZoneInfo
+          from datetime import timedelta
           nl = datetime.now(ZoneInfo("Europe/Amsterdam"))
-          ok = nl.weekday() < 5 and (7, 0) <= (nl.hour, nl.minute) <= (21, 50)
+          dag = (nl + timedelta(days=1)).date() if nl.hour >= 22 else nl.date()   # na 22:00: de volgende dag
+          ok = dag.weekday() < 5 and not (dag == nl.date() and (nl.hour, nl.minute) > (21, 50))
           if ok and os.environ.get("VERVOLG") != "true":
               # Loopt er al een eerder gestarte bewaker? Dan doet deze run niets.
               # (Een voortzetting wordt door de vorige run zelf gestart en slaat deze controle over.)
@@ -51,7 +58,7 @@ jobs:
                       capture_output=True, text=True, timeout=30).stdout or "[]")
               except Exception:
                   runs = []
-              if any(r["databaseId"] < int(os.environ["GITHUB_RUN_ID"]) for r in runs):
+              if any(r["databaseId"] != int(os.environ["GITHUB_RUN_ID"]) for r in runs):
                   ok = False
           print("ja=" + ("true" if ok else "false"))
           PY

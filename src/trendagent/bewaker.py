@@ -134,22 +134,28 @@ def sessie(state_dir: Path, *, nu=None, slaap=None, ronde_fn=None, na_ronde=None
     slaap = slaap or _time.sleep
     ronde_fn = ronde_fn or (lambda: ronde(state_dir))
     begin = nu()
-    if begin.astimezone(nl).weekday() >= 5:
+    b = begin.astimezone(nl)
+    # Na 22:00 gestart (bijv. door de nachtronde): dan bewaakt hij de volgende dag.
+    dag = (b + timedelta(days=1)).date() if b.hour >= eind_uur else b.date()
+    if dag.weekday() >= 5:
         return ["Weekend: de beurs is dicht."], False
     uit = []
     while True:
         t = nu().astimezone(nl)
-        if t.hour >= eind_uur:
+        if t.date() > dag or (t.date() == dag and t.hour >= eind_uur):
             return uit + ["Klaar voor vandaag."], False
         if (nu() - begin) >= timedelta(minutes=max_duur_min):
             return uit + ["Deze run stopt; een volgende neemt het over."], True
-        if t.hour >= 9:
+        if t.date() == dag and t.hour >= 9:
             v = ronde_fn()
             uit.append(f"{t:%H:%M} {v['status']}: " + "; ".join(v.get("log", [])[-2:]))
             if na_ronde:
                 na_ronde(v)
         t = nu().astimezone(nl)
         volgende = (t + timedelta(minutes=elke_min - t.minute % elke_min)).replace(second=30, microsecond=0)
-        if volgende.hour < 9:
-            volgende = volgende.replace(hour=9, minute=0)
-        slaap(max(5.0, (volgende - t).total_seconds()))
+        if volgende.date() < dag or volgende.hour < 9:
+            volgende = datetime.combine(dag, datetime.min.time(), tzinfo=nl).replace(hour=9, second=30)
+        # Nooit langer slapen dan deze run nog mag duren: zo kan een vroege start (bijv. na de nachtronde)
+        # op tijd overdragen aan een volgende run in plaats van door GitHub te worden afgebroken.
+        rest = (begin + timedelta(minutes=max_duur_min) - nu()).total_seconds()
+        slaap(max(5.0, min((volgende - t).total_seconds(), rest + 1)))

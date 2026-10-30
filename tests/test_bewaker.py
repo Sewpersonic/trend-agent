@@ -83,6 +83,33 @@ class BewakerTest(unittest.TestCase):
         self.assertFalse(verder)
         self.assertLess(rondes[-1].astimezone(bewaker_nl()).hour, 22)
 
+    def test_start_na_de_nachtronde_wacht_tot_9_uur_en_draagt_over(self):
+        # maandag 23:30 NL (wintertijd = 22:30 UTC): bewaakt dinsdag; geen slaap langer dan de run mag duren
+        klok = [datetime(2026, 11, 2, 22, 30, tzinfo=timezone.utc)]
+        rondes, slapen = [], []
+
+        def slaap(sec):
+            slapen.append(sec)
+            klok[0] += timedelta(seconds=sec)
+
+        def r():
+            rondes.append(klok[0])
+            return {"status": "ok", "log": []}
+        begin = klok[0]
+        _, verder = bewaker.sessie(self.d, nu=lambda: klok[0], slaap=slaap, ronde_fn=r, max_duur_min=330)
+        self.assertTrue(verder)
+        self.assertEqual(rondes, [])                                   # 's nachts geen rondes
+        self.assertLessEqual((klok[0] - begin).total_seconds(), 330 * 60 + 60)
+        # de vervolgrun bewaakt dinsdag vanaf 09:00
+        _, verder = bewaker.sessie(self.d, nu=lambda: klok[0], slaap=slaap, ronde_fn=r, max_duur_min=330)
+        self.assertEqual(rondes[0].astimezone(bewaker_nl()).strftime("%a %H:%M"), "Tue 09:00")
+
+    def test_vrijdagnacht_is_weekend(self):
+        klok = datetime(2026, 11, 6, 22, 30, tzinfo=timezone.utc)   # vrijdag 23:30 NL
+        regels, verder = bewaker.sessie(self.d, nu=lambda: klok, slaap=lambda s: None, ronde_fn=lambda: {})
+        self.assertFalse(verder)
+        self.assertIn("Weekend", regels[0])
+
 
 def bewaker_nl():
     from zoneinfo import ZoneInfo
