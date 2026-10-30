@@ -1,11 +1,11 @@
 {
  "trend": {
-  "day": "2026-10-28",
+  "day": "2026-10-29",
   "status": "OK",
-  "versie": "trend-1.1-d373c7",
+  "versie": "trend-1.1-a0ddd5",
   "waarschuwingen": [],
-  "gevraagd": 50,
-  "ok": 50,
+  "gevraagd": 129,
+  "ok": 129,
   "mislukt": 0,
   "verdacht": {},
   "wisselkoers": "ok",
@@ -13,22 +13,22 @@
   "verouderd": 0,
   "bronnen": {
    "koersen": {
-    "1 bron": 50
+    "1 bron": 129
    },
    "wisselkoers": "bevestigd",
-   "tweede_bron": "overgeslagen na herhaalde fouten",
-   "fout_tweede_bron": "GOOGL: Stooq gaf geen koersen ('<!DOCTYPE html><html><head><meta charset')",
+   "tweede_bron": "uit",
+   "fout_tweede_bron": "",
    "afwijkend": []
   },
-  "vastgelegd_utc": "2026-10-29T01:48:14+00:00"
+  "vastgelegd_utc": "2026-10-30T01:57:55+00:00"
  },
  "investeerder": {
-  "day": "2026-10-28",
+  "day": "2026-10-29",
   "status": "OK",
   "versie": "investeerder-1.0-c2474a",
   "waarschuwingen": [],
-  "gevraagd": 52,
-  "ok": 52,
+  "gevraagd": 131,
+  "ok": 131,
   "mislukt": 0,
   "verdacht": {},
   "wisselkoers": "ok",
@@ -36,13 +36,13 @@
   "verouderd": 0,
   "bronnen": {
    "koersen": {
-    "1 bron": 52
+    "1 bron": 131
    },
    "wisselkoers": "bevestigd",
-   "tweede_bron": "overgeslagen na herhaalde fouten",
-   "fout_tweede_bron": "GOOGL: Stooq gaf geen koersen ('<!DOCTYPE html><html><head><meta charset')",
+   "tweede_bron": "uit",
+   "fout_tweede_bron": "",
    "afwijkend": []
   },
-  "vastgelegd_utc": "2026-10-29T01:48:46+00:00"
+  "vastgelegd_utc": "2026-10-30T01:58:34+00:00"
  }
 }

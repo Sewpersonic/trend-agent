@@ -1,27 +1,86 @@
 {
- "tijd": "2026-10-29T21:26:40+00:00",
- "status": "alleen kijken",
- "reden": "Alleen gecontroleerd: geen orders geplaatst.",
- "orders": [],
+ "tijd": "2026-10-30T01:57:58+00:00",
+ "status": "ok",
+ "reden": "",
+ "orders": [
+  {
+   "ticker": "DB1d_EQ",
+   "yahoo": "DB1.DE",
+   "actie": "koop",
+   "quantity": 1.0,
+   "waarde_eur": 314.96,
+   "uitkomst": "geplaatst",
+   "antwoord": {
+    "id": 57201141549,
+    "strategy": "QUANTITY",
+    "type": "MARKET",
+    "ticker": "DB1d_EQ",
+    "quantity": 1.0,
+    "filledQuantity": 0,
+    "status": "NEW",
+    "currency": "EUR",
+    "extendedHours": false,
+    "initiatedFrom": "API",
+    "side": "BUY",
+    "createdAt": "2026-10-30T03:58:00.302+02:00",
+    "instrument": {
+     "ticker": "DB1d_EQ",
+     "name": "Deutsche Boerse",
+     "isin": "DE0005810055",
+     "currency": "EUR"
+    }
+   }
+  },
+  {
+   "ticker": "ABBV_US_EQ",
+   "yahoo": "ABBV",
+   "actie": "koop",
+   "quantity": 2.0,
+   "waarde_eur": 519.61,
+   "uitkomst": "geplaatst",
+   "antwoord": {
+    "id": 57201141551,
+    "strategy": "QUANTITY",
+    "type": "MARKET",
+    "ticker": "ABBV_US_EQ",
+    "quantity": 2.0,
+    "filledQuantity": 0,
+    "status": "NEW",
+    "currency": "EUR",
+    "extendedHours": false,
+    "initiatedFrom": "API",
+    "side": "BUY",
+    "createdAt": "2026-10-30T03:58:00.546+02:00",
+    "instrument": {
+     "ticker": "ABBV_US_EQ",
+     "name": "AbbVie",
+     "isin": "US00287Y1091",
+     "currency": "USD"
+    }
+   }
+  }
+ ],
  "niet_gekoppeld": [],
  "managed": [
+  "ABBV_US_EQ",
+  "DB1d_EQ",
   "MSFT_US_EQ",
   "SAPd_EQ",
   "SHELLa_EQ"
  ],
  "account": {
   "currency": "EUR",
-  "totalValue": 5035.74,
+  "totalValue": 5031.35,
   "cash": {
    "availableToTrade": 3516.29,
    "reservedForOrders": 0,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 1519.45,
+   "currentValue": 1515.06,
    "totalCost": 1482.99,
    "realizedProfitLoss": 0,
-   "unrealizedProfitLoss": 36.46
+   "unrealizedProfitLoss": 32.07
   }
  },
  "posities": [
@@ -78,14 +137,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 528.05,
+   "currentPrice": 523.9,
    "averagePricePaid": 539.52,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 481.57,
-    "currentValue": 472.32,
-    "unrealizedProfitLoss": -9.25,
-    "fxImpact": 1.01
+    "currentValue": 467.93,
+    "unrealizedProfitLoss": -13.64,
+    "fxImpact": 0.31
    }
   }
  ],
@@ -93,10 +152,27 @@
  "koppeling": {
   "SHELL.AS": "SHELLa_EQ",
   "SAP.DE": "SAPd_EQ",
-  "MSFT": "MSFT_US_EQ"
+  "MSFT": "MSFT_US_EQ",
+  "DB1.DE": "DB1d_EQ",
+  "ABBV": "ABBV_US_EQ"
  },
  "handmatig": {},
- "plan": [],
+ "plan": [
+  {
+   "ticker": "DB1d_EQ",
+   "yahoo": "DB1.DE",
+   "actie": "koop",
+   "quantity": 1.0,
+   "waarde_eur": 314.96
+  },
+  {
+   "ticker": "ABBV_US_EQ",
+   "yahoo": "ABBV",
+   "actie": "koop",
+   "quantity": 2.0,
+   "waarde_eur": 519.61
+  }
+ ],
  "geschiedenis": [
   {
    "tijd": "2026-10-15T16:30:57+00:00",
@@ -162,6 +238,29 @@
      "waarde_eur": null,
      "uitkomst": "geweigerd",
      "reden": "Aantal '' is geen getal."
+    }
+   ]
+  },
+  {
+   "tijd": "2026-10-30T01:57:58+00:00",
+   "status": "ok",
+   "reden": "",
+   "orders": [
+    {
+     "ticker": "DB1d_EQ",
+     "quantity": 1.0,
+     "actie": "koop",
+     "waarde_eur": 314.96,
+     "uitkomst": "geplaatst",
+     "reden": null
+    },
+    {
+     "ticker": "ABBV_US_EQ",
+     "quantity": 2.0,
+     "actie": "koop",
+     "waarde_eur": 519.61,
+     "uitkomst": "geplaatst",
+     "reden": null
     }
    ]
   }
