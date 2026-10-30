@@ -94,6 +94,18 @@ class BrokerTest(unittest.TestCase):
         self.assertEqual(q["SAPd_EQ"], -3)  # 5 -> 2, nooit onder nul
         self.assertTrue(all(o["uitkomst"] == "geplaatst" for o in v["orders"]))
 
+    def test_schaal_half(self):
+        self.assertEqual(b.doel_aantal(13, 0.5), 6.5)
+        self.assertEqual(b.doel_aantal(1, 0.5), 0.5)
+        self.assertEqual(b.doel_aantal(3, 0.5, heel=True), 1.0)
+        self.assertEqual(b.doel_aantal(0.333, 1.0), 0.33)
+        api = FakeApi([])
+        c = b.T212Demo("k", "s", opener=api)
+        cfg = self.dir / "broker.json"; cfg.write_text(json.dumps({"orders_aan": True, "schaal": 0.5}))
+        v = b.run(self.dir, cfg, client=c)
+        q = {o["ticker"]: o["quantity"] for o in v["orders"]}
+        self.assertEqual(q, {"MSFT_US_EQ": 0.5, "SHELLa_EQ": 6.5, "SAPd_EQ": 1.0})
+
     def test_kill_switch_blocks(self):
         api = FakeApi([])
         c = b.T212Demo("k", "s", opener=api)
