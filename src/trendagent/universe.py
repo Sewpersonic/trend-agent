@@ -103,6 +103,27 @@ CRYPTO: tuple[Instrument, ...] = (
 
 BY_TICKER = {i.ticker: i for i in UNIVERSE + CRYPTO}
 
+# Eerlijke test (alleen voor de backtest, nooit voor de echte keuze): de grootste bedrijven van begin 2016,
+# zonder te weten welke daarna goed liepen. Zo meet de test minder 'achteraf gekozen' winnaars.
+# (Bedrijven die sindsdien van de beurs verdwenen zijn ontbreken nog; ook dat maakt de uitkomst iets te mooi.)
+_EXTRA_2016 = (
+    _us("XOM", "ExxonMobil"), _us("GE", "General Electric"), _us("WFC", "Wells Fargo"), _us("PFE", "Pfizer"),
+    _us("CMCSA", "Comcast"), _us("INTC", "Intel"), _us("PM", "Philip Morris"), _us("C", "Citigroup"),
+    _us("MO", "Altria"), _us("IBM", "IBM"), _us("AMGN", "Amgen"), _us("GILD", "Gilead"), _us("MDT", "Medtronic"),
+    _us("SLB", "Schlumberger"), _us("CVS", "CVS Health"), _us("BA", "Boeing"), _us("MMM", "3M"),
+    _eu("VOW3.DE", "Volkswagen"), _eu("ENI.MI", "Eni"), _eu("TEF.MC", "Telefonica"), _eu("BBVA.MC", "BBVA"),
+    _eu("SGO.PA", "Saint-Gobain"), _eu("ORA.PA", "Orange"), _eu("DG.PA", "Vinci"),
+)
+UNIVERSE_2016: tuple[Instrument, ...] = tuple({i.ticker: i for i in (
+    *(BY_TICKER[t] for t in (
+        "AAPL", "GOOGL", "MSFT", "AMZN", "META", "JNJ", "JPM", "V", "MA", "BRK-B", "PG", "VZ", "T", "CVX", "KO",
+        "HD", "DIS", "BAC", "MRK", "PEP", "CSCO", "ORCL", "UNH", "MCD", "WMT", "QCOM", "ABBV", "LLY", "TXN", "HON",
+        "SAP.DE", "SIE.DE", "ALV.DE", "BAYN.DE", "BAS.DE", "DTE.DE", "MBG.DE", "BMW.DE", "MUV2.DE", "SAN.PA",
+        "TTE.PA", "MC.PA", "OR.PA", "BNP.PA", "AI.PA", "CS.PA", "AIR.PA", "SAN.MC", "ITX.MC", "IBE.MC", "ENEL.MI",
+        "ISP.MI", "UNA.AS", "INGA.AS", "PHIA.AS", "ASML.AS", "AD.AS", "HEIA.AS", "NOKIA.HE",
+        "SPY", "QQQ", "GLD", "XLE", "IWDA.AS")),
+    *_EXTRA_2016)}.values())
+
 
 def select(tickers: tuple[str, ...] = ()) -> tuple[Instrument, ...]:
     """Geeft het hele universum terug, of alleen de gekozen tickers (die er wel in moeten staan)."""

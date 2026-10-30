@@ -43,7 +43,7 @@ def main(argv: list[str] | None = None) -> int:
     bt.add_argument("--years", type=int, default=5, help="aantal jaren (standaard 5)")
     bt.add_argument("--simulated", action="store_true", help="verzonnen koersen, voor een proef")
     bt.add_argument("--out", default=None, help="map voor de resultaten")
-    bt.add_argument("--strategie", choices=["trend", "investeerder", "beide", "controles"], default="beide",
+    bt.add_argument("--strategie", choices=["trend", "investeerder", "beide", "controles", "eerlijk"], default="beide",
                     help="controles = investeerder met alleen ETF's en zonder crypto")
     inv = sub.add_parser("invest", help="één ronde van de investeerder (maandelijks herverdelen)")
     inv.add_argument("--simulated", action="store_true", help="gebruik verzonnen koersen")
@@ -291,15 +291,26 @@ def _backtest(s, args) -> int:
     from .universe import CRYPTO, UNIVERSE
 
     today = datetime.now(timezone.utc).date()
+    lijst = UNIVERSE
+    if args.strategie == "eerlijk":
+        # Eerlijke test: de grootste bedrijven van begin 2016 in plaats van de huidige (achteraf gekozen) lijst.
+        from dataclasses import replace as _r
+        from . import investor as _inv
+        from .universe import BY_TICKER, UNIVERSE_2016
+        lijst = UNIVERSE_2016
+        for i in UNIVERSE_2016:
+            BY_TICKER.setdefault(i.ticker, i)       # alleen in dit proces, alleen voor deze test
+        _inv.UNIVERSE = UNIVERSE_2016
+        s = _r(s, tickers_override=tuple(i.ticker for i in UNIVERSE_2016))
     if args.simulated:
         sim = SimulatedProvider(end=today)
         n = (args.years + 1) * 260
-        bars = {i.ticker: sim.history(i, n) for i in UNIVERSE + CRYPTO}
+        bars = {i.ticker: sim.history(i, n) for i in lijst + CRYPTO}
         fx = {b.day: 0.92 for b in next(iter(bars.values()))}
     else:
-        print(f"Koersen downloaden ({args.years + 1} jaar, {len(UNIVERSE)} instrumenten)...")
+        print(f"Koersen downloaden ({args.years + 1} jaar, {len(lijst)} instrumenten)...")
         try:
-            bars, fx = download_history(args.years)
+            bars, fx = download_history(args.years, lijst + CRYPTO)
         except Exception as exc:  # noqa: BLE001
             print(f"Downloaden mislukt: {exc}", file=sys.stderr)
             return 2
@@ -320,7 +331,11 @@ def _backtest(s, args) -> int:
                               partial(run_investor_backtest, mix=_replace(prod, crypto_weight=0.0,
                                                                          core_weight=prod.core_weight + prod.crypto_weight)),
                               "backtest/controle-zonder-crypto")}
-    groups = {"beide": ["trend", "investeerder"], "controles": ["alleen-etf", "zonder-crypto"]}
+    runs["eerlijk-trend"] = ("Trend-agent (eerlijke test: grootste bedrijven van 2016)", run_backtest, "backtest/eerlijk-trend")
+    runs["eerlijk-investeerder"] = ("Investeerder (eerlijke test: grootste bedrijven van 2016)", run_investor_backtest,
+                                    "backtest/eerlijk-investeerder")
+    groups = {"beide": ["trend", "investeerder"], "controles": ["alleen-etf", "zonder-crypto"],
+              "eerlijk": ["eerlijk-trend", "eerlijk-investeerder"]}
     chosen = groups.get(args.strategie, [args.strategie])
     for key in chosen:
         label, fn, default_out = runs[key]
