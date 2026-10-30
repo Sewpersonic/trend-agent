@@ -1,65 +1,8 @@
 {
- "tijd": "2026-10-30T01:57:58+00:00",
- "status": "ok",
- "reden": "",
- "orders": [
-  {
-   "ticker": "DB1d_EQ",
-   "yahoo": "DB1.DE",
-   "actie": "koop",
-   "quantity": 1.0,
-   "waarde_eur": 314.96,
-   "uitkomst": "geplaatst",
-   "antwoord": {
-    "id": 57201141549,
-    "strategy": "QUANTITY",
-    "type": "MARKET",
-    "ticker": "DB1d_EQ",
-    "quantity": 1.0,
-    "filledQuantity": 0,
-    "status": "NEW",
-    "currency": "EUR",
-    "extendedHours": false,
-    "initiatedFrom": "API",
-    "side": "BUY",
-    "createdAt": "2026-10-30T03:58:00.302+02:00",
-    "instrument": {
-     "ticker": "DB1d_EQ",
-     "name": "Deutsche Boerse",
-     "isin": "DE0005810055",
-     "currency": "EUR"
-    }
-   }
-  },
-  {
-   "ticker": "ABBV_US_EQ",
-   "yahoo": "ABBV",
-   "actie": "koop",
-   "quantity": 2.0,
-   "waarde_eur": 519.61,
-   "uitkomst": "geplaatst",
-   "antwoord": {
-    "id": 57201141551,
-    "strategy": "QUANTITY",
-    "type": "MARKET",
-    "ticker": "ABBV_US_EQ",
-    "quantity": 2.0,
-    "filledQuantity": 0,
-    "status": "NEW",
-    "currency": "EUR",
-    "extendedHours": false,
-    "initiatedFrom": "API",
-    "side": "BUY",
-    "createdAt": "2026-10-30T03:58:00.546+02:00",
-    "instrument": {
-     "ticker": "ABBV_US_EQ",
-     "name": "AbbVie",
-     "isin": "US00287Y1091",
-     "currency": "USD"
-    }
-   }
-  }
- ],
+ "tijd": "2026-10-30T08:27:03+00:00",
+ "status": "alleen kijken",
+ "reden": "Alleen gecontroleerd: geen orders geplaatst.",
+ "orders": [],
  "niet_gekoppeld": [],
  "managed": [
   "ABBV_US_EQ",
@@ -70,17 +13,17 @@
  ],
  "account": {
   "currency": "EUR",
-  "totalValue": 5031.35,
+  "totalValue": 5046.54,
   "cash": {
-   "availableToTrade": 3516.29,
-   "reservedForOrders": 0,
+   "availableToTrade": 2653.57,
+   "reservedForOrders": 545.72,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 1515.06,
-   "totalCost": 1482.99,
+   "currentValue": 1847.26,
+   "totalCost": 1799.99,
    "realizedProfitLoss": 0,
-   "unrealizedProfitLoss": 32.07
+   "unrealizedProfitLoss": 47.27
   }
  },
  "posities": [
@@ -91,17 +34,38 @@
     "isin": "DE0007164600",
     "currency": "EUR"
    },
-   "createdAt": "2026-10-16T10:00:06.164+03:00",
+   "createdAt": "2026-10-16T10:00:06.000+03:00",
    "quantity": 2.0,
    "quantityAvailableForTrading": 2.0,
    "quantityInPies": 0,
-   "currentPrice": 208.9,
+   "currentPrice": 212.37,
    "averagePricePaid": 200.8,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 401.6,
-    "currentValue": 417.8,
-    "unrealizedProfitLoss": 16.2,
+    "currentValue": 424.74,
+    "unrealizedProfitLoss": 23.14,
+    "fxImpact": null
+   }
+  },
+  {
+   "instrument": {
+    "ticker": "DB1d_EQ",
+    "name": "Deutsche Boerse",
+    "isin": "DE0005810055",
+    "currency": "EUR"
+   },
+   "createdAt": "2026-10-30T10:00:12.977+02:00",
+   "quantity": 1.0,
+   "quantityAvailableForTrading": 1.0,
+   "quantityInPies": 0,
+   "currentPrice": 318.4,
+   "averagePricePaid": 317.0,
+   "walletImpact": {
+    "currency": "EUR",
+    "totalCost": 317.0,
+    "currentValue": 318.4,
+    "unrealizedProfitLoss": 1.4,
     "fxImpact": null
    }
   },
@@ -112,17 +76,17 @@
     "isin": "GB00BP6MXD84",
     "currency": "EUR"
    },
-   "createdAt": "2026-10-16T10:00:19.278+03:00",
+   "createdAt": "2026-10-16T10:00:19.000+03:00",
    "quantity": 13.0,
    "quantityAvailableForTrading": 13.0,
    "quantityInPies": 0,
-   "currentPrice": 48.41,
+   "currentPrice": 48.833,
    "averagePricePaid": 46.14,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 599.82,
-    "currentValue": 629.33,
-    "unrealizedProfitLoss": 29.51,
+    "currentValue": 634.83,
+    "unrealizedProfitLoss": 35.01,
     "fxImpact": null
    }
   },
@@ -133,22 +97,28 @@
     "isin": "US5949181045",
     "currency": "USD"
    },
-   "createdAt": "2026-10-15T19:38:29.744+03:00",
+   "createdAt": "2026-10-15T19:38:29.000+03:00",
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 523.9,
+   "currentPrice": 525.68,
    "averagePricePaid": 539.52,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 481.57,
-    "currentValue": 467.93,
-    "unrealizedProfitLoss": -13.64,
-    "fxImpact": 0.31
+    "currentValue": 469.29,
+    "unrealizedProfitLoss": -12.28,
+    "fxImpact": 0.08
    }
   }
  ],
- "open_orders": [],
+ "open_orders": [
+  {
+   "ticker": "ABBV_US_EQ",
+   "quantity": 2.0,
+   "status": "NEW"
+  }
+ ],
  "koppeling": {
   "SHELL.AS": "SHELLa_EQ",
   "SAP.DE": "SAPd_EQ",
@@ -157,21 +127,9 @@
   "ABBV": "ABBV_US_EQ"
  },
  "handmatig": {},
- "plan": [
-  {
-   "ticker": "DB1d_EQ",
-   "yahoo": "DB1.DE",
-   "actie": "koop",
-   "quantity": 1.0,
-   "waarde_eur": 314.96
-  },
-  {
-   "ticker": "ABBV_US_EQ",
-   "yahoo": "ABBV",
-   "actie": "koop",
-   "quantity": 2.0,
-   "waarde_eur": 519.61
-  }
+ "plan": [],
+ "wacht_op": [
+  "ABBV_US_EQ"
  ],
  "geschiedenis": [
   {
