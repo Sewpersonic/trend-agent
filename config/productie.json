@@ -1,9 +1,11 @@
 {
   "_uitleg": "Productie-instellingen die afwijken van de standaard in de code. Alleen een mens wijzigt dit bestand (via een samengevoegd voorstel). Leeg = de standaard uit de code.",
   "trend": {
-    "max_positions": 5,
-    "max_open_risk": 0.0125,
-    "max_rsi_entry": 75.0
+    "max_positions": 8,
+    "max_open_risk": 0.04,
+    "max_rsi_entry": 75.0,
+    "risk_per_trade": 0.005,
+    "max_drawdown": 0.1
   },
   "investeerder": {}
 }
