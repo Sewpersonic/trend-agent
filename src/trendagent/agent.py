@@ -85,6 +85,8 @@ class TrendAgent:
         # 1. kill switch: geen nieuwe aankopen, maar bestaande posities blijven beschermd
         #    (stop-loss en trendbreuk mogen nog verkopen; verkopen verkleint alleen risico).
         if self.kill_switch.is_active():
+            self._misschien_hervatten(pf, rep)
+        if self.kill_switch.is_active():
             ks = self.kill_switch.status()
             rep.status = "GESTOPT"
             rep.buys_allowed = False
@@ -259,6 +261,35 @@ class TrendAgent:
             rep.actions.append(f"{ticker}: stop omhoog van {pos.stop:.2f} naar {trail:.2f}")
             pos.stop = trail
 
+    def _misschien_hervatten(self, pf: Portfolio, rep: RunReport) -> None:
+        """Regel die de eigenaar zelf aanzette (auto_hervat_dagen): een rem van de Risk Manager gaat na zoveel
+        handelsdagen vanzelf weer uit, zoals in de backtest. Een rem van een mens of de monitoring nooit."""
+        n = getattr(self.s, "auto_hervat_dagen", 0)
+        ks = self.kill_switch.status()
+        if not n or ks.get("by") != "risk_manager":
+            return
+        pad = self.kill_switch.path.with_name("rem_teller.json")
+        try:
+            t = json.loads(pad.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            t = {}
+        if t.get("sinds") != ks.get("changed_at_utc"):
+            t = {"sinds": ks.get("changed_at_utc"), "dagen": []}
+        if rep.day not in t["dagen"]:
+            t["dagen"].append(rep.day)
+        if len(t["dagen"]) >= n:
+            from .core.kill_switch import OWNER_RULE
+            self.kill_switch.deactivate(by=OWNER_RULE)
+            pf.reset_risk_baseline()
+            rep.warnings.append(f"Noodrem ({ks.get('reason')}) na {n} handelsdagen vanzelf weer uit "
+                                "(regel die jij zelf hebt aangezet).")
+            self.audit.append("kill_switch_auto_resumed", ACTOR, {"reason": ks.get("reason"), "dagen": n})
+            t["dagen"] = []
+        try:
+            pad.write_text(json.dumps(t), encoding="utf-8")
+        except OSError:
+            pass
+
     def _risk_brakes(self, pf: Portfolio, equity: float, rep: RunReport) -> None:
         reason = None
         earlier = [h for h in pf.equity_history if h["day"] < rep.day]   # ook bij een tweede ronde op dezelfde dag
@@ -276,7 +307,9 @@ class TrendAgent:
             self.kill_switch.activate(reason, by="risk_manager")
             rep.status = "GESTOPT"
             rep.buys_allowed = False
-            rep.warnings.append(f"Kill switch aangezet: {reason}. Zet hem zelf weer uit met 'resume'.")
+            n = getattr(self.s, "auto_hervat_dagen", 0)
+            rep.warnings.append(f"Kill switch aangezet: {reason}. " + (f"Hij gaat na {n} handelsdagen vanzelf weer uit; "
+                                "eerder kan met 'resume'." if n else "Zet hem zelf weer uit met 'resume'."))
             self.audit.append("kill_switch_activated", ACTOR, {"reason": reason, "equity": round(equity, 2)})
 
     def _buy_candidates(self, pf: Portfolio, ranked: list[Analysis], fx: dict,

@@ -28,6 +28,7 @@ TREND_ALLOWED = {
     "max_positions": (int, 1, 10),
     "max_per_sector": (int, 0, 5),
     "max_consecutive_losses": (int, 2, 10),
+    "auto_hervat_dagen": (int, 0, 20),
     "stop_atr_multiple": (float, 1.0, 5.0),
     "trail_atr_multiple": (float, 1.0, 6.0),
     "regime_filter": (bool, None, None),

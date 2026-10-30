@@ -207,3 +207,35 @@ class AgentTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class AutoHervatTests(unittest.TestCase):
+    def test_rem_van_risk_manager_gaat_na_n_dagen_vanzelf_uit(self):
+        s = settings(auto_hervat_dagen=2)
+        prov = SimulatedProvider(TODAY, drifts=UP)
+        agent = TrendAgent(s, prov)
+        ks = KillSwitch(s.state_dir / "kill_switch.json")
+        ks.activate("3 verliestrades op rij", by="risk_manager")
+        agent.run(TODAY - timedelta(days=1))
+        self.assertTrue(ks.is_active())                 # dag 1: nog aan
+        rep = agent.run(TODAY)
+        self.assertFalse(ks.is_active())                # dag 2: vanzelf weer uit
+        self.assertTrue(any("vanzelf weer uit" in w for w in rep.warnings))
+
+    def test_rem_van_mens_blijft_aan(self):
+        s = settings(auto_hervat_dagen=1)
+        agent = TrendAgent(s, SimulatedProvider(TODAY, drifts=UP))
+        ks = KillSwitch(s.state_dir / "kill_switch.json")
+        ks.activate("handmatig", by="human")
+        agent.run(TODAY)
+        agent.run(TODAY + timedelta(days=3))
+        self.assertTrue(ks.is_active())
+
+    def test_standaard_uit(self):
+        s = settings()
+        agent = TrendAgent(s, SimulatedProvider(TODAY, drifts=UP))
+        ks = KillSwitch(s.state_dir / "kill_switch.json")
+        ks.activate("3 verliestrades op rij", by="risk_manager")
+        for i in range(4):
+            agent.run(TODAY - timedelta(days=3 - i))
+        self.assertTrue(ks.is_active())

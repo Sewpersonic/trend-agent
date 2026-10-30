@@ -5,7 +5,9 @@ Iedere agent controleert de kill switch vóór elke actie.
 
 Regels:
 - AANZETTEN mag door: de mens, de Monitoring Agent en de Risk Manager.
-- UITZETTEN mag alleen een mens.
+- UITZETTEN mag alleen een mens. Uitzondering die de mens zelf vooraf aanzet (instelling auto_hervat_dagen):
+  een rem die de Risk Manager zette mag na zoveel handelsdagen vanzelf weer uit ('regel_eigenaar').
+  Een rem die een mens of de monitoring zette blijft altijd aan tot een mens hem uitzet.
 - Is het bestand onleesbaar of beschadigd, dan geldt de kill switch als AAN
   (bij twijfel: stoppen).
 """
@@ -17,6 +19,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 HUMAN = "human"
+OWNER_RULE = "regel_eigenaar"     # vooraf door de mens toegestaan: risk_manager-rem na N dagen weer uit
 ALLOWED_TO_ACTIVATE = {HUMAN, "monitoring", "risk_manager"}
 
 
@@ -53,6 +56,11 @@ class KillSwitch:
         self._write({"active": True, "reason": reason, "by": by})
 
     def deactivate(self, by: str) -> None:
+        if by == OWNER_RULE:
+            if self._read().get("by") != "risk_manager":
+                raise KillSwitchPermissionError("Alleen een rem van de Risk Manager mag vanzelf weer uit")
+            self._write({"active": False, "reason": "vanzelf weer uit na de wachttijd (regel van de eigenaar)", "by": by})
+            return
         if by != HUMAN:
             raise KillSwitchPermissionError("Alleen een mens mag de kill switch uitzetten")
         self._write({"active": False, "reason": "handmatig vrijgegeven", "by": by})

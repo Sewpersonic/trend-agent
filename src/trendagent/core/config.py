@@ -50,6 +50,7 @@ class Settings:
     daily_loss_limit: float = 0.01        # -1% op één dag  -> kill switch
     max_drawdown: float = 0.05            # -5% vanaf de top -> kill switch
     max_consecutive_losses: int = 3       # daarna geen nieuwe aankopen
+    auto_hervat_dagen: int = 0            # >0: een rem van de Risk Manager gaat na zoveel handelsdagen vanzelf weer uit
 
     # --- strategie
     stop_atr_multiple: float = 2.0        # beginstop = instap - 2 x ATR
