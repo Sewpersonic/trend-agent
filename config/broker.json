@@ -1,4 +1,5 @@
 {
-  "_uitleg": "Oefenaccount Trading 212 (demo, nepgeld). orders_aan=false: alleen kijken. true: het oefenaccount volgt de trend-agent met marktorders.",
-  "orders_aan": true
+  "_uitleg": "Oefenaccount Trading 212 (demo, nepgeld). orders_aan=false: alleen kijken. true: het oefenaccount volgt de trend-agent met marktorders. schaal: welk deel van elke positie van de trend-agent het oefenaccount koopt (0.5 = de helft, passend bij €5.000 tegenover €10.000; ook stukjes van een aandeel).",
+  "orders_aan": true,
+  "schaal": 0.5
 }

@@ -361,6 +361,11 @@ def broker_rows(state_dir: Path) -> list[dict]:
                 if t and (t == f"{base}_US_EQ" or (t.startswith(base) and t.endswith("_EQ") and len(t) == len(base) + 4)):
                     koppeling[y] = t
     hand = v.get("handmatig") or {}
+    schaal = float(v.get("schaal") or 1.0)
+    try:
+        heel = set(json.loads((state_dir / "t212_heel.json").read_text(encoding="utf-8")))
+    except (OSError, ValueError):
+        heel = set()
     port = dict(port)
     for t, h in hand.items():   # handmatig gekocht en niet bij de trend-agent: ook tonen
         if h.get("yahoo") and h["yahoo"] not in port and float(h.get("qty", 0)) > 0:
@@ -373,7 +378,8 @@ def broker_rows(state_dir: Path) -> list[dict]:
             continue
         gezien.add(t)
         hq, oq = have.get(t, 0.0), onderweg.get(t, 0.0)
-        bq = max(0.0, float(p.get("qty") or 0) + float(hand.get(t, {}).get("qty", 0)))
+        from .broker_t212 import doel_aantal
+        bq = max(0.0, doel_aantal(float(p.get("qty") or 0), schaal, t in heel) + float(hand.get(t, {}).get("qty", 0)))
         rows.append({"id": "pos-" + t, "soort": "positie", "ticker": t, "yahoo": y, "naam": _name(y), "oefenaccount": hq,
                      "onderweg": oq, "trend_agent": bq, "gelijk": abs(hq - bq) < 1e-6, "onderweg_gelijk": abs(hq + oq - bq) < 1e-6,
                      **info.get(t, {})})

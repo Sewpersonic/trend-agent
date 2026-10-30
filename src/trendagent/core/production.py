@@ -23,7 +23,8 @@ class ProductionConfigError(ValueError):
 # naam -> (type, minimum, maximum). bool en tuple hebben geen grenzen.
 TREND_ALLOWED = {
     "risk_per_trade": (float, 0.0005, 0.01),
-    "max_open_risk": (float, 0.001, 0.03),
+    "max_open_risk": (float, 0.001, 0.05),
+    "max_drawdown": (float, 0.03, 0.15),
     "max_positions": (int, 1, 10),
     "max_per_sector": (int, 0, 5),
     "max_consecutive_losses": (int, 2, 10),

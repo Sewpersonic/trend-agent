@@ -18,6 +18,7 @@ from __future__ import annotations
 import base64
 import http.client
 import json
+import math
 import os
 import time
 import urllib.error
@@ -197,8 +198,15 @@ def _instruments(client: T212Demo, state_dir: Path) -> list[dict]:
     return keep
 
 
+def doel_aantal(qty: float, schaal: float, heel: bool = False) -> float:
+    """Hoeveel het oefenaccount van een aandeel hoort te hebben: het aantal van de trend-agent maal de schaal,
+    naar beneden afgerond op 2 decimalen (stukjes van een aandeel), of op hele aandelen als dat aandeel geen stukjes kent."""
+    x = qty * schaal
+    return float(math.floor(x + 1e-9)) if heel else math.floor(x * 100 + 1e-6) / 100
+
+
 def sync(state_dir: Path, client: T212Demo, orders_aan: bool, kill_active: bool, managed: set[str] | None = None,
-         verslag: dict | None = None, handmatig: dict | None = None) -> dict:
+         verslag: dict | None = None, handmatig: dict | None = None, schaal: float = 1.0) -> dict:
     """Vergelijk en zet gelijk. Schrijft in 'verslag' (ook als het halverwege misgaat blijft bewaard wat er al gebeurde)."""
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
     port = json.loads((state_dir / "portfolio.json").read_text(encoding="utf-8"))
@@ -231,6 +239,13 @@ def sync(state_dir: Path, client: T212Demo, orders_aan: bool, kill_active: bool,
         pending.setdefault(t, []).append({"id": o.get("id"), "quantity": rest})
         verslag["open_orders"].append({"ticker": t, "quantity": rest, "status": o.get("status")})
 
+    # Aandelen die bij Trading 212 geen stukjes kennen (eerder geweigerd): dan hele aandelen.
+    heel_pad = state_dir / "t212_heel.json"
+    try:
+        heel = set(json.loads(heel_pad.read_text(encoding="utf-8")))
+    except (OSError, ValueError):
+        heel = set()
+    verslag["schaal"] = schaal
     target: dict[str, dict] = {}
     for y, p in bot_pos.items():
         t = map_ticker(y, p.get("currency", ""), instruments)
@@ -238,7 +253,7 @@ def sync(state_dir: Path, client: T212Demo, orders_aan: bool, kill_active: bool,
             verslag["niet_gekoppeld"].append(y)
             continue
         verslag.setdefault("koppeling", {})[y] = t
-        target[t] = {"yahoo": y, "qty": float(p["qty"]), "prijs": float(p.get("highest_close") or p.get("entry_price") or 0),
+        target[t] = {"yahoo": y, "qty": doel_aantal(float(p["qty"]), schaal, t in heel), "prijs": float(p.get("highest_close") or p.get("entry_price") or 0),
                      "valuta": p.get("currency", "EUR"), "fx": float(p.get("entry_fx") or FX_NAAR_EUR.get(p.get("currency", "EUR"), 1.0))}
     # Handmatige orders van de mens tellen mee, zodat gelijkzetten ze niet terugdraait.
     for t, h in (handmatig or {}).items():
@@ -278,7 +293,22 @@ def sync(state_dir: Path, client: T212Demo, orders_aan: bool, kill_active: bool,
                 client.cancel_order(o["order_id"])
                 verslag["orders"].append({**o, "uitkomst": "ingetrokken"})
             else:
-                r = client.market_order(o["ticker"], o["quantity"])
+                try:
+                    r = client.market_order(o["ticker"], o["quantity"])
+                except BrokerError as e1:
+                    # Geweigerd met een stukje aandeel? Dan dit aandeel voortaan in hele aandelen.
+                    hele = float(math.floor(abs(o["quantity"]))) * (1 if o["quantity"] > 0 else -1)
+                    if e1.onzeker or abs(o["quantity"]) == abs(hele) or o["actie"] != "koop":
+                        raise
+                    heel.add(o["ticker"])
+                    try:
+                        heel_pad.write_text(json.dumps(sorted(heel)), encoding="utf-8")
+                    except OSError:
+                        pass
+                    if abs(hele) < 1:
+                        raise
+                    o = {**o, "quantity": hele, "reden": "in hele aandelen (stukjes geweigerd)"}
+                    r = client.market_order(o["ticker"], o["quantity"])
                 verslag["orders"].append({**o, "uitkomst": "geplaatst", "antwoord": r})
             gedaan += 1
         except BrokerError as e:
@@ -305,7 +335,7 @@ def run(state_dir: Path, config_path: Path, check_only: bool = False, client: T2
         kill = KillSwitch(state_dir / "kill_switch.json").is_active()
         sync(state_dir, client, orders_aan=bool(cfg.get("orders_aan")) and not check_only,
              kill_active=kill, managed=set(prev.get("managed", [])), verslag=verslag,
-             handmatig=prev.get("handmatig", {}))
+             handmatig=prev.get("handmatig", {}), schaal=float(cfg.get("schaal", 1.0)))
         if check_only and verslag["status"] == "alleen kijken" and cfg.get("orders_aan"):
             verslag["reden"] = "Alleen gecontroleerd: geen orders geplaatst."
     except Exception as e:  # noqa: BLE001 - elk probleem: verslag schrijven, niets meer doen
