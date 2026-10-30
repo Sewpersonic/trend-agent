@@ -36,6 +36,7 @@ jobs:
     env:
       PAPER_TRADING: "true"
       STOOQ_APIKEY: ${{ secrets.STOOQ_APIKEY }}   # gratis sleutel voor de controlebron; leeg = Stooq overslaan
+      TWELVEDATA_KEY: ${{ secrets.TWELVEDATA_KEY }}   # gratis tweede bron (VS); leeg = overslaan
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6

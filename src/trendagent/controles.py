@@ -63,7 +63,7 @@ def _bot_checks(name: str, key: str, h: dict) -> list[dict]:
             "sprongen en of ze vers zijn, en de wisselkoers bij de ECB. Voor echt geld is een tweede bron verstandig.")
     elif tweede != "actief" and een:
         add("bronnen", "Kloppen de koersen met een tweede bron?", "letop",
-            "Dit kon vandaag niet worden gecontroleerd: de tweede koersbron (Stooq) werkte niet. De bot gebruikte alleen "
+            "Dit kon vandaag niet worden gecontroleerd: de tweede koersbron werkte niet. De bot gebruikte alleen "
             "Yahoo. Die koersen zijn wel gecontroleerd op rare sprongen en of ze vers zijn. Geen probleem, wel goed om te weten.",
             f"tweede bron {tweede}" + (f": {_schoon(src['fout_tweede_bron'])}" if src.get("fout_tweede_bron") else ""))
     elif dubbel:

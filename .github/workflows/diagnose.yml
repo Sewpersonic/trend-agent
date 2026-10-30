@@ -14,6 +14,7 @@ jobs:
     timeout-minutes: 10
     env:
       STOOQ_APIKEY: ${{ secrets.STOOQ_APIKEY }}
+      TWELVEDATA_KEY: ${{ secrets.TWELVEDATA_KEY }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6

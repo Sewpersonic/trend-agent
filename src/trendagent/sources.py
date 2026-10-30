@@ -27,9 +27,11 @@ from __future__ import annotations
 
 import csv
 import io
+import json
 import time
 import urllib.request
 from datetime import date
+from pathlib import Path
 
 from .data import Bar, DataError, YahooProvider, validate_bars
 from .universe import Instrument
@@ -108,6 +110,77 @@ class StooqSource:
 
 # -------------------------------------------------------------------- ECB
 
+class NietGedekt(DataError):
+    """De controlebron heeft deze belegging niet (bijv. Europese aandelen in een gratis abonnement): geen fout."""
+
+
+class TwelveDataSource:
+    """Twelve Data als controlebron (gratis sleutel, GitHub-secret TWELVEDATA_KEY). Het gratis abonnement heeft alleen
+    Amerikaanse aandelen en ETF's en 8 verzoeken per minuut; Europese beleggingen blijven dus bij één bron.
+    Alleen de laatste ±10 dagen worden opgehaald: genoeg om de slotkoers te vergelijken. Per dag bewaard, zodat de
+    investeerder en de trend-agent niet twee keer hetzelfde vragen."""
+
+    alleen_controle = True     # maar ±10 dagen: nooit als vervanging van Yahoo gebruiken
+    URL = "https://api.twelvedata.com/time_series?symbol={s}&interval=1day&outputsize=10&apikey={k}"
+
+    def __init__(self, fetch=None, apikey: str | None = None, wacht: float = 7.8, slaap=None):
+        import os
+        import time
+        self.fetch = fetch or http_get
+        self.apikey = (apikey if apikey is not None else os.environ.get("TWELVEDATA_KEY", "")).strip()
+        self.wacht, self.slaap, self._laatst = wacht, slaap or time.sleep, 0.0
+        self._klok = time.monotonic
+
+    def _cache(self) -> Path:
+        import tempfile
+        from datetime import date as _d
+        return Path(tempfile.gettempdir()) / f"twelvedata-{_d.today().isoformat()}.json"
+
+    def history(self, instrument: Instrument, days: int) -> list[Bar]:
+        if not self.apikey:
+            raise GeenSleutel("Twelve Data heeft een sleutel nodig (GitHub-secret TWELVEDATA_KEY ontbreekt)")
+        if instrument.region != "US" or instrument.kind not in ("STOCK", "ETF"):
+            raise NietGedekt(f"{instrument.ticker}: niet in het gratis abonnement van Twelve Data")
+        sym = instrument.ticker.replace("-", ".")
+        try:
+            cache = json.loads(self._cache().read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            cache = {}
+        if sym in cache:
+            return self.parse(cache[sym], instrument.ticker)
+        rust = self.wacht - (self._klok() - self._laatst)
+        if rust > 0:
+            self.slaap(rust)                       # gratis: hooguit 8 verzoeken per minuut
+        self._laatst = self._klok()
+        text = self.fetch(self.URL.format(s=sym, k=self.apikey))
+        data = json.loads(text)
+        if data.get("status") == "error":
+            msg = str(data.get("message", ""))[:120].replace(self.apikey, "***")
+            if data.get("code") in (401, 403):
+                raise GeenSleutel(f"Twelve Data weigert de sleutel: {msg}")
+            raise DataError(f"Twelve Data {instrument.ticker}: {msg}")
+        cache[sym] = data
+        try:
+            self._cache().write_text(json.dumps(cache), encoding="utf-8")
+        except OSError:
+            pass
+        return self.parse(data, instrument.ticker)
+
+    @staticmethod
+    def parse(data: dict, ticker: str) -> list[Bar]:
+        from datetime import date as _d
+        rows = []
+        for v in data.get("values") or []:
+            try:
+                rows.append(Bar(_d.fromisoformat(v["datetime"][:10]), float(v["open"]), float(v["high"]),
+                                float(v["low"]), float(v["close"]), float(v.get("volume") or 0)))
+            except (KeyError, ValueError):
+                continue
+        if not rows:
+            raise DataError(f"Twelve Data gaf geen koersen voor {ticker}")
+        return sorted(rows, key=lambda b: b.day)
+
+
 class EcbFx:
     name = "ecb"
     URL = "https://data-api.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=5&format=csvdata"
@@ -148,7 +221,9 @@ class MultiSourceProvider:
         self.primary = primary or YahooProvider()
         # Stooq staat uit (keuze van de gebruiker, 29 okt 2026): Stooq geeft geen sleutels meer uit. Alleen als er
         # toch een sleutel in GitHub staat (STOOQ_APIKEY), wordt hij weer als controlebron gebruikt.
-        if secondary is None and os.environ.get("STOOQ_APIKEY", "").strip():
+        if secondary is None and os.environ.get("TWELVEDATA_KEY", "").strip():
+            secondary = TwelveDataSource()          # gratis tweede bron voor Amerikaanse beleggingen
+        elif secondary is None and os.environ.get("STOOQ_APIKEY", "").strip():
             secondary = StooqSource()
         self.secondary = secondary
         self.secondary_uit = secondary is None
@@ -176,6 +251,8 @@ class MultiSourceProvider:
                 self.secondary_error = str(exc)[:160]
                 self.secondary_off = True
                 self.secondary_geen_sleutel = True
+            except NietGedekt:
+                pass                                 # bijv. Europees aandeel: alleen Yahoo, geen fout
             except DataError as exc:
                 self.secondary_error = str(exc).replace(getattr(self.secondary, "apikey", "") or "\0", "***")[:160]
                 self.secondary_failures += 1
@@ -188,8 +265,8 @@ class MultiSourceProvider:
         if main:
             self.checks[t] = {"status": "1 bron (yahoo)"}
             return main
-        if second:
-            self.checks[t] = {"status": "1 bron (stooq)"}
+        if second and not getattr(self.secondary, "alleen_controle", False):
+            self.checks[t] = {"status": "1 bron (tweede bron)"}
             return second
         self.checks[t] = {"status": "geen bron"}
         raise DataError(f"{t}: geen enkele bron had koersen")
@@ -197,7 +274,7 @@ class MultiSourceProvider:
     def source_issues(self, ticker: str) -> list[str]:
         c = self.checks.get(ticker, {})
         if c.get("status") == "afwijking":
-            return [f"bronnen spreken elkaar tegen ({c['verschil']:.1%} verschil Yahoo/Stooq)"]
+            return [f"bronnen spreken elkaar tegen ({c['verschil']:.1%} verschil Yahoo/tweede bron)"]
         return []
 
     def usd_to_eur(self) -> float:

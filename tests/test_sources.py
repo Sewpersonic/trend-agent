@@ -92,7 +92,7 @@ class MultiSourceTests(unittest.TestCase):
 
         p = MultiSourceProvider(Broken(), self.sim, Fx(0.91))
         self.assertTrue(p.history(BY_TICKER["SPY"], 260))
-        self.assertEqual(p.checks["SPY"]["status"], "1 bron (stooq)")
+        self.assertEqual(p.checks["SPY"]["status"], "1 bron (tweede bron)")
         self.assertAlmostEqual(p.usd_to_eur(), 0.91)
         self.assertEqual(p.fx_status, "1 bron (ecb)")
 
@@ -203,3 +203,37 @@ class StooqUitTest(__import__("unittest").TestCase):
         self.assertIsNone(m.secondary)
         self.assertTrue(m.history(UNIVERSE[0], 50))
         self.assertEqual(m.summary()["tweede_bron"], "uit")
+
+
+class TwelveDataTest(unittest.TestCase):
+    def test_vs_wel_europa_niet_en_cache(self):
+        import json as _j
+        import tempfile as _t
+        from pathlib import Path as _P
+        from trendagent import sources as src
+        from trendagent.universe import BY_TICKER
+        calls = []
+        body = {"status": "ok", "values": [{"datetime": "2026-10-29", "open": "1", "high": "2", "low": "0.5",
+                                            "close": "1.5", "volume": "100"},
+                                           {"datetime": "2026-10-28", "open": "1", "high": "2", "low": "0.5",
+                                            "close": "1.4", "volume": "100"}]}
+
+        def fetch(url):
+            calls.append(url)
+            return _j.dumps(body)
+        d = _P(_t.mkdtemp())
+        s = src.TwelveDataSource(fetch=fetch, apikey="k", wacht=0, slaap=lambda x: None)
+        s._cache = lambda: d / "c.json"
+        bars = s.history(BY_TICKER["BRK-B"], 10)
+        self.assertEqual(bars[-1].close, 1.5)
+        self.assertIn("symbol=BRK.B", calls[0])
+        s.history(BY_TICKER["BRK-B"], 10)
+        self.assertEqual(len(calls), 1)                  # tweede keer uit de cache
+        with self.assertRaises(src.NietGedekt):
+            s.history(BY_TICKER["ASML.AS"], 10)
+
+    def test_geen_sleutel(self):
+        from trendagent import sources as src
+        from trendagent.universe import BY_TICKER
+        with self.assertRaises(src.GeenSleutel):
+            src.TwelveDataSource(apikey="").history(BY_TICKER["MSFT"], 10)

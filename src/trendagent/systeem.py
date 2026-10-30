@@ -88,21 +88,23 @@ def rows(state: Path = Path("state"), dash: Path = Path("dashboard"), root: Path
                        f"Bij de laatste nachtronde kwamen {tr.get('mislukt', 0)} van de {gevraagd} koersen niet binnen "
                        f"(status {tr.get('status')}). De bot koopt dan niets met die aandelen.",
                        "Meestal tijdelijk bij Yahoo. Blijft het, laat Claude de koersbron nakijken (workflow diagnose).")
+        twee = (br.get("koersen") or {}).get("bevestigd", 0)
         if br.get("tweede_bron") == "uit":
             k.nodes["yahoo"]["sub"] = f"{ok} van {gevraagd} · alleen Yahoo"
+        elif twee:
+            k.nodes["yahoo"]["sub"] = f"{ok} van {gevraagd} · {twee} dubbel gecontroleerd"
         elif br.get("tweede_bron") == "geen sleutel":
             k.knelpunt("yahoo", "letop", "De controlebron voor koersen heeft een sleutel nodig",
-                       "Stooq controleert de koersen van Yahoo, maar vraagt sinds maart 2026 een gratis sleutel. Zonder die "
-                       "sleutel komt alles uit één bron; de andere controles (sprongen, oude koersen, wisselkoers bij de ECB) "
-                       "werken wel.",
-                       "Vraag een gratis sleutel aan op stooq.com (bij het downloaden van koersen, 'get apikey') en zet hem in "
-                       "GitHub als secret STOOQ_APIKEY (Settings → Secrets and variables → Actions). Nooit in de chat.")
+                       "De tweede koersbron (Twelve Data) weigert de sleutel of hij ontbreekt. Zonder die sleutel komt alles "
+                       "uit één bron; de andere controles (sprongen, oude koersen, wisselkoers bij de ECB) werken wel.",
+                       "Controleer de gratis sleutel op twelvedata.com en zet hem in GitHub als secret TWELVEDATA_KEY "
+                       "(Settings → Secrets and variables → Actions). Nooit in de chat.")
         elif "overgeslagen" in str(br.get("tweede_bron", "")) or (br.get("koersen") or {}).get("1 bron") == gevraagd:
             k.knelpunt("yahoo", "letop", "De controlebron voor koersen werkt niet",
-                       "De koersen van Yahoo worden normaal gecontroleerd bij Stooq. Stooq gaf geen koersen terug, dus nu "
-                       "komt alles uit één bron. Een fout in Yahoo zou dan minder snel opvallen.",
-                       "Een andere tweede bron kiezen of Stooq anders aanspreken. Tot die tijd blijven de andere "
-                       "controles (sprongen, oude koersen, wisselkoers bij de ECB) gewoon werken.")
+                       "De koersen van Yahoo worden normaal gecontroleerd bij een tweede bron. Die gaf geen koersen terug, "
+                       "dus nu komt alles uit één bron. Een fout in Yahoo zou dan minder snel opvallen.",
+                       "Meestal tijdelijk (bijv. de daglimiet van het gratis abonnement). Blijft het, laat Claude het "
+                       "nakijken. Tot die tijd blijven de andere controles gewoon werken.")
 
     arch = sorted((root / "backtest/daytrade/koersen").glob("*.csv.gz"))
     if arch:
