@@ -111,6 +111,9 @@ class TrendAgent:
         wanted = {i.ticker: i for i in instruments}
         for t in pf.positions:              # open posities altijd meenemen
             wanted.setdefault(t, BY_TICKER[t])
+        for t in (self.s.rest_etf, pf.geparkeerd_ticker):   # geparkeerde ETF ook
+            if t and t in BY_TICKER:
+                wanted.setdefault(t, BY_TICKER[t])
         bars: dict[str, list[Bar]] = {}
         failures = 0
         for ticker, inst in wanted.items():
@@ -186,9 +189,10 @@ class TrendAgent:
             pass
 
         # 5. risicoremmen (alleen als de kill switch nog niet aan staat)
+        self._prices, self._fx = prices, fx
         equity = pf.equity(prices, fx)
         if rep.buys_allowed or rep.status != "GESTOPT":
-            self._risk_brakes(pf, equity, rep)
+            self._risk_brakes(pf, pf.rem_waarde(equity, prices, fx), rep)
 
         # 6. nieuwe aankopen
         ranked = sorted((a for a in analyses.values() if a.is_candidate and a.ticker not in suspicious),
@@ -200,6 +204,7 @@ class TrendAgent:
             self.audit.append("buys_blocked", ACTOR, {"reason": "regimefilter", "regime": rep.regime})
         if rep.buys_allowed and not self.kill_switch.is_active():
             self._buy_candidates(pf, ranked, fx, equity, rep)
+            self._parkeer_rest(pf, prices, fx, rep, suspicious)
         # Uitleg voor de mens: verandert niets meer aan de portefeuille.
         try:
             blocked = None
@@ -261,6 +266,63 @@ class TrendAgent:
             rep.actions.append(f"{ticker}: stop omhoog van {pos.stop:.2f} naar {trail:.2f}")
             pos.stop = trail
 
+    # ------------------------------------------------- rest in een brede ETF
+
+    def _etf_prijs(self, pf: Portfolio):
+        t = pf.geparkeerd_ticker or self.s.rest_etf
+        prices, fx = getattr(self, "_prices", {}), getattr(self, "_fx", {})
+        if not t or t not in prices or t not in BY_TICKER:
+            return None
+        return t, prices[t], fx.get(BY_TICKER[t].currency)
+
+    def _vrij_te_maken(self, pf: Portfolio) -> float:
+        """Hoeveel geld er vrijkomt als het geparkeerde deel helemaal wordt verkocht (na kosten)."""
+        if not pf.geparkeerd_qty:
+            return 0.0
+        p = self._etf_prijs(pf)
+        if not p or p[2] is None:
+            return 0.0
+        bruto = pf.geparkeerd_qty * p[1] * (1 - self.s.slippage) * p[2]
+        return max(0.0, bruto - self._costs(bruto))
+
+    def _ontparkeer(self, pf: Portfolio, bedrag_eur: float, rep: RunReport) -> None:
+        p = self._etf_prijs(pf)
+        if not p or p[2] is None or not pf.geparkeerd_qty:
+            return
+        t, price, rate = p
+        fill = price * (1 - self.s.slippage)
+        qty = min(pf.geparkeerd_qty, math.ceil((bedrag_eur + self._costs(bedrag_eur) + 1) / (fill * rate)))
+        kosten = self._costs(qty * fill * rate)
+        pf.ontparkeer(qty, fill, rate, kosten)
+        rep.actions.append(f"{t}: {qty:g} verkocht uit de rest-ETF om een trend te kopen")
+        self.audit.append("rest_etf_verkocht", ACTOR, {"ticker": t, "qty": qty, "prijs": round(fill, 4)})
+
+    def _parkeer_rest(self, pf: Portfolio, prices: dict, fx: dict, rep: RunReport, suspicious: dict) -> None:
+        """Ongebruikt geld (boven een buffer) in de brede ETF zetten. Alleen in hele stukken en vanaf ±€250,
+        zodat er niet elke dag kleine orders en kosten zijn."""
+        t = self.s.rest_etf
+        if not t or t not in prices or t in suspicious or t not in BY_TICKER:
+            return
+        if pf.geparkeerd_qty and pf.geparkeerd_ticker != t:
+            return      # andere ETF geparkeerd (instelling veranderd): eerst die laten verkopen bij aankopen
+        inst = BY_TICKER[t]
+        rate = fx.get(inst.currency)
+        if rate is None:
+            return
+        equity = pf.equity(prices, fx)
+        over = pf.cash_eur - self.s.rest_buffer * equity
+        if over < 250:
+            return
+        prijs = prices[t] * (1 + self.s.slippage)
+        qty = math.floor(over / (prijs * rate))
+        while qty > 0 and qty * prijs * rate + self._costs(qty * prijs * rate) > over:
+            qty -= 1
+        if qty < 1:
+            return
+        pf.parkeer(t, inst.currency, qty, prijs, rate, self._costs(qty * prijs * rate))
+        rep.actions.append(f"{t}: {qty:g} gekocht met geld dat niet in trends zit (rest-ETF)")
+        self.audit.append("rest_etf_gekocht", ACTOR, {"ticker": t, "qty": qty, "prijs": round(prijs, 4)})
+
     def _misschien_hervatten(self, pf: Portfolio, rep: RunReport) -> None:
         """Regel die de eigenaar zelf aanzette (auto_hervat_dagen): een rem van de Risk Manager gaat na zoveel
         handelsdagen vanzelf weer uit, zoals in de backtest. Een rem van een mens of de monitoring nooit."""
@@ -293,7 +355,7 @@ class TrendAgent:
     def _risk_brakes(self, pf: Portfolio, equity: float, rep: RunReport) -> None:
         reason = None
         earlier = [h for h in pf.equity_history if h["day"] < rep.day]   # ook bij een tweede ronde op dezelfde dag
-        prev = earlier[-1]["equity"] if earlier else None
+        prev = earlier[-1].get("rem", earlier[-1]["equity"]) if earlier else None
         if prev and equity < prev * (1 - self.s.daily_loss_limit):
             reason = f"dagverlies groter dan {self.s.daily_loss_limit:.0%}"
         peak = pf.peak_equity() or equity
@@ -347,13 +409,17 @@ class TrendAgent:
             budget = min(equity * self.s.risk_per_trade, risk_left)
             qty = math.floor(budget / risk_per_share)
             qty = min(qty, math.floor(equity * self.s.max_position_weight / (entry * rate)))
-            # Kosten meetellen bij het geld dat nodig is.
-            while qty > 0 and qty * entry * rate + self._costs(qty * entry * rate) > pf.cash_eur:
+            # Kosten meetellen bij het geld dat nodig is (geparkeerd geld telt mee: dat wordt zo nodig verkocht).
+            beschikbaar = pf.cash_eur + self._vrij_te_maken(pf)
+            while qty > 0 and qty * entry * rate + self._costs(qty * entry * rate) > beschikbaar:
                 qty -= 1
             if qty < 1:
                 rep.actions.append(f"{a.ticker}: overgeslagen (één aandeel past niet binnen het risicobudget)")
                 self.audit.append("buy_skipped", ACTOR, {"ticker": a.ticker, "reason": "budget"})
                 continue
+            nodig = qty * entry * rate + self._costs(qty * entry * rate)
+            if nodig > pf.cash_eur:
+                self._ontparkeer(pf, nodig - pf.cash_eur, rep)
             t = pf.buy(rep.day, a.ticker, inst.currency, qty, entry, stop, rate,
                        self._costs(qty * entry * rate), " · ".join(a.reasons),
                        context=self._ctx(a.ticker, a), version=self.version, regime=self.regime.label)
@@ -403,7 +469,8 @@ class TrendAgent:
                 rep.brakes = insights.trend_brakes(pf, rep.equity_eur, rep.day, self.s)
             except Exception as exc:  # noqa: BLE001
                 self.audit.append("report_failed", ACTOR, {"error": f"risico: {type(exc).__name__}: {exc}"})
-            pf.record_equity(rep.day, rep.equity_eur, bench=self._bench_eur)
+            pf.record_equity(rep.day, rep.equity_eur, bench=self._bench_eur,
+                             rem=pf.rem_waarde(rep.equity_eur, prices, fx) if pf.geparkeerd_qty else None)
         rep.cash_eur = round(pf.cash_eur, 2)
         pf.save(self.portfolio_path)
         r_values = [t.r_multiple for t in pf.trades if t.side == "SELL" and t.r_multiple is not None]

@@ -72,6 +72,8 @@ TREND_VARIANTS: dict[str, dict] = {
     "meer-per-aankoop": {"risk_per_trade": 0.005, "max_open_risk": 0.025},
     "veel-meer-per-aankoop": {"risk_per_trade": 0.01, "max_open_risk": 0.05, "max_drawdown": 0.10},
     "8-plekken-meer-per-aankoop": {"max_positions": 8, "risk_per_trade": 0.005, "max_open_risk": 0.04},
+    # Geld dat niet in trends zit in de wereld-ETF zetten (okt 2026, op verzoek: niet stil laten staan).
+    "rest-in-wereld-etf": {"rest_etf": "IWDA.AS"},
 }
 
 # In gewone taal: wat elke variant test.
@@ -89,6 +91,7 @@ UITLEG = {
     "meer-per-aankoop": "Twee keer zoveel inzetten per aankoop (hooguit ±€50 verlies per trade in plaats van ±€25).",
     "veel-meer-per-aankoop": "Vier keer zoveel per aankoop (±€100 verlies per trade); noodstop pas bij 10% daling.",
     "8-plekken-meer-per-aankoop": "8 aandelen tegelijk en twee keer zoveel per aankoop.",
+    "rest-in-wereld-etf": "Geld dat niet in trends zit staat in de wereld-ETF (IWDA) in plaats van op de rekening; bij een nieuwe trend wordt een stukje verkocht.",
     "satelliet-3-aandelen": "Investeerder: 3 in plaats van 5 sterke aandelen.",
 }
 

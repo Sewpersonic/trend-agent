@@ -255,6 +255,20 @@ def sync(state_dir: Path, client: T212Demo, orders_aan: bool, kill_active: bool,
         verslag.setdefault("koppeling", {})[y] = t
         target[t] = {"yahoo": y, "qty": doel_aantal(float(p["qty"]), schaal, t in heel), "prijs": float(p.get("highest_close") or p.get("entry_price") or 0),
                      "valuta": p.get("currency", "EUR"), "fx": float(p.get("entry_fx") or FX_NAAR_EUR.get(p.get("currency", "EUR"), 1.0))}
+    # Geld van de trend-agent dat in een brede ETF geparkeerd staat: het oefenaccount doet dat ook na.
+    gq, gt = float(port.get("geparkeerd_qty") or 0), port.get("geparkeerd_ticker") or ""
+    if gq > 0 and gt:
+        t = map_ticker(gt, port.get("geparkeerd_valuta", "EUR"), instruments)
+        if t:
+            verslag.setdefault("koppeling", {})[gt] = t
+            extra = doel_aantal(gq, schaal, t in heel)
+            if t in target:
+                target[t]["qty"] += extra
+            else:
+                target[t] = {"yahoo": gt, "qty": extra, "prijs": float(port.get("geparkeerd_kosten", 0)) / gq,
+                             "valuta": port.get("geparkeerd_valuta", "EUR"), "fx": 1.0}
+        else:
+            verslag["niet_gekoppeld"].append(gt)
     # Handmatige orders van de mens tellen mee, zodat gelijkzetten ze niet terugdraait.
     for t, h in (handmatig or {}).items():
         if t in target:
@@ -283,8 +297,14 @@ def sync(state_dir: Path, client: T212Demo, orders_aan: bool, kill_active: bool,
             verslag["reden"] = f"Meer dan {MAX_ORDERS} orders nodig; de rest volgt in de volgende ronde."
             break
         if o["actie"] == "koop" and o["waarde_eur"] > MAX_ORDER_EUR:
-            verslag["orders"].append({**o, "uitkomst": "overgeslagen", "reden": f"boven de grens van €{MAX_ORDER_EUR:.0f}"})
-            continue
+            # Te groot voor één order: nu een deel tot de grens, de rest in een volgende ronde.
+            per_stuk = o["waarde_eur"] / o["quantity"] if o["quantity"] else 0
+            deel = math.floor(MAX_ORDER_EUR / per_stuk) if per_stuk else 0
+            if deel < 1:
+                verslag["orders"].append({**o, "uitkomst": "overgeslagen", "reden": f"boven de grens van €{MAX_ORDER_EUR:.0f}"})
+                continue
+            o = {**o, "quantity": float(deel), "waarde_eur": round(deel * per_stuk, 2),
+                 "reden": f"in delen (hooguit €{MAX_ORDER_EUR:.0f} per order)"}
         if o["actie"] == "koop":
             managed.add(o["ticker"])  # vóór de order vastleggen: ook bij een time-out weet hij later dat dit van ons is
             verslag["managed"] = sorted(managed)

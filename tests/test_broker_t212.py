@@ -10,7 +10,8 @@ from trendagent import broker_t212 as b
 
 INSTR = [{"ticker": "MSFT_US_EQ", "currencyCode": "USD", "shortName": "MSFT", "type": "STOCK"},
          {"ticker": "SAPd_EQ", "currencyCode": "EUR", "shortName": "SAP", "type": "STOCK"},
-         {"ticker": "SHELLa_EQ", "currencyCode": "EUR", "shortName": "SHELL", "type": "STOCK"}]
+         {"ticker": "SHELLa_EQ", "currencyCode": "EUR", "shortName": "SHELL", "type": "STOCK"},
+         {"ticker": "IWDAa_EQ", "currencyCode": "EUR", "shortName": "IWDA", "type": "ETF"}]
 
 
 class FakeResp(io.BytesIO):
@@ -105,6 +106,16 @@ class BrokerTest(unittest.TestCase):
         v = b.run(self.dir, cfg, client=c)
         q = {o["ticker"]: o["quantity"] for o in v["orders"]}
         self.assertEqual(q, {"MSFT_US_EQ": 0.5, "SHELLa_EQ": 6.5, "SAPd_EQ": 1.0})
+
+    def test_geparkeerde_etf_wordt_ook_gekocht(self):
+        port = json.loads((self.dir / "portfolio.json").read_text())
+        port.update(geparkeerd_ticker="IWDA.AS", geparkeerd_qty=40, geparkeerd_kosten=5200, geparkeerd_valuta="EUR")
+        (self.dir / "portfolio.json").write_text(json.dumps(port))
+        c = b.T212Demo("k", "s", opener=FakeApi([]))
+        cfg = self.dir / "broker.json"; cfg.write_text(json.dumps({"orders_aan": True, "schaal": 0.5}))
+        v = b.run(self.dir, cfg, client=c)
+        q = {o["ticker"]: o["quantity"] for o in v["orders"]}
+        self.assertEqual(q["IWDAa_EQ"], 20)
 
     def test_kill_switch_blocks(self):
         api = FakeApi([])

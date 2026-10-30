@@ -50,6 +50,8 @@ class Settings:
     daily_loss_limit: float = 0.01        # -1% op één dag  -> kill switch
     max_drawdown: float = 0.05            # -5% vanaf de top -> kill switch
     max_consecutive_losses: int = 3       # daarna geen nieuwe aankopen
+    rest_etf: str = ""                    # bijv. "IWDA.AS": geld dat niet in trends zit daarin parkeren ("" = uit)
+    rest_buffer: float = 0.05             # zoveel van het vermogen blijft altijd als geld beschikbaar
     auto_hervat_dagen: int = 0            # >0: een rem van de Risk Manager gaat na zoveel handelsdagen vanzelf weer uit
 
     # --- strategie

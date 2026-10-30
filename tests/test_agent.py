@@ -239,3 +239,47 @@ class AutoHervatTests(unittest.TestCase):
         for i in range(4):
             agent.run(TODAY - timedelta(days=3 - i))
         self.assertTrue(ks.is_active())
+
+
+class RestEtfTests(unittest.TestCase):
+    def test_ongebruikt_geld_gaat_in_de_etf_en_komt_vrij_voor_trends(self):
+        s = settings(rest_etf="SPY", max_positions=2)
+        agent = TrendAgent(s, SimulatedProvider(TODAY, drifts=UP))
+        rep = agent.run(TODAY)
+        pf = Portfolio.load(s.state_dir / "portfolio.json", s.starting_cash_eur)
+        self.assertGreater(pf.geparkeerd_qty, 0)
+        self.assertGreaterEqual(pf.cash_eur, 0)
+        self.assertLess(pf.cash_eur, 0.05 * rep.equity_eur + 700)      # hooguit de buffer plus één stuk
+        # geparkeerd geld is geen positie en geen trade
+        self.assertLessEqual(len(pf.positions), 2)
+        # meer plekken: de nieuwe aankoop wordt betaald door een deel van de ETF te verkopen
+        voor = pf.geparkeerd_qty
+        s2 = replace(s, max_positions=4)
+        agent2 = TrendAgent(s2, SimulatedProvider(TODAY + timedelta(days=3), drifts=UP))
+        agent2.run(TODAY + timedelta(days=3))
+        pf2 = Portfolio.load(s.state_dir / "portfolio.json", s.starting_cash_eur)
+        if len(pf2.positions) > len(pf.positions):
+            self.assertLess(pf2.geparkeerd_qty, voor + 1e-9)
+        self.assertGreaterEqual(pf2.cash_eur, 0)
+
+    def test_remmen_kijken_niet_naar_de_etf(self):
+        pf = Portfolio(cash_eur=1000.0)
+        pf.parkeer("SPY", "USD", 10, 100.0, 1.0, 1.0)
+        self.assertAlmostEqual(pf.rem_waarde(pf.equity({"SPY": 80.0}, {"USD": 1.0, "EUR": 1.0}),
+                                             {"SPY": 80.0}, {"USD": 1.0, "EUR": 1.0}), 1000.0)
+        pf.ontparkeer(5, 120.0, 1.0, 1.0)
+        self.assertAlmostEqual(pf.geparkeerd_kosten, 500.5)
+        self.assertAlmostEqual(pf.cash_eur, 1000 - 1001 + 599)
+
+    def test_aankoop_wordt_betaald_uit_de_etf(self):
+        s = settings(rest_etf="SPY", max_positions=4)
+        s.state_dir.mkdir(parents=True)
+        pf = Portfolio(cash_eur=10000.0)
+        pf.parkeer("SPY", "USD", 30, 330.0, 0.9, 1.0)
+        pf.save(s.state_dir / "portfolio.json")
+        rep = TrendAgent(s, SimulatedProvider(TODAY, drifts=UP)).run(TODAY)
+        pf = Portfolio.load(s.state_dir / "portfolio.json", s.starting_cash_eur)
+        self.assertTrue(any("verkocht uit de rest-ETF" in a for a in rep.actions))
+        self.assertLess(pf.geparkeerd_qty, 30)
+        self.assertGreaterEqual(pf.cash_eur, 0)
+        self.assertEqual(rep.status, "OK")

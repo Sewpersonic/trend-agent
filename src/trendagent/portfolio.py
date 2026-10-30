@@ -64,6 +64,11 @@ class Portfolio:
     # Vanaf deze positie in equity_history telt de top voor de drawdown-rem.
     # 'resume' zet hem op de laatste dag, zodat een oude top de rem niet direct weer aanzet.
     peak_from_index: int = 0
+    # Geld dat niet in trends zit, geparkeerd in een brede ETF (instelling rest_etf). Telt niet als positie of trade.
+    geparkeerd_ticker: str = ""
+    geparkeerd_qty: float = 0.0
+    geparkeerd_kosten: float = 0.0      # wat ervoor betaald is (EUR, incl. kosten), voor de remmen
+    geparkeerd_valuta: str = "EUR"
 
     # ---------------------------------------------------------------- opslag
 
@@ -79,6 +84,10 @@ class Portfolio:
             equity_history=raw["equity_history"],
             consecutive_losses=raw.get("consecutive_losses", 0),
             peak_from_index=raw.get("peak_from_index", 0),
+            geparkeerd_ticker=raw.get("geparkeerd_ticker", ""),
+            geparkeerd_qty=raw.get("geparkeerd_qty", 0.0),
+            geparkeerd_kosten=raw.get("geparkeerd_kosten", 0.0),
+            geparkeerd_valuta=raw.get("geparkeerd_valuta", "EUR"),
         )
 
     def save(self, path: Path) -> None:
@@ -91,6 +100,9 @@ class Portfolio:
             "consecutive_losses": self.consecutive_losses,
             "peak_from_index": self.peak_from_index,
         }
+        if self.geparkeerd_qty:
+            data.update(geparkeerd_ticker=self.geparkeerd_ticker, geparkeerd_qty=self.geparkeerd_qty,
+                        geparkeerd_kosten=round(self.geparkeerd_kosten, 2), geparkeerd_valuta=self.geparkeerd_valuta)
         tmp = path.with_suffix(".tmp")
         tmp.write_text(json.dumps(data, indent=2), encoding="utf-8")
         tmp.replace(path)
@@ -103,7 +115,39 @@ class Portfolio:
         for p in self.positions.values():
             price = prices.get(p.ticker, p.entry_price)
             total += p.qty * price * fx[p.currency]
-        return total
+        return total + self.geparkeerd_waarde(prices, fx)
+
+    def geparkeerd_waarde(self, prices: dict[str, float], fx: dict[str, float]) -> float:
+        if not self.geparkeerd_qty:
+            return 0.0
+        price = prices.get(self.geparkeerd_ticker)
+        rate = fx.get(self.geparkeerd_valuta)
+        if price is None or rate is None:
+            return self.geparkeerd_kosten       # geen koers: voorzichtig de aankoopwaarde
+        return self.geparkeerd_qty * price * rate
+
+    def rem_waarde(self, equity: float, prices: dict[str, float], fx: dict[str, float]) -> float:
+        """Waarde voor de remmen: het geparkeerde deel telt tegen aankoopwaarde, zodat schommelingen van de
+        brede ETF de remmen van de trendhandel niet laten afgaan."""
+        return equity - self.geparkeerd_waarde(prices, fx) + (self.geparkeerd_kosten if self.geparkeerd_qty else 0.0)
+
+    def parkeer(self, ticker: str, valuta: str, qty: float, price: float, fx: float, costs_eur: float) -> None:
+        bedrag = qty * price * fx + costs_eur
+        self.cash_eur -= bedrag
+        self.geparkeerd_ticker, self.geparkeerd_valuta = ticker, valuta
+        self.geparkeerd_qty += qty
+        self.geparkeerd_kosten += bedrag
+
+    def ontparkeer(self, qty: float, price: float, fx: float, costs_eur: float) -> None:
+        qty = min(qty, self.geparkeerd_qty)
+        if qty <= 0:
+            return
+        deel = qty / self.geparkeerd_qty
+        self.cash_eur += qty * price * fx - costs_eur
+        self.geparkeerd_kosten -= self.geparkeerd_kosten * deel
+        self.geparkeerd_qty -= qty
+        if self.geparkeerd_qty < 1e-9:
+            self.geparkeerd_qty, self.geparkeerd_kosten = 0.0, 0.0
 
     def open_risk_eur(self, fx: dict[str, float]) -> float:
         """Hoeveel er verloren gaat als ALLE stops nu worden geraakt (alleen verliezen tellen)."""
@@ -113,16 +157,19 @@ class Portfolio:
         return risk
 
     def peak_equity(self) -> float | None:
-        return max((e["equity"] for e in self.equity_history[self.peak_from_index:]), default=None)
+        return max((e.get("rem", e["equity"]) for e in self.equity_history[self.peak_from_index:]), default=None)
 
     def reset_risk_baseline(self) -> None:
         """Na een bewuste herstart door de mens: verliesteller op 0 en de huidige waarde als nieuwe top."""
         self.consecutive_losses = 0
         self.peak_from_index = max(len(self.equity_history) - 1, 0)
 
-    def record_equity(self, day: str, equity: float, bench: float | None = None) -> None:
-        """Waarde van de dag vastleggen, met (optioneel) de koers van de vergelijkings-ETF in euro."""
+    def record_equity(self, day: str, equity: float, bench: float | None = None, rem: float | None = None) -> None:
+        """Waarde van de dag vastleggen, met (optioneel) de koers van de vergelijkings-ETF in euro
+        en de waarde voor de remmen (als er geld in een brede ETF geparkeerd staat)."""
         entry = {"day": day, "equity": round(equity, 2)}
+        if rem is not None and abs(rem - equity) > 0.005:
+            entry["rem"] = round(rem, 2)
         if bench is not None:
             entry["bench"] = round(bench, 4)
         if self.equity_history and self.equity_history[-1]["day"] == day:
