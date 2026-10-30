@@ -3772,6 +3772,64 @@ dash.calc('onderzoek_verschil', {
 
 
 <style>
+/* Tabbladen in groepen: minder knoppen in het menu, subtabs bovenaan de pagina */
+.tx-nav.kind { display: none !important; }
+.m-ditem.kind { display: none !important; }
+.tx-nav.groep-aan { background: var(--tx-soft); color: var(--tx-accent); font-weight: var(--cds-font-weight-medium); }
+.m-ditem.groep-aan { background: var(--tx-soft); color: var(--tx-accent); font-weight: var(--cds-font-weight-medium); }
+.subtabs { order: -6; display: flex; gap: 6px; flex-wrap: wrap; }
+.subtabs button { all: unset; box-sizing: border-box; cursor: pointer; padding: 8px 14px; border-radius: 999px; font-size: 14px; border: 1px solid var(--color-border-line); background: var(--color-panel); color: var(--color-fg-muted); -webkit-tap-highlight-color: transparent; }
+.subtabs button[aria-pressed="true"] { background: var(--tx-accent); border-color: var(--tx-accent); color: #fff; font-weight: var(--cds-font-weight-medium); }
+.subtabs button:focus-visible { outline: 2px solid var(--tx-accent); outline-offset: 2px; }
+@media (max-width: 640px) { #pg-dashboard > .subtabs { order: 0; } .subtabs button { padding: 7px 12px; font-size: 13px; } }
+</style>
+
+<script>
+// Groepen: 13 onderdelen in 8 tabbladen. De onderdelen blijven bestaan; ze zijn subtabs van hun groep.
+(() => {
+  const GROEPEN = {
+    kansen: [['kansen', 'Kansen'], ['analyse', 'Markt vandaag']],
+    grafieken: [['grafieken', 'Grafieken'], ['patronen', 'Patronen']],
+    onderzoek: [['onderzoek', 'Onderzoek'], ['leren', 'Weekoverzicht']],
+    systeem: [['systeem', 'Systeem'], ['github', 'GitHub-runs'], ['controles', 'Controles']],
+  };
+  const ouder = {};
+  Object.entries(GROEPEN).forEach(([g, leden]) => leden.forEach(([id]) => { ouder[id] = g; }));
+  // menu: alleen het eerste lid van elke groep blijft zichtbaar
+  Object.values(GROEPEN).forEach((leden) => leden.slice(1).forEach(([id]) => {
+    const n = document.getElementById(id); if (n) n.classList.add('kind');
+    const m = document.querySelector('.m-ditem[data-for="' + id + '"]'); if (m) m.classList.add('kind');
+  }));
+  // subtabs bovenaan elke pagina van een groep
+  Object.entries(GROEPEN).forEach(([g, leden]) => leden.forEach(([id]) => {
+    const pg = document.getElementById('pg-' + id); if (!pg) return;
+    const bar = document.createElement('div'); bar.className = 'subtabs'; bar.setAttribute('role', 'group'); bar.setAttribute('aria-label', 'Onderdelen');
+    leden.forEach(([lid, naam]) => {
+      const b = document.createElement('button'); b.type = 'button'; b.textContent = naam; b.dataset.voor = lid;
+      b.setAttribute('aria-pressed', String(lid === id));
+      b.addEventListener('click', () => { const n = document.getElementById(lid); if (n) n.click(); });
+      bar.append(b);
+    });
+    pg.prepend(bar);
+  }));
+  const markeer = () => {
+    const actief = [...document.querySelectorAll('.tx-nav')].find((n) => n.getAttribute('aria-selected') === 'true');
+    const g = actief ? ouder[actief.id] : null;
+    Object.keys(GROEPEN).forEach((k) => {
+      const kop = document.getElementById(GROEPEN[k][0][0]);
+      const aan = g === k && actief.id !== GROEPEN[k][0][0];
+      if (kop) kop.classList.toggle('groep-aan', aan);
+      const m = document.querySelector('.m-ditem[data-for="' + GROEPEN[k][0][0] + '"]'); if (m) m.classList.toggle('groep-aan', aan);
+    });
+    const t = document.getElementById('m-title');
+    if (t && g) { const naam = (GROEPEN[g].find(([id]) => id === actief.id) || [])[1]; if (naam) t.textContent = naam; }
+  };
+  document.querySelectorAll('.tx-nav').forEach((n) => n.addEventListener('click', () => setTimeout(markeer, 0)));
+  markeer();
+})();
+</script>
+
+<style>
 /* Kop per tabblad: wat is het, wat doet het, wat vond het */
 .kop { order: -5; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr) minmax(0, 1.5fr); gap: 0; background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 14px; overflow: hidden; margin-bottom: 4px; }
 .kop > div { padding: 14px 18px; display: grid; gap: 4px; align-content: start; min-width: 0; }
