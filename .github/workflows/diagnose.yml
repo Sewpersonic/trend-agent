@@ -57,6 +57,24 @@ jobs:
               print(t, [(str(x.day), round(x.open, 2), round(x.high, 2), round(x.low, 2), round(x.close, 2), int(x.volume)) for x in b[-2:]])
           PY
           cat diagnose/yahoo.txt
+      - name: Tweede bron testen (Twelve Data)
+        run: |
+          python - > diagnose/twelvedata.txt 2>&1 <<'PY'
+          import os
+          from trendagent.sources import MultiSourceProvider
+          from trendagent.universe import BY_TICKER
+          print("sleutel aanwezig:", bool(os.environ.get("TWELVEDATA_KEY", "").strip()))   # nooit de sleutel zelf
+          p = MultiSourceProvider()
+          print("tweede bron:", type(p.secondary).__name__ if p.secondary else "geen")
+          for t in ("SPY", "MSFT", "BRK-B", "SAP.DE"):
+              try:
+                  p.history(BY_TICKER[t], 260)
+              except Exception as e:
+                  print(t, "FOUT", type(e).__name__)
+              print(t, p.checks.get(t))
+          print("samenvatting:", p.summary())
+          PY
+          cat diagnose/twelvedata.txt
       - name: Opslaan
         run: |
           git config user.name "trend-agent[bot]"
