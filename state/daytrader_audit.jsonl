@@ -84,3 +84,4 @@
 {"tijd": "2026-10-30T15:01:30+00:00", "ny": "2026-10-30 11:01", "status": "ok", "log": ["Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."]}
 {"tijd": "2026-10-30T15:16:30+00:00", "ny": "2026-10-30 11:16", "status": "ok", "log": ["Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."]}
 {"tijd": "2026-10-30T15:31:30+00:00", "ny": "2026-10-30 11:31", "status": "ok", "log": ["Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."]}
+{"tijd": "2026-10-30T15:46:30+00:00", "ny": "2026-10-30 11:46", "status": "ok", "log": ["Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."]}
