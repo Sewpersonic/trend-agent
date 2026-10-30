@@ -5,7 +5,8 @@
     "max_open_risk": 0.04,
     "max_rsi_entry": 75.0,
     "risk_per_trade": 0.005,
-    "max_drawdown": 0.1
+    "max_drawdown": 0.1,
+    "auto_hervat_dagen": 5
   },
   "investeerder": {}
 }
