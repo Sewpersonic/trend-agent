@@ -1,0 +1,54 @@
+{
+ "tijd": "2026-10-30T09:00:30+00:00",
+ "status": "ok",
+ "posities": [
+  {
+   "ticker": "SHELL.AS",
+   "t212": "SHELLa_EQ",
+   "stop": 45.5968,
+   "actie": "boven de stop-loss",
+   "koers_t212": 48.873,
+   "koers_yahoo": 48.945,
+   "afstand_pct": 0.0734
+  },
+  {
+   "ticker": "SAP.DE",
+   "t212": "SAPd_EQ",
+   "stop": 198.885,
+   "actie": "boven de stop-loss",
+   "koers_t212": 213.27,
+   "koers_yahoo": 213.15,
+   "afstand_pct": 0.0723
+  },
+  {
+   "ticker": "MSFT",
+   "t212": "MSFT_US_EQ",
+   "stop": 511.5021,
+   "actie": "boven de stop-loss",
+   "koers_t212": 528.28,
+   "koers_yahoo": 530.43,
+   "afstand_pct": 0.037
+  },
+  {
+   "ticker": "DB1.DE",
+   "t212": "DB1d_EQ",
+   "stop": 302.2002,
+   "actie": "boven de stop-loss",
+   "koers_t212": 319.0,
+   "koers_yahoo": 318.9,
+   "afstand_pct": 0.0556
+  },
+  {
+   "ticker": "ABBV",
+   "t212": "ABBV_US_EQ",
+   "stop": 277.381,
+   "actie": "niet in het oefenaccount"
+  }
+ ],
+ "verkocht": [],
+ "log": [
+  "Alles boven de stop-loss. Dichtst bij: MSFT (+3.7%)."
+ ],
+ "geschiedenis": [],
+ "rondes_vandaag": 4
+}
