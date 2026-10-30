@@ -1,11 +1,11 @@
 {
- "gemaakt": "2026-10-29",
- "signalen": 2996,
+ "gemaakt": "2026-10-30",
+ "signalen": 2995,
  "van": "2016-08-24",
  "tot": "2026-10-21",
  "tabel": {
   "totaal": {
-   "n": 2996,
+   "n": 2995,
    "winst_pct": 0.338,
    "gem_r": 0.265
   },
@@ -17,9 +17,9 @@
      "gem_r": 0.26
     },
     "neutraal": {
-     "n": 1145,
-     "winst_pct": 0.376,
-     "gem_r": 0.266
+     "n": 1144,
+     "winst_pct": 0.377,
+     "gem_r": 0.267
     },
     "opgelopen": {
      "n": 124,
@@ -34,9 +34,9 @@
      "gem_r": 0.259
     },
     "60-70": {
-     "n": 1281,
-     "winst_pct": 0.369,
-     "gem_r": 0.285
+     "n": 1280,
+     "winst_pct": 0.37,
+     "gem_r": 0.286
     },
     "70-80": {
      "n": 192,
@@ -51,9 +51,9 @@
      "gem_r": -0.197
     },
     "stijgend": {
-     "n": 2224,
+     "n": 2223,
      "winst_pct": 0.334,
-     "gem_r": 0.23
+     "gem_r": 0.231
     },
     "zijwaarts": {
      "n": 356,
@@ -73,9 +73,9 @@
      "gem_r": -0.197
     },
     "laag": {
-     "n": 763,
+     "n": 762,
      "winst_pct": 0.29,
-     "gem_r": 0.104
+     "gem_r": 0.106
     },
     "normaal": {
      "n": 1539,
@@ -90,9 +90,9 @@
    },
    "Stijging 3 maanden": {
     "tot 10%": {
-     "n": 1987,
+     "n": 1986,
      "winst_pct": 0.33,
-     "gem_r": 0.278
+     "gem_r": 0.279
     },
     "10-25%": {
      "n": 810,
@@ -107,9 +107,9 @@
    },
    "Afstand tot 200-daags gemiddelde": {
     "tot 10%": {
-     "n": 1665,
+     "n": 1664,
      "winst_pct": 0.336,
-     "gem_r": 0.308
+     "gem_r": 0.309
     },
     "10-25%": {
      "n": 1138,
@@ -129,9 +129,9 @@
      "gem_r": 0.42
     },
     "normaal": {
-     "n": 1908,
+     "n": 1907,
      "winst_pct": 0.329,
-     "gem_r": 0.195
+     "gem_r": 0.196
     },
     "wild": {
      "n": 471,
@@ -151,9 +151,9 @@
      "gem_r": 0.309
     },
     "meer": {
-     "n": 599,
-     "winst_pct": 0.337,
-     "gem_r": 0.234
+     "n": 598,
+     "winst_pct": 0.338,
+     "gem_r": 0.236
     }
    }
   }
@@ -165,9 +165,9 @@
   "vanaf": "2022-12-09",
   "per_oordeel": {
    "gemiddeld": {
-    "n": 1175,
-    "gem_r": 0.274,
-    "winst_pct": 0.334
+    "n": 1174,
+    "gem_r": 0.276,
+    "winst_pct": 0.335
    },
    "gunstig": {
     "n": 31,
@@ -177,5 +177,5 @@
   },
   "werkt": false
  },
- "zin": "Toets op 610 latere dagen die de indicatie nooit zag: gunstig +1,24 R (31 koopsignalen), gemiddeld +0,27 R (1175 koopsignalen), ongunstig –. Nog geen duidelijk verschil: gebruik de indicatie voorlopig alleen als informatie."
+ "zin": "Toets op 610 latere dagen die de indicatie nooit zag: gunstig +1,24 R (31 koopsignalen), gemiddeld +0,28 R (1174 koopsignalen), ongunstig –. Nog geen duidelijk verschil: gebruik de indicatie voorlopig alleen als informatie."
 }
