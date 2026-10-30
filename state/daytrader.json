@@ -308,7 +308,7 @@
   "begin": 9957.36,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-10-30T10:30:00",
+  "prev": "2026-10-30T10:45:00",
   "traded": [],
   "notities": [],
   "trades": [],
@@ -346,23 +346,14 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-10-30T14:31:30+00:00",
-  "ny": "2026-10-30 10:31",
+  "tijd": "2026-10-30T14:46:30+00:00",
+  "ny": "2026-10-30 10:46",
   "status": "ok",
   "log": [
    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-10-26T14:33:29+00:00",
-   "ny": "2026-10-26 10:33",
-   "status": "ok",
-   "log": [
-    "10:30 TSLA: gekocht (6 stuks, uitbraak boven 394.93 met 3.0x volume). Indicatie: Gunstig: vergelijkbare uitbraken liepen in 73% van de gevallen goed af (gemiddeld +0,25 R; alle uitbraken samen +0,14 R). Vooral: breedte van de openingsrange 'breed (>2%)'.",
-    "10:30 PANW: gekocht (6 stuks, uitbraak boven 390.99 met 2.5x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 66% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,14 R)."
-   ]
-  },
   {
    "tijd": "2026-10-26T15:28:14+00:00",
    "ny": "2026-10-26 11:28",
@@ -835,6 +826,14 @@
   {
    "tijd": "2026-10-30T14:31:30+00:00",
    "ny": "2026-10-30 10:31",
+   "status": "ok",
+   "log": [
+    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."
+   ]
+  },
+  {
+   "tijd": "2026-10-30T14:46:30+00:00",
+   "ny": "2026-10-30 10:46",
    "status": "ok",
    "log": [
     "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."
