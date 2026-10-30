@@ -308,7 +308,7 @@
   "begin": 9957.36,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-10-30T12:45:00",
+  "prev": "2026-10-30T13:00:00",
   "traded": [],
   "notities": [],
   "trades": [],
@@ -346,23 +346,14 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-10-30T16:46:30+00:00",
-  "ny": "2026-10-30 12:46",
+  "tijd": "2026-10-30T17:01:30+00:00",
+  "ny": "2026-10-30 13:01",
   "status": "ok",
   "log": [
    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-10-27T15:27:44+00:00",
-   "ny": "2026-10-27 11:27",
-   "status": "ok",
-   "log": [
-    "11:15 GOOGL: gekocht (7 stuks, uitbraak boven 319.96 met 2.2x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,11 R; alle uitbraken samen +0,14 R).",
-    "11:15 AMD: gekocht (4 stuks, uitbraak boven 555.00 met 1.4x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 65% van de gevallen goed af (gemiddeld +0,13 R; alle uitbraken samen +0,14 R)."
-   ]
-  },
   {
    "tijd": "2026-10-27T16:27:19+00:00",
    "ny": "2026-10-27 12:27",
@@ -831,6 +822,14 @@
   {
    "tijd": "2026-10-30T16:46:30+00:00",
    "ny": "2026-10-30 12:46",
+   "status": "ok",
+   "log": [
+    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-10-30T17:01:30+00:00",
+   "ny": "2026-10-30 13:01",
    "status": "ok",
    "log": [
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
