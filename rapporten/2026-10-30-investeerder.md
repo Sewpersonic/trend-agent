@@ -3,17 +3,17 @@
 _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 
 **Status:** OK  
-**Waarde:** €9,438.94  
+**Waarde:** €9,438.12  
 **Marktregime:** stijgend-normaal  
 **Strategieversie:** investeerder-1.0-c2474a  
 **Koersbronnen:** 69 bevestigd door 2 bronnen, 62 uit 1 bron, 0 afwijkend; wisselkoers bevestigd  
-**Sinds start:** -5.61%  
+**Sinds start:** -5.62%  
 
 ## Verdeling
 
 | Instrument | Aandeel |
 | --- | --- |
-| iShares MSCI World (IWDA.AS) | 62.5% |
+| iShares MSCI World (IWDA.AS) | 62.6% |
 | Micron (MU) | 5.7% |
 | Halfgeleider-ETF (SMH) | 5.6% |
 | ASML (ASML.AS) | 5.6% |
@@ -44,16 +44,16 @@ _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 | Instrument | Waarde | Ingelegd | Resultaat |
 | --- | --- | --- | --- |
 | IWDA.AS | €5.904,32 | €6.000,00 | -€95,68 (-1,6%) |
-| AMD | €508,76 | €600,00 | -€91,24 (-15,2%) |
+| AMD | €508,38 | €600,00 | -€91,62 (-15,3%) |
 | IFX.DE | €512,65 | €600,00 | -€87,35 (-14,6%) |
 | ASML.AS | €527,60 | €600,00 | -€72,40 (-12,1%) |
-| SMH | €529,43 | €600,00 | -€70,57 (-11,8%) |
-| MU | €535,43 | €600,00 | -€64,57 (-10,8%) |
+| SMH | €529,09 | €600,00 | -€70,91 (-11,8%) |
+| MU | €535,34 | €600,00 | -€64,66 (-10,8%) |
 | ETH-USD | €451,99 | €500,00 | -€48,01 (-9,6%) |
 | BTC-USD | €468,75 | €500,00 | -€31,25 (-6,2%) |
 
-Totaal op de beleggingen: -€561,07 (inclusief aankoopkosten).
-Daling vanaf de hoogste waarde ooit: -5,61% (top €10.000,00). De investeerder heeft geen stop-loss: hij houdt een spreiding vast en herverdeelt maandelijks.
+Totaal op de beleggingen: -€561,88 (inclusief aankoopkosten).
+Daling vanaf de hoogste waarde ooit: -5,62% (top €10.000,00). De investeerder heeft geen stop-loss: hij houdt een spreiding vast en herverdeelt maandelijks.
 
 ## Vandaag gedaan
 
@@ -66,8 +66,8 @@ Daling vanaf de hoogste waarde ooit: -5,61% (top €10.000,00). De investeerder 
 | Eis | Stand | Nu |
 | --- | --- | --- |
 | Oefentijd | ⏳ | 14 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -3,54% |
-| Daling niet veel dieper dan de ETF | ✅ | bot -5,61%, ETF -1,94% |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -3,55% |
+| Daling niet veel dieper dan de ETF | ✅ | bot -5,62%, ETF -1,94% |
 
 <details><summary>Zo analyseert de investeerder (klik om te openen)</summary>
 

@@ -3,12 +3,12 @@
 _Oefenportefeuille met nepgeld. Geen beleggingsadvies; resultaten uit het verleden zeggen niets over de toekomst._
 
 **Status:** OK  
-**Waarde:** €10,083.15  
+**Waarde:** €10,078.53  
 **Kas:** €4,595.88  
 **Marktregime:** stijgend-normaal  
 **Strategieversie:** trend-1.1-081d85  
 **Koersbronnen:** 69 bevestigd door 2 bronnen, 60 uit 1 bron, 0 afwijkend; wisselkoers bevestigd  
-**Sinds start:** +0.83%  
+**Sinds start:** +0.79%  
 
 ## Analyse van vandaag
 
@@ -28,12 +28,7 @@ _Oefenportefeuille met nepgeld. Geen beleggingsadvies; resultaten uit het verled
 
 ## Vandaag gedaan
 
-- SHELL.AS: stop omhoog van 45.60 naar 45.99
-- SAP.DE: stop omhoog van 198.88 naar 199.31
-- BUY 5 x CVX @ 235.64 (trend OK: 3m +23.0%, 1m +13.7%, volume x0.89)
-- LLY: overgeslagen (RSI 78 boven 75)
-- BUY 19 x XLE @ 70.03 (trend OK: 3m +19.8%, 1m +11.6%, volume x1.05)
-- BUY 10 x WKL.AS @ 86.80 (trend OK: 3m +22.9%, 1m +26.4%, volume x0.86)
+- Niets
 
 ## Waarom
 
@@ -47,19 +42,19 @@ _Oefenportefeuille met nepgeld. Geen beleggingsadvies; resultaten uit het verled
 | --- | --- | --- | --- | --- | --- | --- |
 | SHELL.AS | 45.06 EUR | 48.80 | €48,59 (+8,3%) | 45.99 | +6,1% | €11,07 winst vastgezet |
 | SAP.DE | 191.56 EUR | 211.75 | €40,39 (+10,5%) | 199.31 | +6,2% | €14,50 winst vastgezet |
-| MSFT | 535.34 USD | 521.91 | -€10,31 (-2,5%) | 511.50 | +2,0% | -€20,63 verlies |
+| MSFT | 535.34 USD | 521.91 | -€11,03 (-2,5%) | 511.50 | +2,0% | -€21,33 verlies |
 | DB1.DE | 314.96 EUR | 320.40 | €5,44 (+1,7%) | 302.20 | +6,0% | -€13,76 verlies |
-| ABBV | 290.94 USD | 294.89 | €8,60 (+1,4%) | 277.38 | +6,3% | -€23,77 verlies |
-| CVX | 235.64 USD | 235.52 | -€0,53 (-0,1%) | 226.17 | +4,1% | -€43,39 verlies |
-| XLE | 70.03 USD | 70.00 | -€0,60 (-0,1%) | 67.18 | +4,2% | -€49,52 verlies |
+| ABBV | 290.94 USD | 294.89 | €7,79 (+1,4%) | 277.38 | +6,3% | -€24,53 verlies |
+| CVX | 235.64 USD | 235.52 | -€2,14 (-0,1%) | 226.17 | +4,1% | -€44,94 verlies |
+| XLE | 70.03 USD | 70.02 | -€2,08 (-0,0%) | 67.18 | +4,2% | -€51,27 verlies |
 | WKL.AS | 86.80 EUR | 86.76 | -€0,43 (-0,1%) | 82.09 | +5,7% | -€48,09 verlies |
 
-Raken alle stops tegelijk, dan is het verlies hooguit ongeveer €199,16 (bij een koersgat 's ochtends kan het meer zijn).
+Raken alle stops tegelijk, dan is het verlies hooguit ongeveer €203,92 (bij een koersgat 's ochtends kan het meer zijn).
 
 **Remmen** (bij overschrijden gaat de kill switch aan en koopt de bot niets meer):
 
-- Daling vanaf de top: +0,00% (grens -10%; top was €10.083,15)
-- Vandaag: +0,15% (grens -1%)
+- Daling vanaf de top: -0,05% (grens -10%; top was €10.083,15)
+- Vandaag: +0,11% (grens -1%)
 - Verliestrades op rij: 0 van 3
 
 ## Kansen: wat de bot vandaag het sterkst vond
@@ -85,21 +80,21 @@ _Dit is wat de oefenbot met zijn nepgeld volgens zijn eigen regels zou doen. Gee
 - **Waarom sterk:** AbbVie steeg +21,1% in 3 maanden en +14,1% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,1x het normale volume; beweegt gemiddeld 2,4% per dag.
 - **Instapmoment:** de koers staat +4,7% van het 20-daags gemiddelde, RSI 73.
 - **Status:** al in bezit.
-- **Plan van de bot:** koop 4 stuks rond 295.04 USD (inzet €1.056,94), stop-loss 281.10 USD (-4,7%). Maximaal verlies als de stop wordt geraakt: ongeveer €51,94. Ter oriëntatie: 2x het risico winst ligt bij 322.92 USD; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+- **Plan van de bot:** koop 4 stuks rond 295.04 USD (inzet €1.055,33), stop-loss 281.10 USD (-4,7%). Maximaal verlies als de stop wordt geraakt: ongeveer €51,86. Ter oriëntatie: 2x het risico winst ligt bij 322.92 USD; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
 
 ### 4. Chevron (CVX): instapmoment **neutraal**
 
 - **Waarom sterk:** Chevron steeg +23,0% in 3 maanden en +13,7% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 0,9x het normale volume; beweegt gemiddeld 2,0% per dag.
 - **Instapmoment:** de koers staat +5,3% van het 20-daags gemiddelde, RSI 73.
 - **Status:** vandaag gekocht door de bot.
-- **Plan van de bot:** koop 5 stuks rond 235.64 USD (inzet €1.055,19), stop-loss 226.17 USD (-4,0%). Maximaal verlies als de stop wordt geraakt: ongeveer €44,39. Ter oriëntatie: 2x het risico winst ligt bij 254.57 USD; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+- **Plan van de bot:** koop 5 stuks rond 235.64 USD (inzet €1.053,57), stop-loss 226.17 USD (-4,0%). Maximaal verlies als de stop wordt geraakt: ongeveer €44,34. Ter oriëntatie: 2x het risico winst ligt bij 254.58 USD; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
 
 ### 5. Eli Lilly (LLY): instapmoment **opgelopen**
 
 - **Waarom sterk:** Eli Lilly steeg +26,6% in 3 maanden en +23,3% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,0x het normale volume; beweegt gemiddeld 3,4% per dag.
 - **Instapmoment:** de koers staat +11,9% van het 20-daags gemiddelde (3,5x de normale dagbeweging) en RSI is 78; na zo'n sprint volgt vaak eerst een terugval.
 - **Status:** niet gekocht: RSI 78 boven de grens 75.
-- **Plan van de bot:** instap rond 1418.25 USD, stop 1321.77 USD (-6,8%). Met een risicobudget van €50,42 past er geen heel stuk in.
+- **Plan van de bot:** instap rond 1418.25 USD, stop 1321.77 USD (-6,8%). Met een risicobudget van €50,39 past er geen heel stuk in.
 
 
 ## Wat de bot tot nu toe geleerd heeft
@@ -113,7 +108,7 @@ _Dit is wat de oefenbot met zijn nepgeld volgens zijn eigen regels zou doen. Gee
 | Eis | Stand | Nu |
 | --- | --- | --- |
 | Oefentijd | ⏳ | 15 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe +2,62% |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe +2,58% |
 | Grootste daling onder 5% | ✅ | grootste daling tot nu toe -0,10% |
 | Genoeg afgesloten trades | ⏳ | 0 van 20 |
 
@@ -156,8 +151,8 @@ _Dit is wat de oefenbot met zijn nepgeld volgens zijn eigen regels zou doen. Gee
 | 2 | DB1.DE | 0.173 | +21.1% | +11.8% |
 | 3 | ABBV | 0.162 | +21.1% | +14.1% |
 | 4 | CVX | 0.135 | +23.0% | +13.7% |
-| 5 | LLY | 0.128 | +26.6% | +23.3% |
-| 6 | XLE | 0.126 | +19.8% | +11.6% |
+| 5 | LLY | 0.129 | +26.6% | +23.3% |
+| 6 | XLE | 0.125 | +19.8% | +11.7% |
 | 7 | WKL.AS | 0.123 | +22.9% | +26.4% |
 | 8 | XOM | 0.122 | +21.5% | +14.3% |
 | 9 | TTE.PA | 0.122 | +16.3% | +14.6% |

@@ -33,10 +33,10 @@
     "instap": 535.3375,
     "koers": 521.91,
     "stop": 511.5021,
-    "resultaat_eur": -10.31,
+    "resultaat_eur": -11.03,
     "resultaat_pct": -0.0251,
     "afstand_stop_pct": 0.0203,
-    "bij_stop_eur": -20.63
+    "bij_stop_eur": -21.33
    },
    {
     "ticker": "DB1.DE",
@@ -57,10 +57,10 @@
     "instap": 290.9354,
     "koers": 294.89,
     "stop": 277.381,
-    "resultaat_eur": 8.6,
+    "resultaat_eur": 7.79,
     "resultaat_pct": 0.0136,
     "afstand_stop_pct": 0.0631,
-    "bij_stop_eur": -23.77
+    "bij_stop_eur": -24.53
    },
    {
     "ticker": "CVX",
@@ -69,22 +69,22 @@
     "instap": 235.6378,
     "koers": 235.52,
     "stop": 226.1706,
-    "resultaat_eur": -0.53,
+    "resultaat_eur": -2.14,
     "resultaat_pct": -0.0005,
     "afstand_stop_pct": 0.0413,
-    "bij_stop_eur": -43.39
+    "bij_stop_eur": -44.94
    },
    {
     "ticker": "XLE",
     "aantal": 19,
     "valuta": "USD",
     "instap": 70.035,
-    "koers": 70.0,
+    "koers": 70.02,
     "stop": 67.1834,
-    "resultaat_eur": -0.6,
-    "resultaat_pct": -0.0005,
-    "afstand_stop_pct": 0.0419,
-    "bij_stop_eur": -49.52
+    "resultaat_eur": -2.08,
+    "resultaat_pct": -0.0002,
+    "afstand_stop_pct": 0.0422,
+    "bij_stop_eur": -51.27
    },
    {
     "ticker": "WKL.AS",
@@ -100,11 +100,11 @@
    }
   ],
   "remmen": {
-   "waarde": 10083.15,
+   "waarde": 10078.53,
    "top": 10083.15,
-   "daling_vanaf_top": 0.0,
+   "daling_vanaf_top": -0.0005,
    "grens_daling": 0.1,
-   "vandaag": 0.0015,
+   "vandaag": 0.0011,
    "grens_dag": 0.01,
    "verlies_op_rij": 0,
    "grens_op_rij": 3
@@ -127,7 +127,7 @@
      "inzet_eur": 1269.3,
      "max_verlies_eur": 50.69,
      "stop_pct": -0.0384,
-     "budget_eur": 50.42
+     "budget_eur": 50.39
     },
     "ctx": {
      "rsi14": 74.5,
@@ -157,7 +157,7 @@
      "inzet_eur": 961.68,
      "max_verlies_eur": 40.7,
      "stop_pct": -0.0402,
-     "budget_eur": 50.42
+     "budget_eur": 50.39
     },
     "ctx": {
      "rsi14": 76.6,
@@ -184,10 +184,10 @@
      "valuta": "USD",
      "doel_2r": 322.9155,
      "aantal": 4,
-     "inzet_eur": 1056.94,
-     "max_verlies_eur": 51.94,
+     "inzet_eur": 1055.33,
+     "max_verlies_eur": 51.86,
      "stop_pct": -0.0472,
-     "budget_eur": 50.42
+     "budget_eur": 50.39
     },
     "ctx": {
      "rsi14": 73.4,
@@ -210,14 +210,14 @@
     "status": "vandaag gekocht door de bot",
     "plan": {
      "instap": 235.6378,
-     "stop": 226.1706,
+     "stop": 226.1678,
      "valuta": "USD",
-     "doel_2r": 254.5721,
+     "doel_2r": 254.5778,
      "aantal": 5,
-     "inzet_eur": 1055.19,
-     "max_verlies_eur": 44.39,
+     "inzet_eur": 1053.57,
+     "max_verlies_eur": 44.34,
      "stop_pct": -0.0402,
-     "budget_eur": 50.42
+     "budget_eur": 50.39
     },
     "ctx": {
      "rsi14": 72.9,
@@ -233,7 +233,7 @@
    {
     "ticker": "LLY",
     "naam": "Eli Lilly",
-    "score": 0.128,
+    "score": 0.129,
     "uitleg": "Eli Lilly steeg +26,6% in 3 maanden en +23,3% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,0x het normale volume; beweegt gemiddeld 3,4% per dag",
     "moment": "opgelopen",
     "moment_uitleg": "de koers staat +11,9% van het 20-daags gemiddelde (3,5x de normale dagbeweging) en RSI is 78; na zo'n sprint volgt vaak eerst een terugval",
@@ -242,19 +242,19 @@
      "instap": 1418.2488,
      "stop": 1321.7659,
      "valuta": "USD",
-     "doel_2r": 1611.2146,
+     "doel_2r": 1611.2147,
      "aantal": 0,
      "inzet_eur": 0.0,
      "max_verlies_eur": 0.0,
      "stop_pct": -0.068,
-     "budget_eur": 50.42
+     "budget_eur": 50.39
     },
     "ctx": {
      "rsi14": 77.9,
      "afstand_sma200_pct": 30.14,
      "atr_pct": 3.4,
      "rend_3m": 0.2659,
-     "volume_rel": 1.03,
+     "volume_rel": 1.04,
      "moment": "opgelopen",
      "trend_regime": "stijgend",
      "beweeglijkheid_regime": "normaal"
@@ -283,7 +283,7 @@
     [
      "Minstens zo goed als de wereld-ETF",
      "bezig",
-     "verschil tot nu toe +2,62%"
+     "verschil tot nu toe +2,58%"
     ],
     [
      "Grootste daling onder 5%",
@@ -357,10 +357,10 @@
    },
    {
     "ticker": "AMD",
-    "waarde_eur": 508.76,
+    "waarde_eur": 508.38,
     "kosten_eur": 600.0,
-    "resultaat_eur": -91.24,
-    "resultaat_pct": -0.1521
+    "resultaat_eur": -91.62,
+    "resultaat_pct": -0.1527
    },
    {
     "ticker": "IFX.DE",
@@ -378,17 +378,17 @@
    },
    {
     "ticker": "SMH",
-    "waarde_eur": 529.43,
+    "waarde_eur": 529.09,
     "kosten_eur": 600.0,
-    "resultaat_eur": -70.57,
-    "resultaat_pct": -0.1176
+    "resultaat_eur": -70.91,
+    "resultaat_pct": -0.1182
    },
    {
     "ticker": "MU",
-    "waarde_eur": 535.43,
+    "waarde_eur": 535.34,
     "kosten_eur": 600.0,
-    "resultaat_eur": -64.57,
-    "resultaat_pct": -0.1076
+    "resultaat_eur": -64.66,
+    "resultaat_pct": -0.1078
    },
    {
     "ticker": "ETH-USD",
@@ -407,7 +407,7 @@
   ],
   "daling": {
    "top": 10000.0,
-   "daling_vanaf_top": -0.0561
+   "daling_vanaf_top": -0.0562
   },
   "conclusies": [
    "De markt stijgt: de kern (wereld-ETF) doet zijn werk, de sterkste aandelen lopen mee.",
@@ -431,12 +431,12 @@
     [
      "Minstens zo goed als de wereld-ETF",
      "bezig",
-     "verschil tot nu toe -3,54%"
+     "verschil tot nu toe -3,55%"
     ],
     [
      "Daling niet veel dieper dan de ETF",
      "ok",
-     "bot -5,61%, ETF -1,94%"
+     "bot -5,62%, ETF -1,94%"
     ]
    ],
    "oordeel": "Nog niet klaar: de bot is nog bezig met bewijzen. Blijven oefenen."
