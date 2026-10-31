@@ -349,6 +349,11 @@ def broker_rows(state_dir: Path) -> list[dict]:
                        "koers": p.get("currentPrice"), "gem_prijs": p.get("averagePricePaid") or p.get("averagePrice"),
                        "valuta": (p.get("instrument") or {}).get("currency")}
     onderweg: dict[str, float] = {}
+    # Orders die in deze ronde net geplaatst zijn, staan nog niet in de lijst van openstaande orders
+    # (die werd vóór het plaatsen opgehaald): die tellen ook als onderweg.
+    for o in v.get("orders") or []:
+        if o.get("uitkomst") == "geplaatst" and o.get("ticker") and o.get("quantity"):
+            onderweg[o["ticker"]] = onderweg.get(o["ticker"], 0.0) + float(o["quantity"])
     for o in v.get("open_orders") or []:
         if o.get("ticker"):
             onderweg[o["ticker"]] = onderweg.get(o["ticker"], 0.0) + float(o.get("quantity") or 0)

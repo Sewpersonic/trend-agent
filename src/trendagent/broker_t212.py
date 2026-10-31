@@ -27,7 +27,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 DEMO_BASE = "https://demo.trading212.com/api/v0"
-MAX_ORDERS = 6
+MAX_ORDERS = 14         # 8 plekken + rest-ETF: bij een herverdeling kunnen er veel tegelijk nodig zijn
 MAX_ORDER_EUR = 3000.0  # trend-agent zet hooguit ~25% van €10.000 in één aandeel
 # Grove omrekening naar euro voor de ordergrens (alleen voor de veiligheidsgrens, niet voor de boekhouding).
 FX_NAAR_EUR = {"EUR": 1.0, "USD": 0.95, "GBP": 1.2, "GBX": 0.012, "CHF": 1.05}

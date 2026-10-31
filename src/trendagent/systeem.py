@@ -229,6 +229,14 @@ def rows(state: Path = Path("state"), dash: Path = Path("dashboard"), root: Path
                        "Trading 212 een order, bijvoorbeeld als een aandeel daar niet te koop is).")
     else:
         k.node("oefen", "goed", "volgt de trend-agent")
+    nk = (_load(state / "broker.json", {}) or {}).get("niet_gekoppeld") or []
+    if nk:
+        k.knelpunt("oefen", "letop", "Niet elk aandeel kan bij Trading 212",
+                   f"{', '.join(nk)} staat bij de trend-agent, maar Trading 212 biedt het niet aan. Amerikaanse ETF's "
+                   "(zoals XLE, SPY, QQQ) mogen in Europa niet aan particulieren worden verkocht. Het oefenaccount slaat "
+                   "die over en loopt op dat punt dus niet gelijk.",
+                   "Kan alleen met een regelwijziging (jij beslist): de trend-agent geen Amerikaanse ETF's laten kopen, "
+                   "of een Europese variant gebruiken. Vraag Claude om een voorstel.")
 
     # ---------- bewaker (stop-losses van het oefenaccount, de hele beursdag elk kwartier)
     bw = _load(state / "bewaker.json", {}) or {}
