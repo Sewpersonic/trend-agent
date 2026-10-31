@@ -1,60 +1,65 @@
-# Trend-agent rapport 2026-10-29
+# Trend-agent rapport 2026-10-30
 
 _Oefenportefeuille met nepgeld. Geen beleggingsadvies; resultaten uit het verleden zeggen niets over de toekomst._
 
 **Status:** OK  
-**Waarde:** €10,067.79  
-**Kas:** €7,713.84  
-**Marktregime:** stijgend-laag  
-**Strategieversie:** trend-1.1-a0ddd5  
-**Koersbronnen:** 0 bevestigd door 2 bronnen, 129 uit 1 bron, 0 afwijkend; wisselkoers bevestigd  
-**Sinds start:** +0.68%  
+**Waarde:** €10,083.15  
+**Kas:** €4,595.88  
+**Marktregime:** stijgend-normaal  
+**Strategieversie:** trend-1.1-081d85  
+**Koersbronnen:** 69 bevestigd door 2 bronnen, 60 uit 1 bron, 0 afwijkend; wisselkoers bevestigd  
+**Sinds start:** +0.83%  
 
 ## Analyse van vandaag
 
 **Wat de bot zag**
 
-- **Markt (IWDA.AS):** koers 131,56, 8,4% boven het 200-daags gemiddelde (121,33); de afgelopen maand +1,9%. Trend: **stijgend**.
-- **Beweeglijkheid:** 9% op jaarbasis, tegen normaal 10% het afgelopen jaar: **laag**.
-- **Breedte:** 75 van de 129 instrumenten staan boven hun 200-daags gemiddelde (58%; EU 33 van 60, US 42 van 69).
+- **Markt (IWDA.AS):** koers 129,70, 6,8% boven het 200-daags gemiddelde (121,41); de afgelopen maand +0,7%. Trend: **stijgend**.
+- **Beweeglijkheid:** 9% op jaarbasis, tegen normaal 10% het afgelopen jaar: **normaal**.
+- **Breedte:** 73 van de 129 instrumenten staan boven hun 200-daags gemiddelde (57%; EU 34 van 60, US 39 van 69).
 - **Bekeken:** 129 instrumenten.
-- **Afgevallen** (een instrument kan op meer regels afvallen): geen stijgende trend (koers niet boven 50- en 200-daags gemiddelde): 77; niet gestegen over 1 of 3 maanden: 75; te weinig handel: 2; verdachte dagsprong: 1.
-- **Door de zeef:** 36. Koopbare trends: **36**.
+- **Afgevallen** (een instrument kan op meer regels afvallen): geen stijgende trend (koers niet boven 50- en 200-daags gemiddelde): 86; niet gestegen over 1 of 3 maanden: 79; te weinig handel: 2; verdachte dagsprong: 1.
+- **Door de zeef:** 35. Koopbare trends: **35**.
 
 **Wat de bot eruit haalt**
 
 - De markt stijgt, maar gedragen door een minderheid van de aandelen: kwetsbaarder dan het lijkt.
-- De markt is rustig: stops liggen dichterbij, posities kunnen iets groter.
-- De sterkste trends zijn vooral Europese instrumenten.
-- Sterk zonder ver weggelopen te zijn: SAP.DE.
-- Gekocht vandaag: DB1.DE, ABBV.
+- Gekocht vandaag: CVX, XLE, WKL.AS.
 
 ## Vandaag gedaan
 
-- BUY 1 x DB1.DE @ 314.96 (trend OK: 3m +17.9%, 1m +10.0%, volume x1.09)
-- BUY 2 x ABBV @ 290.94 (trend OK: 3m +16.6%, 1m +11.8%, volume x1.14)
+- SHELL.AS: stop omhoog van 45.60 naar 45.99
+- SAP.DE: stop omhoog van 198.88 naar 199.31
+- BUY 5 x CVX @ 235.64 (trend OK: 3m +23.0%, 1m +13.7%, volume x0.89)
+- LLY: overgeslagen (RSI 78 boven 75)
+- BUY 19 x XLE @ 70.03 (trend OK: 3m +19.8%, 1m +11.6%, volume x1.05)
+- BUY 10 x WKL.AS @ 86.80 (trend OK: 3m +22.9%, 1m +26.4%, volume x0.86)
 
 ## Waarom
 
-- **BUY DB1.DE**: trend OK: 3m +17.9%, 1m +10.0%, volume x1.09. Omstandigheden: RSI 72, MACD-histogram +0.11%, ATR 2.0% per dag, +23.2% boven SMA200, markt stijgend-laag
-- **BUY ABBV**: trend OK: 3m +16.6%, 1m +11.8%, volume x1.14. Omstandigheden: RSI 70, MACD-histogram +0.08%, ATR 2.3% per dag, +24.4% boven SMA200, markt stijgend-laag
+- **BUY CVX**: trend OK: 3m +23.0%, 1m +13.7%, volume x0.89. Omstandigheden: RSI 73, MACD-histogram +0.34%, ATR 2.0% per dag, +23.1% boven SMA200, markt stijgend-normaal
+- **BUY XLE**: trend OK: 3m +19.8%, 1m +11.6%, volume x1.05. Omstandigheden: RSI 68, MACD-histogram +0.15%, ATR 2.0% per dag, +20.4% boven SMA200, markt stijgend-normaal
+- **BUY WKL.AS**: trend OK: 3m +22.9%, 1m +26.4%, volume x0.86. Omstandigheden: RSI 71, MACD-histogram +0.14%, ATR 2.7% per dag, +31.8% boven SMA200, markt stijgend-normaal
 
 ## Verlies en risico
 
 | Ticker | Instap | Koers nu | Resultaat | Stop | Afstand tot stop | Als de stop geraakt wordt |
 | --- | --- | --- | --- | --- | --- | --- |
-| SHELL.AS | 45.06 EUR | 48.36 | €42,93 (+7,3%) | 45.60 | +6,1% | €6,01 winst vastgezet |
-| SAP.DE | 191.56 EUR | 208.85 | €34,59 (+9,0%) | 198.88 | +5,0% | €13,66 winst vastgezet |
-| MSFT | 535.34 USD | 530.14 | -€4,32 (-1,0%) | 511.50 | +3,6% | -€21,96 verlies |
-| DB1.DE | 314.96 EUR | 314.80 | -€0,16 (-0,1%) | 302.20 | +4,2% | -€13,76 verlies |
-| ABBV | 290.94 USD | 290.79 | -€0,26 (-0,1%) | 277.38 | +4,8% | -€25,21 verlies |
+| SHELL.AS | 45.06 EUR | 48.80 | €48,59 (+8,3%) | 45.99 | +6,1% | €11,07 winst vastgezet |
+| SAP.DE | 191.56 EUR | 211.75 | €40,39 (+10,5%) | 199.31 | +6,2% | €14,50 winst vastgezet |
+| MSFT | 535.34 USD | 521.91 | -€10,31 (-2,5%) | 511.50 | +2,0% | -€20,63 verlies |
+| DB1.DE | 314.96 EUR | 320.40 | €5,44 (+1,7%) | 302.20 | +6,0% | -€13,76 verlies |
+| ABBV | 290.94 USD | 294.89 | €8,60 (+1,4%) | 277.38 | +6,3% | -€23,77 verlies |
+| CVX | 235.64 USD | 235.52 | -€0,53 (-0,1%) | 226.17 | +4,1% | -€43,39 verlies |
+| XLE | 70.03 USD | 70.00 | -€0,60 (-0,1%) | 67.18 | +4,2% | -€49,52 verlies |
+| WKL.AS | 86.80 EUR | 86.76 | -€0,43 (-0,1%) | 82.09 | +5,7% | -€48,09 verlies |
 
-Raken alle stops tegelijk, dan is het verlies hooguit ongeveer €60,93 (bij een koersgat 's ochtends kan het meer zijn).
+Raken alle stops tegelijk, dan is het verlies hooguit ongeveer €199,16 (bij een koersgat 's ochtends kan het meer zijn).
 
 **Remmen** (bij overschrijden gaat de kill switch aan en koopt de bot niets meer):
 
-- Daling vanaf de top: -0,08% (grens -5%; top was €10.076,18)
-- Vandaag: +0,01% (grens -1%)
+- Daling vanaf de top: +0,00% (grens -10%; top was €10.083,15)
+- Vandaag: +0,15% (grens -1%)
 - Verliestrades op rij: 0 van 3
 
 ## Kansen: wat de bot vandaag het sterkst vond
@@ -63,38 +68,38 @@ _Dit is wat de oefenbot met zijn nepgeld volgens zijn eigen regels zou doen. Gee
 
 ### 1. Shell (SHELL.AS): instapmoment **neutraal**
 
-- **Waarom sterk:** Shell steeg +22,7% in 3 maanden en +15,4% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,0x het normale volume; beweegt gemiddeld 2,0% per dag.
-- **Instapmoment:** de koers staat +5,0% van het 20-daags gemiddelde, RSI 73.
+- **Waarom sterk:** Shell steeg +26,8% in 3 maanden en +15,5% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,0x het normale volume; beweegt gemiddeld 1,9% per dag.
+- **Instapmoment:** de koers staat +5,4% van het 20-daags gemiddelde, RSI 74.
 - **Status:** al in bezit.
-- **Plan van de bot:** koop 12 stuks rond 48.38 EUR (inzet €580,61), stop-loss 46.45 EUR (-4,0%). Maximaal verlies als de stop wordt geraakt: ongeveer €25,25. Ter oriëntatie: 2x het risico winst ligt bij 52.26 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+- **Plan van de bot:** koop 26 stuks rond 48.82 EUR (inzet €1.269,30), stop-loss 46.95 EUR (-3,8%). Maximaal verlies als de stop wordt geraakt: ongeveer €50,69. Ter oriëntatie: 2x het risico winst ligt bij 52.57 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
 
-### 2. Deutsche Börse (DB1.DE): instapmoment **neutraal**
+### 2. Deutsche Börse (DB1.DE): instapmoment **opgelopen**
 
-- **Waarom sterk:** Deutsche Börse steeg +17,9% in 3 maanden en +10,0% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,1x het normale volume; beweegt gemiddeld 2,0% per dag.
-- **Instapmoment:** de koers staat +3,2% van het 20-daags gemiddelde, RSI 72.
-- **Status:** vandaag gekocht door de bot.
-- **Plan van de bot:** koop 1 stuk rond 314.96 EUR (inzet €314,96), stop-loss 302.20 EUR (-4,0%). Maximaal verlies als de stop wordt geraakt: ongeveer €14,76. Ter oriëntatie: 2x het risico winst ligt bij 340.47 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+- **Waarom sterk:** Deutsche Börse steeg +21,1% in 3 maanden en +11,8% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,1x het normale volume; beweegt gemiddeld 2,0% per dag.
+- **Instapmoment:** de koers staat +4,5% van het 20-daags gemiddelde (2,3x de normale dagbeweging) en RSI is 77; na zo'n sprint volgt vaak eerst een terugval.
+- **Status:** al in bezit.
+- **Plan van de bot:** koop 3 stuks rond 320.56 EUR (inzet €961,68), stop-loss 307.66 EUR (-4,0%). Maximaal verlies als de stop wordt geraakt: ongeveer €40,70. Ter oriëntatie: 2x het risico winst ligt bij 346.36 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
 
 ### 3. AbbVie (ABBV): instapmoment **neutraal**
 
-- **Waarom sterk:** AbbVie steeg +16,6% in 3 maanden en +11,8% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,1x het normale volume; beweegt gemiddeld 2,3% per dag.
-- **Instapmoment:** de koers staat +3,8% van het 20-daags gemiddelde, RSI 70.
-- **Status:** vandaag gekocht door de bot.
-- **Plan van de bot:** koop 2 stuks rond 290.94 USD (inzet €519,61), stop-loss 277.38 USD (-4,7%). Maximaal verlies als de stop wordt geraakt: ongeveer €26,21. Ter oriëntatie: 2x het risico winst ligt bij 318.04 USD; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
-
-### 4. Wolters Kluwer (WKL.AS): instapmoment **neutraal**
-
-- **Waarom sterk:** Wolters Kluwer steeg +23,3% in 3 maanden en +25,0% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 0,9x het normale volume; beweegt gemiddeld 2,7% per dag.
-- **Instapmoment:** de koers staat +5,0% van het 20-daags gemiddelde, RSI 67.
-- **Status:** niet gekocht: alle 5 plekken zijn bezet.
-- **Plan van de bot:** koop 5 stuks rond 84.68 EUR (inzet €423,41), stop-loss 80.06 EUR (-5,5%). Maximaal verlies als de stop wordt geraakt: ongeveer €25,13. Ter oriëntatie: 2x het risico winst ligt bij 93.93 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
-
-### 5. SAP (SAP.DE): instapmoment **gunstig**
-
-- **Waarom sterk:** SAP steeg +26,9% in 3 maanden en +12,5% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 0,9x het normale volume; beweegt gemiddeld 2,8% per dag.
-- **Instapmoment:** de trend is sterk maar de koers is niet ver weggelopen (+3,3% van het 20-daags gemiddelde, RSI 65).
+- **Waarom sterk:** AbbVie steeg +21,1% in 3 maanden en +14,1% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,1x het normale volume; beweegt gemiddeld 2,4% per dag.
+- **Instapmoment:** de koers staat +4,7% van het 20-daags gemiddelde, RSI 73.
 - **Status:** al in bezit.
-- **Plan van de bot:** koop 2 stuks rond 208.95 EUR (inzet €417,91), stop-loss 197.15 EUR (-5,7%). Maximaal verlies als de stop wordt geraakt: ongeveer €25,60. Ter oriëntatie: 2x het risico winst ligt bij 232.56 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+- **Plan van de bot:** koop 4 stuks rond 295.04 USD (inzet €1.056,94), stop-loss 281.10 USD (-4,7%). Maximaal verlies als de stop wordt geraakt: ongeveer €51,94. Ter oriëntatie: 2x het risico winst ligt bij 322.92 USD; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+
+### 4. Chevron (CVX): instapmoment **neutraal**
+
+- **Waarom sterk:** Chevron steeg +23,0% in 3 maanden en +13,7% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 0,9x het normale volume; beweegt gemiddeld 2,0% per dag.
+- **Instapmoment:** de koers staat +5,3% van het 20-daags gemiddelde, RSI 73.
+- **Status:** vandaag gekocht door de bot.
+- **Plan van de bot:** koop 5 stuks rond 235.64 USD (inzet €1.055,19), stop-loss 226.17 USD (-4,0%). Maximaal verlies als de stop wordt geraakt: ongeveer €44,39. Ter oriëntatie: 2x het risico winst ligt bij 254.57 USD; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+
+### 5. Eli Lilly (LLY): instapmoment **opgelopen**
+
+- **Waarom sterk:** Eli Lilly steeg +26,6% in 3 maanden en +23,3% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,0x het normale volume; beweegt gemiddeld 3,4% per dag.
+- **Instapmoment:** de koers staat +11,9% van het 20-daags gemiddelde (3,5x de normale dagbeweging) en RSI is 78; na zo'n sprint volgt vaak eerst een terugval.
+- **Status:** niet gekocht: RSI 78 boven de grens 75.
+- **Plan van de bot:** instap rond 1418.25 USD, stop 1321.77 USD (-6,8%). Met een risicobudget van €50,42 past er geen heel stuk in.
 
 
 ## Wat de bot tot nu toe geleerd heeft
@@ -107,8 +112,8 @@ _Dit is wat de oefenbot met zijn nepgeld volgens zijn eigen regels zou doen. Gee
 
 | Eis | Stand | Nu |
 | --- | --- | --- |
-| Oefentijd | ⏳ | 14 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe +1,06% |
+| Oefentijd | ⏳ | 15 van 63 handelsdagen (ongeveer 3 maanden) |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe +2,62% |
 | Grootste daling onder 5% | ✅ | grootste daling tot nu toe -0,10% |
 | Genoeg afgesloten trades | ⏳ | 0 van 20 |
 
@@ -134,23 +139,26 @@ _Dit is wat de oefenbot met zijn nepgeld volgens zijn eigen regels zou doen. Gee
 
 | Ticker | Aantal | Instap | Stop | Sinds |
 | --- | --- | --- | --- | --- |
-| SHELL.AS | 13 | 45.06 EUR | 45.60 | 2026-10-10 |
-| SAP.DE | 2 | 191.56 EUR | 198.88 | 2026-10-10 |
+| SHELL.AS | 13 | 45.06 EUR | 45.99 | 2026-10-10 |
+| SAP.DE | 2 | 191.56 EUR | 199.31 | 2026-10-10 |
 | MSFT | 1 | 535.34 USD | 511.50 | 2026-10-10 |
 | DB1.DE | 1 | 314.96 EUR | 302.20 | 2026-10-29 |
 | ABBV | 2 | 290.94 USD | 277.38 | 2026-10-29 |
+| CVX | 5 | 235.64 USD | 226.17 | 2026-10-30 |
+| XLE | 19 | 70.03 USD | 67.18 | 2026-10-30 |
+| WKL.AS | 10 | 86.80 EUR | 82.09 | 2026-10-30 |
 
 ## Sterkste trends vandaag
 
 | # | Ticker | Score | 3 mnd | 1 mnd |
 | --- | --- | --- | --- | --- |
-| 1 | SHELL.AS | 0.165 | +22.7% | +15.4% |
-| 2 | DB1.DE | 0.149 | +17.9% | +10.0% |
-| 3 | ABBV | 0.130 | +16.6% | +11.8% |
-| 4 | WKL.AS | 0.121 | +23.3% | +25.0% |
-| 5 | SAP.DE | 0.115 | +26.9% | +12.5% |
-| 6 | CVX | 0.114 | +18.6% | +13.3% |
-| 7 | TMO | 0.114 | +23.6% | +5.1% |
-| 8 | MA | 0.110 | +11.1% | +15.4% |
-| 9 | V | 0.109 | +12.3% | +14.3% |
-| 10 | XLE | 0.108 | +16.1% | +11.7% |
+| 1 | SHELL.AS | 0.193 | +26.8% | +15.5% |
+| 2 | DB1.DE | 0.173 | +21.1% | +11.8% |
+| 3 | ABBV | 0.162 | +21.1% | +14.1% |
+| 4 | CVX | 0.135 | +23.0% | +13.7% |
+| 5 | LLY | 0.128 | +26.6% | +23.3% |
+| 6 | XLE | 0.126 | +19.8% | +11.6% |
+| 7 | WKL.AS | 0.123 | +22.9% | +26.4% |
+| 8 | XOM | 0.122 | +21.5% | +14.3% |
+| 9 | TTE.PA | 0.122 | +16.3% | +14.6% |
+| 10 | MA | 0.119 | +11.9% | +16.2% |
