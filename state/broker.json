@@ -1,8 +1,37 @@
 {
- "tijd": "2026-10-31T00:03:16+00:00",
- "status": "alleen kijken",
- "reden": "Alleen gecontroleerd: geen orders geplaatst.",
- "orders": [],
+ "tijd": "2026-10-31T00:04:06+00:00",
+ "status": "ok",
+ "reden": "",
+ "orders": [
+  {
+   "ticker": "WKLa_EQ",
+   "yahoo": "WKL.AS",
+   "actie": "koop",
+   "quantity": 5.0,
+   "waarde_eur": 434.02,
+   "uitkomst": "geplaatst",
+   "antwoord": {
+    "id": 57250283902,
+    "strategy": "QUANTITY",
+    "type": "MARKET",
+    "ticker": "WKLa_EQ",
+    "quantity": 5.0,
+    "filledQuantity": 0,
+    "status": "NEW",
+    "currency": "EUR",
+    "extendedHours": false,
+    "initiatedFrom": "API",
+    "side": "BUY",
+    "createdAt": "2026-10-31T02:04:08.809+02:00",
+    "instrument": {
+     "ticker": "WKLa_EQ",
+     "name": "Wolters Kluwer",
+     "isin": "NL0000395903",
+     "currency": "EUR"
+    }
+   }
+  }
+ ],
  "niet_gekoppeld": [
   "XLE"
  ],
@@ -12,7 +41,8 @@
   "DB1d_EQ",
   "MSFT_US_EQ",
   "SAPd_EQ",
-  "SHELLa_EQ"
+  "SHELLa_EQ",
+  "WKLa_EQ"
  ],
  "account": {
   "currency": "EUR",
@@ -337,6 +367,21 @@
      "quantity": 2.5,
      "actie": "koop",
      "waarde_eur": 527.59,
+     "uitkomst": "geplaatst",
+     "reden": null
+    }
+   ]
+  },
+  {
+   "tijd": "2026-10-31T00:04:06+00:00",
+   "status": "ok",
+   "reden": "",
+   "orders": [
+    {
+     "ticker": "WKLa_EQ",
+     "quantity": 5.0,
+     "actie": "koop",
+     "waarde_eur": 434.02,
      "uitkomst": "geplaatst",
      "reden": null
     }
