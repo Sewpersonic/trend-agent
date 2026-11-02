@@ -1,32 +1,57 @@
 {
- "tijd": "2026-10-30T23:40:32+00:00",
+ "tijd": "2026-11-02T17:00:39+00:00",
  "status": "alleen kijken",
  "reden": "Alleen gecontroleerd: geen orders geplaatst.",
  "orders": [],
- "niet_gekoppeld": [],
+ "niet_gekoppeld": [
+  "XLE"
+ ],
  "managed": [
   "ABBV_US_EQ",
+  "CVX_US_EQ",
   "DB1d_EQ",
   "MSFT_US_EQ",
   "SAPd_EQ",
-  "SHELLa_EQ"
+  "SHELLa_EQ",
+  "WKLa_EQ"
  ],
  "account": {
   "currency": "EUR",
-  "totalValue": 5044.4,
+  "totalValue": 5008.92,
   "cash": {
-   "availableToTrade": 2672.11,
+   "availableToTrade": 2893.02,
    "reservedForOrders": 0,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 2372.29,
-   "totalCost": 2326.38,
-   "realizedProfitLoss": 0,
-   "unrealizedProfitLoss": 45.91
+   "currentValue": 2115.9,
+   "totalCost": 2113.54,
+   "realizedProfitLoss": 9.59,
+   "unrealizedProfitLoss": 2.36
   }
  },
  "posities": [
+  {
+   "instrument": {
+    "ticker": "CVX_US_EQ",
+    "name": "Chevron",
+    "isin": "US1667641005",
+    "currency": "USD"
+   },
+   "createdAt": "2026-11-02T16:30:46.509+02:00",
+   "quantity": 2.5,
+   "quantityAvailableForTrading": 2.5,
+   "quantityInPies": 0,
+   "currentPrice": 229.91,
+   "averagePricePaid": 232.392,
+   "walletImpact": {
+    "currency": "EUR",
+    "totalCost": 517.86,
+    "currentValue": 513.02,
+    "unrealizedProfitLoss": -4.84,
+    "fxImpact": 0.7
+   }
+  },
   {
    "instrument": {
     "ticker": "SAPd_EQ",
@@ -35,16 +60,16 @@
     "currency": "EUR"
    },
    "createdAt": "2026-10-16T10:00:06.000+03:00",
-   "quantity": 2.0,
-   "quantityAvailableForTrading": 2.0,
+   "quantity": 1.0,
+   "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 211.25,
+   "currentPrice": 210.5,
    "averagePricePaid": 200.8,
    "walletImpact": {
     "currency": "EUR",
-    "totalCost": 401.6,
-    "currentValue": 422.5,
-    "unrealizedProfitLoss": 20.9,
+    "totalCost": 200.8,
+    "currentValue": 210.5,
+    "unrealizedProfitLoss": 9.7,
     "fxImpact": null
    }
   },
@@ -55,18 +80,18 @@
     "isin": "US00287Y1091",
     "currency": "USD"
    },
-   "createdAt": "2026-10-30T15:31:57.365+02:00",
-   "quantity": 2.0,
-   "quantityAvailableForTrading": 2.0,
+   "createdAt": "2026-10-30T15:31:57.000+02:00",
+   "quantity": 1.0,
+   "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 294.95,
+   "currentPrice": 289.89,
    "averagePricePaid": 293.84,
    "walletImpact": {
     "currency": "EUR",
-    "totalCost": 526.39,
-    "currentValue": 528.18,
-    "unrealizedProfitLoss": 1.79,
-    "fxImpact": -0.2
+    "totalCost": 263.19,
+    "currentValue": 258.74,
+    "unrealizedProfitLoss": -4.45,
+    "fxImpact": -0.92
    }
   },
   {
@@ -76,17 +101,38 @@
     "isin": "DE0005810055",
     "currency": "EUR"
    },
-   "createdAt": "2026-10-30T10:00:12.977+02:00",
-   "quantity": 1.0,
-   "quantityAvailableForTrading": 1.0,
+   "createdAt": "2026-10-30T10:00:12.000+02:00",
+   "quantity": 0.5,
+   "quantityAvailableForTrading": 0.5,
    "quantityInPies": 0,
-   "currentPrice": 320.5,
+   "currentPrice": 313.6,
    "averagePricePaid": 317.0,
    "walletImpact": {
     "currency": "EUR",
-    "totalCost": 317.0,
-    "currentValue": 320.5,
-    "unrealizedProfitLoss": 3.5,
+    "totalCost": 158.5,
+    "currentValue": 156.8,
+    "unrealizedProfitLoss": -1.7,
+    "fxImpact": null
+   }
+  },
+  {
+   "instrument": {
+    "ticker": "WKLa_EQ",
+    "name": "Wolters Kluwer",
+    "isin": "NL0000395903",
+    "currency": "EUR"
+   },
+   "createdAt": "2026-11-02T10:00:04.900+02:00",
+   "quantity": 5.0,
+   "quantityAvailableForTrading": 5.0,
+   "quantityInPies": 0,
+   "currentPrice": 87.42,
+   "averagePricePaid": 86.5,
+   "walletImpact": {
+    "currency": "EUR",
+    "totalCost": 432.5,
+    "currentValue": 437.1,
+    "unrealizedProfitLoss": 4.6,
     "fxImpact": null
    }
   },
@@ -98,16 +144,16 @@
     "currency": "EUR"
    },
    "createdAt": "2026-10-16T10:00:19.000+03:00",
-   "quantity": 13.0,
-   "quantityAvailableForTrading": 13.0,
+   "quantity": 6.5,
+   "quantityAvailableForTrading": 6.5,
    "quantityInPies": 0,
-   "currentPrice": 48.68,
+   "currentPrice": 47.095,
    "averagePricePaid": 46.14,
    "walletImpact": {
     "currency": "EUR",
-    "totalCost": 599.82,
-    "currentValue": 632.84,
-    "unrealizedProfitLoss": 33.02,
+    "totalCost": 299.91,
+    "currentValue": 306.12,
+    "unrealizedProfitLoss": 6.21,
     "fxImpact": null
    }
   },
@@ -119,17 +165,17 @@
     "currency": "USD"
    },
    "createdAt": "2026-10-15T19:38:29.000+03:00",
-   "quantity": 1.0,
-   "quantityAvailableForTrading": 1.0,
+   "quantity": 0.5,
+   "quantityAvailableForTrading": 0.5,
    "quantityInPies": 0,
-   "currentPrice": 522.99,
+   "currentPrice": 523.7,
    "averagePricePaid": 539.52,
    "walletImpact": {
     "currency": "EUR",
-    "totalCost": 481.57,
-    "currentValue": 468.27,
-    "unrealizedProfitLoss": -13.3,
-    "fxImpact": 1.5
+    "totalCost": 240.78,
+    "currentValue": 233.72,
+    "unrealizedProfitLoss": -7.06,
+    "fxImpact": 0
    }
   }
  ],
@@ -140,44 +186,10 @@
   "SAP.DE": "SAPd_EQ",
   "MSFT": "MSFT_US_EQ",
   "DB1.DE": "DB1d_EQ",
-  "ABBV": "ABBV_US_EQ"
+  "ABBV": "ABBV_US_EQ",
+  "CVX": "CVX_US_EQ",
+  "WKL.AS": "WKLa_EQ"
  },
  "handmatig": {},
- "plan": [
-  {
-   "ticker": "SHELLa_EQ",
-   "yahoo": "SHELL.AS",
-   "actie": "verkoop",
-   "quantity": -6.5,
-   "waarde_eur": 314.34
-  },
-  {
-   "ticker": "SAPd_EQ",
-   "yahoo": "SAP.DE",
-   "actie": "verkoop",
-   "quantity": -1.0,
-   "waarde_eur": 216.45
-  },
-  {
-   "ticker": "MSFT_US_EQ",
-   "yahoo": "MSFT",
-   "actie": "verkoop",
-   "quantity": -0.5,
-   "waarde_eur": 242.49
-  },
-  {
-   "ticker": "DB1d_EQ",
-   "yahoo": "DB1.DE",
-   "actie": "verkoop",
-   "quantity": -0.5,
-   "waarde_eur": 157.48
-  },
-  {
-   "ticker": "ABBV_US_EQ",
-   "yahoo": "ABBV",
-   "actie": "verkoop",
-   "quantity": -1.0,
-   "waarde_eur": 259.81
-  }
- ]
+ "plan": []
 }
