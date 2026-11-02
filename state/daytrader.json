@@ -314,9 +314,9 @@
  "vandaag": {
   "dag": "2026-11-02",
   "begin": 9957.36,
-  "realized": -27.100445190429582,
+  "realized": -62.94543862914992,
   "klaar": false,
-  "prev": "2026-11-02T14:15:00",
+  "prev": "2026-11-02T14:30:00",
   "traded": [
    "AVGO",
    "SMH"
@@ -350,17 +350,18 @@
      "indicatie": "gemiddeld",
      "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,08 R; alle uitbraken samen +0,07 R)."
     }
-   }
-  ],
-  "open": {
-   "AVGO": {
+   },
+   {
+    "dag": "2026-11-02",
     "ticker": "AVGO",
     "qty": 7,
-    "entry": 329.2685559082031,
-    "stop": 324.30999755859375,
-    "target": 339.1856726074218,
-    "t_in": "2026-11-02T10:15:00",
-    "risk": 34.709908447265434,
+    "instap": 329.2686,
+    "uitstap": 324.1478,
+    "t_in": "10:15",
+    "t_uit": "14:20",
+    "reden": "stop-loss",
+    "resultaat": -35.84,
+    "r": -1.033,
     "ctx": {
      "tijd": "10:15",
      "rvol": 4.8,
@@ -378,7 +379,8 @@
      "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,05 R; alle uitbraken samen +0,07 R)."
     }
    }
-  }
+  ],
+  "open": {}
  },
  "gem_vol": {
   "AAPL": 5919075.6,
@@ -410,51 +412,17 @@
   "GLD": 1180907.4
  },
  "uitgesloten": {},
- "open_nu": [
-  {
-   "ticker": "AVGO",
-   "qty": 7,
-   "entry": 329.2685559082031,
-   "stop": 324.30999755859375,
-   "target": 339.1856726074218,
-   "risk": 34.709908447265434,
-   "ctx": {
-    "tijd": "10:15",
-    "rvol": 4.8,
-    "or_breedte": 0.0134,
-    "boven_range": 0.0012,
-    "markt_vandaag": 0.0013,
-    "dag_tot_nu": 0.002,
-    "gap": 0.0072,
-    "dagtrend": "dalend",
-    "plek": "onderaan het bereik",
-    "terugval": false,
-    "boven_sma50": false,
-    "markt_dagtrend": "zijwaarts",
-    "indicatie": "gemiddeld",
-    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,05 R; alle uitbraken samen +0,07 R)."
-   },
-   "t_in": "10:15",
-   "koers": 325.67999267578125
-  }
- ],
+ "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-02T19:16:30+00:00",
-  "ny": "2026-11-02 14:16",
+  "tijd": "2026-11-02T19:31:30+00:00",
+  "ny": "2026-11-02 14:31",
   "status": "ok",
   "log": [
+   "14:30 AVGO: stop-loss geraakt",
    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-10-29T16:01:30+00:00",
-   "ny": "2026-10-29 12:01",
-   "status": "ok",
-   "log": [
-    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (9x); te weinig volume (0.8x normaal) (4x); openingsrange te wild (4x)."
-   ]
-  },
   {
    "tijd": "2026-10-29T16:16:30+00:00",
    "ny": "2026-10-29 12:16",
@@ -933,6 +901,15 @@
    "ny": "2026-11-02 14:16",
    "status": "ok",
    "log": [
+    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-11-02T19:31:30+00:00",
+   "ny": "2026-11-02 14:31",
+   "status": "ok",
+   "log": [
+    "14:30 AVGO: stop-loss geraakt",
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
    ]
   }
