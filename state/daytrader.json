@@ -314,15 +314,44 @@
  "vandaag": {
   "dag": "2026-11-02",
   "begin": 9957.36,
-  "realized": 0.0,
+  "realized": -27.100445190429582,
   "klaar": false,
-  "prev": "2026-11-02T11:15:00",
+  "prev": "2026-11-02T11:30:00",
   "traded": [
    "AVGO",
    "SMH"
   ],
   "notities": [],
-  "trades": [],
+  "trades": [
+   {
+    "dag": "2026-11-02",
+    "ticker": "SMH",
+    "qty": 4,
+    "instap": 531.0029,
+    "uitstap": 524.2277,
+    "t_in": "10:30",
+    "t_uit": "11:20",
+    "reden": "stop-loss",
+    "resultaat": -27.1,
+    "r": -1.04,
+    "ctx": {
+     "tijd": "10:30",
+     "rvol": 2.34,
+     "or_breedte": 0.0089,
+     "boven_range": 0.006,
+     "markt_vandaag": 0.0055,
+     "dag_tot_nu": 0.0064,
+     "gap": 0.0126,
+     "dagtrend": "zijwaarts",
+     "plek": "onderaan het bereik",
+     "terugval": false,
+     "boven_sma50": false,
+     "markt_dagtrend": "zijwaarts",
+     "indicatie": "gemiddeld",
+     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,08 R; alle uitbraken samen +0,07 R)."
+    }
+   }
+  ],
   "open": {
    "AVGO": {
     "ticker": "AVGO",
@@ -347,31 +376,6 @@
      "markt_dagtrend": "zijwaarts",
      "indicatie": "gemiddeld",
      "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,05 R; alle uitbraken samen +0,07 R)."
-    }
-   },
-   "SMH": {
-    "ticker": "SMH",
-    "qty": 4,
-    "entry": 531.0028565368652,
-    "stop": 524.489990234375,
-    "target": 544.0285891418457,
-    "t_in": "2026-11-02T10:30:00",
-    "risk": 26.051465209960952,
-    "ctx": {
-     "tijd": "10:30",
-     "rvol": 2.34,
-     "or_breedte": 0.0089,
-     "boven_range": 0.006,
-     "markt_vandaag": 0.0055,
-     "dag_tot_nu": 0.0064,
-     "gap": 0.0126,
-     "dagtrend": "zijwaarts",
-     "plek": "onderaan het bereik",
-     "terugval": false,
-     "boven_sma50": false,
-     "markt_dagtrend": "zijwaarts",
-     "indicatie": "gemiddeld",
-     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,08 R; alle uitbraken samen +0,07 R)."
     }
    }
   }
@@ -431,52 +435,19 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,05 R; alle uitbraken samen +0,07 R)."
    },
    "t_in": "10:15",
-   "koers": 332.2699890136719
-  },
-  {
-   "ticker": "SMH",
-   "qty": 4,
-   "entry": 531.0028565368652,
-   "stop": 524.489990234375,
-   "target": 544.0285891418457,
-   "risk": 26.051465209960952,
-   "ctx": {
-    "tijd": "10:30",
-    "rvol": 2.34,
-    "or_breedte": 0.0089,
-    "boven_range": 0.006,
-    "markt_vandaag": 0.0055,
-    "dag_tot_nu": 0.0064,
-    "gap": 0.0126,
-    "dagtrend": "zijwaarts",
-    "plek": "onderaan het bereik",
-    "terugval": false,
-    "boven_sma50": false,
-    "markt_dagtrend": "zijwaarts",
-    "indicatie": "gemiddeld",
-    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,08 R; alle uitbraken samen +0,07 R)."
-   },
-   "t_in": "10:30",
-   "koers": 525.8900146484375
+   "koers": 330.5899963378906
   }
  ],
  "laatste_ronde": {
-  "tijd": "2026-11-02T16:16:30+00:00",
-  "ny": "2026-11-02 11:16",
+  "tijd": "2026-11-02T16:31:30+00:00",
+  "ny": "2026-11-02 11:31",
   "status": "ok",
   "log": [
+   "11:30 SMH: stop-loss geraakt",
    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-10-28T18:26:48+00:00",
-   "ny": "2026-10-28 14:26",
-   "status": "ok",
-   "log": [
-    "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-10-28T19:19:12+00:00",
    "ny": "2026-10-28 15:19",
@@ -953,6 +924,15 @@
    "ny": "2026-11-02 11:16",
    "status": "ok",
    "log": [
+    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-11-02T16:31:30+00:00",
+   "ny": "2026-11-02 11:31",
+   "status": "ok",
+   "log": [
+    "11:30 SMH: stop-loss geraakt",
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
    ]
   }
