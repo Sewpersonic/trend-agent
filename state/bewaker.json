@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-02T20:00:30+00:00",
+ "tijd": "2026-11-02T20:30:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -24,10 +24,10 @@
    "ticker": "MSFT",
    "t212": "MSFT_US_EQ",
    "stop": 511.5021,
-   "actie": "boven de stop-loss",
-   "koers_t212": 514.24,
-   "koers_yahoo": 514.24,
-   "afstand_pct": 0.0054
+   "actie": "verkocht (0.5 stuks): koers 510.63 onder de stop-loss 511.50",
+   "koers_t212": 510.62,
+   "koers_yahoo": 510.6278,
+   "afstand_pct": -0.0017
   },
   {
    "ticker": "DB1.DE",
@@ -43,18 +43,18 @@
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 288.82,
-   "koers_yahoo": 288.82,
-   "afstand_pct": 0.0412
+   "koers_t212": 288.87,
+   "koers_yahoo": 288.87,
+   "afstand_pct": 0.0414
   },
   {
    "ticker": "CVX",
    "t212": "CVX_US_EQ",
    "stop": 226.1706,
    "actie": "boven de stop-loss",
-   "koers_t212": 228.59,
-   "koers_yahoo": 228.58,
-   "afstand_pct": 0.0107
+   "koers_t212": 227.9,
+   "koers_yahoo": 227.9,
+   "afstand_pct": 0.0076
   },
   {
    "ticker": "XLE",
@@ -72,11 +72,76 @@
    "afstand_pct": 0.0649
   }
  ],
- "verkocht": [],
+ "verkocht": [
+  {
+   "ticker": "MSFT",
+   "t212": "MSFT_US_EQ",
+   "aantal": 0.5,
+   "koers": 510.6278076171875,
+   "stop": 511.5021493094308,
+   "antwoord": {
+    "id": 57450646296,
+    "strategy": "QUANTITY",
+    "type": "MARKET",
+    "ticker": "MSFT_US_EQ",
+    "quantity": -0.5,
+    "filledQuantity": 0,
+    "status": "NEW",
+    "currency": "EUR",
+    "extendedHours": false,
+    "initiatedFrom": "API",
+    "side": "SELL",
+    "createdAt": "2026-11-02T22:30:31.020+02:00",
+    "instrument": {
+     "ticker": "MSFT_US_EQ",
+     "name": "Microsoft",
+     "isin": "US5949181045",
+     "currency": "USD"
+    }
+   }
+  }
+ ],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: MSFT (+0.5%)."
+  "MSFT: verkocht in het oefenaccount, koers 510.63 onder de stop-loss 511.50."
  ],
  "twelve_vandaag": 0,
- "geschiedenis": [],
- "rondes_vandaag": 49
+ "geschiedenis": [
+  {
+   "tijd": "2026-11-02T20:30:30+00:00",
+   "status": "ok",
+   "verkocht": [
+    {
+     "ticker": "MSFT",
+     "t212": "MSFT_US_EQ",
+     "aantal": 0.5,
+     "koers": 510.6278076171875,
+     "stop": 511.5021493094308,
+     "antwoord": {
+      "id": 57450646296,
+      "strategy": "QUANTITY",
+      "type": "MARKET",
+      "ticker": "MSFT_US_EQ",
+      "quantity": -0.5,
+      "filledQuantity": 0,
+      "status": "NEW",
+      "currency": "EUR",
+      "extendedHours": false,
+      "initiatedFrom": "API",
+      "side": "SELL",
+      "createdAt": "2026-11-02T22:30:31.020+02:00",
+      "instrument": {
+       "ticker": "MSFT_US_EQ",
+       "name": "Microsoft",
+       "isin": "US5949181045",
+       "currency": "USD"
+      }
+     }
+    }
+   ],
+   "log": [
+    "MSFT: verkocht in het oefenaccount, koers 510.63 onder de stop-loss 511.50."
+   ]
+  }
+ ],
+ "rondes_vandaag": 51
 }
