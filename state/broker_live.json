@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-02T17:00:39+00:00",
+ "tijd": "2026-11-02T23:51:41+00:00",
  "status": "alleen kijken",
  "reden": "Alleen gecontroleerd: geen orders geplaatst.",
  "orders": [],
@@ -17,17 +17,17 @@
  ],
  "account": {
   "currency": "EUR",
-  "totalValue": 5008.92,
+  "totalValue": 4999.41,
   "cash": {
-   "availableToTrade": 2893.02,
+   "availableToTrade": 3120.69,
    "reservedForOrders": 0,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 2115.9,
-   "totalCost": 2113.54,
-   "realizedProfitLoss": 9.59,
-   "unrealizedProfitLoss": 2.36
+   "currentValue": 1878.72,
+   "totalCost": 1872.76,
+   "realizedProfitLoss": -3.18,
+   "unrealizedProfitLoss": 5.96
   }
  },
  "posities": [
@@ -42,14 +42,14 @@
    "quantity": 2.5,
    "quantityAvailableForTrading": 2.5,
    "quantityInPies": 0,
-   "currentPrice": 229.91,
+   "currentPrice": 228.3,
    "averagePricePaid": 232.392,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 517.86,
-    "currentValue": 513.02,
-    "unrealizedProfitLoss": -4.84,
-    "fxImpact": 0.7
+    "currentValue": 510.07,
+    "unrealizedProfitLoss": -7.79,
+    "fxImpact": 1.35
    }
   },
   {
@@ -84,14 +84,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 289.89,
+   "currentPrice": 288.84,
    "averagePricePaid": 293.84,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 263.19,
-    "currentValue": 258.74,
-    "unrealizedProfitLoss": -4.45,
-    "fxImpact": -0.92
+    "currentValue": 258.13,
+    "unrealizedProfitLoss": -5.06,
+    "fxImpact": -0.59
    }
   },
   {
@@ -156,27 +156,6 @@
     "unrealizedProfitLoss": 6.21,
     "fxImpact": null
    }
-  },
-  {
-   "instrument": {
-    "ticker": "MSFT_US_EQ",
-    "name": "Microsoft",
-    "isin": "US5949181045",
-    "currency": "USD"
-   },
-   "createdAt": "2026-10-15T19:38:29.000+03:00",
-   "quantity": 0.5,
-   "quantityAvailableForTrading": 0.5,
-   "quantityInPies": 0,
-   "currentPrice": 523.7,
-   "averagePricePaid": 539.52,
-   "walletImpact": {
-    "currency": "EUR",
-    "totalCost": 240.78,
-    "currentValue": 233.72,
-    "unrealizedProfitLoss": -7.06,
-    "fxImpact": 0
-   }
   }
  ],
  "open_orders": [],
@@ -191,5 +170,13 @@
   "WKL.AS": "WKLa_EQ"
  },
  "handmatig": {},
- "plan": []
+ "plan": [
+  {
+   "ticker": "MSFT_US_EQ",
+   "yahoo": "MSFT",
+   "actie": "koop",
+   "quantity": 0.5,
+   "waarde_eur": 242.49
+  }
+ ]
 }
