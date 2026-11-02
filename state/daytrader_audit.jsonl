@@ -103,3 +103,4 @@
 {"tijd": "2026-10-30T19:46:30+00:00", "ny": "2026-10-30 15:46", "status": "ok", "log": ["Koersen niet vers (laatste blok 14:40): niets kopen deze ronde.", "Dag klaar: 0 trades, resultaat +0.00 dollar."]}
 {"tijd": "2026-11-02T15:01:30+00:00", "ny": "2026-11-02 10:01", "status": "ok", "log": ["Bekeken: geen aandeel voldeed nu aan alle regels."]}
 {"tijd": "2026-11-02T15:16:30+00:00", "ny": "2026-11-02 10:16", "status": "ok", "log": ["10:15 AVGO: gekocht (7 stuks, uitbraak boven 328.70 met 4.8x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,05 R; alle uitbraken samen +0,07 R)."]}
+{"tijd": "2026-11-02T15:31:30+00:00", "ny": "2026-11-02 10:31", "status": "ok", "log": ["10:30 SMH: gekocht (4 stuks, uitbraak boven 529.22 met 2.3x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,08 R; alle uitbraken samen +0,07 R)."]}
