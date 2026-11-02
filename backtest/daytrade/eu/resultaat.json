@@ -1,0 +1,128 @@
+{
+ "gemaakt": "2026-11-02T10:19:43+00:00",
+ "van": "2026-08-25",
+ "tot": "2026-10-30",
+ "aandelen": [
+  "ABN.AS",
+  "AD.AS",
+  "ADYEN.AS",
+  "AIR.PA",
+  "ALV.DE",
+  "ASM.AS",
+  "ASML.AS",
+  "BESI.AS",
+  "BNP.PA",
+  "DTE.DE",
+  "EXW1.DE",
+  "HEIA.AS",
+  "IFX.DE",
+  "INGA.AS",
+  "KPN.AS",
+  "MBG.DE",
+  "MC.PA",
+  "MT.AS",
+  "OR.PA",
+  "PHIA.AS",
+  "PRX.AS",
+  "RHM.DE",
+  "SAP.DE",
+  "SHELL.AS",
+  "SIE.DE",
+  "SU.PA",
+  "TTE.PA",
+  "UNA.AS",
+  "WKL.AS"
+ ],
+ "varianten": {
+  "basis (kopen tot 10:30)": {
+   "stats": {
+    "trades": 34,
+    "dagen": 42,
+    "dagen_met_trade": 20,
+    "winst_pct": 0.412,
+    "gem_r": -0.325,
+    "rendement": -0.0287,
+    "max_daling": -0.0342,
+    "profit_factor": 0.53,
+    "redenen": {
+     "stop-loss": 15,
+     "winstdoel": 0,
+     "einde van de dag": 19
+    }
+   },
+   "eind": 9713.34
+  },
+  "kopen tot 11:30": {
+   "stats": {
+    "trades": 41,
+    "dagen": 42,
+    "dagen_met_trade": 23,
+    "winst_pct": 0.39,
+    "gem_r": -0.315,
+    "rendement": -0.0372,
+    "max_daling": -0.0418,
+    "profit_factor": 0.48,
+    "redenen": {
+     "stop-loss": 16,
+     "winstdoel": 0,
+     "einde van de dag": 25
+    }
+   },
+   "eind": 9628.04
+  },
+  "kopen tot 13:00": {
+   "stats": {
+    "trades": 53,
+    "dagen": 42,
+    "dagen_met_trade": 28,
+    "winst_pct": 0.396,
+    "gem_r": -0.286,
+    "rendement": -0.0432,
+    "max_daling": -0.0465,
+    "profit_factor": 0.48,
+    "redenen": {
+     "stop-loss": 19,
+     "winstdoel": 0,
+     "einde van de dag": 34
+    }
+   },
+   "eind": 9568.27
+  },
+  "zonder marktfilter": {
+   "stats": {
+    "trades": 58,
+    "dagen": 42,
+    "dagen_met_trade": 34,
+    "winst_pct": 0.431,
+    "gem_r": -0.228,
+    "rendement": -0.0382,
+    "max_daling": -0.0484,
+    "profit_factor": 0.59,
+    "redenen": {
+     "stop-loss": 22,
+     "winstdoel": 1,
+     "einde van de dag": 35
+    }
+   },
+   "eind": 9618.39
+  },
+  "minder streng op volume (1,0x)": {
+   "stats": {
+    "trades": 38,
+    "dagen": 42,
+    "dagen_met_trade": 21,
+    "winst_pct": 0.421,
+    "gem_r": -0.241,
+    "rendement": -0.0218,
+    "max_daling": -0.0279,
+    "profit_factor": 0.64,
+    "redenen": {
+     "stop-loss": 15,
+     "winstdoel": 1,
+     "einde van de dag": 22
+    }
+   },
+   "eind": 9781.59
+  }
+ }
+}

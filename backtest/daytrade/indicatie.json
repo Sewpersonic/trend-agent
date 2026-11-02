@@ -1,35 +1,35 @@
 {
- "gemaakt": "2026-10-31T13:05:07+00:00",
+ "gemaakt": "2026-11-02T10:18:48+00:00",
  "uitbraken": 76,
  "tabel": {
   "totaal": {
    "n": 76,
-   "winst_pct": 0.579,
-   "gem_r": 0.069
+   "winst_pct": 0.592,
+   "gem_r": 0.071
   },
   "kenmerken": {
    "Daggrafiek van het aandeel": {
     "geen duidelijke richting": {
      "n": 27,
      "winst_pct": 0.741,
-     "gem_r": 0.193
+     "gem_r": 0.194
     },
     "dalende trend": {
      "n": 7,
-     "winst_pct": 0.429,
-     "gem_r": 0.127
+     "winst_pct": 0.571,
+     "gem_r": 0.133
     },
     "stijgende trend": {
      "n": 42,
      "winst_pct": 0.5,
-     "gem_r": -0.02
+     "gem_r": -0.019
     }
    },
    "Plek in het bereik van 3 maanden": {
     "midden in het bereik": {
      "n": 58,
-     "winst_pct": 0.552,
-     "gem_r": 0.073
+     "winst_pct": 0.569,
+     "gem_r": 0.076
     },
     "onderaan het bereik": {
      "n": 5,
@@ -39,14 +39,14 @@
     "bij de 3-maands top": {
      "n": 13,
      "winst_pct": 0.615,
-     "gem_r": 0.038
+     "gem_r": 0.036
     }
    },
    "Daggrafiek van de markt (SPY)": {
     "markt in stijgende trend": {
      "n": 68,
-     "winst_pct": 0.618,
-     "gem_r": 0.117
+     "winst_pct": 0.632,
+     "gem_r": 0.119
     },
     "markt zonder richting": {
      "n": 8,
@@ -57,8 +57,8 @@
    "Tijdstip van kopen (New York)": {
     "10:00-10:59": {
      "n": 42,
-     "winst_pct": 0.595,
-     "gem_r": 0.096
+     "winst_pct": 0.619,
+     "gem_r": 0.098
     },
     "11:00-11:59": {
      "n": 29,
@@ -73,19 +73,19 @@
    },
    "Extra handel in het eerste half uur": {
     "1,5-2,5x": {
-     "n": 32,
-     "winst_pct": 0.562,
-     "gem_r": 0.162
+     "n": 33,
+     "winst_pct": 0.606,
+     "gem_r": 0.197
     },
     "1,2-1,5x": {
-     "n": 41,
-     "winst_pct": 0.561,
-     "gem_r": -0.017
+     "n": 39,
+     "winst_pct": 0.538,
+     "gem_r": -0.055
     },
     "meer dan 2,5x": {
-     "n": 3,
+     "n": 4,
      "winst_pct": 1.0,
-     "gem_r": 0.26
+     "gem_r": 0.248
     }
    },
    "Breedte van de openingsrange": {
@@ -97,46 +97,46 @@
     "normaal (1-2%)": {
      "n": 27,
      "winst_pct": 0.63,
-     "gem_r": 0.065
+     "gem_r": 0.067
     },
     "breed (>2%)": {
      "n": 24,
-     "winst_pct": 0.625,
-     "gem_r": 0.235
+     "winst_pct": 0.667,
+     "gem_r": 0.237
     }
    },
    "Opening t.o.v. gisteren": {
     "veel hoger geopend (>2%)": {
      "n": 7,
-     "winst_pct": 0.286,
-     "gem_r": -0.002
+     "winst_pct": 0.429,
+     "gem_r": -0.014
     },
     "rond gisteren": {
-     "n": 16,
-     "winst_pct": 0.375,
-     "gem_r": -0.144
+     "n": 19,
+     "winst_pct": 0.474,
+     "gem_r": -0.071
     },
     "hoger geopend": {
-     "n": 26,
-     "winst_pct": 0.654,
-     "gem_r": 0.019
+     "n": 25,
+     "winst_pct": 0.64,
+     "gem_r": 0.015
     },
     "lager geopend": {
-     "n": 27,
-     "winst_pct": 0.704,
-     "gem_r": 0.262
+     "n": 25,
+     "winst_pct": 0.68,
+     "gem_r": 0.257
     }
    },
    "Markt op het moment van kopen": {
     "licht hoger (<0,3%)": {
      "n": 58,
-     "winst_pct": 0.569,
-     "gem_r": 0.027
+     "winst_pct": 0.586,
+     "gem_r": 0.028
     },
     "hoger (0,3-0,8%)": {
      "n": 18,
      "winst_pct": 0.611,
-     "gem_r": 0.204
+     "gem_r": 0.206
     }
    }
   }
@@ -149,7 +149,7 @@
   "per_oordeel": {
    "gemiddeld": {
     "n": 37,
-    "gem_r": 0.12,
+    "gem_r": 0.124,
     "winst_pct": 0.649
    }
   },

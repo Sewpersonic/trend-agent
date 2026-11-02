@@ -8,15 +8,15 @@ Belangrijk: dit zijn maar ongeveer 2 maanden. Dat is te kort om iets te bewijzen
 
 | Variant | Rendement | Trades | Winst-% | Gem. R | Grootste daling |
 |---|---|---|---|---|---|
-| basis | +2,2% | 41 | 61% | 0,104 | -0,8% |
-| alleen als de daggrafiek van het aandeel stijgt | +0,1% | 33 | 46% | -0,095 | -1,0% |
-| niet als de daggrafiek van de markt daalt | +2,2% | 41 | 61% | 0,104 | -0,8% |
-| zonder winstdoel (alleen stop of einde dag) | +2,2% | 40 | 60% | 0,109 | -0,8% |
-| zonder marktfilter | -1,4% | 68 | 46% | -0,092 | -2,4% |
-| openingsrange 15 minuten | +0,1% | 64 | 45% | -0,118 | -1,9% |
-| minder streng op volume (1,0x) | +2,0% | 64 | 52% | 0,045 | -1,4% |
-| elke 5 minuten kijken | +0,7% | 47 | 49% | -0,018 | -1,3% |
-| alleen kopen tot 11:00 | +2,3% | 30 | 63% | 0,159 | -0,4% |
+| basis | +2,2% | 41 | 63% | 0,106 | -0,8% |
+| alleen als de daggrafiek van het aandeel stijgt | +0,1% | 33 | 46% | -0,094 | -1,0% |
+| niet als de daggrafiek van de markt daalt | +2,2% | 41 | 63% | 0,106 | -0,8% |
+| zonder winstdoel (alleen stop of einde dag) | +2,2% | 40 | 62% | 0,111 | -0,8% |
+| zonder marktfilter | -1,4% | 68 | 47% | -0,092 | -2,4% |
+| openingsrange 15 minuten | +0,2% | 64 | 47% | -0,11 | -1,9% |
+| minder streng op volume (1,0x) | +2,3% | 62 | 55% | 0,058 | -1,2% |
+| elke 5 minuten kijken | +0,6% | 47 | 51% | -0,023 | -1,3% |
+| alleen kopen tot 11:00 | +2,3% | 30 | 67% | 0,161 | -0,4% |
 
 ## Ter vergelijking
 
@@ -36,7 +36,7 @@ Uit 76 uitbraken in de koersgeschiedenis (ook die de bot niet kocht). Toets op 1
 
 ## Wat leert hij van de grafieken?
 
-- Test op oude koersen: 41 trades, 61% met winst, gemiddeld +0,10 R per trade.
-- Slechter: opening t.o.v. gisteren rond gisteren (11 trades, gemiddeld −0,22 R per trade).
+- Test op oude koersen: 41 trades, 63% met winst, gemiddeld +0,11 R per trade.
+- Geen situatie die duidelijk beter of slechter was dan de rest.
 
 Gem. R: gemiddelde winst of verlies per trade, gemeten in 'risico-eenheden' (1 R = het bedrag dat hij verliest als de stop-loss geraakt wordt). Boven 0 betekent: de winsten wogen zwaarder dan de verliezen.
