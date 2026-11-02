@@ -18,7 +18,7 @@ from .universe import DAYTRADE
 TICKERS = list(DAYTRADE)   # vaste lijst; het grotere universum van de trend-agent telt hier niet
 
 
-def download(tickers=TICKERS, period: str = "60d") -> dict[str, list[Bar5]]:
+def download(tickers=TICKERS, period: str = "60d", tz=None, einde: str = "15:55") -> dict[str, list[Bar5]]:
     import yfinance as yf
     out: dict[str, list[Bar5]] = {}
     for tk in tickers:
@@ -36,20 +36,20 @@ def download(tickers=TICKERS, period: str = "60d") -> dict[str, list[Bar5]]:
             if r["Close"] != r["Close"]:
                 continue
             t = idx.to_pydatetime()
-            if NY is not None and t.tzinfo is not None:
-                t = t.astimezone(NY)
+            if (tz or NY) is not None and t.tzinfo is not None:
+                t = t.astimezone(tz or NY)
             bars.append(Bar5(t, float(r["Open"]), float(r["High"]), float(r["Low"]), float(r["Close"]), float(r["Volume"])))
-        out[tk] = drop_unfinished_day(bars)
+        out[tk] = drop_unfinished_day(bars, einde)
         _time.sleep(0.5)
     return out
 
 
-def drop_unfinished_day(bars: list[Bar5]) -> list[Bar5]:
-    """Een dag die nog bezig is (laatste blok vóór 15:55) telt niet mee."""
+def drop_unfinished_day(bars: list[Bar5], einde: str = "15:55") -> list[Bar5]:
+    """Een dag die nog bezig is (laatste blok vóór 'einde', standaard 15:55) telt niet mee."""
     if not bars:
         return bars
     last = bars[-1]
-    if last.t.time() < datetime.strptime("15:55", "%H:%M").time():
+    if last.t.time() < datetime.strptime(einde, "%H:%M").time():
         d = last.t.date()
         return [b for b in bars if b.t.date() != d]
     return bars

@@ -148,12 +148,24 @@ def main(argv: list[str] | None = None) -> int:
         from .daytrade_test import download
         gewijzigd = bewaar(download(period="5d"))
         print(f"5-minutenkoersen bewaard: {len(gewijzigd)} weekbestand(en) bijgewerkt.")
+        try:
+            from .daytrade_eu import archiveer
+            print(f"Europese 5-minutenkoersen bewaard: {len(archiveer())} weekbestand(en) bijgewerkt.")
+        except Exception as exc:  # noqa: BLE001 - het Europese archief mag het Amerikaanse nooit tegenhouden
+            print(f"Europese koersen bewaren lukte niet: {type(exc).__name__}: {exc}")
         return 0
     if args.cmd == "daytrade-test":
         from .daytrade_test import run as _dtt
         r = _dtt()
         b = r["varianten"]["basis"]["stats"]
         print(f"Daytrade-test {r['van']} t/m {r['tot']}: {b['trades']} trades, rendement {b['rendement']:+.2%}")
+        try:
+            from .daytrade_eu import run as _eu
+            e = _eu()
+            be = next(iter(e["varianten"].values()))["stats"]
+            print(f"Daytrade-test Europa {e['van']} t/m {e['tot']}: {be['trades']} trades, rendement {be['rendement']:+.2%}")
+        except Exception as exc:  # noqa: BLE001
+            print(f"Daytrade-test Europa lukte niet: {type(exc).__name__}: {exc}")
         return 0
     if args.cmd == "broker":
         from . import broker_t212

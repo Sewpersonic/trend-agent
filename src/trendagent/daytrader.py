@@ -60,6 +60,8 @@ class Params:
     use_target: bool = True
     rvol_days: int = 10
     market: str = "SPY"
+    open_t: time = OPEN            # beurstijden in lokale tijd (New York; voor Europa 09:00-17:30 Amsterdam)
+    close_t: time = CLOSE
     # Regels uit de grafiekanalyse (standaard uit; alleen aan na onderzoek en jouw ja):
     dagtrend_filter: bool = False      # alleen kopen als de daggrafiek van het aandeel stijgt (slot > 50d > 200d)
     markt_trend_filter: bool = False   # niet kopen als de daggrafiek van de markt (SPY) daalt
@@ -114,8 +116,8 @@ class DayResult:
 
 def check_times(day: date, p: Params) -> list[datetime]:
     """Kijkmomenten van de bot op één dag (New Yorkse tijd), vanaf het einde van de openingsrange."""
-    start = datetime.combine(day, OPEN) + timedelta(minutes=p.or_min)
-    end = datetime.combine(day, CLOSE)
+    start = datetime.combine(day, p.open_t) + timedelta(minutes=p.or_min)
+    end = datetime.combine(day, p.close_t)
     out, t = [], start
     while t < end:
         out.append(t)
@@ -135,7 +137,7 @@ def or_stats(bars: list[Bar5], p: Params) -> tuple[float, float, float] | None:
     if not bars:
         return None
     day = bars[0].t.date()
-    end = datetime.combine(day, OPEN) + timedelta(minutes=p.or_min)
+    end = datetime.combine(day, p.open_t) + timedelta(minutes=p.or_min)
     ob = [b for b in bars if b.t.replace(tzinfo=None) < end]
     if len(ob) < p.or_min // 5:
         return None
@@ -237,7 +239,7 @@ class DayEngine:
                 b = idx.get(tk, {}).get(when)
                 return b.o if b else _last_close(day_bars.get(tk, []), when)
         # 1. Blokken sinds het vorige kijkmoment: stop of winstdoel geraakt?
-        span_start = self.prev or datetime.combine(day, OPEN)
+        span_start = self.prev or datetime.combine(day, p.open_t)
         for tk in list(self.open):
             pos = self.open[tk]
             m = span_start
@@ -371,8 +373,8 @@ def simulate_day(day_bars: dict[str, list[Bar5]], avg_or_vol: dict[str, float], 
         if e.klaar:
             break
     for tk in list(e.open):  # vangnet: de data hield eerder op
-        last = _last_close(day_bars.get(tk, []), datetime.combine(day, CLOSE))
-        e._close(e.open[tk], last if last is not None else e.open[tk].entry, datetime.combine(day, CLOSE), "einde van de dag")
+        last = _last_close(day_bars.get(tk, []), datetime.combine(day, p.close_t))
+        e._close(e.open[tk], last if last is not None else e.open[tk].entry, datetime.combine(day, p.close_t), "einde van de dag")
     return e.res
 
 
@@ -381,10 +383,10 @@ def _last_close(bars: list[Bar5], before: datetime) -> float | None:
     return done[-1].c if done else None
 
 
-def split_days(bars: list[Bar5]) -> dict[date, list[Bar5]]:
+def split_days(bars: list[Bar5], open_t: time = OPEN, close_t: time = CLOSE) -> dict[date, list[Bar5]]:
     out: dict[date, list[Bar5]] = {}
     for b in bars:
-        if OPEN <= b.t.time() < CLOSE:
+        if open_t <= b.t.time() < close_t:
             out.setdefault(b.t.date(), []).append(b)
     return out
 
@@ -408,7 +410,7 @@ def backtest(data: dict[str, list[Bar5]], p: Params = Params(), start_equity: fl
     """Alle dagen in de data naspelen. De eerste rvol_days dagen dienen alleen om 'normaal volume' te leren.
     daily: dagkoersen per aandeel (voor de daggrafiek-analyse); alleen dagen vóór de handelsdag worden gebruikt."""
     from .daytrade_leren import dag_context
-    per = {tk: split_days(bs) for tk, bs in data.items()}
+    per = {tk: split_days(bs, p.open_t, p.close_t) for tk, bs in data.items()}
     days = sorted({d for x in per.values() for d in x})
     eq = start_equity
     curve, trades, dagen = [], [], []

@@ -31,10 +31,10 @@ def _week(t: datetime) -> str:
     return f"{y}-W{w:02d}"
 
 
-def laad(map_: Path = MAP) -> dict[str, list[Bar5]]:
+def laad(map_: Path = MAP, tz=None) -> dict[str, list[Bar5]]:
     out: dict[str, list[Bar5]] = {}
     for f in sorted(map_.glob("*.csv.gz")):
-        out = samen(out, _lees_week(f), max_dagen=10_000)
+        out = samen(out, _lees_week(f, tz), max_dagen=10_000)
     return out
 
 
@@ -52,7 +52,7 @@ def samen(oud: dict[str, list[Bar5]], nieuw: dict[str, list[Bar5]], max_dagen: i
     return out
 
 
-def bewaar(data: dict[str, list[Bar5]], map_: Path = MAP) -> list[Path]:
+def bewaar(data: dict[str, list[Bar5]], map_: Path = MAP, tz=None) -> list[Path]:
     """Schrijft de koersen per week weg, samengevoegd met wat er al stond. Geeft de gewijzigde bestanden."""
     per_week: dict[str, dict[str, list[Bar5]]] = {}
     for tk, bars in data.items():
@@ -62,7 +62,7 @@ def bewaar(data: dict[str, list[Bar5]], map_: Path = MAP) -> list[Path]:
     gewijzigd = []
     for wk, nieuw in sorted(per_week.items()):
         pad = map_ / f"{wk}.csv.gz"
-        oud = _lees_week(pad) if pad.exists() else {}
+        oud = _lees_week(pad, tz) if pad.exists() else {}
         alles = samen(oud, nieuw, max_dagen=10_000)
         buf = io.StringIO()
         w = csv.writer(buf, lineterminator="\n")
@@ -77,13 +77,13 @@ def bewaar(data: dict[str, list[Bar5]], map_: Path = MAP) -> list[Path]:
     return gewijzigd
 
 
-def _lees_week(pad: Path) -> dict[str, list[Bar5]]:
+def _lees_week(pad: Path, tz=None) -> dict[str, list[Bar5]]:
     alles: dict[str, list[Bar5]] = {}
     with gzip.open(pad, "rt", encoding="utf-8", newline="") as fh:
         for r in csv.DictReader(fh):
             t = datetime.strptime(r["t"], "%Y-%m-%dT%H:%M")
-            if NY is not None:
-                t = t.replace(tzinfo=NY)
+            if (tz or NY) is not None:
+                t = t.replace(tzinfo=tz or NY)
             alles.setdefault(r["ticker"], []).append(Bar5(t, float(r["o"]), float(r["h"]), float(r["l"]),
                                                           float(r["c"]), float(r["v"])))
     return alles

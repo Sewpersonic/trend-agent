@@ -86,4 +86,4 @@ jobs:
         if: steps.nodig.outputs.ja == 'true' && env.DEEL == 'middag'
         run: |
           python -m trendagent daytrade-archief || echo "Bewaren lukte niet; zaterdag probeert het onderzoek het opnieuw."
-          bash scripts/opslaan.sh "Daytrade-bot - 5-minutenkoersen bewaard" backtest/daytrade/koersen/ || true
+          bash scripts/opslaan.sh "Daytrade-bot - 5-minutenkoersen bewaard" backtest/daytrade/koersen/ backtest/daytrade/koersen_eu/ || true

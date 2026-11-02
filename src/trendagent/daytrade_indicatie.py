@@ -62,7 +62,7 @@ def uitkomst(bars: list[Bar5], t: datetime, o: tuple[float, float, float], p: Pa
 
 def uitbraken(data: dict[str, list[Bar5]], p: Params = Params(), daily: dict | None = None) -> list[dict]:
     """Alle uitbraken die aan de koopregels voldeden (per aandeel de eerste per dag), met situatie en uitkomst."""
-    per = {tk: split_days(bs) for tk, bs in data.items()}
+    per = {tk: split_days(bs, p.open_t, p.close_t) for tk, bs in data.items()}
     days = sorted({d for x in per.values() for d in x})
     out = []
     for d in days[p.rvol_days:]:

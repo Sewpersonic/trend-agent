@@ -103,6 +103,7 @@ jobs:
           python -m trendagent daytrade-test
           python -c "from pathlib import Path; from trendagent.dashboard_data import write_daytrader; write_daytrader(Path('state'), Path('dashboard'))"
           cat backtest/daytrade/RAPPORT.md >> "$GITHUB_STEP_SUMMARY"
+          cat backtest/daytrade/eu/RAPPORT.md >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
       - name: Opslaan
         if: always() && steps.nodig.outputs.ja == 'true'
         run: |
