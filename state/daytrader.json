@@ -316,7 +316,7 @@
   "begin": 9957.36,
   "realized": -62.94543862914992,
   "klaar": false,
-  "prev": "2026-11-02T14:45:00",
+  "prev": "2026-11-02T15:00:00",
   "traded": [
    "AVGO",
    "SMH"
@@ -414,22 +414,14 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-02T19:46:30+00:00",
-  "ny": "2026-11-02 14:46",
+  "tijd": "2026-11-02T20:01:30+00:00",
+  "ny": "2026-11-02 15:01",
   "status": "ok",
   "log": [
    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-10-29T16:31:30+00:00",
-   "ny": "2026-10-29 12:31",
-   "status": "ok",
-   "log": [
-    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (9x); te weinig volume (0.8x normaal) (4x); openingsrange te wild (4x)."
-   ]
-  },
   {
    "tijd": "2026-10-29T16:46:30+00:00",
    "ny": "2026-10-29 12:46",
@@ -907,6 +899,14 @@
   {
    "tijd": "2026-11-02T19:46:30+00:00",
    "ny": "2026-11-02 14:46",
+   "status": "ok",
+   "log": [
+    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-11-02T20:01:30+00:00",
+   "ny": "2026-11-02 15:01",
    "status": "ok",
    "log": [
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
