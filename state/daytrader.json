@@ -316,7 +316,7 @@
   "begin": 9957.36,
   "realized": -27.100445190429582,
   "klaar": false,
-  "prev": "2026-11-02T12:00:00",
+  "prev": "2026-11-02T12:15:00",
   "traded": [
    "AVGO",
    "SMH"
@@ -435,27 +435,18 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,05 R; alle uitbraken samen +0,07 R)."
    },
    "t_in": "10:15",
-   "koers": 331.3599853515625
+   "koers": 330.3699951171875
   }
  ],
  "laatste_ronde": {
-  "tijd": "2026-11-02T17:01:30+00:00",
-  "ny": "2026-11-02 12:01",
+  "tijd": "2026-11-02T17:16:30+00:00",
+  "ny": "2026-11-02 12:16",
   "status": "ok",
   "log": [
    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-10-28T20:27:01+00:00",
-   "ny": "2026-10-28 16:27",
-   "status": "ok",
-   "log": [
-    "Koersen niet vers (laatste blok 15:55): niets kopen deze ronde.",
-    "Dag klaar: 0 trades, resultaat +0.00 dollar."
-   ]
-  },
   {
    "tijd": "2026-10-29T14:01:30+00:00",
    "ny": "2026-10-29 10:01",
@@ -932,6 +923,14 @@
   {
    "tijd": "2026-11-02T17:01:30+00:00",
    "ny": "2026-11-02 12:01",
+   "status": "ok",
+   "log": [
+    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-11-02T17:16:30+00:00",
+   "ny": "2026-11-02 12:16",
    "status": "ok",
    "log": [
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
