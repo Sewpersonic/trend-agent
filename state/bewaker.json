@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-02T19:00:30+00:00",
+ "tijd": "2026-11-02T20:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -25,9 +25,9 @@
    "t212": "MSFT_US_EQ",
    "stop": 511.5021,
    "actie": "boven de stop-loss",
-   "koers_t212": 517.7,
-   "koers_yahoo": 517.73,
-   "afstand_pct": 0.0122
+   "koers_t212": 514.24,
+   "koers_yahoo": 514.24,
+   "afstand_pct": 0.0054
   },
   {
    "ticker": "DB1.DE",
@@ -43,18 +43,18 @@
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 287.94,
-   "koers_yahoo": 287.95,
-   "afstand_pct": 0.0381
+   "koers_t212": 288.82,
+   "koers_yahoo": 288.82,
+   "afstand_pct": 0.0412
   },
   {
    "ticker": "CVX",
    "t212": "CVX_US_EQ",
    "stop": 226.1706,
    "actie": "boven de stop-loss",
-   "koers_t212": 228.38,
-   "koers_yahoo": 228.385,
-   "afstand_pct": 0.0098
+   "koers_t212": 228.59,
+   "koers_yahoo": 228.58,
+   "afstand_pct": 0.0107
   },
   {
    "ticker": "XLE",
@@ -74,9 +74,9 @@
  ],
  "verkocht": [],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: CVX (+1.0%)."
+  "Alles boven de stop-loss. Dichtst bij: MSFT (+0.5%)."
  ],
  "twelve_vandaag": 0,
  "geschiedenis": [],
- "rondes_vandaag": 45
+ "rondes_vandaag": 49
 }
