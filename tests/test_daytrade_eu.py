@@ -41,5 +41,10 @@ class EuTest(unittest.TestCase):
             b = s["varianten"]["basis (kopen tot 10:30)"]["stats"]
             self.assertGreaterEqual(b["trades"], 1)
             self.assertTrue((Path(tmp) / "RAPPORT.md").read_text().startswith("# Daytrader op de Europese beurs"))
+            self.assertIn("alleen aandelen die ook in Amerika verhandeld worden", s["varianten"])
+            self.assertEqual(s["varianten"]["pas kopen als Amerika opengaat (15:30-16:30)"]["stats"]["trades"] >= 0, True)
+        # pas vanaf 15:35 kopen: geen aankoop in de ochtend
+        late = dt.backtest(data, dt.variant(eu.PARAMS, entry_from=time(15, 35), entry_until=time(16, 30)))
+        self.assertTrue(all(t["t_in"] >= "15:35" for t in late["trades"]))
         # de Amerikaanse daytrader verandert niet
         self.assertEqual(dt.Params().open_t, time(9, 30))

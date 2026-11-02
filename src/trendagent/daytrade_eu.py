@@ -37,7 +37,12 @@ VARIANTEN = {
     "kopen tot 13:00": {"entry_until": time(13, 0)},
     "zonder marktfilter": {"market_filter": False},
     "minder streng op volume (1,0x)": {"min_rvol": 1.0},
+    # Ideeën die beter bij Europa kunnen passen (2 nov 2026):
+    "pas kopen als Amerika opengaat (15:30-16:30)": {"entry_from": time(15, 35), "entry_until": time(16, 30)},
+    "bredere stop-loss (0,5% onder de range, hooguit 3%)": {"stop_buffer": 0.005, "max_risk_pct": 0.03},
 }
+# Aandelen die ook in Amerika verhandeld worden: daar komt 's middags extra handel en nieuws bij.
+OOK_IN_AMERIKA = {"ASML.AS", "SHELL.AS", "INGA.AS", "UNA.AS", "PHIA.AS", "MT.AS", "SAP.DE", "TTE.PA"}
 
 
 def download(period: str = "60d") -> dict[str, list[Bar5]]:
@@ -59,6 +64,8 @@ def run(out_dir: Path = Path("backtest/daytrade/eu"), data: dict[str, list[Bar5]
         data = samen(laad(MAP, tz=AMS), nieuw)
     out_dir.mkdir(parents=True, exist_ok=True)
     res = {naam: backtest(data, variant(PARAMS, **kw)) for naam, kw in VARIANTEN.items()}
+    ook_vs = {tk: bs for tk, bs in data.items() if tk in OOK_IN_AMERIKA or tk == MARKT}
+    res["alleen aandelen die ook in Amerika verhandeld worden"] = backtest(ook_vs, PARAMS)
     b = res["basis (kopen tot 10:30)"]
     summary = {"gemaakt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
                "van": b["curve"][0][0] if b["curve"] else "", "tot": b["curve"][-1][0] if b["curve"] else "",

@@ -60,6 +60,8 @@ class Params:
     use_target: bool = True
     rvol_days: int = 10
     market: str = "SPY"
+    entry_from: time | None = None   # niet kopen vóór dit tijdstip (bijv. pas als Amerika opengaat); None = meteen
+    stop_buffer: float = 0.0         # stop-loss zoveel onder de bodem van de openingsrange (0 = op de bodem)
     open_t: time = OPEN            # beurstijden in lokale tijd (New York; voor Europa 09:00-17:30 Amsterdam)
     close_t: time = CLOSE
     # Regels uit de grafiekanalyse (standaard uit; alleen aan na onderzoek en jouw ja):
@@ -268,7 +270,8 @@ class DayEngine:
             self.klaar = True
             return log
         # 3. Kopen?
-        if not allow_entries or t.time() > p.entry_until or len(self.res.trades) + len(self.open) >= p.max_trades:
+        if not allow_entries or t.time() > p.entry_until or (p.entry_from and t.time() < p.entry_from) \
+                or len(self.res.trades) + len(self.open) >= p.max_trades:
             return log
         unreal = sum(((_last_close(day_bars.get(x.ticker, []), t) or x.entry) - x.entry) * x.qty for x in self.open.values())
         if (self.realized + unreal) / self.res.begin <= p.day_stop:
@@ -312,7 +315,7 @@ class DayEngine:
                     log.append(f"{tk}: niet gekocht, {waarom_niet}")
                     continue
             entry = prijs * (1 + p.slippage)
-            stop = max(o[1], entry * (1 - p.max_risk_pct))
+            stop = max(o[1] * (1 - p.stop_buffer), entry * (1 - p.max_risk_pct))
             if stop >= entry:
                 continue
             q = size(self.res.begin + self.realized, entry, stop, p)

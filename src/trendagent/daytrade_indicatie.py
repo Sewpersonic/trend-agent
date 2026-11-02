@@ -37,7 +37,7 @@ def uitkomst(bars: list[Bar5], t: datetime, o: tuple[float, float, float], p: Pa
     if not nb:
         return None
     entry = nb.o * (1 + p.slippage)
-    stop = max(o[1], entry * (1 - p.max_risk_pct))
+    stop = max(o[1] * (1 - p.stop_buffer), entry * (1 - p.max_risk_pct))
     if stop >= entry:
         return None
     risk = entry - stop
