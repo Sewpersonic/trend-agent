@@ -316,7 +316,7 @@
   "begin": 9957.36,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-02T10:45:00",
+  "prev": "2026-11-02T11:00:00",
   "traded": [
    "AVGO",
    "SMH"
@@ -431,7 +431,7 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,05 R; alle uitbraken samen +0,07 R)."
    },
    "t_in": "10:15",
-   "koers": 332.7699890136719
+   "koers": 331.7149963378906
   },
   {
    "ticker": "SMH",
@@ -457,26 +457,18 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,08 R; alle uitbraken samen +0,07 R)."
    },
    "t_in": "10:30",
-   "koers": 529.72998046875
+   "koers": 526.260009765625
   }
  ],
  "laatste_ronde": {
-  "tijd": "2026-11-02T15:46:30+00:00",
-  "ny": "2026-11-02 10:46",
+  "tijd": "2026-11-02T16:01:30+00:00",
+  "ny": "2026-11-02 11:01",
   "status": "ok",
   "log": [
-   "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (10x); te weinig volume (1.0x normaal) (2x); te weinig volume (0.9x normaal) (2x)."
+   "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (11x); te weinig volume (1.0x normaal) (2x); te weinig volume (0.9x normaal) (2x)."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-10-28T16:31:30+00:00",
-   "ny": "2026-10-28 12:31",
-   "status": "ok",
-   "log": [
-    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."
-   ]
-  },
   {
    "tijd": "2026-10-28T17:26:26+00:00",
    "ny": "2026-10-28 13:26",
@@ -954,6 +946,14 @@
    "status": "ok",
    "log": [
     "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (10x); te weinig volume (1.0x normaal) (2x); te weinig volume (0.9x normaal) (2x)."
+   ]
+  },
+  {
+   "tijd": "2026-11-02T16:01:30+00:00",
+   "ny": "2026-11-02 11:01",
+   "status": "ok",
+   "log": [
+    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (11x); te weinig volume (1.0x normaal) (2x); te weinig volume (0.9x normaal) (2x)."
    ]
   }
  ],
