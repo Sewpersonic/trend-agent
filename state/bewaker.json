@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-02T14:00:30+00:00",
+ "tijd": "2026-11-02T15:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -7,51 +7,54 @@
    "t212": "SHELLa_EQ",
    "stop": 45.9857,
    "actie": "boven de stop-loss",
-   "koers_t212": 47.582,
-   "koers_yahoo": 47.545,
-   "afstand_pct": 0.0347
+   "koers_t212": 47.232,
+   "koers_yahoo": 47.24,
+   "afstand_pct": 0.0273
   },
   {
    "ticker": "SAP.DE",
    "t212": "SAPd_EQ",
    "stop": 199.305,
    "actie": "boven de stop-loss",
-   "koers_t212": 209.38,
-   "koers_yahoo": 209.55,
-   "afstand_pct": 0.0514
+   "koers_t212": 208.73,
+   "koers_yahoo": 209.5,
+   "afstand_pct": 0.0512
   },
   {
    "ticker": "MSFT",
    "t212": "MSFT_US_EQ",
    "stop": 511.5021,
    "actie": "boven de stop-loss",
-   "koers_t212": 525.09,
-   "koers_yahoo": 521.9,
-   "afstand_pct": 0.0266
+   "koers_t212": 525.29,
+   "koers_yahoo": 525.93,
+   "afstand_pct": 0.0282
   },
   {
    "ticker": "DB1.DE",
    "t212": "DB1d_EQ",
    "stop": 302.2002,
    "actie": "boven de stop-loss",
-   "koers_t212": 314.8,
-   "koers_yahoo": 315.9,
-   "afstand_pct": 0.0453
+   "koers_t212": 315.5,
+   "koers_yahoo": 315.7,
+   "afstand_pct": 0.0447
   },
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 294.0,
-   "koers_yahoo": 294.88,
-   "afstand_pct": 0.0631
+   "koers_t212": 287.91,
+   "koers_yahoo": 288.45,
+   "afstand_pct": 0.0399
   },
   {
    "ticker": "CVX",
    "t212": "CVX_US_EQ",
    "stop": 226.1706,
-   "actie": "niet in het oefenaccount"
+   "actie": "boven de stop-loss",
+   "koers_t212": 231.91,
+   "koers_yahoo": 229.96,
+   "afstand_pct": 0.0254
   },
   {
    "ticker": "XLE",
@@ -64,16 +67,16 @@
    "t212": "WKLa_EQ",
    "stop": 82.0948,
    "actie": "boven de stop-loss",
-   "koers_t212": 85.67,
-   "koers_yahoo": 85.76,
-   "afstand_pct": 0.0446
+   "koers_t212": 86.1,
+   "koers_yahoo": 86.2,
+   "afstand_pct": 0.05
   }
  ],
  "verkocht": [],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: MSFT (+2.7%)."
+  "Alles boven de stop-loss. Dichtst bij: CVX (+2.5%)."
  ],
  "twelve_vandaag": 0,
  "geschiedenis": [],
- "rondes_vandaag": 26
+ "rondes_vandaag": 30
 }
