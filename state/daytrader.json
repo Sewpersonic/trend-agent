@@ -316,11 +316,39 @@
   "begin": 9957.36,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-02T10:00:00",
-  "traded": [],
+  "prev": "2026-11-02T10:15:00",
+  "traded": [
+   "AVGO"
+  ],
   "notities": [],
   "trades": [],
-  "open": {}
+  "open": {
+   "AVGO": {
+    "ticker": "AVGO",
+    "qty": 7,
+    "entry": 329.2685559082031,
+    "stop": 324.30999755859375,
+    "target": 339.1856726074218,
+    "t_in": "2026-11-02T10:15:00",
+    "risk": 34.709908447265434,
+    "ctx": {
+     "tijd": "10:15",
+     "rvol": 4.8,
+     "or_breedte": 0.0134,
+     "boven_range": 0.0012,
+     "markt_vandaag": 0.0013,
+     "dag_tot_nu": 0.002,
+     "gap": 0.0072,
+     "dagtrend": "dalend",
+     "plek": "onderaan het bereik",
+     "terugval": false,
+     "boven_sma50": false,
+     "markt_dagtrend": "zijwaarts",
+     "indicatie": "gemiddeld",
+     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,05 R; alle uitbraken samen +0,07 R)."
+    }
+   }
+  }
  },
  "gem_vol": {
   "AAPL": 5919075.6,
@@ -352,24 +380,43 @@
   "GLD": 1180907.4
  },
  "uitgesloten": {},
- "open_nu": [],
+ "open_nu": [
+  {
+   "ticker": "AVGO",
+   "qty": 7,
+   "entry": 329.2685559082031,
+   "stop": 324.30999755859375,
+   "target": 339.1856726074218,
+   "risk": 34.709908447265434,
+   "ctx": {
+    "tijd": "10:15",
+    "rvol": 4.8,
+    "or_breedte": 0.0134,
+    "boven_range": 0.0012,
+    "markt_vandaag": 0.0013,
+    "dag_tot_nu": 0.002,
+    "gap": 0.0072,
+    "dagtrend": "dalend",
+    "plek": "onderaan het bereik",
+    "terugval": false,
+    "boven_sma50": false,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,05 R; alle uitbraken samen +0,07 R)."
+   },
+   "t_in": "10:15",
+   "koers": 329.10400390625
+  }
+ ],
  "laatste_ronde": {
-  "tijd": "2026-11-02T15:01:30+00:00",
-  "ny": "2026-11-02 10:01",
+  "tijd": "2026-11-02T15:16:30+00:00",
+  "ny": "2026-11-02 10:16",
   "status": "ok",
   "log": [
-   "Bekeken: geen aandeel voldeed nu aan alle regels."
+   "10:15 AVGO: gekocht (7 stuks, uitbraak boven 328.70 met 4.8x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,05 R; alle uitbraken samen +0,07 R)."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-10-28T15:46:30+00:00",
-   "ny": "2026-10-28 11:46",
-   "status": "ok",
-   "log": [
-    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (5x); te weinig volume (0.7x normaal) (5x); te weinig volume (0.8x normaal) (4x)."
-   ]
-  },
   {
    "tijd": "2026-10-28T16:01:30+00:00",
    "ny": "2026-10-28 12:01",
@@ -848,6 +895,14 @@
    "log": [
     "Bekeken: geen aandeel voldeed nu aan alle regels."
    ]
+  },
+  {
+   "tijd": "2026-11-02T15:16:30+00:00",
+   "ny": "2026-11-02 10:16",
+   "status": "ok",
+   "log": [
+    "10:15 AVGO: gekocht (7 stuks, uitbraak boven 328.70 met 4.8x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,05 R; alle uitbraken samen +0,07 R)."
+   ]
   }
  ],
  "dagcontext": {
@@ -1044,6 +1099,6 @@
  "geen_context": false,
  "twelve": {
   "dag": "2026-11-02",
-  "verzoeken": 0
+  "verzoeken": 1
  }
 }
