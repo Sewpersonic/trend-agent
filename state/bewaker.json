@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-02T15:00:30+00:00",
+ "tijd": "2026-11-02T16:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -7,54 +7,54 @@
    "t212": "SHELLa_EQ",
    "stop": 45.9857,
    "actie": "boven de stop-loss",
-   "koers_t212": 47.232,
-   "koers_yahoo": 47.24,
-   "afstand_pct": 0.0273
+   "koers_t212": 47.128,
+   "koers_yahoo": 47.19,
+   "afstand_pct": 0.0262
   },
   {
    "ticker": "SAP.DE",
    "t212": "SAPd_EQ",
    "stop": 199.305,
    "actie": "boven de stop-loss",
-   "koers_t212": 208.73,
-   "koers_yahoo": 209.5,
-   "afstand_pct": 0.0512
+   "koers_t212": 209.88,
+   "koers_yahoo": 208.95,
+   "afstand_pct": 0.0531
   },
   {
    "ticker": "MSFT",
    "t212": "MSFT_US_EQ",
    "stop": 511.5021,
    "actie": "boven de stop-loss",
-   "koers_t212": 525.29,
-   "koers_yahoo": 525.93,
-   "afstand_pct": 0.0282
+   "koers_t212": 525.71,
+   "koers_yahoo": 525.71,
+   "afstand_pct": 0.0278
   },
   {
    "ticker": "DB1.DE",
    "t212": "DB1d_EQ",
    "stop": 302.2002,
    "actie": "boven de stop-loss",
-   "koers_t212": 315.5,
-   "koers_yahoo": 315.7,
-   "afstand_pct": 0.0447
+   "koers_t212": 314.6,
+   "koers_yahoo": 314.4,
+   "afstand_pct": 0.041
   },
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 287.91,
-   "koers_yahoo": 288.45,
-   "afstand_pct": 0.0399
+   "koers_t212": 287.82,
+   "koers_yahoo": 287.81,
+   "afstand_pct": 0.0376
   },
   {
    "ticker": "CVX",
    "t212": "CVX_US_EQ",
    "stop": 226.1706,
    "actie": "boven de stop-loss",
-   "koers_t212": 231.91,
-   "koers_yahoo": 229.96,
-   "afstand_pct": 0.0254
+   "koers_t212": 231.23,
+   "koers_yahoo": 231.23,
+   "afstand_pct": 0.0224
   },
   {
    "ticker": "XLE",
@@ -67,16 +67,16 @@
    "t212": "WKLa_EQ",
    "stop": 82.0948,
    "actie": "boven de stop-loss",
-   "koers_t212": 86.1,
-   "koers_yahoo": 86.2,
-   "afstand_pct": 0.05
+   "koers_t212": 86.64,
+   "koers_yahoo": 86.32,
+   "afstand_pct": 0.0554
   }
  ],
  "verkocht": [],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: CVX (+2.5%)."
+  "Alles boven de stop-loss. Dichtst bij: CVX (+2.2%)."
  ],
  "twelve_vandaag": 0,
  "geschiedenis": [],
- "rondes_vandaag": 30
+ "rondes_vandaag": 34
 }
