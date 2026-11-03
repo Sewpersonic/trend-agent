@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-03T12:00:30+00:00",
+ "tijd": "2026-11-03T13:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -7,34 +7,34 @@
    "t212": "SHELLa_EQ",
    "stop": 45.9857,
    "actie": "boven de stop-loss",
-   "koers_t212": 47.297,
-   "koers_yahoo": 47.3,
-   "afstand_pct": 0.0286
+   "koers_t212": 47.184,
+   "koers_yahoo": 47.1,
+   "afstand_pct": 0.0261
   },
   {
    "ticker": "SAP.DE",
    "t212": "SAPd_EQ",
    "stop": 199.4893,
    "actie": "boven de stop-loss",
-   "koers_t212": 204.17,
-   "koers_yahoo": 204.1,
-   "afstand_pct": 0.0235
+   "koers_t212": 204.42,
+   "koers_yahoo": 204.4,
+   "afstand_pct": 0.0247
   },
   {
    "ticker": "DB1.DE",
    "t212": "DB1d_EQ",
    "stop": 302.2002,
    "actie": "boven de stop-loss",
-   "koers_t212": 315.0,
-   "koers_yahoo": 314.4,
-   "afstand_pct": 0.0424
+   "koers_t212": 314.9,
+   "koers_yahoo": 314.8,
+   "afstand_pct": 0.042
   },
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 287.3,
+   "koers_t212": 286.24,
    "koers_yahoo": 288.75,
    "afstand_pct": 0.041
   },
@@ -43,9 +43,9 @@
    "t212": "CVX_US_EQ",
    "stop": 226.1706,
    "actie": "boven de stop-loss",
-   "koers_t212": 228.84,
+   "koers_t212": 229.41,
    "koers_yahoo": 227.91,
-   "afstand_pct": 0.0118
+   "afstand_pct": 0.0143
   },
   {
    "ticker": "XLE",
@@ -58,14 +58,14 @@
    "t212": "WKLa_EQ",
    "stop": 82.0948,
    "actie": "boven de stop-loss",
-   "koers_t212": 84.43,
-   "koers_yahoo": 84.54,
-   "afstand_pct": 0.0298
+   "koers_t212": 84.68,
+   "koers_yahoo": 84.6,
+   "afstand_pct": 0.0315
   }
  ],
  "verkocht": [],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: CVX (+1.2%)."
+  "Alles boven de stop-loss. Dichtst bij: CVX (+1.4%)."
  ],
  "twelve_vandaag": 0,
  "geschiedenis": [
@@ -106,5 +106,5 @@
    ]
   }
  ],
- "rondes_vandaag": 18
+ "rondes_vandaag": 22
 }
