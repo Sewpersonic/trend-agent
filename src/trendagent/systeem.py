@@ -239,7 +239,12 @@ def rows(state: Path = Path("state"), dash: Path = Path("dashboard"), root: Path
     else:
         k.node("oefen", "goed", "volgt de trend-agent")
     nk = (_load(state / "broker.json", {}) or {}).get("niet_gekoppeld") or []
-    if nk:
+    geen_us_etf = (((_load(root / "config/productie.json", {}) or {}).get("trend")) or {}).get("geen_us_etf")
+    if nk and geen_us_etf:
+        # Regel staat aan: hij koopt ze niet meer; wat er nog is verdwijnt bij de volgende verkoop. Geen knelpunt.
+        if "oefen" in k.nodes:
+            k.nodes["oefen"]["sub"] += f" · {', '.join(nk)} niet bij Trading 212 (wordt niet meer gekocht)"
+    elif nk:
         k.knelpunt("oefen", "letop", "Niet elk aandeel kan bij Trading 212",
                    f"{', '.join(nk)} staat bij de trend-agent, maar Trading 212 biedt het niet aan. Amerikaanse ETF's "
                    "(zoals XLE, SPY, QQQ) mogen in Europa niet aan particulieren worden verkocht. Het oefenaccount slaat "
