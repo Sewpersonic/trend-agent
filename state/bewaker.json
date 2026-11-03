@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-03T19:00:30+00:00",
+ "tijd": "2026-11-03T20:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -34,9 +34,9 @@
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 287.74,
-   "koers_yahoo": 287.745,
-   "afstand_pct": 0.0374
+   "koers_t212": 286.6,
+   "koers_yahoo": 286.6,
+   "afstand_pct": 0.0332
   },
   {
    "ticker": "CVX",
@@ -139,5 +139,5 @@
    ]
   }
  ],
- "rondes_vandaag": 45
+ "rondes_vandaag": 49
 }
