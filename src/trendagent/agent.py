@@ -382,6 +382,10 @@ class TrendAgent:
                 break
             if a.ticker in pf.positions:
                 continue
+            ins = BY_TICKER.get(a.ticker)
+            if self.s.geen_us_etf and ins and ins.kind == "ETF" and ins.region == "US":
+                rep.actions.append(f"{a.ticker}: overgeslagen (Amerikaanse ETF; niet te koop bij Trading 212)")
+                continue
             rsi_now = self._snapshots.get(a.ticker, {}).get("rsi14")
             if rsi_now is not None and rsi_now > self.s.max_rsi_entry:
                 rep.actions.append(f"{a.ticker}: overgeslagen (RSI {rsi_now:.0f} boven {self.s.max_rsi_entry:.0f})")

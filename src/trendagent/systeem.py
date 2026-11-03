@@ -222,8 +222,16 @@ def rows(state: Path = Path("state"), dash: Path = Path("dashboard"), root: Path
     if pos:
         gelijk = sum(1 for p in pos if p.get("gelijk"))
         onderweg = sum(1 for p in pos if not p.get("gelijk") and p.get("onderweg_gelijk"))
-        k.node("oefen", "goed", f"{gelijk} van {len(pos)} gelijk" + (f" · {onderweg} onderweg" if onderweg else ""))
-        if gelijk + onderweg < len(pos):
+        # Door de bewaker verkocht sinds de laatste nachtronde (onder de stop-loss): de trend-agent volgt 's nachts.
+        bwv = _load(state / "bewaker.json", {}) or {}
+        nacht = _tijd(((_load(state / "health.json", {}) or {}).get("trend") or {}).get("vastgelegd_utc"))
+        door_bewaker = {v.get("t212") for h in bwv.get("geschiedenis", []) for v in h.get("verkocht", [])
+                        if not nacht or (_tijd(h.get("tijd")) or nu) > nacht}
+        bewaakt = sum(1 for p in pos if not p.get("gelijk") and not p.get("onderweg_gelijk") and p.get("ticker") in door_bewaker
+                      and not p.get("oefenaccount"))
+        k.node("oefen", "goed", f"{gelijk} van {len(pos)} gelijk" + (f" · {onderweg} onderweg" if onderweg else "")
+               + (f" · {bewaakt} verkocht door de bewaker" if bewaakt else ""))
+        if gelijk + onderweg + bewaakt < len(pos):
             k.knelpunt("oefen", "letop", "Het oefenaccount loopt niet gelijk met de trend-agent",
                        f"{len(pos) - gelijk - onderweg} aandeel/aandelen wijken af en er staat geen order onderweg.",
                        "De nachtronde zet het normaal gelijk. Blijft het, kijk op het tabblad Oefenaccount (soms weigert "
@@ -252,7 +260,7 @@ def rows(state: Path = Path("state"), dash: Path = Path("dashboard"), root: Path
                        "De volgende ronde (over een kwartier) probeert het opnieuw; tot die tijd verkoopt de nachtronde.")
     else:
         k.node("bewaker", "goed", "start op de volgende werkdag")
-    if werkdag and 10 <= nl.hour < 21 and (not bt or nu - bt > timedelta(minutes=50)):
+    if werkdag and 10 <= nl.hour < 21 and (not bt or nu - bt > timedelta(minutes=75)):   # hij slaat elk uur op
         k.nodes["bewaker"]["stand"] = "letop"
         k.knelpunt("bewaker", "letop", "De bewaker kijkt nu niet mee",
                    "Overdag hoort hij elk kwartier de stop-losses te controleren" +

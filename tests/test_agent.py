@@ -283,3 +283,12 @@ class RestEtfTests(unittest.TestCase):
         self.assertLess(pf.geparkeerd_qty, 30)
         self.assertGreaterEqual(pf.cash_eur, 0)
         self.assertEqual(rep.status, "OK")
+
+
+class GeenUsEtfTests(unittest.TestCase):
+    def test_koopt_geen_amerikaanse_etf(self):
+        s = settings(geen_us_etf=True, max_positions=5)
+        rep = TrendAgent(s, SimulatedProvider(TODAY, drifts=UP)).run(TODAY)
+        pf = Portfolio.load(s.state_dir / "portfolio.json", s.starting_cash_eur)
+        self.assertNotIn("SPY", pf.positions)
+        self.assertTrue(any("Amerikaanse ETF" in a for a in rep.actions))

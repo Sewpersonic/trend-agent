@@ -28,6 +28,8 @@ TREND_ALLOWED = {
     "max_positions": (int, 1, 10),
     "max_per_sector": (int, 0, 5),
     "max_consecutive_losses": (int, 2, 10),
+    "daily_loss_limit": (float, 0.005, 0.03),
+    "geen_us_etf": (bool, None, None),
     "auto_hervat_dagen": (int, 0, 20),
     "rest_etf": (str, ("", "IWDA.AS", "SPY"), None),
     "rest_buffer": (float, 0.0, 0.5),
