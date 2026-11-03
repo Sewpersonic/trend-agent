@@ -1,5 +1,5 @@
 {
-  "cash_eur": 4595.88,
+  "cash_eur": 5051.88,
   "positions": {
     "SHELL.AS": {
       "ticker": "SHELL.AS",
@@ -11,7 +11,7 @@
       "opened": "2026-10-10",
       "entry_fx": 1.0,
       "risk_eur": 24.67,
-      "last_checked": "2026-10-30",
+      "last_checked": "2026-11-02",
       "entry_reason": "",
       "entry_context": {},
       "version": ""
@@ -21,27 +21,12 @@
       "currency": "EUR",
       "qty": 2,
       "entry_price": 191.5557367172241,
-      "stop": 199.30500139508928,
+      "stop": 199.4892839704241,
       "highest_close": 216.4499969482422,
       "opened": "2026-10-10",
       "entry_fx": 1.0,
       "risk_eur": 22.45,
-      "last_checked": "2026-10-30",
-      "entry_reason": "",
-      "entry_context": {},
-      "version": ""
-    },
-    "MSFT": {
-      "ticker": "MSFT",
-      "currency": "USD",
-      "qty": 1,
-      "entry_price": 535.3375423278808,
-      "stop": 511.5021493094308,
-      "highest_close": 543.4500122070312,
-      "opened": "2026-10-10",
-      "entry_fx": 0.8923999798299032,
-      "risk_eur": 23.7,
-      "last_checked": "2026-10-30",
+      "last_checked": "2026-11-02",
       "entry_reason": "",
       "entry_context": {},
       "version": ""
@@ -56,7 +41,7 @@
       "opened": "2026-10-29",
       "entry_fx": 1.0,
       "risk_eur": 13.76,
-      "last_checked": "2026-10-30",
+      "last_checked": "2026-11-02",
       "entry_reason": "trend OK: 3m +17.9%, 1m +10.0%, volume x1.09",
       "entry_context": {
         "rsi14": 72.2,
@@ -86,7 +71,7 @@
       "opened": "2026-10-29",
       "entry_fx": 0.8929999963805676,
       "risk_eur": 25.21,
-      "last_checked": "2026-10-30",
+      "last_checked": "2026-11-02",
       "entry_reason": "trend OK: 3m +16.6%, 1m +11.8%, volume x1.14",
       "entry_context": {
         "rsi14": 70.2,
@@ -116,7 +101,7 @@
       "opened": "2026-10-30",
       "entry_fx": 0.8956000165270427,
       "risk_eur": 43.39,
-      "last_checked": "2026-10-30",
+      "last_checked": "2026-11-02",
       "entry_reason": "trend OK: 3m +23.0%, 1m +13.7%, volume x0.89",
       "entry_context": {
         "rsi14": 72.9,
@@ -146,7 +131,7 @@
       "opened": "2026-10-30",
       "entry_fx": 0.8956000165270427,
       "risk_eur": 49.52,
-      "last_checked": "2026-10-30",
+      "last_checked": "2026-11-02",
       "entry_reason": "trend OK: 3m +19.8%, 1m +11.6%, volume x1.05",
       "entry_context": {
         "rsi14": 67.8,
@@ -172,11 +157,11 @@
       "qty": 10,
       "entry_price": 86.80338213729858,
       "stop": 82.09481192943028,
-      "highest_close": 86.80338213729858,
+      "highest_close": 87.0199966430664,
       "opened": "2026-10-30",
       "entry_fx": 1.0,
       "risk_eur": 48.09,
-      "last_checked": "2026-10-30",
+      "last_checked": "2026-11-02",
       "entry_reason": "trend OK: 3m +22.9%, 1m +26.4%, volume x0.86",
       "entry_context": {
         "rsi14": 70.8,
@@ -411,6 +396,43 @@
       },
       "r_multiple": null,
       "hold_days": null
+    },
+    {
+      "day": "2026-11-02",
+      "ticker": "MSFT",
+      "side": "SELL",
+      "qty": 1,
+      "price": 511.2464,
+      "fx": 0.893900011508608,
+      "value_eur": 457.0,
+      "costs_eur": 1.0,
+      "reason": "stop-loss geraakt",
+      "pnl_eur": -22.73,
+      "strategy": "trend",
+      "version": "",
+      "regime": "stijgend-laag",
+      "context": {
+        "instap": {},
+        "instap_reden": "",
+        "uitstap": {
+          "rsi14": 40.1,
+          "macd_hist_pct": -0.682,
+          "ema20_afstand_pct": -3.33,
+          "atr_pct": 2.52,
+          "vol20_jaar": 0.219,
+          "afstand_sma200_pct": 16.01,
+          "score": 0.0,
+          "rend_1m": -0.0201,
+          "rend_3m": 0.031,
+          "volume_rel": 1.0,
+          "atr14": 12.7857,
+          "beweeglijkheid_regime": "laag",
+          "trend_regime": "stijgend"
+        },
+        "risico_bij_instap_eur": 23.7
+      },
+      "r_multiple": -0.959,
+      "hold_days": 23
     }
   ],
   "equity_history": [
@@ -491,8 +513,13 @@
       "day": "2026-10-30",
       "equity": 10078.53,
       "bench": 129.7
+    },
+    {
+      "day": "2026-11-02",
+      "equity": 9944.33,
+      "bench": 129.87
     }
   ],
-  "consecutive_losses": 0,
+  "consecutive_losses": 1,
   "peak_from_index": 0
 }

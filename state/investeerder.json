@@ -1,21 +1,15 @@
 {
- "cash_eur": 0.0,
+ "cash_eur": 1847.3683950723757,
  "qty": {
-  "IWDA.AS": 45.5229215603836,
+  "IWDA.AS": 43.35915923061833,
   "MU": 0.6766545098768852,
-  "SMH": 1.1324021940123399,
-  "ASML.AS": 0.3738140976532737,
-  "IFX.DE": 10.171604544120076,
   "AMD": 1.1262088930042935,
   "ETH-USD": 0.2246946782715325,
   "BTC-USD": 0.0067399020005290975
  },
  "cost_eur": {
-  "IWDA.AS": 6000.0,
+  "IWDA.AS": 5714.812372897223,
   "MU": 600.0,
-  "SMH": 600.0,
-  "ASML.AS": 600.0,
-  "IFX.DE": 600.0,
   "AMD": 600.0,
   "ETH-USD": 500.0,
   "BTC-USD": 500.0
@@ -188,6 +182,90 @@
    },
    "r_multiple": null,
    "hold_days": null
+  },
+  {
+   "day": "2026-11-02",
+   "ticker": "IFX.DE",
+   "side": "SELL",
+   "qty": 10.171605,
+   "price": 52.044,
+   "fx": 1.0,
+   "value_eur": 529.37,
+   "costs_eur": 1.0,
+   "reason": "niet meer gekozen",
+   "pnl_eur": -71.63,
+   "strategy": "investeerder",
+   "version": "investeerder-1.0-c2474a",
+   "regime": "stijgend-laag",
+   "context": {
+    "momentum_12m": 0.882,
+    "soort": "STOCK"
+   },
+   "r_multiple": null,
+   "hold_days": null
+  },
+  {
+   "day": "2026-11-02",
+   "ticker": "ASML.AS",
+   "side": "SELL",
+   "qty": 0.373814,
+   "price": 1409.6948,
+   "fx": 1.0,
+   "value_eur": 526.96,
+   "costs_eur": 1.0,
+   "reason": "niet meer gekozen",
+   "pnl_eur": -74.04,
+   "strategy": "investeerder",
+   "version": "investeerder-1.0-c2474a",
+   "regime": "stijgend-laag",
+   "context": {
+    "momentum_12m": 0.832,
+    "soort": "STOCK"
+   },
+   "r_multiple": null,
+   "hold_days": null
+  },
+  {
+   "day": "2026-11-02",
+   "ticker": "SMH",
+   "side": "SELL",
+   "qty": 1.132402,
+   "price": 454.0495,
+   "fx": 1.0,
+   "value_eur": 514.17,
+   "costs_eur": 1.0,
+   "reason": "niet meer gekozen",
+   "pnl_eur": -86.83,
+   "strategy": "investeerder",
+   "version": "investeerder-1.0-c2474a",
+   "regime": "stijgend-laag",
+   "context": {
+    "momentum_12m": 0.7391,
+    "soort": "ETF"
+   },
+   "r_multiple": null,
+   "hold_days": null
+  },
+  {
+   "day": "2026-11-02",
+   "ticker": "IWDA.AS",
+   "side": "SELL",
+   "qty": 2.163762,
+   "price": 129.8051,
+   "fx": 1.0,
+   "value_eur": 280.87,
+   "costs_eur": 1.0,
+   "reason": "terug naar doelgewicht",
+   "pnl_eur": -5.32,
+   "strategy": "investeerder",
+   "version": "investeerder-1.0-c2474a",
+   "regime": "stijgend-laag",
+   "context": {
+    "momentum_12m": 0.1658,
+    "soort": "ETF"
+   },
+   "r_multiple": null,
+   "hold_days": null
   }
  ],
  "equity_history": [
@@ -264,7 +342,12 @@
    "day": "2026-10-30",
    "equity": 9438.12,
    "bench": 129.7
+  },
+  {
+   "day": "2026-11-02",
+   "equity": 9380.16,
+   "bench": 129.87
   }
  ],
- "last_rebalance": "2026-10-13"
+ "last_rebalance": "2026-11-02"
 }

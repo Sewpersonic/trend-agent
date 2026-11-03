@@ -1,15 +1,17 @@
 {
  "trend": {
-  "day": "2026-10-30",
-  "status": "OK",
+  "day": "2026-11-02",
+  "status": "GESTOPT",
   "versie": "trend-1.1-081d85",
-  "waarschuwingen": [],
+  "waarschuwingen": [
+   "Kill switch aangezet: dagverlies groter dan 1%. Zet hem zelf weer uit met 'resume'."
+  ],
   "gevraagd": 129,
   "ok": 129,
   "mislukt": 0,
   "verdacht": {},
   "wisselkoers": "ok",
-  "regime": "stijgend-normaal",
+  "regime": "stijgend-laag",
   "verouderd": 0,
   "bronnen": {
    "koersen": {
@@ -22,19 +24,21 @@
    "verzoeken_tweede_bron": 69,
    "afwijkend": []
   },
-  "vastgelegd_utc": "2026-10-31T01:44:02+00:00"
+  "vastgelegd_utc": "2026-11-03T03:38:06+00:00"
  },
  "investeerder": {
-  "day": "2026-10-30",
+  "day": "2026-11-02",
   "status": "OK",
   "versie": "investeerder-1.0-c2474a",
-  "waarschuwingen": [],
+  "waarschuwingen": [
+   "kill switch actief: alleen verkopen"
+  ],
   "gevraagd": 131,
   "ok": 131,
   "mislukt": 0,
   "verdacht": {},
   "wisselkoers": "ok",
-  "regime": "stijgend-normaal",
+  "regime": "stijgend-laag",
   "verouderd": 0,
   "bronnen": {
    "koersen": {
@@ -47,6 +51,6 @@
    "verzoeken_tweede_bron": 0,
    "afwijkend": []
   },
-  "vastgelegd_utc": "2026-10-31T01:44:38+00:00"
+  "vastgelegd_utc": "2026-11-03T03:38:45+00:00"
  }
 }

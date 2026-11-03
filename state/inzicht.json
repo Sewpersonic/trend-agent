@@ -1,17 +1,17 @@
 {
  "trend": {
-  "dag": "2026-10-30",
+  "dag": "2026-11-02",
   "posities": [
    {
     "ticker": "SHELL.AS",
     "aantal": 13,
     "valuta": "EUR",
     "instap": 45.0575,
-    "koers": 48.795,
+    "koers": 47.02,
     "stop": 45.9857,
-    "resultaat_eur": 48.59,
-    "resultaat_pct": 0.0829,
-    "afstand_stop_pct": 0.0611,
+    "resultaat_eur": 25.51,
+    "resultaat_pct": 0.0436,
+    "afstand_stop_pct": 0.0225,
     "bij_stop_eur": 11.07
    },
    {
@@ -19,35 +19,23 @@
     "aantal": 2,
     "valuta": "EUR",
     "instap": 191.5557,
-    "koers": 211.75,
-    "stop": 199.305,
-    "resultaat_eur": 40.39,
-    "resultaat_pct": 0.1054,
-    "afstand_stop_pct": 0.0624,
-    "bij_stop_eur": 14.5
-   },
-   {
-    "ticker": "MSFT",
-    "aantal": 1,
-    "valuta": "USD",
-    "instap": 535.3375,
-    "koers": 521.91,
-    "stop": 511.5021,
-    "resultaat_eur": -11.03,
-    "resultaat_pct": -0.0251,
-    "afstand_stop_pct": 0.0203,
-    "bij_stop_eur": -21.33
+    "koers": 210.1,
+    "stop": 199.4893,
+    "resultaat_eur": 37.09,
+    "resultaat_pct": 0.0968,
+    "afstand_stop_pct": 0.0532,
+    "bij_stop_eur": 14.87
    },
    {
     "ticker": "DB1.DE",
     "aantal": 1,
     "valuta": "EUR",
     "instap": 314.9574,
-    "koers": 320.4,
+    "koers": 314.2,
     "stop": 302.2002,
-    "resultaat_eur": 5.44,
-    "resultaat_pct": 0.0173,
-    "afstand_stop_pct": 0.0602,
+    "resultaat_eur": -0.76,
+    "resultaat_pct": -0.0024,
+    "afstand_stop_pct": 0.0397,
     "bij_stop_eur": -13.76
    },
    {
@@ -55,223 +43,350 @@
     "aantal": 2,
     "valuta": "USD",
     "instap": 290.9354,
-    "koers": 294.89,
+    "koers": 288.84,
     "stop": 277.381,
-    "resultaat_eur": 7.79,
-    "resultaat_pct": 0.0136,
-    "afstand_stop_pct": 0.0631,
-    "bij_stop_eur": -24.53
+    "resultaat_eur": -3.22,
+    "resultaat_pct": -0.0072,
+    "afstand_stop_pct": 0.0413,
+    "bij_stop_eur": -24.71
    },
    {
     "ticker": "CVX",
     "aantal": 5,
     "valuta": "USD",
     "instap": 235.6378,
-    "koers": 235.52,
+    "koers": 227.77,
     "stop": 226.1706,
-    "resultaat_eur": -2.14,
-    "resultaat_pct": -0.0005,
-    "afstand_stop_pct": 0.0413,
-    "bij_stop_eur": -44.94
+    "resultaat_eur": -37.17,
+    "resultaat_pct": -0.0334,
+    "afstand_stop_pct": 0.0071,
+    "bij_stop_eur": -45.32
    },
    {
     "ticker": "XLE",
     "aantal": 19,
     "valuta": "USD",
     "instap": 70.035,
-    "koers": 70.02,
+    "koers": 67.25,
     "stop": 67.1834,
-    "resultaat_eur": -2.08,
-    "resultaat_pct": -0.0002,
-    "afstand_stop_pct": 0.0422,
-    "bij_stop_eur": -51.27
+    "resultaat_eur": -49.56,
+    "resultaat_pct": -0.0398,
+    "afstand_stop_pct": 0.001,
+    "bij_stop_eur": -51.69
    },
    {
     "ticker": "WKL.AS",
     "aantal": 10,
     "valuta": "EUR",
     "instap": 86.8034,
-    "koers": 86.76,
+    "koers": 87.02,
     "stop": 82.0948,
-    "resultaat_eur": -0.43,
-    "resultaat_pct": -0.0005,
-    "afstand_stop_pct": 0.0568,
+    "resultaat_eur": 2.17,
+    "resultaat_pct": 0.0025,
+    "afstand_stop_pct": 0.06,
     "bij_stop_eur": -48.09
    }
   ],
   "remmen": {
-   "waarde": 10078.53,
-   "top": 10083.15,
-   "daling_vanaf_top": -0.0005,
+   "waarde": 9944.33,
+   "top": 10078.53,
+   "daling_vanaf_top": -0.0133,
    "grens_daling": 0.1,
-   "vandaag": 0.0011,
+   "vandaag": -0.0133,
    "grens_dag": 0.01,
-   "verlies_op_rij": 0,
+   "verlies_op_rij": 1,
    "grens_op_rij": 3
   },
   "kansen": [
    {
     "ticker": "SHELL.AS",
     "naam": "Shell",
-    "score": 0.193,
-    "uitleg": "Shell steeg +26,8% in 3 maanden en +15,5% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,0x het normale volume; beweegt gemiddeld 1,9% per dag",
-    "moment": "neutraal",
-    "moment_uitleg": "de koers staat +5,4% van het 20-daags gemiddelde, RSI 74",
+    "score": 0.151,
+    "uitleg": "Shell steeg +23,6% in 3 maanden en +10,9% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD negatief (de stijging vertraagt); handel 1,0x het normale volume; beweegt gemiddeld 2,2% per dag",
+    "moment": "gunstig",
+    "moment_uitleg": "de trend is sterk maar de koers is niet ver weggelopen (+1,4% van het 20-daags gemiddelde, RSI 59)",
     "status": "al in bezit",
     "plan": {
-     "instap": 48.8194,
-     "stop": 46.9465,
+     "instap": 47.0435,
+     "stop": 45.0099,
      "valuta": "EUR",
-     "doel_2r": 52.5651,
-     "aantal": 26,
-     "inzet_eur": 1269.3,
-     "max_verlies_eur": 50.69,
-     "stop_pct": -0.0384,
-     "budget_eur": 50.39
+     "doel_2r": 51.1107,
+     "aantal": 24,
+     "inzet_eur": 1129.04,
+     "max_verlies_eur": 50.81,
+     "stop_pct": -0.0432,
+     "budget_eur": 49.72
     },
     "ctx": {
-     "rsi14": 74.5,
-     "afstand_sma200_pct": 28.95,
-     "atr_pct": 1.92,
-     "rend_3m": 0.2679,
-     "volume_rel": 0.96,
-     "moment": "neutraal",
+     "rsi14": 58.9,
+     "afstand_sma200_pct": 23.99,
+     "atr_pct": 2.16,
+     "rend_3m": 0.2364,
+     "volume_rel": 0.97,
+     "moment": "gunstig",
      "trend_regime": "stijgend",
-     "beweeglijkheid_regime": "normaal"
+     "beweeglijkheid_regime": "laag"
     }
    },
    {
-    "ticker": "DB1.DE",
-    "naam": "Deutsche Börse",
-    "score": 0.173,
-    "uitleg": "Deutsche Börse steeg +21,1% in 3 maanden en +11,8% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,1x het normale volume; beweegt gemiddeld 2,0% per dag",
+    "ticker": "MA",
+    "naam": "Mastercard",
+    "score": 0.142,
+    "uitleg": "Mastercard steeg +15,4% in 3 maanden en +19,3% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,1x het normale volume; beweegt gemiddeld 1,9% per dag",
     "moment": "opgelopen",
-    "moment_uitleg": "de koers staat +4,5% van het 20-daags gemiddelde (2,3x de normale dagbeweging) en RSI is 77; na zo'n sprint volgt vaak eerst een terugval",
-    "status": "al in bezit",
+    "moment_uitleg": "de koers staat +7,3% van het 20-daags gemiddelde (3,8x de normale dagbeweging) en RSI is 76; na zo'n sprint volgt vaak eerst een terugval",
+    "status": "niet gekocht: de kill switch staat aan",
     "plan": {
-     "instap": 320.5602,
-     "stop": 307.6602,
-     "valuta": "EUR",
-     "doel_2r": 346.3602,
-     "aantal": 3,
-     "inzet_eur": 961.68,
-     "max_verlies_eur": 40.7,
-     "stop_pct": -0.0402,
-     "budget_eur": 50.39
+     "instap": 658.429,
+     "stop": 633.0862,
+     "valuta": "USD",
+     "doel_2r": 709.1147,
+     "aantal": 2,
+     "inzet_eur": 1177.14,
+     "max_verlies_eur": 47.31,
+     "stop_pct": -0.0385,
+     "budget_eur": 49.72
     },
     "ctx": {
-     "rsi14": 76.6,
-     "afstand_sma200_pct": 25.12,
-     "atr_pct": 2.01,
-     "rend_3m": 0.2113,
-     "volume_rel": 1.09,
+     "rsi14": 76.3,
+     "afstand_sma200_pct": 23.05,
+     "atr_pct": 1.93,
+     "rend_3m": 0.1541,
+     "volume_rel": 1.12,
      "moment": "opgelopen",
      "trend_regime": "stijgend",
-     "beweeglijkheid_regime": "normaal"
+     "beweeglijkheid_regime": "laag"
     }
    },
    {
     "ticker": "ABBV",
     "naam": "AbbVie",
-    "score": 0.162,
-    "uitleg": "AbbVie steeg +21,1% in 3 maanden en +14,1% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,1x het normale volume; beweegt gemiddeld 2,4% per dag",
-    "moment": "neutraal",
-    "moment_uitleg": "de koers staat +4,7% van het 20-daags gemiddelde, RSI 73",
+    "score": 0.138,
+    "uitleg": "AbbVie steeg +19,2% in 3 maanden en +10,6% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,1x het normale volume; beweegt gemiddeld 2,4% per dag",
+    "moment": "gunstig",
+    "moment_uitleg": "de trend is sterk maar de koers is niet ver weggelopen (+2,3% van het 20-daags gemiddelde, RSI 63)",
     "status": "al in bezit",
     "plan": {
-     "instap": 295.0375,
-     "stop": 281.0984,
+     "instap": 288.9844,
+     "stop": 275.1769,
      "valuta": "USD",
-     "doel_2r": 322.9155,
+     "doel_2r": 316.5995,
      "aantal": 4,
-     "inzet_eur": 1055.33,
-     "max_verlies_eur": 51.86,
-     "stop_pct": -0.0472,
-     "budget_eur": 50.39
+     "inzet_eur": 1033.29,
+     "max_verlies_eur": 51.37,
+     "stop_pct": -0.0478,
+     "budget_eur": 49.72
     },
     "ctx": {
-     "rsi14": 73.4,
-     "afstand_sma200_pct": 25.89,
-     "atr_pct": 2.36,
-     "rend_3m": 0.2105,
+     "rsi14": 62.7,
+     "afstand_sma200_pct": 23.1,
+     "atr_pct": 2.39,
+     "rend_3m": 0.192,
      "volume_rel": 1.14,
-     "moment": "neutraal",
+     "moment": "gunstig",
      "trend_regime": "stijgend",
-     "beweeglijkheid_regime": "normaal"
+     "beweeglijkheid_regime": "laag"
     }
    },
    {
-    "ticker": "CVX",
-    "naam": "Chevron",
-    "score": 0.135,
-    "uitleg": "Chevron steeg +23,0% in 3 maanden en +13,7% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 0,9x het normale volume; beweegt gemiddeld 2,0% per dag",
+    "ticker": "DB1.DE",
+    "naam": "Deutsche Börse",
+    "score": 0.138,
+    "uitleg": "Deutsche Börse steeg +16,8% in 3 maanden en +9,4% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,1x het normale volume; beweegt gemiddeld 2,1% per dag",
+    "moment": "gunstig",
+    "moment_uitleg": "de trend is sterk maar de koers is niet ver weggelopen (+2,3% van het 20-daags gemiddelde, RSI 64)",
+    "status": "al in bezit",
+    "plan": {
+     "instap": 314.3571,
+     "stop": 301.1,
+     "valuta": "EUR",
+     "doel_2r": 340.8714,
+     "aantal": 3,
+     "inzet_eur": 943.07,
+     "max_verlies_eur": 41.77,
+     "stop_pct": -0.0422,
+     "budget_eur": 49.72
+    },
+    "ctx": {
+     "rsi14": 64.4,
+     "afstand_sma200_pct": 22.44,
+     "atr_pct": 2.11,
+     "rend_3m": 0.168,
+     "volume_rel": 1.1,
+     "moment": "gunstig",
+     "trend_regime": "stijgend",
+     "beweeglijkheid_regime": "laag"
+    }
+   },
+   {
+    "ticker": "WKL.AS",
+    "naam": "Wolters Kluwer",
+    "score": 0.137,
+    "uitleg": "Wolters Kluwer steeg +25,7% in 3 maanden en +28,3% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 0,9x het normale volume; beweegt gemiddeld 2,8% per dag",
     "moment": "neutraal",
-    "moment_uitleg": "de koers staat +5,3% van het 20-daags gemiddelde, RSI 73",
-    "status": "vandaag gekocht door de bot",
+    "moment_uitleg": "de koers staat +6,5% van het 20-daags gemiddelde, RSI 71",
+    "status": "al in bezit",
     "plan": {
-     "instap": 235.6378,
-     "stop": 226.1678,
-     "valuta": "USD",
-     "doel_2r": 254.5778,
-     "aantal": 5,
-     "inzet_eur": 1053.57,
-     "max_verlies_eur": 44.34,
-     "stop_pct": -0.0402,
-     "budget_eur": 50.39
+     "instap": 87.0635,
+     "stop": 82.2721,
+     "valuta": "EUR",
+     "doel_2r": 96.6464,
+     "aantal": 10,
+     "inzet_eur": 870.64,
+     "max_verlies_eur": 49.91,
+     "stop_pct": -0.055,
+     "budget_eur": 49.72
     },
     "ctx": {
-     "rsi14": 72.9,
-     "afstand_sma200_pct": 23.15,
-     "atr_pct": 2.01,
-     "rend_3m": 0.2298,
-     "volume_rel": 0.89,
+     "rsi14": 71.1,
+     "afstand_sma200_pct": 32.08,
+     "atr_pct": 2.75,
+     "rend_3m": 0.2568,
+     "volume_rel": 0.87,
      "moment": "neutraal",
      "trend_regime": "stijgend",
-     "beweeglijkheid_regime": "normaal"
-    }
-   },
-   {
-    "ticker": "LLY",
-    "naam": "Eli Lilly",
-    "score": 0.129,
-    "uitleg": "Eli Lilly steeg +26,6% in 3 maanden en +23,3% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,0x het normale volume; beweegt gemiddeld 3,4% per dag",
-    "moment": "opgelopen",
-    "moment_uitleg": "de koers staat +11,9% van het 20-daags gemiddelde (3,5x de normale dagbeweging) en RSI is 78; na zo'n sprint volgt vaak eerst een terugval",
-    "status": "niet gekocht: RSI 78 boven de grens 75",
-    "plan": {
-     "instap": 1418.2488,
-     "stop": 1321.7659,
-     "valuta": "USD",
-     "doel_2r": 1611.2147,
-     "aantal": 0,
-     "inzet_eur": 0.0,
-     "max_verlies_eur": 0.0,
-     "stop_pct": -0.068,
-     "budget_eur": 50.39
-    },
-    "ctx": {
-     "rsi14": 77.9,
-     "afstand_sma200_pct": 30.14,
-     "atr_pct": 3.4,
-     "rend_3m": 0.2659,
-     "volume_rel": 1.04,
-     "moment": "opgelopen",
-     "trend_regime": "stijgend",
-     "beweeglijkheid_regime": "normaal"
+     "beweeglijkheid_regime": "laag"
     }
    }
   ],
   "conclusies": [
    "De markt stijgt, maar gedragen door een minderheid van de aandelen: kwetsbaarder dan het lijkt.",
-   "Gekocht vandaag: CVX, XLE, WKL.AS."
+   "De markt is rustig: stops liggen dichterbij, posities kunnen iets groter.",
+   "Sterk zonder ver weggelopen te zijn: SHELL.AS, ABBV, DB1.DE.",
+   "Er waren trends, maar geen enkele paste binnen de risicoregels (zie Kansen voor de reden per ticker)."
   ],
   "zag": [
-   "- **Markt (IWDA.AS):** koers 129,70, 6,8% boven het 200-daags gemiddelde (121,41); de afgelopen maand +0,7%. Trend: **stijgend**.",
-   "- **Beweeglijkheid:** 9% op jaarbasis, tegen normaal 10% het afgelopen jaar: **normaal**.",
-   "- **Breedte:** 73 van de 129 instrumenten staan boven hun 200-daags gemiddelde (57%; EU 34 van 60, US 39 van 69).",
+   "- **Markt (IWDA.AS):** koers 129,87, 6,9% boven het 200-daags gemiddelde (121,50); de afgelopen maand -0,1%. Trend: **stijgend**.",
+   "- **Beweeglijkheid:** 9% op jaarbasis, tegen normaal 10% het afgelopen jaar: **laag**.",
+   "- **Breedte:** 77 van de 129 instrumenten staan boven hun 200-daags gemiddelde (60%; EU 37 van 60, US 40 van 69).",
    "- **Bekeken:** 129 instrumenten.",
-   "- **Afgevallen** (een instrument kan op meer regels afvallen): geen stijgende trend (koers niet boven 50- en 200-daags gemiddelde): 86; niet gestegen over 1 of 3 maanden: 79; te weinig handel: 2; verdachte dagsprong: 1.",
+   "- **Afgevallen** (een instrument kan op meer regels afvallen): geen stijgende trend (koers niet boven 50- en 200-daags gemiddelde): 85; niet gestegen over 1 of 3 maanden: 79; te weinig handel: 2; verdachte dagsprong: 1.",
    "- **Door de zeef:** 35. Koopbare trends: **35**."
+  ],
+  "klaar": {
+   "eisen": [
+    [
+     "Oefentijd",
+     "bezig",
+     "16 van 63 handelsdagen (ongeveer 3 maanden)"
+    ],
+    [
+     "Minstens zo goed als de wereld-ETF",
+     "bezig",
+     "verschil tot nu toe +1,11%"
+    ],
+    [
+     "Grootste daling onder 5%",
+     "ok",
+     "grootste daling tot nu toe -1,33%"
+    ],
+    [
+     "Genoeg afgesloten trades",
+     "bezig",
+     "1 van 20"
+    ]
+   ],
+   "oordeel": "Nog niet klaar: de bot is nog bezig met bewijzen. Blijven oefenen."
+  },
+  "markt": {
+   "regime": "stijgend-laag",
+   "trend": "stijgend",
+   "beweeglijkheid": "laag",
+   "bron": "IWDA.AS",
+   "koers": 129.87,
+   "sma50": 129.02,
+   "sma200": 121.5,
+   "afstand_sma200": 0.0689,
+   "maand": -0.0014,
+   "vol_nu": 0.089,
+   "vol_mediaan": 0.099,
+   "breedte": {
+    "totaal": [
+     77,
+     129
+    ],
+    "EU": [
+     37,
+     60
+    ],
+    "US": [
+     40,
+     69
+    ]
+   }
+  },
+  "zeef": {
+   "bekeken": 129,
+   "afgevallen": {
+    "geen stijgende trend (koers niet boven 50- en 200-daags gemiddelde)": 85,
+    "niet gestegen over 1 of 3 maanden": 79,
+    "te weinig handel": 2,
+    "verdachte dagsprong": 1
+   },
+   "door_zeef": 35,
+   "verdacht": 0,
+   "kandidaten": 35
+  },
+  "vrije_plekken": 1,
+  "gekocht": [],
+  "verkocht": [
+   "MSFT"
+  ]
+ },
+ "investeerder": {
+  "dag": "2026-11-02",
+  "posities": [
+   {
+    "ticker": "AMD",
+    "waarde_eur": 469.87,
+    "kosten_eur": 600.0,
+    "resultaat_eur": -130.13,
+    "resultaat_pct": -0.2169
+   },
+   {
+    "ticker": "MU",
+    "waarde_eur": 504.09,
+    "kosten_eur": 600.0,
+    "resultaat_eur": -95.91,
+    "resultaat_pct": -0.1598
+   },
+   {
+    "ticker": "IWDA.AS",
+    "waarde_eur": 5631.05,
+    "kosten_eur": 5714.81,
+    "resultaat_eur": -83.76,
+    "resultaat_pct": -0.0147
+   },
+   {
+    "ticker": "ETH-USD",
+    "waarde_eur": 456.45,
+    "kosten_eur": 500.0,
+    "resultaat_eur": -43.55,
+    "resultaat_pct": -0.0871
+   },
+   {
+    "ticker": "BTC-USD",
+    "waarde_eur": 471.33,
+    "kosten_eur": 500.0,
+    "resultaat_eur": -28.67,
+    "resultaat_pct": -0.0573
+   }
+  ],
+  "daling": {
+   "top": 10000.0,
+   "daling_vanaf_top": -0.062
+  },
+  "conclusies": [
+   "De markt stijgt: de kern (wereld-ETF) doet zijn werk, de sterkste aandelen lopen mee.",
+   "Alle satellietposities horen nog bij de sterkste 5: de keuze van deze maand houdt stand."
+  ],
+  "zag": [
+   "- **Markt (IWDA.AS):** koers 129,87, 6,9% boven het 200-daags gemiddelde (121,50); de afgelopen maand -0,1%. Trend: **stijgend**.",
+   "- **Beweeglijkheid:** 9% op jaarbasis, tegen normaal 10% het afgelopen jaar: **laag**.",
+   "- **Breedte:** 77 van de 129 instrumenten staan boven hun 200-daags gemiddelde (60%; EU 37 van 60, US 40 van 69).",
+   "- **Sterkste momentum nu (12 maanden, zonder laatste maand):** Micron +380%, AMD +149%, CrowdStrike +101%, Texas Instruments +88%, Palo Alto Networks +85%.",
+   "- **BTC-USD:** 7,0% boven het 200-daags gemiddelde (mag in de mix).",
+   "- **ETH-USD:** 5,3% boven het 200-daags gemiddelde (mag in de mix)."
   ],
   "klaar": {
    "eisen": [
@@ -283,187 +398,39 @@
     [
      "Minstens zo goed als de wereld-ETF",
      "bezig",
-     "verschil tot nu toe +2,58%"
-    ],
-    [
-     "Grootste daling onder 5%",
-     "ok",
-     "grootste daling tot nu toe -0,10%"
-    ],
-    [
-     "Genoeg afgesloten trades",
-     "bezig",
-     "0 van 20"
-    ]
-   ],
-   "oordeel": "Nog niet klaar: de bot is nog bezig met bewijzen. Blijven oefenen."
-  },
-  "markt": {
-   "regime": "stijgend-normaal",
-   "trend": "stijgend",
-   "beweeglijkheid": "normaal",
-   "bron": "IWDA.AS",
-   "koers": 129.7,
-   "sma50": 128.94,
-   "sma200": 121.41,
-   "afstand_sma200": 0.0682,
-   "maand": 0.0069,
-   "vol_nu": 0.094,
-   "vol_mediaan": 0.1,
-   "breedte": {
-    "totaal": [
-     73,
-     129
-    ],
-    "EU": [
-     34,
-     60
-    ],
-    "US": [
-     39,
-     69
-    ]
-   }
-  },
-  "zeef": {
-   "bekeken": 129,
-   "afgevallen": {
-    "geen stijgende trend (koers niet boven 50- en 200-daags gemiddelde)": 86,
-    "niet gestegen over 1 of 3 maanden": 79,
-    "te weinig handel": 2,
-    "verdachte dagsprong": 1
-   },
-   "door_zeef": 35,
-   "verdacht": 0,
-   "kandidaten": 35
-  },
-  "vrije_plekken": 0,
-  "gekocht": [
-   "CVX",
-   "XLE",
-   "WKL.AS"
-  ],
-  "verkocht": []
- },
- "investeerder": {
-  "dag": "2026-10-30",
-  "posities": [
-   {
-    "ticker": "IWDA.AS",
-    "waarde_eur": 5904.32,
-    "kosten_eur": 6000.0,
-    "resultaat_eur": -95.68,
-    "resultaat_pct": -0.0159
-   },
-   {
-    "ticker": "AMD",
-    "waarde_eur": 508.38,
-    "kosten_eur": 600.0,
-    "resultaat_eur": -91.62,
-    "resultaat_pct": -0.1527
-   },
-   {
-    "ticker": "IFX.DE",
-    "waarde_eur": 512.65,
-    "kosten_eur": 600.0,
-    "resultaat_eur": -87.35,
-    "resultaat_pct": -0.1456
-   },
-   {
-    "ticker": "ASML.AS",
-    "waarde_eur": 527.6,
-    "kosten_eur": 600.0,
-    "resultaat_eur": -72.4,
-    "resultaat_pct": -0.1207
-   },
-   {
-    "ticker": "SMH",
-    "waarde_eur": 529.09,
-    "kosten_eur": 600.0,
-    "resultaat_eur": -70.91,
-    "resultaat_pct": -0.1182
-   },
-   {
-    "ticker": "MU",
-    "waarde_eur": 535.34,
-    "kosten_eur": 600.0,
-    "resultaat_eur": -64.66,
-    "resultaat_pct": -0.1078
-   },
-   {
-    "ticker": "ETH-USD",
-    "waarde_eur": 451.99,
-    "kosten_eur": 500.0,
-    "resultaat_eur": -48.01,
-    "resultaat_pct": -0.096
-   },
-   {
-    "ticker": "BTC-USD",
-    "waarde_eur": 468.75,
-    "kosten_eur": 500.0,
-    "resultaat_eur": -31.25,
-    "resultaat_pct": -0.0625
-   }
-  ],
-  "daling": {
-   "top": 10000.0,
-   "daling_vanaf_top": -0.0562
-  },
-  "conclusies": [
-   "De markt stijgt: de kern (wereld-ETF) doet zijn werk, de sterkste aandelen lopen mee.",
-   "Uit de top gevallen: ASML.AS, IFX.DE, SMH. Blijft dat zo, dan worden ze bij de volgende herverdeling (eerste handelsdag van 2026-11) vervangen door CRWD, PANW, TXN."
-  ],
-  "zag": [
-   "- **Markt (IWDA.AS):** koers 129,70, 6,8% boven het 200-daags gemiddelde (121,41); de afgelopen maand +0,7%. Trend: **stijgend**.",
-   "- **Beweeglijkheid:** 9% op jaarbasis, tegen normaal 10% het afgelopen jaar: **normaal**.",
-   "- **Breedte:** 73 van de 129 instrumenten staan boven hun 200-daags gemiddelde (57%; EU 34 van 60, US 39 van 69).",
-   "- **Sterkste momentum nu (12 maanden, zonder laatste maand):** Micron +385%, AMD +133%, CrowdStrike +95%, Palo Alto Networks +82%, Texas Instruments +80%.",
-   "- **BTC-USD:** 6,4% boven het 200-daags gemiddelde (mag in de mix).",
-   "- **ETH-USD:** 4,2% boven het 200-daags gemiddelde (mag in de mix)."
-  ],
-  "klaar": {
-   "eisen": [
-    [
-     "Oefentijd",
-     "bezig",
-     "14 van 63 handelsdagen (ongeveer 3 maanden)"
-    ],
-    [
-     "Minstens zo goed als de wereld-ETF",
-     "bezig",
-     "verschil tot nu toe -3,55%"
+     "verschil tot nu toe -4,26%"
     ],
     [
      "Daling niet veel dieper dan de ETF",
      "ok",
-     "bot -5,62%, ETF -1,94%"
+     "bot -6,20%, ETF -1,94%"
     ]
    ],
    "oordeel": "Nog niet klaar: de bot is nog bezig met bewijzen. Blijven oefenen."
   },
   "markt": {
-   "regime": "stijgend-normaal",
+   "regime": "stijgend-laag",
    "trend": "stijgend",
-   "beweeglijkheid": "normaal",
+   "beweeglijkheid": "laag",
    "bron": "IWDA.AS",
-   "koers": 129.7,
-   "sma50": 128.94,
-   "sma200": 121.41,
-   "afstand_sma200": 0.0682,
-   "maand": 0.0069,
-   "vol_nu": 0.094,
-   "vol_mediaan": 0.1,
+   "koers": 129.87,
+   "sma50": 129.02,
+   "sma200": 121.5,
+   "afstand_sma200": 0.0689,
+   "maand": -0.0014,
+   "vol_nu": 0.089,
+   "vol_mediaan": 0.099,
    "breedte": {
     "totaal": [
-     73,
+     77,
      129
     ],
     "EU": [
-     34,
+     37,
      60
     ],
     "US": [
-     39,
+     40,
      69
     ]
    }
@@ -472,53 +439,46 @@
    "keuze_nu": [
     {
      "ticker": "MU",
-     "momentum": 3.8469
+     "momentum": 3.8031
     },
     {
      "ticker": "AMD",
-     "momentum": 1.3294
+     "momentum": 1.4875
     },
     {
      "ticker": "CRWD",
-     "momentum": 0.9512
-    },
-    {
-     "ticker": "PANW",
-     "momentum": 0.8247
+     "momentum": 1.0052
     },
     {
      "ticker": "TXN",
-     "momentum": 0.8008
+     "momentum": 0.8778
+    },
+    {
+     "ticker": "PANW",
+     "momentum": 0.8474
     }
    ],
    "satelliet_bezit": [
     "AMD",
-    "ASML.AS",
-    "IFX.DE",
-    "MU",
-    "SMH"
+    "MU"
    ],
-   "uit_top": [
-    "ASML.AS",
-    "IFX.DE",
-    "SMH"
-   ],
+   "uit_top": [],
    "nieuw_in_top": [
     "CRWD",
-    "PANW",
-    "TXN"
+    "TXN",
+    "PANW"
    ],
    "crypto": {
     "BTC-USD": {
      "boven_sma200": true,
-     "afstand": 0.0639
+     "afstand": 0.0697
     },
     "ETH-USD": {
      "boven_sma200": true,
-     "afstand": 0.0419
+     "afstand": 0.0535
     }
    }
   },
-  "volgende_herverdeling": "2026-11-01"
+  "volgende_herverdeling": "2026-12-01"
  }
 }

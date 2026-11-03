@@ -1,63 +1,66 @@
-# Investeerder 2026-10-30
+# Investeerder 2026-11-02
 
 _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 
 **Status:** OK  
-**Waarde:** €9,438.12  
-**Marktregime:** stijgend-normaal  
+**Waarde:** €9,380.16  
+**Marktregime:** stijgend-laag  
 **Strategieversie:** investeerder-1.0-c2474a  
 **Koersbronnen:** 69 bevestigd door 2 bronnen, 62 uit 1 bron, 0 afwijkend; wisselkoers bevestigd  
-**Sinds start:** -5.62%  
+**Sinds start:** -6.20%  
 
 ## Verdeling
 
 | Instrument | Aandeel |
 | --- | --- |
-| iShares MSCI World (IWDA.AS) | 62.6% |
-| Micron (MU) | 5.7% |
-| Halfgeleider-ETF (SMH) | 5.6% |
-| ASML (ASML.AS) | 5.6% |
-| Infineon (IFX.DE) | 5.4% |
-| AMD (AMD) | 5.4% |
+| iShares MSCI World (IWDA.AS) | 60.0% |
+| Micron (MU) | 5.4% |
 | Bitcoin (BTC-USD) | 5.0% |
-| Ethereum (ETH-USD) | 4.8% |
-| Kas | 0.0% |
+| AMD (AMD) | 5.0% |
+| Ethereum (ETH-USD) | 4.9% |
+| Kas | 19.7% |
 
 ## Analyse van vandaag
 
 **Wat de bot zag**
 
-- **Markt (IWDA.AS):** koers 129,70, 6,8% boven het 200-daags gemiddelde (121,41); de afgelopen maand +0,7%. Trend: **stijgend**.
-- **Beweeglijkheid:** 9% op jaarbasis, tegen normaal 10% het afgelopen jaar: **normaal**.
-- **Breedte:** 73 van de 129 instrumenten staan boven hun 200-daags gemiddelde (57%; EU 34 van 60, US 39 van 69).
-- **Sterkste momentum nu (12 maanden, zonder laatste maand):** Micron +385%, AMD +133%, CrowdStrike +95%, Palo Alto Networks +82%, Texas Instruments +80%.
-- **BTC-USD:** 6,4% boven het 200-daags gemiddelde (mag in de mix).
-- **ETH-USD:** 4,2% boven het 200-daags gemiddelde (mag in de mix).
+- **Markt (IWDA.AS):** koers 129,87, 6,9% boven het 200-daags gemiddelde (121,50); de afgelopen maand -0,1%. Trend: **stijgend**.
+- **Beweeglijkheid:** 9% op jaarbasis, tegen normaal 10% het afgelopen jaar: **laag**.
+- **Breedte:** 77 van de 129 instrumenten staan boven hun 200-daags gemiddelde (60%; EU 37 van 60, US 40 van 69).
+- **Sterkste momentum nu (12 maanden, zonder laatste maand):** Micron +380%, AMD +149%, CrowdStrike +101%, Texas Instruments +88%, Palo Alto Networks +85%.
+- **BTC-USD:** 7,0% boven het 200-daags gemiddelde (mag in de mix).
+- **ETH-USD:** 5,3% boven het 200-daags gemiddelde (mag in de mix).
 
 **Wat de bot eruit haalt**
 
 - De markt stijgt: de kern (wereld-ETF) doet zijn werk, de sterkste aandelen lopen mee.
-- Uit de top gevallen: ASML.AS, IFX.DE, SMH. Blijft dat zo, dan worden ze bij de volgende herverdeling (eerste handelsdag van 2026-11) vervangen door CRWD, PANW, TXN.
+- Alle satellietposities horen nog bij de sterkste 5: de keuze van deze maand houdt stand.
 
 ## Verlies en winst per belegging
 
 | Instrument | Waarde | Ingelegd | Resultaat |
 | --- | --- | --- | --- |
-| IWDA.AS | €5.904,32 | €6.000,00 | -€95,68 (-1,6%) |
-| AMD | €508,38 | €600,00 | -€91,62 (-15,3%) |
-| IFX.DE | €512,65 | €600,00 | -€87,35 (-14,6%) |
-| ASML.AS | €527,60 | €600,00 | -€72,40 (-12,1%) |
-| SMH | €529,09 | €600,00 | -€70,91 (-11,8%) |
-| MU | €535,34 | €600,00 | -€64,66 (-10,8%) |
-| ETH-USD | €451,99 | €500,00 | -€48,01 (-9,6%) |
-| BTC-USD | €468,75 | €500,00 | -€31,25 (-6,2%) |
+| AMD | €469,87 | €600,00 | -€130,13 (-21,7%) |
+| MU | €504,09 | €600,00 | -€95,91 (-16,0%) |
+| IWDA.AS | €5.631,05 | €5.714,81 | -€83,76 (-1,5%) |
+| ETH-USD | €456,45 | €500,00 | -€43,55 (-8,7%) |
+| BTC-USD | €471,33 | €500,00 | -€28,67 (-5,7%) |
 
-Totaal op de beleggingen: -€561,88 (inclusief aankoopkosten).
-Daling vanaf de hoogste waarde ooit: -5,62% (top €10.000,00). De investeerder heeft geen stop-loss: hij houdt een spreiding vast en herverdeelt maandelijks.
+Totaal op de beleggingen: -€382,02 (inclusief aankoopkosten).
+Daling vanaf de hoogste waarde ooit: -6,20% (top €10.000,00). De investeerder heeft geen stop-loss: hij houdt een spreiding vast en herverdeelt maandelijks.
 
 ## Vandaag gedaan
 
-- Niets (herverdelen gebeurt één keer per maand)
+- SELL 10.17 x IFX.DE (€529, niet meer gekozen)
+- SELL 0.3738 x ASML.AS (€527, niet meer gekozen)
+- SELL 1.132 x SMH (€514, niet meer gekozen)
+- SELL 2.164 x IWDA.AS (€281, terug naar doelgewicht)
+
+## Keuzes
+
+- Satelliet: MU (+380%), AMD (+149%), CRWD (+101%), TXN (+88%), PANW (+85%)
+- Bitcoin: boven 200-daags gemiddelde, 5% belegd
+- Ethereum: boven 200-daags gemiddelde, 5% belegd
 
 ## Klaar voor echt geld?
 
@@ -65,9 +68,13 @@ Daling vanaf de hoogste waarde ooit: -5,62% (top €10.000,00). De investeerder 
 
 | Eis | Stand | Nu |
 | --- | --- | --- |
-| Oefentijd | ⏳ | 14 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -3,55% |
-| Daling niet veel dieper dan de ETF | ✅ | bot -5,62%, ETF -1,94% |
+| Oefentijd | ⏳ | 15 van 63 handelsdagen (ongeveer 3 maanden) |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -4,26% |
+| Daling niet veel dieper dan de ETF | ✅ | bot -6,20%, ETF -1,94% |
+
+## Waarschuwingen
+
+- kill switch actief: alleen verkopen
 
 <details><summary>Zo analyseert de investeerder (klik om te openen)</summary>
 
