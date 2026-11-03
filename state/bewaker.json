@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-03T15:00:30+00:00",
+ "tijd": "2026-11-03T16:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -7,45 +7,45 @@
    "t212": "SHELLa_EQ",
    "stop": 45.9857,
    "actie": "boven de stop-loss",
-   "koers_t212": 46.517,
-   "koers_yahoo": 46.745,
-   "afstand_pct": 0.0165
+   "koers_t212": 46.407,
+   "koers_yahoo": 46.44,
+   "afstand_pct": 0.0099
   },
   {
    "ticker": "SAP.DE",
    "t212": "SAPd_EQ",
    "stop": 199.4893,
    "actie": "boven de stop-loss",
-   "koers_t212": 204.43,
-   "koers_yahoo": 203.8,
-   "afstand_pct": 0.0248
+   "koers_t212": 206.49,
+   "koers_yahoo": 205.35,
+   "afstand_pct": 0.0351
   },
   {
    "ticker": "DB1.DE",
    "t212": "DB1d_EQ",
    "stop": 302.2002,
    "actie": "boven de stop-loss",
-   "koers_t212": 314.0,
-   "koers_yahoo": 313.7,
-   "afstand_pct": 0.039
+   "koers_t212": 313.2,
+   "koers_yahoo": 312.6,
+   "afstand_pct": 0.0364
   },
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 289.47,
-   "koers_yahoo": 289.475,
-   "afstand_pct": 0.0436
+   "koers_t212": 288.38,
+   "koers_yahoo": 288.38,
+   "afstand_pct": 0.0397
   },
   {
    "ticker": "CVX",
    "t212": "CVX_US_EQ",
    "stop": 226.1706,
    "actie": "onder de stop-loss, maar orders staan uit of de kill switch staat aan",
-   "koers_t212": 225.7,
-   "koers_yahoo": 225.7,
-   "afstand_pct": -0.0021
+   "koers_t212": 226.11,
+   "koers_yahoo": 226.11,
+   "afstand_pct": -0.0003
   },
   {
    "ticker": "XLE",
@@ -58,14 +58,14 @@
    "t212": "WKLa_EQ",
    "stop": 82.0948,
    "actie": "boven de stop-loss",
-   "koers_t212": 84.41,
-   "koers_yahoo": 84.34,
-   "afstand_pct": 0.0282
+   "koers_t212": 84.94,
+   "koers_yahoo": 84.86,
+   "afstand_pct": 0.0347
   }
  ],
  "verkocht": [],
  "log": [
-  "CVX: koers 225.70 onder de stop-loss 226.17; geen order (orders uit of kill switch)."
+  "CVX: koers 226.11 onder de stop-loss 226.17; geen order (orders uit of kill switch)."
  ],
  "twelve_vandaag": 0,
  "geschiedenis": [
@@ -106,5 +106,5 @@
    ]
   }
  ],
- "rondes_vandaag": 29
+ "rondes_vandaag": 33
 }
