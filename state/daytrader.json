@@ -542,25 +542,12 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-03T20:46:30+00:00",
-  "ny": "2026-11-03 15:46",
-  "status": "ok",
-  "log": [
-   "15:45 ORCL: verkocht aan het einde van de dag",
-   "15:45 QQQ: verkocht aan het einde van de dag",
-   "Dag klaar: 2 trades, resultaat -8.75 dollar."
-  ]
+  "tijd": "2026-11-03T21:27:03+00:00",
+  "ny": "2026-11-03 16:27",
+  "status": "klaar voor vandaag",
+  "log": []
  },
  "rondes": [
-  {
-   "tijd": "2026-10-30T17:31:30+00:00",
-   "ny": "2026-10-30 13:31",
-   "status": "ok",
-   "log": [
-    "Koersen niet vers (laatste blok 13:00): niets kopen deze ronde.",
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-10-30T17:46:30+00:00",
    "ny": "2026-10-30 13:46",
@@ -1041,6 +1028,12 @@
     "15:45 QQQ: verkocht aan het einde van de dag",
     "Dag klaar: 2 trades, resultaat -8.75 dollar."
    ]
+  },
+  {
+   "tijd": "2026-11-03T21:27:03+00:00",
+   "ny": "2026-11-03 16:27",
+   "status": "klaar voor vandaag",
+   "log": []
   }
  ],
  "dagcontext": {
