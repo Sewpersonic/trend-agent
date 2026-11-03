@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-03T15:27:00+00:00",
+ "tijd": "2026-11-03T16:27:56+00:00",
  "status": "alleen kijken",
  "reden": "Alleen gecontroleerd: geen orders geplaatst.",
  "orders": [],
@@ -17,41 +17,20 @@
  ],
  "account": {
   "currency": "EUR",
-  "totalValue": 4972.46,
+  "totalValue": 4973.84,
   "cash": {
-   "availableToTrade": 3120.69,
+   "availableToTrade": 3624.76,
    "reservedForOrders": 0,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 1851.77,
-   "totalCost": 1872.76,
-   "realizedProfitLoss": -3.18,
-   "unrealizedProfitLoss": -20.99
+   "currentValue": 1349.08,
+   "totalCost": 1354.9,
+   "realizedProfitLoss": -16.21,
+   "unrealizedProfitLoss": -5.82
   }
  },
  "posities": [
-  {
-   "instrument": {
-    "ticker": "CVX_US_EQ",
-    "name": "Chevron",
-    "isin": "US1667641005",
-    "currency": "USD"
-   },
-   "createdAt": "2026-11-02T16:30:46.509+02:00",
-   "quantity": 2.5,
-   "quantityAvailableForTrading": 2.5,
-   "quantityInPies": 0,
-   "currentPrice": 226.41,
-   "averagePricePaid": 232.392,
-   "walletImpact": {
-    "currency": "EUR",
-    "totalCost": 517.86,
-    "currentValue": 506.45,
-    "unrealizedProfitLoss": -11.41,
-    "fxImpact": 1.97
-   }
-  },
   {
    "instrument": {
     "ticker": "SAPd_EQ",
@@ -63,13 +42,13 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 205.28,
+   "currentPrice": 206.41,
    "averagePricePaid": 200.8,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 200.8,
-    "currentValue": 205.28,
-    "unrealizedProfitLoss": 4.48,
+    "currentValue": 206.41,
+    "unrealizedProfitLoss": 5.61,
     "fxImpact": null
    }
   },
@@ -84,14 +63,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 289.04,
+   "currentPrice": 288.9,
    "averagePricePaid": 293.84,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 263.19,
-    "currentValue": 258.62,
-    "unrealizedProfitLoss": -4.57,
-    "fxImpact": -0.28
+    "currentValue": 258.01,
+    "unrealizedProfitLoss": -5.18,
+    "fxImpact": -0.77
    }
   },
   {
@@ -105,13 +84,13 @@
    "quantity": 0.5,
    "quantityAvailableForTrading": 0.5,
    "quantityInPies": 0,
-   "currentPrice": 311.7,
+   "currentPrice": 314.3,
    "averagePricePaid": 317.0,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 158.5,
-    "currentValue": 155.85,
-    "unrealizedProfitLoss": -2.65,
+    "currentValue": 157.15,
+    "unrealizedProfitLoss": -1.35,
     "fxImpact": null
    }
   },
@@ -126,13 +105,13 @@
    "quantity": 5.0,
    "quantityAvailableForTrading": 5.0,
    "quantityInPies": 0,
-   "currentPrice": 84.53,
+   "currentPrice": 85.03,
    "averagePricePaid": 86.5,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 432.5,
-    "currentValue": 422.65,
-    "unrealizedProfitLoss": -9.85,
+    "currentValue": 425.15,
+    "unrealizedProfitLoss": -7.35,
     "fxImpact": null
    }
   },
@@ -147,13 +126,13 @@
    "quantity": 6.5,
    "quantityAvailableForTrading": 6.5,
    "quantityInPies": 0,
-   "currentPrice": 46.603,
+   "currentPrice": 46.517,
    "averagePricePaid": 46.14,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 299.91,
-    "currentValue": 302.92,
-    "unrealizedProfitLoss": 3.01,
+    "currentValue": 302.36,
+    "unrealizedProfitLoss": 2.45,
     "fxImpact": null
    }
   }
@@ -169,7 +148,15 @@
   "WKL.AS": "WKLa_EQ"
  },
  "handmatig": {},
- "plan": [],
+ "plan": [
+  {
+   "ticker": "CVX_US_EQ",
+   "yahoo": "CVX",
+   "actie": "koop",
+   "quantity": 2.5,
+   "waarde_eur": 527.59
+  }
+ ],
  "geschiedenis": [
   {
    "tijd": "2026-10-15T16:30:57+00:00",
