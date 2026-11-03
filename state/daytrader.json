@@ -380,7 +380,7 @@
   "begin": 9894.41,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-03T11:00:00",
+  "prev": "2026-11-03T11:15:00",
   "traded": [
    "ORCL",
    "QQQ"
@@ -495,7 +495,7 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 64% van de gevallen goed af (gemiddeld +0,17 R; alle uitbraken samen +0,07 R)."
    },
    "t_in": "10:45",
-   "koers": 126.52999877929688
+   "koers": 125.81999969482422
   },
   {
    "ticker": "QQQ",
@@ -521,26 +521,18 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 59% van de gevallen goed af (gemiddeld +0,07 R; alle uitbraken samen +0,07 R)."
    },
    "t_in": "11:00",
-   "koers": 688.159912109375
+   "koers": 687.284912109375
   }
  ],
  "laatste_ronde": {
-  "tijd": "2026-11-03T16:01:30+00:00",
-  "ny": "2026-11-03 11:01",
+  "tijd": "2026-11-03T16:16:30+00:00",
+  "ny": "2026-11-03 11:16",
   "status": "ok",
   "log": [
-   "11:00 QQQ: gekocht (3 stuks, uitbraak boven 687.28 met 2.1x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 59% van de gevallen goed af (gemiddeld +0,07 R; alle uitbraken samen +0,07 R)."
+   "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-10-29T19:01:30+00:00",
-   "ny": "2026-10-29 15:01",
-   "status": "ok",
-   "log": [
-    "Na 12:30 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-10-29T19:16:30+00:00",
    "ny": "2026-10-29 15:16",
@@ -1018,6 +1010,14 @@
    "status": "ok",
    "log": [
     "11:00 QQQ: gekocht (3 stuks, uitbraak boven 687.28 met 2.1x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 59% van de gevallen goed af (gemiddeld +0,07 R; alle uitbraken samen +0,07 R)."
+   ]
+  },
+  {
+   "tijd": "2026-11-03T16:16:30+00:00",
+   "ny": "2026-11-03 11:16",
+   "status": "ok",
+   "log": [
+    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
    ]
   }
  ],

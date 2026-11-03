@@ -130,3 +130,4 @@
 {"tijd": "2026-11-03T15:31:30+00:00", "ny": "2026-11-03 10:31", "status": "alleen verkopen (kill switch aan)", "log": ["Niets gekocht: de bot mag nu alleen verkopen."]}
 {"tijd": "2026-11-03T15:46:30+00:00", "ny": "2026-11-03 10:46", "status": "ok", "log": ["10:45 ORCL: gekocht (19 stuks, uitbraak boven 124.61 met 3.8x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 64% van de gevallen goed af (gemiddeld +0,17 R; alle uitbraken samen +0,07 R)."]}
 {"tijd": "2026-11-03T16:01:30+00:00", "ny": "2026-11-03 11:01", "status": "ok", "log": ["11:00 QQQ: gekocht (3 stuks, uitbraak boven 687.28 met 2.1x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 59% van de gevallen goed af (gemiddeld +0,07 R; alle uitbraken samen +0,07 R)."]}
+{"tijd": "2026-11-03T16:16:30+00:00", "ny": "2026-11-03 11:16", "status": "ok", "log": ["Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."]}
