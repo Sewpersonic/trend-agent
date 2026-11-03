@@ -1,12 +1,12 @@
 # Backtest investeerder (alleen etf's)
 
-Periode **2016-10-31 t/m 2026-10-30** (ongeveer 10 jaar), startkapitaal €10.000 nepgeld, 131 instrumenten met koersdata. Zelfde regels, kosten en slippage als bij het dagelijks oefenen.
+Periode **2016-11-03 t/m 2026-11-03** (ongeveer 10 jaar), startkapitaal €10.000 nepgeld, 131 instrumenten met koersdata. Zelfde regels, kosten en slippage als bij het dagelijks oefenen.
 
 > Dit is geen voorspelling. Het laat zien hoe deze regels het in het verleden hadden gedaan.
 
 ## In het kort
 
-- Over de hele periode deed de investeerder (alleen etf's) het beter dan gewoon de wereld-ETF vasthouden (+476,5% tegen +233,4%).
+- Over de hele periode deed de investeerder (alleen etf's) het beter dan gewoon de wereld-ETF vasthouden (+485,8% tegen +242,7%).
 - Zijn grootste daling was -31,5%, tegen -33,6% voor de ETF.
 - In 69% van alle periodes van 4 weken stond de investeerder (alleen etf's) aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -31,5%, het beste +17,9%.
 
@@ -14,9 +14,9 @@ Periode **2016-10-31 t/m 2026-10-30** (ongeveer 10 jaar), startkapitaal €10.00
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Investeerder (alleen ETF's) | +476,5% | +19,2% | -31,5% | 1,23 | €57.583 |
-| MSCI World-ETF (IWDA) | +233,4% | +12,8% | -33,6% | 0,86 | €33.338 |
-| S&P 500-ETF (SPY, in euro) | +309,9% | +15,2% | -33,1% | 0,82 | €40.986 |
+| Investeerder (alleen ETF's) | +485,8% | +19,3% | -31,5% | 1,24 | €58.512 |
+| MSCI World-ETF (IWDA) | +242,7% | +13,1% | -33,6% | 0,88 | €34.267 |
+| S&P 500-ETF (SPY, in euro) | +317,9% | +15,4% | -33,1% | 0,83 | €41.789 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
 
@@ -24,17 +24,17 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 
 | Jaar | Investeerder (alleen ETF's) | MSCI World-ETF (IWDA) | S&P 500-ETF (SPY, in euro) |
 | --- | --- | --- | --- |
-| 2016 | +8,6% | +8,0% | +9,9% |
+| 2016 | +11,1% | +11,0% | +13,0% |
 | 2017 | +26,3% | +7,5% | +7,8% |
 | 2018 | -5,4% | -4,2% | -0,4% |
 | 2019 | +31,7% | +29,6% | +34,0% |
 | 2020 | +20,9% | +6,2% | +7,8% |
 | 2021 | +47,5% | +32,5% | +39,8% |
 | 2022 | -7,5% | -13,5% | -13,1% |
-| 2023 | +19,4% | +19,9% | +21,5% |
-| 2024 | +35,4% | +27,2% | +32,8% |
+| 2023 | +19,5% | +19,9% | +21,5% |
+| 2024 | +35,6% | +27,2% | +32,8% |
 | 2025 | +7,9% | +7,1% | +4,3% |
-| 2026 | +17,1% | +16,3% | +17,6% |
+| 2026 | +16,1% | +16,3% | +16,6% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 
@@ -48,9 +48,9 @@ Dit beantwoordt de vraag "wat kan er in een paar weken gebeuren?": elk mogelijk 
 
 ## Trades
 
-- Aankopen: 124, afgesloten: 136, waarvan winst: 78%
-- Gemiddelde winst: €320, gemiddeld verlies: €-121, profit factor: 9,33
-- Gemiddeld vastgehouden: 80 dagen; totale kosten: €330
+- Aankopen: 123, afgesloten: 135, waarvan winst: 79%
+- Gemiddelde winst: €332, gemiddeld verlies: €-129, profit factor: 9,43
+- Gemiddeld vastgehouden: 79 dagen; totale kosten: €332
 - Kill switch aangegaan: 0 keer
 
 ## Belangrijke kanttekeningen
