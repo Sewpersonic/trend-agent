@@ -45,6 +45,7 @@ INVESTOR_ALLOWED = {
     "satellite_count": (int, 1, 10),
     "crypto_weight": (float, 0.0, 0.15),
     "regime_filter": (bool, None, None),
+    "max_per_sector": (int, 0, 5),
 }
 
 

@@ -356,6 +356,23 @@ def _backtest(s, args) -> int:
         out = Path(args.out or default_out) if len(chosen) == 1 else Path(default_out)
         write_all(result, out, args.years, label)
         print((out / "RAPPORT.md").read_text(encoding="utf-8"))
+    if args.strategie == "eerlijk":
+        # Ook de varianten van de investeerder op de eerlijke lijst: werken ze zonder achteraf gekozen winnaars?
+        from . import evaluation
+        res = evaluation.run_variants("investeerder", s, provider, start, today)
+        rows = ["# Investeerder: varianten op de eerlijke lijst (grootste bedrijven van 2016)", "",
+                f"Periode {start} t/m {today}, €10.000 nepgeld, na kosten.", "",
+                "| Variant | €10.000 werd | Per jaar | Grootste daling | Uitleg |", "| --- | --- | --- | --- | --- |"]
+        dagen = provider.trading_days(start, today)
+        for r in res:
+            m = evaluation.metrics_row(r, dagen)
+            eind = f"{10000 * (1 + m['totaal']):,.0f}".replace(",", ".")
+            rows.append(f"| {r.name} | €{eind} | {m['per_jaar']:+.1%} | {m['max_daling']:+.1%} | "
+                        f"{evaluation.UITLEG.get(r.name, '')} |")
+        p = Path("backtest/eerlijk-investeerder/VARIANTEN.md")
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text("\n".join(rows) + "\n", encoding="utf-8")
+        print(p.read_text(encoding="utf-8"))
     return 0
 
 

@@ -93,6 +93,10 @@ UITLEG = {
     "8-plekken-meer-per-aankoop": "8 aandelen tegelijk en twee keer zoveel per aankoop.",
     "rest-in-wereld-etf": "Geld dat niet in trends zit staat in de wereld-ETF (IWDA) in plaats van op de rekening; bij een nieuwe trend wordt een stukje verkocht.",
     "satelliet-3-aandelen": "Investeerder: 3 in plaats van 5 sterke aandelen.",
+    "zonder-crypto": "Investeerder: geen Bitcoin en Ethereum; dat deel gaat naar de wereld-ETF (70%).",
+    "minder-satelliet": "Investeerder: 15% in sterke aandelen in plaats van 30%; de rest in de wereld-ETF (75%).",
+    "hooguit-1-per-sector": "Investeerder: hooguit één aandeel per sector (bijv. niet AMD, Micron en ASML tegelijk).",
+    "voorzichtig": "Investeerder: 5% crypto, 20% sterke aandelen (hooguit 2 per sector), 75% wereld-ETF.",
 }
 
 # Wijzigingen ten opzichte van de huidige productie-instellingen.
@@ -100,6 +104,11 @@ INVESTOR_VARIANTS: dict[str, dict] = {
     "productie": {},
     "regimefilter": {"regime_filter": True},
     "satelliet-3-aandelen": {"satellite_count": 3},
+    # Minder hard zakken (nov 2026, op verzoek: de investeerder zakte harder dan de markt door chips en crypto):
+    "zonder-crypto": {"crypto_weight": 0.0, "core_weight": 0.70},
+    "minder-satelliet": {"satellite_weight": 0.15, "core_weight": 0.75},
+    "hooguit-1-per-sector": {"max_per_sector": 1},
+    "voorzichtig": {"crypto_weight": 0.05, "satellite_weight": 0.20, "core_weight": 0.75, "max_per_sector": 2},
 }
 
 

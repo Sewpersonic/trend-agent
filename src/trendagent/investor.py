@@ -57,6 +57,7 @@ class Mix:
     satellite_kinds: tuple[str, ...] = ("STOCK", "ETF")   # ("ETF",) = alleen ETF's
     # Alleen aanzetten als het onderzoek bewijst dat het helpt (standaard uit):
     regime_filter: bool = False   # dalende markt: satelliet en crypto naar kas, kern blijft
+    max_per_sector: int = 0       # spreiden: hooguit zoveel satellietaandelen uit dezelfde sector (0 = geen grens)
 
 
 @dataclass
@@ -124,6 +125,15 @@ def target_weights(bars: dict[str, list[Bar]], mix: Mix, regime: Regime = UNKNOW
             continue
         scored.append((mom, t))
     scored.sort(reverse=True)
+    if mix.max_per_sector:
+        from .universe import sector
+        gekozen, per = [], {}
+        for m, t in scored:
+            s = sector(t)
+            if per.get(s, 0) < mix.max_per_sector:
+                gekozen.append((m, t))
+                per[s] = per.get(s, 0) + 1
+        scored = gekozen
     picks = [t for _, t in scored[:mix.satellite_count]]
     if defensive:
         # Kapitaal beschermen: de kern blijft, satelliet en crypto gaan naar kas.
