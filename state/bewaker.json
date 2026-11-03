@@ -1,60 +1,48 @@
 {
- "tijd": "2026-11-02T20:30:30+00:00",
+ "tijd": "2026-11-03T08:00:30+00:00",
  "status": "ok",
  "posities": [
   {
    "ticker": "SHELL.AS",
    "t212": "SHELLa_EQ",
    "stop": 45.9857,
-   "actie": "boven de stop-loss",
-   "koers_t212": 47.095,
-   "koers_yahoo": 47.02,
-   "afstand_pct": 0.0241
+   "actie": "geen tweede koers: niets gedaan",
+   "koers_t212": 46.928,
+   "koers_yahoo": null
   },
   {
    "ticker": "SAP.DE",
    "t212": "SAPd_EQ",
-   "stop": 199.305,
-   "actie": "boven de stop-loss",
-   "koers_t212": 210.5,
-   "koers_yahoo": 210.1,
-   "afstand_pct": 0.0562
-  },
-  {
-   "ticker": "MSFT",
-   "t212": "MSFT_US_EQ",
-   "stop": 511.5021,
-   "actie": "verkocht (0.5 stuks): koers 510.63 onder de stop-loss 511.50",
-   "koers_t212": 510.62,
-   "koers_yahoo": 510.6278,
-   "afstand_pct": -0.0017
+   "stop": 199.4893,
+   "actie": "geen tweede koers: niets gedaan",
+   "koers_t212": 208.24,
+   "koers_yahoo": null
   },
   {
    "ticker": "DB1.DE",
    "t212": "DB1d_EQ",
    "stop": 302.2002,
-   "actie": "boven de stop-loss",
-   "koers_t212": 313.6,
-   "koers_yahoo": 314.2,
-   "afstand_pct": 0.0397
+   "actie": "geen tweede koers: niets gedaan",
+   "koers_t212": 314.7,
+   "koers_yahoo": null
   },
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 288.87,
-   "koers_yahoo": 288.87,
-   "afstand_pct": 0.0414
+   "koers_t212": 288.3,
+   "koers_yahoo": 288.75,
+   "afstand_pct": 0.041
   },
   {
    "ticker": "CVX",
    "t212": "CVX_US_EQ",
    "stop": 226.1706,
    "actie": "boven de stop-loss",
-   "koers_t212": 227.9,
-   "koers_yahoo": 227.9,
-   "afstand_pct": 0.0076
+   "koers_t212": 228.79,
+   "koers_yahoo": 227.91,
+   "afstand_pct": 0.0116
   },
   {
    "ticker": "XLE",
@@ -66,43 +54,14 @@
    "ticker": "WKL.AS",
    "t212": "WKLa_EQ",
    "stop": 82.0948,
-   "actie": "boven de stop-loss",
-   "koers_t212": 87.42,
-   "koers_yahoo": 87.02,
-   "afstand_pct": 0.0649
+   "actie": "geen tweede koers: niets gedaan",
+   "koers_t212": 87.33,
+   "koers_yahoo": null
   }
  ],
- "verkocht": [
-  {
-   "ticker": "MSFT",
-   "t212": "MSFT_US_EQ",
-   "aantal": 0.5,
-   "koers": 510.6278076171875,
-   "stop": 511.5021493094308,
-   "antwoord": {
-    "id": 57450646296,
-    "strategy": "QUANTITY",
-    "type": "MARKET",
-    "ticker": "MSFT_US_EQ",
-    "quantity": -0.5,
-    "filledQuantity": 0,
-    "status": "NEW",
-    "currency": "EUR",
-    "extendedHours": false,
-    "initiatedFrom": "API",
-    "side": "SELL",
-    "createdAt": "2026-11-02T22:30:31.020+02:00",
-    "instrument": {
-     "ticker": "MSFT_US_EQ",
-     "name": "Microsoft",
-     "isin": "US5949181045",
-     "currency": "USD"
-    }
-   }
-  }
- ],
+ "verkocht": [],
  "log": [
-  "MSFT: verkocht in het oefenaccount, koers 510.63 onder de stop-loss 511.50."
+  "Alles boven de stop-loss. Dichtst bij: CVX (+1.2%)."
  ],
  "twelve_vandaag": 0,
  "geschiedenis": [
@@ -143,5 +102,5 @@
    ]
   }
  ],
- "rondes_vandaag": 51
+ "rondes_vandaag": 1
 }
