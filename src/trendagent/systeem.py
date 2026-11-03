@@ -83,7 +83,8 @@ def rows(state: Path = Path("state"), dash: Path = Path("dashboard"), root: Path
     else:
         ok, gevraagd = tr.get("ok", 0), tr.get("gevraagd", 0)
         k.node("yahoo", "goed", f"{ok} van {gevraagd} koersen · {tr.get('day', '')}")
-        if tr.get("status") not in ("OK", None) or tr.get("mislukt"):
+        # GESTOPT = de noodrem staat aan (een eigen knelpunt bij 'Remmen'); dat is geen probleem met de koersen.
+        if tr.get("status") not in ("OK", "GESTOPT", None) or tr.get("mislukt"):
             k.knelpunt("yahoo", "fout", "Koersen kwamen niet goed binnen",
                        f"Bij de laatste nachtronde kwamen {tr.get('mislukt', 0)} van de {gevraagd} koersen niet binnen "
                        f"(status {tr.get('status')}). De bot koopt dan niets met die aandelen.",
