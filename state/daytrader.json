@@ -1,6 +1,6 @@
 {
  "start": 10000.0,
- "equity": 9894.41,
+ "equity": 9885.66,
  "dagen": [
   {
    "dag": "2026-10-16",
@@ -95,6 +95,14 @@
    "begin": 9957.36,
    "eind": 9894.41,
    "resultaat": -62.95,
+   "trades": 2,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-11-03",
+   "begin": 9894.41,
+   "eind": 9885.66,
+   "resultaat": -8.75,
    "trades": 2,
    "daglimiet": false
   }
@@ -373,29 +381,87 @@
     "indicatie": "gemiddeld",
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,05 R; alle uitbraken samen +0,07 R)."
    }
+  },
+  {
+   "dag": "2026-11-03",
+   "ticker": "ORCL",
+   "qty": 19,
+   "instap": 126.033,
+   "uitstap": 125.997,
+   "t_in": "10:45",
+   "t_uit": "15:45",
+   "reden": "einde van de dag",
+   "resultaat": -0.68,
+   "r": -0.014,
+   "ctx": {
+    "tijd": "10:45",
+    "rvol": 3.82,
+    "or_breedte": 0.0262,
+    "boven_range": 0.0109,
+    "markt_vandaag": 0.0036,
+    "dag_tot_nu": 0.0304,
+    "gap": 0.0254,
+    "dagtrend": "dalend",
+    "plek": "onderaan het bereik",
+    "terugval": false,
+    "boven_sma50": false,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 64% van de gevallen goed af (gemiddeld +0,17 R; alle uitbraken samen +0,07 R)."
+   }
+  },
+  {
+   "dag": "2026-11-03",
+   "ticker": "QQQ",
+   "qty": 3,
+   "instap": 688.504,
+   "uitstap": 685.8169,
+   "t_in": "11:00",
+   "t_uit": "15:45",
+   "reden": "einde van de dag",
+   "resultaat": -8.06,
+   "r": -0.505,
+   "ctx": {
+    "tijd": "11:00",
+    "rvol": 2.05,
+    "or_breedte": 0.006,
+    "boven_range": 0.0012,
+    "markt_vandaag": 0.0046,
+    "dag_tot_nu": 0.0057,
+    "gap": 0.0046,
+    "dagtrend": "zijwaarts",
+    "plek": "onderaan het bereik",
+    "terugval": false,
+    "boven_sma50": false,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 59% van de gevallen goed af (gemiddeld +0,07 R; alle uitbraken samen +0,07 R)."
+   }
   }
  ],
  "vandaag": {
   "dag": "2026-11-03",
   "begin": 9894.41,
-  "realized": 0.0,
-  "klaar": false,
-  "prev": "2026-11-03T15:30:00",
+  "realized": -8.745651290892837,
+  "klaar": true,
+  "prev": "2026-11-03T15:45:00",
   "traded": [
    "ORCL",
    "QQQ"
   ],
   "notities": [],
-  "trades": [],
-  "open": {
-   "ORCL": {
+  "trades": [
+   {
+    "dag": "2026-11-03",
     "ticker": "ORCL",
     "qty": 19,
-    "entry": 126.03298622131346,
-    "stop": 123.5123264968872,
-    "target": 131.07430567016598,
-    "t_in": "2026-11-03T10:45:00",
-    "risk": 47.89253476409907,
+    "instap": 126.033,
+    "uitstap": 125.997,
+    "t_in": "10:45",
+    "t_uit": "15:45",
+    "reden": "einde van de dag",
+    "resultaat": -0.68,
+    "r": -0.014,
     "ctx": {
      "tijd": "10:45",
      "rvol": 3.82,
@@ -413,14 +479,17 @@
      "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 64% van de gevallen goed af (gemiddeld +0,17 R; alle uitbraken samen +0,07 R)."
     }
    },
-   "QQQ": {
+   {
+    "dag": "2026-11-03",
     "ticker": "QQQ",
     "qty": 3,
-    "entry": 688.5039920654297,
-    "stop": 683.1799926757812,
-    "target": 699.1519908447265,
-    "t_in": "2026-11-03T11:00:00",
-    "risk": 15.97199816894522,
+    "instap": 688.504,
+    "uitstap": 685.8169,
+    "t_in": "11:00",
+    "t_uit": "15:45",
+    "reden": "einde van de dag",
+    "resultaat": -8.06,
+    "r": -0.505,
     "ctx": {
      "tijd": "11:00",
      "rvol": 2.05,
@@ -438,7 +507,8 @@
      "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 59% van de gevallen goed af (gemiddeld +0,07 R; alle uitbraken samen +0,07 R)."
     }
    }
-  }
+  ],
+  "open": {}
  },
  "gem_vol": {
   "AAPL": 6090172.9,
@@ -470,78 +540,18 @@
   "GLD": 1348218.4
  },
  "uitgesloten": {},
- "open_nu": [
-  {
-   "ticker": "ORCL",
-   "qty": 19,
-   "entry": 126.03298622131346,
-   "stop": 123.5123264968872,
-   "target": 131.07430567016598,
-   "risk": 47.89253476409907,
-   "ctx": {
-    "tijd": "10:45",
-    "rvol": 3.82,
-    "or_breedte": 0.0262,
-    "boven_range": 0.0109,
-    "markt_vandaag": 0.0036,
-    "dag_tot_nu": 0.0304,
-    "gap": 0.0254,
-    "dagtrend": "dalend",
-    "plek": "onderaan het bereik",
-    "terugval": false,
-    "boven_sma50": false,
-    "markt_dagtrend": "zijwaarts",
-    "indicatie": "gemiddeld",
-    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 64% van de gevallen goed af (gemiddeld +0,17 R; alle uitbraken samen +0,07 R)."
-   },
-   "t_in": "10:45",
-   "koers": 125.36000061035156
-  },
-  {
-   "ticker": "QQQ",
-   "qty": 3,
-   "entry": 688.5039920654297,
-   "stop": 683.1799926757812,
-   "target": 699.1519908447265,
-   "risk": 15.97199816894522,
-   "ctx": {
-    "tijd": "11:00",
-    "rvol": 2.05,
-    "or_breedte": 0.006,
-    "boven_range": 0.0012,
-    "markt_vandaag": 0.0046,
-    "dag_tot_nu": 0.0057,
-    "gap": 0.0046,
-    "dagtrend": "zijwaarts",
-    "plek": "onderaan het bereik",
-    "terugval": false,
-    "boven_sma50": false,
-    "markt_dagtrend": "zijwaarts",
-    "indicatie": "gemiddeld",
-    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 59% van de gevallen goed af (gemiddeld +0,07 R; alle uitbraken samen +0,07 R)."
-   },
-   "t_in": "11:00",
-   "koers": 685.3599853515625
-  }
- ],
+ "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-03T20:31:30+00:00",
-  "ny": "2026-11-03 15:31",
+  "tijd": "2026-11-03T20:46:30+00:00",
+  "ny": "2026-11-03 15:46",
   "status": "ok",
   "log": [
-   "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   "15:45 ORCL: verkocht aan het einde van de dag",
+   "15:45 QQQ: verkocht aan het einde van de dag",
+   "Dag klaar: 2 trades, resultaat -8.75 dollar."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-10-30T17:16:30+00:00",
-   "ny": "2026-10-30 13:16",
-   "status": "ok",
-   "log": [
-    "Koersen niet vers (laatste blok 12:55): niets kopen deze ronde.",
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-10-30T17:31:30+00:00",
    "ny": "2026-10-30 13:31",
@@ -1020,6 +1030,16 @@
    "status": "ok",
    "log": [
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-11-03T20:46:30+00:00",
+   "ny": "2026-11-03 15:46",
+   "status": "ok",
+   "log": [
+    "15:45 ORCL: verkocht aan het einde van de dag",
+    "15:45 QQQ: verkocht aan het einde van de dag",
+    "Dag klaar: 2 trades, resultaat -8.75 dollar."
    ]
   }
  ],
