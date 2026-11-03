@@ -6,7 +6,7 @@ Periode **2016-11-03 t/m 2026-11-03** (ongeveer 10 jaar), startkapitaal €10.00
 
 ## In het kort
 
-- Over de hele periode deed de trend-agent (eerlijke test: grootste bedrijven van 2016) het slechter dan gewoon de wereld-ETF vasthouden (+32,0% tegen +239,0%).
+- Over de hele periode deed de trend-agent (eerlijke test: grootste bedrijven van 2016) het slechter dan gewoon de wereld-ETF vasthouden (+31,3% tegen +240,7%).
 - Zijn grootste daling was -23,6%, tegen -33,6% voor de ETF.
 - In 51% van alle periodes van 4 weken stond de trend-agent (eerlijke test: grootste bedrijven van 2016) aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -8,2%, het beste +10,0%.
 
@@ -14,9 +14,9 @@ Periode **2016-11-03 t/m 2026-11-03** (ongeveer 10 jaar), startkapitaal €10.00
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Trend-agent (eerlijke test: grootste bedrijven van 2016) | +32,0% | +2,8% | -23,6% | 0,25 | €13.183 |
-| MSCI World-ETF (IWDA) | +239,0% | +13,0% | -33,6% | 0,74 | €33.905 |
-| S&P 500-ETF (SPY, in euro) | +317,9% | +15,4% | -33,1% | 0,7 | €41.794 |
+| Trend-agent (eerlijke test: grootste bedrijven van 2016) | +31,3% | +2,8% | -23,6% | 0,25 | €13.113 |
+| MSCI World-ETF (IWDA) | +240,7% | +13,0% | -33,6% | 0,74 | €34.069 |
+| S&P 500-ETF (SPY, in euro) | +320,3% | +15,4% | -33,1% | 0,7 | €42.028 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
 
@@ -34,7 +34,7 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 | 2023 | +9,5% | +19,9% | +21,5% |
 | 2024 | -5,3% | +27,2% | +32,8% |
 | 2025 | +4,4% | +7,1% | +4,3% |
-| 2026 | +12,4% | +15,1% | +16,6% |
+| 2026 | +11,8% | +15,6% | +17,2% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 
@@ -48,9 +48,9 @@ Dit beantwoordt de vraag "wat kan er in een paar weken gebeuren?": elk mogelijk 
 
 ## Trades
 
-- Aankopen: 954, afgesloten: 947, waarvan winst: 36%
+- Aankopen: 954, afgesloten: 948, waarvan winst: 36%
 - Gemiddelde winst: €79, gemiddeld verlies: €-40, profit factor: 1,1
-- Gemiddeld vastgehouden: 27 dagen; totale kosten: €1.937
+- Gemiddeld vastgehouden: 27 dagen; totale kosten: €1.938
 - Kill switch aangegaan: 194 keer (2016-11-14: 3 verliestrades op rij; 2016-11-28: dagverlies groter dan 1%; 2017-01-17: dagverlies groter dan 1%; 2017-01-30: dagverlies groter dan 1%; 2017-03-06: dagverlies groter dan 1%; 2017-03-21: dagverlies groter dan 1% …)
 
 ## Belangrijke kanttekeningen

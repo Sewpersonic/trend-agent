@@ -6,7 +6,7 @@ Periode **2016-11-03 t/m 2026-11-03** (ongeveer 10 jaar), startkapitaal €10.00
 
 ## In het kort
 
-- Over de hele periode deed de investeerder het beter dan gewoon de wereld-ETF vasthouden (+889,4% tegen +242,7%).
+- Over de hele periode deed de investeerder het beter dan gewoon de wereld-ETF vasthouden (+895,2% tegen +240,7%).
 - Zijn grootste daling was -36,7%, tegen -33,6% voor de ETF.
 - In 69% van alle periodes van 4 weken stond de investeerder aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -36,5%, het beste +25,8%.
 
@@ -14,9 +14,9 @@ Periode **2016-11-03 t/m 2026-11-03** (ongeveer 10 jaar), startkapitaal €10.00
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Investeerder | +889,4% | +25,8% | -36,7% | 1,32 | €98.805 |
-| MSCI World-ETF (IWDA) | +242,7% | +13,1% | -33,6% | 0,88 | €34.267 |
-| S&P 500-ETF (SPY, in euro) | +317,8% | +15,4% | -33,1% | 0,83 | €41.775 |
+| Investeerder | +895,2% | +25,8% | -36,7% | 1,32 | €99.382 |
+| MSCI World-ETF (IWDA) | +240,7% | +13,0% | -33,6% | 0,87 | €34.069 |
+| S&P 500-ETF (SPY, in euro) | +320,3% | +15,4% | -33,1% | 0,83 | €42.027 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
 
@@ -25,16 +25,16 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 | Jaar | Investeerder | MSCI World-ETF (IWDA) | S&P 500-ETF (SPY, in euro) |
 | --- | --- | --- | --- |
 | 2016 | +19,5% | +11,0% | +13,0% |
-| 2017 | +32,6% | +7,5% | +7,8% |
+| 2017 | +32,7% | +7,5% | +7,8% |
 | 2018 | -5,5% | -4,2% | -0,4% |
-| 2019 | +34,9% | +29,6% | +34,0% |
+| 2019 | +34,7% | +29,6% | +34,0% |
 | 2020 | +43,1% | +6,2% | +7,8% |
-| 2021 | +41,2% | +32,5% | +39,8% |
+| 2021 | +41,1% | +32,5% | +39,8% |
 | 2022 | -13,9% | -13,5% | -13,1% |
-| 2023 | +23,9% | +19,9% | +21,5% |
-| 2024 | +52,2% | +27,2% | +32,8% |
+| 2023 | +24,0% | +19,9% | +21,5% |
+| 2024 | +51,9% | +27,2% | +32,8% |
 | 2025 | +18,6% | +7,1% | +4,3% |
-| 2026 | +26,0% | +16,3% | +16,5% |
+| 2026 | +26,8% | +15,6% | +17,2% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 
@@ -48,9 +48,9 @@ Dit beantwoordt de vraag "wat kan er in een paar weken gebeuren?": elk mogelijk 
 
 ## Trades
 
-- Aankopen: 269, afgesloten: 289, waarvan winst: 74%
-- Gemiddelde winst: €378, gemiddeld verlies: €-238, profit factor: 4,45
-- Gemiddeld vastgehouden: 68 dagen; totale kosten: €672
+- Aankopen: 271, afgesloten: 292, waarvan winst: 74%
+- Gemiddelde winst: €384, gemiddeld verlies: €-264, profit factor: 4,13
+- Gemiddeld vastgehouden: 68 dagen; totale kosten: €687
 - Kill switch aangegaan: 0 keer
 
 ## Belangrijke kanttekeningen
