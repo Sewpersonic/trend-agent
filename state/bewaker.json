@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-03T16:15:30+00:00",
+ "tijd": "2026-11-03T17:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -7,45 +7,42 @@
    "t212": "SHELLa_EQ",
    "stop": 45.9857,
    "actie": "boven de stop-loss",
-   "koers_t212": 46.517,
-   "koers_yahoo": 46.41,
-   "afstand_pct": 0.0116
+   "koers_t212": 46.515,
+   "koers_yahoo": 46.525,
+   "afstand_pct": 0.0117
   },
   {
    "ticker": "SAP.DE",
    "t212": "SAPd_EQ",
    "stop": 199.4893,
    "actie": "boven de stop-loss",
-   "koers_t212": 206.13,
-   "koers_yahoo": 206.5,
-   "afstand_pct": 0.0351
+   "koers_t212": 206.65,
+   "koers_yahoo": 206.25,
+   "afstand_pct": 0.0359
   },
   {
    "ticker": "DB1.DE",
    "t212": "DB1d_EQ",
    "stop": 302.2002,
    "actie": "boven de stop-loss",
-   "koers_t212": 313.7,
-   "koers_yahoo": 313.3,
-   "afstand_pct": 0.0381
+   "koers_t212": 314.6,
+   "koers_yahoo": 314.2,
+   "afstand_pct": 0.041
   },
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 288.3,
-   "koers_yahoo": 288.305,
-   "afstand_pct": 0.0394
+   "koers_t212": 288.46,
+   "koers_yahoo": 288.4601,
+   "afstand_pct": 0.0399
   },
   {
    "ticker": "CVX",
    "t212": "CVX_US_EQ",
    "stop": 226.1706,
-   "actie": "verkocht (2.5 stuks): koers 226.04 onder de stop-loss 226.17",
-   "koers_t212": 226.04,
-   "koers_yahoo": 226.04,
-   "afstand_pct": -0.0006
+   "actie": "niet in het oefenaccount"
   },
   {
    "ticker": "XLE",
@@ -58,42 +55,14 @@
    "t212": "WKLa_EQ",
    "stop": 82.0948,
    "actie": "boven de stop-loss",
-   "koers_t212": 85.25,
-   "koers_yahoo": 84.96,
-   "afstand_pct": 0.0384
+   "koers_t212": 85.44,
+   "koers_yahoo": 84.98,
+   "afstand_pct": 0.0407
   }
  ],
- "verkocht": [
-  {
-   "ticker": "CVX",
-   "t212": "CVX_US_EQ",
-   "aantal": 2.5,
-   "koers": 226.04,
-   "stop": 226.17062080710272,
-   "antwoord": {
-    "id": 57500104570,
-    "strategy": "QUANTITY",
-    "type": "MARKET",
-    "ticker": "CVX_US_EQ",
-    "quantity": -2.5,
-    "filledQuantity": 0,
-    "status": "NEW",
-    "currency": "EUR",
-    "extendedHours": false,
-    "initiatedFrom": "API",
-    "side": "SELL",
-    "createdAt": "2026-11-03T18:15:31.335+02:00",
-    "instrument": {
-     "ticker": "CVX_US_EQ",
-     "name": "Chevron",
-     "isin": "US1667641005",
-     "currency": "USD"
-    }
-   }
-  }
- ],
+ "verkocht": [],
  "log": [
-  "CVX: verkocht in het oefenaccount, koers 226.04 onder de stop-loss 226.17."
+  "Alles boven de stop-loss. Dichtst bij: SHELL.AS (+1.2%)."
  ],
  "twelve_vandaag": 0,
  "geschiedenis": [
@@ -170,5 +139,5 @@
    ]
   }
  ],
- "rondes_vandaag": 34
+ "rondes_vandaag": 37
 }
