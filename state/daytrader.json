@@ -444,11 +444,65 @@
   "begin": 9885.66,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-04T10:00:00",
-  "traded": [],
+  "prev": "2026-11-04T10:15:00",
+  "traded": [
+   "AAPL",
+   "MSFT"
+  ],
   "notities": [],
   "trades": [],
-  "open": {}
+  "open": {
+   "AAPL": {
+    "ticker": "AAPL",
+    "qty": 6,
+    "entry": 353.6967490081787,
+    "stop": 346.6228140280151,
+    "target": 367.84461896850587,
+    "t_in": "2026-11-04T10:15:00",
+    "risk": 42.44360988098151,
+    "ctx": {
+     "tijd": "10:15",
+     "rvol": 4.09,
+     "or_breedte": 0.0306,
+     "boven_range": 0.0037,
+     "markt_vandaag": 0.0069,
+     "dag_tot_nu": 0.0336,
+     "gap": 0.0292,
+     "dagtrend": "zijwaarts",
+     "plek": "midden in het bereik",
+     "terugval": false,
+     "boven_sma50": false,
+     "markt_dagtrend": "zijwaarts",
+     "indicatie": "gemiddeld",
+     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 65% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R)."
+    }
+   },
+   "MSFT": {
+    "ticker": "MSFT",
+    "qty": 4,
+    "entry": 554.9173346557617,
+    "stop": 543.8189879626465,
+    "target": 577.1140280419921,
+    "t_in": "2026-11-04T10:15:00",
+    "risk": 44.39338677246087,
+    "ctx": {
+     "tijd": "10:15",
+     "rvol": 2.79,
+     "or_breedte": 0.0205,
+     "boven_range": 0.0007,
+     "markt_vandaag": 0.0069,
+     "dag_tot_nu": 0.0189,
+     "gap": 0.0439,
+     "dagtrend": "stijgend",
+     "plek": "midden in het bereik",
+     "terugval": false,
+     "boven_sma50": true,
+     "markt_dagtrend": "zijwaarts",
+     "indicatie": "gemiddeld",
+     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 59% van de gevallen goed af (gemiddeld +0,10 R; alle uitbraken samen +0,07 R)."
+    }
+   }
+  }
  },
  "gem_vol": {
   "AAPL": 6844972.6,
@@ -480,25 +534,70 @@
   "GLD": 1415900.8
  },
  "uitgesloten": {},
- "open_nu": [],
+ "open_nu": [
+  {
+   "ticker": "AAPL",
+   "qty": 6,
+   "entry": 353.6967490081787,
+   "stop": 346.6228140280151,
+   "target": 367.84461896850587,
+   "risk": 42.44360988098151,
+   "ctx": {
+    "tijd": "10:15",
+    "rvol": 4.09,
+    "or_breedte": 0.0306,
+    "boven_range": 0.0037,
+    "markt_vandaag": 0.0069,
+    "dag_tot_nu": 0.0336,
+    "gap": 0.0292,
+    "dagtrend": "zijwaarts",
+    "plek": "midden in het bereik",
+    "terugval": false,
+    "boven_sma50": false,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 65% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R)."
+   },
+   "t_in": "10:15",
+   "koers": 353.5199890136719
+  },
+  {
+   "ticker": "MSFT",
+   "qty": 4,
+   "entry": 554.9173346557617,
+   "stop": 543.8189879626465,
+   "target": 577.1140280419921,
+   "risk": 44.39338677246087,
+   "ctx": {
+    "tijd": "10:15",
+    "rvol": 2.79,
+    "or_breedte": 0.0205,
+    "boven_range": 0.0007,
+    "markt_vandaag": 0.0069,
+    "dag_tot_nu": 0.0189,
+    "gap": 0.0439,
+    "dagtrend": "stijgend",
+    "plek": "midden in het bereik",
+    "terugval": false,
+    "boven_sma50": true,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 59% van de gevallen goed af (gemiddeld +0,10 R; alle uitbraken samen +0,07 R)."
+   },
+   "t_in": "10:15",
+   "koers": 554.6400146484375
+  }
+ ],
  "laatste_ronde": {
-  "tijd": "2026-11-04T15:01:30+00:00",
-  "ny": "2026-11-04 10:01",
+  "tijd": "2026-11-04T15:16:30+00:00",
+  "ny": "2026-11-04 10:16",
   "status": "ok",
   "log": [
-   "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (17x); openingsrange te wild (6x); te weinig volume (0.9x normaal) (2x)."
+   "10:15 AAPL: gekocht (6 stuks, uitbraak boven 351.74 met 4.1x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 65% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R).",
+   "10:15 MSFT: gekocht (4 stuks, uitbraak boven 553.71 met 2.8x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 59% van de gevallen goed af (gemiddeld +0,10 R; alle uitbraken samen +0,07 R)."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-10-30T18:01:30+00:00",
-   "ny": "2026-10-30 14:01",
-   "status": "ok",
-   "log": [
-    "Koersen niet vers (laatste blok 13:35): niets kopen deze ronde.",
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-10-30T18:16:30+00:00",
    "ny": "2026-10-30 14:16",
@@ -975,6 +1074,15 @@
    "log": [
     "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (17x); openingsrange te wild (6x); te weinig volume (0.9x normaal) (2x)."
    ]
+  },
+  {
+   "tijd": "2026-11-04T15:16:30+00:00",
+   "ny": "2026-11-04 10:16",
+   "status": "ok",
+   "log": [
+    "10:15 AAPL: gekocht (6 stuks, uitbraak boven 351.74 met 4.1x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 65% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R).",
+    "10:15 MSFT: gekocht (4 stuks, uitbraak boven 553.71 met 2.8x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 59% van de gevallen goed af (gemiddeld +0,10 R; alle uitbraken samen +0,07 R)."
+   ]
   }
  ],
  "dagcontext": {
@@ -1171,6 +1279,6 @@
  "geen_context": false,
  "twelve": {
   "dag": "2026-11-04",
-  "verzoeken": 0
+  "verzoeken": 2
  }
 }
