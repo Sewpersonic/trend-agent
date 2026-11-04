@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-04T19:00:28+00:00",
+ "tijd": "2026-11-04T20:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -31,9 +31,9 @@
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 291.68,
-   "koers_yahoo": 291.73,
-   "afstand_pct": 0.0517
+   "koers_t212": 291.92,
+   "koers_yahoo": 291.92,
+   "afstand_pct": 0.0524
   },
   {
    "ticker": "WKL.AS",
@@ -49,9 +49,9 @@
    "t212": "MA_US_EQ",
    "stop": 621.3423,
    "actie": "boven de stop-loss",
-   "koers_t212": 668.87,
-   "koers_yahoo": 668.87,
-   "afstand_pct": 0.0765
+   "koers_t212": 670.53,
+   "koers_yahoo": 670.535,
+   "afstand_pct": 0.0792
   },
   {
    "ticker": "CVX",
@@ -64,9 +64,9 @@
    "t212": "V_US_EQ",
    "stop": 404.9073,
    "actie": "boven de stop-loss",
-   "koers_t212": 433.48,
-   "koers_yahoo": 433.49,
-   "afstand_pct": 0.0706
+   "koers_t212": 433.66,
+   "koers_yahoo": 433.66,
+   "afstand_pct": 0.071
   }
  ],
  "verkocht": [],
@@ -220,5 +220,5 @@
    ]
   }
  ],
- "rondes_vandaag": 41
+ "rondes_vandaag": 45
 }
