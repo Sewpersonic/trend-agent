@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-04T17:30:30+00:00",
+ "tijd": "2026-11-04T18:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -31,9 +31,9 @@
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 290.75,
-   "koers_yahoo": 290.8,
-   "afstand_pct": 0.0484
+   "koers_t212": 291.15,
+   "koers_yahoo": 291.155,
+   "afstand_pct": 0.0497
   },
   {
    "ticker": "WKL.AS",
@@ -49,60 +49,29 @@
    "t212": "MA_US_EQ",
    "stop": 621.3423,
    "actie": "boven de stop-loss",
-   "koers_t212": 667.72,
-   "koers_yahoo": 667.64,
+   "koers_t212": 667.7,
+   "koers_yahoo": 667.7,
    "afstand_pct": 0.0746
   },
   {
    "ticker": "CVX",
    "t212": "CVX_US_EQ",
    "stop": 215.5126,
-   "actie": "verkocht (2.5 stuks): koers 215.07 onder de stop-loss 215.51",
-   "koers_t212": 215.06,
-   "koers_yahoo": 215.065,
-   "afstand_pct": -0.0021
+   "actie": "niet in het oefenaccount"
   },
   {
    "ticker": "V",
    "t212": "V_US_EQ",
    "stop": 404.9073,
    "actie": "boven de stop-loss",
-   "koers_t212": 431.48,
-   "koers_yahoo": 431.57,
-   "afstand_pct": 0.0658
+   "koers_t212": 432.08,
+   "koers_yahoo": 432.08,
+   "afstand_pct": 0.0671
   }
  ],
- "verkocht": [
-  {
-   "ticker": "CVX",
-   "t212": "CVX_US_EQ",
-   "aantal": 2.5,
-   "koers": 215.06500244140625,
-   "stop": 215.51263979775564,
-   "antwoord": {
-    "id": 57550072346,
-    "strategy": "QUANTITY",
-    "type": "MARKET",
-    "ticker": "CVX_US_EQ",
-    "quantity": -2.5,
-    "filledQuantity": 0,
-    "status": "NEW",
-    "currency": "EUR",
-    "extendedHours": false,
-    "initiatedFrom": "API",
-    "side": "SELL",
-    "createdAt": "2026-11-04T19:30:31.647+02:00",
-    "instrument": {
-     "ticker": "CVX_US_EQ",
-     "name": "Chevron",
-     "isin": "US1667641005",
-     "currency": "USD"
-    }
-   }
-  }
- ],
+ "verkocht": [],
  "log": [
-  "CVX: verkocht in het oefenaccount, koers 215.07 onder de stop-loss 215.51."
+  "Alles boven de stop-loss. Dichtst bij: ABBV (+5.0%)."
  ],
  "twelve_vandaag": 2,
  "geschiedenis": [
@@ -251,5 +220,5 @@
    ]
   }
  ],
- "rondes_vandaag": 38
+ "rondes_vandaag": 40
 }
