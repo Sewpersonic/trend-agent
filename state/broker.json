@@ -1,33 +1,118 @@
 {
- "tijd": "2026-11-03T21:26:41+00:00",
- "status": "alleen kijken",
- "reden": "Alleen gecontroleerd: geen orders geplaatst.",
- "orders": [],
- "niet_gekoppeld": [
-  "XLE"
+ "tijd": "2026-11-04T02:27:45+00:00",
+ "status": "ok",
+ "reden": "",
+ "orders": [
+  {
+   "ticker": "MA_US_EQ",
+   "yahoo": "MA",
+   "actie": "koop",
+   "quantity": 1.0,
+   "waarde_eur": 575.81,
+   "uitkomst": "geplaatst",
+   "antwoord": {
+    "id": 57500116119,
+    "strategy": "QUANTITY",
+    "type": "MARKET",
+    "ticker": "MA_US_EQ",
+    "quantity": 1.0,
+    "filledQuantity": 0,
+    "status": "NEW",
+    "currency": "EUR",
+    "extendedHours": false,
+    "initiatedFrom": "API",
+    "side": "BUY",
+    "createdAt": "2026-11-04T04:27:47.598+02:00",
+    "instrument": {
+     "ticker": "MA_US_EQ",
+     "name": "Mastercard",
+     "isin": "US57636Q1040",
+     "currency": "USD"
+    }
+   }
+  },
+  {
+   "ticker": "CVX_US_EQ",
+   "yahoo": "CVX",
+   "actie": "koop",
+   "quantity": 2.5,
+   "waarde_eur": 500.97,
+   "uitkomst": "geplaatst",
+   "antwoord": {
+    "id": 57500116121,
+    "strategy": "QUANTITY",
+    "type": "MARKET",
+    "ticker": "CVX_US_EQ",
+    "quantity": 2.5,
+    "filledQuantity": 0,
+    "status": "NEW",
+    "currency": "EUR",
+    "extendedHours": false,
+    "initiatedFrom": "API",
+    "side": "BUY",
+    "createdAt": "2026-11-04T04:27:47.841+02:00",
+    "instrument": {
+     "ticker": "CVX_US_EQ",
+     "name": "Chevron",
+     "isin": "US1667641005",
+     "currency": "USD"
+    }
+   }
+  },
+  {
+   "ticker": "V_US_EQ",
+   "yahoo": "V",
+   "actie": "koop",
+   "quantity": 1.5,
+   "waarde_eur": 560.92,
+   "uitkomst": "geplaatst",
+   "antwoord": {
+    "id": 57500116123,
+    "strategy": "QUANTITY",
+    "type": "MARKET",
+    "ticker": "V_US_EQ",
+    "quantity": 1.5,
+    "filledQuantity": 0,
+    "status": "NEW",
+    "currency": "EUR",
+    "extendedHours": false,
+    "initiatedFrom": "API",
+    "side": "BUY",
+    "createdAt": "2026-11-04T04:27:48.074+02:00",
+    "instrument": {
+     "ticker": "V_US_EQ",
+     "name": "Visa",
+     "isin": "US92826C8394",
+     "currency": "USD"
+    }
+   }
+  }
  ],
+ "niet_gekoppeld": [],
  "managed": [
   "ABBV_US_EQ",
   "CVX_US_EQ",
   "DB1d_EQ",
+  "MA_US_EQ",
   "MSFT_US_EQ",
   "SAPd_EQ",
   "SHELLa_EQ",
+  "V_US_EQ",
   "WKLa_EQ"
  ],
  "account": {
   "currency": "EUR",
-  "totalValue": 4973.34,
+  "totalValue": 4972.53,
   "cash": {
    "availableToTrade": 3624.76,
    "reservedForOrders": 0,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 1348.58,
+   "currentValue": 1347.77,
    "totalCost": 1354.9,
    "realizedProfitLoss": -16.21,
-   "unrealizedProfitLoss": -6.32
+   "unrealizedProfitLoss": -7.13
   }
  },
  "posities": [
@@ -63,14 +148,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 285.5,
+   "currentPrice": 285.99,
    "averagePricePaid": 293.84,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 263.19,
-    "currentValue": 255.08,
-    "unrealizedProfitLoss": -8.11,
-    "fxImpact": -0.66
+    "currentValue": 254.27,
+    "unrealizedProfitLoss": -8.92,
+    "fxImpact": -1.94
    }
   },
   {
@@ -144,17 +229,33 @@
   "SAP.DE": "SAPd_EQ",
   "DB1.DE": "DB1d_EQ",
   "ABBV": "ABBV_US_EQ",
+  "WKL.AS": "WKLa_EQ",
+  "MA": "MA_US_EQ",
   "CVX": "CVX_US_EQ",
-  "WKL.AS": "WKLa_EQ"
+  "V": "V_US_EQ"
  },
  "handmatig": {},
  "plan": [
+  {
+   "ticker": "MA_US_EQ",
+   "yahoo": "MA",
+   "actie": "koop",
+   "quantity": 1.0,
+   "waarde_eur": 575.81
+  },
   {
    "ticker": "CVX_US_EQ",
    "yahoo": "CVX",
    "actie": "koop",
    "quantity": 2.5,
-   "waarde_eur": 527.59
+   "waarde_eur": 500.97
+  },
+  {
+   "ticker": "V_US_EQ",
+   "yahoo": "V",
+   "actie": "koop",
+   "quantity": 1.5,
+   "waarde_eur": 560.92
   }
  ],
  "geschiedenis": [
@@ -313,6 +414,37 @@
      "quantity": 5.0,
      "actie": "koop",
      "waarde_eur": 434.02,
+     "uitkomst": "geplaatst",
+     "reden": null
+    }
+   ]
+  },
+  {
+   "tijd": "2026-11-04T02:27:45+00:00",
+   "status": "ok",
+   "reden": "",
+   "orders": [
+    {
+     "ticker": "MA_US_EQ",
+     "quantity": 1.0,
+     "actie": "koop",
+     "waarde_eur": 575.81,
+     "uitkomst": "geplaatst",
+     "reden": null
+    },
+    {
+     "ticker": "CVX_US_EQ",
+     "quantity": 2.5,
+     "actie": "koop",
+     "waarde_eur": 500.97,
+     "uitkomst": "geplaatst",
+     "reden": null
+    },
+    {
+     "ticker": "V_US_EQ",
+     "quantity": 1.5,
+     "actie": "koop",
+     "waarde_eur": 560.92,
      "uitkomst": "geplaatst",
      "reden": null
     }
