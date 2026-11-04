@@ -606,24 +606,12 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-04T20:46:30+00:00",
-  "ny": "2026-11-04 15:46",
-  "status": "ok",
-  "log": [
-   "15:45 AAPL: verkocht aan het einde van de dag",
-   "15:45 MSFT: verkocht aan het einde van de dag",
-   "Dag klaar: 2 trades, resultaat -5.26 dollar."
-  ]
+  "tijd": "2026-11-04T21:26:56+00:00",
+  "ny": "2026-11-04 16:26",
+  "status": "klaar voor vandaag",
+  "log": []
  },
  "rondes": [
-  {
-   "tijd": "2026-11-02T18:31:30+00:00",
-   "ny": "2026-11-02 13:31",
-   "status": "ok",
-   "log": [
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-11-02T18:46:30+00:00",
    "ny": "2026-11-02 13:46",
@@ -1097,6 +1085,12 @@
     "15:45 MSFT: verkocht aan het einde van de dag",
     "Dag klaar: 2 trades, resultaat -5.26 dollar."
    ]
+  },
+  {
+   "tijd": "2026-11-04T21:26:56+00:00",
+   "ny": "2026-11-04 16:26",
+   "status": "klaar voor vandaag",
+   "log": []
   }
  ],
  "dagcontext": {
