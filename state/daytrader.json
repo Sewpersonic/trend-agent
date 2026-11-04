@@ -444,7 +444,7 @@
   "begin": 9885.66,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-04T12:30:00",
+  "prev": "2026-11-04T12:45:00",
   "traded": [
    "AAPL",
    "MSFT"
@@ -559,7 +559,7 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 65% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R)."
    },
    "t_in": "10:15",
-   "koers": 352.8949890136719
+   "koers": 353.45001220703125
   },
   {
    "ticker": "MSFT",
@@ -585,26 +585,18 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 59% van de gevallen goed af (gemiddeld +0,10 R; alle uitbraken samen +0,07 R)."
    },
    "t_in": "10:15",
-   "koers": 555.7050170898438
+   "koers": 555.4000244140625
   }
  ],
  "laatste_ronde": {
-  "tijd": "2026-11-04T17:31:30+00:00",
-  "ny": "2026-11-04 12:31",
+  "tijd": "2026-11-04T17:46:30+00:00",
+  "ny": "2026-11-04 12:46",
   "status": "ok",
   "log": [
    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-02T15:16:30+00:00",
-   "ny": "2026-11-02 10:16",
-   "status": "ok",
-   "log": [
-    "10:15 AVGO: gekocht (7 stuks, uitbraak boven 328.70 met 4.8x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 62% van de gevallen goed af (gemiddeld +0,05 R; alle uitbraken samen +0,07 R)."
-   ]
-  },
   {
    "tijd": "2026-11-02T15:31:30+00:00",
    "ny": "2026-11-02 10:31",
@@ -1073,6 +1065,14 @@
   {
    "tijd": "2026-11-04T17:31:30+00:00",
    "ny": "2026-11-04 12:31",
+   "status": "ok",
+   "log": [
+    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-11-04T17:46:30+00:00",
+   "ny": "2026-11-04 12:46",
    "status": "ok",
    "log": [
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
