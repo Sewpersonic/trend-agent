@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-04T15:26:50+00:00",
+ "tijd": "2026-11-04T16:26:39+00:00",
  "status": "alleen kijken",
  "reden": "Alleen gecontroleerd: geen orders geplaatst.",
  "orders": [],
@@ -17,17 +17,17 @@
  ],
  "account": {
   "currency": "EUR",
-  "totalValue": 4999.18,
+  "totalValue": 5015.92,
   "cash": {
-   "availableToTrade": 1971.46,
+   "availableToTrade": 2269.32,
    "reservedForOrders": 0,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 3027.72,
-   "totalCost": 3005.73,
-   "realizedProfitLoss": -16.21,
-   "unrealizedProfitLoss": 21.99
+   "currentValue": 2746.6,
+   "totalCost": 2705.82,
+   "realizedProfitLoss": -18.26,
+   "unrealizedProfitLoss": 40.78
   }
  },
  "posities": [
@@ -42,13 +42,13 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 215.63,
+   "currentPrice": 215.02,
    "averagePricePaid": 200.8,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 200.8,
-    "currentValue": 215.63,
-    "unrealizedProfitLoss": 14.83,
+    "currentValue": 215.02,
+    "unrealizedProfitLoss": 14.22,
     "fxImpact": null
    }
   },
@@ -63,14 +63,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 661.85,
+   "currentPrice": 669.09,
    "averagePricePaid": 661.81,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 587.75,
-    "currentValue": 589.01,
-    "unrealizedProfitLoss": 1.26,
-    "fxImpact": 1.22
+    "currentValue": 596.2,
+    "unrealizedProfitLoss": 8.45,
+    "fxImpact": 1.96
    }
   },
   {
@@ -84,14 +84,14 @@
    "quantity": 1.5,
    "quantityAvailableForTrading": 1.5,
    "quantityInPies": 0,
-   "currentPrice": 427.28,
+   "currentPrice": 432.59,
    "averagePricePaid": 427.72,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 569.78,
-    "currentValue": 570.38,
-    "unrealizedProfitLoss": 0.6,
-    "fxImpact": 1.19
+    "currentValue": 578.19,
+    "unrealizedProfitLoss": 8.41,
+    "fxImpact": 1.9
    }
   },
   {
@@ -105,14 +105,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 285.02,
+   "currentPrice": 288.78,
    "averagePricePaid": 293.84,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 263.19,
-    "currentValue": 253.65,
-    "unrealizedProfitLoss": -9.54,
-    "fxImpact": -1.69
+    "currentValue": 257.32,
+    "unrealizedProfitLoss": -5.87,
+    "fxImpact": -1.36
    }
   },
   {
@@ -126,13 +126,13 @@
    "quantity": 0.5,
    "quantityAvailableForTrading": 0.5,
    "quantityInPies": 0,
-   "currentPrice": 315.2,
+   "currentPrice": 318.0,
    "averagePricePaid": 317.0,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 158.5,
-    "currentValue": 157.6,
-    "unrealizedProfitLoss": -0.9,
+    "currentValue": 159.0,
+    "unrealizedProfitLoss": 0.5,
     "fxImpact": null
    }
   },
@@ -147,34 +147,13 @@
    "quantity": 5.0,
    "quantityAvailableForTrading": 5.0,
    "quantityInPies": 0,
-   "currentPrice": 90.37,
+   "currentPrice": 91.28,
    "averagePricePaid": 86.5,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 432.5,
-    "currentValue": 451.85,
-    "unrealizedProfitLoss": 19.35,
-    "fxImpact": null
-   }
-  },
-  {
-   "instrument": {
-    "ticker": "SHELLa_EQ",
-    "name": "Shell",
-    "isin": "GB00BP6MXD84",
-    "currency": "EUR"
-   },
-   "createdAt": "2026-10-16T10:00:19.000+03:00",
-   "quantity": 6.5,
-   "quantityAvailableForTrading": 6.5,
-   "quantityInPies": 0,
-   "currentPrice": 46.202,
-   "averagePricePaid": 46.14,
-   "walletImpact": {
-    "currency": "EUR",
-    "totalCost": 299.91,
-    "currentValue": 300.31,
-    "unrealizedProfitLoss": 0.4,
+    "currentValue": 456.4,
+    "unrealizedProfitLoss": 23.9,
     "fxImpact": null
    }
   },
@@ -189,14 +168,14 @@
    "quantity": 2.5,
    "quantityAvailableForTrading": 2.5,
    "quantityInPies": 0,
-   "currentPrice": 219.92,
+   "currentPrice": 217.48,
    "averagePricePaid": 222.14,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 493.3,
-    "currentValue": 489.29,
-    "unrealizedProfitLoss": -4.01,
-    "fxImpact": 0.93
+    "currentValue": 484.47,
+    "unrealizedProfitLoss": -8.83,
+    "fxImpact": 1.55
    }
   }
  ],
@@ -213,7 +192,15 @@
   "V": "V_US_EQ"
  },
  "handmatig": {},
- "plan": [],
+ "plan": [
+  {
+   "ticker": "SHELLa_EQ",
+   "yahoo": "SHELL.AS",
+   "actie": "koop",
+   "quantity": 6.5,
+   "waarde_eur": 317.17
+  }
+ ],
  "geschiedenis": [
   {
    "tijd": "2026-10-15T16:30:57+00:00",
