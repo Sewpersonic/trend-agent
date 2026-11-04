@@ -1,93 +1,8 @@
 {
- "tijd": "2026-11-04T02:27:45+00:00",
- "status": "ok",
- "reden": "",
- "orders": [
-  {
-   "ticker": "MA_US_EQ",
-   "yahoo": "MA",
-   "actie": "koop",
-   "quantity": 1.0,
-   "waarde_eur": 575.81,
-   "uitkomst": "geplaatst",
-   "antwoord": {
-    "id": 57500116119,
-    "strategy": "QUANTITY",
-    "type": "MARKET",
-    "ticker": "MA_US_EQ",
-    "quantity": 1.0,
-    "filledQuantity": 0,
-    "status": "NEW",
-    "currency": "EUR",
-    "extendedHours": false,
-    "initiatedFrom": "API",
-    "side": "BUY",
-    "createdAt": "2026-11-04T04:27:47.598+02:00",
-    "instrument": {
-     "ticker": "MA_US_EQ",
-     "name": "Mastercard",
-     "isin": "US57636Q1040",
-     "currency": "USD"
-    }
-   }
-  },
-  {
-   "ticker": "CVX_US_EQ",
-   "yahoo": "CVX",
-   "actie": "koop",
-   "quantity": 2.5,
-   "waarde_eur": 500.97,
-   "uitkomst": "geplaatst",
-   "antwoord": {
-    "id": 57500116121,
-    "strategy": "QUANTITY",
-    "type": "MARKET",
-    "ticker": "CVX_US_EQ",
-    "quantity": 2.5,
-    "filledQuantity": 0,
-    "status": "NEW",
-    "currency": "EUR",
-    "extendedHours": false,
-    "initiatedFrom": "API",
-    "side": "BUY",
-    "createdAt": "2026-11-04T04:27:47.841+02:00",
-    "instrument": {
-     "ticker": "CVX_US_EQ",
-     "name": "Chevron",
-     "isin": "US1667641005",
-     "currency": "USD"
-    }
-   }
-  },
-  {
-   "ticker": "V_US_EQ",
-   "yahoo": "V",
-   "actie": "koop",
-   "quantity": 1.5,
-   "waarde_eur": 560.92,
-   "uitkomst": "geplaatst",
-   "antwoord": {
-    "id": 57500116123,
-    "strategy": "QUANTITY",
-    "type": "MARKET",
-    "ticker": "V_US_EQ",
-    "quantity": 1.5,
-    "filledQuantity": 0,
-    "status": "NEW",
-    "currency": "EUR",
-    "extendedHours": false,
-    "initiatedFrom": "API",
-    "side": "BUY",
-    "createdAt": "2026-11-04T04:27:48.074+02:00",
-    "instrument": {
-     "ticker": "V_US_EQ",
-     "name": "Visa",
-     "isin": "US92826C8394",
-     "currency": "USD"
-    }
-   }
-  }
- ],
+ "tijd": "2026-11-04T07:26:34+00:00",
+ "status": "alleen kijken",
+ "reden": "Alleen gecontroleerd: geen orders geplaatst.",
+ "orders": [],
  "niet_gekoppeld": [],
  "managed": [
   "ABBV_US_EQ",
@@ -102,17 +17,17 @@
  ],
  "account": {
   "currency": "EUR",
-  "totalValue": 4972.53,
+  "totalValue": 4973.6,
   "cash": {
-   "availableToTrade": 3624.76,
-   "reservedForOrders": 0,
+   "availableToTrade": 1905.93,
+   "reservedForOrders": 1718.83,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 1347.77,
+   "currentValue": 1348.85,
    "totalCost": 1354.9,
    "realizedProfitLoss": -16.21,
-   "unrealizedProfitLoss": -7.13
+   "unrealizedProfitLoss": -6.05
   }
  },
  "posities": [
@@ -148,14 +63,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 285.99,
+   "currentPrice": 286.9,
    "averagePricePaid": 293.84,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 263.19,
-    "currentValue": 254.27,
-    "unrealizedProfitLoss": -8.92,
-    "fxImpact": -1.94
+    "currentValue": 255.35,
+    "unrealizedProfitLoss": -7.84,
+    "fxImpact": -1.66
    }
   },
   {
@@ -222,7 +137,23 @@
    }
   }
  ],
- "open_orders": [],
+ "open_orders": [
+  {
+   "ticker": "V_US_EQ",
+   "quantity": 1.5,
+   "status": "NEW"
+  },
+  {
+   "ticker": "CVX_US_EQ",
+   "quantity": 2.5,
+   "status": "NEW"
+  },
+  {
+   "ticker": "MA_US_EQ",
+   "quantity": 1.0,
+   "status": "NEW"
+  }
+ ],
  "schaal": 0.5,
  "koppeling": {
   "SHELL.AS": "SHELLa_EQ",
@@ -235,28 +166,11 @@
   "V": "V_US_EQ"
  },
  "handmatig": {},
- "plan": [
-  {
-   "ticker": "MA_US_EQ",
-   "yahoo": "MA",
-   "actie": "koop",
-   "quantity": 1.0,
-   "waarde_eur": 575.81
-  },
-  {
-   "ticker": "CVX_US_EQ",
-   "yahoo": "CVX",
-   "actie": "koop",
-   "quantity": 2.5,
-   "waarde_eur": 500.97
-  },
-  {
-   "ticker": "V_US_EQ",
-   "yahoo": "V",
-   "actie": "koop",
-   "quantity": 1.5,
-   "waarde_eur": 560.92
-  }
+ "plan": [],
+ "wacht_op": [
+  "MA_US_EQ",
+  "CVX_US_EQ",
+  "V_US_EQ"
  ],
  "geschiedenis": [
   {
