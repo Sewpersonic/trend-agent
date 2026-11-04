@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-04T10:00:30+00:00",
+ "tijd": "2026-11-04T11:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -7,43 +7,43 @@
    "t212": "SHELLa_EQ",
    "stop": 45.9857,
    "actie": "boven de stop-loss",
-   "koers_t212": 46.392,
-   "koers_yahoo": 46.39,
-   "afstand_pct": 0.0088
+   "koers_t212": 46.588,
+   "koers_yahoo": 46.515,
+   "afstand_pct": 0.0131
   },
   {
    "ticker": "SAP.DE",
    "t212": "SAPd_EQ",
    "stop": 199.4893,
    "actie": "boven de stop-loss",
-   "koers_t212": 208.51,
-   "koers_yahoo": 208.55,
-   "afstand_pct": 0.0454
+   "koers_t212": 208.43,
+   "koers_yahoo": 208.35,
+   "afstand_pct": 0.0448
   },
   {
    "ticker": "DB1.DE",
    "t212": "DB1d_EQ",
    "stop": 302.2002,
    "actie": "boven de stop-loss",
-   "koers_t212": 310.5,
-   "koers_yahoo": 311.5,
-   "afstand_pct": 0.0308
+   "koers_t212": 311.7,
+   "koers_yahoo": 311.3,
+   "afstand_pct": 0.0314
   },
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 285.77,
+   "koers_t212": 287.68,
    "koers_yahoo": 285.96,
-   "afstand_pct": 0.0309
+   "afstand_pct": 0.0371
   },
   {
    "ticker": "WKL.AS",
    "t212": "WKLa_EQ",
    "stop": 82.0948,
    "actie": "boven de stop-loss",
-   "koers_t212": 89.21,
+   "koers_t212": 88.99,
    "koers_yahoo": 89.28,
    "afstand_pct": 0.0875
   },
@@ -68,7 +68,7 @@
  ],
  "verkocht": [],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: SHELL.AS (+0.9%)."
+  "Alles boven de stop-loss. Dichtst bij: SHELL.AS (+1.3%)."
  ],
  "twelve_vandaag": 0,
  "geschiedenis": [
@@ -145,5 +145,5 @@
    ]
   }
  ],
- "rondes_vandaag": 9
+ "rondes_vandaag": 13
 }
