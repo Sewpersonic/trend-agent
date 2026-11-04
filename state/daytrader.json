@@ -444,7 +444,7 @@
   "begin": 9885.66,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-04T11:15:00",
+  "prev": "2026-11-04T11:30:00",
   "traded": [
    "AAPL",
    "MSFT"
@@ -559,7 +559,7 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 65% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R)."
    },
    "t_in": "10:15",
-   "koers": 352.55169677734375
+   "koers": 351.152587890625
   },
   {
    "ticker": "MSFT",
@@ -585,27 +585,18 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 59% van de gevallen goed af (gemiddeld +0,10 R; alle uitbraken samen +0,07 R)."
    },
    "t_in": "10:15",
-   "koers": 553.7999877929688
+   "koers": 553.0
   }
  ],
  "laatste_ronde": {
-  "tijd": "2026-11-04T16:16:30+00:00",
-  "ny": "2026-11-04 11:16",
+  "tijd": "2026-11-04T16:31:30+00:00",
+  "ny": "2026-11-04 11:31",
   "status": "ok",
   "log": [
    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-10-30T19:16:30+00:00",
-   "ny": "2026-10-30 15:16",
-   "status": "ok",
-   "log": [
-    "Koersen niet vers (laatste blok 14:25): niets kopen deze ronde.",
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-10-30T19:31:30+00:00",
    "ny": "2026-10-30 15:31",
@@ -1074,6 +1065,14 @@
   {
    "tijd": "2026-11-04T16:16:30+00:00",
    "ny": "2026-11-04 11:16",
+   "status": "ok",
+   "log": [
+    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-11-04T16:31:30+00:00",
+   "ny": "2026-11-04 11:31",
    "status": "ok",
    "log": [
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
