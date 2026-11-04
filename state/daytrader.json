@@ -1,6 +1,6 @@
 {
  "start": 10000.0,
- "equity": 9885.66,
+ "equity": 9880.4,
  "dagen": [
   {
    "dag": "2026-10-16",
@@ -103,6 +103,14 @@
    "begin": 9894.41,
    "eind": 9885.66,
    "resultaat": -8.75,
+   "trades": 2,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-11-04",
+   "begin": 9885.66,
+   "eind": 9880.4,
+   "resultaat": -5.26,
    "trades": 2,
    "daglimiet": false
   }
@@ -437,29 +445,87 @@
     "indicatie": "gemiddeld",
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 59% van de gevallen goed af (gemiddeld +0,07 R; alle uitbraken samen +0,07 R)."
    }
+  },
+  {
+   "dag": "2026-11-04",
+   "ticker": "AAPL",
+   "qty": 6,
+   "instap": 353.6967,
+   "uitstap": 351.7441,
+   "t_in": "10:15",
+   "t_uit": "15:45",
+   "reden": "einde van de dag",
+   "resultaat": -11.72,
+   "r": -0.276,
+   "ctx": {
+    "tijd": "10:15",
+    "rvol": 4.09,
+    "or_breedte": 0.0306,
+    "boven_range": 0.0037,
+    "markt_vandaag": 0.0069,
+    "dag_tot_nu": 0.0336,
+    "gap": 0.0292,
+    "dagtrend": "zijwaarts",
+    "plek": "midden in het bereik",
+    "terugval": false,
+    "boven_sma50": false,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 65% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R)."
+   }
+  },
+  {
+   "dag": "2026-11-04",
+   "ticker": "MSFT",
+   "qty": 4,
+   "instap": 554.9173,
+   "uitstap": 556.5316,
+   "t_in": "10:15",
+   "t_uit": "15:45",
+   "reden": "einde van de dag",
+   "resultaat": 6.46,
+   "r": 0.145,
+   "ctx": {
+    "tijd": "10:15",
+    "rvol": 2.79,
+    "or_breedte": 0.0205,
+    "boven_range": 0.0007,
+    "markt_vandaag": 0.0069,
+    "dag_tot_nu": 0.0189,
+    "gap": 0.0439,
+    "dagtrend": "stijgend",
+    "plek": "midden in het bereik",
+    "terugval": false,
+    "boven_sma50": true,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 59% van de gevallen goed af (gemiddeld +0,10 R; alle uitbraken samen +0,07 R)."
+   }
   }
  ],
  "vandaag": {
   "dag": "2026-11-04",
   "begin": 9885.66,
-  "realized": 0.0,
-  "klaar": false,
-  "prev": "2026-11-04T15:30:00",
+  "realized": -5.259141906737909,
+  "klaar": true,
+  "prev": "2026-11-04T15:45:00",
   "traded": [
    "AAPL",
    "MSFT"
   ],
   "notities": [],
-  "trades": [],
-  "open": {
-   "AAPL": {
+  "trades": [
+   {
+    "dag": "2026-11-04",
     "ticker": "AAPL",
     "qty": 6,
-    "entry": 353.6967490081787,
-    "stop": 346.6228140280151,
-    "target": 367.84461896850587,
-    "t_in": "2026-11-04T10:15:00",
-    "risk": 42.44360988098151,
+    "instap": 353.6967,
+    "uitstap": 351.7441,
+    "t_in": "10:15",
+    "t_uit": "15:45",
+    "reden": "einde van de dag",
+    "resultaat": -11.72,
+    "r": -0.276,
     "ctx": {
      "tijd": "10:15",
      "rvol": 4.09,
@@ -477,14 +543,17 @@
      "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 65% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R)."
     }
    },
-   "MSFT": {
+   {
+    "dag": "2026-11-04",
     "ticker": "MSFT",
     "qty": 4,
-    "entry": 554.9173346557617,
-    "stop": 543.8189879626465,
-    "target": 577.1140280419921,
-    "t_in": "2026-11-04T10:15:00",
-    "risk": 44.39338677246087,
+    "instap": 554.9173,
+    "uitstap": 556.5316,
+    "t_in": "10:15",
+    "t_uit": "15:45",
+    "reden": "einde van de dag",
+    "resultaat": 6.46,
+    "r": 0.145,
     "ctx": {
      "tijd": "10:15",
      "rvol": 2.79,
@@ -502,7 +571,8 @@
      "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 59% van de gevallen goed af (gemiddeld +0,10 R; alle uitbraken samen +0,07 R)."
     }
    }
-  }
+  ],
+  "open": {}
  },
  "gem_vol": {
   "AAPL": 6844972.6,
@@ -534,77 +604,18 @@
   "GLD": 1415900.8
  },
  "uitgesloten": {},
- "open_nu": [
-  {
-   "ticker": "AAPL",
-   "qty": 6,
-   "entry": 353.6967490081787,
-   "stop": 346.6228140280151,
-   "target": 367.84461896850587,
-   "risk": 42.44360988098151,
-   "ctx": {
-    "tijd": "10:15",
-    "rvol": 4.09,
-    "or_breedte": 0.0306,
-    "boven_range": 0.0037,
-    "markt_vandaag": 0.0069,
-    "dag_tot_nu": 0.0336,
-    "gap": 0.0292,
-    "dagtrend": "zijwaarts",
-    "plek": "midden in het bereik",
-    "terugval": false,
-    "boven_sma50": false,
-    "markt_dagtrend": "zijwaarts",
-    "indicatie": "gemiddeld",
-    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 65% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R)."
-   },
-   "t_in": "10:15",
-   "koers": 352.7196960449219
-  },
-  {
-   "ticker": "MSFT",
-   "qty": 4,
-   "entry": 554.9173346557617,
-   "stop": 543.8189879626465,
-   "target": 577.1140280419921,
-   "risk": 44.39338677246087,
-   "ctx": {
-    "tijd": "10:15",
-    "rvol": 2.79,
-    "or_breedte": 0.0205,
-    "boven_range": 0.0007,
-    "markt_vandaag": 0.0069,
-    "dag_tot_nu": 0.0189,
-    "gap": 0.0439,
-    "dagtrend": "stijgend",
-    "plek": "midden in het bereik",
-    "terugval": false,
-    "boven_sma50": true,
-    "markt_dagtrend": "zijwaarts",
-    "indicatie": "gemiddeld",
-    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 59% van de gevallen goed af (gemiddeld +0,10 R; alle uitbraken samen +0,07 R)."
-   },
-   "t_in": "10:15",
-   "koers": 558.6900024414062
-  }
- ],
+ "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-04T20:31:30+00:00",
-  "ny": "2026-11-04 15:31",
+  "tijd": "2026-11-04T20:46:30+00:00",
+  "ny": "2026-11-04 15:46",
   "status": "ok",
   "log": [
-   "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   "15:45 AAPL: verkocht aan het einde van de dag",
+   "15:45 MSFT: verkocht aan het einde van de dag",
+   "Dag klaar: 2 trades, resultaat -5.26 dollar."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-02T18:16:30+00:00",
-   "ny": "2026-11-02 13:16",
-   "status": "ok",
-   "log": [
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-11-02T18:31:30+00:00",
    "ny": "2026-11-02 13:31",
@@ -1075,6 +1086,16 @@
    "status": "ok",
    "log": [
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-11-04T20:46:30+00:00",
+   "ny": "2026-11-04 15:46",
+   "status": "ok",
+   "log": [
+    "15:45 AAPL: verkocht aan het einde van de dag",
+    "15:45 MSFT: verkocht aan het einde van de dag",
+    "Dag klaar: 2 trades, resultaat -5.26 dollar."
    ]
   }
  ],
