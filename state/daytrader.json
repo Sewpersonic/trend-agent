@@ -113,6 +113,14 @@
    "resultaat": -5.26,
    "trades": 2,
    "daglimiet": false
+  },
+  {
+   "dag": "2026-11-05",
+   "begin": 9880.4,
+   "eind": 9880.4,
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
   }
  ],
  "trades": [
@@ -507,8 +515,8 @@
   "dag": "2026-11-05",
   "begin": 9880.4,
   "realized": 0.0,
-  "klaar": false,
-  "prev": "2026-11-05T15:15:00",
+  "klaar": true,
+  "prev": "2026-11-05T15:45:00",
   "traded": [],
   "notities": [],
   "trades": [],
@@ -546,20 +554,14 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-05T20:26:08+00:00",
-  "ny": "2026-11-05 15:26",
+  "tijd": "2026-11-05T20:55:48+00:00",
+  "ny": "2026-11-05 15:55",
   "status": "ok",
   "log": [
-   "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   "Dag klaar: 0 trades, resultaat +0.00 dollar."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-02T21:26:48+00:00",
-   "ny": "2026-11-02 16:26",
-   "status": "klaar voor vandaag",
-   "log": []
-  },
   {
    "tijd": "2026-11-03T15:01:30+00:00",
    "ny": "2026-11-03 10:01",
@@ -1031,6 +1033,14 @@
    "status": "ok",
    "log": [
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-11-05T20:55:48+00:00",
+   "ny": "2026-11-05 15:55",
+   "status": "ok",
+   "log": [
+    "Dag klaar: 0 trades, resultaat +0.00 dollar."
    ]
   }
  ],
