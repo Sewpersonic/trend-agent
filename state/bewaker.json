@@ -1,46 +1,49 @@
 {
- "tijd": "2026-11-05T08:05:00+00:00",
+ "tijd": "2026-11-05T09:00:30+00:00",
  "status": "ok",
  "posities": [
   {
    "ticker": "SAP.DE",
    "t212": "SAPd_EQ",
    "stop": 199.4893,
-   "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 216.83,
-   "koers_yahoo": null
+   "actie": "boven de stop-loss",
+   "koers_t212": 217.78,
+   "koers_yahoo": 217.95,
+   "afstand_pct": 0.0925
   },
   {
    "ticker": "DB1.DE",
    "t212": "DB1d_EQ",
    "stop": 302.2002,
-   "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 320.9,
-   "koers_yahoo": null
+   "actie": "boven de stop-loss",
+   "koers_t212": 322.0,
+   "koers_yahoo": 321.2,
+   "afstand_pct": 0.0655
   },
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 298.57,
+   "koers_t212": 298.42,
    "koers_yahoo": 294.88,
-   "afstand_pct": 0.0764
+   "afstand_pct": 0.0758
   },
   {
    "ticker": "WKL.AS",
    "t212": "WKLa_EQ",
    "stop": 82.8514,
-   "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 92.61,
-   "koers_yahoo": null
+   "actie": "boven de stop-loss",
+   "koers_t212": 92.59,
+   "koers_yahoo": 93.04,
+   "afstand_pct": 0.123
   },
   {
    "ticker": "MA",
    "t212": "MA_US_EQ",
    "stop": 631.1515,
    "actie": "boven de stop-loss",
-   "koers_t212": 677.19,
+   "koers_t212": 677.15,
    "koers_yahoo": 672.69,
    "afstand_pct": 0.0729
   },
@@ -49,17 +52,18 @@
    "t212": "V_US_EQ",
    "stop": 412.0686,
    "actie": "boven de stop-loss",
-   "koers_t212": 439.5,
+   "koers_t212": 439.46,
    "koers_yahoo": 436.66,
-   "afstand_pct": 0.0666
+   "afstand_pct": 0.0665
   },
   {
    "ticker": "OR.PA",
    "t212": "ORp_EQ",
    "stop": 428.3445,
-   "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 452.66,
-   "koers_yahoo": null
+   "actie": "boven de stop-loss",
+   "koers_t212": 449.12,
+   "koers_yahoo": 449.2,
+   "afstand_pct": 0.0487
   },
   {
    "ticker": "PG",
@@ -70,7 +74,7 @@
  ],
  "verkocht": [],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: V (+6.7%)."
+  "Alles boven de stop-loss. Dichtst bij: OR.PA (+4.9%)."
  ],
  "twelve_vandaag": 0,
  "geschiedenis": [
@@ -219,5 +223,5 @@
    ]
   }
  ],
- "rondes_vandaag": 2
+ "rondes_vandaag": 6
 }
