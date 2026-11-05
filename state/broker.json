@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-05T14:26:39+00:00",
+ "tijd": "2026-11-05T15:26:30+00:00",
  "status": "alleen kijken",
  "reden": "Alleen gecontroleerd: geen orders geplaatst.",
  "orders": [],
@@ -19,17 +19,17 @@
  ],
  "account": {
   "currency": "EUR",
-  "totalValue": 5049.1,
+  "totalValue": 5042.79,
   "cash": {
-   "availableToTrade": 1672.37,
-   "reservedForOrders": 624.67,
+   "availableToTrade": 1693.31,
+   "reservedForOrders": 0,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 2752.07,
-   "totalCost": 2660.52,
+   "currentValue": 3349.48,
+   "totalCost": 3263.35,
    "realizedProfitLoss": -33.33,
-   "unrealizedProfitLoss": 91.55
+   "unrealizedProfitLoss": 86.13
   }
  },
  "posities": [
@@ -44,13 +44,13 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 218.41,
+   "currentPrice": 215.23,
    "averagePricePaid": 200.8,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 200.8,
-    "currentValue": 218.41,
-    "unrealizedProfitLoss": 17.61,
+    "currentValue": 215.23,
+    "unrealizedProfitLoss": 14.43,
     "fxImpact": null
    }
   },
@@ -65,14 +65,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 676.39,
+   "currentPrice": 672.6,
    "averagePricePaid": 661.81,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 587.75,
-    "currentValue": 603.12,
-    "unrealizedProfitLoss": 15.37,
-    "fxImpact": 2.37
+    "currentValue": 599.06,
+    "unrealizedProfitLoss": 11.31,
+    "fxImpact": 1.7
    }
   },
   {
@@ -86,14 +86,14 @@
    "quantity": 1.5,
    "quantityAvailableForTrading": 1.5,
    "quantityInPies": 0,
-   "currentPrice": 439.87,
+   "currentPrice": 435.06,
    "averagePricePaid": 427.72,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 569.78,
-    "currentValue": 588.33,
-    "unrealizedProfitLoss": 18.55,
-    "fxImpact": 2.3
+    "currentValue": 581.24,
+    "unrealizedProfitLoss": 11.46,
+    "fxImpact": 1.65
    }
   },
   {
@@ -107,14 +107,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 298.91,
+   "currentPrice": 301.32,
    "averagePricePaid": 293.84,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 263.19,
-    "currentValue": 266.53,
-    "unrealizedProfitLoss": 3.34,
-    "fxImpact": -1.18
+    "currentValue": 268.37,
+    "unrealizedProfitLoss": 5.18,
+    "fxImpact": -1.48
    }
   },
   {
@@ -128,13 +128,13 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 449.81,
+   "currentPrice": 453.58,
    "averagePricePaid": 448.0,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 448.0,
-    "currentValue": 449.81,
-    "unrealizedProfitLoss": 1.81,
+    "currentValue": 453.58,
+    "unrealizedProfitLoss": 5.58,
     "fxImpact": null
    }
   },
@@ -149,14 +149,35 @@
    "quantity": 0.5,
    "quantityAvailableForTrading": 0.5,
    "quantityInPies": 0,
-   "currentPrice": 325.4,
+   "currentPrice": 327.7,
    "averagePricePaid": 317.0,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 158.5,
-    "currentValue": 162.7,
-    "unrealizedProfitLoss": 4.2,
+    "currentValue": 163.85,
+    "unrealizedProfitLoss": 5.35,
     "fxImpact": null
+   }
+  },
+  {
+   "instrument": {
+    "ticker": "PG_US_EQ",
+    "name": "Procter & Gamble",
+    "isin": "US7427181091",
+    "currency": "USD"
+   },
+   "createdAt": "2026-11-05T16:35:11.395+02:00",
+   "quantity": 4.0,
+   "quantityAvailableForTrading": 4.0,
+   "quantityInPies": 0,
+   "currentPrice": 169.44,
+   "averagePricePaid": 169.0,
+   "walletImpact": {
+    "currency": "EUR",
+    "totalCost": 602.83,
+    "currentValue": 603.66,
+    "unrealizedProfitLoss": 0.83,
+    "fxImpact": -0.74
    }
   },
   {
@@ -170,24 +191,18 @@
    "quantity": 5.0,
    "quantityAvailableForTrading": 5.0,
    "quantityInPies": 0,
-   "currentPrice": 92.64,
+   "currentPrice": 92.91,
    "averagePricePaid": 86.5,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 432.5,
-    "currentValue": 463.2,
-    "unrealizedProfitLoss": 30.7,
+    "currentValue": 464.55,
+    "unrealizedProfitLoss": 32.05,
     "fxImpact": null
    }
   }
  ],
- "open_orders": [
-  {
-   "ticker": "PG_US_EQ",
-   "quantity": 4.0,
-   "status": "NEW"
-  }
- ],
+ "open_orders": [],
  "schaal": 0.5,
  "koppeling": {
   "SAP.DE": "SAPd_EQ",
@@ -201,9 +216,6 @@
  },
  "handmatig": {},
  "plan": [],
- "wacht_op": [
-  "PG_US_EQ"
- ],
  "geschiedenis": [
   {
    "tijd": "2026-10-15T16:30:57+00:00",
