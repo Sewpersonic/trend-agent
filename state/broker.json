@@ -1,65 +1,8 @@
 {
- "tijd": "2026-11-05T02:33:15+00:00",
- "status": "ok",
- "reden": "",
- "orders": [
-  {
-   "ticker": "ORp_EQ",
-   "yahoo": "OR.PA",
-   "actie": "koop",
-   "quantity": 1.0,
-   "waarde_eur": 446.42,
-   "uitkomst": "geplaatst",
-   "antwoord": {
-    "id": 57550080218,
-    "strategy": "QUANTITY",
-    "type": "MARKET",
-    "ticker": "ORp_EQ",
-    "quantity": 1.0,
-    "filledQuantity": 0,
-    "status": "NEW",
-    "currency": "EUR",
-    "extendedHours": false,
-    "initiatedFrom": "API",
-    "side": "BUY",
-    "createdAt": "2026-11-05T04:33:17.686+02:00",
-    "instrument": {
-     "ticker": "ORp_EQ",
-     "name": "L'Oreal",
-     "isin": "FR0000120321",
-     "currency": "EUR"
-    }
-   }
-  },
-  {
-   "ticker": "PG_US_EQ",
-   "yahoo": "PG",
-   "actie": "koop",
-   "quantity": 4.0,
-   "waarde_eur": 595.02,
-   "uitkomst": "geplaatst",
-   "antwoord": {
-    "id": 57550080220,
-    "strategy": "QUANTITY",
-    "type": "MARKET",
-    "ticker": "PG_US_EQ",
-    "quantity": 4.0,
-    "filledQuantity": 0,
-    "status": "NEW",
-    "currency": "EUR",
-    "extendedHours": false,
-    "initiatedFrom": "API",
-    "side": "BUY",
-    "createdAt": "2026-11-05T04:33:17.991+02:00",
-    "instrument": {
-     "ticker": "PG_US_EQ",
-     "name": "Procter & Gamble",
-     "isin": "US7427181091",
-     "currency": "USD"
-    }
-   }
-  }
- ],
+ "tijd": "2026-11-05T07:26:41+00:00",
+ "status": "alleen kijken",
+ "reden": "Alleen gecontroleerd: geen orders geplaatst.",
+ "orders": [],
  "niet_gekoppeld": [],
  "managed": [
   "ABBV_US_EQ",
@@ -76,17 +19,17 @@
  ],
  "account": {
   "currency": "EUR",
-  "totalValue": 5022.06,
+  "totalValue": 5029.34,
   "cash": {
-   "availableToTrade": 2746.83,
-   "reservedForOrders": 0,
+   "availableToTrade": 1653.6,
+   "reservedForOrders": 1093.23,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 2275.23,
+   "currentValue": 2282.52,
    "totalCost": 2212.52,
    "realizedProfitLoss": -33.33,
-   "unrealizedProfitLoss": 62.71
+   "unrealizedProfitLoss": 70.0
   }
  },
  "posities": [
@@ -122,14 +65,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 673.94,
+   "currentPrice": 677.19,
    "averagePricePaid": 661.81,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 587.75,
-    "currentValue": 598.78,
-    "unrealizedProfitLoss": 11.03,
-    "fxImpact": 0.25
+    "currentValue": 602.02,
+    "unrealizedProfitLoss": 14.27,
+    "fxImpact": 0.6
    }
   },
   {
@@ -143,14 +86,14 @@
    "quantity": 1.5,
    "quantityAvailableForTrading": 1.5,
    "quantityInPies": 0,
-   "currentPrice": 437.62,
+   "currentPrice": 439.5,
    "averagePricePaid": 427.72,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 569.78,
-    "currentValue": 583.22,
-    "unrealizedProfitLoss": 13.44,
-    "fxImpact": 0.25
+    "currentValue": 586.07,
+    "unrealizedProfitLoss": 16.29,
+    "fxImpact": 0.58
    }
   },
   {
@@ -164,14 +107,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 296.92,
+   "currentPrice": 298.07,
    "averagePricePaid": 293.84,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 263.19,
-    "currentValue": 263.8,
-    "unrealizedProfitLoss": 0.61,
-    "fxImpact": -2.13
+    "currentValue": 264.98,
+    "unrealizedProfitLoss": 1.79,
+    "fxImpact": -1.97
    }
   },
   {
@@ -217,7 +160,18 @@
    }
   }
  ],
- "open_orders": [],
+ "open_orders": [
+  {
+   "ticker": "PG_US_EQ",
+   "quantity": 4.0,
+   "status": "NEW"
+  },
+  {
+   "ticker": "ORp_EQ",
+   "quantity": 1.0,
+   "status": "NEW"
+  }
+ ],
  "schaal": 0.5,
  "koppeling": {
   "SAP.DE": "SAPd_EQ",
@@ -230,21 +184,10 @@
   "PG": "PG_US_EQ"
  },
  "handmatig": {},
- "plan": [
-  {
-   "ticker": "ORp_EQ",
-   "yahoo": "OR.PA",
-   "actie": "koop",
-   "quantity": 1.0,
-   "waarde_eur": 446.42
-  },
-  {
-   "ticker": "PG_US_EQ",
-   "yahoo": "PG",
-   "actie": "koop",
-   "quantity": 4.0,
-   "waarde_eur": 595.02
-  }
+ "plan": [],
+ "wacht_op": [
+  "ORp_EQ",
+  "PG_US_EQ"
  ],
  "geschiedenis": [
   {
