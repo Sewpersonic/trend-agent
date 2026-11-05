@@ -508,7 +508,7 @@
   "begin": 9880.4,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-05T10:00:00",
+  "prev": "2026-11-05T10:15:00",
   "traded": [],
   "notities": [],
   "trades": [],
@@ -546,22 +546,14 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-05T15:01:30+00:00",
-  "ny": "2026-11-05 10:01",
+  "tijd": "2026-11-05T15:16:30+00:00",
+  "ny": "2026-11-05 10:16",
   "status": "ok",
   "log": [
    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-02T19:01:30+00:00",
-   "ny": "2026-11-02 14:01",
-   "status": "ok",
-   "log": [
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-11-02T19:16:30+00:00",
    "ny": "2026-11-02 14:16",
@@ -1029,6 +1021,14 @@
   {
    "tijd": "2026-11-05T15:01:30+00:00",
    "ny": "2026-11-05 10:01",
+   "status": "ok",
+   "log": [
+    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."
+   ]
+  },
+  {
+   "tijd": "2026-11-05T15:16:30+00:00",
+   "ny": "2026-11-05 10:16",
    "status": "ok",
    "log": [
     "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."
