@@ -1,6 +1,6 @@
 {
  "trend": {
-  "day": "2026-11-03",
+  "day": "2026-11-04",
   "status": "OK",
   "versie": "trend-1.1-081d85",
   "waarschuwingen": [],
@@ -22,10 +22,10 @@
    "verzoeken_tweede_bron": 69,
    "afwijkend": []
   },
-  "vastgelegd_utc": "2026-11-04T02:27:40+00:00"
+  "vastgelegd_utc": "2026-11-05T02:33:11+00:00"
  },
  "investeerder": {
-  "day": "2026-11-03",
+  "day": "2026-11-04",
   "status": "OK",
   "versie": "investeerder-1.0-64ce27",
   "waarschuwingen": [],
@@ -47,6 +47,6 @@
    "verzoeken_tweede_bron": 0,
    "afwijkend": []
   },
-  "vastgelegd_utc": "2026-11-04T02:28:13+00:00"
+  "vastgelegd_utc": "2026-11-05T02:33:49+00:00"
  }
 }

@@ -1,8 +1,65 @@
 {
- "tijd": "2026-11-04T21:26:43+00:00",
- "status": "alleen kijken",
- "reden": "Alleen gecontroleerd: geen orders geplaatst.",
- "orders": [],
+ "tijd": "2026-11-05T02:33:15+00:00",
+ "status": "ok",
+ "reden": "",
+ "orders": [
+  {
+   "ticker": "ORp_EQ",
+   "yahoo": "OR.PA",
+   "actie": "koop",
+   "quantity": 1.0,
+   "waarde_eur": 446.42,
+   "uitkomst": "geplaatst",
+   "antwoord": {
+    "id": 57550080218,
+    "strategy": "QUANTITY",
+    "type": "MARKET",
+    "ticker": "ORp_EQ",
+    "quantity": 1.0,
+    "filledQuantity": 0,
+    "status": "NEW",
+    "currency": "EUR",
+    "extendedHours": false,
+    "initiatedFrom": "API",
+    "side": "BUY",
+    "createdAt": "2026-11-05T04:33:17.686+02:00",
+    "instrument": {
+     "ticker": "ORp_EQ",
+     "name": "L'Oreal",
+     "isin": "FR0000120321",
+     "currency": "EUR"
+    }
+   }
+  },
+  {
+   "ticker": "PG_US_EQ",
+   "yahoo": "PG",
+   "actie": "koop",
+   "quantity": 4.0,
+   "waarde_eur": 595.02,
+   "uitkomst": "geplaatst",
+   "antwoord": {
+    "id": 57550080220,
+    "strategy": "QUANTITY",
+    "type": "MARKET",
+    "ticker": "PG_US_EQ",
+    "quantity": 4.0,
+    "filledQuantity": 0,
+    "status": "NEW",
+    "currency": "EUR",
+    "extendedHours": false,
+    "initiatedFrom": "API",
+    "side": "BUY",
+    "createdAt": "2026-11-05T04:33:17.991+02:00",
+    "instrument": {
+     "ticker": "PG_US_EQ",
+     "name": "Procter & Gamble",
+     "isin": "US7427181091",
+     "currency": "USD"
+    }
+   }
+  }
+ ],
  "niet_gekoppeld": [],
  "managed": [
   "ABBV_US_EQ",
@@ -10,6 +67,8 @@
   "DB1d_EQ",
   "MA_US_EQ",
   "MSFT_US_EQ",
+  "ORp_EQ",
+  "PG_US_EQ",
   "SAPd_EQ",
   "SHELLa_EQ",
   "V_US_EQ",
@@ -17,17 +76,17 @@
  ],
  "account": {
   "currency": "EUR",
-  "totalValue": 5018.58,
+  "totalValue": 5022.06,
   "cash": {
    "availableToTrade": 2746.83,
    "reservedForOrders": 0,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 2271.75,
+   "currentValue": 2275.23,
    "totalCost": 2212.52,
    "realizedProfitLoss": -33.33,
-   "unrealizedProfitLoss": 59.23
+   "unrealizedProfitLoss": 62.71
   }
  },
  "posities": [
@@ -63,14 +122,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 672.0,
+   "currentPrice": 673.94,
    "averagePricePaid": 661.81,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 587.75,
-    "currentValue": 598.38,
-    "unrealizedProfitLoss": 10.63,
-    "fxImpact": 1.56
+    "currentValue": 598.78,
+    "unrealizedProfitLoss": 11.03,
+    "fxImpact": 0.25
    }
   },
   {
@@ -84,14 +143,14 @@
    "quantity": 1.5,
    "quantityAvailableForTrading": 1.5,
    "quantityInPies": 0,
-   "currentPrice": 436.5,
+   "currentPrice": 437.62,
    "averagePricePaid": 427.72,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 569.78,
-    "currentValue": 583.02,
-    "unrealizedProfitLoss": 13.24,
-    "fxImpact": 1.51
+    "currentValue": 583.22,
+    "unrealizedProfitLoss": 13.44,
+    "fxImpact": 0.25
    }
   },
   {
@@ -105,14 +164,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 293.0,
+   "currentPrice": 296.92,
    "averagePricePaid": 293.84,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 263.19,
-    "currentValue": 260.9,
-    "unrealizedProfitLoss": -2.29,
-    "fxImpact": -1.54
+    "currentValue": 263.8,
+    "unrealizedProfitLoss": 0.61,
+    "fxImpact": -2.13
    }
   },
   {
@@ -161,30 +220,30 @@
  "open_orders": [],
  "schaal": 0.5,
  "koppeling": {
-  "SHELL.AS": "SHELLa_EQ",
   "SAP.DE": "SAPd_EQ",
   "DB1.DE": "DB1d_EQ",
   "ABBV": "ABBV_US_EQ",
   "WKL.AS": "WKLa_EQ",
   "MA": "MA_US_EQ",
-  "CVX": "CVX_US_EQ",
-  "V": "V_US_EQ"
+  "V": "V_US_EQ",
+  "OR.PA": "ORp_EQ",
+  "PG": "PG_US_EQ"
  },
  "handmatig": {},
  "plan": [
   {
-   "ticker": "SHELLa_EQ",
-   "yahoo": "SHELL.AS",
+   "ticker": "ORp_EQ",
+   "yahoo": "OR.PA",
    "actie": "koop",
-   "quantity": 6.5,
-   "waarde_eur": 317.17
+   "quantity": 1.0,
+   "waarde_eur": 446.42
   },
   {
-   "ticker": "CVX_US_EQ",
-   "yahoo": "CVX",
+   "ticker": "PG_US_EQ",
+   "yahoo": "PG",
    "actie": "koop",
-   "quantity": 2.5,
-   "waarde_eur": 500.97
+   "quantity": 4.0,
+   "waarde_eur": 595.02
   }
  ],
  "geschiedenis": [
@@ -374,6 +433,29 @@
      "quantity": 1.5,
      "actie": "koop",
      "waarde_eur": 560.92,
+     "uitkomst": "geplaatst",
+     "reden": null
+    }
+   ]
+  },
+  {
+   "tijd": "2026-11-05T02:33:15+00:00",
+   "status": "ok",
+   "reden": "",
+   "orders": [
+    {
+     "ticker": "ORp_EQ",
+     "quantity": 1.0,
+     "actie": "koop",
+     "waarde_eur": 446.42,
+     "uitkomst": "geplaatst",
+     "reden": null
+    },
+    {
+     "ticker": "PG_US_EQ",
+     "quantity": 4.0,
+     "actie": "koop",
+     "waarde_eur": 595.02,
      "uitkomst": "geplaatst",
      "reden": null
     }
