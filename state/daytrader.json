@@ -508,7 +508,7 @@
   "begin": 9880.4,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-05T10:30:00",
+  "prev": "2026-11-05T10:45:00",
   "traded": [],
   "notities": [],
   "trades": [],
@@ -546,23 +546,14 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-05T15:31:30+00:00",
-  "ny": "2026-11-05 10:31",
+  "tijd": "2026-11-05T15:46:30+00:00",
+  "ny": "2026-11-05 10:46",
   "status": "ok",
   "log": [
    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-02T19:31:30+00:00",
-   "ny": "2026-11-02 14:31",
-   "status": "ok",
-   "log": [
-    "14:30 AVGO: stop-loss geraakt",
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-11-02T19:46:30+00:00",
    "ny": "2026-11-02 14:46",
@@ -1029,6 +1020,14 @@
   {
    "tijd": "2026-11-05T15:31:30+00:00",
    "ny": "2026-11-05 10:31",
+   "status": "ok",
+   "log": [
+    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."
+   ]
+  },
+  {
+   "tijd": "2026-11-05T15:46:30+00:00",
+   "ny": "2026-11-05 10:46",
    "status": "ok",
    "log": [
     "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."
