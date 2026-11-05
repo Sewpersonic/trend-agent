@@ -508,7 +508,7 @@
   "begin": 9880.4,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-05T12:15:00",
+  "prev": "2026-11-05T13:15:00",
   "traded": [],
   "notities": [],
   "trades": [],
@@ -546,22 +546,14 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-05T17:26:29+00:00",
-  "ny": "2026-11-05 12:26",
+  "tijd": "2026-11-05T18:26:14+00:00",
+  "ny": "2026-11-05 13:26",
   "status": "ok",
   "log": [
    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-02T20:16:30+00:00",
-   "ny": "2026-11-02 15:16",
-   "status": "ok",
-   "log": [
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-11-02T20:31:30+00:00",
    "ny": "2026-11-02 15:31",
@@ -1028,6 +1020,14 @@
   {
    "tijd": "2026-11-05T17:26:29+00:00",
    "ny": "2026-11-05 12:26",
+   "status": "ok",
+   "log": [
+    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-11-05T18:26:14+00:00",
+   "ny": "2026-11-05 13:26",
    "status": "ok",
    "log": [
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
