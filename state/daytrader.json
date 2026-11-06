@@ -516,8 +516,9 @@
   "begin": 9880.4,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-06T10:15:00",
+  "prev": "2026-11-06T10:30:00",
   "traded": [
+   "COST",
    "JPM"
   ],
   "notities": [],
@@ -546,6 +547,31 @@
      "markt_dagtrend": "zijwaarts",
      "indicatie": "gemiddeld",
      "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 64% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R)."
+    }
+   },
+   "COST": {
+    "ticker": "COST",
+    "qty": 2,
+    "entry": 1060.4849335327149,
+    "stop": 1043.0,
+    "target": 1095.4548005981446,
+    "t_in": "2026-11-06T10:30:00",
+    "risk": 34.96986706542975,
+    "ctx": {
+     "tijd": "10:30",
+     "rvol": 1.7,
+     "or_breedte": 0.014,
+     "boven_range": 0.001,
+     "markt_vandaag": 0.0057,
+     "dag_tot_nu": 0.0134,
+     "gap": -0.0195,
+     "dagtrend": "zijwaarts",
+     "plek": "bij de 3-maands top",
+     "terugval": false,
+     "boven_sma50": true,
+     "markt_dagtrend": "zijwaarts",
+     "indicatie": "gemiddeld",
+     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 66% van de gevallen goed af (gemiddeld +0,16 R; alle uitbraken samen +0,07 R)."
     }
    }
   }
@@ -605,26 +631,44 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 64% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R)."
    },
    "t_in": "10:15",
-   "koers": 340.32000732421875
+   "koers": 339.29998779296875
+  },
+  {
+   "ticker": "COST",
+   "qty": 2,
+   "entry": 1060.4849335327149,
+   "stop": 1043.0,
+   "target": 1095.4548005981446,
+   "risk": 34.96986706542975,
+   "ctx": {
+    "tijd": "10:30",
+    "rvol": 1.7,
+    "or_breedte": 0.014,
+    "boven_range": 0.001,
+    "markt_vandaag": 0.0057,
+    "dag_tot_nu": 0.0134,
+    "gap": -0.0195,
+    "dagtrend": "zijwaarts",
+    "plek": "bij de 3-maands top",
+    "terugval": false,
+    "boven_sma50": true,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 66% van de gevallen goed af (gemiddeld +0,16 R; alle uitbraken samen +0,07 R)."
+   },
+   "t_in": "10:30",
+   "koers": 1059.9549560546875
   }
  ],
  "laatste_ronde": {
-  "tijd": "2026-11-06T15:16:30+00:00",
-  "ny": "2026-11-06 10:16",
+  "tijd": "2026-11-06T15:31:30+00:00",
+  "ny": "2026-11-06 10:31",
   "status": "ok",
   "log": [
-   "10:15 JPM: gekocht (7 stuks, uitbraak boven 339.46 met 1.9x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 64% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R)."
+   "10:30 COST: gekocht (2 stuks, uitbraak boven 1057.76 met 1.7x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 66% van de gevallen goed af (gemiddeld +0,16 R; alle uitbraken samen +0,07 R)."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-03T15:46:30+00:00",
-   "ny": "2026-11-03 10:46",
-   "status": "ok",
-   "log": [
-    "10:45 ORCL: gekocht (19 stuks, uitbraak boven 124.61 met 3.8x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 64% van de gevallen goed af (gemiddeld +0,17 R; alle uitbraken samen +0,07 R)."
-   ]
-  },
   {
    "tijd": "2026-11-03T16:01:30+00:00",
    "ny": "2026-11-03 11:01",
@@ -1095,6 +1139,14 @@
    "log": [
     "10:15 JPM: gekocht (7 stuks, uitbraak boven 339.46 met 1.9x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 64% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R)."
    ]
+  },
+  {
+   "tijd": "2026-11-06T15:31:30+00:00",
+   "ny": "2026-11-06 10:31",
+   "status": "ok",
+   "log": [
+    "10:30 COST: gekocht (2 stuks, uitbraak boven 1057.76 met 1.7x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 66% van de gevallen goed af (gemiddeld +0,16 R; alle uitbraken samen +0,07 R)."
+   ]
   }
  ],
  "dagcontext": {
@@ -1291,6 +1343,6 @@
  "geen_context": false,
  "twelve": {
   "dag": "2026-11-06",
-  "verzoeken": 1
+  "verzoeken": 2
  }
 }
