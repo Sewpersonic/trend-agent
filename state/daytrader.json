@@ -516,7 +516,7 @@
   "begin": 9880.4,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-06T13:00:00",
+  "prev": "2026-11-06T13:15:00",
   "traded": [
    "COST",
    "JPM"
@@ -631,7 +631,7 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 64% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R)."
    },
    "t_in": "10:15",
-   "koers": 337.0400085449219
+   "koers": 336.7903137207031
   },
   {
    "ticker": "COST",
@@ -657,26 +657,18 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 66% van de gevallen goed af (gemiddeld +0,16 R; alle uitbraken samen +0,07 R)."
    },
    "t_in": "10:30",
-   "koers": 1061.6500244140625
+   "koers": 1061.6497802734375
   }
  ],
  "laatste_ronde": {
-  "tijd": "2026-11-06T18:01:30+00:00",
-  "ny": "2026-11-06 13:01",
+  "tijd": "2026-11-06T18:16:30+00:00",
+  "ny": "2026-11-06 13:16",
   "status": "ok",
   "log": [
    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-03T18:31:30+00:00",
-   "ny": "2026-11-03 13:31",
-   "status": "ok",
-   "log": [
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-11-03T18:46:30+00:00",
    "ny": "2026-11-03 13:46",
@@ -1143,6 +1135,14 @@
   {
    "tijd": "2026-11-06T18:01:30+00:00",
    "ny": "2026-11-06 13:01",
+   "status": "ok",
+   "log": [
+    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-11-06T18:16:30+00:00",
+   "ny": "2026-11-06 13:16",
    "status": "ok",
    "log": [
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
