@@ -516,7 +516,7 @@
   "begin": 9880.4,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-06T10:45:00",
+  "prev": "2026-11-06T11:00:00",
   "traded": [
    "COST",
    "JPM"
@@ -631,7 +631,7 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 64% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R)."
    },
    "t_in": "10:15",
-   "koers": 340.4150085449219
+   "koers": 340.32000732421875
   },
   {
    "ticker": "COST",
@@ -657,26 +657,18 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 66% van de gevallen goed af (gemiddeld +0,16 R; alle uitbraken samen +0,07 R)."
    },
    "t_in": "10:30",
-   "koers": 1058.9300537109375
+   "koers": 1058.3199462890625
   }
  ],
  "laatste_ronde": {
-  "tijd": "2026-11-06T15:46:30+00:00",
-  "ny": "2026-11-06 10:46",
+  "tijd": "2026-11-06T16:01:30+00:00",
+  "ny": "2026-11-06 11:01",
   "status": "ok",
   "log": [
    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (7x); te weinig volume (1.0x normaal) (7x); te weinig volume (0.8x normaal) (3x)."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-03T16:16:30+00:00",
-   "ny": "2026-11-03 11:16",
-   "status": "ok",
-   "log": [
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-11-03T16:31:30+00:00",
    "ny": "2026-11-03 11:31",
@@ -1143,6 +1135,14 @@
   {
    "tijd": "2026-11-06T15:46:30+00:00",
    "ny": "2026-11-06 10:46",
+   "status": "ok",
+   "log": [
+    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (7x); te weinig volume (1.0x normaal) (7x); te weinig volume (0.8x normaal) (3x)."
+   ]
+  },
+  {
+   "tijd": "2026-11-06T16:01:30+00:00",
+   "ny": "2026-11-06 11:01",
    "status": "ok",
    "log": [
     "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (7x); te weinig volume (1.0x normaal) (7x); te weinig volume (0.8x normaal) (3x)."
