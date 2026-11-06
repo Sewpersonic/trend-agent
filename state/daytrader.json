@@ -1,6 +1,6 @@
 {
  "start": 10000.0,
- "equity": 9880.4,
+ "equity": 9838.03,
  "dagen": [
   {
    "dag": "2026-10-16",
@@ -120,6 +120,14 @@
    "eind": 9880.4,
    "resultaat": 0.0,
    "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-11-06",
+   "begin": 9880.4,
+   "eind": 9838.03,
+   "resultaat": -42.37,
+   "trades": 2,
    "daglimiet": false
   }
  ],
@@ -509,29 +517,87 @@
     "indicatie": "gemiddeld",
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 59% van de gevallen goed af (gemiddeld +0,10 R; alle uitbraken samen +0,07 R)."
    }
+  },
+  {
+   "dag": "2026-11-06",
+   "ticker": "JPM",
+   "qty": 7,
+   "instap": 340.4902,
+   "uitstap": 335.5222,
+   "t_in": "10:15",
+   "t_uit": "15:45",
+   "reden": "einde van de dag",
+   "resultaat": -34.78,
+   "r": -0.73,
+   "ctx": {
+    "tijd": "10:15",
+    "rvol": 1.95,
+    "or_breedte": 0.019,
+    "boven_range": 0.0025,
+    "markt_vandaag": 0.0084,
+    "dag_tot_nu": 0.0215,
+    "gap": -0.0124,
+    "dagtrend": "zijwaarts",
+    "plek": "midden in het bereik",
+    "terugval": false,
+    "boven_sma50": false,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 64% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R)."
+   }
+  },
+  {
+   "dag": "2026-11-06",
+   "ticker": "COST",
+   "qty": 2,
+   "instap": 1060.4849,
+   "uitstap": 1056.6864,
+   "t_in": "10:30",
+   "t_uit": "15:45",
+   "reden": "einde van de dag",
+   "resultaat": -7.6,
+   "r": -0.217,
+   "ctx": {
+    "tijd": "10:30",
+    "rvol": 1.7,
+    "or_breedte": 0.014,
+    "boven_range": 0.001,
+    "markt_vandaag": 0.0057,
+    "dag_tot_nu": 0.0134,
+    "gap": -0.0195,
+    "dagtrend": "zijwaarts",
+    "plek": "bij de 3-maands top",
+    "terugval": false,
+    "boven_sma50": true,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 66% van de gevallen goed af (gemiddeld +0,16 R; alle uitbraken samen +0,07 R)."
+   }
   }
  ],
  "vandaag": {
   "dag": "2026-11-06",
   "begin": 9880.4,
-  "realized": 0.0,
-  "klaar": false,
-  "prev": "2026-11-06T15:30:00",
+  "realized": -42.373219604491965,
+  "klaar": true,
+  "prev": "2026-11-06T15:45:00",
   "traded": [
    "COST",
    "JPM"
   ],
   "notities": [],
-  "trades": [],
-  "open": {
-   "JPM": {
+  "trades": [
+   {
+    "dag": "2026-11-06",
     "ticker": "JPM",
     "qty": 7,
-    "entry": 340.49016732788084,
-    "stop": 333.68036398132324,
-    "target": 354.10977402099604,
-    "t_in": "2026-11-06T10:15:00",
-    "risk": 47.668623425903206,
+    "instap": 340.4902,
+    "uitstap": 335.5222,
+    "t_in": "10:15",
+    "t_uit": "15:45",
+    "reden": "einde van de dag",
+    "resultaat": -34.78,
+    "r": -0.73,
     "ctx": {
      "tijd": "10:15",
      "rvol": 1.95,
@@ -549,14 +615,17 @@
      "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 64% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R)."
     }
    },
-   "COST": {
+   {
+    "dag": "2026-11-06",
     "ticker": "COST",
     "qty": 2,
-    "entry": 1060.4849335327149,
-    "stop": 1043.0,
-    "target": 1095.4548005981446,
-    "t_in": "2026-11-06T10:30:00",
-    "risk": 34.96986706542975,
+    "instap": 1060.4849,
+    "uitstap": 1056.6864,
+    "t_in": "10:30",
+    "t_uit": "15:45",
+    "reden": "einde van de dag",
+    "resultaat": -7.6,
+    "r": -0.217,
     "ctx": {
      "tijd": "10:30",
      "rvol": 1.7,
@@ -574,7 +643,8 @@
      "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 66% van de gevallen goed af (gemiddeld +0,16 R; alle uitbraken samen +0,07 R)."
     }
    }
-  }
+  ],
+  "open": {}
  },
  "gem_vol": {
   "AAPL": 8720725.6,
@@ -606,75 +676,18 @@
   "GLD": 1736617.0
  },
  "uitgesloten": {},
- "open_nu": [
-  {
-   "ticker": "JPM",
-   "qty": 7,
-   "entry": 340.49016732788084,
-   "stop": 333.68036398132324,
-   "target": 354.10977402099604,
-   "risk": 47.668623425903206,
-   "ctx": {
-    "tijd": "10:15",
-    "rvol": 1.95,
-    "or_breedte": 0.019,
-    "boven_range": 0.0025,
-    "markt_vandaag": 0.0084,
-    "dag_tot_nu": 0.0215,
-    "gap": -0.0124,
-    "dagtrend": "zijwaarts",
-    "plek": "midden in het bereik",
-    "terugval": false,
-    "boven_sma50": false,
-    "markt_dagtrend": "zijwaarts",
-    "indicatie": "gemiddeld",
-    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 64% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R)."
-   },
-   "t_in": "10:15",
-   "koers": 335.8500061035156
-  },
-  {
-   "ticker": "COST",
-   "qty": 2,
-   "entry": 1060.4849335327149,
-   "stop": 1043.0,
-   "target": 1095.4548005981446,
-   "risk": 34.96986706542975,
-   "ctx": {
-    "tijd": "10:30",
-    "rvol": 1.7,
-    "or_breedte": 0.014,
-    "boven_range": 0.001,
-    "markt_vandaag": 0.0057,
-    "dag_tot_nu": 0.0134,
-    "gap": -0.0195,
-    "dagtrend": "zijwaarts",
-    "plek": "bij de 3-maands top",
-    "terugval": false,
-    "boven_sma50": true,
-    "markt_dagtrend": "zijwaarts",
-    "indicatie": "gemiddeld",
-    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 66% van de gevallen goed af (gemiddeld +0,16 R; alle uitbraken samen +0,07 R)."
-   },
-   "t_in": "10:30",
-   "koers": 1054.0899658203125
-  }
- ],
+ "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-06T20:31:30+00:00",
-  "ny": "2026-11-06 15:31",
+  "tijd": "2026-11-06T20:46:30+00:00",
+  "ny": "2026-11-06 15:46",
   "status": "ok",
   "log": [
-   "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   "15:45 JPM: verkocht aan het einde van de dag",
+   "15:45 COST: verkocht aan het einde van de dag",
+   "Dag klaar: 2 trades, resultaat -42.37 dollar."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-03T21:27:03+00:00",
-   "ny": "2026-11-03 16:27",
-   "status": "klaar voor vandaag",
-   "log": []
-  },
   {
    "tijd": "2026-11-04T15:01:30+00:00",
    "ny": "2026-11-04 10:01",
@@ -1144,6 +1157,16 @@
    "status": "ok",
    "log": [
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-11-06T20:46:30+00:00",
+   "ny": "2026-11-06 15:46",
+   "status": "ok",
+   "log": [
+    "15:45 JPM: verkocht aan het einde van de dag",
+    "15:45 COST: verkocht aan het einde van de dag",
+    "Dag klaar: 2 trades, resultaat -42.37 dollar."
    ]
   }
  ],
