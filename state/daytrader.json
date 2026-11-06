@@ -678,24 +678,12 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-06T20:46:30+00:00",
-  "ny": "2026-11-06 15:46",
-  "status": "ok",
-  "log": [
-   "15:45 JPM: verkocht aan het einde van de dag",
-   "15:45 COST: verkocht aan het einde van de dag",
-   "Dag klaar: 2 trades, resultaat -42.37 dollar."
-  ]
+  "tijd": "2026-11-06T21:26:37+00:00",
+  "ny": "2026-11-06 16:26",
+  "status": "klaar voor vandaag",
+  "log": []
  },
  "rondes": [
-  {
-   "tijd": "2026-11-04T15:01:30+00:00",
-   "ny": "2026-11-04 10:01",
-   "status": "ok",
-   "log": [
-    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (17x); openingsrange te wild (6x); te weinig volume (0.9x normaal) (2x)."
-   ]
-  },
   {
    "tijd": "2026-11-04T15:16:30+00:00",
    "ny": "2026-11-04 10:16",
@@ -1168,6 +1156,12 @@
     "15:45 COST: verkocht aan het einde van de dag",
     "Dag klaar: 2 trades, resultaat -42.37 dollar."
    ]
+  },
+  {
+   "tijd": "2026-11-06T21:26:37+00:00",
+   "ny": "2026-11-06 16:26",
+   "status": "klaar voor vandaag",
+   "log": []
   }
  ],
  "dagcontext": {
