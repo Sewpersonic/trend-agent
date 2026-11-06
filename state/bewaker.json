@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-06T08:00:30+00:00",
+ "tijd": "2026-11-06T08:04:42+00:00",
  "status": "ok",
  "posities": [
   {
@@ -7,7 +7,7 @@
    "t212": "SAPd_EQ",
    "stop": 199.4893,
    "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 214.08,
+   "koers_t212": 213.03,
    "koers_yahoo": null
   },
   {
@@ -15,7 +15,7 @@
    "t212": "DB1d_EQ",
    "stop": 306.4036,
    "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 327.5,
+   "koers_t212": 323.6,
    "koers_yahoo": null
   },
   {
@@ -32,7 +32,7 @@
    "t212": "WKLa_EQ",
    "stop": 84.13,
    "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 90.26,
+   "koers_t212": 90.15,
    "koers_yahoo": null
   },
   {
@@ -49,7 +49,7 @@
    "t212": "V_US_EQ",
    "stop": 412.0686,
    "actie": "boven de stop-loss",
-   "koers_t212": 418.4,
+   "koers_t212": 417.8,
    "koers_yahoo": 422.34,
    "afstand_pct": 0.0249
   },
@@ -58,7 +58,7 @@
    "t212": "ORp_EQ",
    "stop": 428.3445,
    "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 447.62,
+   "koers_t212": 447.87,
    "koers_yahoo": null
   },
   {
@@ -66,7 +66,7 @@
    "t212": "PG_US_EQ",
    "stop": 160.5247,
    "actie": "boven de stop-loss",
-   "koers_t212": 165.93,
+   "koers_t212": 165.3,
    "koers_yahoo": 167.08,
    "afstand_pct": 0.0408
   }
@@ -222,5 +222,5 @@
    ]
   }
  ],
- "rondes_vandaag": 1
+ "rondes_vandaag": 2
 }
