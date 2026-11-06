@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-06T10:00:30+00:00",
+ "tijd": "2026-11-06T11:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -7,9 +7,9 @@
    "t212": "SAPd_EQ",
    "stop": 199.4893,
    "actie": "boven de stop-loss",
-   "koers_t212": 211.34,
-   "koers_yahoo": 211.6,
-   "afstand_pct": 0.0607
+   "koers_t212": 210.09,
+   "koers_yahoo": 210.15,
+   "afstand_pct": 0.0534
   },
   {
    "ticker": "DB1.DE",
@@ -17,7 +17,7 @@
    "stop": 306.4036,
    "actie": "boven de stop-loss",
    "koers_t212": 321.6,
-   "koers_yahoo": 321.5,
+   "koers_yahoo": 321.6,
    "afstand_pct": 0.0496
   },
   {
@@ -25,7 +25,7 @@
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 284.72,
+   "koers_t212": 284.09,
    "koers_yahoo": 288.21,
    "afstand_pct": 0.039
   },
@@ -34,16 +34,16 @@
    "t212": "WKLa_EQ",
    "stop": 84.13,
    "actie": "boven de stop-loss",
-   "koers_t212": 89.39,
-   "koers_yahoo": 89.26,
-   "afstand_pct": 0.0625
+   "koers_t212": 88.59,
+   "koers_yahoo": 88.66,
+   "afstand_pct": 0.0538
   },
   {
    "ticker": "MA",
    "t212": "MA_US_EQ",
    "stop": 631.1515,
    "actie": "boven de stop-loss",
-   "koers_t212": 646.06,
+   "koers_t212": 649.66,
    "koers_yahoo": 655.44,
    "afstand_pct": 0.0385
   },
@@ -52,7 +52,7 @@
    "t212": "V_US_EQ",
    "stop": 412.0686,
    "actie": "boven de stop-loss",
-   "koers_t212": 417.0,
+   "koers_t212": 414.55,
    "koers_yahoo": 422.34,
    "afstand_pct": 0.0249
   },
@@ -61,16 +61,16 @@
    "t212": "ORp_EQ",
    "stop": 428.3445,
    "actie": "boven de stop-loss",
-   "koers_t212": 445.61,
-   "koers_yahoo": 445.9,
-   "afstand_pct": 0.041
+   "koers_t212": 444.36,
+   "koers_yahoo": 444.05,
+   "afstand_pct": 0.0374
   },
   {
    "ticker": "PG",
    "t212": "PG_US_EQ",
    "stop": 160.5247,
    "actie": "boven de stop-loss",
-   "koers_t212": 163.91,
+   "koers_t212": 164.28,
    "koers_yahoo": 167.08,
    "afstand_pct": 0.0408
   }
@@ -79,7 +79,7 @@
  "log": [
   "Alles boven de stop-loss. Dichtst bij: V (+2.5%)."
  ],
- "twelve_vandaag": 1,
+ "twelve_vandaag": 4,
  "geschiedenis": [
   {
    "tijd": "2026-11-02T20:30:30+00:00",
@@ -226,5 +226,5 @@
    ]
   }
  ],
- "rondes_vandaag": 10
+ "rondes_vandaag": 14
 }
