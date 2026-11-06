@@ -516,11 +516,39 @@
   "begin": 9880.4,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-06T10:00:00",
-  "traded": [],
+  "prev": "2026-11-06T10:15:00",
+  "traded": [
+   "JPM"
+  ],
   "notities": [],
   "trades": [],
-  "open": {}
+  "open": {
+   "JPM": {
+    "ticker": "JPM",
+    "qty": 7,
+    "entry": 340.49016732788084,
+    "stop": 333.68036398132324,
+    "target": 354.10977402099604,
+    "t_in": "2026-11-06T10:15:00",
+    "risk": 47.668623425903206,
+    "ctx": {
+     "tijd": "10:15",
+     "rvol": 1.95,
+     "or_breedte": 0.019,
+     "boven_range": 0.0025,
+     "markt_vandaag": 0.0084,
+     "dag_tot_nu": 0.0215,
+     "gap": -0.0124,
+     "dagtrend": "zijwaarts",
+     "plek": "midden in het bereik",
+     "terugval": false,
+     "boven_sma50": false,
+     "markt_dagtrend": "zijwaarts",
+     "indicatie": "gemiddeld",
+     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 64% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R)."
+    }
+   }
+  }
  },
  "gem_vol": {
   "AAPL": 8720725.6,
@@ -552,24 +580,43 @@
   "GLD": 1736617.0
  },
  "uitgesloten": {},
- "open_nu": [],
+ "open_nu": [
+  {
+   "ticker": "JPM",
+   "qty": 7,
+   "entry": 340.49016732788084,
+   "stop": 333.68036398132324,
+   "target": 354.10977402099604,
+   "risk": 47.668623425903206,
+   "ctx": {
+    "tijd": "10:15",
+    "rvol": 1.95,
+    "or_breedte": 0.019,
+    "boven_range": 0.0025,
+    "markt_vandaag": 0.0084,
+    "dag_tot_nu": 0.0215,
+    "gap": -0.0124,
+    "dagtrend": "zijwaarts",
+    "plek": "midden in het bereik",
+    "terugval": false,
+    "boven_sma50": false,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 64% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R)."
+   },
+   "t_in": "10:15",
+   "koers": 340.32000732421875
+  }
+ ],
  "laatste_ronde": {
-  "tijd": "2026-11-06T15:01:30+00:00",
-  "ny": "2026-11-06 10:01",
+  "tijd": "2026-11-06T15:16:30+00:00",
+  "ny": "2026-11-06 10:16",
   "status": "ok",
   "log": [
-   "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (10x); te weinig volume (1.0x normaal) (6x); te weinig volume (0.8x normaal) (3x)."
+   "10:15 JPM: gekocht (7 stuks, uitbraak boven 339.46 met 1.9x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 64% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R)."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-03T15:31:30+00:00",
-   "ny": "2026-11-03 10:31",
-   "status": "alleen verkopen (kill switch aan)",
-   "log": [
-    "Niets gekocht: de bot mag nu alleen verkopen."
-   ]
-  },
   {
    "tijd": "2026-11-03T15:46:30+00:00",
    "ny": "2026-11-03 10:46",
@@ -1040,6 +1087,14 @@
    "log": [
     "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (10x); te weinig volume (1.0x normaal) (6x); te weinig volume (0.8x normaal) (3x)."
    ]
+  },
+  {
+   "tijd": "2026-11-06T15:16:30+00:00",
+   "ny": "2026-11-06 10:16",
+   "status": "ok",
+   "log": [
+    "10:15 JPM: gekocht (7 stuks, uitbraak boven 339.46 met 1.9x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 64% van de gevallen goed af (gemiddeld +0,15 R; alle uitbraken samen +0,07 R)."
+   ]
   }
  ],
  "dagcontext": {
@@ -1236,6 +1291,6 @@
  "geen_context": false,
  "twelve": {
   "dag": "2026-11-06",
-  "verzoeken": 0
+  "verzoeken": 1
  }
 }
