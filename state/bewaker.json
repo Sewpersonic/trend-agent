@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-06T12:00:30+00:00",
+ "tijd": "2026-11-06T13:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -7,25 +7,25 @@
    "t212": "SAPd_EQ",
    "stop": 199.4893,
    "actie": "boven de stop-loss",
-   "koers_t212": 209.73,
-   "koers_yahoo": 209.5,
-   "afstand_pct": 0.0513
+   "koers_t212": 209.47,
+   "koers_yahoo": 209.95,
+   "afstand_pct": 0.0524
   },
   {
    "ticker": "DB1.DE",
    "t212": "DB1d_EQ",
    "stop": 306.4036,
    "actie": "boven de stop-loss",
-   "koers_t212": 321.4,
-   "koers_yahoo": 320.9,
-   "afstand_pct": 0.0489
+   "koers_t212": 322.0,
+   "koers_yahoo": 321.3,
+   "afstand_pct": 0.0509
   },
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 283.32,
+   "koers_t212": 283.94,
    "koers_yahoo": 288.21,
    "afstand_pct": 0.039
   },
@@ -34,16 +34,16 @@
    "t212": "WKLa_EQ",
    "stop": 84.13,
    "actie": "boven de stop-loss",
-   "koers_t212": 88.66,
-   "koers_yahoo": 88.52,
-   "afstand_pct": 0.0538
+   "koers_t212": 88.92,
+   "koers_yahoo": 88.82,
+   "afstand_pct": 0.0569
   },
   {
    "ticker": "MA",
    "t212": "MA_US_EQ",
    "stop": 631.1515,
    "actie": "boven de stop-loss",
-   "koers_t212": 644.23,
+   "koers_t212": 644.0,
    "koers_yahoo": 655.44,
    "afstand_pct": 0.0385
   },
@@ -52,8 +52,10 @@
    "t212": "V_US_EQ",
    "stop": 412.0686,
    "actie": "boven de stop-loss",
-   "koers_t212": 414.08,
+   "koers_t212": 413.1,
    "koers_yahoo": 422.34,
+   "koers_twelve": 422.34,
+   "scheidsrechter": "Yahoo en Twelve Data eens",
    "afstand_pct": 0.0249
   },
   {
@@ -61,17 +63,19 @@
    "t212": "ORp_EQ",
    "stop": 428.3445,
    "actie": "boven de stop-loss",
-   "koers_t212": 444.43,
-   "koers_yahoo": 444.2,
-   "afstand_pct": 0.0376
+   "koers_t212": 445.62,
+   "koers_yahoo": 445.2,
+   "afstand_pct": 0.0403
   },
   {
    "ticker": "PG",
    "t212": "PG_US_EQ",
    "stop": 160.5247,
    "actie": "boven de stop-loss",
-   "koers_t212": 163.75,
+   "koers_t212": 163.72,
    "koers_yahoo": 167.08,
+   "koers_twelve": 167.08,
+   "scheidsrechter": "Yahoo en Twelve Data eens",
    "afstand_pct": 0.0408
   }
  ],
@@ -79,7 +83,7 @@
  "log": [
   "Alles boven de stop-loss. Dichtst bij: V (+2.5%)."
  ],
- "twelve_vandaag": 4,
+ "twelve_vandaag": 11,
  "geschiedenis": [
   {
    "tijd": "2026-11-02T20:30:30+00:00",
@@ -226,5 +230,5 @@
    ]
   }
  ],
- "rondes_vandaag": 18
+ "rondes_vandaag": 22
 }
