@@ -8,7 +8,8 @@
     "max_drawdown": 0.1,
     "auto_hervat_dagen": 5,
     "daily_loss_limit": 0.02,
-    "geen_us_etf": true
+    "geen_us_etf": true,
+    "entry_filter": "terugval"
   },
   "investeerder": {}
 }
