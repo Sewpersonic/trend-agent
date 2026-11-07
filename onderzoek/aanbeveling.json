@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "strategie": "trend",
+    "variant": "koop-na-terugval",
+    "wijziging": {
+      "entry_filter": "terugval"
+    },
+    "productieversie": "trend-1.1-f132c3",
+    "sharpe_holdout": 0.864,
+    "sharpe_holdout_productie": 0.644,
+    "max_daling": -0.1397,
+    "max_daling_productie": -0.2051
+  }
+]
