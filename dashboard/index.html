@@ -962,6 +962,17 @@
   const ud = (v) => (v > 0 ? 'up' : v < 0 ? 'down' : '');
   const el = (tag, attrs = {}, text) => { const e = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) if (v != null) e.setAttribute(k, v); if (text != null) e.textContent = text; return e; };
   const failed = (box) => box.replaceChildren(el('div', { class: 'tx-fail' }, 'Failed to load'));
+  // Hoeveel uur iets oud is, zonder zaterdag en zondag (dan is de beurs dicht en wordt er bewust niets ververst).
+  const werkurenOud = (iso) => {
+    let t = new Date(iso).getTime(); const eind = Date.now(); let uren = 0;
+    while (t < eind) {
+      const stap = Math.min(3600e3, eind - t);
+      const dag = new Date(new Date(t).toLocaleString('en-US', { timeZone: 'Europe/Amsterdam' })).getDay();
+      if (dag !== 0 && dag !== 6) uren += stap / 3600e3;
+      t += 3600e3;
+    }
+    return uren;
+  };
   const real = (rows) => (rows || []).filter((r) => !r.leeg);
   const emptyReason = (rows) => ((rows || []).find((r) => r.leeg) || {}).reden;
   // Kleur per aandeel voor het rondje: vaste volgorde, op naam, zodat een aandeel zijn kleur houdt.
@@ -1023,7 +1034,7 @@
     const r3 = el('div'); r3.append(el('p', { class: 'b-lbl' }, 'Wat valt op?'), groups.childNodes.length ? groups : el('p', { class: 'b-foot' }, 'Niets bijzonders vandaag.'));
     box.replaceChildren(r1, stats, r3, el('p', { class: 'b-foot' }, 'Dit beschrijft wat er gebeurd is. Het voorspelt niet wat de koersen morgen doen.'));
   };
-  window.tx = { beeld, MAAND, eur, num2, compact, sEur, pct, dayNl, dayLong, ud, el, failed, real, emptyReason, coin, draws: [] };
+  window.tx = { beeld, MAAND, eur, num2, compact, sEur, pct, dayNl, dayLong, ud, el, failed, real, emptyReason, coin, werkurenOud, draws: [] };
   const root = document.getElementById('tx');
   root.style.setProperty('--tx-accent', dash.colors[3]);
   document.getElementById('key-s50').style.borderColor = dash.colors[0];
@@ -3447,19 +3458,19 @@ dash.calc('onderzoek_verschil', {
     const tijden = ['cijfers', 'oefenaccount'].map((k) => by[k] && by[k].tijd).filter(Boolean).sort();
     const laatst = tijden[tijden.length - 1];
     if (!laatst) return;
-    const oud = (Date.now() - new Date(laatst).getTime()) > 30 * 3600e3;
+    const oud = window.tx.werkurenOud(laatst) > 30;   // weekend telt niet mee
     btn.className = 'tx-chipday vv-btn' + (oud ? ' oud' : '');
     btn.textContent = 'Ververst ' + wanneer(laatst);
     btn.title = 'Tik voor details';
     const lijst = ['cijfers', 'oefenaccount', 'daytrader', 'bots', 'volglijst', 'handelsdag'].filter((k) => by[k] && by[k].tijd).map((k) => {
       const r = el('div', { class: 'vv-row', 'data-source': 'ververst', 'data-field': 'tijd', 'data-where': 'id=' + k }); r.append(el('span', {}, by[k].wat), el('b', {}, wanneer(by[k].tijd))); return r; });
-    pop.replaceChildren(...lijst, el('p', {}, 'Het oefenaccount, de volglijst en de daytrader worden op werkdagen elk uur ververst (rond :25), de rest elke ochtend rond 07:41 na de nachtelijke ronde.' + (oud ? ' Let op: al meer dan een dag niet ververst.' : '')));
+    pop.replaceChildren(...lijst, el('p', {}, 'Het oefenaccount, de volglijst en de daytrader worden op werkdagen elk uur ververst (rond :25), de rest elke ochtend rond 07:41 na de nachtelijke ronde.' + (oud ? ' Let op: al meer dan een werkdag niet ververst.' : ' In het weekend is de beurs dicht; dan wordt er niets ververst.')));
     // Waarschuwing bovenaan als een geplande taak niet liep: op werkdagen hoort het oefenaccount elk uur ververst te zijn.
     const let_ = document.getElementById('vv-let');
     const nl = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Amsterdam' }));
     const werkuur = nl.getDay() >= 1 && nl.getDay() <= 5 && nl.getHours() >= 11 && nl.getHours() <= 23;
     const oefen = by.oefenaccount && by.oefenaccount.tijd ? (Date.now() - new Date(by.oefenaccount.tijd).getTime()) / 3600e3 : null;
-    const telaat = oud ? 'De cijfers op dit dashboard zijn al meer dan een dag niet bijgewerkt (laatst ' + wanneer(laatst) + ').'
+    const telaat = oud ? 'De cijfers op dit dashboard zijn al meer dan een werkdag niet bijgewerkt (laatst ' + wanneer(laatst) + ').'
       : werkuur && oefen != null && oefen > 3 ? 'Het oefenaccount en de daytrader zijn al ' + Math.floor(oefen) + ' uur niet bijgewerkt op dit dashboard.' : '';
     let_.hidden = !telaat;
     if (telaat) let_.replaceChildren(el('b', {}, 'Let op. '), document.createTextNode(telaat + ' Waarschijnlijk liep een geplande taak niet. De bots zelf draaien gewoon door op GitHub; kijk op het tabblad GitHub of vraag Claude het na te lopen.'));
@@ -4155,7 +4166,7 @@ dash.calc('onderzoek_verschil', {
     if (vv.status === 'ok') {
       const by = Object.fromEntries(window.tx.real(vv.data).map((r) => [r.id, r]));
       const t = ['cijfers', 'oefenaccount'].map((k) => by[k] && by[k].tijd).filter(Boolean).sort().pop();
-      if (t && Date.now() - new Date(t).getTime() > 30 * 3600e3) {
+      if (t && window.tx.werkurenOud(t) > 30) {   // weekend telt niet mee
         knel.unshift({ id: 'k-dash', node: 'dash', ernst: 'letop', titel: 'Dit dashboard is niet bijgewerkt', wat: 'De nieuwste cijfers op deze pagina zijn van ' + uur.format(new Date(t)) + '. De bots draaien wel door op GitHub.', oplos: 'Waarschijnlijk liep een geplande taak van Claude niet. Vraag Claude het na te lopen.' });
         live.dash = { ...(live.dash || {}), stand: 'letop', sub: 'oud: ' + uur.format(new Date(t)) };
       } else if (t) live.dash = { ...(live.dash || {}), sub: 'ververst ' + uur.format(new Date(t)) };
