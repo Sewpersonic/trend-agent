@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-09T14:00:30+00:00",
+ "tijd": "2026-11-09T15:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -7,79 +7,79 @@
    "t212": "SAPd_EQ",
    "stop": 199.4893,
    "actie": "boven de stop-loss",
-   "koers_t212": 214.23,
-   "koers_yahoo": 214.15,
-   "afstand_pct": 0.0739
+   "koers_t212": 212.84,
+   "koers_yahoo": 213.0,
+   "afstand_pct": 0.0677
   },
   {
    "ticker": "DB1.DE",
    "t212": "DB1d_EQ",
    "stop": 306.4036,
    "actie": "boven de stop-loss",
-   "koers_t212": 314.7,
-   "koers_yahoo": 315.6,
-   "afstand_pct": 0.03
+   "koers_t212": 315.9,
+   "koers_yahoo": 314.7,
+   "afstand_pct": 0.031
   },
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 293.8,
-   "koers_yahoo": 291.31,
-   "afstand_pct": 0.0592
+   "koers_t212": 291.21,
+   "koers_yahoo": 291.21,
+   "afstand_pct": 0.0499
   },
   {
    "ticker": "WKL.AS",
    "t212": "WKLa_EQ",
    "stop": 84.13,
    "actie": "boven de stop-loss",
-   "koers_t212": 89.73,
-   "koers_yahoo": 89.68,
-   "afstand_pct": 0.0666
+   "koers_t212": 89.37,
+   "koers_yahoo": 89.34,
+   "afstand_pct": 0.0623
   },
   {
    "ticker": "MA",
    "t212": "MA_US_EQ",
    "stop": 631.1515,
    "actie": "boven de stop-loss",
-   "koers_t212": 658.3,
-   "koers_yahoo": 652.64,
-   "afstand_pct": 0.043
+   "koers_t212": 653.09,
+   "koers_yahoo": 652.895,
+   "afstand_pct": 0.0348
   },
   {
    "ticker": "V",
    "t212": "V_US_EQ",
    "stop": 412.0686,
    "actie": "boven de stop-loss",
-   "koers_t212": 425.85,
-   "koers_yahoo": 422.73,
-   "afstand_pct": 0.0334
+   "koers_t212": 420.33,
+   "koers_yahoo": 420.335,
+   "afstand_pct": 0.0201
   },
   {
    "ticker": "OR.PA",
    "t212": "ORp_EQ",
    "stop": 428.3445,
    "actie": "boven de stop-loss",
-   "koers_t212": 447.61,
-   "koers_yahoo": 447.5,
-   "afstand_pct": 0.045
+   "koers_t212": 446.27,
+   "koers_yahoo": 445.6,
+   "afstand_pct": 0.0418
   },
   {
    "ticker": "PG",
    "t212": "PG_US_EQ",
    "stop": 160.5247,
    "actie": "boven de stop-loss",
-   "koers_t212": 165.4,
-   "koers_yahoo": 165.39,
-   "afstand_pct": 0.0304
+   "koers_t212": 165.78,
+   "koers_yahoo": 165.785,
+   "afstand_pct": 0.0328
   }
  ],
  "verkocht": [],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: DB1.DE (+3.0%)."
+  "Alles boven de stop-loss. Dichtst bij: V (+2.0%)."
  ],
- "twelve_vandaag": 1,
+ "twelve_vandaag": 2,
  "geschiedenis": [
   {
    "tijd": "2026-11-02T20:30:30+00:00",
@@ -226,5 +226,5 @@
    ]
   }
  ],
- "rondes_vandaag": 26
+ "rondes_vandaag": 30
 }
