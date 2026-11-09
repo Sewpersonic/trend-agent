@@ -580,7 +580,7 @@
   "begin": 9838.03,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-09T12:00:00",
+  "prev": "2026-11-09T12:15:00",
   "traded": [
    "AVGO"
   ],
@@ -669,26 +669,18 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 46% van de gevallen goed af (gemiddeld −0,08 R; alle uitbraken samen −0,02 R)."
    },
    "t_in": "10:15",
-   "koers": 318.19000244140625
+   "koers": 320.7200012207031
   }
  ],
  "laatste_ronde": {
-  "tijd": "2026-11-09T17:01:30+00:00",
-  "ny": "2026-11-09 12:01",
+  "tijd": "2026-11-09T17:16:30+00:00",
+  "ny": "2026-11-09 12:16",
   "status": "ok",
   "log": [
    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-04T17:31:30+00:00",
-   "ny": "2026-11-04 12:31",
-   "status": "ok",
-   "log": [
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-11-04T17:46:30+00:00",
    "ny": "2026-11-04 12:46",
@@ -1154,6 +1146,14 @@
   {
    "tijd": "2026-11-09T17:01:30+00:00",
    "ny": "2026-11-09 12:01",
+   "status": "ok",
+   "log": [
+    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-11-09T17:16:30+00:00",
+   "ny": "2026-11-09 12:16",
    "status": "ok",
    "log": [
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
