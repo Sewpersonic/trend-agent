@@ -580,7 +580,7 @@
   "begin": 9838.03,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-09T10:15:00",
+  "prev": "2026-11-09T10:30:00",
   "traded": [
    "AVGO"
   ],
@@ -669,26 +669,18 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 46% van de gevallen goed af (gemiddeld −0,08 R; alle uitbraken samen −0,02 R)."
    },
    "t_in": "10:15",
-   "koers": 315.4800109863281
+   "koers": 317.3299865722656
   }
  ],
  "laatste_ronde": {
-  "tijd": "2026-11-09T15:16:30+00:00",
-  "ny": "2026-11-09 10:16",
+  "tijd": "2026-11-09T15:31:30+00:00",
+  "ny": "2026-11-09 10:31",
   "status": "ok",
   "log": [
-   "10:15 AVGO: gekocht (7 stuks, uitbraak boven 315.40 met 1.7x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 46% van de gevallen goed af (gemiddeld −0,08 R; alle uitbraken samen −0,02 R)."
+   "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: openingsrange te wild (6x); te weinig volume (0.8x normaal) (5x); te weinig volume (0.7x normaal) (4x)."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-04T15:46:30+00:00",
-   "ny": "2026-11-04 10:46",
-   "status": "ok",
-   "log": [
-    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (10x); openingsrange te wild (6x); te weinig volume (0.9x normaal) (2x)."
-   ]
-  },
   {
    "tijd": "2026-11-04T16:01:30+00:00",
    "ny": "2026-11-04 11:01",
@@ -1157,6 +1149,14 @@
    "status": "ok",
    "log": [
     "10:15 AVGO: gekocht (7 stuks, uitbraak boven 315.40 met 1.7x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 46% van de gevallen goed af (gemiddeld −0,08 R; alle uitbraken samen −0,02 R)."
+   ]
+  },
+  {
+   "tijd": "2026-11-09T15:31:30+00:00",
+   "ny": "2026-11-09 10:31",
+   "status": "ok",
+   "log": [
+    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: openingsrange te wild (6x); te weinig volume (0.8x normaal) (5x); te weinig volume (0.7x normaal) (4x)."
    ]
   }
  ],
