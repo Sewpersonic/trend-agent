@@ -1,6 +1,6 @@
 {
  "start": 10000.0,
- "equity": 9838.03,
+ "equity": 9886.62,
  "dagen": [
   {
    "dag": "2026-10-16",
@@ -128,6 +128,14 @@
    "eind": 9838.03,
    "resultaat": -42.37,
    "trades": 2,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-11-09",
+   "begin": 9838.03,
+   "eind": 9886.62,
+   "resultaat": 48.59,
+   "trades": 1,
    "daglimiet": false
   }
  ],
@@ -573,28 +581,58 @@
     "indicatie": "gemiddeld",
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 66% van de gevallen goed af (gemiddeld +0,16 R; alle uitbraken samen +0,07 R)."
    }
+  },
+  {
+   "dag": "2026-11-09",
+   "ticker": "AVGO",
+   "qty": 7,
+   "instap": 315.6378,
+   "uitstap": 322.5786,
+   "t_in": "10:15",
+   "t_uit": "15:45",
+   "reden": "einde van de dag",
+   "resultaat": 48.59,
+   "r": 1.099,
+   "ctx": {
+    "tijd": "10:15",
+    "rvol": 1.75,
+    "or_breedte": 0.0352,
+    "boven_range": 0.0027,
+    "markt_vandaag": 0.0091,
+    "dag_tot_nu": 0.0365,
+    "gap": 0.039,
+    "dagtrend": "dalend",
+    "plek": "onderaan het bereik",
+    "terugval": false,
+    "boven_sma50": false,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 46% van de gevallen goed af (gemiddeld −0,08 R; alle uitbraken samen −0,02 R)."
+   }
   }
  ],
  "vandaag": {
   "dag": "2026-11-09",
   "begin": 9838.03,
-  "realized": 0.0,
-  "klaar": false,
-  "prev": "2026-11-09T15:30:00",
+  "realized": 48.58608473205567,
+  "klaar": true,
+  "prev": "2026-11-09T15:45:00",
   "traded": [
    "AVGO"
   ],
   "notities": [],
-  "trades": [],
-  "open": {
-   "AVGO": {
+  "trades": [
+   {
+    "dag": "2026-11-09",
     "ticker": "AVGO",
     "qty": 7,
-    "entry": 315.6377509918213,
-    "stop": 309.32499597198483,
-    "target": 328.2632610314942,
-    "t_in": "2026-11-09T10:15:00",
-    "risk": 44.18928513885521,
+    "instap": 315.6378,
+    "uitstap": 322.5786,
+    "t_in": "10:15",
+    "t_uit": "15:45",
+    "reden": "einde van de dag",
+    "resultaat": 48.59,
+    "r": 1.099,
     "ctx": {
      "tijd": "10:15",
      "rvol": 1.75,
@@ -612,7 +650,8 @@
      "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 46% van de gevallen goed af (gemiddeld −0,08 R; alle uitbraken samen −0,02 R)."
     }
    }
-  }
+  ],
+  "open": {}
  },
  "gem_vol": {
   "AAPL": 9225555.4,
@@ -644,49 +683,17 @@
   "GLD": 1721256.2
  },
  "uitgesloten": {},
- "open_nu": [
-  {
-   "ticker": "AVGO",
-   "qty": 7,
-   "entry": 315.6377509918213,
-   "stop": 309.32499597198483,
-   "target": 328.2632610314942,
-   "risk": 44.18928513885521,
-   "ctx": {
-    "tijd": "10:15",
-    "rvol": 1.75,
-    "or_breedte": 0.0352,
-    "boven_range": 0.0027,
-    "markt_vandaag": 0.0091,
-    "dag_tot_nu": 0.0365,
-    "gap": 0.039,
-    "dagtrend": "dalend",
-    "plek": "onderaan het bereik",
-    "terugval": false,
-    "boven_sma50": false,
-    "markt_dagtrend": "zijwaarts",
-    "indicatie": "gemiddeld",
-    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 46% van de gevallen goed af (gemiddeld −0,08 R; alle uitbraken samen −0,02 R)."
-   },
-   "t_in": "10:15",
-   "koers": 322.9599914550781
-  }
- ],
+ "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-09T20:31:30+00:00",
-  "ny": "2026-11-09 15:31",
+  "tijd": "2026-11-09T20:46:30+00:00",
+  "ny": "2026-11-09 15:46",
   "status": "ok",
   "log": [
-   "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   "15:45 AVGO: verkocht aan het einde van de dag",
+   "Dag klaar: 1 trades, resultaat +48.59 dollar."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-04T21:26:56+00:00",
-   "ny": "2026-11-04 16:26",
-   "status": "klaar voor vandaag",
-   "log": []
-  },
   {
    "tijd": "2026-11-05T15:01:30+00:00",
    "ny": "2026-11-05 10:01",
@@ -1155,6 +1162,15 @@
    "status": "ok",
    "log": [
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-11-09T20:46:30+00:00",
+   "ny": "2026-11-09 15:46",
+   "status": "ok",
+   "log": [
+    "15:45 AVGO: verkocht aan het einde van de dag",
+    "Dag klaar: 1 trades, resultaat +48.59 dollar."
    ]
   }
  ],
