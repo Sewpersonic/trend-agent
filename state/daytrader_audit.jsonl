@@ -235,3 +235,4 @@
 {"tijd": "2026-11-10T15:16:30+00:00", "ny": "2026-11-10 10:16", "status": "ok", "log": ["Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: openingsrange te wild (6x); te weinig volume (0.5x normaal) (5x); te weinig volume (0.9x normaal) (4x)."]}
 {"tijd": "2026-11-10T15:31:30+00:00", "ny": "2026-11-10 10:31", "status": "ok", "log": ["Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: openingsrange te wild (6x); te weinig volume (0.5x normaal) (5x); te weinig volume (0.9x normaal) (4x)."]}
 {"tijd": "2026-11-10T15:46:30+00:00", "ny": "2026-11-10 10:46", "status": "ok", "log": ["Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."]}
+{"tijd": "2026-11-10T16:01:30+00:00", "ny": "2026-11-10 11:01", "status": "ok", "log": ["Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."]}
