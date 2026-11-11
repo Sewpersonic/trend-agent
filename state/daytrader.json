@@ -1,6 +1,6 @@
 {
  "start": 10000.0,
- "equity": 9886.62,
+ "equity": 9906.17,
  "dagen": [
   {
    "dag": "2026-10-16",
@@ -144,6 +144,14 @@
    "eind": 9886.62,
    "resultaat": 0.0,
    "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-11-11",
+   "begin": 9886.62,
+   "eind": 9906.17,
+   "resultaat": 19.55,
+   "trades": 2,
    "daglimiet": false
   }
  ],
@@ -617,29 +625,87 @@
     "indicatie": "gemiddeld",
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 46% van de gevallen goed af (gemiddeld −0,08 R; alle uitbraken samen −0,02 R)."
    }
+  },
+  {
+   "dag": "2026-11-11",
+   "ticker": "SMH",
+   "qty": 4,
+   "instap": 506.0379,
+   "uitstap": 508.3857,
+   "t_in": "10:45",
+   "t_uit": "15:45",
+   "reden": "einde van de dag",
+   "resultaat": 9.39,
+   "r": 0.234,
+   "ctx": {
+    "tijd": "10:45",
+    "rvol": 1.65,
+    "or_breedte": 0.0188,
+    "boven_range": 0.0002,
+    "markt_vandaag": 0.0009,
+    "dag_tot_nu": 0.0012,
+    "gap": 0.0442,
+    "dagtrend": "zijwaarts",
+    "plek": "onderaan het bereik",
+    "terugval": false,
+    "boven_sma50": false,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,06 R; alle uitbraken samen −0,02 R)."
+   }
+  },
+  {
+   "dag": "2026-11-11",
+   "ticker": "CRM",
+   "qty": 11,
+   "instap": 216.2981,
+   "uitstap": 217.2213,
+   "t_in": "10:45",
+   "t_uit": "15:45",
+   "reden": "einde van de dag",
+   "resultaat": 10.16,
+   "r": 0.33,
+   "ctx": {
+    "tijd": "10:45",
+    "rvol": 1.24,
+    "or_breedte": 0.0109,
+    "boven_range": 0.003,
+    "markt_vandaag": 0.0009,
+    "dag_tot_nu": 0.0074,
+    "gap": 0.0067,
+    "dagtrend": "zijwaarts",
+    "plek": "midden in het bereik",
+    "terugval": false,
+    "boven_sma50": false,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 52% van de gevallen goed af (gemiddeld −0,07 R; alle uitbraken samen −0,02 R)."
+   }
   }
  ],
  "vandaag": {
   "dag": "2026-11-11",
   "begin": 9886.62,
-  "realized": 0.0,
-  "klaar": false,
-  "prev": "2026-11-11T15:30:00",
+  "realized": 19.5468271713261,
+  "klaar": true,
+  "prev": "2026-11-11T15:45:00",
   "traded": [
    "CRM",
    "SMH"
   ],
   "notities": [],
-  "trades": [],
-  "open": {
-   "SMH": {
+  "trades": [
+   {
+    "dag": "2026-11-11",
     "ticker": "SMH",
     "qty": 4,
-    "entry": 506.0378961639404,
-    "stop": 496.010009765625,
-    "target": 526.0936689605712,
-    "t_in": "2026-11-11T10:45:00",
-    "risk": 40.11154559326155,
+    "instap": 506.0379,
+    "uitstap": 508.3857,
+    "t_in": "10:45",
+    "t_uit": "15:45",
+    "reden": "einde van de dag",
+    "resultaat": 9.39,
+    "r": 0.234,
     "ctx": {
      "tijd": "10:45",
      "rvol": 1.65,
@@ -657,14 +723,17 @@
      "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,06 R; alle uitbraken samen −0,02 R)."
     }
    },
-   "CRM": {
+   {
+    "dag": "2026-11-11",
     "ticker": "CRM",
     "qty": 11,
-    "entry": 216.29809744262695,
-    "stop": 213.5,
-    "target": 221.89429232788086,
-    "t_in": "2026-11-11T10:45:00",
-    "risk": 30.779071868896494,
+    "instap": 216.2981,
+    "uitstap": 217.2213,
+    "t_in": "10:45",
+    "t_uit": "15:45",
+    "reden": "einde van de dag",
+    "resultaat": 10.16,
+    "r": 0.33,
     "ctx": {
      "tijd": "10:45",
      "rvol": 1.24,
@@ -682,7 +751,8 @@
      "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 52% van de gevallen goed af (gemiddeld −0,07 R; alle uitbraken samen −0,02 R)."
     }
    }
-  }
+  ],
+  "open": {}
  },
  "gem_vol": {
   "AAPL": 8972597.7,
@@ -714,77 +784,18 @@
   "GLD": 1905675.6
  },
  "uitgesloten": {},
- "open_nu": [
-  {
-   "ticker": "SMH",
-   "qty": 4,
-   "entry": 506.0378961639404,
-   "stop": 496.010009765625,
-   "target": 526.0936689605712,
-   "risk": 40.11154559326155,
-   "ctx": {
-    "tijd": "10:45",
-    "rvol": 1.65,
-    "or_breedte": 0.0188,
-    "boven_range": 0.0002,
-    "markt_vandaag": 0.0009,
-    "dag_tot_nu": 0.0012,
-    "gap": 0.0442,
-    "dagtrend": "zijwaarts",
-    "plek": "onderaan het bereik",
-    "terugval": false,
-    "boven_sma50": false,
-    "markt_dagtrend": "zijwaarts",
-    "indicatie": "gemiddeld",
-    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,06 R; alle uitbraken samen −0,02 R)."
-   },
-   "t_in": "10:45",
-   "koers": 508.09149169921875
-  },
-  {
-   "ticker": "CRM",
-   "qty": 11,
-   "entry": 216.29809744262695,
-   "stop": 213.5,
-   "target": 221.89429232788086,
-   "risk": 30.779071868896494,
-   "ctx": {
-    "tijd": "10:45",
-    "rvol": 1.24,
-    "or_breedte": 0.0109,
-    "boven_range": 0.003,
-    "markt_vandaag": 0.0009,
-    "dag_tot_nu": 0.0074,
-    "gap": 0.0067,
-    "dagtrend": "zijwaarts",
-    "plek": "midden in het bereik",
-    "terugval": false,
-    "boven_sma50": false,
-    "markt_dagtrend": "zijwaarts",
-    "indicatie": "gemiddeld",
-    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 52% van de gevallen goed af (gemiddeld −0,07 R; alle uitbraken samen −0,02 R)."
-   },
-   "t_in": "10:45",
-   "koers": 217.5749969482422
-  }
- ],
+ "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-11T20:31:30+00:00",
-  "ny": "2026-11-11 15:31",
+  "tijd": "2026-11-11T20:46:30+00:00",
+  "ny": "2026-11-11 15:46",
   "status": "ok",
   "log": [
-   "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   "15:45 SMH: verkocht aan het einde van de dag",
+   "15:45 CRM: verkocht aan het einde van de dag",
+   "Dag klaar: 2 trades, resultaat +19.55 dollar."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-09T18:16:30+00:00",
-   "ny": "2026-11-09 13:16",
-   "status": "ok",
-   "log": [
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-11-09T18:31:30+00:00",
    "ny": "2026-11-09 13:31",
@@ -1253,6 +1264,16 @@
    "status": "ok",
    "log": [
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-11-11T20:46:30+00:00",
+   "ny": "2026-11-11 15:46",
+   "status": "ok",
+   "log": [
+    "15:45 SMH: verkocht aan het einde van de dag",
+    "15:45 CRM: verkocht aan het einde van de dag",
+    "Dag klaar: 2 trades, resultaat +19.55 dollar."
    ]
   }
  ],
