@@ -620,62 +620,56 @@
   }
  ],
  "vandaag": {
-  "dag": "2026-11-10",
+  "dag": "2026-11-11",
   "begin": 9886.62,
   "realized": 0.0,
-  "klaar": true,
-  "prev": "2026-11-10T15:45:00",
+  "klaar": false,
+  "prev": "2026-11-11T10:00:00",
   "traded": [],
   "notities": [],
   "trades": [],
   "open": {}
  },
  "gem_vol": {
-  "AAPL": 9279855.2,
-  "MSFT": 5180579.4,
-  "NVDA": 36258426.9,
-  "AMZN": 12863295.6,
-  "GOOGL": 11509216.1,
-  "META": 4756547.3,
-  "AVGO": 4361672.6,
-  "TSLA": 9000363.9,
-  "AMD": 8573877.2,
-  "MU": 7146335.5,
-  "ORCL": 9130573.5,
-  "CRM": 810691.4,
-  "NFLX": 6872779.9,
-  "PLTR": 6461001.1,
-  "CRWD": 1693315.3,
-  "PANW": 1008892.3,
-  "ANET": 1745907.4,
-  "JPM": 883032.6,
-  "V": 916448.8,
-  "LLY": 552477.8,
-  "COST": 265029.1,
-  "XOM": 1752275.4,
-  "SPY": 7238378.4,
-  "QQQ": 9451959.1,
-  "SMH": 2197617.5,
-  "XLE": 8425003.2,
-  "GLD": 1719739.7
+  "AAPL": 8972597.7,
+  "MSFT": 5179685.4,
+  "NVDA": 43432492.4,
+  "AMZN": 13181630.6,
+  "GOOGL": 11566429.7,
+  "META": 3857004.9,
+  "AVGO": 4411312.9,
+  "TSLA": 8448920.0,
+  "AMD": 9234522.0,
+  "MU": 7333641.9,
+  "ORCL": 9119390.7,
+  "CRM": 798188.3,
+  "NFLX": 6641316.8,
+  "PLTR": 6457028.1,
+  "CRWD": 1668297.2,
+  "PANW": 1024935.6,
+  "ANET": 1794328.2,
+  "JPM": 859677.8,
+  "V": 921301.1,
+  "LLY": 553100.2,
+  "COST": 262821.9,
+  "XOM": 1775533.7,
+  "SPY": 7491107.8,
+  "QQQ": 9653842.8,
+  "SMH": 2318849.3,
+  "XLE": 8696097.6,
+  "GLD": 1905675.6
  },
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-10T21:27:08+00:00",
-  "ny": "2026-11-10 16:27",
-  "status": "klaar voor vandaag",
-  "log": []
+  "tijd": "2026-11-11T15:01:30+00:00",
+  "ny": "2026-11-11 10:01",
+  "status": "ok",
+  "log": [
+   "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."
+  ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-06T18:46:30+00:00",
-   "ny": "2026-11-06 13:46",
-   "status": "ok",
-   "log": [
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-11-06T19:01:30+00:00",
    "ny": "2026-11-06 14:01",
@@ -1144,202 +1138,210 @@
    "ny": "2026-11-10 16:27",
    "status": "klaar voor vandaag",
    "log": []
+  },
+  {
+   "tijd": "2026-11-11T15:01:30+00:00",
+   "ny": "2026-11-11 10:01",
+   "status": "ok",
+   "log": [
+    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."
+   ]
   }
  ],
  "dagcontext": {
   "AAPL": {
    "dagtrend": "stijgend",
-   "plek": "bij de 3-maands top",
+   "plek": "midden in het bereik",
    "terugval": false,
    "boven_sma50": true,
-   "vorig_slot": 350.69000244140625
+   "vorig_slot": 348.510009765625
   },
   "MSFT": {
    "dagtrend": "stijgend",
    "plek": "midden in het bereik",
    "terugval": false,
    "boven_sma50": true,
-   "vorig_slot": 545.1799926757812
+   "vorig_slot": 533.1599731445312
   },
   "NVDA": {
    "dagtrend": "zijwaarts",
    "plek": "onderaan het bereik",
    "terugval": false,
    "boven_sma50": false,
-   "vorig_slot": 178.6699981689453
+   "vorig_slot": 168.88999938964844
   },
   "AMZN": {
    "dagtrend": "stijgend",
-   "plek": "midden in het bereik",
+   "plek": "bij de 3-maands top",
    "terugval": false,
    "boven_sma50": true,
-   "vorig_slot": 266.92999267578125
+   "vorig_slot": 270.8699951171875
   },
   "GOOGL": {
    "dagtrend": "dalend",
    "plek": "onderaan het bereik",
    "terugval": false,
    "boven_sma50": false,
-   "vorig_slot": 288.1499938964844
+   "vorig_slot": 287.3800048828125
   },
   "META": {
    "dagtrend": "zijwaarts",
    "plek": "midden in het bereik",
    "terugval": false,
    "boven_sma50": false,
-   "vorig_slot": 641.3699951171875
+   "vorig_slot": 641.3900146484375
   },
   "AVGO": {
    "dagtrend": "dalend",
    "plek": "midden in het bereik",
    "terugval": false,
    "boven_sma50": false,
-   "vorig_slot": 319.4800109863281
+   "vorig_slot": 331.9800109863281
   },
   "TSLA": {
    "dagtrend": "zijwaarts",
    "plek": "midden in het bereik",
    "terugval": false,
    "boven_sma50": true,
-   "vorig_slot": 378.04998779296875
+   "vorig_slot": 379.7799987792969
   },
   "AMD": {
    "dagtrend": "zijwaarts",
    "plek": "midden in het bereik",
    "terugval": false,
    "boven_sma50": false,
-   "vorig_slot": 508.5799865722656
+   "vorig_slot": 515.2100219726562
   },
   "MU": {
    "dagtrend": "zijwaarts",
    "plek": "onderaan het bereik",
    "terugval": false,
    "boven_sma50": false,
-   "vorig_slot": 733.1500244140625
+   "vorig_slot": 725.1099853515625
   },
   "ORCL": {
    "dagtrend": "dalend",
    "plek": "onderaan het bereik",
    "terugval": false,
    "boven_sma50": false,
-   "vorig_slot": 119.79000091552734
+   "vorig_slot": 117.9800033569336
   },
   "CRM": {
    "dagtrend": "zijwaarts",
    "plek": "midden in het bereik",
    "terugval": false,
    "boven_sma50": false,
-   "vorig_slot": 214.94000244140625
+   "vorig_slot": 213.47999572753906
   },
   "NFLX": {
    "dagtrend": "dalend",
    "plek": "onderaan het bereik",
    "terugval": false,
    "boven_sma50": false,
-   "vorig_slot": 63.95000076293945
+   "vorig_slot": 63.2599983215332
   },
   "PLTR": {
    "dagtrend": "zijwaarts",
    "plek": "midden in het bereik",
    "terugval": false,
    "boven_sma50": false,
-   "vorig_slot": 169.1999969482422
+   "vorig_slot": 168.82000732421875
   },
   "CRWD": {
    "dagtrend": "zijwaarts",
    "plek": "midden in het bereik",
    "terugval": false,
    "boven_sma50": false,
-   "vorig_slot": 228.5800018310547
+   "vorig_slot": 225.75999450683594
   },
   "PANW": {
    "dagtrend": "zijwaarts",
    "plek": "onderaan het bereik",
    "terugval": false,
    "boven_sma50": false,
-   "vorig_slot": 330.8900146484375
+   "vorig_slot": 326.3599853515625
   },
   "ANET": {
    "dagtrend": "zijwaarts",
    "plek": "midden in het bereik",
    "terugval": false,
    "boven_sma50": false,
-   "vorig_slot": 186.1699981689453
+   "vorig_slot": 185.02000427246094
   },
   "JPM": {
    "dagtrend": "stijgend",
    "plek": "midden in het bereik",
    "terugval": false,
    "boven_sma50": true,
-   "vorig_slot": 342.0799865722656
+   "vorig_slot": 342.07000732421875
   },
   "V": {
    "dagtrend": "stijgend",
    "plek": "midden in het bereik",
    "terugval": false,
    "boven_sma50": true,
-   "vorig_slot": 422.1600036621094
+   "vorig_slot": 423.0
   },
   "LLY": {
    "dagtrend": "stijgend",
-   "plek": "midden in het bereik",
+   "plek": "bij de 3-maands top",
    "terugval": false,
    "boven_sma50": true,
-   "vorig_slot": 1411.949951171875
+   "vorig_slot": 1432.2900390625
   },
   "COST": {
    "dagtrend": "zijwaarts",
    "plek": "bij de 3-maands top",
    "terugval": false,
    "boven_sma50": true,
-   "vorig_slot": 1066.1800537109375
+   "vorig_slot": 1066.1400146484375
   },
   "XOM": {
    "dagtrend": "zijwaarts",
    "plek": "midden in het bereik",
    "terugval": false,
    "boven_sma50": false,
-   "vorig_slot": 164.72999572753906
+   "vorig_slot": 164.47000122070312
   },
   "SPY": {
    "dagtrend": "zijwaarts",
    "plek": "midden in het bereik",
    "terugval": false,
    "boven_sma50": false,
-   "vorig_slot": 752.6900024414062
+   "vorig_slot": 749.9199829101562
   },
   "QQQ": {
    "dagtrend": "zijwaarts",
    "plek": "midden in het bereik",
    "terugval": false,
    "boven_sma50": false,
-   "vorig_slot": 679.3499755859375
+   "vorig_slot": 674.760009765625
   },
   "SMH": {
    "dagtrend": "zijwaarts",
-   "plek": "midden in het bereik",
+   "plek": "onderaan het bereik",
    "terugval": false,
    "boven_sma50": false,
-   "vorig_slot": 487.4100036621094
+   "vorig_slot": 483.6300048828125
   },
   "XLE": {
    "dagtrend": "zijwaarts",
    "plek": "midden in het bereik",
    "terugval": false,
    "boven_sma50": false,
-   "vorig_slot": 61.939998626708984
+   "vorig_slot": 62.209999084472656
   },
   "GLD": {
    "dagtrend": "dalend",
-   "plek": "midden in het bereik",
+   "plek": "onderaan het bereik",
    "terugval": false,
    "boven_sma50": false,
-   "vorig_slot": 379.5299987792969
+   "vorig_slot": 369.3599853515625
   }
  },
  "geen_context": false,
  "twelve": {
-  "dag": "2026-11-10",
+  "dag": "2026-11-11",
   "verzoeken": 0
  }
 }
