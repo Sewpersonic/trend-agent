@@ -1,4 +1,4 @@
-# Dagoverzicht 2026-11-09
+# Dagoverzicht 2026-11-10
 
 _Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies._
 
@@ -6,8 +6,8 @@ _Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies._
 
 | Bot | Waarde | Vandaag | Sinds start | Tegenover wereld-ETF |
 | --- | --- | --- | --- | --- |
-| Investeerder | €9.241,32 | €108,15 (+1,18%) | -7,59% | -4,57% (ETF -2,88% sinds 2026-10-13) |
-| Trend-agent | €9.901,14 | €9,64 (+0,10%) | -0,99% | +1,75% (ETF -2,88% sinds 2026-10-13) |
+| Investeerder | €9.268,31 | €26,99 (+0,29%) | -7,32% | -4,48% (ETF -2,70% sinds 2026-10-13) |
+| Trend-agent | €9.917,09 | €15,95 (+0,16%) | -0,83% | +1,73% (ETF -2,70% sinds 2026-10-13) |
 
 ## Vandaag gedaan
 
@@ -26,21 +26,23 @@ _Twee oefenbots met elk €10.000 nepgeld. Geen beleggingsadvies._
 
 - De markt stijgt breed: goede omstandigheden voor trendvolgen.
 - De markt beweegt meer dan normaal: stops worden sneller geraakt. Het risico per trade blijft gelijk, dus de posities worden vanzelf kleiner.
-- 3 van de 5 sterkste staan al ver boven hun gemiddelde (HEIA.AS, BRK-B, BAYN.DE): de trend is sterk, maar instappen op zo'n moment kost vaker een terugval.
+- De sterkste trends zijn vooral Europese instrumenten.
+- 4 van de 5 sterkste staan al ver boven hun gemiddelde (BRK-B, HEIA.AS, BAYN.DE, AI.PA): de trend is sterk, maar instappen op zo'n moment kost vaker een terugval.
+- Sterk zonder ver weggelopen te zijn: DB1.DE.
 - Alle plekken zijn bezet, dus de bot koopt niets bij, hoe sterk een trend ook is.
 
 ## Verlies en risico
 
-- Trend-agent SAP.DE: €40,19 (+10,5%), +6,1% boven de stop; raakt hij de stop, dan €14,87 winst vastgezet.
-- Trend-agent DB1.DE: €0,24 (+0,1%), +2,9% boven de stop; raakt hij de stop, dan €9,55 verlies.
-- Trend-agent ABBV: €2,93 (+0,8%), +5,7% boven de stop; raakt hij de stop, dan €26,43 verlies.
-- Trend-agent WKL.AS: €20,57 (+2,4%), +5,6% boven de stop; raakt hij de stop, dan €27,73 verlies.
-- Trend-agent MA: €16,77 (+1,3%), +3,9% boven de stop; raakt hij de stop, dan €28,16 verlies.
-- Trend-agent V: €6,34 (+0,4%), +2,5% boven de stop; raakt hij de stop, dan €21,63 verlies.
-- Trend-agent OR.PA: -€0,05 (-0,0%), +4,2% boven de stop; raakt hij de stop, dan €37,16 verlies.
-- Trend-agent PG: €9,48 (+0,5%), +4,9% boven de stop; raakt hij de stop, dan €47,08 verlies.
-- Trend-agent remmen: -0,9% vanaf de top (grens -10%), 1 van 3 verliestrades op rij.
-- Investeerder: -€520,86 op de beleggingen; grootste verlies MU -€158,08 (-26,4%).
+- Trend-agent SAP.DE: €37,09 (+9,7%), +5,3% boven de stop; raakt hij de stop, dan €14,87 winst vastgezet.
+- Trend-agent DB1.DE: €5,84 (+1,9%), +4,5% boven de stop; raakt hij de stop, dan €9,09 verlies.
+- Trend-agent ABBV: €6,49 (+1,0%), +5,9% boven de stop; raakt hij de stop, dan €24,04 verlies.
+- Trend-agent WKL.AS: €6,37 (+0,7%), +3,9% boven de stop; raakt hij de stop, dan €27,73 verlies.
+- Trend-agent MA: €27,83 (+1,7%), +4,4% boven de stop; raakt hij de stop, dan €22,73 verlies.
+- Trend-agent V: €14,04 (+0,6%), +2,6% boven de stop; raakt hij de stop, dan €16,31 verlies.
+- Trend-agent OR.PA: -€2,95 (-0,3%), +3,9% boven de stop; raakt hij de stop, dan €37,16 verlies.
+- Trend-agent PG: €17,70 (+0,8%), +5,1% boven de stop; raakt hij de stop, dan €41,55 verlies.
+- Trend-agent remmen: -0,7% vanaf de top (grens -10%), 1 van 3 verliestrades op rij.
+- Investeerder: -€493,86 op de beleggingen; grootste verlies MU -€160,82 (-26,8%).
 
 ## Beste kansen volgens de trend-agent
 
@@ -48,37 +50,36 @@ _Wat de oefenbot met nepgeld zou doen; geen advies. Uitleg per ticker in het tre
 
 | Ticker | Instapmoment | Plan van de bot | Max verlies | Status |
 | --- | --- | --- | --- | --- |
-| Heineken (HEIA.AS) | opgelopen | 14 x rond 83.34 EUR, stop 79.94 | €49,60 | niet gekocht: RSI 76 boven de grens 75 |
-| L'Oreal (OR.PA) | neutraal | 2 x rond 446.62 EUR, stop 426.67 | €41,90 | al in bezit |
-| Berkshire Hathaway (BRK-B) | opgelopen | 2 x rond 575.54 USD, stop 554.05 | €40,28 | niet gekocht: RSI 75 boven de grens 75 |
-| Bayer (BAYN.DE) | opgelopen | 13 x rond 56.49 EUR, stop 52.75 | €50,60 | niet gekocht: RSI 77 boven de grens 75 |
-| Procter & Gamble (PG) | neutraal | 7 x rond 168.40 USD, stop 160.71 | €49,98 | al in bezit |
+| Berkshire Hathaway (BRK-B) | opgelopen | 2 x rond 583.63 USD, stop 560.99 | €42,54 | niet gekocht: RSI 78 boven de grens 75 |
+| Heineken (HEIA.AS) | opgelopen | 14 x rond 84.32 EUR, stop 80.84 | €50,68 | niet gekocht: RSI 79 boven de grens 75 |
+| Bayer (BAYN.DE) | opgelopen | 13 x rond 57.07 EUR, stop 53.33 | €50,58 | niet gekocht: RSI 78 boven de grens 75 |
+| Deutsche Börse (DB1.DE) | gunstig | 3 x rond 320.96 EUR, stop 307.40 | €42,67 | al in bezit |
+| Air Liquide (AI.PA) | opgelopen | 8 x rond 190.46 EUR, stop 184.27 | €51,46 | niet gekocht: RSI 79 boven de grens 75 |
 
 ## Wat de grafieken laten zien
 
 - 8 van de 13 grafieken staan in een stijgende trend, 0 in een dalende, 5 zonder duidelijke richting.
-- Sterkste van de laatste maand: Wolters Kluwer (+18,5%); zwakste: Micron (-28,7%).
-- Afgelopen week: 7 van de 13 gestegen, gemiddeld -0,5%.
-- Op of vlak bij hun hoogste punt van 3 maanden: AbbVie, Deutsche Börse, Mastercard, L'Oreal, Procter & Gamble, SAP, Visa, Wolters Kluwer.
-- Op of vlak bij hun laagste punt van 3 maanden: AMD, Bitcoin, Ethereum, Micron.
-- Net onder het 50-daags gemiddelde gezakt (voor de trend-agent een verkoopsignaal): iShares MSCI World.
+- Sterkste van de laatste maand: L'Oreal (+16,2%); zwakste: Micron (-26,7%).
+- Afgelopen week: 9 van de 13 gestegen, gemiddeld -0,7%.
+- Op of vlak bij hun hoogste punt van 3 maanden: Procter & Gamble.
+- Op of vlak bij hun laagste punt van 3 maanden: Bitcoin, Ethereum.
 - Dit beschrijft wat er gebeurd is; het voorspelt niet wat de koersen morgen doen.
 
 | Aandeel | Trend | Week | Maand | 3 maanden | Opvallend |
 | --- | --- | --- | --- | --- | --- |
-| AbbVie (ABBV) | stijgend | +1,5% | +6,7% | +19,0% | nieuwe 3-maands top · beweegt de laatste 2 weken veel meer dan daarvoor |
-| Deutsche Börse (DB1.DE) | stijgend | +0,5% | +6,5% | +15,0% | nieuwe 3-maands top · beweegt de laatste 2 weken veel meer dan daarvoor |
-| Mastercard (MA) | stijgend | -0,4% | +11,3% | +16,6% | nieuwe 3-maands top · beweegt de laatste 2 weken veel meer dan daarvoor |
-| L'Oreal (OR.PA) | stijgend | +2,3% | +17,1% | +16,3% | nieuwe 3-maands top |
-| Procter & Gamble (PG) | stijgend | +2,9% | +12,0% | +15,7% | nieuwe 3-maands top · 50-daags gemiddelde zakte door het 200-daagse op 24 sep · 50-daags gemiddelde kruiste omhoog door het 200-daagse op 16 okt |
-| SAP (SAP.DE) | stijgend | +0,5% | +10,5% | +17,1% | nieuwe 3-maands top · 50-daags gemiddelde kruiste omhoog door het 200-daagse op 14 sep |
-| Visa (V) | stijgend | -0,8% | +9,5% | +17,1% | nieuwe 3-maands top · beweegt de laatste 2 weken veel meer dan daarvoor |
-| Wolters Kluwer (WKL.AS) | stijgend | +1,7% | +18,5% | +27,1% | nieuwe 3-maands top · 50-daags gemiddelde kruiste omhoog door het 200-daagse op 21 sep |
-| AMD (AMD) | zijwaarts | +8,9% | -16,4% | +8,3% | nieuwe 3-maands bodem · grote beweging op de laatste dag (+13,3%) · beweegt de laatste 2 weken veel meer dan daarvoor · veel handel op de laatste dag (1,8x normaal) |
-| Bitcoin (BTC-USD) | zijwaarts | -3,6% | -9,1% | -6,6% | nieuwe 3-maands bodem · 50-daags gemiddelde kruiste omhoog door het 200-daagse op 8 sep |
-| Ethereum (ETH-USD) | zijwaarts | -6,7% | -11,9% | -14,5% | nieuwe 3-maands bodem · grote beweging op de laatste dag (-5,2%) · beweegt de laatste 2 weken veel meer dan daarvoor |
-| iShares MSCI World (IWDA.AS) | zijwaarts | -1,1% | -2,5% | -0,2% | net onder het 50-daags gemiddelde gezakt · beweegt de laatste 2 weken veel meer dan daarvoor |
-| Micron (MU) | zijwaarts | -12,0% | -28,7% | -14,8% | nieuwe 3-maands bodem · beweegt de laatste 2 weken veel meer dan daarvoor |
+| AbbVie (ABBV) | stijgend | +2,8% | +5,2% | +18,2% | 3 dagen op rij gestegen · beweegt de laatste 2 weken veel meer dan daarvoor |
+| Deutsche Börse (DB1.DE) | stijgend | +2,0% | +7,5% | +17,9% | beweegt de laatste 2 weken veel meer dan daarvoor |
+| Mastercard (MA) | stijgend | +1,8% | +10,7% | +17,5% | beweegt de laatste 2 weken veel meer dan daarvoor |
+| L'Oreal (OR.PA) | stijgend | +2,8% | +16,2% | +17,0% | 3 dagen op rij gedaald |
+| Procter & Gamble (PG) | stijgend | +4,1% | +10,8% | +16,9% | vlak bij de 3-maands top · 50-daags gemiddelde zakte door het 200-daagse op 24 sep · 50-daags gemiddelde kruiste omhoog door het 200-daagse op 16 okt |
+| SAP (SAP.DE) | stijgend | +1,7% | +8,0% | +19,4% | 50-daags gemiddelde kruiste omhoog door het 200-daagse op 14 sep |
+| Visa (V) | stijgend | +0,8% | +8,9% | +16,8% | beweegt de laatste 2 weken veel meer dan daarvoor |
+| Wolters Kluwer (WKL.AS) | stijgend | +2,3% | +13,3% | +28,3% | 50-daags gemiddelde kruiste omhoog door het 200-daagse op 21 sep · 3 dagen op rij gedaald |
+| AMD (AMD) | zijwaarts | +6,5% | -13,3% | +8,6% | 3 dagen op rij gestegen · beweegt de laatste 2 weken veel meer dan daarvoor |
+| Bitcoin (BTC-USD) | zijwaarts | -6,5% | -8,1% | -6,4% | nieuwe 3-maands bodem · 50-daags gemiddelde kruiste omhoog door het 200-daagse op 8 sep |
+| Ethereum (ETH-USD) | zijwaarts | -12,0% | -11,4% | -15,2% | nieuwe 3-maands bodem · beweegt de laatste 2 weken veel meer dan daarvoor |
+| iShares MSCI World (IWDA.AS) | zijwaarts | -0,2% | -2,7% | -0,1% | beweegt de laatste 2 weken veel meer dan daarvoor |
+| Micron (MU) | zijwaarts | -15,2% | -26,7% | -16,5% | beweegt de laatste 2 weken veel meer dan daarvoor |
 
 ## Klaar voor echt geld?
 
@@ -88,16 +89,16 @@ _Eerst bewijzen, dan pas een oefenaccount bij een echte broker, dan een klein be
 
 | Eis | Stand | Nu |
 | --- | --- | --- |
-| Oefentijd | ⏳ | 20 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -4,57% |
+| Oefentijd | ⏳ | 21 van 63 handelsdagen (ongeveer 3 maanden) |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -4,48% |
 | Daling niet veel dieper dan de ETF | ✅ | bot -8,67%, ETF -3,80% |
 
 **Trend-agent:** Nog niet klaar: de bot is nog bezig met bewijzen. Blijven oefenen.
 
 | Eis | Stand | Nu |
 | --- | --- | --- |
-| Oefentijd | ⏳ | 21 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe +1,75% |
+| Oefentijd | ⏳ | 22 van 63 handelsdagen (ongeveer 3 maanden) |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe +1,73% |
 | Grootste daling onder 5% | ✅ | grootste daling tot nu toe -2,18% |
 | Genoeg afgesloten trades | ⏳ | 5 van 20 |
 
@@ -108,10 +109,10 @@ _Eerst bewijzen, dan pas een oefenaccount bij een echte broker, dan een klein be
 - Trend-agent: status **OK**, 129 van 129 koersen opgehaald, marktregime stijgend-hoog.
 - Koersbronnen: 69 bevestigd door twee bronnen, 60 uit één bron, 0 afwijkend. Wisselkoers: bevestigd.
 
-_GitHub startte deze ronde 6 uur later dan gepland. De koersen zijn die van de slotkoers van deze handelsdag; de vertraging verandert daar niets aan._
+_GitHub startte deze ronde 4 uur later dan gepland. De koersen zijn die van de slotkoers van deze handelsdag; de vertraging verandert daar niets aan._
 
 ## Details
 
-- Investeerder: [2026-11-09-investeerder.md](2026-11-09-investeerder.md)
-- Trend-agent: [2026-11-09.md](2026-11-09.md)
+- Investeerder: [2026-11-10-investeerder.md](2026-11-10-investeerder.md)
+- Trend-agent: [2026-11-10.md](2026-11-10.md)
 - Excel: `investeerder.xlsx` en `trend-agent.xlsx` (met tabblad Grafieken)

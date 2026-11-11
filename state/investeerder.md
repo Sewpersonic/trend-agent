@@ -1,35 +1,35 @@
-# Investeerder 2026-11-09
+# Investeerder 2026-11-10
 
 _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 
 **Status:** OK  
-**Waarde:** €9,241.32  
+**Waarde:** €9,268.31  
 **Marktregime:** stijgend-hoog  
 **Strategieversie:** investeerder-1.0-64ce27  
 **Koersbronnen:** 69 bevestigd door 2 bronnen, 62 uit 1 bron, 0 afwijkend; wisselkoers bevestigd  
-**Sinds start:** -7.59%  
+**Sinds start:** -7.32%  
 
 ## Verdeling
 
 | Instrument | Aandeel |
 | --- | --- |
-| iShares MSCI World (IWDA.AS) | 60.3% |
-| AMD (AMD) | 5.5% |
+| iShares MSCI World (IWDA.AS) | 60.2% |
+| AMD (AMD) | 5.6% |
 | Bitcoin (BTC-USD) | 4.9% |
-| Micron (MU) | 4.8% |
+| Micron (MU) | 4.7% |
 | Ethereum (ETH-USD) | 4.6% |
-| Kas | 20.0% |
+| Kas | 19.9% |
 
 ## Analyse van vandaag
 
 **Wat de bot zag**
 
-- **Markt (IWDA.AS):** koers 128,45, 5,4% boven het 200-daags gemiddelde (121,90); de afgelopen maand -2,5%. Trend: **stijgend**.
+- **Markt (IWDA.AS):** koers 128,69, 5,5% boven het 200-daags gemiddelde (121,99); de afgelopen maand -2,7%. Trend: **stijgend**.
 - **Beweeglijkheid:** 13% op jaarbasis, tegen normaal 10% het afgelopen jaar: **hoog**.
-- **Breedte:** 82 van de 129 instrumenten staan boven hun 200-daags gemiddelde (64%; EU 40 van 60, US 42 van 69).
-- **Sterkste momentum nu (12 maanden, zonder laatste maand):** AMD +156%, CrowdStrike +107%, Palo Alto Networks +98%, Texas Instruments +79%, Merck & Co +75%.
-- **BTC-USD:** 1,9% boven het 200-daags gemiddelde (mag in de mix).
-- **ETH-USD:** 1,6% onder het 200-daags gemiddelde (blijft in kas).
+- **Breedte:** 81 van de 129 instrumenten staan boven hun 200-daags gemiddelde (63%; EU 40 van 60, US 41 van 69).
+- **Sterkste momentum nu (12 maanden, zonder laatste maand):** AMD +154%, CrowdStrike +95%, Palo Alto Networks +90%, Texas Instruments +78%, Merck & Co +74%.
+- **BTC-USD:** 2,8% boven het 200-daags gemiddelde (mag in de mix).
+- **ETH-USD:** 1,0% onder het 200-daags gemiddelde (blijft in kas).
 
 **Wat de bot eruit haalt**
 
@@ -42,14 +42,14 @@ _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 
 | Instrument | Waarde | Ingelegd | Resultaat |
 | --- | --- | --- | --- |
-| MU | €441,92 | €600,00 | -€158,08 (-26,4%) |
-| IWDA.AS | €5.569,48 | €5.714,81 | -€145,33 (-2,5%) |
-| AMD | €510,22 | €600,00 | -€89,78 (-15,0%) |
-| ETH-USD | €424,53 | €500,00 | -€75,47 (-15,1%) |
-| BTC-USD | €447,80 | €500,00 | -€52,20 (-10,4%) |
+| MU | €439,18 | €600,00 | -€160,82 (-26,8%) |
+| IWDA.AS | €5.579,89 | €5.714,81 | -€134,92 (-2,4%) |
+| AMD | €519,37 | €600,00 | -€80,63 (-13,4%) |
+| ETH-USD | €428,70 | €500,00 | -€71,30 (-14,3%) |
+| BTC-USD | €453,81 | €500,00 | -€46,19 (-9,2%) |
 
-Totaal op de beleggingen: -€520,86 (inclusief aankoopkosten).
-Daling vanaf de hoogste waarde ooit: -7,59% (top €10.000,00). De investeerder heeft geen stop-loss: hij houdt een spreiding vast en herverdeelt maandelijks.
+Totaal op de beleggingen: -€493,86 (inclusief aankoopkosten).
+Daling vanaf de hoogste waarde ooit: -7,32% (top €10.000,00). De investeerder heeft geen stop-loss: hij houdt een spreiding vast en herverdeelt maandelijks.
 
 ## Vandaag gedaan
 
@@ -61,8 +61,8 @@ Daling vanaf de hoogste waarde ooit: -7,59% (top €10.000,00). De investeerder 
 
 | Eis | Stand | Nu |
 | --- | --- | --- |
-| Oefentijd | ⏳ | 20 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -4,57% |
+| Oefentijd | ⏳ | 21 van 63 handelsdagen (ongeveer 3 maanden) |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -4,48% |
 | Daling niet veel dieper dan de ETF | ✅ | bot -8,67%, ETF -3,80% |
 
 <details><summary>Zo analyseert de investeerder (klik om te openen)</summary>
