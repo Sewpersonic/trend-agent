@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-11T13:00:30+00:00",
+ "tijd": "2026-11-11T13:06:27+00:00",
  "status": "ok",
  "posities": [
   {
@@ -7,25 +7,25 @@
    "t212": "SAPd_EQ",
    "stop": 199.4893,
    "actie": "boven de stop-loss",
-   "koers_t212": 209.18,
-   "koers_yahoo": 208.8,
-   "afstand_pct": 0.0486
+   "koers_t212": 209.38,
+   "koers_yahoo": 208.9,
+   "afstand_pct": 0.0496
   },
   {
    "ticker": "DB1.DE",
    "t212": "DB1d_EQ",
    "stop": 306.8643,
    "actie": "boven de stop-loss",
-   "koers_t212": 323.3,
-   "koers_yahoo": 322.8,
-   "afstand_pct": 0.0536
+   "koers_t212": 323.7,
+   "koers_yahoo": 322.9,
+   "afstand_pct": 0.0549
   },
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 290.98,
+   "koers_t212": 290.36,
    "koers_yahoo": 293.88,
    "afstand_pct": 0.0595
   },
@@ -34,16 +34,16 @@
    "t212": "WKLa_EQ",
    "stop": 84.13,
    "actie": "boven de stop-loss",
-   "koers_t212": 87.63,
-   "koers_yahoo": 87.56,
-   "afstand_pct": 0.0416
+   "koers_t212": 87.73,
+   "koers_yahoo": 87.6,
+   "afstand_pct": 0.0428
   },
   {
    "ticker": "MA",
    "t212": "MA_US_EQ",
    "stop": 631.1515,
    "actie": "boven de stop-loss",
-   "koers_t212": 651.95,
+   "koers_t212": 652.98,
    "koers_yahoo": 659.15,
    "afstand_pct": 0.0444
   },
@@ -52,7 +52,7 @@
    "t212": "V_US_EQ",
    "stop": 412.0686,
    "actie": "boven de stop-loss",
-   "koers_t212": 419.07,
+   "koers_t212": 419.54,
    "koers_yahoo": 422.99,
    "afstand_pct": 0.0265
   },
@@ -61,16 +61,16 @@
    "t212": "ORp_EQ",
    "stop": 428.3445,
    "actie": "boven de stop-loss",
-   "koers_t212": 442.98,
-   "koers_yahoo": 442.8,
-   "afstand_pct": 0.0342
+   "koers_t212": 443.37,
+   "koers_yahoo": 443.05,
+   "afstand_pct": 0.0351
   },
   {
    "ticker": "PG",
    "t212": "PG_US_EQ",
    "stop": 160.5247,
    "actie": "boven de stop-loss",
-   "koers_t212": 166.12,
+   "koers_t212": 166.5,
    "koers_yahoo": 168.64,
    "afstand_pct": 0.0506
   }
@@ -226,5 +226,5 @@
    ]
   }
  ],
- "rondes_vandaag": 21
+ "rondes_vandaag": 22
 }
