@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-11T10:00:30+00:00",
+ "tijd": "2026-11-11T11:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -7,17 +7,17 @@
    "t212": "SAPd_EQ",
    "stop": 199.4893,
    "actie": "boven de stop-loss",
-   "koers_t212": 209.18,
-   "koers_yahoo": 209.5,
-   "afstand_pct": 0.0502
+   "koers_t212": 208.52,
+   "koers_yahoo": 209.1,
+   "afstand_pct": 0.0482
   },
   {
    "ticker": "DB1.DE",
    "t212": "DB1d_EQ",
    "stop": 306.8643,
    "actie": "boven de stop-loss",
-   "koers_t212": 322.3,
-   "koers_yahoo": 322.8,
+   "koers_t212": 322.8,
+   "koers_yahoo": 322.3,
    "afstand_pct": 0.0519
   },
   {
@@ -25,7 +25,7 @@
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 292.03,
+   "koers_t212": 290.8,
    "koers_yahoo": 293.88,
    "afstand_pct": 0.0595
   },
@@ -34,16 +34,16 @@
    "t212": "WKLa_EQ",
    "stop": 84.13,
    "actie": "boven de stop-loss",
-   "koers_t212": 87.24,
-   "koers_yahoo": 87.6,
-   "afstand_pct": 0.0412
+   "koers_t212": 87.21,
+   "koers_yahoo": 87.24,
+   "afstand_pct": 0.037
   },
   {
    "ticker": "MA",
    "t212": "MA_US_EQ",
    "stop": 631.1515,
    "actie": "boven de stop-loss",
-   "koers_t212": 655.57,
+   "koers_t212": 652.82,
    "koers_yahoo": 659.15,
    "afstand_pct": 0.0444
   },
@@ -52,7 +52,7 @@
    "t212": "V_US_EQ",
    "stop": 412.0686,
    "actie": "boven de stop-loss",
-   "koers_t212": 421.64,
+   "koers_t212": 420.05,
    "koers_yahoo": 422.99,
    "afstand_pct": 0.0265
   },
@@ -61,16 +61,16 @@
    "t212": "ORp_EQ",
    "stop": 428.3445,
    "actie": "boven de stop-loss",
-   "koers_t212": 444.54,
-   "koers_yahoo": 444.65,
-   "afstand_pct": 0.0381
+   "koers_t212": 444.44,
+   "koers_yahoo": 444.75,
+   "afstand_pct": 0.0383
   },
   {
    "ticker": "PG",
    "t212": "PG_US_EQ",
    "stop": 160.5247,
    "actie": "boven de stop-loss",
-   "koers_t212": 167.07,
+   "koers_t212": 166.53,
    "koers_yahoo": 168.64,
    "afstand_pct": 0.0506
   }
@@ -226,5 +226,5 @@
    ]
   }
  ],
- "rondes_vandaag": 9
+ "rondes_vandaag": 13
 }
