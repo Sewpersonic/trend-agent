@@ -1,29 +1,31 @@
 {
- "tijd": "2026-11-11T08:00:30+00:00",
+ "tijd": "2026-11-11T09:00:30+00:00",
  "status": "ok",
  "posities": [
   {
    "ticker": "SAP.DE",
    "t212": "SAPd_EQ",
    "stop": 199.4893,
-   "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 208.08,
-   "koers_yahoo": null
+   "actie": "boven de stop-loss",
+   "koers_t212": 209.68,
+   "koers_yahoo": 210.0,
+   "afstand_pct": 0.0527
   },
   {
    "ticker": "DB1.DE",
    "t212": "DB1d_EQ",
    "stop": 306.8643,
-   "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 319.5,
-   "koers_yahoo": null
+   "actie": "boven de stop-loss",
+   "koers_t212": 322.8,
+   "koers_yahoo": 322.5,
+   "afstand_pct": 0.0519
   },
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 292.73,
+   "koers_t212": 292.03,
    "koers_yahoo": 293.88,
    "afstand_pct": 0.0595
   },
@@ -31,16 +33,17 @@
    "ticker": "WKL.AS",
    "t212": "WKLa_EQ",
    "stop": 84.13,
-   "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 86.49,
-   "koers_yahoo": null
+   "actie": "boven de stop-loss",
+   "koers_t212": 87.11,
+   "koers_yahoo": 87.14,
+   "afstand_pct": 0.0358
   },
   {
    "ticker": "MA",
    "t212": "MA_US_EQ",
    "stop": 631.1515,
    "actie": "boven de stop-loss",
-   "koers_t212": 655.14,
+   "koers_t212": 655.57,
    "koers_yahoo": 659.15,
    "afstand_pct": 0.0444
   },
@@ -49,7 +52,7 @@
    "t212": "V_US_EQ",
    "stop": 412.0686,
    "actie": "boven de stop-loss",
-   "koers_t212": 421.55,
+   "koers_t212": 421.64,
    "koers_yahoo": 422.99,
    "afstand_pct": 0.0265
   },
@@ -57,16 +60,17 @@
    "ticker": "OR.PA",
    "t212": "ORp_EQ",
    "stop": 428.3445,
-   "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 443.84,
-   "koers_yahoo": null
+   "actie": "boven de stop-loss",
+   "koers_t212": 445.04,
+   "koers_yahoo": 445.6,
+   "afstand_pct": 0.0403
   },
   {
    "ticker": "PG",
    "t212": "PG_US_EQ",
    "stop": 160.5247,
    "actie": "boven de stop-loss",
-   "koers_t212": 167.47,
+   "koers_t212": 167.07,
    "koers_yahoo": 168.64,
    "afstand_pct": 0.0506
   }
@@ -222,5 +226,5 @@
    ]
   }
  ],
- "rondes_vandaag": 1
+ "rondes_vandaag": 5
 }
