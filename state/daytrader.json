@@ -624,7 +624,7 @@
   "begin": 9886.62,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-11T12:30:00",
+  "prev": "2026-11-11T12:45:00",
   "traded": [
    "CRM",
    "SMH"
@@ -739,7 +739,7 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,06 R; alle uitbraken samen −0,02 R)."
    },
    "t_in": "10:45",
-   "koers": 515.3900146484375
+   "koers": 515.2100219726562
   },
   {
    "ticker": "CRM",
@@ -765,26 +765,18 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 52% van de gevallen goed af (gemiddeld −0,07 R; alle uitbraken samen −0,02 R)."
    },
    "t_in": "10:45",
-   "koers": 217.91000366210938
+   "koers": 217.2050018310547
   }
  ],
  "laatste_ronde": {
-  "tijd": "2026-11-11T17:31:30+00:00",
-  "ny": "2026-11-11 12:31",
+  "tijd": "2026-11-11T17:46:30+00:00",
+  "ny": "2026-11-11 12:46",
   "status": "ok",
   "log": [
    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-09T15:16:30+00:00",
-   "ny": "2026-11-09 10:16",
-   "status": "ok",
-   "log": [
-    "10:15 AVGO: gekocht (7 stuks, uitbraak boven 315.40 met 1.7x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 46% van de gevallen goed af (gemiddeld −0,08 R; alle uitbraken samen −0,02 R)."
-   ]
-  },
   {
    "tijd": "2026-11-09T15:31:30+00:00",
    "ny": "2026-11-09 10:31",
@@ -1250,6 +1242,14 @@
   {
    "tijd": "2026-11-11T17:31:30+00:00",
    "ny": "2026-11-11 12:31",
+   "status": "ok",
+   "log": [
+    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-11-11T17:46:30+00:00",
+   "ny": "2026-11-11 12:46",
    "status": "ok",
    "log": [
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
