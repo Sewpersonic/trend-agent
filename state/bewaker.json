@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-12T13:00:30+00:00",
+ "tijd": "2026-11-12T14:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -7,27 +7,27 @@
    "t212": "SAPd_EQ",
    "stop": 199.6821,
    "actie": "boven de stop-loss",
-   "koers_t212": 210.88,
-   "koers_yahoo": 211.3,
-   "afstand_pct": 0.0582
+   "koers_t212": 211.38,
+   "koers_yahoo": 210.7,
+   "afstand_pct": 0.0586
   },
   {
    "ticker": "DB1.DE",
    "t212": "DB1d_EQ",
    "stop": 307.2071,
    "actie": "boven de stop-loss",
-   "koers_t212": 327.0,
-   "koers_yahoo": 327.3,
-   "afstand_pct": 0.0654
+   "koers_t212": 327.4,
+   "koers_yahoo": 326.8,
+   "afstand_pct": 0.0657
   },
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 297.66,
+   "koers_t212": 297.5,
    "koers_yahoo": 294.88,
-   "afstand_pct": 0.0731
+   "afstand_pct": 0.0725
   },
   {
    "ticker": "WKL.AS",
@@ -35,44 +35,44 @@
    "stop": 84.13,
    "actie": "boven de stop-loss",
    "koers_t212": 88.97,
-   "koers_yahoo": 89.18,
-   "afstand_pct": 0.06
+   "koers_yahoo": 88.7,
+   "afstand_pct": 0.0575
   },
   {
    "ticker": "MA",
    "t212": "MA_US_EQ",
    "stop": 631.1515,
    "actie": "boven de stop-loss",
-   "koers_t212": 664.75,
+   "koers_t212": 664.6,
    "koers_yahoo": 660.44,
-   "afstand_pct": 0.0532
+   "afstand_pct": 0.053
   },
   {
    "ticker": "V",
    "t212": "V_US_EQ",
    "stop": 412.0686,
    "actie": "boven de stop-loss",
-   "koers_t212": 428.63,
+   "koers_t212": 428.42,
    "koers_yahoo": 425.69,
-   "afstand_pct": 0.0402
+   "afstand_pct": 0.0397
   },
   {
    "ticker": "OR.PA",
    "t212": "ORp_EQ",
    "stop": 428.3445,
    "actie": "boven de stop-loss",
-   "koers_t212": 446.84,
-   "koers_yahoo": 446.7,
-   "afstand_pct": 0.0432
+   "koers_t212": 447.39,
+   "koers_yahoo": 446.25,
+   "afstand_pct": 0.0445
   },
   {
    "ticker": "PG",
    "t212": "PG_US_EQ",
    "stop": 160.5247,
    "actie": "boven de stop-loss",
-   "koers_t212": 168.78,
+   "koers_t212": 168.8,
    "koers_yahoo": 167.64,
-   "afstand_pct": 0.0514
+   "afstand_pct": 0.0516
   }
  ],
  "verkocht": [],
@@ -226,5 +226,5 @@
    ]
   }
  ],
- "rondes_vandaag": 20
+ "rondes_vandaag": 24
 }
