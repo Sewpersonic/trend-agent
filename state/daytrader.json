@@ -688,7 +688,7 @@
   "begin": 9906.17,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-12T12:00:00",
+  "prev": "2026-11-12T12:15:00",
   "traded": [],
   "notities": [],
   "trades": [],
@@ -726,23 +726,14 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-12T17:01:30+00:00",
-  "ny": "2026-11-12 12:01",
+  "tijd": "2026-11-12T17:16:30+00:00",
+  "ny": "2026-11-12 12:16",
   "status": "ok",
   "log": [
    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-09T20:46:30+00:00",
-   "ny": "2026-11-09 15:46",
-   "status": "ok",
-   "log": [
-    "15:45 AVGO: verkocht aan het einde van de dag",
-    "Dag klaar: 1 trades, resultaat +48.59 dollar."
-   ]
-  },
   {
    "tijd": "2026-11-09T21:26:34+00:00",
    "ny": "2026-11-09 16:26",
@@ -1209,6 +1200,14 @@
   {
    "tijd": "2026-11-12T17:01:30+00:00",
    "ny": "2026-11-12 12:01",
+   "status": "ok",
+   "log": [
+    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-11-12T17:16:30+00:00",
+   "ny": "2026-11-12 12:16",
    "status": "ok",
    "log": [
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
