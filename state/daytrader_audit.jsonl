@@ -285,3 +285,4 @@
 {"tijd": "2026-11-12T15:46:30+00:00", "ny": "2026-11-12 10:46", "status": "ok", "log": ["Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: te weinig volume (0.8x normaal) (5x); te weinig volume (0.7x normaal) (5x); te weinig volume (0.5x normaal) (4x)."]}
 {"tijd": "2026-11-12T16:01:30+00:00", "ny": "2026-11-12 11:01", "status": "ok", "log": ["Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: te weinig volume (0.8x normaal) (5x); te weinig volume (0.7x normaal) (5x); te weinig volume (0.5x normaal) (4x)."]}
 {"tijd": "2026-11-12T16:16:30+00:00", "ny": "2026-11-12 11:16", "status": "ok", "log": ["Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."]}
+{"tijd": "2026-11-12T16:31:30+00:00", "ny": "2026-11-12 11:31", "status": "ok", "log": ["Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."]}
