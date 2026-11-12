@@ -734,20 +734,12 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-12T21:18:11+00:00",
-  "ny": "2026-11-12 16:18",
+  "tijd": "2026-11-12T21:26:45+00:00",
+  "ny": "2026-11-12 16:26",
   "status": "klaar voor vandaag",
   "log": []
  },
  "rondes": [
-  {
-   "tijd": "2026-11-10T18:31:30+00:00",
-   "ny": "2026-11-10 13:31",
-   "status": "ok",
-   "log": [
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-11-10T18:46:30+00:00",
    "ny": "2026-11-10 13:46",
@@ -1216,6 +1208,12 @@
   {
    "tijd": "2026-11-12T21:18:11+00:00",
    "ny": "2026-11-12 16:18",
+   "status": "klaar voor vandaag",
+   "log": []
+  },
+  {
+   "tijd": "2026-11-12T21:26:45+00:00",
+   "ny": "2026-11-12 16:26",
    "status": "klaar voor vandaag",
    "log": []
   }
