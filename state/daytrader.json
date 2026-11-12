@@ -688,7 +688,7 @@
   "begin": 9906.17,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-12T14:15:00",
+  "prev": "2026-11-12T14:30:00",
   "traded": [],
   "notities": [],
   "trades": [],
@@ -726,8 +726,8 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-12T19:26:31+00:00",
-  "ny": "2026-11-12 14:26",
+  "tijd": "2026-11-12T19:31:30+00:00",
+  "ny": "2026-11-12 14:31",
   "status": "ok",
   "log": []
  },
@@ -1206,10 +1206,12 @@
    ]
   },
   {
-   "tijd": "2026-11-12T19:26:31+00:00",
-   "ny": "2026-11-12 14:26",
+   "tijd": "2026-11-12T19:31:30+00:00",
+   "ny": "2026-11-12 14:31",
    "status": "ok",
-   "log": []
+   "log": [
+    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
   }
  ],
  "dagcontext": {
