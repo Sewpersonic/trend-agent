@@ -1,58 +1,58 @@
-# Trend-agent rapport 2026-11-10
+# Trend-agent rapport 2026-11-11
 
 _Oefenportefeuille met nepgeld. Geen beleggingsadvies; resultaten uit het verleden zeggen niets over de toekomst._
 
 **Status:** OK  
-**Waarde:** €9,917.09  
+**Waarde:** €9,975.83  
 **Kas:** €3,362.61  
 **Marktregime:** stijgend-hoog  
-**Strategieversie:** trend-1.1-f132c3  
+**Strategieversie:** trend-1.1-eaf4f8  
 **Koersbronnen:** 69 bevestigd door 2 bronnen, 60 uit 1 bron, 0 afwijkend; wisselkoers bevestigd  
-**Sinds start:** -0.83%  
+**Sinds start:** -0.24%  
 
 ## Analyse van vandaag
 
 **Wat de bot zag**
 
-- **Markt (IWDA.AS):** koers 128,69, 5,5% boven het 200-daags gemiddelde (121,99); de afgelopen maand -2,7%. Trend: **stijgend**.
-- **Beweeglijkheid:** 13% op jaarbasis, tegen normaal 10% het afgelopen jaar: **hoog**.
-- **Breedte:** 81 van de 129 instrumenten staan boven hun 200-daags gemiddelde (63%; EU 40 van 60, US 41 van 69).
+- **Markt (IWDA.AS):** koers 131,01, 7,3% boven het 200-daags gemiddelde (122,08); de afgelopen maand -0,5%. Trend: **stijgend**.
+- **Beweeglijkheid:** 15% op jaarbasis, tegen normaal 10% het afgelopen jaar: **hoog**.
+- **Breedte:** 84 van de 129 instrumenten staan boven hun 200-daags gemiddelde (65%; EU 41 van 60, US 43 van 69).
 - **Bekeken:** 129 instrumenten.
-- **Afgevallen** (een instrument kan op meer regels afvallen): geen stijgende trend (koers niet boven 50- en 200-daags gemiddelde): 81; niet gestegen over 1 of 3 maanden: 71; te weinig handel: 2; verdachte dagsprong: 1.
-- **Door de zeef:** 38. Koopbare trends: **38**.
+- **Afgevallen** (een instrument kan op meer regels afvallen): geen stijgende trend (koers niet boven 50- en 200-daags gemiddelde): 76; niet gestegen over 1 of 3 maanden: 73; te weinig handel: 2; verdachte dagsprong: 1.
+- **Door de zeef:** 37. Koopbare trends: **37**.
 
 **Wat de bot eruit haalt**
 
 - De markt stijgt breed: goede omstandigheden voor trendvolgen.
 - De markt beweegt meer dan normaal: stops worden sneller geraakt. Het risico per trade blijft gelijk, dus de posities worden vanzelf kleiner.
 - De sterkste trends zijn vooral Europese instrumenten.
-- 4 van de 5 sterkste staan al ver boven hun gemiddelde (BRK-B, HEIA.AS, BAYN.DE, AI.PA): de trend is sterk, maar instappen op zo'n moment kost vaker een terugval.
-- Sterk zonder ver weggelopen te zijn: DB1.DE.
+- 3 van de 5 sterkste staan al ver boven hun gemiddelde (BRK-B, AI.PA, IBE.MC): de trend is sterk, maar instappen op zo'n moment kost vaker een terugval.
 - Alle plekken zijn bezet, dus de bot koopt niets bij, hoe sterk een trend ook is.
 
 ## Vandaag gedaan
 
-- DB1.DE: stop omhoog van 306.40 naar 306.86
+- SAP.DE: stop omhoog van 199.49 naar 199.68
+- DB1.DE: stop omhoog van 306.86 naar 307.21
 
 ## Verlies en risico
 
 | Ticker | Instap | Koers nu | Resultaat | Stop | Afstand tot stop | Als de stop geraakt wordt |
 | --- | --- | --- | --- | --- | --- | --- |
-| SAP.DE | 191.56 EUR | 210.10 | €37,09 (+9,7%) | 199.49 | +5,3% | €14,87 winst vastgezet |
-| DB1.DE | 314.96 EUR | 320.80 | €5,84 (+1,9%) | 306.86 | +4,5% | -€9,09 verlies |
-| ABBV | 290.94 USD | 293.88 | €6,49 (+1,0%) | 277.38 | +5,9% | -€24,04 verlies |
-| WKL.AS | 86.80 EUR | 87.44 | €6,37 (+0,7%) | 84.13 | +3,9% | -€27,73 verlies |
-| MA | 647.63 USD | 658.84 | €27,83 (+1,7%) | 631.15 | +4,4% | -€22,73 verlies |
-| V | 420.59 USD | 423.00 | €14,04 (+0,6%) | 412.07 | +2,6% | -€16,31 verlies |
-| OR.PA | 446.42 EUR | 444.95 | -€2,95 (-0,3%) | 428.34 | +3,9% | -€37,16 verlies |
-| PG | 167.40 USD | 168.66 | €17,70 (+0,8%) | 160.52 | +5,1% | -€41,55 verlies |
+| SAP.DE | 191.56 EUR | 210.65 | €38,19 (+10,0%) | 199.68 | +5,5% | €15,25 winst vastgezet |
+| DB1.DE | 314.96 EUR | 326.90 | €11,94 (+3,8%) | 307.21 | +6,4% | -€8,75 verlies |
+| ABBV | 290.94 USD | 294.98 | €12,95 (+1,4%) | 277.38 | +6,3% | -€19,83 verlies |
+| WKL.AS | 86.80 EUR | 88.40 | €15,97 (+1,8%) | 84.13 | +5,1% | -€27,73 verlies |
+| MA | 647.63 USD | 660.73 | €41,26 (+2,0%) | 631.15 | +4,7% | -€13,14 verlies |
+| V | 420.59 USD | 425.55 | €30,59 (+1,2%) | 412.07 | +3,3% | -€6,92 verlies |
+| OR.PA | 446.42 EUR | 446.15 | -€0,55 (-0,1%) | 428.34 | +4,2% | -€37,16 verlies |
+| PG | 167.40 USD | 167.67 | €20,81 (+0,2%) | 160.52 | +4,5% | -€31,79 verlies |
 
-Raken alle stops tegelijk, dan is het verlies hooguit ongeveer €178,61 (bij een koersgat 's ochtends kan het meer zijn).
+Raken alle stops tegelijk, dan is het verlies hooguit ongeveer €145,32 (bij een koersgat 's ochtends kan het meer zijn).
 
 **Remmen** (bij overschrijden gaat de kill switch aan en koopt de bot niets meer):
 
-- Daling vanaf de top: -0,70% (grens -10%; top was €9.987,03)
-- Vandaag: +0,16% (grens -2%)
+- Daling vanaf de top: -0,11% (grens -10%; top was €9.987,03)
+- Vandaag: +0,59% (grens -2%)
 - Verliestrades op rij: 1 van 3
 
 ## Kansen: wat de bot vandaag het sterkst vond
@@ -61,38 +61,38 @@ _Dit is wat de oefenbot met zijn nepgeld volgens zijn eigen regels zou doen. Gee
 
 ### 1. Berkshire Hathaway (BRK-B): instapmoment **opgelopen**
 
-- **Waarom sterk:** Berkshire Hathaway steeg +14,4% in 3 maanden en +12,7% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,1x het normale volume; beweegt gemiddeld 1,9% per dag.
-- **Instapmoment:** de koers staat +5,7% van het 20-daags gemiddelde (2,9x de normale dagbeweging) en RSI is 78; na zo'n sprint volgt vaak eerst een terugval.
-- **Status:** niet gekocht: RSI 78 boven de grens 75.
-- **Plan van de bot:** koop 2 stuks rond 583.63 USD (inzet €1.044,82), stop-loss 560.99 USD (-3,9%). Maximaal verlies als de stop wordt geraakt: ongeveer €42,54. Ter oriëntatie: 2x het risico winst ligt bij 628.92 USD; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+- **Waarom sterk:** Berkshire Hathaway steeg +16,0% in 3 maanden en +13,0% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,1x het normale volume; beweegt gemiddeld 1,9% per dag.
+- **Instapmoment:** de koers staat +5,9% van het 20-daags gemiddelde (3,1x de normale dagbeweging) en RSI is 80; na zo'n sprint volgt vaak eerst een terugval.
+- **Status:** niet gekocht: RSI 80 boven de grens 75.
+- **Plan van de bot:** koop 2 stuks rond 588.53 USD (inzet €1.062,54), stop-loss 565.78 USD (-3,9%). Maximaal verlies als de stop wordt geraakt: ongeveer €43,08. Ter oriëntatie: 2x het risico winst ligt bij 634.04 USD; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
 
-### 2. Heineken (HEIA.AS): instapmoment **opgelopen**
+### 2. Air Liquide (AI.PA): instapmoment **opgelopen**
 
-- **Waarom sterk:** Heineken steeg +14,0% in 3 maanden en +16,7% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,1x het normale volume; beweegt gemiddeld 2,1% per dag.
-- **Instapmoment:** de koers staat +6,1% van het 20-daags gemiddelde (3,0x de normale dagbeweging) en RSI is 79; na zo'n sprint volgt vaak eerst een terugval.
-- **Status:** niet gekocht: RSI 79 boven de grens 75.
-- **Plan van de bot:** koop 14 stuks rond 84.32 EUR (inzet €1.180,51), stop-loss 80.84 EUR (-4,1%). Maximaal verlies als de stop wordt geraakt: ongeveer €50,68. Ter oriëntatie: 2x het risico winst ligt bij 91.28 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+- **Waarom sterk:** Air Liquide steeg +14,3% in 3 maanden en +13,8% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,1x het normale volume; beweegt gemiddeld 1,6% per dag.
+- **Instapmoment:** de koers staat +5,9% van het 20-daags gemiddelde (3,6x de normale dagbeweging) en RSI is 81; na zo'n sprint volgt vaak eerst een terugval.
+- **Status:** niet gekocht: RSI 81 boven de grens 75.
+- **Plan van de bot:** koop 7 stuks rond 192.44 EUR (inzet €1.347,05), stop-loss 186.19 EUR (-3,2%). Maximaal verlies als de stop wordt geraakt: ongeveer €45,74. Ter oriëntatie: 2x het risico winst ligt bij 204.93 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
 
-### 3. Bayer (BAYN.DE): instapmoment **opgelopen**
+### 3. Deutsche Börse (DB1.DE): instapmoment **neutraal**
 
-- **Waarom sterk:** Bayer steeg +18,7% in 3 maanden en +30,1% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,2x het normale volume; beweegt gemiddeld 3,3% per dag.
-- **Instapmoment:** de koers staat +12,9% van het 20-daags gemiddelde (3,9x de normale dagbeweging) en RSI is 78; na zo'n sprint volgt vaak eerst een terugval.
-- **Status:** niet gekocht: RSI 78 boven de grens 75.
-- **Plan van de bot:** koop 13 stuks rond 57.07 EUR (inzet €741,89), stop-loss 53.33 EUR (-6,6%). Maximaal verlies als de stop wordt geraakt: ongeveer €50,58. Ter oriëntatie: 2x het risico winst ligt bij 64.54 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
-
-### 4. Deutsche Börse (DB1.DE): instapmoment **gunstig**
-
-- **Waarom sterk:** Deutsche Börse steeg +18,0% in 3 maanden en +7,5% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD negatief (de stijging vertraagt); handel 1,2x het normale volume; beweegt gemiddeld 2,1% per dag.
-- **Instapmoment:** de trend is sterk maar de koers is niet ver weggelopen (+2,6% van het 20-daags gemiddelde, RSI 62).
+- **Waarom sterk:** Deutsche Börse steeg +19,8% in 3 maanden en +9,4% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD negatief (de stijging vertraagt); handel 1,2x het normale volume; beweegt gemiddeld 2,0% per dag.
+- **Instapmoment:** de koers staat +4,1% van het 20-daags gemiddelde, RSI 66.
 - **Status:** al in bezit.
-- **Plan van de bot:** koop 3 stuks rond 320.96 EUR (inzet €962,88), stop-loss 307.40 EUR (-4,2%). Maximaal verlies als de stop wordt geraakt: ongeveer €42,67. Ter oriëntatie: 2x het risico winst ligt bij 348.07 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+- **Plan van de bot:** koop 3 stuks rond 327.06 EUR (inzet €981,19), stop-loss 313.73 EUR (-4,1%). Maximaal verlies als de stop wordt geraakt: ongeveer €41,99. Ter oriëntatie: 2x het risico winst ligt bij 353.72 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
 
-### 5. Air Liquide (AI.PA): instapmoment **opgelopen**
+### 4. L'Oreal (OR.PA): instapmoment **neutraal**
 
-- **Waarom sterk:** Air Liquide steeg +12,5% in 3 maanden en +12,8% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,1x het normale volume; beweegt gemiddeld 1,6% per dag.
-- **Instapmoment:** de koers staat +5,5% van het 20-daags gemiddelde (3,4x de normale dagbeweging) en RSI is 79; na zo'n sprint volgt vaak eerst een terugval.
-- **Status:** niet gekocht: RSI 79 boven de grens 75.
-- **Plan van de bot:** koop 8 stuks rond 190.46 EUR (inzet €1.523,64), stop-loss 184.27 EUR (-3,2%). Maximaal verlies als de stop wordt geraakt: ongeveer €51,46. Ter oriëntatie: 2x het risico winst ligt bij 202.82 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+- **Waarom sterk:** L'Oreal steeg +17,6% in 3 maanden en +15,2% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,3x het normale volume; beweegt gemiddeld 2,2% per dag.
+- **Instapmoment:** de koers staat +3,9% van het 20-daags gemiddelde, RSI 67.
+- **Status:** al in bezit.
+- **Plan van de bot:** koop 2 stuks rond 446.37 EUR (inzet €892,75), stop-loss 426.92 EUR (-4,4%). Maximaal verlies als de stop wordt geraakt: ongeveer €40,90. Ter oriëntatie: 2x het risico winst ligt bij 485.27 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+
+### 5. Iberdrola (IBE.MC): instapmoment **opgelopen**
+
+- **Waarom sterk:** Iberdrola steeg +14,8% in 3 maanden en +7,6% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,0x het normale volume; beweegt gemiddeld 1,4% per dag.
+- **Instapmoment:** de koers staat +4,3% van het 20-daags gemiddelde (3,1x de normale dagbeweging) en RSI is 78; na zo'n sprint volgt vaak eerst een terugval.
+- **Status:** niet gekocht: RSI 78 boven de grens 75.
+- **Plan van de bot:** koop 76 stuks rond 23.20 EUR (inzet €1.763,32), stop-loss 22.55 EUR (-2,8%). Maximaal verlies als de stop wordt geraakt: ongeveer €51,83. Ter oriëntatie: 2x het risico winst ligt bij 24.51 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
 
 
 ## Wat de bot tot nu toe geleerd heeft
@@ -106,8 +106,8 @@ _Dit is wat de oefenbot met zijn nepgeld volgens zijn eigen regels zou doen. Gee
 
 | Eis | Stand | Nu |
 | --- | --- | --- |
-| Oefentijd | ⏳ | 22 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe +1,73% |
+| Oefentijd | ⏳ | 23 van 63 handelsdagen (ongeveer 3 maanden) |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe +0,56% |
 | Grootste daling onder 5% | ✅ | grootste daling tot nu toe -2,18% |
 | Genoeg afgesloten trades | ⏳ | 5 van 20 |
 
@@ -133,8 +133,8 @@ _Dit is wat de oefenbot met zijn nepgeld volgens zijn eigen regels zou doen. Gee
 
 | Ticker | Aantal | Instap | Stop | Sinds |
 | --- | --- | --- | --- | --- |
-| SAP.DE | 2 | 191.56 EUR | 199.49 | 2026-10-10 |
-| DB1.DE | 1 | 314.96 EUR | 306.86 | 2026-10-29 |
+| SAP.DE | 2 | 191.56 EUR | 199.68 | 2026-10-10 |
+| DB1.DE | 1 | 314.96 EUR | 307.21 | 2026-10-29 |
 | ABBV | 2 | 290.94 USD | 277.38 | 2026-10-29 |
 | WKL.AS | 10 | 86.80 EUR | 84.13 | 2026-10-30 |
 | MA | 2 | 647.63 USD | 631.15 | 2026-11-03 |
@@ -146,16 +146,16 @@ _Dit is wat de oefenbot met zijn nepgeld volgens zijn eigen regels zou doen. Gee
 
 | # | Ticker | Score | 3 mnd | 1 mnd |
 | --- | --- | --- | --- | --- |
-| 1 | BRK-B | 0.159 | +14.4% | +12.7% |
-| 2 | HEIA.AS | 0.151 | +14.0% | +16.7% |
-| 3 | BAYN.DE | 0.138 | +18.7% | +30.1% |
-| 4 | DB1.DE | 0.136 | +18.0% | +7.5% |
-| 5 | AI.PA | 0.136 | +12.5% | +12.8% |
-| 6 | OR.PA | 0.135 | +16.1% | +16.2% |
-| 7 | PG | 0.132 | +17.8% | +10.8% |
-| 8 | IBE.MC | 0.131 | +13.6% | +6.4% |
-| 9 | ASRNL.AS | 0.131 | +14.7% | +9.1% |
-| 10 | MA | 0.122 | +17.9% | +10.7% |
+| 1 | BRK-B | 0.170 | +16.0% | +13.0% |
+| 2 | AI.PA | 0.149 | +14.3% | +13.8% |
+| 3 | DB1.DE | 0.148 | +19.8% | +9.4% |
+| 4 | OR.PA | 0.140 | +17.6% | +15.2% |
+| 5 | IBE.MC | 0.140 | +14.8% | +7.6% |
+| 6 | HEIA.AS | 0.139 | +13.4% | +14.9% |
+| 7 | BAYN.DE | 0.132 | +18.3% | +28.1% |
+| 8 | ASRNL.AS | 0.127 | +14.2% | +8.7% |
+| 9 | PG | 0.126 | +17.0% | +10.3% |
+| 10 | LLY | 0.122 | +19.1% | +23.2% |
 
 ## Afgesloten trades
 
