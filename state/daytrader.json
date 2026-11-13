@@ -742,22 +742,12 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-13T20:46:30+00:00",
-  "ny": "2026-11-13 15:46",
-  "status": "ok",
-  "log": [
-   "Dag klaar: 0 trades, resultaat +0.00 dollar."
-  ]
+  "tijd": "2026-11-13T21:26:33+00:00",
+  "ny": "2026-11-13 16:26",
+  "status": "klaar voor vandaag",
+  "log": []
  },
  "rondes": [
-  {
-   "tijd": "2026-11-11T18:31:30+00:00",
-   "ny": "2026-11-11 13:31",
-   "status": "ok",
-   "log": [
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-11-11T18:46:30+00:00",
    "ny": "2026-11-11 13:46",
@@ -1227,6 +1217,12 @@
    "log": [
     "Dag klaar: 0 trades, resultaat +0.00 dollar."
    ]
+  },
+  {
+   "tijd": "2026-11-13T21:26:33+00:00",
+   "ny": "2026-11-13 16:26",
+   "status": "klaar voor vandaag",
+   "log": []
   }
  ],
  "dagcontext": {
