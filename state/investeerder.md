@@ -1,55 +1,55 @@
-# Investeerder 2026-11-12
+# Investeerder 2026-11-13
 
 _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 
 **Status:** OK  
-**Waarde:** €9,513.13  
+**Waarde:** €9,368.41  
 **Marktregime:** stijgend-hoog  
 **Strategieversie:** investeerder-1.0-64ce27  
 **Koersbronnen:** 69 bevestigd door 2 bronnen, 62 uit 1 bron, 0 afwijkend; wisselkoers bevestigd  
-**Sinds start:** -4.87%  
+**Sinds start:** -6.32%  
 
 ## Verdeling
 
 | Instrument | Aandeel |
 | --- | --- |
-| iShares MSCI World (IWDA.AS) | 60.1% |
-| AMD (AMD) | 6.3% |
+| iShares MSCI World (IWDA.AS) | 60.4% |
+| AMD (AMD) | 5.8% |
 | Micron (MU) | 5.1% |
-| Bitcoin (BTC-USD) | 4.7% |
+| Bitcoin (BTC-USD) | 4.6% |
 | Ethereum (ETH-USD) | 4.4% |
-| Kas | 19.4% |
+| Kas | 19.7% |
 
 ## Analyse van vandaag
 
 **Wat de bot zag**
 
-- **Markt (IWDA.AS):** koers 131,76, 7,8% boven het 200-daags gemiddelde (122,18); de afgelopen maand -0,0%. Trend: **stijgend**.
+- **Markt (IWDA.AS):** koers 130,42, 6,7% boven het 200-daags gemiddelde (122,26); de afgelopen maand -0,2%. Trend: **stijgend**.
 - **Beweeglijkheid:** 15% op jaarbasis, tegen normaal 10% het afgelopen jaar: **hoog**.
 - **Breedte:** 84 van de 129 instrumenten staan boven hun 200-daags gemiddelde (65%; EU 41 van 60, US 43 van 69).
-- **Sterkste momentum nu (12 maanden, zonder laatste maand):** Micron +280%, AMD +140%, CrowdStrike +79%, Texas Instruments +79%, Palo Alto Networks +72%.
-- **BTC-USD:** 1,2% boven het 200-daags gemiddelde (mag in de mix).
-- **ETH-USD:** 4,4% onder het 200-daags gemiddelde (blijft in kas).
+- **Sterkste momentum nu (12 maanden, zonder laatste maand):** Micron +281%, AMD +117%, CrowdStrike +79%, Palo Alto Networks +76%, Texas Instruments +74%.
+- **BTC-USD:** 2,4% onder het 200-daags gemiddelde (blijft in kas).
+- **ETH-USD:** 6,2% onder het 200-daags gemiddelde (blijft in kas).
 
 **Wat de bot eruit haalt**
 
 - De markt stijgt: de kern (wereld-ETF) doet zijn werk, de sterkste aandelen lopen mee.
 - De markt beweegt meer dan normaal: grotere schommelingen in de waarde zijn te verwachten; de spreiding over 60% wereld-ETF dempt dat.
 - Alle satellietposities horen nog bij de sterkste 5: de keuze van deze maand houdt stand.
-- ETH-USD staat onder het 200-daags gemiddelde: bij de volgende herverdeling gaat dat deel naar kas.
+- BTC-USD, ETH-USD staat onder het 200-daags gemiddelde: bij de volgende herverdeling gaat dat deel naar kas.
 
 ## Verlies en winst per belegging
 
 | Instrument | Waarde | Ingelegd | Resultaat |
 | --- | --- | --- | --- |
-| MU | €488,46 | €600,00 | -€111,54 (-18,6%) |
-| ETH-USD | €417,64 | €500,00 | -€82,36 (-16,5%) |
-| BTC-USD | €450,71 | €500,00 | -€49,29 (-9,9%) |
-| AMD | €595,96 | €600,00 | -€4,04 (-0,7%) |
-| IWDA.AS | €5.713,00 | €5.714,81 | -€1,81 (-0,0%) |
+| MU | €476,59 | €600,00 | -€123,41 (-20,6%) |
+| ETH-USD | €410,10 | €500,00 | -€89,90 (-18,0%) |
+| BTC-USD | €435,15 | €500,00 | -€64,85 (-13,0%) |
+| IWDA.AS | €5.654,90 | €5.714,81 | -€59,91 (-1,1%) |
+| AMD | €544,30 | €600,00 | -€55,70 (-9,3%) |
 
-Totaal op de beleggingen: -€249,04 (inclusief aankoopkosten).
-Daling vanaf de hoogste waarde ooit: -4,87% (top €10.000,00). De investeerder heeft geen stop-loss: hij houdt een spreiding vast en herverdeelt maandelijks.
+Totaal op de beleggingen: -€393,77 (inclusief aankoopkosten).
+Daling vanaf de hoogste waarde ooit: -6,32% (top €10.000,00). De investeerder heeft geen stop-loss: hij houdt een spreiding vast en herverdeelt maandelijks.
 
 ## Vandaag gedaan
 
@@ -61,8 +61,8 @@ Daling vanaf de hoogste waarde ooit: -4,87% (top €10.000,00). De investeerder 
 
 | Eis | Stand | Nu |
 | --- | --- | --- |
-| Oefentijd | ⏳ | 23 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -4,35% |
+| Oefentijd | ⏳ | 24 van 63 handelsdagen (ongeveer 3 maanden) |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -4,79% |
 | Daling niet veel dieper dan de ETF | ✅ | bot -8,67%, ETF -3,80% |
 
 <details><summary>Zo analyseert de investeerder (klik om te openen)</summary>
