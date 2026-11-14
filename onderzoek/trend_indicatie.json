@@ -1,178 +1,178 @@
 {
- "gemaakt": "2026-11-07",
- "signalen": 2970,
- "van": "2016-09-01",
- "tot": "2026-10-30",
+ "gemaakt": "2026-11-14",
+ "signalen": 2982,
+ "van": "2016-09-08",
+ "tot": "2026-11-12",
  "tabel": {
   "totaal": {
-   "n": 2970,
-   "winst_pct": 0.343,
-   "gem_r": 0.277
+   "n": 2982,
+   "winst_pct": 0.342,
+   "gem_r": 0.282
   },
   "kenmerken": {
    "Instapmoment": {
     "neutraal": {
-     "n": 1130,
-     "winst_pct": 0.38,
-     "gem_r": 0.277
+     "n": 1134,
+     "winst_pct": 0.378,
+     "gem_r": 0.274
     },
     "gunstig": {
-     "n": 1716,
+     "n": 1724,
      "winst_pct": 0.314,
-     "gem_r": 0.275
+     "gem_r": 0.284
     },
     "opgelopen": {
      "n": 124,
      "winst_pct": 0.403,
-     "gem_r": 0.319
+     "gem_r": 0.32
     }
    },
    "RSI bij instap": {
     "60-70": {
-     "n": 1266,
-     "winst_pct": 0.374,
-     "gem_r": 0.305
+     "n": 1269,
+     "winst_pct": 0.371,
+     "gem_r": 0.295
     },
     "onder 60": {
-     "n": 1513,
+     "n": 1523,
      "winst_pct": 0.309,
-     "gem_r": 0.267
+     "gem_r": 0.282
     },
     "70-80": {
-     "n": 191,
-     "winst_pct": 0.408,
-     "gem_r": 0.183
+     "n": 190,
+     "winst_pct": 0.411,
+     "gem_r": 0.189
     }
    },
    "Markttrend": {
     "onbekend": {
      "n": 114,
-     "winst_pct": 0.263,
-     "gem_r": 0.158
+     "winst_pct": 0.281,
+     "gem_r": 0.257
     },
     "stijgend": {
-     "n": 2210,
-     "winst_pct": 0.334,
-     "gem_r": 0.233
+     "n": 2214,
+     "winst_pct": 0.332,
+     "gem_r": 0.229
     },
     "zijwaarts": {
-     "n": 353,
+     "n": 356,
      "winst_pct": 0.317,
-     "gem_r": 0.203
+     "gem_r": 0.215
     },
     "dalend": {
-     "n": 293,
-     "winst_pct": 0.471,
-     "gem_r": 0.746
+     "n": 298,
+     "winst_pct": 0.47,
+     "gem_r": 0.764
     }
    },
    "Onrust op de markt": {
     "onbekend": {
      "n": 114,
-     "winst_pct": 0.263,
-     "gem_r": 0.158
+     "winst_pct": 0.281,
+     "gem_r": 0.257
     },
     "laag": {
-     "n": 766,
+     "n": 771,
      "winst_pct": 0.291,
-     "gem_r": 0.111
+     "gem_r": 0.113
     },
     "normaal": {
-     "n": 1518,
-     "winst_pct": 0.372,
-     "gem_r": 0.337
+     "n": 1520,
+     "winst_pct": 0.368,
+     "gem_r": 0.331
     },
     "hoog": {
-     "n": 572,
-     "winst_pct": 0.351,
-     "gem_r": 0.365
+     "n": 577,
+     "winst_pct": 0.354,
+     "gem_r": 0.382
     }
    },
    "Stijging 3 maanden": {
     "10-25%": {
-     "n": 807,
-     "winst_pct": 0.338,
-     "gem_r": 0.207
+     "n": 813,
+     "winst_pct": 0.337,
+     "gem_r": 0.195
     },
     "tot 10%": {
-     "n": 1966,
+     "n": 1969,
      "winst_pct": 0.332,
-     "gem_r": 0.283
+     "gem_r": 0.293
     },
     "meer dan 25%": {
-     "n": 197,
-     "winst_pct": 0.467,
-     "gem_r": 0.51
+     "n": 200,
+     "winst_pct": 0.46,
+     "gem_r": 0.523
     }
    },
    "Afstand tot 200-daags gemiddelde": {
     "10-25%": {
-     "n": 1138,
-     "winst_pct": 0.344,
-     "gem_r": 0.217
+     "n": 1140,
+     "winst_pct": 0.342,
+     "gem_r": 0.216
     },
     "tot 10%": {
-     "n": 1641,
-     "winst_pct": 0.339,
-     "gem_r": 0.317
+     "n": 1651,
+     "winst_pct": 0.34,
+     "gem_r": 0.327
     },
     "meer dan 25%": {
      "n": 191,
-     "winst_pct": 0.366,
-     "gem_r": 0.297
+     "winst_pct": 0.361,
+     "gem_r": 0.286
     }
    },
    "Beweeglijkheid aandeel": {
     "normaal": {
-     "n": 1903,
-     "winst_pct": 0.331,
-     "gem_r": 0.203
+     "n": 1916,
+     "winst_pct": 0.33,
+     "gem_r": 0.204
     },
     "rustig": {
-     "n": 595,
-     "winst_pct": 0.366,
-     "gem_r": 0.463
+     "n": 592,
+     "winst_pct": 0.368,
+     "gem_r": 0.49
     },
     "wild": {
-     "n": 472,
-     "winst_pct": 0.36,
-     "gem_r": 0.343
+     "n": 474,
+     "winst_pct": 0.357,
+     "gem_r": 0.337
     }
    },
    "Handel t.o.v. normaal": {
+    "meer": {
+     "n": 602,
+     "winst_pct": 0.337,
+     "gem_r": 0.234
+    },
     "normaal": {
-     "n": 1513,
-     "winst_pct": 0.346,
-     "gem_r": 0.313
+     "n": 1532,
+     "winst_pct": 0.345,
+     "gem_r": 0.315
     },
     "minder": {
-     "n": 856,
+     "n": 848,
      "winst_pct": 0.34,
-     "gem_r": 0.244
-    },
-    "meer": {
-     "n": 601,
-     "winst_pct": 0.338,
-     "gem_r": 0.235
+     "gem_r": 0.256
     }
    }
   }
  },
  "toets": {
   "genoeg": true,
-  "leer_dagen": 913,
+  "leer_dagen": 915,
   "test_dagen": 610,
-  "vanaf": "2022-12-13",
+  "vanaf": "2022-12-21",
   "per_oordeel": {
    "gemiddeld": {
-    "n": 1171,
-    "gem_r": 0.28,
+    "n": 1175,
+    "gem_r": 0.278,
     "winst_pct": 0.335
    },
    "gunstig": {
-    "n": 30,
-    "gem_r": 1.348,
-    "winst_pct": 0.6
+    "n": 27,
+    "gem_r": 1.383,
+    "winst_pct": 0.593
    },
    "ongunstig": {
     "n": 2,
@@ -182,5 +182,5 @@
   },
   "werkt": false
  },
- "zin": "Toets op 610 latere dagen die de indicatie nooit zag: gunstig +1,35 R (30 koopsignalen), gemiddeld +0,28 R (1171 koopsignalen), ongunstig −0,61 R (2 koopsignalen). Nog geen duidelijk verschil: gebruik de indicatie voorlopig alleen als informatie."
+ "zin": "Toets op 610 latere dagen die de indicatie nooit zag: gunstig +1,38 R (27 koopsignalen), gemiddeld +0,28 R (1175 koopsignalen), ongunstig −0,61 R (2 koopsignalen). Nog geen duidelijk verschil: gebruik de indicatie voorlopig alleen als informatie."
 }
