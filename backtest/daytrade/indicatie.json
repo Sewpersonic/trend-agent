@@ -1,23 +1,23 @@
 {
- "gemaakt": "2026-11-07T13:34:50+00:00",
- "uitbraken": 97,
+ "gemaakt": "2026-11-14T13:49:14+00:00",
+ "uitbraken": 102,
  "tabel": {
   "totaal": {
-   "n": 97,
-   "winst_pct": 0.526,
-   "gem_r": -0.02
+   "n": 102,
+   "winst_pct": 0.52,
+   "gem_r": -0.033
   },
   "kenmerken": {
    "Daggrafiek van het aandeel": {
     "geen duidelijke richting": {
-     "n": 40,
-     "winst_pct": 0.575,
-     "gem_r": -0.001
+     "n": 42,
+     "winst_pct": 0.571,
+     "gem_r": -0.008
     },
     "dalende trend": {
-     "n": 11,
-     "winst_pct": 0.364,
-     "gem_r": -0.086
+     "n": 14,
+     "winst_pct": 0.357,
+     "gem_r": -0.149
     },
     "stijgende trend": {
      "n": 46,
@@ -27,14 +27,14 @@
    },
    "Plek in het bereik van 3 maanden": {
     "midden in het bereik": {
-     "n": 70,
-     "winst_pct": 0.514,
-     "gem_r": -0.013
+     "n": 72,
+     "winst_pct": 0.5,
+     "gem_r": -0.041
     },
     "onderaan het bereik": {
-     "n": 11,
-     "winst_pct": 0.455,
-     "gem_r": -0.215
+     "n": 14,
+     "winst_pct": 0.5,
+     "gem_r": -0.124
     },
     "bij de 3-maands top": {
      "n": 16,
@@ -49,33 +49,33 @@
      "gem_r": 0.117
     },
     "markt zonder richting": {
-     "n": 29,
-     "winst_pct": 0.31,
-     "gem_r": -0.341
+     "n": 34,
+     "winst_pct": 0.324,
+     "gem_r": -0.333
     }
    },
    "Tijdstip van kopen (New York)": {
     "10:00-10:59": {
-     "n": 58,
-     "winst_pct": 0.517,
-     "gem_r": -0.043
+     "n": 60,
+     "winst_pct": 0.533,
+     "gem_r": -0.024
     },
     "11:00-11:59": {
-     "n": 34,
-     "winst_pct": 0.5,
-     "gem_r": -0.039
+     "n": 36,
+     "winst_pct": 0.472,
+     "gem_r": -0.078
     },
     "12:00-12:30": {
-     "n": 5,
-     "winst_pct": 0.8,
-     "gem_r": 0.389
+     "n": 6,
+     "winst_pct": 0.667,
+     "gem_r": 0.153
     }
    },
    "Extra handel in het eerste half uur": {
     "1,5-2,5x": {
-     "n": 41,
-     "winst_pct": 0.463,
-     "gem_r": 0.026
+     "n": 45,
+     "winst_pct": 0.467,
+     "gem_r": 0.015
     },
     "1,2-1,5x": {
      "n": 51,
@@ -83,9 +83,9 @@
      "gem_r": -0.085
     },
     "meer dan 2,5x": {
-     "n": 5,
-     "winst_pct": 1.0,
-     "gem_r": 0.278
+     "n": 6,
+     "winst_pct": 0.833,
+     "gem_r": 0.061
     }
    },
    "Breedte van de openingsrange": {
@@ -95,21 +95,21 @@
      "gem_r": -0.128
     },
     "normaal (1-2%)": {
-     "n": 37,
-     "winst_pct": 0.595,
-     "gem_r": -0.001
+     "n": 39,
+     "winst_pct": 0.59,
+     "gem_r": -0.022
     },
     "breed (>2%)": {
-     "n": 32,
-     "winst_pct": 0.531,
-     "gem_r": 0.053
+     "n": 35,
+     "winst_pct": 0.514,
+     "gem_r": 0.032
     }
    },
    "Opening t.o.v. gisteren": {
     "veel hoger geopend (>2%)": {
-     "n": 13,
-     "winst_pct": 0.385,
-     "gem_r": -0.037
+     "n": 18,
+     "winst_pct": 0.389,
+     "gem_r": -0.106
     },
     "rond gisteren": {
      "n": 19,
@@ -129,36 +129,36 @@
    },
    "Markt op het moment van kopen": {
     "licht hoger (<0,3%)": {
-     "n": 62,
-     "winst_pct": 0.565,
-     "gem_r": 0.005
+     "n": 64,
+     "winst_pct": 0.562,
+     "gem_r": 0.001
     },
     "hoger (0,3-0,8%)": {
-     "n": 34,
-     "winst_pct": 0.471,
-     "gem_r": -0.043
+     "n": 35,
+     "winst_pct": 0.457,
+     "gem_r": -0.071
     },
     "sterk hoger (>0,8%)": {
-     "n": 1,
-     "winst_pct": 0.0,
-     "gem_r": -0.777
+     "n": 3,
+     "winst_pct": 0.333,
+     "gem_r": -0.298
     }
    }
   }
  },
  "toets": {
   "genoeg": true,
-  "leer_dagen": 17,
-  "test_dagen": 12,
-  "vanaf": "2026-10-07",
+  "leer_dagen": 19,
+  "test_dagen": 13,
+  "vanaf": "2026-10-13",
   "per_oordeel": {
    "gemiddeld": {
-    "n": 50,
-    "gem_r": -0.023,
-    "winst_pct": 0.54
+    "n": 47,
+    "gem_r": -0.105,
+    "winst_pct": 0.468
    }
   },
   "werkt": false
  },
- "zin": "Toets op 12 latere dagen die de indicatie nooit zag: gunstig –, gemiddeld −0,02 R (50 uitbraken), ongunstig –. Nog geen duidelijk verschil: gebruik de indicatie voorlopig alleen als informatie."
+ "zin": "Toets op 13 latere dagen die de indicatie nooit zag: gunstig –, gemiddeld −0,10 R (47 uitbraken), ongunstig –. Nog geen duidelijk verschil: gebruik de indicatie voorlopig alleen als informatie."
 }

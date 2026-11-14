@@ -1,7 +1,7 @@
 {
- "gemaakt": "2026-11-07T13:34:50+00:00",
+ "gemaakt": "2026-11-14T13:49:14+00:00",
  "van": "2026-08-18",
- "tot": "2026-11-06",
+ "tot": "2026-11-13",
  "aandelen": [
   "AAPL",
   "AMD",
@@ -32,32 +32,32 @@
   "XOM"
  ],
  "vergelijk": {
-  "spy_vasthouden": -0.0434,
-  "spy_elke_dag_in_en_uit": -0.1065
+  "spy_vasthouden": -0.0188,
+  "spy_elke_dag_in_en_uit": -0.0951
  },
  "varianten": {
   "basis": {
    "stats": {
-    "trades": 49,
-    "dagen": 58,
-    "dagen_met_trade": 29,
-    "winst_pct": 0.551,
-    "gem_r": 0.03,
-    "rendement": 0.0083,
-    "max_daling": -0.0161,
-    "profit_factor": 1.24,
+    "trades": 53,
+    "dagen": 63,
+    "dagen_met_trade": 32,
+    "winst_pct": 0.547,
+    "gem_r": 0.021,
+    "rendement": 0.0064,
+    "max_daling": -0.0179,
+    "profit_factor": 1.16,
     "redenen": {
-     "stop-loss": 4,
+     "stop-loss": 5,
      "winstdoel": 1,
-     "einde van de dag": 44
+     "einde van de dag": 47
     }
    },
-   "eind": 10082.82
+   "eind": 10063.95
   },
   "alleen als de daggrafiek van het aandeel stijgt": {
    "stats": {
     "trades": 37,
-    "dagen": 58,
+    "dagen": 63,
     "dagen_met_trade": 25,
     "winst_pct": 0.486,
     "gem_r": -0.087,
@@ -74,129 +74,129 @@
   },
   "niet als de daggrafiek van de markt daalt": {
    "stats": {
-    "trades": 49,
-    "dagen": 58,
-    "dagen_met_trade": 29,
-    "winst_pct": 0.551,
-    "gem_r": 0.03,
-    "rendement": 0.0083,
-    "max_daling": -0.0161,
-    "profit_factor": 1.24,
-    "redenen": {
-     "stop-loss": 4,
-     "winstdoel": 1,
-     "einde van de dag": 44
-    }
-   },
-   "eind": 10082.82
-  },
-  "zonder winstdoel (alleen stop of einde dag)": {
-   "stats": {
-    "trades": 48,
-    "dagen": 58,
-    "dagen_met_trade": 29,
-    "winst_pct": 0.542,
-    "gem_r": 0.033,
-    "rendement": 0.0082,
-    "max_daling": -0.0161,
-    "profit_factor": 1.24,
-    "redenen": {
-     "stop-loss": 4,
-     "winstdoel": 0,
-     "einde van de dag": 44
-    }
-   },
-   "eind": 10082.13
-  },
-  "zonder marktfilter": {
-   "stats": {
-    "trades": 78,
-    "dagen": 58,
-    "dagen_met_trade": 44,
-    "winst_pct": 0.423,
-    "gem_r": -0.139,
-    "rendement": -0.0347,
-    "max_daling": -0.0441,
-    "profit_factor": 0.6,
-    "redenen": {
-     "stop-loss": 14,
-     "winstdoel": 1,
-     "einde van de dag": 63
-    }
-   },
-   "eind": 9653.18
-  },
-  "openingsrange 15 minuten": {
-   "stats": {
-    "trades": 72,
-    "dagen": 58,
-    "dagen_met_trade": 37,
-    "winst_pct": 0.431,
-    "gem_r": -0.158,
-    "rendement": -0.0128,
-    "max_daling": -0.0322,
-    "profit_factor": 0.82,
-    "redenen": {
-     "stop-loss": 18,
-     "winstdoel": 3,
-     "einde van de dag": 51
-    }
-   },
-   "eind": 9872.3
-  },
-  "minder streng op volume (1,0x)": {
-   "stats": {
-    "trades": 72,
-    "dagen": 58,
-    "dagen_met_trade": 37,
-    "winst_pct": 0.5,
-    "gem_r": -0.011,
-    "rendement": 0.0111,
-    "max_daling": -0.0123,
-    "profit_factor": 1.22,
-    "redenen": {
-     "stop-loss": 8,
-     "winstdoel": 1,
-     "einde van de dag": 63
-    }
-   },
-   "eind": 10110.71
-  },
-  "elke 5 minuten kijken": {
-   "stats": {
-    "trades": 56,
-    "dagen": 58,
+    "trades": 53,
+    "dagen": 63,
     "dagen_met_trade": 32,
-    "winst_pct": 0.464,
-    "gem_r": -0.081,
-    "rendement": -0.0109,
-    "max_daling": -0.0306,
-    "profit_factor": 0.8,
+    "winst_pct": 0.547,
+    "gem_r": 0.021,
+    "rendement": 0.0064,
+    "max_daling": -0.0179,
+    "profit_factor": 1.16,
     "redenen": {
-     "stop-loss": 8,
+     "stop-loss": 5,
      "winstdoel": 1,
      "einde van de dag": 47
     }
    },
-   "eind": 9890.66
+   "eind": 10063.95
+  },
+  "zonder winstdoel (alleen stop of einde dag)": {
+   "stats": {
+    "trades": 52,
+    "dagen": 63,
+    "dagen_met_trade": 32,
+    "winst_pct": 0.538,
+    "gem_r": 0.023,
+    "rendement": 0.0063,
+    "max_daling": -0.0179,
+    "profit_factor": 1.15,
+    "redenen": {
+     "stop-loss": 5,
+     "winstdoel": 0,
+     "einde van de dag": 47
+    }
+   },
+   "eind": 10063.26
+  },
+  "zonder marktfilter": {
+   "stats": {
+    "trades": 82,
+    "dagen": 63,
+    "dagen_met_trade": 47,
+    "winst_pct": 0.427,
+    "gem_r": -0.137,
+    "rendement": -0.0366,
+    "max_daling": -0.0459,
+    "profit_factor": 0.61,
+    "redenen": {
+     "stop-loss": 15,
+     "winstdoel": 1,
+     "einde van de dag": 66
+    }
+   },
+   "eind": 9634.16
+  },
+  "openingsrange 15 minuten": {
+   "stats": {
+    "trades": 77,
+    "dagen": 63,
+    "dagen_met_trade": 40,
+    "winst_pct": 0.429,
+    "gem_r": -0.163,
+    "rendement": -0.0189,
+    "max_daling": -0.0382,
+    "profit_factor": 0.78,
+    "redenen": {
+     "stop-loss": 20,
+     "winstdoel": 3,
+     "einde van de dag": 54
+    }
+   },
+   "eind": 9811.3
+  },
+  "minder streng op volume (1,0x)": {
+   "stats": {
+    "trades": 77,
+    "dagen": 63,
+    "dagen_met_trade": 40,
+    "winst_pct": 0.519,
+    "gem_r": 0.011,
+    "rendement": 0.0186,
+    "max_daling": -0.0123,
+    "profit_factor": 1.34,
+    "redenen": {
+     "stop-loss": 9,
+     "winstdoel": 1,
+     "einde van de dag": 67
+    }
+   },
+   "eind": 10185.65
+  },
+  "elke 5 minuten kijken": {
+   "stats": {
+    "trades": 60,
+    "dagen": 63,
+    "dagen_met_trade": 35,
+    "winst_pct": 0.467,
+    "gem_r": -0.079,
+    "rendement": -0.012,
+    "max_daling": -0.0317,
+    "profit_factor": 0.8,
+    "redenen": {
+     "stop-loss": 9,
+     "winstdoel": 1,
+     "einde van de dag": 50
+    }
+   },
+   "eind": 9879.62
   },
   "alleen kopen tot 11:00": {
    "stats": {
-    "trades": 37,
-    "dagen": 58,
-    "dagen_met_trade": 23,
-    "winst_pct": 0.568,
-    "gem_r": 0.059,
-    "rendement": 0.0107,
+    "trades": 40,
+    "dagen": 63,
+    "dagen_met_trade": 25,
+    "winst_pct": 0.575,
+    "gem_r": 0.07,
+    "rendement": 0.0133,
     "max_daling": -0.0163,
-    "profit_factor": 1.41,
+    "profit_factor": 1.47,
     "redenen": {
      "stop-loss": 4,
      "winstdoel": 1,
-     "einde van de dag": 32
+     "einde van de dag": 35
     }
    },
-   "eind": 10106.58
+   "eind": 10133.02
   }
  },
  "basis_dagen": [
@@ -547,6 +547,36 @@
    "resultaat": -41.34,
    "trades": 2,
    "daglimiet": false
+  },
+  {
+   "dag": "2026-11-09",
+   "resultaat": 40.22,
+   "trades": 1,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-11-10",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-11-11",
+   "resultaat": -13.78,
+   "trades": 2,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-11-12",
+   "resultaat": -45.31,
+   "trades": 1,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-11-13",
+   "resultaat": 0.0,
+   "trades": 0,
+   "daglimiet": false
   }
  ],
  "basis_curve": [
@@ -781,6 +811,26 @@
   [
    "2026-11-06",
    10082.82
+  ],
+  [
+   "2026-11-09",
+   10123.04
+  ],
+  [
+   "2026-11-10",
+   10123.04
+  ],
+  [
+   "2026-11-11",
+   10109.26
+  ],
+  [
+   "2026-11-12",
+   10063.95
+  ],
+  [
+   "2026-11-13",
+   10063.95
   ]
  ],
  "regels": {
@@ -789,19 +839,19 @@
  },
  "leren": {
   "totaal": {
-   "n": 49,
-   "gem_r": 0.03,
-   "winst_pct": 0.551,
-   "resultaat": 82.81
+   "n": 53,
+   "gem_r": 0.021,
+   "winst_pct": 0.547,
+   "resultaat": 63.94
   },
   "groepen": {
    "Daggrafiek van het aandeel": [
     {
      "groep": "geen duidelijke richting",
-     "n": 22,
-     "gem_r": 0.048,
-     "winst_pct": 0.545,
-     "resultaat": 19.95
+     "n": 24,
+     "gem_r": 0.032,
+     "winst_pct": 0.542,
+     "resultaat": 6.17
     },
     {
      "groep": "stijgende trend",
@@ -812,19 +862,19 @@
     },
     {
      "groep": "dalende trend",
-     "n": 5,
-     "gem_r": 0.091,
-     "winst_pct": 0.6,
-     "resultaat": 21.89
+     "n": 7,
+     "gem_r": 0.048,
+     "winst_pct": 0.571,
+     "resultaat": 16.8
     }
    ],
    "Plek in het bereik van 3 maanden": [
     {
      "groep": "midden in het bereik",
-     "n": 34,
-     "gem_r": 0.008,
-     "winst_pct": 0.5,
-     "resultaat": 0.95
+     "n": 35,
+     "gem_r": -0.022,
+     "winst_pct": 0.486,
+     "resultaat": -44.36
     },
     {
      "groep": "bij de 3-maands top",
@@ -835,10 +885,10 @@
     },
     {
      "groep": "onderaan het bereik",
-     "n": 4,
-     "gem_r": 0.099,
-     "winst_pct": 0.75,
-     "resultaat": 18.95
+     "n": 7,
+     "gem_r": 0.146,
+     "winst_pct": 0.714,
+     "resultaat": 45.39
     }
    ],
    "Daggrafiek van de markt (SPY)": [
@@ -851,26 +901,26 @@
     },
     {
      "groep": "markt zonder richting",
-     "n": 14,
-     "gem_r": -0.315,
-     "winst_pct": 0.286,
-     "resultaat": -178.11
+     "n": 18,
+     "gem_r": -0.267,
+     "winst_pct": 0.333,
+     "resultaat": -196.98
     }
    ],
    "Tijdstip van kopen (New York)": [
     {
      "groep": "10:00-10:59",
-     "n": 35,
-     "gem_r": 0.083,
-     "winst_pct": 0.6,
-     "resultaat": 131.61
+     "n": 37,
+     "gem_r": 0.108,
+     "winst_pct": 0.622,
+     "resultaat": 180.6
     },
     {
      "groep": "11:00-11:59",
-     "n": 13,
-     "gem_r": -0.097,
-     "winst_pct": 0.462,
-     "resultaat": -41.27
+     "n": 15,
+     "gem_r": -0.183,
+     "winst_pct": 0.4,
+     "resultaat": -109.13
     },
     {
      "groep": "12:00-12:30",
@@ -890,33 +940,33 @@
     },
     {
      "groep": "1,5-2,5x",
-     "n": 20,
-     "gem_r": -0.018,
-     "winst_pct": 0.4,
-     "resultaat": -35.15
+     "n": 23,
+     "gem_r": 0.012,
+     "winst_pct": 0.435,
+     "resultaat": -8.71
     },
     {
      "groep": "meer dan 2,5x",
-     "n": 4,
-     "gem_r": 0.273,
-     "winst_pct": 1.0,
-     "resultaat": 49.51
+     "n": 5,
+     "gem_r": 0.013,
+     "winst_pct": 0.8,
+     "resultaat": 4.2
     }
    ],
    "Breedte van de openingsrange": [
     {
-     "groep": "normaal (1-2%)",
-     "n": 17,
-     "gem_r": 0.018,
-     "winst_pct": 0.588,
-     "resultaat": 26.4
+     "groep": "breed (>2%)",
+     "n": 20,
+     "gem_r": 0.019,
+     "winst_pct": 0.5,
+     "resultaat": -11.82
     },
     {
-     "groep": "breed (>2%)",
-     "n": 17,
-     "gem_r": 0.057,
-     "winst_pct": 0.529,
-     "resultaat": 15.82
+     "groep": "normaal (1-2%)",
+     "n": 18,
+     "gem_r": 0.027,
+     "winst_pct": 0.611,
+     "resultaat": 35.17
     },
     {
      "groep": "smal (<1%)",
@@ -950,19 +1000,19 @@
     },
     {
      "groep": "veel hoger geopend (>2%)",
-     "n": 6,
-     "gem_r": 0.084,
+     "n": 10,
+     "gem_r": 0.011,
      "winst_pct": 0.5,
-     "resultaat": 15.8
+     "resultaat": -3.07
     }
    ],
    "Markt op het moment van kopen": [
     {
      "groep": "licht hoger (<0,3%)",
-     "n": 38,
-     "gem_r": 0.108,
-     "winst_pct": 0.632,
-     "resultaat": 204.28
+     "n": 40,
+     "gem_r": 0.096,
+     "winst_pct": 0.625,
+     "resultaat": 190.5
     },
     {
      "groep": "hoger (0,3-0,8%)",
@@ -973,10 +1023,10 @@
     },
     {
      "groep": "sterk hoger (>0,8%)",
-     "n": 1,
-     "gem_r": -0.777,
-     "winst_pct": 0.0,
-     "resultaat": -37.05
+     "n": 3,
+     "gem_r": -0.298,
+     "winst_pct": 0.333,
+     "resultaat": -42.14
     }
    ]
   },
@@ -987,44 +1037,44 @@
     "soort": "beter",
     "n": 35,
     "gem_r": 0.169,
-    "verschil_r": 0.484,
-    "t": 2.9,
+    "verschil_r": 0.436,
+    "t": 2.6,
     "tekst": "Beter: daggrafiek van de markt (SPY) markt in stijgende trend (35 trades, gemiddeld +0,17 R per trade)."
    },
    {
     "kenmerk": "Daggrafiek van de markt (SPY)",
     "groep": "markt zonder richting",
     "soort": "slechter",
-    "n": 14,
-    "gem_r": -0.315,
-    "verschil_r": -0.484,
-    "t": -2.9,
-    "tekst": "Slechter: daggrafiek van de markt (SPY) markt zonder richting (14 trades, gemiddeld −0,32 R per trade)."
+    "n": 18,
+    "gem_r": -0.267,
+    "verschil_r": -0.436,
+    "t": -2.6,
+    "tekst": "Slechter: daggrafiek van de markt (SPY) markt zonder richting (18 trades, gemiddeld −0,27 R per trade)."
    }
   ]
  },
  "lessen": [
-  "Test op oude koersen: 49 trades, 55% met winst, gemiddeld +0,03 R per trade.",
+  "Test op oude koersen: 53 trades, 55% met winst, gemiddeld +0,02 R per trade.",
   "Beter: daggrafiek van de markt (SPY) markt in stijgende trend (35 trades, gemiddeld +0,17 R per trade).",
-  "Slechter: daggrafiek van de markt (SPY) markt zonder richting (14 trades, gemiddeld −0,32 R per trade)."
+  "Slechter: daggrafiek van de markt (SPY) markt zonder richting (18 trades, gemiddeld −0,27 R per trade)."
  ],
  "voorstel": null,
  "indicatie": {
-  "uitbraken": 97,
+  "uitbraken": 102,
   "toets": {
    "genoeg": true,
-   "leer_dagen": 17,
-   "test_dagen": 12,
-   "vanaf": "2026-10-07",
+   "leer_dagen": 19,
+   "test_dagen": 13,
+   "vanaf": "2026-10-13",
    "per_oordeel": {
     "gemiddeld": {
-     "n": 50,
-     "gem_r": -0.023,
-     "winst_pct": 0.54
+     "n": 47,
+     "gem_r": -0.105,
+     "winst_pct": 0.468
     }
    },
    "werkt": false
   },
-  "zin": "Toets op 12 latere dagen die de indicatie nooit zag: gunstig –, gemiddeld −0,02 R (50 uitbraken), ongunstig –. Nog geen duidelijk verschil: gebruik de indicatie voorlopig alleen als informatie."
+  "zin": "Toets op 13 latere dagen die de indicatie nooit zag: gunstig –, gemiddeld −0,10 R (47 uitbraken), ongunstig –. Nog geen duidelijk verschil: gebruik de indicatie voorlopig alleen als informatie."
  }
 }
