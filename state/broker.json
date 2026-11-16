@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-16T20:27:10+00:00",
+ "tijd": "2026-11-16T21:27:08+00:00",
  "status": "alleen kijken",
  "reden": "Alleen gecontroleerd: geen orders geplaatst.",
  "orders": [],
@@ -19,17 +19,17 @@
  ],
  "account": {
   "currency": "EUR",
-  "totalValue": 5054.69,
+  "totalValue": 5057.85,
   "cash": {
    "availableToTrade": 1693.31,
    "reservedForOrders": 0,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 3361.38,
+   "currentValue": 3364.54,
    "totalCost": 3263.35,
    "realizedProfitLoss": -33.33,
-   "unrealizedProfitLoss": 98.03
+   "unrealizedProfitLoss": 101.19
   }
  },
  "posities": [
@@ -65,14 +65,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 662.26,
+   "currentPrice": 663.69,
    "averagePricePaid": 661.81,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 587.75,
-    "currentValue": 601.95,
-    "unrealizedProfitLoss": 14.2,
-    "fxImpact": 13.79
+    "currentValue": 603.5,
+    "unrealizedProfitLoss": 15.75,
+    "fxImpact": 14.04
    }
   },
   {
@@ -86,14 +86,14 @@
    "quantity": 1.5,
    "quantityAvailableForTrading": 1.5,
    "quantityInPies": 0,
-   "currentPrice": 426.14,
+   "currentPrice": 426.98,
    "averagePricePaid": 427.72,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 569.78,
-    "currentValue": 581.0,
-    "unrealizedProfitLoss": 11.22,
-    "fxImpact": 13.37
+    "currentValue": 582.38,
+    "unrealizedProfitLoss": 12.6,
+    "fxImpact": 13.61
    }
   },
   {
@@ -107,14 +107,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 294.79,
+   "currentPrice": 294.34,
    "averagePricePaid": 293.84,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 263.19,
-    "currentValue": 267.94,
-    "unrealizedProfitLoss": 4.75,
-    "fxImpact": 3.89
+    "currentValue": 267.65,
+    "unrealizedProfitLoss": 4.46,
+    "fxImpact": 4.01
    }
   },
   {
@@ -170,14 +170,14 @@
    "quantity": 4.0,
    "quantityAvailableForTrading": 4.0,
    "quantityInPies": 0,
-   "currentPrice": 172.72,
+   "currentPrice": 172.8,
    "averagePricePaid": 169.0,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 602.83,
-    "currentValue": 627.96,
-    "unrealizedProfitLoss": 25.13,
-    "fxImpact": 11.61
+    "currentValue": 628.51,
+    "unrealizedProfitLoss": 25.68,
+    "fxImpact": 11.86
    }
   },
   {
