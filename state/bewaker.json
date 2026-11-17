@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-17T11:00:30+00:00",
+ "tijd": "2026-11-17T12:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -7,43 +7,43 @@
    "t212": "SAPd_EQ",
    "stop": 200.3464,
    "actie": "boven de stop-loss",
-   "koers_t212": 209.43,
-   "koers_yahoo": 209.3,
-   "afstand_pct": 0.0453
+   "koers_t212": 208.09,
+   "koers_yahoo": 208.45,
+   "afstand_pct": 0.0404
   },
   {
    "ticker": "DB1.DE",
    "t212": "DB1d_EQ",
    "stop": 311.6857,
    "actie": "boven de stop-loss",
-   "koers_t212": 328.4,
-   "koers_yahoo": 328.7,
-   "afstand_pct": 0.0546
+   "koers_t212": 327.4,
+   "koers_yahoo": 327.6,
+   "afstand_pct": 0.0511
   },
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 295.0,
+   "koers_t212": 293.64,
    "koers_yahoo": 294.64,
-   "afstand_pct": 0.0635
+   "afstand_pct": 0.0622
   },
   {
    "ticker": "WKL.AS",
    "t212": "WKLa_EQ",
    "stop": 84.2757,
    "actie": "boven de stop-loss",
-   "koers_t212": 89.97,
-   "koers_yahoo": 89.86,
-   "afstand_pct": 0.0676
+   "koers_t212": 89.78,
+   "koers_yahoo": 89.74,
+   "afstand_pct": 0.0653
   },
   {
    "ticker": "MA",
    "t212": "MA_US_EQ",
    "stop": 631.1515,
    "actie": "boven de stop-loss",
-   "koers_t212": 660.54,
+   "koers_t212": 660.0,
    "koers_yahoo": 661.93,
    "afstand_pct": 0.0488
   },
@@ -52,7 +52,7 @@
    "t212": "V_US_EQ",
    "stop": 412.0686,
    "actie": "boven de stop-loss",
-   "koers_t212": 425.06,
+   "koers_t212": 424.59,
    "koers_yahoo": 426.42,
    "afstand_pct": 0.0348
   },
@@ -61,16 +61,16 @@
    "t212": "ORp_EQ",
    "stop": 428.4,
    "actie": "boven de stop-loss",
-   "koers_t212": 448.81,
-   "koers_yahoo": 448.85,
-   "afstand_pct": 0.0477
+   "koers_t212": 448.32,
+   "koers_yahoo": 449.05,
+   "afstand_pct": 0.0482
   },
   {
    "ticker": "PG",
    "t212": "PG_US_EQ",
    "stop": 162.6786,
    "actie": "boven de stop-loss",
-   "koers_t212": 172.5,
+   "koers_t212": 172.0,
    "koers_yahoo": 173.15,
    "afstand_pct": 0.0644
   }
@@ -226,5 +226,5 @@
    ]
   }
  ],
- "rondes_vandaag": 14
+ "rondes_vandaag": 18
 }
