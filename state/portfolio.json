@@ -11,7 +11,7 @@
       "opened": "2026-10-10",
       "entry_fx": 1.0,
       "risk_eur": 22.45,
-      "last_checked": "2026-11-16",
+      "last_checked": "2026-11-17",
       "entry_reason": "",
       "entry_context": {},
       "version": ""
@@ -26,7 +26,7 @@
       "opened": "2026-10-29",
       "entry_fx": 1.0,
       "risk_eur": 13.76,
-      "last_checked": "2026-11-16",
+      "last_checked": "2026-11-17",
       "entry_reason": "trend OK: 3m +17.9%, 1m +10.0%, volume x1.09",
       "entry_context": {
         "rsi14": 72.2,
@@ -56,7 +56,7 @@
       "opened": "2026-10-29",
       "entry_fx": 0.8929999963805676,
       "risk_eur": 25.21,
-      "last_checked": "2026-11-16",
+      "last_checked": "2026-11-17",
       "entry_reason": "trend OK: 3m +16.6%, 1m +11.8%, volume x1.14",
       "entry_context": {
         "rsi14": 70.2,
@@ -86,7 +86,7 @@
       "opened": "2026-10-30",
       "entry_fx": 1.0,
       "risk_eur": 48.09,
-      "last_checked": "2026-11-16",
+      "last_checked": "2026-11-17",
       "entry_reason": "trend OK: 3m +22.9%, 1m +26.4%, volume x0.86",
       "entry_context": {
         "rsi14": 70.8,
@@ -116,7 +116,7 @@
       "opened": "2026-11-03",
       "entry_fx": 0.889100018940231,
       "risk_eur": 47.75,
-      "last_checked": "2026-11-16",
+      "last_checked": "2026-11-17",
       "entry_reason": "trend OK: 3m +13.6%, 1m +14.8%, volume x1.12",
       "entry_context": {
         "rsi14": 68.7,
@@ -146,7 +146,7 @@
       "opened": "2026-11-03",
       "entry_fx": 0.889100018940231,
       "risk_eur": 42.83,
-      "last_checked": "2026-11-16",
+      "last_checked": "2026-11-17",
       "entry_reason": "trend OK: 3m +14.3%, 1m +13.7%, volume x1.02",
       "entry_context": {
         "rsi14": 69.2,
@@ -171,12 +171,12 @@
       "currency": "EUR",
       "qty": 2,
       "entry_price": 446.42311221313474,
-      "stop": 428.3999720982143,
+      "stop": 428.4535435267857,
       "highest_close": 453.29998779296875,
       "opened": "2026-11-04",
       "entry_fx": 1.0,
       "risk_eur": 37.16,
-      "last_checked": "2026-11-16",
+      "last_checked": "2026-11-17",
       "entry_reason": "trend OK: 3m +15.6%, 1m +19.4%, volume x1.18",
       "entry_context": {
         "rsi14": 74.0,
@@ -206,7 +206,7 @@
       "opened": "2026-11-04",
       "entry_fx": 0.8886000077116586,
       "risk_eur": 49.9,
-      "last_checked": "2026-11-16",
+      "last_checked": "2026-11-17",
       "entry_reason": "trend OK: 3m +14.6%, 1m +13.5%, volume x1.13",
       "entry_context": {
         "rsi14": 69.8,
@@ -966,6 +966,11 @@
       "day": "2026-11-16",
       "equity": 10087.85,
       "bench": 130.02
+    },
+    {
+      "day": "2026-11-17",
+      "equity": 9962.72,
+      "bench": 127.34
     }
   ],
   "consecutive_losses": 1,
