@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-18T12:26:32+00:00",
+ "tijd": "2026-11-18T13:27:20+00:00",
  "status": "alleen kijken",
  "reden": "Alleen gecontroleerd: geen orders geplaatst.",
  "orders": [],
@@ -19,41 +19,20 @@
  ],
  "account": {
   "currency": "EUR",
-  "totalValue": 4978.31,
+  "totalValue": 4970.99,
   "cash": {
-   "availableToTrade": 1693.31,
+   "availableToTrade": 1892.69,
    "reservedForOrders": 0,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 3285.0,
-   "totalCost": 3263.35,
-   "realizedProfitLoss": -33.33,
-   "unrealizedProfitLoss": 21.65
+   "currentValue": 3078.3,
+   "totalCost": 3062.55,
+   "realizedProfitLoss": -34.75,
+   "unrealizedProfitLoss": 15.75
   }
  },
  "posities": [
-  {
-   "instrument": {
-    "ticker": "SAPd_EQ",
-    "name": "SAP",
-    "isin": "DE0007164600",
-    "currency": "EUR"
-   },
-   "createdAt": "2026-10-16T10:00:06.000+03:00",
-   "quantity": 1.0,
-   "quantityAvailableForTrading": 1.0,
-   "quantityInPies": 0,
-   "currentPrice": 200.92,
-   "averagePricePaid": 200.8,
-   "walletImpact": {
-    "currency": "EUR",
-    "totalCost": 200.8,
-    "currentValue": 200.92,
-    "unrealizedProfitLoss": 0.12,
-    "fxImpact": null
-   }
-  },
   {
    "instrument": {
     "ticker": "MA_US_EQ",
@@ -61,18 +40,18 @@
     "isin": "US57636Q1040",
     "currency": "USD"
    },
-   "createdAt": "2026-11-04T16:30:01.243+02:00",
+   "createdAt": "2026-11-04T16:30:01.000+02:00",
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 647.4,
+   "currentPrice": 643.02,
    "averagePricePaid": 661.81,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 587.75,
-    "currentValue": 590.35,
-    "unrealizedProfitLoss": 2.6,
-    "fxImpact": 15.74
+    "currentValue": 586.09,
+    "unrealizedProfitLoss": -1.66,
+    "fxImpact": 15.47
    }
   },
   {
@@ -82,18 +61,18 @@
     "isin": "US92826C8394",
     "currency": "USD"
    },
-   "createdAt": "2026-11-04T16:30:01.213+02:00",
+   "createdAt": "2026-11-04T16:30:01.000+02:00",
    "quantity": 1.5,
    "quantityAvailableForTrading": 1.5,
    "quantityInPies": 0,
-   "currentPrice": 415.41,
+   "currentPrice": 414.8,
    "averagePricePaid": 427.72,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 569.78,
-    "currentValue": 568.2,
-    "unrealizedProfitLoss": -1.58,
-    "fxImpact": 15.26
+    "currentValue": 567.12,
+    "unrealizedProfitLoss": -2.66,
+    "fxImpact": 15.0
    }
   },
   {
@@ -107,14 +86,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 291.75,
+   "currentPrice": 291.0,
    "averagePricePaid": 293.84,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 263.19,
-    "currentValue": 266.04,
-    "unrealizedProfitLoss": 2.85,
-    "fxImpact": 4.76
+    "currentValue": 265.24,
+    "unrealizedProfitLoss": 2.05,
+    "fxImpact": 4.64
    }
   },
   {
@@ -124,17 +103,17 @@
     "isin": "FR0000120321",
     "currency": "EUR"
    },
-   "createdAt": "2026-11-05T10:00:20.105+02:00",
+   "createdAt": "2026-11-05T10:00:20.000+02:00",
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 443.19,
+   "currentPrice": 443.93,
    "averagePricePaid": 448.0,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 448.0,
-    "currentValue": 443.19,
-    "unrealizedProfitLoss": -4.81,
+    "currentValue": 443.93,
+    "unrealizedProfitLoss": -4.07,
     "fxImpact": null
    }
   },
@@ -149,13 +128,13 @@
    "quantity": 0.5,
    "quantityAvailableForTrading": 0.5,
    "quantityInPies": 0,
-   "currentPrice": 325.7,
+   "currentPrice": 325.3,
    "averagePricePaid": 317.0,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 158.5,
-    "currentValue": 162.85,
-    "unrealizedProfitLoss": 4.35,
+    "currentValue": 162.65,
+    "unrealizedProfitLoss": 4.15,
     "fxImpact": null
    }
   },
@@ -166,18 +145,18 @@
     "isin": "US7427181091",
     "currency": "USD"
    },
-   "createdAt": "2026-11-05T16:35:11.395+02:00",
+   "createdAt": "2026-11-05T16:35:11.000+02:00",
    "quantity": 4.0,
    "quantityAvailableForTrading": 4.0,
    "quantityInPies": 0,
-   "currentPrice": 170.5,
+   "currentPrice": 170.35,
    "averagePricePaid": 169.0,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 602.83,
-    "currentValue": 621.9,
-    "unrealizedProfitLoss": 19.07,
-    "fxImpact": 13.6
+    "currentValue": 621.07,
+    "unrealizedProfitLoss": 18.24,
+    "fxImpact": 13.32
    }
   },
   {
@@ -187,17 +166,17 @@
     "isin": "NL0000395903",
     "currency": "EUR"
    },
-   "createdAt": "2026-11-02T10:00:04.900+02:00",
+   "createdAt": "2026-11-02T10:00:04.000+02:00",
    "quantity": 5.0,
    "quantityAvailableForTrading": 5.0,
    "quantityInPies": 0,
-   "currentPrice": 86.31,
+   "currentPrice": 86.44,
    "averagePricePaid": 86.5,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 432.5,
-    "currentValue": 431.55,
-    "unrealizedProfitLoss": -0.95,
+    "currentValue": 432.2,
+    "unrealizedProfitLoss": -0.3,
     "fxImpact": null
    }
   }
@@ -215,7 +194,15 @@
   "PG": "PG_US_EQ"
  },
  "handmatig": {},
- "plan": [],
+ "plan": [
+  {
+   "ticker": "SAPd_EQ",
+   "yahoo": "SAP.DE",
+   "actie": "koop",
+   "quantity": 1.0,
+   "waarde_eur": 216.75
+  }
+ ],
  "geschiedenis": [
   {
    "tijd": "2026-10-15T16:30:57+00:00",
