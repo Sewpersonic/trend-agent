@@ -728,7 +728,7 @@
   "begin": 9906.17,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-19T12:45:00",
+  "prev": "2026-11-19T13:00:00",
   "traded": [],
   "notities": [],
   "trades": [],
@@ -766,22 +766,14 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-19T17:46:30+00:00",
-  "ny": "2026-11-19 12:46",
+  "tijd": "2026-11-19T18:01:30+00:00",
+  "ny": "2026-11-19 13:01",
   "status": "ok",
   "log": [
    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-17T15:31:30+00:00",
-   "ny": "2026-11-17 10:31",
-   "status": "ok",
-   "log": [
-    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."
-   ]
-  },
   {
    "tijd": "2026-11-17T15:46:30+00:00",
    "ny": "2026-11-17 10:46",
@@ -1245,6 +1237,14 @@
   {
    "tijd": "2026-11-19T17:46:30+00:00",
    "ny": "2026-11-19 12:46",
+   "status": "ok",
+   "log": [
+    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-11-19T18:01:30+00:00",
+   "ny": "2026-11-19 13:01",
    "status": "ok",
    "log": [
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
