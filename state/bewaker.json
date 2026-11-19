@@ -1,80 +1,76 @@
 {
- "tijd": "2026-11-18T20:00:30+00:00",
+ "tijd": "2026-11-19T08:00:30+00:00",
  "status": "ok",
  "posities": [
-  {
-   "ticker": "SAP.DE",
-   "t212": "SAPd_EQ",
-   "stop": 200.3464,
-   "actie": "niet in het oefenaccount"
-  },
   {
    "ticker": "DB1.DE",
    "t212": "DB1d_EQ",
    "stop": 311.6857,
-   "actie": "boven de stop-loss",
-   "koers_t212": 323.9,
-   "koers_yahoo": 324.3,
-   "afstand_pct": 0.0405
+   "actie": "geen tweede koers: niets gedaan",
+   "koers_t212": 323.3,
+   "koers_yahoo": null
   },
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 285.29,
-   "koers_yahoo": 285.29,
-   "afstand_pct": 0.0285
+   "koers_t212": 284.95,
+   "koers_yahoo": 286.0,
+   "afstand_pct": 0.0311
   },
   {
    "ticker": "WKL.AS",
    "t212": "WKLa_EQ",
    "stop": 84.2757,
-   "actie": "boven de stop-loss",
-   "koers_t212": 85.66,
-   "koers_yahoo": 85.4,
-   "afstand_pct": 0.0164
+   "actie": "geen tweede koers: niets gedaan",
+   "koers_t212": 85.28,
+   "koers_yahoo": null
   },
   {
    "ticker": "MA",
    "t212": "MA_US_EQ",
    "stop": 631.1515,
    "actie": "boven de stop-loss",
-   "koers_t212": 642.9,
-   "koers_yahoo": 642.9,
-   "afstand_pct": 0.0186
-  },
-  {
-   "ticker": "V",
-   "t212": "V_US_EQ",
-   "stop": 412.0686,
-   "actie": "boven de stop-loss",
-   "koers_t212": 416.22,
-   "koers_yahoo": 416.226,
-   "afstand_pct": 0.0101
+   "koers_t212": 644.4,
+   "koers_yahoo": 643.22,
+   "afstand_pct": 0.021
   },
   {
    "ticker": "OR.PA",
    "t212": "ORp_EQ",
    "stop": 428.4535,
-   "actie": "boven de stop-loss",
-   "koers_t212": 443.05,
-   "koers_yahoo": 444.2,
-   "afstand_pct": 0.0368
+   "actie": "geen tweede koers: niets gedaan",
+   "koers_t212": 443.59,
+   "koers_yahoo": null
   },
   {
    "ticker": "PG",
    "t212": "PG_US_EQ",
-   "stop": 162.6786,
+   "stop": 162.7236,
    "actie": "boven de stop-loss",
-   "koers_t212": 169.84,
-   "koers_yahoo": 169.84,
-   "afstand_pct": 0.044
+   "koers_t212": 169.68,
+   "koers_yahoo": 170.28,
+   "afstand_pct": 0.0464
+  },
+  {
+   "ticker": "BRK-B",
+   "t212": "BRK_B_US_EQ",
+   "stop": 551.0702,
+   "actie": "niet in het oefenaccount"
+  },
+  {
+   "ticker": "AI.PA",
+   "t212": "AIp_EQ",
+   "stop": 184.0263,
+   "actie": "geen tweede koers: niets gedaan",
+   "koers_t212": 190.26,
+   "koers_yahoo": null
   }
  ],
  "verkocht": [],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: V (+1.0%)."
+  "Alles boven de stop-loss. Dichtst bij: MA (+2.1%)."
  ],
  "twelve_vandaag": 0,
  "geschiedenis": [
@@ -259,5 +255,5 @@
    ]
   }
  ],
- "rondes_vandaag": 47
+ "rondes_vandaag": 1
 }
