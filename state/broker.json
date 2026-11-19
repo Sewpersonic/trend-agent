@@ -1,93 +1,8 @@
 {
- "tijd": "2026-11-19T03:32:01+00:00",
- "status": "ok",
- "reden": "",
- "orders": [
-  {
-   "ticker": "V_US_EQ",
-   "yahoo": "V_US_EQ",
-   "actie": "verkoop",
-   "quantity": -1.5,
-   "waarde_eur": 0.0,
-   "uitkomst": "geplaatst",
-   "antwoord": {
-    "id": 58250619050,
-    "strategy": "QUANTITY",
-    "type": "MARKET",
-    "ticker": "V_US_EQ",
-    "quantity": -1.5,
-    "filledQuantity": 0,
-    "status": "NEW",
-    "currency": "EUR",
-    "extendedHours": false,
-    "initiatedFrom": "API",
-    "side": "SELL",
-    "createdAt": "2026-11-19T05:32:02.636+02:00",
-    "instrument": {
-     "ticker": "V_US_EQ",
-     "name": "Visa",
-     "isin": "US92826C8394",
-     "currency": "USD"
-    }
-   }
-  },
-  {
-   "ticker": "BRK_B_US_EQ",
-   "yahoo": "BRK-B",
-   "actie": "koop",
-   "quantity": 1.0,
-   "waarde_eur": 524.55,
-   "uitkomst": "geplaatst",
-   "antwoord": {
-    "id": 58250619052,
-    "strategy": "QUANTITY",
-    "type": "MARKET",
-    "ticker": "BRK_B_US_EQ",
-    "quantity": 1.0,
-    "filledQuantity": 0,
-    "status": "NEW",
-    "currency": "EUR",
-    "extendedHours": false,
-    "initiatedFrom": "API",
-    "side": "BUY",
-    "createdAt": "2026-11-19T05:32:02.835+02:00",
-    "instrument": {
-     "ticker": "BRK_B_US_EQ",
-     "name": "Berkshire Hathaway (Class B)",
-     "isin": "US0846707026",
-     "currency": "USD"
-    }
-   }
-  },
-  {
-   "ticker": "AIp_EQ",
-   "yahoo": "AI.PA",
-   "actie": "koop",
-   "quantity": 4.0,
-   "waarde_eur": 759.66,
-   "uitkomst": "geplaatst",
-   "antwoord": {
-    "id": 58250619054,
-    "strategy": "QUANTITY",
-    "type": "MARKET",
-    "ticker": "AIp_EQ",
-    "quantity": 4.0,
-    "filledQuantity": 0,
-    "status": "NEW",
-    "currency": "EUR",
-    "extendedHours": false,
-    "initiatedFrom": "API",
-    "side": "BUY",
-    "createdAt": "2026-11-19T05:32:03.032+02:00",
-    "instrument": {
-     "ticker": "AIp_EQ",
-     "name": "Air Liquide",
-     "isin": "FR0000120073",
-     "currency": "EUR"
-    }
-   }
-  }
- ],
+ "tijd": "2026-11-19T07:26:56+00:00",
+ "status": "alleen kijken",
+ "reden": "Alleen gecontroleerd: geen orders geplaatst.",
+ "orders": [],
  "niet_gekoppeld": [],
  "managed": [
   "ABBV_US_EQ",
@@ -106,17 +21,17 @@
  ],
  "account": {
   "currency": "EUR",
-  "totalValue": 4965.22,
+  "totalValue": 4958.81,
   "cash": {
-   "availableToTrade": 1892.69,
-   "reservedForOrders": 0,
+   "availableToTrade": 545.19,
+   "reservedForOrders": 1347.5,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 3072.53,
+   "currentValue": 3066.13,
    "totalCost": 3062.55,
    "realizedProfitLoss": -34.75,
-   "unrealizedProfitLoss": 9.98
+   "unrealizedProfitLoss": 3.58
   }
  },
  "posities": [
@@ -131,14 +46,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 644.0,
+   "currentPrice": 644.4,
    "averagePricePaid": 661.81,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 587.75,
-    "currentValue": 587.61,
-    "unrealizedProfitLoss": -0.14,
-    "fxImpact": 16.11
+    "currentValue": 587.12,
+    "unrealizedProfitLoss": -0.63,
+    "fxImpact": 15.23
    }
   },
   {
@@ -150,16 +65,16 @@
    },
    "createdAt": "2026-11-04T16:30:01.000+02:00",
    "quantity": 1.5,
-   "quantityAvailableForTrading": 1.5,
+   "quantityAvailableForTrading": 0,
    "quantityInPies": 0,
-   "currentPrice": 415.78,
+   "currentPrice": 415.57,
    "averagePricePaid": 427.72,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 569.78,
-    "currentValue": 569.06,
-    "unrealizedProfitLoss": -0.72,
-    "fxImpact": 15.62
+    "currentValue": 567.94,
+    "unrealizedProfitLoss": -1.84,
+    "fxImpact": 14.76
    }
   },
   {
@@ -173,14 +88,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 285.14,
+   "currentPrice": 284.67,
    "averagePricePaid": 293.84,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 263.19,
-    "currentValue": 260.17,
-    "unrealizedProfitLoss": -3.02,
-    "fxImpact": 4.92
+    "currentValue": 259.36,
+    "unrealizedProfitLoss": -3.83,
+    "fxImpact": 4.52
    }
   },
   {
@@ -236,14 +151,14 @@
    "quantity": 4.0,
    "quantityAvailableForTrading": 4.0,
    "quantityInPies": 0,
-   "currentPrice": 170.53,
+   "currentPrice": 169.68,
    "averagePricePaid": 169.0,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 602.83,
-    "currentValue": 622.39,
-    "unrealizedProfitLoss": 19.56,
-    "fxImpact": 13.98
+    "currentValue": 618.38,
+    "unrealizedProfitLoss": 15.55,
+    "fxImpact": 13.07
    }
   },
   {
@@ -268,7 +183,23 @@
    }
   }
  ],
- "open_orders": [],
+ "open_orders": [
+  {
+   "ticker": "BRK_B_US_EQ",
+   "quantity": 1.0,
+   "status": "NEW"
+  },
+  {
+   "ticker": "AIp_EQ",
+   "quantity": 4.0,
+   "status": "NEW"
+  },
+  {
+   "ticker": "V_US_EQ",
+   "quantity": -1.5,
+   "status": "NEW"
+  }
+ ],
  "schaal": 0.5,
  "koppeling": {
   "DB1.DE": "DB1d_EQ",
@@ -281,28 +212,11 @@
   "AI.PA": "AIp_EQ"
  },
  "handmatig": {},
- "plan": [
-  {
-   "ticker": "V_US_EQ",
-   "yahoo": "V_US_EQ",
-   "actie": "verkoop",
-   "quantity": -1.5,
-   "waarde_eur": 0.0
-  },
-  {
-   "ticker": "BRK_B_US_EQ",
-   "yahoo": "BRK-B",
-   "actie": "koop",
-   "quantity": 1.0,
-   "waarde_eur": 524.55
-  },
-  {
-   "ticker": "AIp_EQ",
-   "yahoo": "AI.PA",
-   "actie": "koop",
-   "quantity": 4.0,
-   "waarde_eur": 759.66
-  }
+ "plan": [],
+ "wacht_op": [
+  "BRK_B_US_EQ",
+  "AIp_EQ",
+  "V_US_EQ"
  ],
  "geschiedenis": [
   {
