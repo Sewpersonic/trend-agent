@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-19T16:00:30+00:00",
+ "tijd": "2026-11-19T16:15:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -7,77 +7,105 @@
    "t212": "DB1d_EQ",
    "stop": 311.6857,
    "actie": "boven de stop-loss",
-   "koers_t212": 320.6,
-   "koers_yahoo": 320.6,
-   "afstand_pct": 0.0286
+   "koers_t212": 320.9,
+   "koers_yahoo": 320.5,
+   "afstand_pct": 0.0296
   },
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 280.33,
-   "koers_yahoo": 280.33,
-   "afstand_pct": 0.0106
+   "koers_t212": 281.1,
+   "koers_yahoo": 281.1,
+   "afstand_pct": 0.0134
   },
   {
    "ticker": "WKL.AS",
    "t212": "WKLa_EQ",
    "stop": 84.2757,
    "actie": "boven de stop-loss",
-   "koers_t212": 86.23,
-   "koers_yahoo": 86.28,
-   "afstand_pct": 0.0238
+   "koers_t212": 86.25,
+   "koers_yahoo": 86.46,
+   "afstand_pct": 0.0259
   },
   {
    "ticker": "MA",
    "t212": "MA_US_EQ",
    "stop": 631.1515,
-   "actie": "boven de stop-loss",
-   "koers_t212": 631.92,
-   "koers_yahoo": 631.92,
-   "afstand_pct": 0.0012
+   "actie": "verkocht (1 stuks): koers 630.03 onder de stop-loss 631.15",
+   "koers_t212": 630.03,
+   "koers_yahoo": 630.03,
+   "afstand_pct": -0.0018
   },
   {
    "ticker": "OR.PA",
    "t212": "ORp_EQ",
    "stop": 428.4535,
    "actie": "boven de stop-loss",
-   "koers_t212": 438.14,
-   "koers_yahoo": 437.55,
-   "afstand_pct": 0.0226
+   "koers_t212": 437.97,
+   "koers_yahoo": 438.5,
+   "afstand_pct": 0.0234
   },
   {
    "ticker": "PG",
    "t212": "PG_US_EQ",
    "stop": 162.7236,
    "actie": "boven de stop-loss",
-   "koers_t212": 168.41,
-   "koers_yahoo": 168.41,
-   "afstand_pct": 0.0349
+   "koers_t212": 168.21,
+   "koers_yahoo": 168.205,
+   "afstand_pct": 0.0337
   },
   {
    "ticker": "BRK-B",
    "t212": "BRK_B_US_EQ",
    "stop": 551.0702,
    "actie": "boven de stop-loss",
-   "koers_t212": 567.95,
-   "koers_yahoo": 567.95,
-   "afstand_pct": 0.0306
+   "koers_t212": 568.08,
+   "koers_yahoo": 568.08,
+   "afstand_pct": 0.0309
   },
   {
    "ticker": "AI.PA",
    "t212": "AIp_EQ",
    "stop": 184.0263,
    "actie": "boven de stop-loss",
-   "koers_t212": 189.51,
-   "koers_yahoo": 189.6,
-   "afstand_pct": 0.0303
+   "koers_t212": 189.47,
+   "koers_yahoo": 189.62,
+   "afstand_pct": 0.0304
   }
  ],
- "verkocht": [],
+ "verkocht": [
+  {
+   "ticker": "MA",
+   "t212": "MA_US_EQ",
+   "aantal": 1.0,
+   "koers": 630.030029296875,
+   "stop": 631.1514630998884,
+   "antwoord": {
+    "id": 58300222679,
+    "strategy": "QUANTITY",
+    "type": "MARKET",
+    "ticker": "MA_US_EQ",
+    "quantity": -1.0,
+    "filledQuantity": 0,
+    "status": "NEW",
+    "currency": "EUR",
+    "extendedHours": false,
+    "initiatedFrom": "API",
+    "side": "SELL",
+    "createdAt": "2026-11-19T18:15:31.340+02:00",
+    "instrument": {
+     "ticker": "MA_US_EQ",
+     "name": "Mastercard",
+     "isin": "US57636Q1040",
+     "currency": "USD"
+    }
+   }
+  }
+ ],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: MA (+0.1%)."
+  "MA: verkocht in het oefenaccount, koers 630.03 onder de stop-loss 631.15."
  ],
  "twelve_vandaag": 0,
  "geschiedenis": [
@@ -260,7 +288,43 @@
    "log": [
     "SAP.DE: verkocht in het oefenaccount, koers 200.15 onder de stop-loss 200.35."
    ]
+  },
+  {
+   "tijd": "2026-11-19T16:15:30+00:00",
+   "status": "ok",
+   "verkocht": [
+    {
+     "ticker": "MA",
+     "t212": "MA_US_EQ",
+     "aantal": 1.0,
+     "koers": 630.030029296875,
+     "stop": 631.1514630998884,
+     "antwoord": {
+      "id": 58300222679,
+      "strategy": "QUANTITY",
+      "type": "MARKET",
+      "ticker": "MA_US_EQ",
+      "quantity": -1.0,
+      "filledQuantity": 0,
+      "status": "NEW",
+      "currency": "EUR",
+      "extendedHours": false,
+      "initiatedFrom": "API",
+      "side": "SELL",
+      "createdAt": "2026-11-19T18:15:31.340+02:00",
+      "instrument": {
+       "ticker": "MA_US_EQ",
+       "name": "Mastercard",
+       "isin": "US57636Q1040",
+       "currency": "USD"
+      }
+     }
+    }
+   ],
+   "log": [
+    "MA: verkocht in het oefenaccount, koers 630.03 onder de stop-loss 631.15."
+   ]
   }
  ],
- "rondes_vandaag": 33
+ "rondes_vandaag": 34
 }
