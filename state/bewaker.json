@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-19T19:00:30+00:00",
+ "tijd": "2026-11-19T20:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -16,9 +16,9 @@
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 283.23,
-   "koers_yahoo": 283.23,
-   "afstand_pct": 0.0211
+   "koers_t212": 282.61,
+   "koers_yahoo": 282.6102,
+   "afstand_pct": 0.0189
   },
   {
    "ticker": "WKL.AS",
@@ -49,18 +49,18 @@
    "t212": "PG_US_EQ",
    "stop": 162.7236,
    "actie": "boven de stop-loss",
-   "koers_t212": 168.82,
-   "koers_yahoo": 168.82,
-   "afstand_pct": 0.0375
+   "koers_t212": 168.43,
+   "koers_yahoo": 168.43,
+   "afstand_pct": 0.0351
   },
   {
    "ticker": "BRK-B",
    "t212": "BRK_B_US_EQ",
    "stop": 551.0702,
    "actie": "boven de stop-loss",
-   "koers_t212": 570.15,
-   "koers_yahoo": 570.155,
-   "afstand_pct": 0.0346
+   "koers_t212": 571.08,
+   "koers_yahoo": 571.08,
+   "afstand_pct": 0.0363
   },
   {
    "ticker": "AI.PA",
@@ -74,7 +74,7 @@
  ],
  "verkocht": [],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: ABBV (+2.1%)."
+  "Alles boven de stop-loss. Dichtst bij: ABBV (+1.9%)."
  ],
  "twelve_vandaag": 0,
  "geschiedenis": [
@@ -295,5 +295,5 @@
    ]
   }
  ],
- "rondes_vandaag": 45
+ "rondes_vandaag": 49
 }
