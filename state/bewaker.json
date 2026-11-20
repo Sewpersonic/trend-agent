@@ -16,9 +16,9 @@
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 288.6,
-   "koers_yahoo": 288.605,
-   "afstand_pct": 0.0405
+   "koers_t212": 288.52,
+   "koers_yahoo": 288.53,
+   "afstand_pct": 0.0402
   },
   {
    "ticker": "WKL.AS",
@@ -43,17 +43,17 @@
    "t212": "PG_US_EQ",
    "stop": 163.0172,
    "actie": "boven de stop-loss",
-   "koers_t212": 170.58,
-   "koers_yahoo": 170.58,
-   "afstand_pct": 0.0464
+   "koers_t212": 170.54,
+   "koers_yahoo": 170.54,
+   "afstand_pct": 0.0461
   },
   {
    "ticker": "BRK-B",
    "t212": "BRK_B_US_EQ",
    "stop": 551.0702,
    "actie": "boven de stop-loss",
-   "koers_t212": 573.71,
-   "koers_yahoo": 573.71,
+   "koers_t212": 573.7,
+   "koers_yahoo": 573.7,
    "afstand_pct": 0.0411
   },
   {
