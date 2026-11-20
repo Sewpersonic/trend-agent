@@ -1,6 +1,6 @@
 {
  "start": 10000.0,
- "equity": 9906.17,
+ "equity": 9871.95,
  "dagen": [
   {
    "dag": "2026-10-16",
@@ -200,6 +200,14 @@
    "eind": 9906.17,
    "resultaat": 0.0,
    "trades": 0,
+   "daglimiet": false
+  },
+  {
+   "dag": "2026-11-20",
+   "begin": 9906.17,
+   "eind": 9871.95,
+   "resultaat": -34.22,
+   "trades": 2,
    "daglimiet": false
   }
  ],
@@ -729,14 +737,70 @@
     "indicatie": "gemiddeld",
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 52% van de gevallen goed af (gemiddeld −0,07 R; alle uitbraken samen −0,02 R)."
    }
+  },
+  {
+   "dag": "2026-11-20",
+   "ticker": "LLY",
+   "qty": 1,
+   "instap": 1371.4604,
+   "uitstap": 1353.5529,
+   "t_in": "10:15",
+   "t_uit": "11:00",
+   "reden": "stop-loss",
+   "resultaat": -17.91,
+   "r": -1.039,
+   "ctx": {
+    "tijd": "10:15",
+    "rvol": 1.21,
+    "or_breedte": 0.009,
+    "boven_range": 0.0022,
+    "markt_vandaag": 0.0004,
+    "dag_tot_nu": 0.0033,
+    "gap": 0.0103,
+    "dagtrend": "stijgend",
+    "plek": "midden in het bereik",
+    "terugval": true,
+    "boven_sma50": true,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,09 R; alle uitbraken samen −0,03 R)."
+   }
+  },
+  {
+   "dag": "2026-11-20",
+   "ticker": "COST",
+   "qty": 2,
+   "instap": 1111.6756,
+   "uitstap": 1103.5179,
+   "t_in": "10:15",
+   "t_uit": "15:45",
+   "reden": "einde van de dag",
+   "resultaat": -16.32,
+   "r": -0.659,
+   "ctx": {
+    "tijd": "10:15",
+    "rvol": 1.29,
+    "or_breedte": 0.0092,
+    "boven_range": 0.0031,
+    "markt_vandaag": 0.0004,
+    "dag_tot_nu": 0.0099,
+    "gap": 0.0075,
+    "dagtrend": "stijgend",
+    "plek": "midden in het bereik",
+    "terugval": false,
+    "boven_sma50": true,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,09 R; alle uitbraken samen −0,03 R)."
+   }
   }
  ],
  "vandaag": {
   "dag": "2026-11-20",
   "begin": 9906.17,
-  "realized": -17.907546447753703,
-  "klaar": false,
-  "prev": "2026-11-20T15:30:00",
+  "realized": -34.2228340454094,
+  "klaar": true,
+  "prev": "2026-11-20T15:45:00",
   "traded": [
    "COST",
    "LLY"
@@ -770,17 +834,18 @@
      "indicatie": "gemiddeld",
      "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,09 R; alle uitbraken samen −0,03 R)."
     }
-   }
-  ],
-  "open": {
-   "COST": {
+   },
+   {
+    "dag": "2026-11-20",
     "ticker": "COST",
     "qty": 2,
-    "entry": 1111.675555114746,
-    "stop": 1099.300048828125,
-    "target": 1136.426567687988,
-    "t_in": "2026-11-20T10:15:00",
-    "risk": 24.75101257324195,
+    "instap": 1111.6756,
+    "uitstap": 1103.5179,
+    "t_in": "10:15",
+    "t_uit": "15:45",
+    "reden": "einde van de dag",
+    "resultaat": -16.32,
+    "r": -0.659,
     "ctx": {
      "tijd": "10:15",
      "rvol": 1.29,
@@ -798,7 +863,8 @@
      "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,09 R; alle uitbraken samen −0,03 R)."
     }
    }
-  }
+  ],
+  "open": {}
  },
  "gem_vol": {
   "AAPL": 6414525.5,
@@ -830,51 +896,17 @@
   "GLD": 1749268.3
  },
  "uitgesloten": {},
- "open_nu": [
-  {
-   "ticker": "COST",
-   "qty": 2,
-   "entry": 1111.675555114746,
-   "stop": 1099.300048828125,
-   "target": 1136.426567687988,
-   "risk": 24.75101257324195,
-   "ctx": {
-    "tijd": "10:15",
-    "rvol": 1.29,
-    "or_breedte": 0.0092,
-    "boven_range": 0.0031,
-    "markt_vandaag": 0.0004,
-    "dag_tot_nu": 0.0099,
-    "gap": 0.0075,
-    "dagtrend": "stijgend",
-    "plek": "midden in het bereik",
-    "terugval": false,
-    "boven_sma50": true,
-    "markt_dagtrend": "zijwaarts",
-    "indicatie": "gemiddeld",
-    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,09 R; alle uitbraken samen −0,03 R)."
-   },
-   "t_in": "10:15",
-   "koers": 1105.8299560546875
-  }
- ],
+ "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-20T20:31:30+00:00",
-  "ny": "2026-11-20 15:31",
+  "tijd": "2026-11-20T20:46:30+00:00",
+  "ny": "2026-11-20 15:46",
   "status": "ok",
   "log": [
-   "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   "15:45 COST: verkocht aan het einde van de dag",
+   "Dag klaar: 2 trades, resultaat -34.22 dollar."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-18T18:16:30+00:00",
-   "ny": "2026-11-18 13:16",
-   "status": "ok",
-   "log": [
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-11-18T18:31:30+00:00",
    "ny": "2026-11-18 13:31",
@@ -1343,6 +1375,15 @@
    "status": "ok",
    "log": [
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-11-20T20:46:30+00:00",
+   "ny": "2026-11-20 15:46",
+   "status": "ok",
+   "log": [
+    "15:45 COST: verkocht aan het einde van de dag",
+    "Dag klaar: 2 trades, resultaat -34.22 dollar."
    ]
   }
  ],
