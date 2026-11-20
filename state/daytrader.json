@@ -734,15 +734,44 @@
  "vandaag": {
   "dag": "2026-11-20",
   "begin": 9906.17,
-  "realized": 0.0,
+  "realized": -17.907546447753703,
   "klaar": false,
-  "prev": "2026-11-20T11:00:00",
+  "prev": "2026-11-20T11:15:00",
   "traded": [
    "COST",
    "LLY"
   ],
   "notities": [],
-  "trades": [],
+  "trades": [
+   {
+    "dag": "2026-11-20",
+    "ticker": "LLY",
+    "qty": 1,
+    "instap": 1371.4604,
+    "uitstap": 1353.5529,
+    "t_in": "10:15",
+    "t_uit": "11:00",
+    "reden": "stop-loss",
+    "resultaat": -17.91,
+    "r": -1.039,
+    "ctx": {
+     "tijd": "10:15",
+     "rvol": 1.21,
+     "or_breedte": 0.009,
+     "boven_range": 0.0022,
+     "markt_vandaag": 0.0004,
+     "dag_tot_nu": 0.0033,
+     "gap": 0.0103,
+     "dagtrend": "stijgend",
+     "plek": "midden in het bereik",
+     "terugval": true,
+     "boven_sma50": true,
+     "markt_dagtrend": "zijwaarts",
+     "indicatie": "gemiddeld",
+     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,09 R; alle uitbraken samen −0,03 R)."
+    }
+   }
+  ],
   "open": {
    "COST": {
     "ticker": "COST",
@@ -763,31 +792,6 @@
      "dagtrend": "stijgend",
      "plek": "midden in het bereik",
      "terugval": false,
-     "boven_sma50": true,
-     "markt_dagtrend": "zijwaarts",
-     "indicatie": "gemiddeld",
-     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,09 R; alle uitbraken samen −0,03 R)."
-    }
-   },
-   "LLY": {
-    "ticker": "LLY",
-    "qty": 1,
-    "entry": 1371.4604119262694,
-    "stop": 1354.22998046875,
-    "target": 1405.9212748413083,
-    "t_in": "2026-11-20T10:15:00",
-    "risk": 17.230431457519444,
-    "ctx": {
-     "tijd": "10:15",
-     "rvol": 1.21,
-     "or_breedte": 0.009,
-     "boven_range": 0.0022,
-     "markt_vandaag": 0.0004,
-     "dag_tot_nu": 0.0033,
-     "gap": 0.0103,
-     "dagtrend": "stijgend",
-     "plek": "midden in het bereik",
-     "terugval": true,
      "boven_sma50": true,
      "markt_dagtrend": "zijwaarts",
      "indicatie": "gemiddeld",
@@ -851,52 +855,19 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,09 R; alle uitbraken samen −0,03 R)."
    },
    "t_in": "10:15",
-   "koers": 1120.0400390625
-  },
-  {
-   "ticker": "LLY",
-   "qty": 1,
-   "entry": 1371.4604119262694,
-   "stop": 1354.22998046875,
-   "target": 1405.9212748413083,
-   "risk": 17.230431457519444,
-   "ctx": {
-    "tijd": "10:15",
-    "rvol": 1.21,
-    "or_breedte": 0.009,
-    "boven_range": 0.0022,
-    "markt_vandaag": 0.0004,
-    "dag_tot_nu": 0.0033,
-    "gap": 0.0103,
-    "dagtrend": "stijgend",
-    "plek": "midden in het bereik",
-    "terugval": true,
-    "boven_sma50": true,
-    "markt_dagtrend": "zijwaarts",
-    "indicatie": "gemiddeld",
-    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,09 R; alle uitbraken samen −0,03 R)."
-   },
-   "t_in": "10:15",
-   "koers": 1356.6600341796875
+   "koers": 1120.8199462890625
   }
  ],
  "laatste_ronde": {
-  "tijd": "2026-11-20T16:01:30+00:00",
-  "ny": "2026-11-20 11:01",
+  "tijd": "2026-11-20T16:16:30+00:00",
+  "ny": "2026-11-20 11:16",
   "status": "ok",
   "log": [
-   "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (25x)."
+   "11:15 LLY: stop-loss geraakt",
+   "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-17T20:01:30+00:00",
-   "ny": "2026-11-17 15:01",
-   "status": "ok",
-   "log": [
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-11-17T20:16:30+00:00",
    "ny": "2026-11-17 15:16",
@@ -1362,6 +1333,15 @@
    "status": "ok",
    "log": [
     "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (25x)."
+   ]
+  },
+  {
+   "tijd": "2026-11-20T16:16:30+00:00",
+   "ny": "2026-11-20 11:16",
+   "status": "ok",
+   "log": [
+    "11:15 LLY: stop-loss geraakt",
+    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
    ]
   }
  ],
