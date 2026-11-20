@@ -43,18 +43,18 @@
    "t212": "PG_US_EQ",
    "stop": 163.0172,
    "actie": "boven de stop-loss",
-   "koers_t212": 170.06,
-   "koers_yahoo": 170.06,
-   "afstand_pct": 0.0432
+   "koers_t212": 170.07,
+   "koers_yahoo": 170.07,
+   "afstand_pct": 0.0433
   },
   {
    "ticker": "BRK-B",
    "t212": "BRK_B_US_EQ",
    "stop": 551.0702,
    "actie": "boven de stop-loss",
-   "koers_t212": 570.41,
-   "koers_yahoo": 570.41,
-   "afstand_pct": 0.0351
+   "koers_t212": 570.57,
+   "koers_yahoo": 570.57,
+   "afstand_pct": 0.0354
   },
   {
    "ticker": "AI.PA",
