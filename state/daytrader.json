@@ -736,7 +736,7 @@
   "begin": 9906.17,
   "realized": -17.907546447753703,
   "klaar": false,
-  "prev": "2026-11-20T11:15:00",
+  "prev": "2026-11-20T11:30:00",
   "traded": [
    "COST",
    "LLY"
@@ -855,27 +855,18 @@
     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,09 R; alle uitbraken samen −0,03 R)."
    },
    "t_in": "10:15",
-   "koers": 1120.8199462890625
+   "koers": 1120.364990234375
   }
  ],
  "laatste_ronde": {
-  "tijd": "2026-11-20T16:16:30+00:00",
-  "ny": "2026-11-20 11:16",
+  "tijd": "2026-11-20T16:31:30+00:00",
+  "ny": "2026-11-20 11:31",
   "status": "ok",
   "log": [
-   "11:15 LLY: stop-loss geraakt",
    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-17T20:16:30+00:00",
-   "ny": "2026-11-17 15:16",
-   "status": "ok",
-   "log": [
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-11-17T20:31:30+00:00",
    "ny": "2026-11-17 15:31",
@@ -1341,6 +1332,14 @@
    "status": "ok",
    "log": [
     "11:15 LLY: stop-loss geraakt",
+    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
+   ]
+  },
+  {
+   "tijd": "2026-11-20T16:31:30+00:00",
+   "ny": "2026-11-20 11:31",
+   "status": "ok",
+   "log": [
     "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
    ]
   }
