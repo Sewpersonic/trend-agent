@@ -98,7 +98,7 @@ RUSTIG_UITLEG = {
 }
 # De mix waarmee de rustige investeerder draait. Gekozen op basis van de backtest; veranderen alleen via een
 # wijziging die de eigenaar goedkeurt.
-RUSTIG_KEUZE = "60-20-10-10"
+RUSTIG_KEUZE = "60-20kort-10-10"
 
 
 def rustig_mix(variant: str | None = None):
