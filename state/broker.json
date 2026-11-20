@@ -1,37 +1,8 @@
 {
- "tijd": "2026-11-20T03:19:05+00:00",
- "status": "ok",
- "reden": "",
- "orders": [
-  {
-   "ticker": "PHIAa_EQ",
-   "yahoo": "PHIA.AS",
-   "actie": "koop",
-   "quantity": 17.5,
-   "waarde_eur": 469.93,
-   "uitkomst": "geplaatst",
-   "antwoord": {
-    "id": 58300237693,
-    "strategy": "QUANTITY",
-    "type": "MARKET",
-    "ticker": "PHIAa_EQ",
-    "quantity": 17.5,
-    "filledQuantity": 0,
-    "status": "NEW",
-    "currency": "EUR",
-    "extendedHours": false,
-    "initiatedFrom": "API",
-    "side": "BUY",
-    "createdAt": "2026-11-20T05:19:07.355+02:00",
-    "instrument": {
-     "ticker": "PHIAa_EQ",
-     "name": "Philips",
-     "isin": "NL0000009538",
-     "currency": "EUR"
-    }
-   }
-  }
- ],
+ "tijd": "2026-11-20T07:26:55+00:00",
+ "status": "alleen kijken",
+ "reden": "Alleen gecontroleerd: geen orders geplaatst.",
+ "orders": [],
  "niet_gekoppeld": [],
  "managed": [
   "ABBV_US_EQ",
@@ -51,17 +22,17 @@
  ],
  "account": {
   "currency": "EUR",
-  "totalValue": 4918.68,
+  "totalValue": 4918.22,
   "cash": {
-   "availableToTrade": 1738.94,
-   "reservedForOrders": 0,
+   "availableToTrade": 1245.57,
+   "reservedForOrders": 493.37,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 3179.74,
+   "currentValue": 3179.29,
    "totalCost": 3186.39,
    "realizedProfitLoss": -59.13,
-   "unrealizedProfitLoss": -6.65
+   "unrealizedProfitLoss": -7.1
   }
  },
  "posities": [
@@ -76,14 +47,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 573.32,
+   "currentPrice": 572.99,
    "averagePricePaid": 571.25,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 519.37,
-    "currentValue": 522.45,
-    "unrealizedProfitLoss": 3.08,
-    "fxImpact": 1.19
+    "currentValue": 521.48,
+    "unrealizedProfitLoss": 2.11,
+    "fxImpact": 0.53
    }
   },
   {
@@ -97,14 +68,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 284.31,
+   "currentPrice": 284.39,
    "averagePricePaid": 293.84,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 263.19,
-    "currentValue": 259.09,
-    "unrealizedProfitLoss": -4.1,
-    "fxImpact": 4.58
+    "currentValue": 258.82,
+    "unrealizedProfitLoss": -4.37,
+    "fxImpact": 4.23
    }
   },
   {
@@ -160,14 +131,14 @@
    "quantity": 4.0,
    "quantityAvailableForTrading": 4.0,
    "quantityInPies": 0,
-   "currentPrice": 168.19,
+   "currentPrice": 168.63,
    "averagePricePaid": 169.0,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 602.83,
-    "currentValue": 613.07,
-    "unrealizedProfitLoss": 10.24,
-    "fxImpact": 13.19
+    "currentValue": 613.88,
+    "unrealizedProfitLoss": 11.05,
+    "fxImpact": 12.4
    }
   },
   {
@@ -213,7 +184,13 @@
    }
   }
  ],
- "open_orders": [],
+ "open_orders": [
+  {
+   "ticker": "PHIAa_EQ",
+   "quantity": 17.5,
+   "status": "NEW"
+  }
+ ],
  "schaal": 0.5,
  "koppeling": {
   "DB1.DE": "DB1d_EQ",
@@ -226,14 +203,9 @@
   "PHIA.AS": "PHIAa_EQ"
  },
  "handmatig": {},
- "plan": [
-  {
-   "ticker": "PHIAa_EQ",
-   "yahoo": "PHIA.AS",
-   "actie": "koop",
-   "quantity": 17.5,
-   "waarde_eur": 469.93
-  }
+ "plan": [],
+ "wacht_op": [
+  "PHIAa_EQ"
  ],
  "geschiedenis": [
   {
