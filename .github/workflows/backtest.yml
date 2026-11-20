@@ -15,6 +15,9 @@ on:
       years:
         description: "Aantal jaren terug"
         default: "10"
+      strategie:
+        description: "alle = de gewone backtests; rustig = alleen de mixen voor de rustige investeerder"
+        default: "alle"
 
 permissions:
   contents: write
@@ -37,6 +40,11 @@ jobs:
       - run: pip install -e ".[backtest]"
       - name: Backtest
         run: |
+          if [ "${{ github.event.inputs.strategie }}" = "rustig" ]; then
+            python -m trendagent backtest --years "${{ github.event.inputs.years || '10' }}" --strategie rustig
+            cat backtest/rustig/VARIANTEN.md >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
           python -m trendagent backtest --years "${{ github.event.inputs.years || '10' }}"
           python -m trendagent backtest --years "${{ github.event.inputs.years || '10' }}" --strategie controles
           python -m trendagent backtest --years "${{ github.event.inputs.years || '10' }}" --strategie eerlijk

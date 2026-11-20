@@ -101,7 +101,15 @@ CRYPTO: tuple[Instrument, ...] = (
     Instrument("ETH-USD", "Ethereum", "CRYPTO", "USD", "CRYPTO"),
 )
 
-BY_TICKER = {i.ticker: i for i in UNIVERSE + CRYPTO}
+# Rustige bouwstenen: obligaties en goud (Europese noteringen, in euro). Alleen voor de rustige investeerder,
+# die ze vast aanhoudt. Staan bewust NIET in UNIVERSE: de trend-agent en de satelliet kiezen ze dus niet.
+DEFENSIEF: tuple[Instrument, ...] = (
+    _eu("IEAG.AS", "iShares Core Euro-obligaties (alle looptijden)", "ETF"),
+    _eu("IBGS.AS", "iShares Euro-staatsobligaties 1-3 jaar", "ETF"),
+    _eu("4GLD.DE", "Xetra-Gold (fysiek goud)", "ETF"),
+)
+
+BY_TICKER = {i.ticker: i for i in UNIVERSE + CRYPTO + DEFENSIEF}
 
 # Eerlijke test (alleen voor de backtest, nooit voor de echte keuze): de grootste bedrijven van begin 2016,
 # zonder te weten welke daarna goed liepen. Zo meet de test minder 'achteraf gekozen' winnaars.

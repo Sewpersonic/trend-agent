@@ -43,7 +43,7 @@ def main(argv: list[str] | None = None) -> int:
     bt.add_argument("--years", type=int, default=5, help="aantal jaren (standaard 5)")
     bt.add_argument("--simulated", action="store_true", help="verzonnen koersen, voor een proef")
     bt.add_argument("--out", default=None, help="map voor de resultaten")
-    bt.add_argument("--strategie", choices=["trend", "investeerder", "beide", "controles", "eerlijk"], default="beide",
+    bt.add_argument("--strategie", choices=["trend", "investeerder", "beide", "controles", "eerlijk", "rustig"], default="beide",
                     help="controles = investeerder met alleen ETF's en zonder crypto")
     inv = sub.add_parser("invest", help="één ronde van de investeerder (maandelijks herverdelen)")
     inv.add_argument("--simulated", action="store_true", help="gebruik verzonnen koersen")
@@ -300,10 +300,10 @@ def _backtest(s, args) -> int:
         run_investor_backtest,
     )
     from .backtest_report import write_all
-    from .universe import CRYPTO, UNIVERSE
+    from .universe import CRYPTO, DEFENSIEF, UNIVERSE
 
     today = datetime.now(timezone.utc).date()
-    lijst = UNIVERSE
+    lijst = UNIVERSE + DEFENSIEF if args.strategie == "rustig" else UNIVERSE
     if args.strategie == "eerlijk":
         # Eerlijke test: de grootste bedrijven van begin 2016 in plaats van de huidige (achteraf gekozen) lijst.
         from dataclasses import replace as _r
@@ -346,6 +346,8 @@ def _backtest(s, args) -> int:
     runs["eerlijk-trend"] = ("Trend-agent (eerlijke test: grootste bedrijven van 2016)", run_backtest, "backtest/eerlijk-trend")
     runs["eerlijk-investeerder"] = ("Investeerder (eerlijke test: grootste bedrijven van 2016)", run_investor_backtest,
                                     "backtest/eerlijk-investeerder")
+    if args.strategie == "rustig":
+        return _backtest_rustig(s, provider, start, today, prod)
     groups = {"beide": ["trend", "investeerder"], "controles": ["alleen-etf", "zonder-crypto"],
               "eerlijk": ["eerlijk-trend", "eerlijk-investeerder"]}
     chosen = groups.get(args.strategie, [args.strategie])
@@ -373,6 +375,85 @@ def _backtest(s, args) -> int:
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text("\n".join(rows) + "\n", encoding="utf-8")
         print(p.read_text(encoding="utf-8"))
+    return 0
+
+
+def _backtest_rustig(s, provider, start, today, prod) -> int:
+    """Rustige investeerder: kandidaat-mixen naast de huidige investeerder en de wereld-ETF."""
+    from dataclasses import replace as _replace
+
+    from . import evaluation
+    from .backtest import buy_and_hold, max_drawdown, run_investor_backtest
+    from .strategies import RUSTIG_UITLEG, RUSTIG_VARIANTEN, rustig_mix
+
+    dekking = []
+    for t in ("IEAG.AS", "IBGS.AS", "4GLD.DE", "IWDA.AS"):
+        b = provider._bars.get(t) or []
+        dekking.append(f"- {t}: {len(b)} dagen" + (f", vanaf {b[0].day}" if b else " (GEEN KOERSEN)"))
+    print("\n".join(dekking))
+    duur = _replace(s, slippage=s.slippage * 2, commission_pct=s.commission_pct * 2,
+                    commission_min_eur=s.commission_min_eur * 2)
+    kandidaten = [("huidige investeerder", prod, "De investeerder zoals hij nu draait (met crypto en 30% sterke aandelen)."),
+                  ("zonder-crypto", _replace(prod, crypto_weight=0.0, core_weight=prod.core_weight + prod.crypto_weight),
+                   "De huidige investeerder, maar zonder Bitcoin en Ethereum.")]
+    kandidaten += [(n, rustig_mix(n), RUSTIG_UITLEG[n]) for n in RUSTIG_VARIANTEN]
+    dagen = provider.trading_days(start, today)
+    rijen = []
+    for naam, mix, uitleg_ in kandidaten:
+        print(f"Backtest {naam}...", flush=True)
+        r = run_investor_backtest(s, provider, start, today, mix=mix)
+        st = run_investor_backtest(duur, provider, start, today, mix=mix)
+        rijen.append((naam, uitleg_, evaluation.VariantResult(naam, {}, r.equity, r.trades, st.equity)))
+    etf = buy_and_hold(provider, "IWDA.AS", [d for d in dagen if d.weekday() < 5], s.starting_cash_eur)
+
+    def jaarcijfers(eq):
+        per = {}
+        for d, v in eq:
+            per.setdefault(d.year, []).append(v)
+        jaren = sorted(per)
+        out = {}
+        for i, j in enumerate(jaren):
+            begin = per[jaren[i - 1]][-1] if i else per[j][0]
+            out[j] = per[j][-1] / begin - 1
+        return out
+
+    def dip(eq, van, tot):
+        stuk = [(d, v) for d, v in eq if van <= d <= tot]
+        return max_drawdown(stuk) if len(stuk) > 1 else float("nan")
+
+    from datetime import date as _d
+    regels = ["# Rustige investeerder: welke mix?", "",
+              f"Periode {start} t/m {today}, €10.000 nepgeld, na kosten, maandelijks herverdelen. "
+              "Huidige lijst met aandelen (dus met winnaars die we nu kennen: de satelliet ziet er iets te mooi uit).", "",
+              "Koersen beschikbaar:", *dekking, "",
+              "| Mix | €10.000 werd | Per jaar | Grootste daling | Daling 2020 (corona) | Daling 2022 | "
+              "Slechtste jaar | Sharpe | Sharpe dubbele kosten | Uitleg |",
+              "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
+    alle = [(n, u, r.equity, r.stressed) for n, u, r in rijen]
+    if etf:
+        alle.append(("alleen wereld-ETF", None, etf, etf))
+    for naam, uitleg_, eq, st in alle:
+        if len(eq) < 2:
+            regels.append(f"| {naam} | geen uitkomst | | | | | | | | {uitleg_ or ''} |")
+            continue
+        tot = eq[-1][1] / eq[0][1] - 1
+        jaren = (eq[-1][0] - eq[0][0]).days / 365.25
+        jc = jaarcijfers(eq)
+        slechtst = min(jc.items(), key=lambda kv: kv[1])
+        def pct(x):
+            return "–" if x != x else f"{x:+.1%}"
+        eind = f"{10000 * (1 + tot):,.0f}".replace(",", ".")
+        regels.append(
+            f"| {naam} | €{eind} | {pct((1 + tot) ** (1 / jaren) - 1)} | {pct(max_drawdown(eq))} | "
+            f"{pct(dip(eq, _d(2020, 2, 1), _d(2020, 6, 30)))} | {pct(dip(eq, _d(2022, 1, 1), _d(2022, 12, 31)))} | "
+            f"{pct(slechtst[1])} ({slechtst[0]}) | {evaluation.sharpe(eq):.2f} | {evaluation.sharpe(st):.2f} | "
+            f"{uitleg_ or 'Op dag 1 alles in IWDA en niets meer doen.'} |")
+    regels += ["", "Sharpe: rendement gedeeld door de schommelingen (hoger = rustiger per verdiende euro).",
+               "Resultaten uit het verleden zeggen niets over de toekomst."]
+    p = Path("backtest/rustig/VARIANTEN.md")
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text("\n".join(regels) + "\n", encoding="utf-8")
+    print(p.read_text(encoding="utf-8"))
     return 0
 
 

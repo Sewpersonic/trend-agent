@@ -39,7 +39,7 @@ from .features import UNKNOWN, Regime, data_issues, market_regime, stale_issues
 from .portfolio import Trade
 from .signals import sma
 from .strategies import investor_version
-from .universe import BY_TICKER, CRYPTO, UNIVERSE
+from .universe import BY_TICKER, CRYPTO, DEFENSIEF, UNIVERSE
 
 ACTOR = "investeerder"
 HISTORY_DAYS = 270
@@ -58,6 +58,12 @@ class Mix:
     # Alleen aanzetten als het onderzoek bewijst dat het helpt (standaard uit):
     regime_filter: bool = False   # dalende markt: satelliet en crypto naar kas, kern blijft
     max_per_sector: int = 0       # spreiden: hooguit zoveel satellietaandelen uit dezelfde sector (0 = geen grens)
+    # Vaste rustige delen, bijv. (("IEAG.AS", 0.20), ("4GLD.DE", 0.10)): obligaties en goud die altijd blijven
+    # staan. Leeg bij de gewone investeerder. Alleen instrumenten uit universe.DEFENSIEF.
+    vast: tuple[tuple[str, float], ...] = ()
+
+    def totaal(self) -> float:
+        return self.core_weight + self.satellite_weight + self.crypto_weight + sum(w for _, w in self.vast)
 
 
 @dataclass
@@ -134,10 +140,12 @@ def target_weights(bars: dict[str, list[Bar]], mix: Mix, regime: Regime = UNKNOW
                 gekozen.append((m, t))
                 per[s] = per.get(s, 0) + 1
         scored = gekozen
-    picks = [t for _, t in scored[:mix.satellite_count]]
+    picks = [t for _, t in scored[:mix.satellite_count]] if mix.satellite_weight > 0 else []
     if defensive:
         # Kapitaal beschermen: de kern blijft, satelliet en crypto gaan naar kas.
         notes.append(f"Regimefilter: markt {regime.label}, satelliet en crypto blijven in kas")
+    elif mix.satellite_weight <= 0:
+        pass
     elif picks:
         each = mix.satellite_weight / mix.satellite_count
         for t in picks:
@@ -148,6 +156,15 @@ def target_weights(bars: dict[str, list[Bar]], mix: Mix, regime: Regime = UNKNOW
         core_w += mix.satellite_weight
         notes.append("Satelliet: geen aandelen in een stijgende trend; dat deel gaat naar de kern")
     w[core] = core_w
+
+    # Vaste rustige delen (obligaties, goud): blijven altijd staan, ook in een dalende markt.
+    for t, gewicht in mix.vast:
+        b = bars.get(t)
+        if b and t not in exclude:
+            w[t] = w.get(t, 0.0) + gewicht
+            notes.append(f"{BY_TICKER[t].name if t in BY_TICKER else t}: vast {gewicht:.0%}")
+        else:
+            notes.append(f"{t}: geen betrouwbare koers, {gewicht:.0%} blijft voorlopig in kas")
     if defensive:
         return w, notes
 
@@ -164,14 +181,14 @@ def target_weights(bars: dict[str, list[Bar]], mix: Mix, regime: Regime = UNKNOW
 
 
 class Investor:
-    def __init__(self, settings: Settings, provider: DataProvider, mix: Mix = Mix()):
+    def __init__(self, settings: Settings, provider: DataProvider, mix: Mix = Mix(), naam: str = "investeerder"):
         if not settings.paper_trading:
             raise RuntimeError("De investeerder draait alleen met nepgeld")
-        self.s, self.provider, self.mix = settings, provider, mix
-        self.path = settings.state_dir / "investeerder.json"
-        self.audit = AuditLog(settings.state_dir / "investeerder_audit.jsonl")
+        self.s, self.provider, self.mix, self.naam = settings, provider, mix, naam
+        self.path = settings.state_dir / f"{naam}.json"
+        self.audit = AuditLog(settings.state_dir / f"{naam}_audit.jsonl")
         self.kill_switch = KillSwitch(settings.state_dir / "kill_switch.json")
-        self.version = investor_version(mix)
+        self.version = investor_version(mix, naam)
         self.regime = UNKNOWN
         self._momentum: dict[str, float] = {}
 
@@ -193,7 +210,8 @@ class Investor:
             book.save(self.path)
             return out
 
-        wanted = {i.ticker: i for i in UNIVERSE + CRYPTO}
+        vaste = {t for t, _ in self.mix.vast}
+        wanted = {i.ticker: i for i in UNIVERSE + CRYPTO + tuple(d for d in DEFENSIEF if d.ticker in vaste)}
         bars: dict[str, list[Bar]] = {}
         for t, inst in wanted.items():
             try:
@@ -236,7 +254,7 @@ class Investor:
             due = False
         # Regel: geen trade op een koers die we niet kunnen bevestigen. Die beleggingen blijven staan zoals ze zijn;
         # de rest wordt gewoon herverdeeld.
-        self._frozen = {t for t in book.qty if src_issues(t) or t in stale}
+        self._frozen = {t for t in book.qty if src_issues(t) or t in stale or (t in vaste and t in suspicious)}
         if due and self._frozen:
             out["warnings"].append("Niet aangeraakt bij het herverdelen (koers niet bevestigd): " + ", ".join(sorted(self._frozen)))
         if due:
@@ -265,7 +283,7 @@ class Investor:
         try:
             weights, _ = target_weights(bars, self.mix, self.regime, frozenset(suspicious))
             crypto = [c.ticker for c in CRYPTO]
-            picks = [t for t in weights if t not in crypto and t != self.mix.core_ticker]
+            picks = [t for t in weights if t not in crypto and t != self.mix.core_ticker and t not in vaste]
             view = uitleg.investor_view(bars, self._momentum, set(book.qty), picks, crypto)
             market = uitleg.market_view(bars, self.regime, {t: BY_TICKER[t].region for t in bars})
             nxt = date(today.year + today.month // 12, today.month % 12 + 1, 1).strftime("%Y-%m")
@@ -277,7 +295,7 @@ class Investor:
         out["verlies"] = insights.investor_holdings(book, prices)
         out["daling"] = insights.drawdown(book.equity_history)
         book.save(self.path)
-        insights.save(self.s.state_dir, "investeerder", {
+        insights.save(self.s.state_dir, self.naam, {
             "dag": out["day"], "posities": out["verlies"], "daling": out["daling"],
             "conclusies": out.get("analyse", {}).get("conclusies", []),
             "zag": (uitleg.market_lines(out["analyse"]["markt"])
@@ -287,7 +305,7 @@ class Investor:
             "markt": out.get("analyse", {}).get("markt", {}),
             "beeld": out.get("analyse", {}).get("beeld", {}),
             "volgende_herverdeling": date(today.year + today.month // 12, today.month % 12 + 1, 1).isoformat()})
-        self.audit.append("run_finished", ACTOR, {"day": out["day"], "equity_eur": out["equity_eur"],
+        self.audit.append("run_finished", self.naam, {"day": out["day"], "equity_eur": out["equity_eur"],
                                                    "rebalanced": due, "actions": len(out["actions"])})
         return out
 
@@ -347,16 +365,16 @@ class Investor:
         ctx = {"momentum_12m": self._momentum.get(t), "soort": BY_TICKER[t].kind if t in BY_TICKER else ""}
         trade = Trade(today.isoformat(), t, side, round(q, 6), round(fill_eur, 4), 1.0,
                       round(value, 2), round(costs, 2), reason, None if pnl is None else round(pnl, 2),
-                      strategy="investeerder", version=self.version, regime=self.regime.label, context=ctx)
+                      strategy=self.naam, version=self.version, regime=self.regime.label, context=ctx)
         book.trades.append(trade)
-        self.audit.append("paper_trade", ACTOR, asdict(trade))
+        self.audit.append("paper_trade", self.naam, asdict(trade))
         out["actions"].append(f"{side} {q:.4g} x {t} (€{value:,.0f}, {reason})")
 
 
-def render(out: dict, book: Book) -> str:
+def render(out: dict, book: Book, titel: str = "Investeerder") -> str:
     start = book.equity_history[0]["equity"] if book.equity_history else None
     eq = out.get("equity_eur", 0)
-    lines = [f"# Investeerder {out['day']}", "",
+    lines = [f"# {titel} {out['day']}", "",
              "_Oefenportefeuille met nepgeld. Geen beleggingsadvies._", "",
              f"**Status:** {out['status']}  ", f"**Waarde:** €{eq:,.2f}  ",
              f"**Marktregime:** {out.get('regime', 'onbekend')}  ",
