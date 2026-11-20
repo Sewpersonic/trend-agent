@@ -436,6 +436,7 @@
   .m-fav { border-radius: 16px; padding: 14px; display: grid; gap: 2px; min-width: 0; }
   .m-fav.inv { background: color-mix(in srgb, #3b6fd8 13%, var(--color-panel)); }
   .m-fav.tr { background: color-mix(in srgb, #e8a33a 22%, var(--color-panel)); }
+  .m-fav.rus { background: color-mix(in srgb, #14a3a3 16%, var(--color-panel)); }
   .m-fav .top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 2px 6px; }
   .m-fav .nm { font-size: 16px; font-weight: var(--cds-font-weight-medium); white-space: nowrap; }
   .m-fav .ch { font-size: 13px; font-weight: var(--cds-font-weight-medium); white-space: nowrap; }
@@ -612,7 +613,7 @@
     <div class="tx-top">
       <div>
         <h1>Trend-agent Dashboard</h1>
-        <p>Drie oefenbots met nepgeld en een oefenaccount. Geen beleggingsadvies.</p>
+        <p>Vier oefenbots met nepgeld en een oefenaccount. Geen beleggingsadvies.</p>
       </div>
       <div class="vv-wrap">
         <button class="tx-chipday vv-btn" id="ververst" type="button" aria-expanded="false" data-source="ververst">Ververst —</button>
@@ -1112,6 +1113,18 @@ dash.calc('begin_hier', {
       nu: k || 'Belegt voor de lange termijn in een spreiding van ETF\'s, aandelen en een beetje crypto.',
       laatst: laatste('Investeerder'),
       straks: m ? 'Herverdeelt ' + m[1] + ' (één keer per maand).' : 'Herverdeelt één keer per maand.' });
+    // Rustige investeerder (nieuw in nov 2026)
+    const rv = st['Rustige investeerder'];
+    if (rv) {
+      const kr = kort('Rustige investeerder');
+      const mr = kr.match(/herverdeelt (.+?)\./);
+      out.push({ id: 'rustig', bot: 'Rustige investeerder', status: 'Houdt vast', kleur: 'neutraal',
+        kort: mr ? 'Doet niets tot hij ' + mr[1] + ' herverdeelt.' : 'Herverdeelt één keer per maand.',
+        stand: eur(rv.sinds_start_eur) + ' sinds de start',
+        nu: 'Belegt rustig: wereld-ETF, euro-obligaties, goud en een klein deel sterke aandelen. Geen crypto. ' + kr,
+        laatst: laatste('Rustige investeerder'),
+        straks: mr ? 'Herverdeelt ' + mr[1] + ' (één keer per maand).' : 'Herverdeelt één keer per maand.' });
+    }
     // Oefenaccount
     const br = broker.filter((r) => !r.leeg);
     const bs = br.find((r) => r.soort === 'stand');
@@ -1801,7 +1814,7 @@ dash.calc('onderzoek_verschil', {
     const b = dash.data('begin_hier');
     if (b.status === 'error') { failed(list); return; }
     if (b.status !== 'ok') return;
-    const KLEUR = { 'Trend-agent': '#e8a33a', 'Investeerder': '#3b6fd8', 'Oefenaccount': '#2aa876', 'Daytrader': '#9b4dca' };
+    const KLEUR = { 'Trend-agent': '#e8a33a', 'Investeerder': '#3b6fd8', 'Oefenaccount': '#2aa876', 'Daytrader': '#9b4dca', 'Rustige investeerder': '#14a3a3' };
     list.replaceChildren(...b.data.map((r) => {
       const w = 'id=' + r.id;
       const li = el('li', { class: 'bh-bot', id: 'bh-' + r.id });
@@ -2203,18 +2216,18 @@ dash.calc('onderzoek_verschil', {
   function draw() {
     const st = dash.data('stand'), tk = dash.data('tickers'), ps = dash.data('posities');
     const favs = document.getElementById('m-favs');
-    if (st.status === 'ok') favs.replaceChildren(...['Investeerder', 'Trend-agent'].map((b) => {
+    if (st.status === 'ok') favs.replaceChildren(...['Investeerder', 'Trend-agent', 'Rustige investeerder'].map((b) => {
       const r = real(st.data).find((x) => x.bot === b);
-      if (!r) return el('div');
+      if (!r) return null;
       const w = 'bot=' + encodeURIComponent(b);
-      const c = el('div', { class: 'm-fav ' + (b === 'Investeerder' ? 'inv' : 'tr') });
+      const c = el('div', { class: 'm-fav ' + (b === 'Investeerder' ? 'inv' : b === 'Trend-agent' ? 'tr' : 'rus') });
       const top = el('div', { class: 'top' });
       top.append(el('span', { class: 'nm' }, b), el('span', { class: 'ch ' + ud(r.sinds_start_pct), 'data-source': 'stand', 'data-field': 'sinds_start_pct', 'data-where': w }, pc(r.sinds_start_pct)));
-      c.append(top, el('span', { class: 'sb' }, b === 'Investeerder' ? 'lange termijn' : 'korte trends'),
+      c.append(top, el('span', { class: 'sb' }, b === 'Investeerder' ? 'lange termijn' : b === 'Trend-agent' ? 'korte trends' : 'met obligaties en goud'),
         el('span', { class: 'val', 'data-source': 'stand', 'data-field': 'waarde', 'data-where': w }, eur.format(r.waarde)),
         el('span', { class: 'lb ' + ud(r.sinds_start_eur), 'data-source': 'stand', 'data-field': 'sinds_start_eur', 'data-where': w }, sEur(r.sinds_start_eur) + ' sinds start'));
       return c;
-    }));
+    }).filter(Boolean));
     const list = document.getElementById('m-list');
     if (tk.status !== 'ok') return;
     const pos = new Map(ps.status === 'ok' ? real(ps.data).map((p) => [p.bot + '|' + p.ticker, p]) : []);
@@ -2501,7 +2514,7 @@ dash.calc('onderzoek_verschil', {
 // Telefoon: 'Wat doen ze?' in één regel per bot, en de koersgrafiek pas tonen als je op een aandeel tikt
 (() => {
   const { el } = window.tx;
-  const KLEUR = { 'Trend-agent': '#e8a33a', 'Investeerder': '#3b6fd8', 'Oefenaccount': '#2aa876', 'Daytrader': '#9b4dca' };
+  const KLEUR = { 'Trend-agent': '#e8a33a', 'Investeerder': '#3b6fd8', 'Oefenaccount': '#2aa876', 'Daytrader': '#9b4dca', 'Rustige investeerder': '#14a3a3' };
   const box = document.getElementById('m-bh');
   dash.onData(() => {
     const b = dash.data('begin_hier');
@@ -2708,14 +2721,18 @@ dash.calc('onderzoek_verschil', {
       ts.append(w);
     });
     left.append(ts);
-    const is = sec('Investeerder', 'geen stop-loss, herverdeelt maandelijks');
-    iv.forEach((p) => {
-      const r = el('div', { class: 'ap-row' });
-      const mid = el('div', { style: 'min-width:0' }); mid.append(el('div', { class: 'n' }, p.naam), el('div', { class: 's' }, p.waarde_eur == null ? '' : 'waarde ' + eur.format(p.waarde_eur)));
-      const rt = el('div', { class: 'r' }); rt.append(el('span', { class: 'v ' + ud(p.resultaat_eur) }, sEur(p.resultaat_eur)), el('span', { class: 'c ' + ud(p.resultaat_pct) }, pct(p.resultaat_pct, 1)));
-      r.append(coin(p.ticker, 40), mid, rt); is.append(r);
-    });
-    left.append(is);
+    for (const [naamBot, uitlegBot] of [['Investeerder', 'geen stop-loss, herverdeelt maandelijks'], ['Rustige investeerder', 'met obligaties en goud, herverdeelt maandelijks']]) {
+      const lijst = pos.filter((p) => p.bot === naamBot);
+      if (!lijst.length) continue;
+      const is = sec(naamBot, uitlegBot);
+      lijst.forEach((p) => {
+        const r = el('div', { class: 'ap-row' });
+        const mid = el('div', { style: 'min-width:0' }); mid.append(el('div', { class: 'n' }, p.naam), el('div', { class: 's' }, p.waarde_eur == null ? '' : 'waarde ' + eur.format(p.waarde_eur)));
+        const rt = el('div', { class: 'r' }); rt.append(el('span', { class: 'v ' + ud(p.resultaat_eur) }, sEur(p.resultaat_eur)), el('span', { class: 'c ' + ud(p.resultaat_pct) }, pct(p.resultaat_pct, 1)));
+        r.append(coin(p.ticker, 40), mid, rt); is.append(r);
+      });
+      left.append(is);
+    }
     // remmen
     const rs = sec('Remmen van de trend-agent', 'gaat er één over de grens: noodstop');
     rem.forEach((r) => {
@@ -3881,11 +3898,12 @@ dash.calc('onderzoek_verschil', {
   const M = ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
   const dag = (iso) => { const d = new Date(String(iso).slice(0, 10) + 'T00:00:00Z'); return isNaN(d) ? iso : d.getUTCDate() + ' ' + M[d.getUTCMonth()]; };
   const KOP = {
-    dashboard: { is: 'Je vier oefenbots, met nepgeld.', doet: 'Laat per bot zien wat hij bezit, wat hij nu doet en hoe hij ervoor staat.', vond: () => {
+    dashboard: { is: 'Je oefenbots, met nepgeld.', doet: 'Laat per bot zien wat hij bezit, wat hij nu doet en hoe hij ervoor staat.', vond: () => {
       const st = R('stand'), br = R('broker'), dt = R('daytrader'); if (!st) return null;
       const by = Object.fromEntries(st.map((r) => [r.bot, r]));
       const b = (br || []).find((r) => r.soort === 'stand'), d = (dt || []).find((r) => r.soort === 'stand');
       const res = [['Trend-agent', by['Trend-agent'] && by['Trend-agent'].sinds_start_eur, sEur], ['Investeerder', by['Investeerder'] && by['Investeerder'].sinds_start_eur, sEur],
+        ['Rustige investeerder', by['Rustige investeerder'] && by['Rustige investeerder'].sinds_start_eur, sEur],
         ['Oefenaccount', b && b.waarde != null ? b.waarde - 5000 : null, sEur], ['Daytrader', d && d.sinds_start, usd]].filter((x) => x[1] != null);
       const plus = res.filter((x) => x[1] > 0).length;
       return { t: plus + ' van ' + res.length + ' bots staan in de plus', d: res.map(([n, v, f]) => n + ' ' + f(v)).join(' · '), k: plus * 2 >= res.length ? 'goed' : 'letop' };
@@ -4095,7 +4113,7 @@ dash.calc('onderzoek_verschil', {
   const { el } = window.tx;
   const BANEN = [
     { t: 'Koersen komen binnen', ids: ['yahoo', 'twelve', 'vijfmin', 't212'] },
-    { t: 'Bots beslissen', ids: ['trend', 'invest', 'day', 'rem'] },
+    { t: 'Bots beslissen', ids: ['trend', 'invest', 'rustig', 'day', 'rem'] },
     { t: 'Uitvoeren en bewaken', ids: ['oefen', 'bewaker'] },
     { t: 'Leren', ids: ['onderz', 'labelT', 'onderzD', 'labelD'] },
     { t: 'Bewaren en jij', ids: ['repo', 'dash', 'jij'] },
@@ -4110,8 +4128,9 @@ dash.calc('onderzoek_verschil', {
     cron: { type: 'start', t: 'GitHub-schema', d: 'GitHub start de nachtronde, de beursdag van de daytrader, de bewaker en het zaterdagonderzoek. Een start komt soms uren te laat; daarom is de uurtaak van Claude de reserve.' },
     uur: { type: 'start', t: 'Claude elk uur', d: 'Op werkdagen elk uur: kijkt in het oefenaccount, start als reserve de daytrader en de bewaker, en zet verse cijfers op dit dashboard.' },
     ochtend: { type: 'start', t: 'Claude 07:41', d: 'Kopieert elke ochtend alle onderdelen van het dashboard van GitHub naar deze pagina.' },
-    trend: { type: 'bot', t: 'Trend-agent', d: 'Koopt elke nacht de sterkste stijgende trends (uit ruim 120 aandelen), hooguit 5 tegelijk, met een stop-loss op elke positie.' },
+    trend: { type: 'bot', t: 'Trend-agent', d: 'Koopt elke nacht de sterkste stijgende trends (uit ruim 120 aandelen), hooguit 8 tegelijk, met een stop-loss op elke positie.' },
     invest: { type: 'bot', t: 'Investeerder', d: 'Belegt voor de lange termijn in een vaste verdeling en herverdeelt één keer per maand. Bewust zonder stop-loss.' },
+    rustig: { type: 'bot', t: 'Rustige investeerder', d: 'Sinds november 2026, met eigen nepgeld (€10.000). Vaste verdeling: 60% wereld-ETF, 20% euro-obligaties, 10% goud en 10% in de 2 sterkste aandelen. Geen crypto. Herverdeelt één keer per maand, zonder stop-loss.' },
     day: { type: 'bot', t: 'Daytrader', d: 'Koopt een Amerikaans aandeel dat in de ochtend sterk uitbreekt en verkoopt alles voor het slot. Kijkt op beursdagen elk kwartier: tot 11:00 New Yorkse tijd om te kopen, daarna om te bewaken.' },
     rem: { type: 'bot', t: 'Remmen', d: 'De noodrem (kill switch) en de grenzen per dag en vanaf de top. Gaat hij aan, dan koopt niemand iets nieuws; stop-losses blijven werken.' },
     oefen: { type: 'bot', t: 'Oefenaccount', d: 'Doet bij Trading 212 na wat de trend-agent doet, met marktorders bij de opening. Alleen nepgeld.' },
@@ -4126,19 +4145,19 @@ dash.calc('onderzoek_verschil', {
   };
   // Ontologie: [van, naar, soort relatie, werkwoord]
   const E = [
-    ['yahoo', 'trend', 'koers', 'levert koersen aan'], ['yahoo', 'invest', 'koers', 'levert koersen aan'], ['yahoo', 'onderz', 'koers', 'levert koersen aan'],
+    ['yahoo', 'trend', 'koers', 'levert koersen aan'], ['yahoo', 'invest', 'koers', 'levert koersen aan'], ['yahoo', 'rustig', 'koers', 'levert koersen aan'], ['yahoo', 'onderz', 'koers', 'levert koersen aan'],
     ['yahoo', 'labelT', 'koers', 'levert koersen aan'], ['yahoo', 'bewaker', 'koers', 'levert de controlekoers aan'],
     ['twelve', 'yahoo', 'koers', 'controleert de slotkoersen van', 'controleert'], ['twelve', 'bewaker', 'koers', 'is scheidsrechter voor', 'scheidsrechter'],
     ['twelve', 'day', 'koers', 'controleert de koers vóór elke aankoop van', 'controleert'],
     ['vijfmin', 'day', 'koers', 'levert koersen aan'], ['vijfmin', 'onderzD', 'koers', 'levert koersen aan'],
     ['t212', 'oefen', 'koers', 'houdt het geld en de aandelen van'], ['t212', 'bewaker', 'koers', 'levert de live koers aan'],
-    ['cron', 'trend', 'start', 'start elke nacht'], ['cron', 'invest', 'start', 'start elke nacht'], ['cron', 'onderz', 'start', 'start op zaterdag'],
+    ['cron', 'trend', 'start', 'start elke nacht'], ['cron', 'invest', 'start', 'start elke nacht'], ['cron', 'rustig', 'start', 'start elke nacht'], ['cron', 'onderz', 'start', 'start op zaterdag'],
     ['cron', 'onderzD', 'start', 'start op zaterdag'], ['cron', 'day', 'start', 'start op beursdagen'], ['cron', 'bewaker', 'start', 'start op werkdagen'],
     ['uur', 'oefen', 'start', 'controleert elk uur'], ['uur', 'day', 'start', 'start als reserve'], ['uur', 'bewaker', 'start', 'start als reserve'],
     ['uur', 'dash', 'toon', 'zet elk uur cijfers op'], ['ochtend', 'dash', 'toon', 'zet elke ochtend alles op'],
     ['trend', 'oefen', 'order', 'stuurt orders naar', 'orders'], ['trend', 'bewaker', 'order', 'geeft stop-losses aan', 'stop-losses'], ['bewaker', 'oefen', 'order', 'verkoopt bij de stop-loss in', 'verkoopt'],
     ['rem', 'trend', 'rem', 'remt'], ['rem', 'day', 'rem', 'remt'], ['rem', 'bewaker', 'rem', 'remt'],
-    ['trend', 'repo', 'opslag', 'bewaart stand en trades in'], ['invest', 'repo', 'opslag', 'bewaart stand en trades in'], ['oefen', 'repo', 'opslag', 'bewaart de stand in'],
+    ['trend', 'repo', 'opslag', 'bewaart stand en trades in'], ['invest', 'repo', 'opslag', 'bewaart stand en trades in'], ['rustig', 'repo', 'opslag', 'bewaart stand en trades in'], ['oefen', 'repo', 'opslag', 'bewaart de stand in'],
     ['bewaker', 'repo', 'opslag', 'bewaart zijn rondes in'], ['day', 'repo', 'opslag', 'bewaart stand en trades in'], ['onderz', 'repo', 'opslag', 'bewaart de uitkomst in'],
     ['onderz', 'labelT', 'leer', 'maakt'], ['labelT', 'dash', 'toon', 'staat bij Kansen op'], ['onderzD', 'labelD', 'leer', 'maakt'], ['labelD', 'day', 'leer', 'geeft een label aan elke kans van', 'label'],
     ['repo', 'dash', 'toon', 'levert de cijfers voor'], ['dash', 'jij', 'toon', 'laat alles zien aan'], ['onderz', 'jij', 'beslis', 'doet een voorstel aan'],

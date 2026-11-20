@@ -48,6 +48,8 @@ def main(argv: list[str] | None = None) -> int:
     inv = sub.add_parser("invest", help="één ronde van de investeerder (maandelijks herverdelen)")
     inv.add_argument("--simulated", action="store_true", help="gebruik verzonnen koersen")
     inv.add_argument("--een-bron", action="store_true", help="alleen Yahoo, zonder controle door Stooq/ECB")
+    inv.add_argument("--bot", choices=["investeerder", "rustig"], default="investeerder",
+                     help="rustig = de rustige investeerder (met obligaties en goud, zonder crypto)")
     rs = sub.add_parser("onderzoek", help="varianten testen en leren van resultaten (past niets aan)")
     rs.add_argument("--years", type=int, default=5)
     rs.add_argument("--simulated", action="store_true")
@@ -467,17 +469,28 @@ def _invest(s, args) -> int:
     except DataError as exc:
         print(f"Fout: {exc}", file=sys.stderr)
         return 2
-    from .strategies import production_mix
-    inv = Investor(s, provider, production_mix())
+    from .strategies import production_mix, rustig_mix
+    naam = getattr(args, "bot", "investeerder")
+    if naam == "rustig":
+        inv = Investor(s, provider, rustig_mix(), naam="rustig")
+    else:
+        inv = Investor(s, provider, production_mix())
     try:
         out = inv.run(today)
     except Exception as exc:  # noqa: BLE001
-        _write_health(s, "investeerder", {"day": today.isoformat(), "status": "FOUT",
-                                          "fout": f"{type(exc).__name__}: {exc}"})
+        _write_health(s, naam, {"day": today.isoformat(), "status": "FOUT",
+                                "fout": f"{type(exc).__name__}: {exc}"})
         raise
-    _write_health(s, "investeerder", {"day": out["day"], "status": out["status"], "versie": out["version"],
-                                      "waarschuwingen": out["warnings"][:20], **out.get("health", {})})
+    _write_health(s, naam, {"day": out["day"], "status": out["status"], "versie": out["version"],
+                            "waarschuwingen": out["warnings"][:20], **out.get("health", {})})
     book = Book.load(inv.path, s.starting_cash_eur)
+    if naam == "rustig":
+        md = render(out, book, "Rustige investeerder")
+        (s.state_dir / "rustig.md").write_text(md, encoding="utf-8")
+        s.reports_dir.mkdir(parents=True, exist_ok=True)
+        (s.reports_dir / f"{today.isoformat()}-rustig.md").write_text(md, encoding="utf-8")
+        print(md)
+        return 0
     md = render(out, book)
     (s.state_dir / "investeerder.md").write_text(md, encoding="utf-8")
     s.reports_dir.mkdir(parents=True, exist_ok=True)
@@ -592,7 +605,7 @@ def _write_health(s, bot: str, info: dict) -> None:
 
 def health_problems(data: dict) -> list[str]:
     problems = []
-    for bot in ("trend", "investeerder"):
+    for bot in ("trend", "investeerder") + (("rustig",) if "rustig" in data else ()):
         h = data.get(bot)
         if not h:
             problems.append(f"{bot}: geen gezondheidsgegevens (ronde niet gedraaid?)")

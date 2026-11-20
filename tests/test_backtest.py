@@ -130,6 +130,34 @@ class InvestorTests(unittest.TestCase):
         self.assertNotIn("ETH-USD", w)          # dalende trend: niet kopen
         self.assertLessEqual(len([t for t in w if t not in ("IWDA.AS", "BTC-USD", "ETH-USD")]), 5)
 
+    def test_rustige_mix_houdt_obligaties_en_goud_vast(self):
+        from trendagent.investor import target_weights
+        from trendagent.strategies import RUSTIG_VARIANTEN, rustig_mix
+        from trendagent.universe import CRYPTO, DEFENSIEF, UNIVERSE
+        sim = SimulatedProvider(END)
+        bars = {i.ticker: sim.history(i, 300) for i in UNIVERSE + CRYPTO + DEFENSIEF}
+        for naam in RUSTIG_VARIANTEN:
+            mix = rustig_mix(naam)
+            self.assertLessEqual(mix.totaal(), 1.0 + 1e-9, naam)
+            w, _ = target_weights(bars, mix)
+            self.assertLessEqual(sum(w.values()), 1.0 + 1e-9, naam)
+            self.assertFalse([t for t in w if t.endswith("-USD")], naam)      # geen crypto
+            for t, g in mix.vast:
+                self.assertAlmostEqual(w[t], g, msg=naam)
+        # zonder koers voor goud: dat deel blijft in kas, niets anders verandert
+        bars.pop("4GLD.DE")
+        w, notes = target_weights(bars, rustig_mix())
+        self.assertNotIn("4GLD.DE", w)
+        self.assertTrue(any("kas" in n for n in notes))
+
+    def test_rustige_investeerder_eigen_boek(self):
+        from trendagent.investor import Investor
+        from trendagent.strategies import rustig_mix
+        s = settings()
+        Investor(s, SimulatedProvider(END), rustig_mix(), naam="rustig").run(END)
+        self.assertTrue((s.state_dir / "rustig.json").exists())
+        self.assertFalse((s.state_dir / "investeerder.json").exists())
+
     def test_rebalances_once_per_month(self):
         from trendagent.investor import Book, Investor
         s = settings()

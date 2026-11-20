@@ -218,6 +218,13 @@ def rows(state: Path = Path("state"), dash: Path = Path("dashboard"), root: Path
         k.knelpunt("invest", "letop", "De investeerder blijft achter bij de wereld-ETF",
                    f"Hij doet het {abs(iv['vs_etf_pct']) * 100:.1f}% slechter dan gewoon de wereld-ETF vasthouden.",
                    "Het weekonderzoek test andere verdelingen; een bewezen betere komt als voorstel.")
+    rv = stand.get("Rustige investeerder") or {}
+    rh = ((_load(state / "health.json", {}) or {}).get("rustig") or {})
+    k.node("rustig", "goed", f"{_eur(rv['waarde'])} · 1× per maand" if rv.get("waarde") else "start bij de volgende nachtronde")
+    if rh.get("status") == "FOUT":
+        k.knelpunt("rustig", "fout", "De rustige investeerder liep vast",
+                   f"Bij de laatste nachtronde ging er iets mis: {rh.get('fout', 'onbekende fout')}.",
+                   "Claude kijkt ernaar; de andere bots draaien gewoon door.")
     pos = [r for r in (_load(dash / "broker.json", []) or []) if r.get("soort") == "positie"]
     if pos:
         gelijk = sum(1 for p in pos if p.get("gelijk"))

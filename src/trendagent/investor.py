@@ -282,10 +282,11 @@ class Investor:
         out["weights"] = {t: round(book.qty[t] * prices[t] / equity, 4) for t in book.qty} if equity else {}
         try:
             weights, _ = target_weights(bars, self.mix, self.regime, frozenset(suspicious))
-            crypto = [c.ticker for c in CRYPTO]
+            crypto = [c.ticker for c in CRYPTO] if self.mix.crypto_weight > 0 else []
             picks = [t for t in weights if t not in crypto and t != self.mix.core_ticker and t not in vaste]
-            view = uitleg.investor_view(bars, self._momentum, set(book.qty), picks, crypto)
-            market = uitleg.market_view(bars, self.regime, {t: BY_TICKER[t].region for t in bars})
+            view = uitleg.investor_view(bars, self._momentum, set(book.qty) - vaste, picks, crypto)
+            markt_bars = {t: b for t, b in bars.items() if t not in vaste}
+            market = uitleg.market_view(markt_bars, self.regime, {t: BY_TICKER[t].region for t in markt_bars})
             nxt = date(today.year + today.month // 12, today.month % 12 + 1, 1).strftime("%Y-%m")
             out["analyse"] = {"markt": market, "beeld": view,
                               "conclusies": uitleg.market_conclusions(market, "investeerder")

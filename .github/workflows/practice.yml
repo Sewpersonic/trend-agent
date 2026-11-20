@@ -98,6 +98,12 @@ jobs:
         continue-on-error: true
         run: python -m trendagent invest
 
+      # Rustige investeerder (nov 2026): eigen nepgeld (€10.000), met obligaties en goud, zonder crypto.
+      - name: Rustige investeerder
+        if: github.event.inputs.action != 'kill' && github.event.inputs.action != 'resume' && github.event.inputs.action != 'voorbeeld'
+        continue-on-error: true
+        run: python -m trendagent invest --bot rustig
+
       - name: Dagoverzicht
         if: github.event.inputs.action != 'kill' && github.event.inputs.action != 'resume' && github.event.inputs.action != 'voorbeeld'
         continue-on-error: true

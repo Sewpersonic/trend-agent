@@ -13,7 +13,8 @@ from pathlib import Path
 from . import insights, uitleg
 from .universe import BY_TICKER
 
-BOTS = (("Investeerder", "investeerder", "investeerder.json"), ("Trend-agent", "trend", "portfolio.json"))
+BOTS = (("Investeerder", "investeerder", "investeerder.json"), ("Trend-agent", "trend", "portfolio.json"),
+        ("Rustige investeerder", "rustig", "rustig.json"))
 
 
 def _load(path: Path) -> dict:
@@ -78,6 +79,11 @@ def build(state_dir: Path, reports_dir: Path) -> dict[str, list[dict]]:
                      "bij_stop_eur": r["bij_stop_eur"], "waarde_eur": None})
     for r in inv.get("posities", []):
         rows.append({"bot": "Investeerder", "ticker": r["ticker"], "naam": _name(r["ticker"]), "instap": None,
+                     "koers": None, "stop": None, "resultaat_eur": r["resultaat_eur"],
+                     "resultaat_pct": r["resultaat_pct"], "afstand_stop_pct": None, "bij_stop_eur": None,
+                     "waarde_eur": r["waarde_eur"]})
+    for r in info.get("rustig", {}).get("posities", []):
+        rows.append({"bot": "Rustige investeerder", "ticker": r["ticker"], "naam": _name(r["ticker"]), "instap": None,
                      "koers": None, "stop": None, "resultaat_eur": r["resultaat_eur"],
                      "resultaat_pct": r["resultaat_pct"], "afstand_stop_pct": None, "bij_stop_eur": None,
                      "waarde_eur": r["waarde_eur"]})
