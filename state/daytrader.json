@@ -736,11 +736,65 @@
   "begin": 9906.17,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-20T10:00:00",
-  "traded": [],
+  "prev": "2026-11-20T10:15:00",
+  "traded": [
+   "COST",
+   "LLY"
+  ],
   "notities": [],
   "trades": [],
-  "open": {}
+  "open": {
+   "COST": {
+    "ticker": "COST",
+    "qty": 2,
+    "entry": 1111.675555114746,
+    "stop": 1099.300048828125,
+    "target": 1136.426567687988,
+    "t_in": "2026-11-20T10:15:00",
+    "risk": 24.75101257324195,
+    "ctx": {
+     "tijd": "10:15",
+     "rvol": 1.29,
+     "or_breedte": 0.0092,
+     "boven_range": 0.0031,
+     "markt_vandaag": 0.0004,
+     "dag_tot_nu": 0.0099,
+     "gap": 0.0075,
+     "dagtrend": "stijgend",
+     "plek": "midden in het bereik",
+     "terugval": false,
+     "boven_sma50": true,
+     "markt_dagtrend": "zijwaarts",
+     "indicatie": "gemiddeld",
+     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,09 R; alle uitbraken samen −0,03 R)."
+    }
+   },
+   "LLY": {
+    "ticker": "LLY",
+    "qty": 1,
+    "entry": 1371.4604119262694,
+    "stop": 1354.22998046875,
+    "target": 1405.9212748413083,
+    "t_in": "2026-11-20T10:15:00",
+    "risk": 17.230431457519444,
+    "ctx": {
+     "tijd": "10:15",
+     "rvol": 1.21,
+     "or_breedte": 0.009,
+     "boven_range": 0.0022,
+     "markt_vandaag": 0.0004,
+     "dag_tot_nu": 0.0033,
+     "gap": 0.0103,
+     "dagtrend": "stijgend",
+     "plek": "midden in het bereik",
+     "terugval": true,
+     "boven_sma50": true,
+     "markt_dagtrend": "zijwaarts",
+     "indicatie": "gemiddeld",
+     "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,09 R; alle uitbraken samen −0,03 R)."
+    }
+   }
+  }
  },
  "gem_vol": {
   "AAPL": 6414525.5,
@@ -772,24 +826,70 @@
   "GLD": 1749268.3
  },
  "uitgesloten": {},
- "open_nu": [],
+ "open_nu": [
+  {
+   "ticker": "COST",
+   "qty": 2,
+   "entry": 1111.675555114746,
+   "stop": 1099.300048828125,
+   "target": 1136.426567687988,
+   "risk": 24.75101257324195,
+   "ctx": {
+    "tijd": "10:15",
+    "rvol": 1.29,
+    "or_breedte": 0.0092,
+    "boven_range": 0.0031,
+    "markt_vandaag": 0.0004,
+    "dag_tot_nu": 0.0099,
+    "gap": 0.0075,
+    "dagtrend": "stijgend",
+    "plek": "midden in het bereik",
+    "terugval": false,
+    "boven_sma50": true,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,09 R; alle uitbraken samen −0,03 R)."
+   },
+   "t_in": "10:15",
+   "koers": 1111.1199951171875
+  },
+  {
+   "ticker": "LLY",
+   "qty": 1,
+   "entry": 1371.4604119262694,
+   "stop": 1354.22998046875,
+   "target": 1405.9212748413083,
+   "risk": 17.230431457519444,
+   "ctx": {
+    "tijd": "10:15",
+    "rvol": 1.21,
+    "or_breedte": 0.009,
+    "boven_range": 0.0022,
+    "markt_vandaag": 0.0004,
+    "dag_tot_nu": 0.0033,
+    "gap": 0.0103,
+    "dagtrend": "stijgend",
+    "plek": "midden in het bereik",
+    "terugval": true,
+    "boven_sma50": true,
+    "markt_dagtrend": "zijwaarts",
+    "indicatie": "gemiddeld",
+    "indicatie_tekst": "Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,09 R; alle uitbraken samen −0,03 R)."
+   },
+   "t_in": "10:15",
+   "koers": 1370.7750244140625
+  }
+ ],
  "laatste_ronde": {
-  "tijd": "2026-11-20T15:01:30+00:00",
-  "ny": "2026-11-20 10:01",
+  "tijd": "2026-11-20T15:16:30+00:00",
+  "ny": "2026-11-20 10:16",
   "status": "ok",
   "log": [
-   "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (15x); openingsrange te wild (5x); te weinig volume (1.0x normaal) (3x)."
+   "10:15 COST: gekocht (2 stuks, uitbraak boven 1109.49 met 1.3x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,09 R; alle uitbraken samen −0,03 R).",
+   "10:15 LLY: gekocht (1 stuks, uitbraak boven 1366.51 met 1.2x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,09 R; alle uitbraken samen −0,03 R)."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-17T19:01:30+00:00",
-   "ny": "2026-11-17 14:01",
-   "status": "ok",
-   "log": [
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-11-17T19:16:30+00:00",
    "ny": "2026-11-17 14:16",
@@ -1255,6 +1355,15 @@
    "log": [
     "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: nog geen uitbraak (15x); openingsrange te wild (5x); te weinig volume (1.0x normaal) (3x)."
    ]
+  },
+  {
+   "tijd": "2026-11-20T15:16:30+00:00",
+   "ny": "2026-11-20 10:16",
+   "status": "ok",
+   "log": [
+    "10:15 COST: gekocht (2 stuks, uitbraak boven 1109.49 met 1.3x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,09 R; alle uitbraken samen −0,03 R).",
+    "10:15 LLY: gekocht (1 stuks, uitbraak boven 1366.51 met 1.2x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,09 R; alle uitbraken samen −0,03 R)."
+   ]
   }
  ],
  "dagcontext": {
@@ -1451,6 +1560,6 @@
  "geen_context": false,
  "twelve": {
   "dag": "2026-11-20",
-  "verzoeken": 0
+  "verzoeken": 2
  }
 }
