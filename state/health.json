@@ -1,6 +1,6 @@
 {
  "trend": {
-  "day": "2026-11-19",
+  "day": "2026-11-20",
   "status": "OK",
   "versie": "trend-1.1-eaf4f8",
   "waarschuwingen": [],
@@ -22,10 +22,10 @@
    "verzoeken_tweede_bron": 69,
    "afwijkend": []
   },
-  "vastgelegd_utc": "2026-11-20T03:18:57+00:00"
+  "vastgelegd_utc": "2026-11-21T03:21:18+00:00"
  },
  "investeerder": {
-  "day": "2026-11-19",
+  "day": "2026-11-20",
   "status": "OK",
   "versie": "investeerder-1.0-64ce27",
   "waarschuwingen": [],
@@ -47,6 +47,31 @@
    "verzoeken_tweede_bron": 0,
    "afwijkend": []
   },
-  "vastgelegd_utc": "2026-11-20T03:19:36+00:00"
+  "vastgelegd_utc": "2026-11-21T03:21:48+00:00"
+ },
+ "rustig": {
+  "day": "2026-11-20",
+  "status": "OK",
+  "versie": "rustig-1.0-d93fef",
+  "waarschuwingen": [],
+  "gevraagd": 133,
+  "ok": 133,
+  "mislukt": 0,
+  "verdacht": {},
+  "wisselkoers": "ok",
+  "regime": "stijgend-hoog",
+  "verouderd": 0,
+  "bronnen": {
+   "koersen": {
+    "bevestigd": 69,
+    "1 bron": 64
+   },
+   "wisselkoers": "bevestigd",
+   "tweede_bron": "actief",
+   "fout_tweede_bron": "",
+   "verzoeken_tweede_bron": 0,
+   "afwijkend": []
+  },
+  "vastgelegd_utc": "2026-11-21T03:22:13+00:00"
  }
 }
