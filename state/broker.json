@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-23T08:26:42+00:00",
+ "tijd": "2026-11-23T09:27:12+00:00",
  "status": "alleen kijken",
  "reden": "Alleen gecontroleerd: geen orders geplaatst.",
  "orders": [],
@@ -22,17 +22,17 @@
  ],
  "account": {
   "currency": "EUR",
-  "totalValue": 4896.91,
+  "totalValue": 4898.69,
   "cash": {
-   "availableToTrade": 1272.56,
+   "availableToTrade": 1427.56,
    "reservedForOrders": 0,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 3624.35,
-   "totalCost": 3652.77,
-   "realizedProfitLoss": -59.13,
-   "unrealizedProfitLoss": -28.42
+   "currentValue": 3471.13,
+   "totalCost": 3494.27,
+   "realizedProfitLoss": -62.63,
+   "unrealizedProfitLoss": -23.14
   }
  },
  "posities": [
@@ -43,18 +43,18 @@
     "isin": "US0846707026",
     "currency": "USD"
    },
-   "createdAt": "2026-11-19T16:33:58.341+02:00",
+   "createdAt": "2026-11-19T16:33:58.000+02:00",
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 570.51,
+   "currentPrice": 573.14,
    "averagePricePaid": 571.25,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 519.37,
-    "currentValue": 519.17,
-    "unrealizedProfitLoss": -0.2,
-    "fxImpact": 0.47
+    "currentValue": 521.82,
+    "unrealizedProfitLoss": 2.45,
+    "fxImpact": 0.73
    }
   },
   {
@@ -68,14 +68,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 286.45,
+   "currentPrice": 287.32,
    "averagePricePaid": 293.84,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 263.19,
-    "currentValue": 260.67,
-    "unrealizedProfitLoss": -2.52,
-    "fxImpact": 4.21
+    "currentValue": 261.59,
+    "unrealizedProfitLoss": -1.6,
+    "fxImpact": 4.34
    }
   },
   {
@@ -89,34 +89,13 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 435.92,
+   "currentPrice": 436.49,
    "averagePricePaid": 448.0,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 448.0,
-    "currentValue": 435.92,
-    "unrealizedProfitLoss": -12.08,
-    "fxImpact": null
-   }
-  },
-  {
-   "instrument": {
-    "ticker": "DB1d_EQ",
-    "name": "Deutsche Boerse",
-    "isin": "DE0005810055",
-    "currency": "EUR"
-   },
-   "createdAt": "2026-10-30T10:00:12.000+02:00",
-   "quantity": 0.5,
-   "quantityAvailableForTrading": 0.5,
-   "quantityInPies": 0,
-   "currentPrice": 309.6,
-   "averagePricePaid": 317.0,
-   "walletImpact": {
-    "currency": "EUR",
-    "totalCost": 158.5,
-    "currentValue": 154.8,
-    "unrealizedProfitLoss": -3.7,
+    "currentValue": 436.49,
+    "unrealizedProfitLoss": -11.51,
     "fxImpact": null
    }
   },
@@ -131,14 +110,14 @@
    "quantity": 4.0,
    "quantityAvailableForTrading": 4.0,
    "quantityInPies": 0,
-   "currentPrice": 169.22,
+   "currentPrice": 169.66,
    "averagePricePaid": 169.0,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 602.83,
-    "currentValue": 615.97,
-    "unrealizedProfitLoss": 13.14,
-    "fxImpact": 12.34
+    "currentValue": 617.88,
+    "unrealizedProfitLoss": 15.05,
+    "fxImpact": 12.65
    }
   },
   {
@@ -152,13 +131,13 @@
    "quantity": 5.0,
    "quantityAvailableForTrading": 5.0,
    "quantityInPies": 0,
-   "currentPrice": 84.93,
+   "currentPrice": 84.51,
    "averagePricePaid": 86.5,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 432.5,
-    "currentValue": 424.65,
-    "unrealizedProfitLoss": -7.85,
+    "currentValue": 422.55,
+    "unrealizedProfitLoss": -9.95,
     "fxImpact": null
    }
   },
@@ -169,17 +148,17 @@
     "isin": "FR0000120073",
     "currency": "EUR"
    },
-   "createdAt": "2026-11-19T10:00:05.561+02:00",
+   "createdAt": "2026-11-19T10:00:05.000+02:00",
    "quantity": 4.0,
    "quantityAvailableForTrading": 4.0,
    "quantityInPies": 0,
-   "currentPrice": 187.53,
+   "currentPrice": 186.85,
    "averagePricePaid": 190.5,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 762.0,
-    "currentValue": 750.12,
-    "unrealizedProfitLoss": -11.88,
+    "currentValue": 747.4,
+    "unrealizedProfitLoss": -14.6,
     "fxImpact": null
    }
   },
@@ -190,17 +169,17 @@
     "isin": "NL0000009538",
     "currency": "EUR"
    },
-   "createdAt": "2026-11-20T10:00:06.989+02:00",
+   "createdAt": "2026-11-20T10:00:06.000+02:00",
    "quantity": 17.5,
    "quantityAvailableForTrading": 17.5,
    "quantityInPies": 0,
-   "currentPrice": 26.46,
+   "currentPrice": 26.48,
    "averagePricePaid": 26.65028571,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 466.38,
-    "currentValue": 463.05,
-    "unrealizedProfitLoss": -3.33,
+    "currentValue": 463.4,
+    "unrealizedProfitLoss": -2.98,
     "fxImpact": null
    }
   }
@@ -218,7 +197,15 @@
   "PHIA.AS": "PHIAa_EQ"
  },
  "handmatig": {},
- "plan": [],
+ "plan": [
+  {
+   "ticker": "DB1d_EQ",
+   "yahoo": "DB1.DE",
+   "actie": "koop",
+   "quantity": 0.5,
+   "waarde_eur": 165.55
+  }
+ ],
  "geschiedenis": [
   {
    "tijd": "2026-10-15T16:30:57+00:00",
