@@ -1,22 +1,22 @@
 # Backtest trend-agent (eerlijke test: grootste bedrijven van 2016)
 
-Periode **2016-11-11 t/m 2026-11-11** (ongeveer 10 jaar), startkapitaal €10.000 nepgeld, 90 instrumenten met koersdata. Zelfde regels, kosten en slippage als bij het dagelijks oefenen.
+Periode **2016-11-23 t/m 2026-11-23** (ongeveer 10 jaar), startkapitaal €10.000 nepgeld, 90 instrumenten met koersdata. Zelfde regels, kosten en slippage als bij het dagelijks oefenen.
 
 > Dit is geen voorspelling. Het laat zien hoe deze regels het in het verleden hadden gedaan.
 
 ## In het kort
 
-- Over de hele periode deed de trend-agent (eerlijke test: grootste bedrijven van 2016) het slechter dan gewoon de wereld-ETF vasthouden (+31,8% tegen +232,9%).
-- Zijn grootste daling was -16,6%, tegen -33,6% voor de ETF.
-- In 52% van alle periodes van 4 weken stond de trend-agent (eerlijke test: grootste bedrijven van 2016) aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -9,7%, het beste +8,7%.
+- Over de hele periode deed de trend-agent (eerlijke test: grootste bedrijven van 2016) het slechter dan gewoon de wereld-ETF vasthouden (+35,6% tegen +203,7%).
+- Zijn grootste daling was -14,1%, tegen -33,6% voor de ETF.
+- In 52% van alle periodes van 4 weken stond de trend-agent (eerlijke test: grootste bedrijven van 2016) aan het eind hoger dan aan het begin. Het slechtste blok van 4 weken was -9,2%, het beste +7,6%.
 
 ## Totaal
 
 | | Totaal | Per jaar | Grootste daling | Sharpe | Eindwaarde |
 | --- | --- | --- | --- | --- | --- |
-| Trend-agent (eerlijke test: grootste bedrijven van 2016) | +31,8% | +2,8% | -16,6% | 0,25 | €13.174 |
-| MSCI World-ETF (IWDA) | +232,9% | +12,8% | -33,6% | 0,73 | €33.291 |
-| S&P 500-ETF (SPY, in euro) | +304,7% | +15,0% | -33,1% | 0,68 | €40.473 |
+| Trend-agent (eerlijke test: grootste bedrijven van 2016) | +35,6% | +3,1% | -14,1% | 0,27 | €13.554 |
+| MSCI World-ETF (IWDA) | +203,7% | +11,8% | -33,6% | 0,67 | €30.372 |
+| S&P 500-ETF (SPY, in euro) | +255,6% | +13,5% | -33,1% | 0,63 | €35.560 |
 
 _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig._
 
@@ -24,17 +24,17 @@ _Sharpe: rendement gedeeld door beweeglijkheid. Boven 1 is goed, onder 0,5 matig
 
 | Jaar | Trend-agent (eerlijke test: grootste bedrijven van 2016) | MSCI World-ETF (IWDA) | S&P 500-ETF (SPY, in euro) |
 | --- | --- | --- | --- |
-| 2016 | +8,3% | +6,9% | +7,0% |
-| 2017 | -3,6% | +7,5% | +7,8% |
-| 2018 | +0,2% | -4,2% | -0,4% |
-| 2019 | +11,1% | +29,6% | +34,0% |
-| 2020 | -7,9% | +6,2% | +7,8% |
-| 2021 | +6,7% | +32,5% | +39,8% |
-| 2022 | -7,3% | -13,5% | -13,1% |
-| 2023 | +5,1% | +19,9% | +21,5% |
-| 2024 | +8,6% | +27,2% | +32,8% |
-| 2025 | +6,6% | +7,1% | +4,3% |
-| 2026 | +2,4% | +17,4% | +19,3% |
+| 2016 | +4,5% | +3,0% | +2,4% |
+| 2017 | +1,9% | +7,5% | +7,8% |
+| 2018 | +1,1% | -4,2% | -0,4% |
+| 2019 | +11,8% | +29,6% | +34,0% |
+| 2020 | -8,9% | +6,2% | +7,8% |
+| 2021 | +6,2% | +32,5% | +39,8% |
+| 2022 | -6,8% | -13,5% | -13,1% |
+| 2023 | +5,2% | +19,9% | +21,5% |
+| 2024 | +12,2% | +27,2% | +32,8% |
+| 2025 | +6,8% | +7,1% | +4,3% |
+| 2026 | -0,8% | +11,1% | +9,4% |
 
 ## Periodes van 4 weken (20 handelsdagen)
 
@@ -42,16 +42,16 @@ Dit beantwoordt de vraag "wat kan er in een paar weken gebeuren?": elk mogelijk 
 
 | | Hoger geëindigd | Normaal (mediaan) | Slecht (1 op 20) | Slechtste | Beste |
 | --- | --- | --- | --- | --- | --- |
-| Trend-agent (eerlijke test: grootste bedrijven van 2016) | 52% | +0,1% | -3,6% | -9,7% | +8,7% |
-| MSCI World-ETF (IWDA) | 65% | +1,1% | -4,8% | -27,7% | +21,1% |
+| Trend-agent (eerlijke test: grootste bedrijven van 2016) | 52% | +0,1% | -3,6% | -9,2% | +7,6% |
+| MSCI World-ETF (IWDA) | 65% | +1,1% | -4,9% | -27,7% | +21,1% |
 | S&P 500-ETF (SPY, in euro) | 65% | +1,2% | -5,1% | -28,7% | +22,1% |
 
 ## Trades
 
-- Aankopen: 1008, afgesloten: 1000, waarvan winst: 34%
-- Gemiddelde winst: €79, gemiddeld verlies: €-38, profit factor: 1,09
-- Gemiddeld vastgehouden: 25 dagen; totale kosten: €2.030
-- Kill switch aangegaan: 123 keer (2017-01-31: 3 verliestrades op rij; 2017-03-23: 3 verliestrades op rij; 2017-04-26: 3 verliestrades op rij; 2017-05-17: dagverlies groter dan 2%; 2017-06-09: 3 verliestrades op rij; 2017-06-29: 4 verliestrades op rij …)
+- Aankopen: 1002, afgesloten: 995, waarvan winst: 35%
+- Gemiddelde winst: €81, gemiddeld verlies: €-39, profit factor: 1,12
+- Gemiddeld vastgehouden: 26 dagen; totale kosten: €2.025
+- Kill switch aangegaan: 121 keer (2017-04-11: 3 verliestrades op rij; 2017-05-17: dagverlies groter dan 2%; 2017-06-29: 3 verliestrades op rij; 2017-07-11: 3 verliestrades op rij; 2017-07-27: 4 verliestrades op rij; 2017-08-11: 3 verliestrades op rij …)
 
 ## Belangrijke kanttekeningen
 
