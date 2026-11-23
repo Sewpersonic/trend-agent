@@ -1,46 +1,49 @@
 {
- "tijd": "2026-11-23T08:00:30+00:00",
+ "tijd": "2026-11-23T08:30:30+00:00",
  "status": "ok",
  "posities": [
   {
    "ticker": "DB1.DE",
    "t212": "DB1d_EQ",
    "stop": 311.75,
-   "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 312.2,
-   "koers_yahoo": null
+   "actie": "verkocht (0.5 stuks): koers 310.30 onder de stop-loss 311.75",
+   "koers_t212": 310.3,
+   "koers_yahoo": 310.2,
+   "afstand_pct": -0.0047
   },
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 285.71,
+   "koers_t212": 286.45,
    "koers_yahoo": 286.4,
-   "afstand_pct": 0.0325
+   "afstand_pct": 0.0327
   },
   {
    "ticker": "WKL.AS",
    "t212": "WKLa_EQ",
    "stop": 84.46,
-   "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 84.53,
-   "koers_yahoo": null
+   "actie": "boven de stop-loss",
+   "koers_t212": 84.74,
+   "koers_yahoo": 84.38,
+   "afstand_pct": 0.0033
   },
   {
    "ticker": "OR.PA",
    "t212": "ORp_EQ",
    "stop": 428.9357,
-   "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 436.27,
-   "koers_yahoo": null
+   "actie": "boven de stop-loss",
+   "koers_t212": 435.56,
+   "koers_yahoo": 435.4,
+   "afstand_pct": 0.0154
   },
   {
    "ticker": "PG",
    "t212": "PG_US_EQ",
    "stop": 163.0172,
    "actie": "boven de stop-loss",
-   "koers_t212": 168.8,
+   "koers_t212": 169.22,
    "koers_yahoo": 169.46,
    "afstand_pct": 0.0395
   },
@@ -49,30 +52,60 @@
    "t212": "BRK_B_US_EQ",
    "stop": 551.0702,
    "actie": "boven de stop-loss",
-   "koers_t212": 570.47,
+   "koers_t212": 570.81,
    "koers_yahoo": 570.43,
-   "afstand_pct": 0.0352
+   "afstand_pct": 0.0358
   },
   {
    "ticker": "AI.PA",
    "t212": "AIp_EQ",
    "stop": 184.0263,
-   "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 187.62,
-   "koers_yahoo": null
+   "actie": "boven de stop-loss",
+   "koers_t212": 187.5,
+   "koers_yahoo": 187.18,
+   "afstand_pct": 0.0189
   },
   {
    "ticker": "PHIA.AS",
    "t212": "PHIAa_EQ",
    "stop": 25.462,
-   "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 26.26,
-   "koers_yahoo": null
+   "actie": "boven de stop-loss",
+   "koers_t212": 26.4,
+   "koers_yahoo": 26.35,
+   "afstand_pct": 0.0368
   }
  ],
- "verkocht": [],
+ "verkocht": [
+  {
+   "ticker": "DB1.DE",
+   "t212": "DB1d_EQ",
+   "aantal": 0.5,
+   "koers": 310.3,
+   "stop": 311.74999564034596,
+   "antwoord": {
+    "id": 58500161552,
+    "strategy": "QUANTITY",
+    "type": "MARKET",
+    "ticker": "DB1d_EQ",
+    "quantity": -0.5,
+    "filledQuantity": 0,
+    "status": "NEW",
+    "currency": "EUR",
+    "extendedHours": false,
+    "initiatedFrom": "API",
+    "side": "SELL",
+    "createdAt": "2026-11-23T10:30:30.999+02:00",
+    "instrument": {
+     "ticker": "DB1d_EQ",
+     "name": "Deutsche Boerse",
+     "isin": "DE0005810055",
+     "currency": "EUR"
+    }
+   }
+  }
+ ],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: ABBV (+3.2%)."
+  "DB1.DE: verkocht in het oefenaccount, koers 310.30 onder de stop-loss 311.75."
  ],
  "twelve_vandaag": 0,
  "geschiedenis": [
@@ -291,7 +324,43 @@
    "log": [
     "MA: verkocht in het oefenaccount, koers 630.03 onder de stop-loss 631.15."
    ]
+  },
+  {
+   "tijd": "2026-11-23T08:30:30+00:00",
+   "status": "ok",
+   "verkocht": [
+    {
+     "ticker": "DB1.DE",
+     "t212": "DB1d_EQ",
+     "aantal": 0.5,
+     "koers": 310.3,
+     "stop": 311.74999564034596,
+     "antwoord": {
+      "id": 58500161552,
+      "strategy": "QUANTITY",
+      "type": "MARKET",
+      "ticker": "DB1d_EQ",
+      "quantity": -0.5,
+      "filledQuantity": 0,
+      "status": "NEW",
+      "currency": "EUR",
+      "extendedHours": false,
+      "initiatedFrom": "API",
+      "side": "SELL",
+      "createdAt": "2026-11-23T10:30:30.999+02:00",
+      "instrument": {
+       "ticker": "DB1d_EQ",
+       "name": "Deutsche Boerse",
+       "isin": "DE0005810055",
+       "currency": "EUR"
+      }
+     }
+    }
+   ],
+   "log": [
+    "DB1.DE: verkocht in het oefenaccount, koers 310.30 onder de stop-loss 311.75."
+   ]
   }
  ],
- "rondes_vandaag": 1
+ "rondes_vandaag": 3
 }
