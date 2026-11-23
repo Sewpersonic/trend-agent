@@ -176,6 +176,20 @@ class InvestorTests(unittest.TestCase):
         Investor(s, SimulatedProvider(END)).run(END)
         self.assertEqual([t for t in Book.load(s.state_dir / "investeerder.json", 1).trades if t.side == "BUY"], [])
 
+    def test_herverdelen_wacht_op_noodrem_en_volgt_daarna(self):
+        from trendagent.investor import Book, Investor
+        s = settings()
+        ks = KillSwitch(s.state_dir / "kill_switch.json")
+        Investor(s, SimulatedProvider(END)).run(END)            # eerste verdeling
+        book = Book.load(s.state_dir / "investeerder.json", 1)
+        n, laatst = len(book.trades), book.last_rebalance
+        ks.activate("test", by="human")
+        out = Investor(s, SimulatedProvider(END)).run(END, force_rebalance=True)
+        book = Book.load(s.state_dir / "investeerder.json", 1)
+        self.assertEqual(len(book.trades), n)                   # niets verkocht terwijl de rem aanstaat
+        self.assertEqual(book.last_rebalance, laatst)
+        self.assertTrue(any("uitgesteld" in w for w in out["warnings"]))
+
     def test_investor_backtest_runs(self):
         from trendagent.backtest import run_investor_backtest
         from trendagent.universe import CRYPTO, UNIVERSE

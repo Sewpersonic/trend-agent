@@ -215,9 +215,22 @@ def rows(state: Path = Path("state"), dash: Path = Path("dashboard"), root: Path
     iv = stand.get("Investeerder") or {}
     k.node("invest", "goed", f"{_eur(iv['waarde'])} · 1× per maand" if iv.get("waarde") else "nog geen stand")
     if iv.get("vs_etf_pct") is not None and iv["vs_etf_pct"] < -0.05:
+        from .universe import BY_TICKER
+        posities = ((_load(state / "inzicht.json", {}) or {}).get("investeerder") or {}).get("posities") or []
+        zwak = sorted((p for p in posities if p.get("ticker") != "IWDA.AS" and (p.get("resultaat_pct") or 0) < -0.10),
+                      key=lambda p: p.get("resultaat_pct") or 0)
+        oorzaak = ""
+        if zwak:
+            namen = [BY_TICKER[p["ticker"]].name if p["ticker"] in BY_TICKER else p["ticker"] for p in zwak]
+            oorzaak = (f" Vooral {', '.join(namen[:-1]) + ' en ' + namen[-1] if len(namen) > 1 else namen[0]} trekken hem omlaag "
+                       f"({zwak[-1]['resultaat_pct'] * 100:.0f}% tot {zwak[0]['resultaat_pct'] * 100:.0f}%): de snelle aandelen "
+                       "en crypto bewegen harder dan de markt, omhoog én omlaag.").replace(".", ",", 0)
         k.knelpunt("invest", "letop", "De investeerder blijft achter bij de wereld-ETF",
-                   f"Hij doet het {abs(iv['vs_etf_pct']) * 100:.1f}% slechter dan gewoon de wereld-ETF vasthouden.",
-                   "Het weekonderzoek test andere verdelingen; een bewezen betere komt als voorstel.")
+                   f"Hij doet het {abs(iv['vs_etf_pct']) * 100:.1f}% slechter dan gewoon de wereld-ETF vasthouden.".replace(".", ",", 1) + oorzaak,
+                   "Bij de herverdeling op de eerste handelsdag van de maand vallen zwakke aandelen en crypto onder hun "
+                   "200-daags gemiddelde vanzelf af. Zijn regels veranderen alleen met bewijs: in de test over 10 jaar deed "
+                   "deze verdeling het juist beter dan de ETF. Wil je minder schommeling, kijk dan naar de rustige investeerder; "
+                   "het weekonderzoek blijft andere verdelingen testen en doet een voorstel als er een aantoonbaar beter is.")
     rv = stand.get("Rustige investeerder") or {}
     rh = ((_load(state / "health.json", {}) or {}).get("rustig") or {})
     k.node("rustig", "goed", f"{_eur(rv['waarde'])} · 1× per maand" if rv.get("waarde") else "start bij de volgende nachtronde")

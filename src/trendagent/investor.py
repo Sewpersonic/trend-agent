@@ -252,6 +252,11 @@ class Investor:
             # Herverdelen op verouderde koersen van de kern is niet verstandig: een dag later opnieuw proberen.
             out["warnings"].append(f"Niet herverdeeld: koers van {self.mix.core_ticker} is niet bijgewerkt")
             due = False
+        if due and self.kill_switch.is_active():
+            # Herverdelen terwijl de noodrem aanstaat zou alleen verkopen en het geld een maand in kas laten
+            # (zo ging het op 2 november). Daarom uitstellen: de eerste ronde nadat de rem eraf is, herverdeelt hij alsnog.
+            out["warnings"].append("Herverdelen uitgesteld: de noodrem staat aan. Zodra die uit is, herverdeelt hij alsnog.")
+            due = False
         # Regel: geen trade op een koers die we niet kunnen bevestigen. Die beleggingen blijven staan zoals ze zijn;
         # de rest wordt gewoon herverdeeld.
         self._frozen = {t for t in book.qty if src_issues(t) or t in stale or (t in vaste and t in suspicious)}
