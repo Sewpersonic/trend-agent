@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-23T15:00:30+00:00",
+ "tijd": "2026-11-23T16:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -13,9 +13,9 @@
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 288.54,
-   "koers_yahoo": 288.545,
-   "afstand_pct": 0.0402
+   "koers_t212": 289.0,
+   "koers_yahoo": 289.0,
+   "afstand_pct": 0.0419
   },
   {
    "ticker": "WKL.AS",
@@ -28,50 +28,50 @@
    "t212": "ORp_EQ",
    "stop": 428.9357,
    "actie": "boven de stop-loss",
-   "koers_t212": 434.83,
-   "koers_yahoo": 434.55,
-   "afstand_pct": 0.0137
+   "koers_t212": 438.72,
+   "koers_yahoo": 438.3,
+   "afstand_pct": 0.0228
   },
   {
    "ticker": "PG",
    "t212": "PG_US_EQ",
    "stop": 163.0172,
    "actie": "boven de stop-loss",
-   "koers_t212": 169.37,
-   "koers_yahoo": 169.375,
-   "afstand_pct": 0.039
+   "koers_t212": 170.38,
+   "koers_yahoo": 170.385,
+   "afstand_pct": 0.0452
   },
   {
    "ticker": "BRK-B",
    "t212": "BRK_B_US_EQ",
    "stop": 551.0702,
    "actie": "boven de stop-loss",
-   "koers_t212": 571.82,
-   "koers_yahoo": 571.6501,
-   "afstand_pct": 0.0377
+   "koers_t212": 574.29,
+   "koers_yahoo": 574.2901,
+   "afstand_pct": 0.0421
   },
   {
    "ticker": "AI.PA",
    "t212": "AIp_EQ",
    "stop": 184.0263,
    "actie": "boven de stop-loss",
-   "koers_t212": 186.43,
-   "koers_yahoo": 186.52,
-   "afstand_pct": 0.0136
+   "koers_t212": 187.3,
+   "koers_yahoo": 187.14,
+   "afstand_pct": 0.0178
   },
   {
    "ticker": "PHIA.AS",
    "t212": "PHIAa_EQ",
    "stop": 25.462,
    "actie": "boven de stop-loss",
-   "koers_t212": 26.52,
-   "koers_yahoo": 26.55,
-   "afstand_pct": 0.0427
+   "koers_t212": 26.63,
+   "koers_yahoo": 26.61,
+   "afstand_pct": 0.0459
   }
  ],
  "verkocht": [],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: AI.PA (+1.4%)."
+  "Alles boven de stop-loss. Dichtst bij: AI.PA (+1.8%)."
  ],
  "twelve_vandaag": 0,
  "geschiedenis": [
@@ -364,5 +364,5 @@
    ]
   }
  ],
- "rondes_vandaag": 27
+ "rondes_vandaag": 31
 }
