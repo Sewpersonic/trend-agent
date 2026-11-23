@@ -1,85 +1,80 @@
 {
- "tijd": "2026-11-20T20:00:30+00:00",
+ "tijd": "2026-11-23T08:00:30+00:00",
  "status": "ok",
  "posities": [
   {
    "ticker": "DB1.DE",
    "t212": "DB1d_EQ",
-   "stop": 311.6857,
-   "actie": "boven de stop-loss",
-   "koers_t212": 315.1,
-   "koers_yahoo": 315.2,
-   "afstand_pct": 0.0113
+   "stop": 311.75,
+   "actie": "geen tweede koers: niets gedaan",
+   "koers_t212": 312.2,
+   "koers_yahoo": null
   },
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 288.6,
-   "koers_yahoo": 288.605,
-   "afstand_pct": 0.0405
+   "koers_t212": 285.71,
+   "koers_yahoo": 286.4,
+   "afstand_pct": 0.0325
   },
   {
    "ticker": "WKL.AS",
    "t212": "WKLa_EQ",
-   "stop": 84.2757,
-   "actie": "boven de stop-loss",
-   "koers_t212": 85.88,
-   "koers_yahoo": 85.9,
-   "afstand_pct": 0.0193
+   "stop": 84.46,
+   "actie": "geen tweede koers: niets gedaan",
+   "koers_t212": 84.53,
+   "koers_yahoo": null
   },
   {
    "ticker": "OR.PA",
    "t212": "ORp_EQ",
-   "stop": 428.4535,
-   "actie": "boven de stop-loss",
-   "koers_t212": 435.0,
-   "koers_yahoo": 435.7,
-   "afstand_pct": 0.0169
+   "stop": 428.9357,
+   "actie": "geen tweede koers: niets gedaan",
+   "koers_t212": 436.27,
+   "koers_yahoo": null
   },
   {
    "ticker": "PG",
    "t212": "PG_US_EQ",
    "stop": 163.0172,
    "actie": "boven de stop-loss",
-   "koers_t212": 170.22,
-   "koers_yahoo": 170.22,
-   "afstand_pct": 0.0442
+   "koers_t212": 168.8,
+   "koers_yahoo": 169.46,
+   "afstand_pct": 0.0395
   },
   {
    "ticker": "BRK-B",
    "t212": "BRK_B_US_EQ",
    "stop": 551.0702,
    "actie": "boven de stop-loss",
-   "koers_t212": 569.19,
-   "koers_yahoo": 569.325,
-   "afstand_pct": 0.0331
+   "koers_t212": 570.47,
+   "koers_yahoo": 570.43,
+   "afstand_pct": 0.0352
   },
   {
    "ticker": "AI.PA",
    "t212": "AIp_EQ",
    "stop": 184.0263,
-   "actie": "boven de stop-loss",
-   "koers_t212": 187.58,
-   "koers_yahoo": 187.58,
-   "afstand_pct": 0.0193
+   "actie": "geen tweede koers: niets gedaan",
+   "koers_t212": 187.62,
+   "koers_yahoo": null
   },
   {
    "ticker": "PHIA.AS",
    "t212": "PHIAa_EQ",
    "stop": 25.462,
-   "actie": "boven de stop-loss",
-   "koers_t212": 26.39,
-   "koers_yahoo": 26.29,
-   "afstand_pct": 0.0364
+   "actie": "geen tweede koers: niets gedaan",
+   "koers_t212": 26.26,
+   "koers_yahoo": null
   }
  ],
  "verkocht": [],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: DB1.DE (+1.1%)."
+  "Alles boven de stop-loss. Dichtst bij: ABBV (+3.2%)."
  ],
- "twelve_vandaag": 1,
+ "twelve_vandaag": 0,
  "geschiedenis": [
   {
    "tijd": "2026-11-02T20:30:30+00:00",
@@ -298,5 +293,5 @@
    ]
   }
  ],
- "rondes_vandaag": 45
+ "rondes_vandaag": 1
 }
