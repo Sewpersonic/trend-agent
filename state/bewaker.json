@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-23T19:00:30+00:00",
+ "tijd": "2026-11-23T20:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -13,9 +13,9 @@
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 287.81,
-   "koers_yahoo": 287.81,
-   "afstand_pct": 0.0376
+   "koers_t212": 289.06,
+   "koers_yahoo": 289.065,
+   "afstand_pct": 0.0421
   },
   {
    "ticker": "WKL.AS",
@@ -37,18 +37,18 @@
    "t212": "PG_US_EQ",
    "stop": 163.0172,
    "actie": "boven de stop-loss",
-   "koers_t212": 170.1,
-   "koers_yahoo": 170.1,
-   "afstand_pct": 0.0434
+   "koers_t212": 170.37,
+   "koers_yahoo": 170.37,
+   "afstand_pct": 0.0451
   },
   {
    "ticker": "BRK-B",
    "t212": "BRK_B_US_EQ",
    "stop": 551.0702,
    "actie": "boven de stop-loss",
-   "koers_t212": 571.95,
-   "koers_yahoo": 571.955,
-   "afstand_pct": 0.0379
+   "koers_t212": 574.25,
+   "koers_yahoo": 574.25,
+   "afstand_pct": 0.0421
   },
   {
    "ticker": "AI.PA",
@@ -364,5 +364,5 @@
    ]
   }
  ],
- "rondes_vandaag": 43
+ "rondes_vandaag": 47
 }
