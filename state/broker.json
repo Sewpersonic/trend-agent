@@ -1,7 +1,7 @@
 {
- "tijd": "2026-11-21T03:21:23+00:00",
- "status": "ok",
- "reden": "",
+ "tijd": "2026-11-23T07:26:02+00:00",
+ "status": "alleen kijken",
+ "reden": "Alleen gecontroleerd: geen orders geplaatst.",
  "orders": [],
  "niet_gekoppeld": [],
  "managed": [
@@ -22,17 +22,17 @@
  ],
  "account": {
   "currency": "EUR",
-  "totalValue": 4905.99,
+  "totalValue": 4898.22,
   "cash": {
    "availableToTrade": 1272.56,
    "reservedForOrders": 0,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 3633.43,
+   "currentValue": 3625.66,
    "totalCost": 3652.77,
    "realizedProfitLoss": -59.13,
-   "unrealizedProfitLoss": -19.34
+   "unrealizedProfitLoss": -27.11
   }
  },
  "posities": [
@@ -47,14 +47,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 571.0,
+   "currentPrice": 569.99,
    "averagePricePaid": 571.25,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 519.37,
-    "currentValue": 520.49,
-    "unrealizedProfitLoss": 1.12,
-    "fxImpact": 1.35
+    "currentValue": 517.97,
+    "unrealizedProfitLoss": -1.4,
+    "fxImpact": -0.25
    }
   },
   {
@@ -68,14 +68,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 286.89,
+   "currentPrice": 286.12,
    "averagePricePaid": 293.84,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 263.19,
-    "currentValue": 261.51,
-    "unrealizedProfitLoss": -1.68,
-    "fxImpact": 4.66
+    "currentValue": 260.01,
+    "unrealizedProfitLoss": -3.18,
+    "fxImpact": 3.84
    }
   },
   {
@@ -131,14 +131,14 @@
    "quantity": 4.0,
    "quantityAvailableForTrading": 4.0,
    "quantityInPies": 0,
-   "currentPrice": 169.31,
+   "currentPrice": 168.8,
    "averagePricePaid": 169.0,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 602.83,
-    "currentValue": 617.33,
-    "unrealizedProfitLoss": 14.5,
-    "fxImpact": 13.37
+    "currentValue": 613.58,
+    "unrealizedProfitLoss": 10.75,
+    "fxImpact": 11.48
    }
   },
   {
