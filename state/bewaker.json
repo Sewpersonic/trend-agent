@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-23T14:00:30+00:00",
+ "tijd": "2026-11-23T15:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -13,9 +13,9 @@
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 286.03,
-   "koers_yahoo": 286.4,
-   "afstand_pct": 0.0325
+   "koers_t212": 288.54,
+   "koers_yahoo": 288.545,
+   "afstand_pct": 0.0402
   },
   {
    "ticker": "WKL.AS",
@@ -28,50 +28,50 @@
    "t212": "ORp_EQ",
    "stop": 428.9357,
    "actie": "boven de stop-loss",
-   "koers_t212": 434.59,
-   "koers_yahoo": 434.7,
-   "afstand_pct": 0.0134
+   "koers_t212": 434.83,
+   "koers_yahoo": 434.55,
+   "afstand_pct": 0.0137
   },
   {
    "ticker": "PG",
    "t212": "PG_US_EQ",
    "stop": 163.0172,
    "actie": "boven de stop-loss",
-   "koers_t212": 168.39,
-   "koers_yahoo": 169.46,
-   "afstand_pct": 0.0395
+   "koers_t212": 169.37,
+   "koers_yahoo": 169.375,
+   "afstand_pct": 0.039
   },
   {
    "ticker": "BRK-B",
    "t212": "BRK_B_US_EQ",
    "stop": 551.0702,
    "actie": "boven de stop-loss",
-   "koers_t212": 568.56,
-   "koers_yahoo": 570.43,
-   "afstand_pct": 0.0351
+   "koers_t212": 571.82,
+   "koers_yahoo": 571.6501,
+   "afstand_pct": 0.0377
   },
   {
    "ticker": "AI.PA",
    "t212": "AIp_EQ",
    "stop": 184.0263,
    "actie": "boven de stop-loss",
-   "koers_t212": 186.12,
-   "koers_yahoo": 186.1,
-   "afstand_pct": 0.0114
+   "koers_t212": 186.43,
+   "koers_yahoo": 186.52,
+   "afstand_pct": 0.0136
   },
   {
    "ticker": "PHIA.AS",
    "t212": "PHIAa_EQ",
    "stop": 25.462,
    "actie": "boven de stop-loss",
-   "koers_t212": 26.46,
-   "koers_yahoo": 26.47,
-   "afstand_pct": 0.0396
+   "koers_t212": 26.52,
+   "koers_yahoo": 26.55,
+   "afstand_pct": 0.0427
   }
  ],
  "verkocht": [],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: AI.PA (+1.1%)."
+  "Alles boven de stop-loss. Dichtst bij: AI.PA (+1.4%)."
  ],
  "twelve_vandaag": 0,
  "geschiedenis": [
@@ -364,5 +364,5 @@
    ]
   }
  ],
- "rondes_vandaag": 23
+ "rondes_vandaag": 27
 }
