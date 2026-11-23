@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-23T10:00:30+00:00",
+ "tijd": "2026-11-23T11:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -13,68 +13,68 @@
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 287.08,
+   "koers_t212": 287.0,
    "koers_yahoo": 286.4,
-   "afstand_pct": 0.035
+   "afstand_pct": 0.0347
   },
   {
    "ticker": "WKL.AS",
    "t212": "WKLa_EQ",
    "stop": 84.46,
    "actie": "boven de stop-loss",
-   "koers_t212": 84.67,
-   "koers_yahoo": 84.66,
-   "afstand_pct": 0.0025
+   "koers_t212": 84.47,
+   "koers_yahoo": 84.68,
+   "afstand_pct": 0.0026
   },
   {
    "ticker": "OR.PA",
    "t212": "ORp_EQ",
    "stop": 428.9357,
    "actie": "boven de stop-loss",
-   "koers_t212": 437.04,
-   "koers_yahoo": 437.0,
-   "afstand_pct": 0.0189
+   "koers_t212": 436.58,
+   "koers_yahoo": 436.65,
+   "afstand_pct": 0.018
   },
   {
    "ticker": "PG",
    "t212": "PG_US_EQ",
    "stop": 163.0172,
    "actie": "boven de stop-loss",
-   "koers_t212": 169.74,
+   "koers_t212": 169.77,
    "koers_yahoo": 169.46,
-   "afstand_pct": 0.0412
+   "afstand_pct": 0.0414
   },
   {
    "ticker": "BRK-B",
    "t212": "BRK_B_US_EQ",
    "stop": 551.0702,
    "actie": "boven de stop-loss",
-   "koers_t212": 572.75,
+   "koers_t212": 574.2,
    "koers_yahoo": 570.43,
-   "afstand_pct": 0.0393
+   "afstand_pct": 0.042
   },
   {
    "ticker": "AI.PA",
    "t212": "AIp_EQ",
    "stop": 184.0263,
    "actie": "boven de stop-loss",
-   "koers_t212": 186.98,
-   "koers_yahoo": 186.96,
-   "afstand_pct": 0.0161
+   "koers_t212": 186.69,
+   "koers_yahoo": 186.56,
+   "afstand_pct": 0.0145
   },
   {
    "ticker": "PHIA.AS",
    "t212": "PHIAa_EQ",
    "stop": 25.462,
    "actie": "boven de stop-loss",
-   "koers_t212": 26.53,
-   "koers_yahoo": 26.5,
-   "afstand_pct": 0.0419
+   "koers_t212": 26.5,
+   "koers_yahoo": 26.51,
+   "afstand_pct": 0.0412
   }
  ],
  "verkocht": [],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: WKL.AS (+0.2%)."
+  "Alles boven de stop-loss. Dichtst bij: WKL.AS (+0.3%)."
  ],
  "twelve_vandaag": 0,
  "geschiedenis": [
@@ -331,5 +331,5 @@
    ]
   }
  ],
- "rondes_vandaag": 9
+ "rondes_vandaag": 13
 }
