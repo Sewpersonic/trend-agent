@@ -1,77 +1,62 @@
 {
- "tijd": "2026-11-23T20:00:30+00:00",
+ "tijd": "2026-11-24T08:00:30+00:00",
  "status": "ok",
  "posities": [
-  {
-   "ticker": "DB1.DE",
-   "t212": "DB1d_EQ",
-   "stop": 311.75,
-   "actie": "niet in het oefenaccount"
-  },
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 289.06,
-   "koers_yahoo": 289.065,
-   "afstand_pct": 0.0421
-  },
-  {
-   "ticker": "WKL.AS",
-   "t212": "WKLa_EQ",
-   "stop": 84.46,
-   "actie": "niet in het oefenaccount"
+   "koers_t212": 288.81,
+   "koers_yahoo": 288.63,
+   "afstand_pct": 0.0412
   },
   {
    "ticker": "OR.PA",
    "t212": "ORp_EQ",
    "stop": 428.9357,
-   "actie": "boven de stop-loss",
-   "koers_t212": 438.25,
-   "koers_yahoo": 438.4,
-   "afstand_pct": 0.0221
+   "actie": "geen tweede koers: niets gedaan",
+   "koers_t212": 436.56,
+   "koers_yahoo": null
   },
   {
    "ticker": "PG",
    "t212": "PG_US_EQ",
    "stop": 163.0172,
    "actie": "boven de stop-loss",
-   "koers_t212": 170.37,
-   "koers_yahoo": 170.37,
-   "afstand_pct": 0.0451
+   "koers_t212": 169.77,
+   "koers_yahoo": 169.82,
+   "afstand_pct": 0.0417
   },
   {
    "ticker": "BRK-B",
    "t212": "BRK_B_US_EQ",
    "stop": 551.0702,
    "actie": "boven de stop-loss",
-   "koers_t212": 574.25,
-   "koers_yahoo": 574.25,
-   "afstand_pct": 0.0421
+   "koers_t212": 574.31,
+   "koers_yahoo": 572.94,
+   "afstand_pct": 0.0422
   },
   {
    "ticker": "AI.PA",
    "t212": "AIp_EQ",
    "stop": 184.0263,
-   "actie": "boven de stop-loss",
-   "koers_t212": 187.66,
-   "koers_yahoo": 187.4,
-   "afstand_pct": 0.0197
+   "actie": "geen tweede koers: niets gedaan",
+   "koers_t212": 187.36,
+   "koers_yahoo": null
   },
   {
    "ticker": "PHIA.AS",
    "t212": "PHIAa_EQ",
    "stop": 25.462,
-   "actie": "boven de stop-loss",
-   "koers_t212": 26.6,
-   "koers_yahoo": 26.61,
-   "afstand_pct": 0.0451
+   "actie": "geen tweede koers: niets gedaan",
+   "koers_t212": 26.64,
+   "koers_yahoo": null
   }
  ],
  "verkocht": [],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: AI.PA (+2.0%)."
+  "Alles boven de stop-loss. Dichtst bij: ABBV (+4.1%)."
  ],
  "twelve_vandaag": 0,
  "geschiedenis": [
@@ -364,5 +349,5 @@
    ]
   }
  ],
- "rondes_vandaag": 47
+ "rondes_vandaag": 1
 }
