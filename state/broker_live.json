@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-23T19:10:58+00:00",
+ "tijd": "2026-11-24T04:42:52+00:00",
  "status": "alleen kijken",
  "reden": "Alleen gecontroleerd: geen orders geplaatst.",
  "orders": [],
@@ -22,17 +22,17 @@
  ],
  "account": {
   "currency": "EUR",
-  "totalValue": 4918.88,
+  "totalValue": 4917.51,
   "cash": {
    "availableToTrade": 1849.06,
    "reservedForOrders": 0,
    "inPies": 0
   },
   "investments": {
-   "currentValue": 3069.82,
+   "currentValue": 3068.45,
    "totalCost": 3061.77,
    "realizedProfitLoss": -73.63,
-   "unrealizedProfitLoss": 8.05
+   "unrealizedProfitLoss": 6.68
   }
  },
  "posities": [
@@ -47,14 +47,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 572.63,
+   "currentPrice": 574.3,
    "averagePricePaid": 571.25,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 519.37,
-    "currentValue": 525.63,
-    "unrealizedProfitLoss": 6.26,
-    "fxImpact": 4.99
+    "currentValue": 526.42,
+    "unrealizedProfitLoss": 7.05,
+    "fxImpact": 4.25
    }
   },
   {
@@ -68,14 +68,14 @@
    "quantity": 1.0,
    "quantityAvailableForTrading": 1.0,
    "quantityInPies": 0,
-   "currentPrice": 288.71,
+   "currentPrice": 288.46,
    "averagePricePaid": 293.84,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 263.19,
-    "currentValue": 265.01,
-    "unrealizedProfitLoss": 1.82,
-    "fxImpact": 6.53
+    "currentValue": 264.41,
+    "unrealizedProfitLoss": 1.22,
+    "fxImpact": 6.15
    }
   },
   {
@@ -110,14 +110,14 @@
    "quantity": 4.0,
    "quantityAvailableForTrading": 4.0,
    "quantityInPies": 0,
-   "currentPrice": 170.16,
+   "currentPrice": 169.98,
    "averagePricePaid": 169.0,
    "walletImpact": {
     "currency": "EUR",
     "totalCost": 602.83,
-    "currentValue": 624.77,
-    "unrealizedProfitLoss": 21.94,
-    "fxImpact": 17.68
+    "currentValue": 623.23,
+    "unrealizedProfitLoss": 20.4,
+    "fxImpact": 16.81
    }
   },
   {
