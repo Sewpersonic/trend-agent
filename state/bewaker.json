@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-24T17:00:30+00:00",
+ "tijd": "2026-11-24T17:10:33+00:00",
  "status": "ok",
  "posities": [
   {
@@ -7,9 +7,9 @@
    "t212": "ABBV_US_EQ",
    "stop": 277.381,
    "actie": "boven de stop-loss",
-   "koers_t212": 298.43,
-   "koers_yahoo": 298.435,
-   "afstand_pct": 0.0759
+   "koers_t212": 299.34,
+   "koers_yahoo": 299.345,
+   "afstand_pct": 0.0792
   },
   {
    "ticker": "OR.PA",
@@ -25,18 +25,18 @@
    "t212": "PG_US_EQ",
    "stop": 163.0172,
    "actie": "boven de stop-loss",
-   "koers_t212": 172.6,
-   "koers_yahoo": 172.6,
-   "afstand_pct": 0.0588
+   "koers_t212": 172.84,
+   "koers_yahoo": 172.84,
+   "afstand_pct": 0.0603
   },
   {
    "ticker": "BRK-B",
    "t212": "BRK_B_US_EQ",
    "stop": 551.0702,
    "actie": "boven de stop-loss",
-   "koers_t212": 576.81,
-   "koers_yahoo": 576.81,
-   "afstand_pct": 0.0467
+   "koers_t212": 577.78,
+   "koers_yahoo": 577.785,
+   "afstand_pct": 0.0485
   },
   {
    "ticker": "AI.PA",
@@ -352,5 +352,5 @@
    ]
   }
  ],
- "rondes_vandaag": 36
+ "rondes_vandaag": 37
 }
