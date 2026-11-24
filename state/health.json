@@ -1,9 +1,11 @@
 {
  "trend": {
-  "day": "2026-11-20",
-  "status": "OK",
+  "day": "2026-11-23",
+  "status": "GESTOPT",
   "versie": "trend-1.1-eaf4f8",
-  "waarschuwingen": [],
+  "waarschuwingen": [
+   "Kill switch aangezet: 3 verliestrades op rij. Hij gaat na 5 handelsdagen vanzelf weer uit; eerder kan met 'resume'."
+  ],
   "gevraagd": 129,
   "ok": 129,
   "mislukt": 0,
@@ -22,10 +24,10 @@
    "verzoeken_tweede_bron": 69,
    "afwijkend": []
   },
-  "vastgelegd_utc": "2026-11-21T03:21:18+00:00"
+  "vastgelegd_utc": "2026-11-24T06:07:54+00:00"
  },
  "investeerder": {
-  "day": "2026-11-20",
+  "day": "2026-11-23",
   "status": "OK",
   "versie": "investeerder-1.0-64ce27",
   "waarschuwingen": [],
@@ -47,10 +49,10 @@
    "verzoeken_tweede_bron": 0,
    "afwijkend": []
   },
-  "vastgelegd_utc": "2026-11-21T03:21:48+00:00"
+  "vastgelegd_utc": "2026-11-24T06:08:26+00:00"
  },
  "rustig": {
-  "day": "2026-11-20",
+  "day": "2026-11-23",
   "status": "OK",
   "versie": "rustig-1.0-d93fef",
   "waarschuwingen": [],
@@ -72,6 +74,6 @@
    "verzoeken_tweede_bron": 0,
    "afwijkend": []
   },
-  "vastgelegd_utc": "2026-11-21T03:22:13+00:00"
+  "vastgelegd_utc": "2026-11-24T06:08:53+00:00"
  }
 }

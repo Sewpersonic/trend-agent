@@ -1,36 +1,6 @@
 {
-  "cash_eur": 2525.68,
+  "cash_eur": 3678.0,
   "positions": {
-    "DB1.DE": {
-      "ticker": "DB1.DE",
-      "currency": "EUR",
-      "qty": 1,
-      "entry_price": 314.95738778686524,
-      "stop": 311.74999564034596,
-      "highest_close": 331.1000061035156,
-      "opened": "2026-10-29",
-      "entry_fx": 1.0,
-      "risk_eur": 13.76,
-      "last_checked": "2026-11-20",
-      "entry_reason": "trend OK: 3m +17.9%, 1m +10.0%, volume x1.09",
-      "entry_context": {
-        "rsi14": 72.2,
-        "macd_hist_pct": 0.112,
-        "ema20_afstand_pct": 3.21,
-        "atr_pct": 2.03,
-        "vol20_jaar": 0.157,
-        "afstand_sma200_pct": 23.19,
-        "score": 0.149443,
-        "rend_1m": 0.1003,
-        "rend_3m": 0.179,
-        "volume_rel": 1.09,
-        "atr14": 6.3786,
-        "beweeglijkheid_regime": "laag",
-        "trend_regime": "stijgend",
-        "regime": "stijgend-laag"
-      },
-      "version": "trend-1.1-a0ddd5"
-    },
     "ABBV": {
       "ticker": "ABBV",
       "currency": "USD",
@@ -41,7 +11,7 @@
       "opened": "2026-10-29",
       "entry_fx": 0.8929999963805676,
       "risk_eur": 25.21,
-      "last_checked": "2026-11-20",
+      "last_checked": "2026-11-23",
       "entry_reason": "trend OK: 3m +16.6%, 1m +11.8%, volume x1.14",
       "entry_context": {
         "rsi14": 70.2,
@@ -61,36 +31,6 @@
       },
       "version": "trend-1.1-a0ddd5"
     },
-    "WKL.AS": {
-      "ticker": "WKL.AS",
-      "currency": "EUR",
-      "qty": 10,
-      "entry_price": 86.80338213729858,
-      "stop": 84.4599996294294,
-      "highest_close": 92.44000244140625,
-      "opened": "2026-10-30",
-      "entry_fx": 1.0,
-      "risk_eur": 48.09,
-      "last_checked": "2026-11-20",
-      "entry_reason": "trend OK: 3m +22.9%, 1m +26.4%, volume x0.86",
-      "entry_context": {
-        "rsi14": 70.8,
-        "macd_hist_pct": 0.142,
-        "ema20_afstand_pct": 6.89,
-        "atr_pct": 2.71,
-        "vol20_jaar": 0.299,
-        "afstand_sma200_pct": 31.75,
-        "score": 0.12319,
-        "rend_1m": 0.264,
-        "rend_3m": 0.2293,
-        "volume_rel": 0.86,
-        "atr14": 2.3543,
-        "beweeglijkheid_regime": "normaal",
-        "trend_regime": "stijgend",
-        "regime": "stijgend-normaal"
-      },
-      "version": "trend-1.1-081d85"
-    },
     "OR.PA": {
       "ticker": "OR.PA",
       "currency": "EUR",
@@ -101,7 +41,7 @@
       "opened": "2026-11-04",
       "entry_fx": 1.0,
       "risk_eur": 37.16,
-      "last_checked": "2026-11-20",
+      "last_checked": "2026-11-23",
       "entry_reason": "trend OK: 3m +15.6%, 1m +19.4%, volume x1.18",
       "entry_context": {
         "rsi14": 74.0,
@@ -131,7 +71,7 @@
       "opened": "2026-11-04",
       "entry_fx": 0.8886000077116586,
       "risk_eur": 49.9,
-      "last_checked": "2026-11-20",
+      "last_checked": "2026-11-23",
       "entry_reason": "trend OK: 3m +14.6%, 1m +13.5%, volume x1.13",
       "entry_context": {
         "rsi14": 69.8,
@@ -161,7 +101,7 @@
       "opened": "2026-11-18",
       "entry_fx": 0.9123999633239188,
       "risk_eur": 44.5,
-      "last_checked": "2026-11-20",
+      "last_checked": "2026-11-23",
       "entry_reason": "trend OK: 3m +15.7%, 1m +6.4%, volume x1.10",
       "entry_context": {
         "rsi14": 60.7,
@@ -191,7 +131,7 @@
       "opened": "2026-11-18",
       "entry_fx": 1.0,
       "risk_eur": 48.11,
-      "last_checked": "2026-11-20",
+      "last_checked": "2026-11-23",
       "entry_reason": "trend OK: 3m +13.6%, 1m +10.2%, volume x1.12",
       "entry_context": {
         "rsi14": 67.7,
@@ -221,7 +161,7 @@
       "opened": "2026-11-19",
       "entry_fx": 1.0,
       "risk_eur": 49.7,
-      "last_checked": "2026-11-20",
+      "last_checked": "2026-11-23",
       "entry_reason": "trend OK: 3m +13.7%, 1m +14.7%, volume x1.29",
       "entry_context": {
         "rsi14": 67.8,
@@ -1083,6 +1023,110 @@
       },
       "r_multiple": null,
       "hold_days": null
+    },
+    {
+      "day": "2026-11-23",
+      "ticker": "DB1.DE",
+      "side": "SELL",
+      "qty": 1,
+      "price": 310.1448,
+      "fx": 1.0,
+      "value_eur": 310.14,
+      "costs_eur": 1.0,
+      "reason": "stop-loss geraakt",
+      "pnl_eur": -6.81,
+      "strategy": "trend",
+      "version": "trend-1.1-a0ddd5",
+      "regime": "stijgend-hoog",
+      "context": {
+        "instap": {
+          "rsi14": 72.2,
+          "macd_hist_pct": 0.112,
+          "ema20_afstand_pct": 3.21,
+          "atr_pct": 2.03,
+          "vol20_jaar": 0.157,
+          "afstand_sma200_pct": 23.19,
+          "score": 0.149443,
+          "rend_1m": 0.1003,
+          "rend_3m": 0.179,
+          "volume_rel": 1.09,
+          "atr14": 6.3786,
+          "beweeglijkheid_regime": "laag",
+          "trend_regime": "stijgend",
+          "regime": "stijgend-laag"
+        },
+        "instap_reden": "trend OK: 3m +17.9%, 1m +10.0%, volume x1.09",
+        "uitstap": {
+          "rsi14": 43.5,
+          "macd_hist_pct": -0.76,
+          "ema20_afstand_pct": -2.75,
+          "atr_pct": 2.18,
+          "vol20_jaar": 0.243,
+          "afstand_sma200_pct": 16.58,
+          "score": 0.0,
+          "rend_1m": -0.0156,
+          "rend_3m": 0.0777,
+          "volume_rel": 1.04,
+          "atr14": 6.7429,
+          "beweeglijkheid_regime": "hoog",
+          "trend_regime": "stijgend"
+        },
+        "risico_bij_instap_eur": 13.76
+      },
+      "r_multiple": -0.495,
+      "hold_days": 25
+    },
+    {
+      "day": "2026-11-23",
+      "ticker": "WKL.AS",
+      "side": "SELL",
+      "qty": 10,
+      "price": 84.4178,
+      "fx": 1.0,
+      "value_eur": 844.18,
+      "costs_eur": 1.0,
+      "reason": "stop-loss geraakt",
+      "pnl_eur": -25.86,
+      "strategy": "trend",
+      "version": "trend-1.1-081d85",
+      "regime": "stijgend-hoog",
+      "context": {
+        "instap": {
+          "rsi14": 70.8,
+          "macd_hist_pct": 0.142,
+          "ema20_afstand_pct": 6.89,
+          "atr_pct": 2.71,
+          "vol20_jaar": 0.299,
+          "afstand_sma200_pct": 31.75,
+          "score": 0.12319,
+          "rend_1m": 0.264,
+          "rend_3m": 0.2293,
+          "volume_rel": 0.86,
+          "atr14": 2.3543,
+          "beweeglijkheid_regime": "normaal",
+          "trend_regime": "stijgend",
+          "regime": "stijgend-normaal"
+        },
+        "instap_reden": "trend OK: 3m +22.9%, 1m +26.4%, volume x0.86",
+        "uitstap": {
+          "rsi14": 46.0,
+          "macd_hist_pct": -1.39,
+          "ema20_afstand_pct": -3.12,
+          "atr_pct": 3.14,
+          "vol20_jaar": 0.378,
+          "afstand_sma200_pct": 24.65,
+          "score": 0.0,
+          "rend_1m": -0.0513,
+          "rend_3m": 0.2293,
+          "volume_rel": 0.78,
+          "atr14": 2.6229,
+          "beweeglijkheid_regime": "hoog",
+          "trend_regime": "stijgend"
+        },
+        "risico_bij_instap_eur": 48.09
+      },
+      "r_multiple": -0.538,
+      "hold_days": 24
     }
   ],
   "equity_history": [
@@ -1238,8 +1282,13 @@
       "day": "2026-11-20",
       "equity": 9788.28,
       "bench": 122.94
+    },
+    {
+      "day": "2026-11-23",
+      "equity": 9806.42,
+      "bench": 126.83
     }
   ],
-  "consecutive_losses": 1,
+  "consecutive_losses": 3,
   "peak_from_index": 16
 }
