@@ -872,7 +872,7 @@
   "begin": 9809.2,
   "realized": 0.0,
   "klaar": false,
-  "prev": "2026-11-25T12:15:00",
+  "prev": "2026-11-25T13:15:00",
   "traded": [],
   "notities": [],
   "trades": [],
@@ -910,22 +910,14 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-25T17:26:20+00:00",
-  "ny": "2026-11-25 12:26",
+  "tijd": "2026-11-25T18:26:57+00:00",
+  "ny": "2026-11-25 13:26",
   "status": "alleen verkopen (kill switch aan)",
   "log": [
    "Niets gekocht: de bot mag nu alleen verkopen."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-20T20:16:30+00:00",
-   "ny": "2026-11-20 15:16",
-   "status": "ok",
-   "log": [
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-11-20T20:31:30+00:00",
    "ny": "2026-11-20 15:31",
@@ -1391,6 +1383,14 @@
   {
    "tijd": "2026-11-25T17:26:20+00:00",
    "ny": "2026-11-25 12:26",
+   "status": "alleen verkopen (kill switch aan)",
+   "log": [
+    "Niets gekocht: de bot mag nu alleen verkopen."
+   ]
+  },
+  {
+   "tijd": "2026-11-25T18:26:57+00:00",
+   "ny": "2026-11-25 13:26",
    "status": "alleen verkopen (kill switch aan)",
    "log": [
     "Niets gekocht: de bot mag nu alleen verkopen."
