@@ -1,62 +1,65 @@
 {
- "tijd": "2026-11-25T08:00:30+00:00",
+ "tijd": "2026-11-25T09:00:30+00:00",
  "status": "ok",
  "posities": [
   {
    "ticker": "ABBV",
    "t212": "ABBV_US_EQ",
-   "stop": 277.381,
+   "stop": 278.6779,
    "actie": "boven de stop-loss",
-   "koers_t212": 301.5,
+   "koers_t212": 302.41,
    "koers_yahoo": 300.46,
-   "afstand_pct": 0.087
+   "afstand_pct": 0.0852
   },
   {
    "ticker": "OR.PA",
    "t212": "ORp_EQ",
-   "stop": 428.9357,
-   "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 445.17,
-   "koers_yahoo": null
+   "stop": 431.1107,
+   "actie": "boven de stop-loss",
+   "koers_t212": 445.19,
+   "koers_yahoo": 445.6,
+   "afstand_pct": 0.0336
   },
   {
    "ticker": "PG",
    "t212": "PG_US_EQ",
-   "stop": 163.0172,
+   "stop": 163.105,
    "actie": "boven de stop-loss",
-   "koers_t212": 173.94,
+   "koers_t212": 173.32,
    "koers_yahoo": 172.53,
-   "afstand_pct": 0.067
+   "afstand_pct": 0.0626
   },
   {
    "ticker": "BRK-B",
    "t212": "BRK_B_US_EQ",
    "stop": 551.0702,
    "actie": "boven de stop-loss",
-   "koers_t212": 578.73,
+   "koers_t212": 580.3,
    "koers_yahoo": 577.4,
-   "afstand_pct": 0.0502
+   "afstand_pct": 0.053
   },
   {
    "ticker": "AI.PA",
    "t212": "AIp_EQ",
    "stop": 184.0263,
-   "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 189.21,
-   "koers_yahoo": null
+   "actie": "boven de stop-loss",
+   "koers_t212": 189.35,
+   "koers_yahoo": 189.62,
+   "afstand_pct": 0.0304
   },
   {
    "ticker": "PHIA.AS",
    "t212": "PHIAa_EQ",
    "stop": 25.462,
-   "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 26.98,
-   "koers_yahoo": null
+   "actie": "boven de stop-loss",
+   "koers_t212": 26.93,
+   "koers_yahoo": 27.04,
+   "afstand_pct": 0.062
   }
  ],
  "verkocht": [],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: BRK-B (+5.0%)."
+  "Alles boven de stop-loss. Dichtst bij: AI.PA (+3.0%)."
  ],
  "twelve_vandaag": 0,
  "geschiedenis": [
@@ -349,5 +352,5 @@
    ]
   }
  ],
- "rondes_vandaag": 1
+ "rondes_vandaag": 5
 }
