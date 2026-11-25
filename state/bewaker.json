@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-25T15:00:30+00:00",
+ "tijd": "2026-11-25T16:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -7,59 +7,59 @@
    "t212": "ABBV_US_EQ",
    "stop": 278.6779,
    "actie": "boven de stop-loss",
-   "koers_t212": 297.17,
-   "koers_yahoo": 297.1701,
-   "afstand_pct": 0.0664
+   "koers_t212": 297.04,
+   "koers_yahoo": 297.04,
+   "afstand_pct": 0.0659
   },
   {
    "ticker": "OR.PA",
    "t212": "ORp_EQ",
    "stop": 431.1107,
    "actie": "boven de stop-loss",
-   "koers_t212": 443.51,
-   "koers_yahoo": 442.0,
-   "afstand_pct": 0.0288
+   "koers_t212": 443.27,
+   "koers_yahoo": 442.75,
+   "afstand_pct": 0.0282
   },
   {
    "ticker": "PG",
    "t212": "PG_US_EQ",
    "stop": 163.105,
    "actie": "boven de stop-loss",
-   "koers_t212": 172.86,
-   "koers_yahoo": 172.86,
-   "afstand_pct": 0.0598
+   "koers_t212": 173.61,
+   "koers_yahoo": 173.615,
+   "afstand_pct": 0.0644
   },
   {
    "ticker": "BRK-B",
    "t212": "BRK_B_US_EQ",
    "stop": 551.0702,
    "actie": "boven de stop-loss",
-   "koers_t212": 574.25,
-   "koers_yahoo": 573.9,
-   "afstand_pct": 0.0421
+   "koers_t212": 577.89,
+   "koers_yahoo": 577.89,
+   "afstand_pct": 0.0487
   },
   {
    "ticker": "AI.PA",
    "t212": "AIp_EQ",
    "stop": 184.0263,
    "actie": "boven de stop-loss",
-   "koers_t212": 188.99,
-   "koers_yahoo": 188.16,
-   "afstand_pct": 0.027
+   "koers_t212": 188.6,
+   "koers_yahoo": 188.84,
+   "afstand_pct": 0.0262
   },
   {
    "ticker": "PHIA.AS",
    "t212": "PHIAa_EQ",
    "stop": 25.462,
    "actie": "boven de stop-loss",
-   "koers_t212": 26.82,
-   "koers_yahoo": 26.7,
-   "afstand_pct": 0.0533
+   "koers_t212": 26.71,
+   "koers_yahoo": 26.73,
+   "afstand_pct": 0.0498
   }
  ],
  "verkocht": [],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: AI.PA (+2.7%)."
+  "Alles boven de stop-loss. Dichtst bij: AI.PA (+2.6%)."
  ],
  "twelve_vandaag": 1,
  "geschiedenis": [
@@ -352,5 +352,5 @@
    ]
   }
  ],
- "rondes_vandaag": 28
+ "rondes_vandaag": 32
 }
