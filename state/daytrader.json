@@ -918,23 +918,14 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-26T15:31:30+00:00",
-  "ny": "2026-11-26 10:31",
+  "tijd": "2026-11-26T16:26:23+00:00",
+  "ny": "2026-11-26 11:26",
   "status": "beurs dicht",
   "log": [
    "Geen koersen van vandaag: de beurs is dicht (feestdag) of Yahoo heeft nog niets."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-23T15:31:30+00:00",
-   "ny": "2026-11-23 10:31",
-   "status": "ok",
-   "log": [
-    "10:30 SPY: gekocht (3 stuks, uitbraak boven 724.80 met 2.6x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 51% van de gevallen goed af (gemiddeld −0,09 R; alle uitbraken samen −0,05 R).",
-    "10:30 PLTR: gekocht (15 stuks, uitbraak boven 160.11 met 2.2x volume). Indicatie: Gemiddeld: vergelijkbare uitbraken liepen in 50% van de gevallen goed af (gemiddeld −0,06 R; alle uitbraken samen −0,05 R)."
-   ]
-  },
   {
    "tijd": "2026-11-23T15:46:30+00:00",
    "ny": "2026-11-23 10:46",
@@ -1401,6 +1392,14 @@
   {
    "tijd": "2026-11-26T15:31:30+00:00",
    "ny": "2026-11-26 10:31",
+   "status": "beurs dicht",
+   "log": [
+    "Geen koersen van vandaag: de beurs is dicht (feestdag) of Yahoo heeft nog niets."
+   ]
+  },
+  {
+   "tijd": "2026-11-26T16:26:23+00:00",
+   "ny": "2026-11-26 11:26",
    "status": "beurs dicht",
    "log": [
     "Geen koersen van vandaag: de beurs is dicht (feestdag) of Yahoo heeft nog niets."
