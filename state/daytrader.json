@@ -918,23 +918,14 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-25T21:26:50+00:00",
-  "ny": "2026-11-25 16:26",
-  "status": "alleen verkopen (kill switch aan)",
+  "tijd": "2026-11-26T15:01:30+00:00",
+  "ny": "2026-11-26 10:01",
+  "status": "beurs dicht",
   "log": [
-   "Koersen niet vers (laatste blok 15:55): niets kopen deze ronde.",
-   "Dag klaar: 0 trades, resultaat +0.00 dollar."
+   "Geen koersen van vandaag: de beurs is dicht (feestdag) of Yahoo heeft nog niets."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-23T15:01:30+00:00",
-   "ny": "2026-11-23 10:01",
-   "status": "ok",
-   "log": [
-    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."
-   ]
-  },
   {
    "tijd": "2026-11-23T15:16:30+00:00",
    "ny": "2026-11-23 10:16",
@@ -1405,6 +1396,14 @@
    "log": [
     "Koersen niet vers (laatste blok 15:55): niets kopen deze ronde.",
     "Dag klaar: 0 trades, resultaat +0.00 dollar."
+   ]
+  },
+  {
+   "tijd": "2026-11-26T15:01:30+00:00",
+   "ny": "2026-11-26 10:01",
+   "status": "beurs dicht",
+   "log": [
+    "Geen koersen van vandaag: de beurs is dicht (feestdag) of Yahoo heeft nog niets."
    ]
   }
  ],
