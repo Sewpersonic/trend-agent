@@ -1,6 +1,6 @@
 {
  "trend": {
-  "day": "2026-11-24",
+  "day": "2026-11-25",
   "status": "GESTOPT",
   "versie": "trend-1.1-eaf4f8",
   "waarschuwingen": [
@@ -11,7 +11,7 @@
   "mislukt": 0,
   "verdacht": {},
   "wisselkoers": "ok",
-  "regime": "stijgend-hoog",
+  "regime": "zijwaarts-hoog",
   "verouderd": 0,
   "bronnen": {
    "koersen": {
@@ -24,10 +24,10 @@
    "verzoeken_tweede_bron": 69,
    "afwijkend": []
   },
-  "vastgelegd_utc": "2026-11-25T05:02:35+00:00"
+  "vastgelegd_utc": "2026-11-26T04:17:44+00:00"
  },
  "investeerder": {
-  "day": "2026-11-24",
+  "day": "2026-11-25",
   "status": "OK",
   "versie": "investeerder-1.0-64ce27",
   "waarschuwingen": [],
@@ -36,7 +36,7 @@
   "mislukt": 0,
   "verdacht": {},
   "wisselkoers": "ok",
-  "regime": "stijgend-hoog",
+  "regime": "zijwaarts-hoog",
   "verouderd": 0,
   "bronnen": {
    "koersen": {
@@ -49,10 +49,10 @@
    "verzoeken_tweede_bron": 0,
    "afwijkend": []
   },
-  "vastgelegd_utc": "2026-11-25T05:03:05+00:00"
+  "vastgelegd_utc": "2026-11-26T04:18:15+00:00"
  },
  "rustig": {
-  "day": "2026-11-24",
+  "day": "2026-11-25",
   "status": "OK",
   "versie": "rustig-1.0-d93fef",
   "waarschuwingen": [],
@@ -61,7 +61,7 @@
   "mislukt": 0,
   "verdacht": {},
   "wisselkoers": "ok",
-  "regime": "stijgend-hoog",
+  "regime": "zijwaarts-hoog",
   "verouderd": 0,
   "bronnen": {
    "koersen": {
@@ -74,6 +74,6 @@
    "verzoeken_tweede_bron": 0,
    "afwijkend": []
   },
-  "vastgelegd_utc": "2026-11-25T05:03:30+00:00"
+  "vastgelegd_utc": "2026-11-26T04:18:40+00:00"
  }
 }

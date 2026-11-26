@@ -1,55 +1,55 @@
-# Investeerder 2026-11-24
+# Investeerder 2026-11-25
 
 _Oefenportefeuille met nepgeld. Geen beleggingsadvies._
 
 **Status:** OK  
-**Waarde:** €8,791.83  
-**Marktregime:** stijgend-hoog  
+**Waarde:** €8,662.92  
+**Marktregime:** zijwaarts-hoog  
 **Strategieversie:** investeerder-1.0-64ce27  
 **Koersbronnen:** 69 bevestigd door 2 bronnen, 62 uit 1 bron, 0 afwijkend; wisselkoers bevestigd  
-**Sinds start:** -12.08%  
+**Sinds start:** -13.37%  
 
 ## Verdeling
 
 | Instrument | Aandeel |
 | --- | --- |
-| iShares MSCI World (IWDA.AS) | 61.5% |
+| iShares MSCI World (IWDA.AS) | 61.4% |
 | AMD (AMD) | 4.8% |
-| Micron (MU) | 4.4% |
-| Bitcoin (BTC-USD) | 4.3% |
+| Micron (MU) | 4.3% |
+| Bitcoin (BTC-USD) | 4.2% |
 | Ethereum (ETH-USD) | 4.0% |
-| Kas | 21.0% |
+| Kas | 21.3% |
 
 ## Analyse van vandaag
 
 **Wat de bot zag**
 
-- **Markt (IWDA.AS):** koers 124,60, 1,5% boven het 200-daags gemiddelde (122,74); de afgelopen maand -4,5%. Trend: **stijgend**.
+- **Markt (IWDA.AS):** koers 122,61, 0,1% onder het 200-daags gemiddelde (122,79); de afgelopen maand -6,8%. Trend: **zijwaarts**.
 - **Beweeglijkheid:** 24% op jaarbasis, tegen normaal 10% het afgelopen jaar: **hoog**.
-- **Breedte:** 65 van de 129 instrumenten staan boven hun 200-daags gemiddelde (50%; EU 33 van 60, US 32 van 69).
-- **Sterkste momentum nu (12 maanden, zonder laatste maand):** Palo Alto Networks +113%, CrowdStrike +113%, ExxonMobil +61%, Energie-ETF +60%, DSM-Firmenich +59%.
-- **BTC-USD:** 15,3% onder het 200-daags gemiddelde (blijft in kas).
-- **ETH-USD:** 19,4% onder het 200-daags gemiddelde (blijft in kas).
+- **Breedte:** 63 van de 129 instrumenten staan boven hun 200-daags gemiddelde (49%; EU 30 van 60, US 33 van 69).
+- **Sterkste momentum nu (12 maanden, zonder laatste maand):** Palo Alto Networks +118%, CrowdStrike +112%, Texas Instruments +95%, DSM-Firmenich +60%, ExxonMobil +58%.
+- **BTC-USD:** 17,2% onder het 200-daags gemiddelde (blijft in kas).
+- **ETH-USD:** 20,7% onder het 200-daags gemiddelde (blijft in kas).
 
 **Wat de bot eruit haalt**
 
-- De markt stijgt: de kern (wereld-ETF) doet zijn werk, de sterkste aandelen lopen mee.
+- De markt beweegt zijwaarts: geen reden om iets aan de verdeling te veranderen.
 - De markt beweegt meer dan normaal: grotere schommelingen in de waarde zijn te verwachten; de spreiding over 60% wereld-ETF dempt dat.
-- Uit de top gevallen: AMD, MU. Blijft dat zo, dan worden ze bij de volgende herverdeling (eerste handelsdag van 2026-12) vervangen door PANW, CRWD, XOM, XLE, DSFIR.AS.
+- Uit de top gevallen: AMD, MU. Blijft dat zo, dan worden ze bij de volgende herverdeling (eerste handelsdag van 2026-12) vervangen door PANW, CRWD, TXN, DSFIR.AS, XOM.
 - BTC-USD, ETH-USD staat onder het 200-daags gemiddelde: bij de volgende herverdeling gaat dat deel naar kas.
 
 ## Verlies en winst per belegging
 
 | Instrument | Waarde | Ingelegd | Resultaat |
 | --- | --- | --- | --- |
-| IWDA.AS | €5.402,55 | €5.714,81 | -€312,26 (-5,5%) |
-| MU | €389,25 | €600,00 | -€210,75 (-35,1%) |
-| AMD | €425,12 | €600,00 | -€174,88 (-29,1%) |
-| ETH-USD | €350,72 | €500,00 | -€149,28 (-29,9%) |
-| BTC-USD | €376,83 | €500,00 | -€123,17 (-24,6%) |
+| IWDA.AS | €5.316,27 | €5.714,81 | -€398,55 (-7,0%) |
+| MU | €371,08 | €600,00 | -€228,92 (-38,1%) |
+| AMD | €417,08 | €600,00 | -€182,92 (-30,5%) |
+| ETH-USD | €343,83 | €500,00 | -€156,17 (-31,2%) |
+| BTC-USD | €367,30 | €500,00 | -€132,70 (-26,5%) |
 
-Totaal op de beleggingen: -€970,34 (inclusief aankoopkosten).
-Daling vanaf de hoogste waarde ooit: -12,08% (top €10.000,00). De investeerder heeft geen stop-loss: hij houdt een spreiding vast en herverdeelt maandelijks.
+Totaal op de beleggingen: -€1.099,26 (inclusief aankoopkosten).
+Daling vanaf de hoogste waarde ooit: -13,37% (top €10.000,00). De investeerder heeft geen stop-loss: hij houdt een spreiding vast en herverdeelt maandelijks.
 
 ## Vandaag gedaan
 
@@ -61,9 +61,9 @@ Daling vanaf de hoogste waarde ooit: -12,08% (top €10.000,00). De investeerder
 
 | Eis | Stand | Nu |
 | --- | --- | --- |
-| Oefentijd | ⏳ | 31 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -6,16% |
-| Daling niet veel dieper dan de ETF | ❌ | bot -12,80%, ETF -7,05% |
+| Oefentijd | ⏳ | 32 van 63 handelsdagen (ongeveer 3 maanden) |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe -5,95% |
+| Daling niet veel dieper dan de ETF | ❌ | bot -13,37%, ETF -7,30% |
 
 <details><summary>Zo analyseert de investeerder (klik om te openen)</summary>
 
