@@ -1,5 +1,5 @@
 {
- "tijd": "2026-11-26T08:00:30+00:00",
+ "tijd": "2026-11-26T09:00:30+00:00",
  "status": "ok",
  "posities": [
   {
@@ -15,9 +15,10 @@
    "ticker": "OR.PA",
    "t212": "ORp_EQ",
    "stop": 432.2893,
-   "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 442.82,
-   "koers_yahoo": null
+   "actie": "boven de stop-loss",
+   "koers_t212": 445.48,
+   "koers_yahoo": 445.0,
+   "afstand_pct": 0.0305
   },
   {
    "ticker": "PG",
@@ -41,22 +42,24 @@
    "ticker": "AI.PA",
    "t212": "AIp_EQ",
    "stop": 184.0263,
-   "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 188.67,
-   "koers_yahoo": null
+   "actie": "boven de stop-loss",
+   "koers_t212": 190.61,
+   "koers_yahoo": 189.96,
+   "afstand_pct": 0.0358
   },
   {
    "ticker": "PHIA.AS",
    "t212": "PHIAa_EQ",
    "stop": 25.462,
-   "actie": "geen tweede koers: niets gedaan",
-   "koers_t212": 26.83,
-   "koers_yahoo": null
+   "actie": "boven de stop-loss",
+   "koers_t212": 27.09,
+   "koers_yahoo": 27.0,
+   "afstand_pct": 0.0639
   }
  ],
  "verkocht": [],
  "log": [
-  "Alles boven de stop-loss. Dichtst bij: ABBV (+5.2%)."
+  "Alles boven de stop-loss. Dichtst bij: OR.PA (+3.0%)."
  ],
  "twelve_vandaag": 0,
  "geschiedenis": [
@@ -349,5 +352,5 @@
    ]
   }
  ],
- "rondes_vandaag": 1
+ "rondes_vandaag": 5
 }
