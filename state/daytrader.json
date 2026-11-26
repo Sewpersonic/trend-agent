@@ -918,22 +918,14 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-26T15:01:30+00:00",
-  "ny": "2026-11-26 10:01",
+  "tijd": "2026-11-26T15:31:30+00:00",
+  "ny": "2026-11-26 10:31",
   "status": "beurs dicht",
   "log": [
    "Geen koersen van vandaag: de beurs is dicht (feestdag) of Yahoo heeft nog niets."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-23T15:16:30+00:00",
-   "ny": "2026-11-23 10:16",
-   "status": "ok",
-   "log": [
-    "Bekeken: geen aandeel voldeed nu aan alle regels. Meestal: markt staat onder de opening (27x)."
-   ]
-  },
   {
    "tijd": "2026-11-23T15:31:30+00:00",
    "ny": "2026-11-23 10:31",
@@ -1401,6 +1393,14 @@
   {
    "tijd": "2026-11-26T15:01:30+00:00",
    "ny": "2026-11-26 10:01",
+   "status": "beurs dicht",
+   "log": [
+    "Geen koersen van vandaag: de beurs is dicht (feestdag) of Yahoo heeft nog niets."
+   ]
+  },
+  {
+   "tijd": "2026-11-26T15:31:30+00:00",
+   "ny": "2026-11-26 10:31",
    "status": "beurs dicht",
    "log": [
     "Geen koersen van vandaag: de beurs is dicht (feestdag) of Yahoo heeft nog niets."
