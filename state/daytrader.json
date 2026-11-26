@@ -918,22 +918,14 @@
  "uitgesloten": {},
  "open_nu": [],
  "laatste_ronde": {
-  "tijd": "2026-11-26T19:27:01+00:00",
-  "ny": "2026-11-26 14:27",
+  "tijd": "2026-11-26T20:26:36+00:00",
+  "ny": "2026-11-26 15:26",
   "status": "beurs dicht",
   "log": [
    "Geen koersen van vandaag: de beurs is dicht (feestdag) of Yahoo heeft nog niets."
   ]
  },
  "rondes": [
-  {
-   "tijd": "2026-11-23T16:31:30+00:00",
-   "ny": "2026-11-23 11:31",
-   "status": "ok",
-   "log": [
-    "Na 11:00 (New York) koopt hij niets meer; wat open staat volgt hij tot 15:45."
-   ]
-  },
   {
    "tijd": "2026-11-23T16:46:30+00:00",
    "ny": "2026-11-23 11:46",
@@ -1399,6 +1391,14 @@
   {
    "tijd": "2026-11-26T19:27:01+00:00",
    "ny": "2026-11-26 14:27",
+   "status": "beurs dicht",
+   "log": [
+    "Geen koersen van vandaag: de beurs is dicht (feestdag) of Yahoo heeft nog niets."
+   ]
+  },
+  {
+   "tijd": "2026-11-26T20:26:36+00:00",
+   "ny": "2026-11-26 15:26",
    "status": "beurs dicht",
    "log": [
     "Geen koersen van vandaag: de beurs is dicht (feestdag) of Yahoo heeft nog niets."
