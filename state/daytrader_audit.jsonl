@@ -514,3 +514,4 @@
 {"tijd": "2026-11-26T20:26:36+00:00", "ny": "2026-11-26 15:26", "status": "beurs dicht", "log": ["Geen koersen van vandaag: de beurs is dicht (feestdag) of Yahoo heeft nog niets."]}
 {"tijd": "2026-11-26T21:26:30+00:00", "ny": "2026-11-26 16:26", "status": "beurs dicht", "log": ["Geen koersen van vandaag: de beurs is dicht (feestdag) of Yahoo heeft nog niets."]}
 {"tijd": "2026-11-27T15:01:30+00:00", "ny": "2026-11-27 10:01", "status": "alleen verkopen (kill switch aan)", "log": ["Niets gekocht: de bot mag nu alleen verkopen."]}
+{"tijd": "2026-11-27T15:16:30+00:00", "ny": "2026-11-27 10:16", "status": "alleen verkopen (kill switch aan)", "log": ["Niets gekocht: de bot mag nu alleen verkopen."]}
