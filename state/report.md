@@ -1,173 +1,102 @@
-# Trend-agent rapport 2026-11-26
+# Trend-agent rapport 2026-11-27
 
 _Oefenportefeuille met nepgeld. Geen beleggingsadvies; resultaten uit het verleden zeggen niets over de toekomst._
 
 **Status:** GESTOPT  
-**Waarde:** €9,890.93  
+**Waarde:** €9,914.47  
 **Kas:** €3,678.00  
 **Marktregime:** stijgend-hoog  
 **Strategieversie:** trend-1.1-eaf4f8  
 **Koersbronnen:** 69 bevestigd door 2 bronnen, 60 uit 1 bron, 0 afwijkend; wisselkoers bevestigd  
-**Sinds start:** -1.09%  
+**Sinds start:** -0.86%  
 
 ## Analyse van vandaag
 
 **Wat de bot zag**
 
-- **Markt (IWDA.AS):** koers 125,82, 2,4% boven het 200-daags gemiddelde (122,86); de afgelopen maand -4,5%. Trend: **stijgend**.
+- **Markt (IWDA.AS):** koers 127,00, 3,3% boven het 200-daags gemiddelde (122,93); de afgelopen maand -3,4%. Trend: **stijgend**.
 - **Beweeglijkheid:** 27% op jaarbasis, tegen normaal 10% het afgelopen jaar: **hoog**.
-- **Breedte:** 67 van de 129 instrumenten staan boven hun 200-daags gemiddelde (52%; EU 34 van 60, US 33 van 69).
+- **Breedte:** 77 van de 129 instrumenten staan boven hun 200-daags gemiddelde (60%; EU 37 van 60, US 40 van 69).
 - **Bekeken:** 129 instrumenten.
-- **Afgevallen** (een instrument kan op meer regels afvallen): geen stijgende trend (koers niet boven 50- en 200-daags gemiddelde): 93; niet gestegen over 1 of 3 maanden: 85; te weinig handel: 2; verdachte dagsprong: 2.
-- **Door de zeef:** 32, waarvan 12 met verdachte data (niet koopbaar). Koopbare trends: **20**.
+- **Afgevallen** (een instrument kan op meer regels afvallen): geen stijgende trend (koers niet boven 50- en 200-daags gemiddelde): 87; niet gestegen over 1 of 3 maanden: 82; te weinig handel: 2; verdachte dagsprong: 1.
+- **Door de zeef:** 33. Koopbare trends: **33**.
 
 **Wat de bot eruit haalt**
 
 - De markt stijgt, maar gedragen door een minderheid van de aandelen: kwetsbaarder dan het lijkt.
 - De markt beweegt meer dan normaal: stops worden sneller geraakt. Het risico per trade blijft gelijk, dus de posities worden vanzelf kleiner.
-- De sterkste trends zijn vooral Europese instrumenten.
-- Sterk zonder ver weggelopen te zijn: IBE.MC.
+- Sterk zonder ver weggelopen te zijn: BRK-B.
 - Er waren trends, maar geen enkele paste binnen de risicoregels (zie Kansen voor de reden per ticker).
 
 ## Vandaag gedaan
 
-- OR.PA: stop omhoog van 432.29 naar 433.97
-- PHIA.AS: stop omhoog van 25.46 naar 25.85
+- ABBV: stop omhoog van 279.94 naar 281.15
+- PG: stop omhoog van 163.77 naar 164.42
+- BRK-B: stop omhoog van 551.07 naar 553.17
+- AI.PA: stop omhoog van 184.03 naar 184.66
+- PHIA.AS: stop omhoog van 25.85 naar 26.14
 
 ## Waarschuwingen
 
 - Kill switch staat aan (3 verliestrades op rij). Geen aankopen; stop-losses blijven actief.
-- Alle koersen uit US lopen achter (nieuwste 25-11): mogelijk een beursvakantie of een storing bij de bron. Daar vandaag niets gekocht.
-- AAPL: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- MSFT: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- NVDA: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- AMZN: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- GOOGL: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- META: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- AVGO: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- TSLA: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- AMD: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- MU: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- ORCL: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- CRM: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- NFLX: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- PLTR: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- CRWD: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- PANW: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- ANET: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- JPM: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- V: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- LLY: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- COST: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- XOM: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- BRK-B: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- UNH: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- JNJ: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- PG: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- HD: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- MA: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- ABBV: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- MRK: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- PEP: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- KO: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- WMT: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- BAC: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- CVX: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- ADBE: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- CSCO: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- QCOM: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- TXN: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- AMAT: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- LRCX: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- KLAC: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- NOW: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- INTU: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- UBER: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- GS: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- MS: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- CAT: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- GE: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- RTX: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- LMT: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- HON: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- UNP: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- ISRG: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- TMO: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- ABT: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- MCD: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- DIS: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- T: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- VZ: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- NEE: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- LIN: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- BKNG: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- NKE: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- SPY: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- QQQ: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- SMH: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- XLE: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- GLD: verdachte data (koers niet bijgewerkt (laatste 25-11, verwacht 26-11)), niet gekocht
-- ABBV: koers niet bevestigd, positie vandaag niet aangepast (dag 1 van max. 3; stop blijft 279.94)
-- PG: koers niet bevestigd, positie vandaag niet aangepast (dag 1 van max. 3; stop blijft 163.77)
-- BRK-B: koers niet bevestigd, positie vandaag niet aangepast (dag 1 van max. 3; stop blijft 551.07)
 
 ## Verlies en risico
 
 | Ticker | Instap | Koers nu | Resultaat | Stop | Afstand tot stop | Als de stop geraakt wordt |
 | --- | --- | --- | --- | --- | --- | --- |
-| ABBV | 290.94 USD | 294.48 | €16,87 (+1,2%) | 279.94 | +5,2% | -€10,62 verlies |
-| OR.PA | 446.42 EUR | 444.60 | -€3,65 (-0,4%) | 433.97 | +2,5% | -€25,90 verlies |
-| PG | 167.40 USD | 173.23 | €72,32 (+3,5%) | 163.77 | +5,8% | €2,36 winst vastgezet |
-| BRK-B | 574.91 USD | 579.32 | €6,31 (+0,8%) | 551.07 | +5,1% | -€46,15 verlies |
-| AI.PA | 189.91 EUR | 189.86 | -€0,44 (-0,0%) | 184.03 | +3,2% | -€48,11 verlies |
-| PHIA.AS | 26.85 EUR | 27.16 | €10,73 (+1,1%) | 25.85 | +5,1% | -€36,17 verlies |
+| ABBV | 290.94 USD | 291.88 | €12,43 (+0,3%) | 281.15 | +3,8% | -€8,12 verlies |
+| OR.PA | 446.42 EUR | 443.95 | -€4,95 (-0,5%) | 433.97 | +2,3% | -€25,90 verlies |
+| PG | 167.40 USD | 172.86 | €70,32 (+3,3%) | 164.42 | +5,1% | €7,80 winst vastgezet |
+| BRK-B | 574.91 USD | 580.79 | €9,57 (+1,0%) | 553.17 | +5,0% | -€41,77 verlies |
+| AI.PA | 189.91 EUR | 191.92 | €16,04 (+1,1%) | 184.66 | +3,9% | -€43,02 verlies |
+| PHIA.AS | 26.85 EUR | 27.49 | €22,28 (+2,4%) | 26.14 | +5,2% | -€25,97 verlies |
 
-Raken alle stops tegelijk, dan is het verlies hooguit ongeveer €166,95 (bij een koersgat 's ochtends kan het meer zijn).
+Raken alle stops tegelijk, dan is het verlies hooguit ongeveer €144,78 (bij een koersgat 's ochtends kan het meer zijn).
 
 **Remmen** (bij overschrijden gaat de kill switch aan en koopt de bot niets meer):
 
-- Daling vanaf de top: -1,95% (grens -10%; top was €10.087,85)
-- Vandaag: +0,25% (grens -2%)
+- Daling vanaf de top: -1,72% (grens -10%; top was €10.087,85)
+- Vandaag: +0,24% (grens -2%)
 - Verliestrades op rij: 3 van 3
 
 ## Kansen: wat de bot vandaag het sterkst vond
 
 _Dit is wat de oefenbot met zijn nepgeld volgens zijn eigen regels zou doen. Geen advies voor echt geld; het instapmoment is een ongeteste vuistregel en wordt door de bot niet gebruikt._
 
-### 1. Sanofi (SAN.PA): instapmoment **opgelopen**
+### 1. Costco (COST): instapmoment **neutraal**
 
-- **Waarom sterk:** Sanofi steeg +29,1% in 3 maanden en +31,3% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,3x het normale volume; beweegt gemiddeld 2,6% per dag.
-- **Instapmoment:** de koers staat +14,1% van het 20-daags gemiddelde (5,5x de normale dagbeweging) en RSI is 82; na zo'n sprint volgt vaak eerst een terugval.
+- **Waarom sterk:** Costco steeg +19,6% in 3 maanden en +15,0% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD negatief (de stijging vertraagt); handel 1,1x het normale volume; beweegt gemiddeld 1,6% per dag.
+- **Instapmoment:** de koers staat +4,4% van het 20-daags gemiddelde, RSI 72.
 - **Status:** niet gekocht: de kill switch staat aan.
-- **Plan van de bot:** koop 9 stuks rond 99.20 EUR (inzet €892,80), stop-loss 94.10 EUR (-5,1%). Maximaal verlies als de stop wordt geraakt: ongeveer €47,91. Ter oriëntatie: 2x het risico winst ligt bij 109.40 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+- **Plan van de bot:** koop 1 stuk rond 1098.36 USD (inzet €1.001,04), stop-loss 1063.46 USD (-3,2%). Maximaal verlies als de stop wordt geraakt: ongeveer €33,81. Ter oriëntatie: 2x het risico winst ligt bij 1168.16 USD; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
 
-### 2. Heineken (HEIA.AS): instapmoment **neutraal**
+### 2. Sanofi (SAN.PA): instapmoment **opgelopen**
 
-- **Waarom sterk:** Heineken steeg +17,8% in 3 maanden en +9,8% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD negatief (de stijging vertraagt); handel 1,0x het normale volume; beweegt gemiddeld 1,4% per dag.
-- **Instapmoment:** de koers staat +3,6% van het 20-daags gemiddelde, RSI 70.
+- **Waarom sterk:** Sanofi steeg +26,6% in 3 maanden en +27,8% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,2x het normale volume; beweegt gemiddeld 2,9% per dag.
+- **Instapmoment:** de koers staat +10,8% van het 20-daags gemiddelde (3,7x de normale dagbeweging) en RSI is 76; na zo'n sprint volgt vaak eerst een terugval.
 - **Status:** niet gekocht: de kill switch staat aan.
-- **Plan van de bot:** koop 20 stuks rond 85.66 EUR (inzet €1.713,26), stop-loss 83.26 EUR (-2,8%). Maximaal verlies als de stop wordt geraakt: ongeveer €50,06. Ter oriëntatie: 2x het risico winst ligt bij 90.47 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+- **Plan van de bot:** koop 8 stuks rond 97.39 EUR (inzet €779,11), stop-loss 91.68 EUR (-5,9%). Maximaal verlies als de stop wordt geraakt: ongeveer €47,69. Ter oriëntatie: 2x het risico winst ligt bij 108.81 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
 
 ### 3. Philips (PHIA.AS): instapmoment **neutraal**
 
-- **Waarom sterk:** Philips steeg +18,6% in 3 maanden en +12,0% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD negatief (de stijging vertraagt); handel 1,3x het normale volume; beweegt gemiddeld 1,6% per dag.
-- **Instapmoment:** de koers staat +3,0% van het 20-daags gemiddelde, RSI 67.
+- **Waarom sterk:** Philips steeg +19,3% in 3 maanden en +13,2% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD negatief (de stijging vertraagt); handel 1,3x het normale volume; beweegt gemiddeld 1,6% per dag.
+- **Instapmoment:** de koers staat +3,8% van het 20-daags gemiddelde, RSI 70.
 - **Status:** al in bezit.
-- **Plan van de bot:** koop 56 stuks rond 27.17 EUR (inzet €1.521,72), stop-loss 26.30 EUR (-3,2%). Maximaal verlies als de stop wordt geraakt: ongeveer €50,96. Ter oriëntatie: 2x het risico winst ligt bij 28.92 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+- **Plan van de bot:** koop 55 stuks rond 27.50 EUR (inzet €1.512,71), stop-loss 26.60 EUR (-3,3%). Maximaal verlies als de stop wordt geraakt: ongeveer €51,50. Ter oriëntatie: 2x het risico winst ligt bij 29.30 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
 
-### 4. Air Liquide (AI.PA): instapmoment **neutraal**
+### 4. Berkshire Hathaway (BRK-B): instapmoment **gunstig**
 
-- **Waarom sterk:** Air Liquide steeg +12,0% in 3 maanden en +9,0% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD negatief (de stijging vertraagt); handel 1,2x het normale volume; beweegt gemiddeld 1,3% per dag.
-- **Instapmoment:** de koers staat +1,6% van het 20-daags gemiddelde, RSI 65.
+- **Waarom sterk:** Berkshire Hathaway steeg +15,0% in 3 maanden en +7,5% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD negatief (de stijging vertraagt); handel 1,1x het normale volume; beweegt gemiddeld 1,6% per dag.
+- **Instapmoment:** de trend is sterk maar de koers is niet ver weggelopen (+1,6% van het 20-daags gemiddelde, RSI 64).
 - **Status:** al in bezit.
-- **Plan van de bot:** koop 10 stuks rond 189.95 EUR (inzet €1.899,55), stop-loss 185.04 EUR (-2,6%). Maximaal verlies als de stop wordt geraakt: ongeveer €51,10. Ter oriëntatie: 2x het risico winst ligt bij 199.77 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+- **Plan van de bot:** koop 2 stuks rond 581.08 USD (inzet €1.059,19), stop-loss 562.67 USD (-3,2%). Maximaal verlies als de stop wordt geraakt: ongeveer €35,56. Ter oriëntatie: 2x het risico winst ligt bij 617.90 USD; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
 
-### 5. Iberdrola (IBE.MC): instapmoment **gunstig**
+### 5. Disney (DIS): instapmoment **neutraal**
 
-- **Waarom sterk:** Iberdrola steeg +14,4% in 3 maanden en +4,3% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD negatief (de stijging vertraagt); handel 0,9x het normale volume; beweegt gemiddeld 1,4% per dag.
-- **Instapmoment:** de trend is sterk maar de koers is niet ver weggelopen (+1,4% van het 20-daags gemiddelde, RSI 60).
+- **Waarom sterk:** Disney steeg +17,7% in 3 maanden en +16,7% in 1 maand; koers boven het 50-daags en dat boven het 200-daags gemiddelde; MACD positief (de stijging versnelt); handel 1,2x het normale volume; beweegt gemiddeld 2,6% per dag.
+- **Instapmoment:** de koers staat +6,8% van het 20-daags gemiddelde, RSI 71.
 - **Status:** niet gekocht: de kill switch staat aan.
-- **Plan van de bot:** koop 74 stuks rond 22.99 EUR (inzet €1.701,37), stop-loss 22.33 EUR (-2,9%). Maximaal verlies als de stop wordt geraakt: ongeveer €50,84. Ter oriëntatie: 2x het risico winst ligt bij 24.31 EUR; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
+- **Plan van de bot:** koop 8 stuks rond 127.30 USD (inzet €928,20), stop-loss 120.72 USD (-5,2%). Maximaal verlies als de stop wordt geraakt: ongeveer €50,04. Ter oriëntatie: 2x het risico winst ligt bij 140.48 USD; de bot verkoopt daar niet vanzelf, hij laat de stop meeschuiven.
 
 
 ## Wat de bot tot nu toe geleerd heeft
@@ -181,8 +110,8 @@ _Dit is wat de oefenbot met zijn nepgeld volgens zijn eigen regels zou doen. Gee
 
 | Eis | Stand | Nu |
 | --- | --- | --- |
-| Oefentijd | ⏳ | 34 van 63 handelsdagen (ongeveer 3 maanden) |
-| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe +3,64% |
+| Oefentijd | ⏳ | 35 van 63 handelsdagen (ongeveer 3 maanden) |
+| Minstens zo goed als de wereld-ETF | ⏳ | verschil tot nu toe +2,98% |
 | Grootste daling onder 5% | ✅ | grootste daling tot nu toe -2,97% |
 | Genoeg afgesloten trades | ⏳ | 10 van 20 |
 
@@ -208,27 +137,27 @@ _Dit is wat de oefenbot met zijn nepgeld volgens zijn eigen regels zou doen. Gee
 
 | Ticker | Aantal | Instap | Stop | Sinds |
 | --- | --- | --- | --- | --- |
-| ABBV | 2 | 290.94 USD | 279.94 | 2026-10-29 |
+| ABBV | 2 | 290.94 USD | 281.15 | 2026-10-29 |
 | OR.PA | 2 | 446.42 EUR | 433.97 | 2026-11-04 |
-| PG | 8 | 167.40 USD | 163.77 | 2026-11-04 |
-| BRK-B | 2 | 574.91 USD | 551.07 | 2026-11-18 |
-| AI.PA | 8 | 189.91 EUR | 184.03 | 2026-11-18 |
-| PHIA.AS | 35 | 26.85 EUR | 25.85 | 2026-11-19 |
+| PG | 8 | 167.40 USD | 164.42 | 2026-11-04 |
+| BRK-B | 2 | 574.91 USD | 553.17 | 2026-11-18 |
+| AI.PA | 8 | 189.91 EUR | 184.66 | 2026-11-18 |
+| PHIA.AS | 35 | 26.85 EUR | 26.14 | 2026-11-19 |
 
 ## Sterkste trends vandaag
 
 | # | Ticker | Score | 3 mnd | 1 mnd |
 | --- | --- | --- | --- | --- |
-| 1 | SAN.PA | 0.185 | +29.1% | +31.3% |
-| 2 | HEIA.AS | 0.137 | +17.8% | +9.8% |
-| 3 | PHIA.AS | 0.136 | +18.6% | +12.0% |
-| 4 | AI.PA | 0.124 | +12.0% | +9.0% |
-| 5 | IBE.MC | 0.110 | +14.4% | +4.3% |
-| 6 | OR.PA | 0.091 | +15.6% | +4.9% |
-| 7 | MUV2.DE | 0.089 | +13.6% | +6.2% |
-| 8 | UNA.AS | 0.088 | +9.3% | +6.7% |
-| 9 | WKL.AS | 0.081 | +26.3% | +5.3% |
-| 10 | BAYN.DE | 0.078 | +7.9% | +14.9% |
+| 1 | COST | 0.161 | +19.6% | +15.0% |
+| 2 | SAN.PA | 0.159 | +26.6% | +27.8% |
+| 3 | PHIA.AS | 0.141 | +19.3% | +13.2% |
+| 4 | BRK-B | 0.140 | +15.0% | +7.5% |
+| 5 | DIS | 0.132 | +17.7% | +16.7% |
+| 6 | PG | 0.130 | +21.0% | +9.2% |
+| 7 | HEIA.AS | 0.127 | +16.9% | +9.0% |
+| 8 | IBE.MC | 0.125 | +16.3% | +4.7% |
+| 9 | AI.PA | 0.114 | +10.8% | +8.2% |
+| 10 | LLY | 0.100 | +18.7% | +8.2% |
 
 ## Afgesloten trades
 
