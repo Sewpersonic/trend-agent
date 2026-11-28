@@ -1,64 +1,64 @@
 {
- "gemaakt": "2026-11-21T14:57:32+00:00",
- "uitbraken": 104,
+ "gemaakt": "2026-11-28T15:51:19+00:00",
+ "uitbraken": 112,
  "tabel": {
   "totaal": {
-   "n": 104,
-   "winst_pct": 0.519,
-   "gem_r": -0.049
+   "n": 112,
+   "winst_pct": 0.518,
+   "gem_r": -0.019
   },
   "kenmerken": {
    "Daggrafiek van het aandeel": {
     "geen duidelijke richting": {
-     "n": 42,
-     "winst_pct": 0.571,
-     "gem_r": -0.003
+     "n": 47,
+     "winst_pct": 0.574,
+     "gem_r": 0.006
     },
     "dalende trend": {
-     "n": 14,
-     "winst_pct": 0.429,
-     "gem_r": -0.146
+     "n": 16,
+     "winst_pct": 0.438,
+     "gem_r": 0.028
     },
     "stijgende trend": {
-     "n": 48,
-     "winst_pct": 0.5,
-     "gem_r": -0.06
+     "n": 49,
+     "winst_pct": 0.49,
+     "gem_r": -0.058
     }
    },
    "Plek in het bereik van 3 maanden": {
     "midden in het bereik": {
-     "n": 74,
-     "winst_pct": 0.5,
-     "gem_r": -0.064
+     "n": 77,
+     "winst_pct": 0.494,
+     "gem_r": -0.045
     },
     "onderaan het bereik": {
-     "n": 14,
-     "winst_pct": 0.5,
-     "gem_r": -0.122
+     "n": 19,
+     "winst_pct": 0.526,
+     "gem_r": -0.003
     },
     "bij de 3-maands top": {
      "n": 16,
      "winst_pct": 0.625,
-     "gem_r": 0.087
+     "gem_r": 0.088
     }
    },
    "Daggrafiek van de markt (SPY)": {
     "markt in stijgende trend": {
      "n": 68,
-     "winst_pct": 0.632,
-     "gem_r": 0.121
+     "winst_pct": 0.618,
+     "gem_r": 0.118
     },
     "markt zonder richting": {
-     "n": 36,
-     "winst_pct": 0.306,
-     "gem_r": -0.369
+     "n": 44,
+     "winst_pct": 0.364,
+     "gem_r": -0.231
     }
    },
    "Tijdstip van kopen (New York)": {
     "10:00-10:59": {
-     "n": 62,
-     "winst_pct": 0.532,
-     "gem_r": -0.052
+     "n": 65,
+     "winst_pct": 0.492,
+     "gem_r": -0.071
     },
     "11:00-11:59": {
      "n": 36,
@@ -66,99 +66,104 @@
      "gem_r": -0.077
     },
     "12:00-12:30": {
-     "n": 6,
-     "winst_pct": 0.667,
-     "gem_r": 0.153
+     "n": 11,
+     "winst_pct": 0.818,
+     "gem_r": 0.476
     }
    },
    "Extra handel in het eerste half uur": {
     "1,5-2,5x": {
-     "n": 46,
-     "winst_pct": 0.5,
-     "gem_r": 0.046
+     "n": 48,
+     "winst_pct": 0.458,
+     "gem_r": -0.012
     },
     "1,2-1,5x": {
-     "n": 51,
-     "winst_pct": 0.49,
-     "gem_r": -0.15
+     "n": 57,
+     "winst_pct": 0.544,
+     "gem_r": -0.031
     },
     "meer dan 2,5x": {
      "n": 7,
-     "winst_pct": 0.857,
-     "gem_r": 0.071
+     "winst_pct": 0.714,
+     "gem_r": 0.025
     }
    },
    "Breedte van de openingsrange": {
     "smal (<1%)": {
-     "n": 30,
-     "winst_pct": 0.4,
-     "gem_r": -0.181
+     "n": 31,
+     "winst_pct": 0.419,
+     "gem_r": -0.115
     },
     "normaal (1-2%)": {
-     "n": 39,
-     "winst_pct": 0.59,
-     "gem_r": -0.019
+     "n": 43,
+     "winst_pct": 0.581,
+     "gem_r": 0.009
     },
     "breed (>2%)": {
-     "n": 35,
-     "winst_pct": 0.543,
-     "gem_r": 0.033
+     "n": 38,
+     "winst_pct": 0.526,
+     "gem_r": 0.028
     }
    },
    "Opening t.o.v. gisteren": {
     "veel hoger geopend (>2%)": {
-     "n": 19,
-     "winst_pct": 0.421,
-     "gem_r": -0.158
+     "n": 26,
+     "winst_pct": 0.385,
+     "gem_r": -0.184
     },
     "rond gisteren": {
-     "n": 19,
-     "winst_pct": 0.421,
-     "gem_r": -0.108
+     "n": 16,
+     "winst_pct": 0.375,
+     "gem_r": -0.157
     },
     "hoger geopend": {
-     "n": 36,
-     "winst_pct": 0.556,
+     "n": 35,
+     "winst_pct": 0.514,
      "gem_r": -0.124
     },
     "lager geopend": {
-     "n": 30,
-     "winst_pct": 0.6,
-     "gem_r": 0.149
+     "n": 35,
+     "winst_pct": 0.686,
+     "gem_r": 0.272
     }
    },
    "Markt op het moment van kopen": {
     "licht hoger (<0,3%)": {
-     "n": 66,
-     "winst_pct": 0.561,
-     "gem_r": -0.024
+     "n": 69,
+     "winst_pct": 0.522,
+     "gem_r": -0.045
     },
     "hoger (0,3-0,8%)": {
-     "n": 35,
-     "winst_pct": 0.457,
-     "gem_r": -0.073
+     "n": 40,
+     "winst_pct": 0.525,
+     "gem_r": 0.047
     },
     "sterk hoger (>0,8%)": {
      "n": 3,
      "winst_pct": 0.333,
-     "gem_r": -0.296
+     "gem_r": -0.298
     }
    }
   }
  },
  "toets": {
   "genoeg": true,
-  "leer_dagen": 19,
+  "leer_dagen": 21,
   "test_dagen": 14,
-  "vanaf": "2026-10-13",
+  "vanaf": "2026-10-23",
   "per_oordeel": {
    "gemiddeld": {
-    "n": 49,
-    "gem_r": -0.14,
-    "winst_pct": 0.449
+    "n": 37,
+    "gem_r": -0.337,
+    "winst_pct": 0.324
+   },
+   "gunstig": {
+    "n": 7,
+    "gem_r": 0.175,
+    "winst_pct": 0.571
    }
   },
   "werkt": false
  },
- "zin": "Toets op 14 latere dagen die de indicatie nooit zag: gunstig –, gemiddeld −0,14 R (49 uitbraken), ongunstig –. Nog geen duidelijk verschil: gebruik de indicatie voorlopig alleen als informatie."
+ "zin": "Toets op 14 latere dagen die de indicatie nooit zag: gunstig +0,17 R (7 uitbraken), gemiddeld −0,34 R (37 uitbraken), ongunstig –. Nog geen duidelijk verschil: gebruik de indicatie voorlopig alleen als informatie."
 }

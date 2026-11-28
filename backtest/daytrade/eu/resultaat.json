@@ -1,7 +1,7 @@
 {
- "gemaakt": "2026-11-21T14:58:46+00:00",
+ "gemaakt": "2026-11-28T15:52:27+00:00",
  "van": "2026-08-25",
- "tot": "2026-11-20",
+ "tot": "2026-11-26",
  "aandelen": [
   "ABN.AS",
   "AD.AS",
@@ -36,147 +36,147 @@
  "varianten": {
   "basis (kopen tot 10:30)": {
    "stats": {
-    "trades": 46,
-    "dagen": 55,
-    "dagen_met_trade": 27,
-    "winst_pct": 0.435,
-    "gem_r": -0.192,
-    "rendement": -0.0173,
-    "max_daling": -0.0342,
-    "profit_factor": 0.79,
+    "trades": 52,
+    "dagen": 59,
+    "dagen_met_trade": 31,
+    "winst_pct": 0.442,
+    "gem_r": -0.117,
+    "rendement": -0.0066,
+    "max_daling": -0.029,
+    "profit_factor": 0.93,
     "redenen": {
-     "stop-loss": 20,
-     "winstdoel": 2,
-     "einde van de dag": 24
+     "stop-loss": 21,
+     "winstdoel": 4,
+     "einde van de dag": 27
     }
    },
-   "eind": 9827.22
+   "eind": 9934.39
   },
   "kopen tot 11:30": {
    "stats": {
-    "trades": 59,
-    "dagen": 55,
-    "dagen_met_trade": 33,
+    "trades": 66,
+    "dagen": 59,
+    "dagen_met_trade": 36,
     "winst_pct": 0.424,
-    "gem_r": -0.225,
-    "rendement": -0.0351,
-    "max_daling": -0.0417,
-    "profit_factor": 0.66,
+    "gem_r": -0.167,
+    "rendement": -0.0302,
+    "max_daling": -0.0347,
+    "profit_factor": 0.73,
     "redenen": {
-     "stop-loss": 23,
-     "winstdoel": 2,
-     "einde van de dag": 34
+     "stop-loss": 25,
+     "winstdoel": 4,
+     "einde van de dag": 37
     }
    },
-   "eind": 9648.93
+   "eind": 9697.68
   },
   "kopen tot 13:00": {
    "stats": {
-    "trades": 71,
-    "dagen": 55,
-    "dagen_met_trade": 38,
-    "winst_pct": 0.423,
-    "gem_r": -0.224,
-    "rendement": -0.0422,
-    "max_daling": -0.0465,
-    "profit_factor": 0.64,
+    "trades": 77,
+    "dagen": 59,
+    "dagen_met_trade": 40,
+    "winst_pct": 0.429,
+    "gem_r": -0.163,
+    "rendement": -0.0331,
+    "max_daling": -0.036,
+    "profit_factor": 0.73,
     "redenen": {
-     "stop-loss": 26,
-     "winstdoel": 2,
-     "einde van de dag": 43
+     "stop-loss": 27,
+     "winstdoel": 4,
+     "einde van de dag": 46
     }
    },
-   "eind": 9577.63
+   "eind": 9668.62
   },
   "zonder marktfilter": {
    "stats": {
-    "trades": 74,
-    "dagen": 55,
-    "dagen_met_trade": 43,
-    "winst_pct": 0.432,
-    "gem_r": -0.177,
-    "rendement": -0.0368,
-    "max_daling": -0.0488,
-    "profit_factor": 0.7,
+    "trades": 83,
+    "dagen": 59,
+    "dagen_met_trade": 48,
+    "winst_pct": 0.434,
+    "gem_r": -0.129,
+    "rendement": -0.0311,
+    "max_daling": -0.0405,
+    "profit_factor": 0.78,
     "redenen": {
-     "stop-loss": 29,
-     "winstdoel": 3,
-     "einde van de dag": 42
+     "stop-loss": 32,
+     "winstdoel": 6,
+     "einde van de dag": 45
     }
    },
-   "eind": 9631.62
+   "eind": 9689.46
   },
   "minder streng op volume (1,0x)": {
    "stats": {
-    "trades": 54,
-    "dagen": 55,
-    "dagen_met_trade": 29,
-    "winst_pct": 0.444,
-    "gem_r": -0.142,
-    "rendement": -0.0121,
-    "max_daling": -0.0279,
-    "profit_factor": 0.86,
+    "trades": 60,
+    "dagen": 59,
+    "dagen_met_trade": 32,
+    "winst_pct": 0.433,
+    "gem_r": -0.092,
+    "rendement": -0.0099,
+    "max_daling": -0.0277,
+    "profit_factor": 0.9,
     "redenen": {
-     "stop-loss": 22,
-     "winstdoel": 4,
-     "einde van de dag": 28
+     "stop-loss": 24,
+     "winstdoel": 6,
+     "einde van de dag": 30
     }
    },
-   "eind": 9879.26
+   "eind": 9901.0
   },
   "pas kopen als Amerika opengaat (15:30-16:30)": {
    "stats": {
-    "trades": 51,
-    "dagen": 55,
-    "dagen_met_trade": 29,
-    "winst_pct": 0.275,
-    "gem_r": -0.152,
-    "rendement": -0.0312,
-    "max_daling": -0.0312,
-    "profit_factor": 0.31,
+    "trades": 55,
+    "dagen": 59,
+    "dagen_met_trade": 32,
+    "winst_pct": 0.309,
+    "gem_r": -0.127,
+    "rendement": -0.0283,
+    "max_daling": -0.0306,
+    "profit_factor": 0.38,
     "redenen": {
      "stop-loss": 1,
      "winstdoel": 0,
-     "einde van de dag": 50
+     "einde van de dag": 54
     }
    },
-   "eind": 9687.85
+   "eind": 9716.63
   },
   "bredere stop-loss (0,5% onder de range, hooguit 3%)": {
    "stats": {
-    "trades": 46,
-    "dagen": 55,
-    "dagen_met_trade": 27,
-    "winst_pct": 0.522,
-    "gem_r": -0.028,
-    "rendement": -0.0051,
-    "max_daling": -0.0303,
-    "profit_factor": 0.92,
+    "trades": 52,
+    "dagen": 59,
+    "dagen_met_trade": 31,
+    "winst_pct": 0.519,
+    "gem_r": 0.024,
+    "rendement": 0.0093,
+    "max_daling": -0.0256,
+    "profit_factor": 1.13,
     "redenen": {
-     "stop-loss": 8,
-     "winstdoel": 0,
-     "einde van de dag": 38
+     "stop-loss": 9,
+     "winstdoel": 2,
+     "einde van de dag": 41
     }
    },
-   "eind": 9949.25
+   "eind": 10092.91
   },
   "alleen aandelen die ook in Amerika verhandeld worden": {
    "stats": {
-    "trades": 27,
-    "dagen": 55,
-    "dagen_met_trade": 20,
-    "winst_pct": 0.481,
-    "gem_r": -0.014,
-    "rendement": -0.0019,
-    "max_daling": -0.0189,
-    "profit_factor": 0.95,
+    "trades": 30,
+    "dagen": 59,
+    "dagen_met_trade": 22,
+    "winst_pct": 0.5,
+    "gem_r": 0.052,
+    "rendement": 0.0035,
+    "max_daling": -0.0187,
+    "profit_factor": 1.08,
     "redenen": {
-     "stop-loss": 10,
-     "winstdoel": 1,
-     "einde van de dag": 16
+     "stop-loss": 11,
+     "winstdoel": 2,
+     "einde van de dag": 17
     }
    },
-   "eind": 9981.26
+   "eind": 10035.49
   }
  }
 }
